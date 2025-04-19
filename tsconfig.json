@@ -3,21 +3,21 @@
     "declaration": true,
     "declarationDir": "dist/types",
     "emitDeclarationOnly": false,
-    "declarationMap": true,
+    "declarationMap": false,
     // Output modern JS
     // Needed for ESM
 //    "moduleResolution": "Node",
     // Helps resolve imports like Node does
     "useDefineForClassFields": true,
     "rootDir": "src",
-    "outDir": "dist",
+    "outDir": "dist/esm",
     // Emit JS + .d.ts (set true for types-only build)
     "esModuleInterop": false,
     // Allow default imports from CommonJS
     "forceConsistentCasingInFileNames": true,
     "allowImportingTsExtensions": false,
     // Enable all strict checks
-    "sourceMap": true,
+    "sourceMap": false,
     // Optional, but good for debugging
     "lib": [
       "DOM",
@@ -35,7 +35,7 @@
     "downlevelIteration": true,
     "skipLibCheck": true,
 
-    "isolatedModules": true,
+    "isolatedModules": false,
     "moduleDetection": "force",
     "noEmit": false,
     /* Linting */

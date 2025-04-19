@@ -50,7 +50,7 @@ export type WorldMouseMoveUpdatedHandler = (point: Point) => void;
 export type ContextMenuHandler = (position: Point) => void;
 export type ModuleCopiedHandler = (p:ModuleProps[]) => void;
 
-export declare type EventHandlers = {
+export interface EventHandlers  {
   onInitialized?: InitializedHandler
   onHistoryUpdated?: HistoryUpdatedHandler
   onModulesUpdated?: ModulesUpdatedHandler

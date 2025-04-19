@@ -1,5 +1,3 @@
-import Editor from './main/editor';
-
 /**
  * Utility type for JSON standard types.
  */
@@ -41,7 +39,29 @@ export type DPR = number
 
 export type ZoomRatio = number
 
-export type { ModuleInstance } from './core/modules/type';
+export type {
+  UID,
+  HexColor,
+  FillColor,
+  Opacity,
+  Rotation,
+  Shadow,
+  Gradient,
+} from './core/type'
 
-export default Editor;
-
+export type {
+  InitializedHandler,
+  HistoryUpdatedHandler,
+  ModulesUpdatedHandler,
+  SelectionUpdatedHandler,
+  ViewportUpdatedHandler,
+  WorldUpdatedHandler,
+  WorldMouseMoveUpdatedHandler,
+  ContextMenuHandler,
+  ModuleCopiedHandler,
+  EventHandlers,
+  EditorExportFileType,
+  ViewportData,
+  WorldInfo,
+  SnapPointData,
+} from './main/type'

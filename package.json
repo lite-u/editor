@@ -2,26 +2,26 @@
   "name": "@lite-u/editor",
   "version": "0.0.2",
   "description": "vector editor",
-  "main": "dist/index.js",
   "type": "module",
   "scripts": {
     "publish": "npm publish --access public",
     "dev": "tsc --watch",
-    "build": "tsc"
+    "build": "tsc",
+    "build-2": "tsc --emitDeclarationOnly",
+    "build-3": "tsup"
   },
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.js",
+      "import": "./dist/esm/index.js",
       "types": "./dist/types/index.d.ts"
     },
     "./types": {
-      "types": "./dist/types/index.d.ts",
-      "default": "./dist/types/index.d.ts"
+      "types": "./dist/types/types.d.ts"
     }
   },
-  "module": "./dist/index.js",
-  "types": "./dist/types/index.d.ts",
+  "main": "./dist/esm/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/types.d.ts",
   "files": [
     "dist"
   ],
@@ -43,8 +43,7 @@
     "typescript": "^5.8.3"
   },
   "directories": {
-   },
+  },
   "dependencies": {
-
   }
 }
