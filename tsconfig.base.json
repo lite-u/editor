@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
     // Output modern JS
-    "module": "ESNext",
     // Needed for ESM
-    "moduleResolution": "Node",
+//    "moduleResolution": "Node",
     // Helps resolve imports like Node does
+    "useDefineForClassFields": true,
     "rootDir": "src",
     // Input source directory
     "declaration": true,
+    "declarationDir": "dist/esm/types",
     // Generate .d.ts files
     "emitDeclarationOnly": false,
     // Emit JS + .d.ts (set true for types-only build)
@@ -16,16 +16,33 @@
     // Allow default imports from CommonJS
     "forceConsistentCasingInFileNames": true,
     "allowImportingTsExtensions": false,
-    "strict": true,
     // Enable all strict checks
-    "skipLibCheck": true,
     "sourceMap": true,
     // Optional, but good for debugging
     "lib": [
-      "ES2020",
+      "ES2022",
       "DOM",
-      "DOM.Iterable"
-    ]
+      "DOM.Iterable",
+      "ES2015.Iterable"
+    ],
+//    "lib": ["ES2023"],
+
+//    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "node",
+    "downlevelIteration": true,
+    "skipLibCheck": true,
+
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": false,
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+//    "noUncheckedSideEffectImports": true
   },
   "include": [
     "src"

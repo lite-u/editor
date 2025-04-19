@@ -1,5 +1,6 @@
-import {RenderPropsList} from './renderer/type'
+// import {RenderPropsList} from './renderer/type'
 import {ModuleProps} from './modules/modules'
+import {BoundingRect, Point, Rect} from '../type'
 
 export const generateBoundingRectFromRotatedRect = ({x, y, width, height}: Rect, rotation: number): BoundingRect => {
   const centerX = x + width / 2
@@ -142,7 +143,7 @@ export function throttle<T extends (...args: unknown[]) => void>(func: T, delay:
   }
 }
 
-export const setFloatOnProps = <T extends RenderPropsList, K extends keyof ModuleProps>(obj: T, keys: K[]): void => {
+export const setFloatOnProps = <T extends ModuleProps, K extends keyof ModuleProps>(obj: T, keys: K[]): void => {
   keys.forEach((key) => {
     (obj[key] as number) = Math.floor(obj[key] as number)
   })

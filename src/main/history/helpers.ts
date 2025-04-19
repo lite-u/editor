@@ -1,4 +1,5 @@
 import {ModuleProps} from '../../core/modules/modules'
+import {UID} from '../../core/core'
 
 const extractIdSetFromArray = (from: ModuleProps[]): Set<UID> => {
   return new Set(from.map(item => item.id))

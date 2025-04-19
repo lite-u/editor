@@ -1,4 +1,4 @@
-import {HistoryOperation, HistoryNext, HistoryPrev} from "./type"
+import {HistoryNext, HistoryOperation, HistoryPrev} from './type'
 
 class HistoryNode {
   data: HistoryOperation

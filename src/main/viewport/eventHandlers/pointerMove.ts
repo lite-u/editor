@@ -1,11 +1,11 @@
 import {updateCursor, updateSelectionBox} from '../domManipulations'
-import {
-  generateBoundingRectFromTwoPoints,
-} from '../../../core/utils'
+import {generateBoundingRectFromTwoPoints} from '../../../core/utils'
 import Editor from '../../editor'
 import {areSetsEqual, getSymmetricDifference} from '../../../lib/lib'
 import {applyResize, detectHoveredModule, getResizeCursor, getRotateAngle} from './funcs'
 import Base from '../../../core/modules/base'
+import {BoundingRect} from '../../../type'
+import {UID} from '../../../core/core'
 
 export default function handlePointerMove(this: Editor, e: PointerEvent) {
   const {

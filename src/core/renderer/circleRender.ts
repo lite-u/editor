@@ -1,9 +1,8 @@
-import {CircleRenderProps} from './type'
-import deduplicateObjectsByKeyValue from './deduplicate'
-import {setFloatOnProps} from '../utils'
-import {EllipseProps} from '../modules/shapes/ellipse'
+// import {CircleRenderProps} from './type'
+// import deduplicateObjectsByKeyValue from './deduplicate'
+// import {setFloatOnProps} from '../utils'
 
-const circleRender = (ctx: CanvasRenderingContext2D, circles: CircleRenderProps[]): void => {
+/*const circleRender = (ctx: CanvasRenderingContext2D, circles: CircleRenderProps[]): void => {
   let uintArray = circles
 
   if (uintArray.length > 1000) {
@@ -87,12 +86,12 @@ const circleRender = (ctx: CanvasRenderingContext2D, circles: CircleRenderProps[
     // Restore the context to avoid affecting subsequent drawings
     ctx.restore()
   })
-  /*
+  /!*
     console.log(`
       Total Rectangles to Render: ${rects.length}
       Rectangles in Queue: ${rectQueue.length}
-    `);*/
-}
+    `);*!/
+}*/
 
-export default circleRender
+// export default circleRender
 

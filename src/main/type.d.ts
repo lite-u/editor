@@ -1,7 +1,8 @@
 import {ModuleMap, ModuleProps} from '../core/modules/modules'
 import History from './history/history'
-import {RectangleProps} from '../core/modules/shapes/rectangle'
 import {EditorConfig} from './editor'
+import {Point, Size} from '../type'
+import {UID} from '../core/core'
 
 export type ModuleMoveDirection =
   'module-move-up' |

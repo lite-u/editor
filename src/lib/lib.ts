@@ -1,7 +1,5 @@
-import {
-  ResizeHandleName,
-  ResizeTransform,
-} from '../main/selection/type'
+import {ResizeHandleName, ResizeTransform} from '../main/selection/type'
+import {BoundingRect, DPR, Point} from '../type'
 
 interface DrawCrossLineProps {
   ctx: CanvasRenderingContext2D;

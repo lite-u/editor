@@ -1,4 +1,3 @@
-
 import {SelectionActionMode} from '../selection/type'
 import {HistoryNode} from '../history/DoublyLinkedList'
 import {HistoryOperation} from '../history/type'

@@ -1,5 +1,5 @@
 import resetCanvas from './viewport/resetCanvas'
-import {HistoryModuleChangeItem, HistoryModuleChangeProps, ModuleModifyData, SelectionModifyData} from './actions/type'
+import {HistoryModuleChangeItem, ModuleModifyData, SelectionModifyData} from './actions/type'
 import Editor from './editor'
 import {redo} from './history/redo'
 import {undo} from './history/undo'
@@ -9,6 +9,7 @@ import {HistoryOperation} from './history/type'
 // import zoom from '../../components/statusBar/zoom'
 import {fitRectToViewport} from './viewport/helper'
 import {ModuleMap, ModuleProps} from '../core/modules/modules'
+import {Point} from '../type'
 
 export function initEditor(this: Editor) {
   const {container, viewport, action} = this

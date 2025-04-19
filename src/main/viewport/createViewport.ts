@@ -1,11 +1,7 @@
 import {initViewportDom, InitViewportDomReturn} from './domManipulations'
 import Editor from '../editor'
 import {Viewport} from './type'
-import {
-  generateBoundingRectFromTwoPoints,
-  throttle,
-} from '../../core/utils'
-import {createFrame} from './helper'
+import {generateBoundingRectFromTwoPoints, throttle} from '../../core/utils'
 import handleMouseDown from './eventHandlers/mouseDown'
 import handleMouseUp from './eventHandlers/mouseUp'
 import handleKeyDown from './eventHandlers/keyDown'

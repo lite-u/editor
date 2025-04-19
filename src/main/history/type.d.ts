@@ -1,6 +1,7 @@
-import {HistoryModuleChangeItem, HistoryModuleChangeProps, ModuleModifyData} from '../actions/type'
+import {HistoryModuleChangeItem} from '../actions/type'
 import {HistoryNode} from './DoublyLinkedList'
 import {ModuleProps} from '../../core/modules/modules'
+import {UID} from '../../core/core'
 
 type HistoryPrev = HistoryNode | null
 type HistoryNext = HistoryPrev

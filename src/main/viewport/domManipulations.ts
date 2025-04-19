@@ -1,5 +1,7 @@
 import Editor from '../editor'
 import {ResizeDirection} from '../selection/type'
+import {UID} from '../../core/core'
+import {Point, Rect} from '../../type'
 
 export interface InitViewportDomReturn {
   wrapper: HTMLDivElement

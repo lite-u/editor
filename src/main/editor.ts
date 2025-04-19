@@ -1,25 +1,13 @@
 import {EditorExportFileType, EventHandlers} from './type'
 import History from './history/history'
 import Action from './actions/actions'
-import {
-  generateBoundingRectFromTwoPoints,
-  rectsOverlap,
-} from '../core/utils'
-import {
-  batchAdd,
-  batchCopy,
-  batchCreate,
-  batchDelete,
-  batchModify,
-  batchMove,
-} from './modules/moduleModify'
+import {generateBoundingRectFromTwoPoints, rectsOverlap} from '../core/utils'
+import {batchAdd, batchCopy, batchCreate, batchDelete, batchModify, batchMove} from './modules/moduleModify'
 import {OperationHandlers, ResizeHandler, SelectionActionMode} from './selection/type'
-import {
-  modifySelected,
-} from './selection/helper'
+import {modifySelected} from './selection/helper'
 import {updateScrollBars} from './viewport/domManipulations'
 import selectionRender from './viewport/selectionRender'
-import {worldToScreen, screenToWorld} from '../lib/lib'
+import {screenToWorld, worldToScreen} from '../lib/lib'
 import {Viewport, ViewportManipulationType} from './viewport/type'
 import {createViewport} from './viewport/createViewport'
 import {destroyViewport} from './viewport/destroyViewport'
@@ -28,6 +16,8 @@ import {EditorEventType} from './actions/type'
 import {zoomAtPoint} from './viewport/helper'
 import {RectangleProps} from '../core/modules/shapes/rectangle'
 import {ModuleInstance, ModuleMap, ModuleProps} from '../core/modules/modules'
+import {UID} from '../core/core'
+import {BoundingRect, Point} from '../type'
 
 export interface EditorDataProps {
   id: UID;

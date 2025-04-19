@@ -2,6 +2,7 @@ import Rectangle from '../../core/modules/shapes/rectangle'
 // import {drawCrossLine} from '../../lib/lib'
 import Editor from '../editor'
 import {ModuleInstance} from '../../core/modules/modules'
+import {UID} from '../../core/core'
 
 function selectionRender(this: Editor) {
   if (this.moduleMap.size === 0) return

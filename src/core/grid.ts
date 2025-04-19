@@ -1,4 +1,4 @@
-function createGridPattern(gridSize, width, height) {
+/*function createGridPattern(gridSize, width, height) {
   const offscreen = new OffscreenCanvas(width, height)
   const ctx = offscreen.getContext("2d")!
 
@@ -22,8 +22,8 @@ function createGridPattern(gridSize, width, height) {
   }
 
   return offscreen
-}
+}*/
 
 // Usage: Cache the grid and draw it only once
-const gridCanvas = createGridPattern(50, 800, 600)
+// const gridCanvas = createGridPattern(50, 800, 600)
 // ctx.drawImage(gridCanvas, 0, 0);

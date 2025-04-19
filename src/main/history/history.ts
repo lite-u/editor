@@ -1,7 +1,6 @@
 import Editor from '../editor'
 import DoublyLinkedList, {HistoryNode} from './DoublyLinkedList'
-import {extractIdSetFromArray} from './helpers'
-import {HistoryModules, HistoryOperation} from './type'
+import {HistoryOperation} from './type'
 
 class History extends DoublyLinkedList {
   private editor: Editor

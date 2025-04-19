@@ -1,6 +1,7 @@
-import {ResizeHandler, SelectionActionMode} from './type'
+import {SelectionActionMode} from './type'
 import Editor from '../editor'
 import typeCheck from '../../lib/typeCheck'
+import {UID} from '../../core/core'
 
 export function modifySelected(
   this: Editor,
@@ -9,16 +10,6 @@ export function modifySelected(
 ) {
   if (typeCheck(idSet) !== 'set') return
 
-  let eventCallBackData = null
-
-  if (idSet.size === 1) {
-    const first = [...idSet.values()][0]
-
-    if (this.moduleMap.has(first)) {
-      eventCallBackData = this.moduleMap.get(first).getDetails()
-      // console.log(eventCallBackData)
-    }
-  }
   const realSelectedModules = this.getSelected
 
   this.selectedModules.clear()

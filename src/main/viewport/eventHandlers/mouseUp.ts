@@ -88,7 +88,7 @@ function handleMouseUp(this: Editor, e: MouseEvent) {
         const moduleOrigin = this._resizingOperator?.moduleOrigin
         const rollbackProps: Partial<ModuleProps> = {}
 
-        Object.keys(props).forEach((key) => {
+        Object.keys(props).forEach(<K extends keyof ModuleProps>(key: K) => {
           rollbackProps[key] = moduleOrigin[key]
         })
 

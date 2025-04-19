@@ -4,6 +4,7 @@
   "description": "vector editor",
   "main": "dist/index.js",
   "type": "module",
+  "module": "./dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
   "scripts": {
     "watch": "npx tsc -p tsconfig.esm.json --watch",
@@ -33,6 +34,7 @@
   },
   "homepage": "https://github.com/lite-u/editor#readme",
   "devDependencies": {
-    "@types/node": "^22.14.1"
+    "@types/node": "^22.14.1",
+    "typescript": "^5.8.3"
   }
 }

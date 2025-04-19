@@ -3,6 +3,8 @@ import Rectangle from '../../core/modules/shapes/rectangle'
 import Ellipse, {EllipseProps} from '../../core/modules/shapes/ellipse'
 import deepClone from '../../lib/deepClone'
 import {ModuleInstance, ModuleMap, ModuleProps} from '../../core/modules/modules'
+import {UID} from '../../core/core'
+import {Point} from '../../type'
 
 export function batchCreate(this: Editor, moduleDataList: ModuleProps[]): ModuleMap {
   const clonedData = deepClone(moduleDataList) as ModuleProps[]
@@ -53,7 +55,7 @@ export function batchAdd(this: Editor, modules: ModuleMap): ModuleMap {
 
 type BatchCopyFn = <T extends boolean>(this: Editor, idSet: Set<UID>, includeIdentifiers: T) => T extends true ? ModuleProps[] : Omit<ModuleProps, 'id' & 'layer'>[]
 
-export const batchCopy: BatchCopyFn = function (this, idSet, includeIdentifiers) {
+export const batchCopy: BatchCopyFn = function (this, idSet, includeIdentifiers):ModuleProps[] {
   const modulesMap: ModuleMap = new Map()
   const moduleArr: ModuleInstance[] = []
 
@@ -67,7 +69,7 @@ export const batchCopy: BatchCopyFn = function (this, idSet, includeIdentifiers)
 
   moduleArr.sort((a, b) => a.layer - b.layer)
 
-  return moduleArr.map(mod => mod.getDetails(includeIdentifiers))
+  return moduleArr.map(mod => mod.getDetails(includeIdentifiers)) as ModuleProps[]
 }
 
 export function batchDelete(this: Editor, idSet: Set<UID>): ModuleProps[] {
@@ -96,7 +98,7 @@ export function batchModify(this: Editor, idSet: Set<UID>, data: Partial<ModuleP
 
   modulesMap.forEach((module: ModuleInstance) => {
     Object.keys(data).forEach((key) => {
-      const keyName = key as keyof ModuleProps
+      const keyName = key as keyof Omit<ModuleProps, 'type'>
       module[keyName] = data[keyName]
     })
   })
