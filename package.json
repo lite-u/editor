@@ -5,18 +5,20 @@
   "main": "dist/index.js",
   "type": "module",
   "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/types/index.d.ts",
   "scripts": {
     "dev": "npm run build --watch",
-    "build": "npm run build-compressed && npm run build-uncompressed",
-    "build-uncompressed": "tsup  --dts --config tsup.config.ts",
-    "build-compressed": "tsup  --dts --config tsup.config.min.ts"
+    "build": "tsc"
   },
   "exports": {
     ".": {
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs.min.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.js",
+      "types": "./dist/types/index.d.ts"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/types/index.d.ts"
     }
   },
   "files": [

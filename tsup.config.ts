@@ -1,10 +1,12 @@
 import {defineConfig} from 'tsup'
 
 export default defineConfig({
-  entry: ['src/index.ts'],
-  // dtsconfig: './tsconfig.esm.json',
+  entry: ['./src/index.ts'],
+  dts: true,
+  // dtsconfig:[],
   format: ['esm'/*,'cjs'*/],
+  // outDir: 'dist',
   splitting: true,
   sourcemap: true,
-  clean: false,
+  clean: true,
 })

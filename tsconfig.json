@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "outDir": "dist/esm",
+    "outDir": "dist/",
     "declaration": true,
     "declarationDir": "dist/types",
+    "emitDeclarationOnly": false,
     "declarationMap": true,
     // Output modern JS
     // Needed for ESM
@@ -10,7 +11,6 @@
     // Helps resolve imports like Node does
     "useDefineForClassFields": true,
     "rootDir": "src",
-    "emitDeclarationOnly": false,
     // Emit JS + .d.ts (set true for types-only build)
     "esModuleInterop": false,
     // Allow default imports from CommonJS

@@ -38,3 +38,5 @@ export type Resolution = Size
 export type DPR = number
 
 export type ZoomRatio = number
+
+
