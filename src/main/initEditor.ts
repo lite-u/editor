@@ -139,6 +139,7 @@ export function initEditor(this: Editor) {
     this.hoveredModule = null
     // console.log(this.selectedModules)
     // updateSelectionCanvasRenderData.call(this)
+    // @ts-ignore
     this.events.onSelectionUpdated?.(this.selectedModules, this.getSelectedPropsIfUnique)
 
     dispatch('visible-selection-updated')
@@ -289,6 +290,7 @@ export function initEditor(this: Editor) {
   })
 
   on('module-add', (data) => {
+    // @ts-ignore
     const newModules = this.batchAdd(this.batchCreate(data))
     const savedSelected = new Set(newModules.keys())
 
@@ -332,9 +334,12 @@ export function initEditor(this: Editor) {
       if (!module) return
 
       Object.keys(kv).map((keyName) => {
+        // @ts-ignore
         const fromValue = module[keyName]
+        // @ts-ignore
         const toValue = kv[keyName]
         // console.log(fromValue, toValue)
+        // @ts-ignore
         return props[keyName] = {
           from: fromValue,
           to: toValue,

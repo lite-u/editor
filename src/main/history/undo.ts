@@ -30,6 +30,7 @@ export function undo(this: Editor, quiet: boolean = false): HistoryNode | false 
 
         Object.keys(props).forEach(propName => {
           // console.log(props[propName]!['from'])
+          // @ts-ignore
           undoProps[propName] = props[propName]!['from']
           this.batchModify(new Set([id]), undoProps)
         })

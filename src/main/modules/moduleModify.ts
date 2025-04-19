@@ -99,6 +99,7 @@ export function batchModify(this: Editor, idSet: Set<UID>, data: Partial<ModuleP
   modulesMap.forEach((module: ModuleInstance) => {
     Object.keys(data).forEach((key) => {
       const keyName = key as keyof Omit<ModuleProps, 'type'>
+      // @ts-ignore
       module[keyName] = data[keyName]
     })
   })

@@ -28,6 +28,7 @@ export function redo(this: Editor, quiet: boolean = false): HistoryNode | false 
         const redoProps: Partial<ModuleProps> = {}
 
         Object.keys(props).forEach((propName) => {
+          // @ts-ignore
           redoProps[propName] = props[propName]['to']
           this.batchModify(new Set([id]), redoProps)
         })

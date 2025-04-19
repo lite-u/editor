@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "outDir": "dist/",
     "declaration": true,
     "declarationDir": "dist/types",
     "emitDeclarationOnly": false,
@@ -11,6 +10,7 @@
     // Helps resolve imports like Node does
     "useDefineForClassFields": true,
     "rootDir": "src",
+    "outDir": "dist",
     // Emit JS + .d.ts (set true for types-only build)
     "esModuleInterop": false,
     // Allow default imports from CommonJS
@@ -20,8 +20,8 @@
     "sourceMap": true,
     // Optional, but good for debugging
     "lib": [
-      "ES2022",
       "DOM",
+      "ES2022",
       "DOM.Iterable",
       "ES2015.Iterable"
     ],

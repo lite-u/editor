@@ -73,8 +73,10 @@ export function applyResize(this: Editor, altKey: boolean, shiftKey: boolean) {
   const relatedModule = this.moduleMap.get(id)
 
   if (relatedModule) {
+    // @ts-ignore
     const con = relatedModule.constructor as ModuleInstance
     // console.log(resizeParam)
+    // @ts-ignore
     return con.applyResizeTransform(resizeParam)
   }/*
   if (type === 'rectangle') {

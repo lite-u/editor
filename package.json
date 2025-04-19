@@ -4,10 +4,8 @@
   "description": "vector editor",
   "main": "dist/index.js",
   "type": "module",
-  "module": "./dist/index.js",
-  "types": "./dist/types/index.d.ts",
   "scripts": {
-    "dev": "npm run build --watch",
+    "dev": "tsc --watch",
     "build": "tsc"
   },
   "exports": {
@@ -21,6 +19,8 @@
       "default": "./dist/types/index.d.ts"
     }
   },
+  "module": "./dist/index.js",
+  "types": "./dist/types/index.d.ts",
   "files": [
     "dist"
   ],
@@ -38,7 +38,6 @@
   },
   "homepage": "https://github.com/lite-u/editor#readme",
   "devDependencies": {
-    "@types/node": "^22.14.1",
     "tsup": "^8.4.0",
     "typescript": "^5.8.3"
   }
