@@ -1,10 +1,11 @@
 {
   "name": "@lite-u/editor",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "vector editor",
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
+    "publish": "npm publish --access public",
     "dev": "tsc --watch",
     "build": "tsc"
   },
