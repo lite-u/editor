@@ -38,30 +38,3 @@ export type Resolution = Size
 export type DPR = number
 
 export type ZoomRatio = number
-
-export type {
-  UID,
-  HexColor,
-  FillColor,
-  Opacity,
-  Rotation,
-  Shadow,
-  Gradient,
-} from './core/type'
-
-export type {
-  InitializedHandler,
-  HistoryUpdatedHandler,
-  ModulesUpdatedHandler,
-  SelectionUpdatedHandler,
-  ViewportUpdatedHandler,
-  WorldUpdatedHandler,
-  WorldMouseMoveUpdatedHandler,
-  ContextMenuHandler,
-  ModuleCopiedHandler,
-  EventHandlers,
-  EditorExportFileType,
-  ViewportData,
-  WorldInfo,
-  SnapPointData,
-} from './main/type'

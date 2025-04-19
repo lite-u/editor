@@ -6,7 +6,7 @@ export default defineConfig({
   // dtsconfig:[],
   format: ['esm'/*,'cjs'*/],
   // outDir: 'dist',
-  splitting: true,
+  splitting: false,
   sourcemap: true,
-  clean: true,
+  clean: false,
 })

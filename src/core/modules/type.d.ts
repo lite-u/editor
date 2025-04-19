@@ -16,6 +16,9 @@ export type ModuleProps = RectangleProps | EllipseProps
 export type PropsWithoutIdentifiers<T extends keyof ModulePropsMap> = Omit<ModulePropsMap[T], 'id' & 'layer'>
 export type PropsWithoutIdentifiersA = Omit<ModuleProps, 'id' & 'layer'>
 export type ModuleNames = keyof ModuleTypeMap
+/**
+ * ModuleInstance is
+ */
 export type ModuleInstance = Rectangle | Ellipse
 export type ModuleMap = Map<UID, ModuleInstance>
 
