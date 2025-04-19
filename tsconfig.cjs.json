@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "target": "ES2017",
+    "outDir": "dist/cjs",
+    "allowImportingTsExtensions": true,
+    "declaration": false,
+    "moduleResolution": "Node",
+    "esModuleInterop": true
+  },
+  "include": [
+    "src"
+  ]
+}

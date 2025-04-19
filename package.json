@@ -1,0 +1,31 @@
+{
+  "name": "@lite/editor",
+  "version": "0.0.1",
+  "description": "vector editor",
+  "main": "dist/index.js",
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.esm.json && tsc -p tsconfig.cjs.json"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
+  "files": ["dist"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lite-u/editor.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Lucas Chow<lucasischow@icloud.com> (https://lucasischow.github.io/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lite-u/editor/issues"
+  },
+  "homepage": "https://github.com/lite-u/editor#readme"
+}
