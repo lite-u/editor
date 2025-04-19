@@ -4,7 +4,7 @@ import {SnapPointData} from '../../../main/type'
 import Rectangle from './rectangle'
 import {ResizeHandleName} from '../../../main/selection/type'
 import {getResizeTransform} from '../../../lib/lib'
-import {FillColor} from '../../core'
+import {FillColor} from '../../type'
 import {CenterBasedRect, Point} from '../../../type'
 
 export interface EllipseProps extends ShapeProps {
@@ -17,8 +17,8 @@ class Ellipse extends Shape {
   readonly type = 'ellipse'
   r1: number
   r2: number
-  fillColor: FillColor
-  enableFill: boolean
+  // fillColor: FillColor
+  // enableFill: boolean
 
   constructor({
                 fillColor,

@@ -2,8 +2,8 @@ import Editor from '../editor'
 import Rectangle from '../../core/modules/shapes/rectangle'
 import Ellipse, {EllipseProps} from '../../core/modules/shapes/ellipse'
 import deepClone from '../../lib/deepClone'
-import {ModuleInstance, ModuleMap, ModuleProps} from '../../core/modules/modules'
-import {UID} from '../../core/core'
+import {ModuleInstance, ModuleMap, ModuleProps} from '../../core/modules/type'
+import {UID} from '../../core/type'
 import {Point} from '../../type'
 
 export function batchCreate(this: Editor, moduleDataList: ModuleProps[]): ModuleMap {

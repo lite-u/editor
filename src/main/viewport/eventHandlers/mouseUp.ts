@@ -3,7 +3,7 @@ import Editor from '../../editor'
 import {ModuleModifyData} from '../../actions/type'
 import Base from '../../../core/modules/base'
 import {applyResize} from './funcs'
-import {ModuleProps} from '../../../core/modules/modules'
+import {ModuleProps} from '../../../core/modules/type'
 
 function handleMouseUp(this: Editor, e: MouseEvent) {
   const leftMouseClick = e.button === 0

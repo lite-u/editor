@@ -1,12 +1,12 @@
 import {HistoryModuleChangeItem} from '../actions/type'
 import {HistoryNode} from './DoublyLinkedList'
-import {ModuleProps} from '../../core/modules/modules'
-import {UID} from '../../core/core'
+import {ModuleProps} from '../../core/modules/type'
+import {UID} from '../../core/type'
 
-type HistoryPrev = HistoryNode | null
-type HistoryNext = HistoryPrev
-type HistorySelectedModules = Set<UID>
-type HistoryModules = ModuleProps[]
+export type HistoryPrev = HistoryNode | null
+export type HistoryNext = HistoryPrev
+export type HistorySelectedModules = Set<UID>
+export type HistoryModules = ModuleProps[]
 
 export type HistoryOperationType =
   'history-init'

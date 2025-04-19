@@ -1,8 +1,8 @@
 import Rectangle from '../../core/modules/shapes/rectangle'
 // import {drawCrossLine} from '../../lib/lib'
 import Editor from '../editor'
-import {ModuleInstance} from '../../core/modules/modules'
-import {UID} from '../../core/core'
+import {ModuleInstance} from '../../core/modules/type'
+import {UID} from '../../core/type'
 
 function selectionRender(this: Editor) {
   if (this.moduleMap.size === 0) return

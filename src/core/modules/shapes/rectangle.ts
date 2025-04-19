@@ -3,7 +3,7 @@ import {generateBoundingRectFromRotatedRect} from '../../utils'
 import {SnapPointData} from '../../../main/type'
 import {getResizeTransform} from '../../../lib/lib'
 import {ResizeHandleName} from '../../../main/selection/type'
-import {ModuleInstance} from '../modules'
+import {ModuleInstance} from '../type'
 import {CenterBasedRect, Point, Rect} from '../../../type'
 
 export interface RectangleProps extends ShapeProps {

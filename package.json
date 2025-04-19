@@ -4,17 +4,19 @@
   "description": "vector editor",
   "main": "dist/index.js",
   "type": "module",
-  "module": "./dist/esm/index.js",
-  "types": "dist/esm/index.d.ts",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "watch": "npx tsc -p tsconfig.esm.json --watch",
-    "build": "tsc -p tsconfig.esm.json"
+    "dev": "npm run build --watch",
+    "build": "npm run build-compressed && npm run build-uncompressed",
+    "build-uncompressed": "tsup  --dts --config tsup.config.ts",
+    "build-compressed": "tsup  --dts --config tsup.config.min.ts"
   },
   "exports": {
     ".": {
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js",
-      "types": "./dist/esm/index.d.ts"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs.min.js",
+      "types": "./dist/index.d.ts"
     }
   },
   "files": [
@@ -35,6 +37,7 @@
   "homepage": "https://github.com/lite-u/editor#readme",
   "devDependencies": {
     "@types/node": "^22.14.1",
+    "tsup": "^8.4.0",
     "typescript": "^5.8.3"
   }
 }

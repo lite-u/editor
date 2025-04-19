@@ -1,8 +1,8 @@
 import {SelectionActionMode} from '../selection/type'
 import {HistoryNode} from '../history/DoublyLinkedList'
 import {HistoryOperation} from '../history/type'
-import {ModuleProps, PropsWithoutIdentifiersA} from '../../core/modules/modules'
-import {UID} from '../../core/core'
+import {ModuleProps, PropsWithoutIdentifiersA} from '../../core/modules/type'
+import {UID} from '../../core/type'
 import {Point} from '../../type'
 
 export interface SelectionModifyData {

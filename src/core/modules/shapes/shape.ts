@@ -3,8 +3,8 @@ import {HANDLER_OFFSETS} from '../handleBasics'
 import {OperationHandlers} from '../../../main/selection/type'
 import {rotatePoint} from '../../../lib/lib'
 import Rectangle, {RectangleProps} from './rectangle'
-import {ModuleProps} from '../modules'
-import {FillColor, Gradient} from '../../core'
+import {ModuleProps} from '../type'
+import {FillColor, Gradient} from '../../type'
 import {BoundingRect, CenterBasedRect} from '../../../type'
 
 export interface ShapeProps extends BasicModuleProps {

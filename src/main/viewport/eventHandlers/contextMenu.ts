@@ -1,6 +1,6 @@
 import Editor from '../../editor'
 import {detectHoveredModule} from './funcs'
-import {UID} from '../../../core/core'
+import {UID} from '../../../core/type'
 
 function handleContextMenu(this: Editor, e: MouseEvent) {
   // const modifyKey = e.ctrlKey || e.metaKey || e.shiftKey

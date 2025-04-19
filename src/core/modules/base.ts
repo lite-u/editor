@@ -1,6 +1,6 @@
 import Editor from '../../main/editor'
 import {RotateHandler} from '../../main/selection/type'
-import {HexColor, Opacity, Rotation, Shadow, UID} from '../core'
+import {HexColor, Opacity, Rotation, Shadow, UID} from '../type'
 import {BoundingRect} from '../../type'
 
 export interface BasicModuleProps {

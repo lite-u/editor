@@ -15,8 +15,8 @@ import {initEditor} from './initEditor'
 import {EditorEventType} from './actions/type'
 import {zoomAtPoint} from './viewport/helper'
 import {RectangleProps} from '../core/modules/shapes/rectangle'
-import {ModuleInstance, ModuleMap, ModuleProps} from '../core/modules/modules'
-import {UID} from '../core/core'
+import {ModuleInstance, ModuleMap, ModuleProps} from '../core/modules/type'
+import {UID} from '../core/type'
 import {BoundingRect, Point} from '../type'
 
 export interface EditorDataProps {
@@ -114,7 +114,7 @@ class Editor {
     from: Set<UID>,
     includeIdentifiers = true,
   ): ModuleProps[] {
-    return batchCopy.call(this, from, includeIdentifiers)
+    return batchCopy.call(this, from, includeIdentifiers) as ModuleProps[]
   }
 
   batchDelete(from: Set<UID>): ModuleProps[] {

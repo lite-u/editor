@@ -1,7 +1,7 @@
 import Editor from '../../editor'
 import {ResizeDirection} from '../../selection/type'
-import {ModuleInstance} from '../../../core/modules/modules'
-import {UID} from '../../../core/core'
+import {ModuleInstance} from '../../../core/modules/type'
+import {UID} from '../../../core/type'
 import {Point} from '../../../type'
 
 export function detectHoveredModule(this: Editor) {

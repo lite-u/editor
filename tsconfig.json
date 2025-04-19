@@ -1,18 +1,18 @@
 {
   "compilerOptions": {
+    "outDir": "dist/esm",
+    "declaration": true,
+    "declarationDir": "dist/types",
+    "declarationMap": true,
     // Output modern JS
     // Needed for ESM
 //    "moduleResolution": "Node",
     // Helps resolve imports like Node does
     "useDefineForClassFields": true,
     "rootDir": "src",
-    // Input source directory
-    "declaration": true,
-    "declarationDir": "dist/esm/types",
-    // Generate .d.ts files
     "emitDeclarationOnly": false,
     // Emit JS + .d.ts (set true for types-only build)
-    "esModuleInterop": true,
+    "esModuleInterop": false,
     // Allow default imports from CommonJS
     "forceConsistentCasingInFileNames": true,
     "allowImportingTsExtensions": false,
@@ -29,7 +29,8 @@
 
 //    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
     "target": "ES2022",
-    "module": "ES2022",
+    "module": "ESNext",
+    "composite": false,
     "moduleResolution": "node",
     "downlevelIteration": true,
     "skipLibCheck": true,

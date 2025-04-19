@@ -1,4 +1,4 @@
-import {ModuleInstance, ModuleProps} from '../../core/modules/modules'
+import {ModuleInstance, ModuleProps} from '../../core/modules/type'
 
 export type SelectionActionMode = 'add' | 'delete' | 'toggle' | 'replace'
 
@@ -29,7 +29,7 @@ export type ResizeHandleName =
   | 'rotate-br'
   | 'rotate-bl'
 
-interface ResizeTransform {
+export interface ResizeTransform {
   dx: number;
   dy: number;
   cx: number;
@@ -46,7 +46,7 @@ export interface OperationHandler {
   module: ModuleInstance
 }
 
-interface ResizeHandler extends OperationHandler {
+export interface ResizeHandler extends OperationHandler {
   type: 'resize';
   name: ResizeHandleName
 }

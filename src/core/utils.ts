@@ -1,5 +1,5 @@
 // import {RenderPropsList} from './renderer/type'
-import {ModuleProps} from './modules/modules'
+import {ModuleProps} from './modules/type'
 import {BoundingRect, Point, Rect} from '../type'
 
 export const generateBoundingRectFromRotatedRect = ({x, y, width, height}: Rect, rotation: number): BoundingRect => {

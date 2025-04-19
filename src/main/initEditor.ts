@@ -8,7 +8,7 @@ import {HistoryOperation} from './history/type'
 // import {updateSelectionCanvasRenderData} from './selection/helper'
 // import zoom from '../../components/statusBar/zoom'
 import {fitRectToViewport} from './viewport/helper'
-import {ModuleMap, ModuleProps} from '../core/modules/modules'
+import {ModuleMap, ModuleProps} from '../core/modules/type'
 import {Point} from '../type'
 
 export function initEditor(this: Editor) {

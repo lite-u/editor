@@ -1,6 +1,6 @@
 import Rectangle, {RectangleProps} from './shapes/rectangle'
 import Ellipse, {EllipseProps} from './shapes/ellipse'
-import {UID} from '../core'
+import {UID} from '../type'
 // import {ShapeProps} from './shapes/shape'
 
 export type ModuleTypeMap = {
