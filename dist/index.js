@@ -1,0 +1,2944 @@
+// src/main/history/DoublyLinkedList.ts
+var HistoryNode = class {
+  data;
+  prev;
+  next;
+  id;
+  constructor(prev, next, data, id = -1) {
+    this.data = data;
+    this.prev = prev;
+    this.next = next;
+    this.id = id;
+  }
+};
+var DoublyLinkedList = class {
+  head;
+  tail;
+  current;
+  constructor() {
+    this.head = null;
+    this.tail = null;
+    this.current = null;
+  }
+  /**
+   * Detach: detach all nodes after current
+   */
+  detach() {
+    if (this.current) {
+      this.current.next = null;
+      this.tail = this.current;
+    }
+    return this.current;
+  }
+  /*
+  * Create a new node and connect it to the last
+  * */
+  append(data) {
+    let newNode;
+    const { tail } = this;
+    if (tail) {
+      newNode = new HistoryNode(tail, null, data, tail.id + 1);
+      tail.next = newNode;
+      this.tail = newNode;
+    } else {
+      newNode = new HistoryNode(null, null, data, 0);
+      this.head = newNode;
+      this.tail = newNode;
+    }
+    this.current = newNode;
+    return newNode;
+  }
+  /*
+  * Move current back
+  * */
+  back() {
+    if (this.current === this.head) {
+      return false;
+    }
+    this.current = this.current.prev;
+    return this.current;
+  }
+  /*
+  * Move current forward
+  * */
+  forward() {
+    if (this.current === this.tail) {
+      return false;
+    }
+    this.current = this.current.next;
+    return this.current;
+  }
+  /**
+   * 'front' : target node in front of current node
+   * 'behind' : target node behind of current node
+   * 'equal' : target node equal to current node
+   * false : target node not belong to this linked list
+   */
+  compareToCurrentPosition(node) {
+    if (node === this.current) return "equal";
+    let localCurrent = this.head;
+    while (localCurrent) {
+      if (this.current === localCurrent) {
+        return "behind";
+      }
+      if (node === localCurrent) {
+        return "front";
+      }
+      localCurrent = localCurrent.next;
+    }
+    return false;
+  }
+  destroy() {
+    this.head = null;
+    this.tail = null;
+    this.current = null;
+  }
+};
+var DoublyLinkedList_default = DoublyLinkedList;
+
+// src/main/history/history.ts
+var History = class extends DoublyLinkedList_default {
+  editor;
+  constructor(editor) {
+    super();
+    this.editor = editor;
+    this.init();
+  }
+  init() {
+    this.append({
+      type: "history-init",
+      payload: {
+        state: null,
+        selectedModules: /* @__PURE__ */ new Set()
+      }
+    });
+    this.editor.events.onHistoryUpdated?.(this);
+  }
+  // Add a History node after the current
+  add(data) {
+    this.detach();
+    this.append(data);
+  }
+  toArray() {
+    const list = [];
+    if (this.head) {
+      let curr = this.head;
+      list.push(curr);
+      while (curr.next) {
+        list.push(curr.next);
+        curr = curr.next;
+      }
+    }
+    return list;
+  }
+  compareToCurrentPosition(node) {
+    return super.compareToCurrentPosition(node);
+  }
+  forward() {
+    return super.forward();
+  }
+  back() {
+    return super.back();
+  }
+};
+var history_default = History;
+
+// src/main/actions/actions.ts
+var Action = class {
+  eventsMap = /* @__PURE__ */ new Map();
+  constructor() {
+  }
+  // subscribe
+  on(eventName, callback) {
+    if (this.eventsMap.has(eventName)) {
+      this.eventsMap.get(eventName).push(callback);
+    } else {
+      this.eventsMap.set(eventName, [
+        callback
+      ]);
+    }
+  }
+  // unsubscribe
+  off(eventName, callback) {
+    if (this.eventsMap.has(eventName)) {
+      const arr = this.eventsMap.get(eventName);
+      for (let i = arr.length - 1; i >= 0; i--) {
+        if (arr[i] === callback) {
+          arr.splice(i, 1);
+          return "deleted";
+        }
+      }
+      return "Cannot find event or function";
+    }
+  }
+  dispatch(type, data) {
+    if (this.eventsMap.has(type)) {
+      this.eventsMap.get(type).forEach((cb) => {
+        cb(data);
+      });
+    }
+  }
+  execute(type, data) {
+    this.dispatch(type, data);
+  }
+  destroy() {
+    this.eventsMap.clear();
+  }
+};
+var actions_default = Action;
+
+// src/core/utils.ts
+var generateBoundingRectFromRotatedRect = ({ x, y, width, height }, rotation) => {
+  const centerX = x + width / 2;
+  const centerY = y + height / 2;
+  const rad = rotation * Math.PI / 180;
+  const cos = Math.cos(rad);
+  const sin = Math.sin(rad);
+  const rotatedWidth = Math.abs(width * cos) + Math.abs(height * sin);
+  const rotatedHeight = Math.abs(width * sin) + Math.abs(height * cos);
+  const rectX = centerX - rotatedWidth / 2;
+  const rectY = centerY - rotatedHeight / 2;
+  return generateBoundingRectFromRect({
+    x: rectX,
+    y: rectY,
+    width: rotatedWidth,
+    height: rotatedHeight
+  });
+};
+var generateBoundingRectFromRect = (rect) => {
+  const { x, y, width, height } = rect;
+  return {
+    x,
+    y,
+    width,
+    height,
+    top: y,
+    bottom: y + height,
+    left: x,
+    right: x + width,
+    cx: x + width / 2,
+    cy: y + height / 2
+  };
+};
+var generateBoundingRectFromTwoPoints = (p1, p2) => {
+  const minX = Math.min(p1.x, p2.x);
+  const maxX = Math.max(p1.x, p2.x);
+  const minY = Math.min(p1.y, p2.y);
+  const maxY = Math.max(p1.y, p2.y);
+  return generateBoundingRectFromRect({
+    x: minX,
+    y: minY,
+    width: maxX - minX,
+    height: maxY - minY
+  });
+};
+function rectsOverlap(r1, r2) {
+  return !(r1.right < r2.left || r1.left > r2.right || r1.bottom < r2.top || r1.top > r2.bottom);
+}
+var isNegativeZero = (x) => x === 0 && 1 / x === -Infinity;
+function throttle(func, delay) {
+  let lastCall = 0;
+  let timeoutId;
+  return (...args) => {
+    const now = Date.now();
+    const invoke = () => {
+      lastCall = now;
+      func(...args);
+    };
+    if (now - lastCall >= delay) {
+      invoke();
+    } else {
+      if (timeoutId !== void 0) {
+        clearTimeout(timeoutId);
+      }
+      timeoutId = setTimeout(invoke, delay - (now - lastCall));
+    }
+  };
+}
+
+// src/core/modules/base.ts
+var Base = class {
+  id;
+  // type: string
+  enableLine;
+  lineWidth;
+  lineColor;
+  opacity;
+  rotation;
+  shadow;
+  layer;
+  constructor({
+    id,
+    lineColor,
+    lineWidth = 1,
+    opacity = 100,
+    // type,
+    layer = 1,
+    rotation = 0,
+    shadow = "",
+    enableLine = true
+  }) {
+    this.id = id;
+    this.layer = layer;
+    this.enableLine = enableLine;
+    this.lineColor = lineColor;
+    this.lineWidth = lineWidth;
+    this.opacity = opacity;
+    this.rotation = rotation;
+    this.shadow = shadow;
+  }
+  getDetails(includeIdentifiers = true) {
+    const base = {
+      // type: this.type,
+      enableLine: this.enableLine,
+      lineColor: this.lineColor,
+      lineWidth: this.lineWidth,
+      opacity: this.opacity,
+      shadow: this.shadow,
+      rotation: this.rotation
+    };
+    if (includeIdentifiers) {
+      return {
+        ...base,
+        id: this.id,
+        layer: this.layer
+      };
+    }
+    return base;
+  }
+  getBoundingRect() {
+    return { bottom: 0, cx: 0, cy: 0, left: 0, right: 0, top: 0, x: 0, y: 0, width: 0, height: 0 };
+  }
+  render(_ctx) {
+    return void 0;
+  }
+  static applyRotating(shiftKey) {
+    const { mouseDownPoint, mouseMovePoint, scale, dpr, offset } = this.viewport;
+    const { module: { rotation }, moduleOrigin } = this._rotatingOperator;
+    const { x, y } = moduleOrigin;
+    const downX = (mouseDownPoint.x - offset.x / dpr) / scale * dpr;
+    const downY = (mouseDownPoint.y - offset.y / dpr) / scale * dpr;
+    const moveX = (mouseMovePoint.x - offset.x / dpr) / scale * dpr;
+    const moveY = (mouseMovePoint.y - offset.y / dpr) / scale * dpr;
+    const startAngle = Math.atan2(downY - y, downX - x);
+    const currentAngle = Math.atan2(moveY - y, moveX - x);
+    let rotationDelta = (currentAngle - startAngle) * (180 / Math.PI);
+    if (shiftKey) {
+      rotationDelta = Math.round(rotationDelta / 15) * 15;
+    }
+    let newRotation = (rotation + rotationDelta) % 360;
+    if (newRotation < 0) newRotation += 360;
+    return newRotation;
+  }
+};
+var base_default = Base;
+
+// src/core/modules/handleBasics.ts
+var HANDLER_OFFSETS = [
+  {
+    type: "rotate",
+    name: "rotate-tl",
+    x: 0,
+    y: 0,
+    offsetX: -5,
+    offsetY: -5,
+    originCursor: "rotate",
+    cursor: "rotate"
+  },
+  // left-center
+  {
+    type: "rotate",
+    name: "rotate-tr",
+    x: 1,
+    y: 0,
+    offsetX: 5,
+    offsetY: -5,
+    originCursor: "rotate",
+    cursor: "rotate"
+  },
+  // left-center
+  {
+    type: "rotate",
+    name: "rotate-br",
+    x: 1,
+    y: 1,
+    offsetX: 5,
+    offsetY: 5,
+    originCursor: "rotate",
+    cursor: "rotate"
+  },
+  // left-center
+  {
+    type: "rotate",
+    name: "rotate-bl",
+    x: 0,
+    y: 1,
+    offsetX: -5,
+    offsetY: 5,
+    originCursor: "rotate",
+    cursor: "rotate"
+  },
+  {
+    type: "resize",
+    name: "tl",
+    x: 0,
+    y: 0,
+    originCursor: "nwse-resize",
+    cursor: "nwse-resize"
+  },
+  // top-left
+  {
+    type: "resize",
+    name: "t",
+    x: 0.5,
+    y: 0,
+    originCursor: "ns-resize",
+    cursor: "ns-resize"
+  },
+  // top-center
+  {
+    type: "resize",
+    name: "tr",
+    x: 1,
+    y: 0,
+    originCursor: "nesw-resize",
+    cursor: "nesw-resize"
+  },
+  // top-right
+  {
+    type: "resize",
+    name: "r",
+    x: 1,
+    y: 0.5,
+    originCursor: "ew-resize",
+    cursor: "ew-resize"
+  },
+  // right-center
+  {
+    type: "resize",
+    name: "br",
+    x: 1,
+    y: 1,
+    originCursor: "nwse-resize",
+    cursor: "nwse-resize"
+  },
+  // bottom-right
+  {
+    type: "resize",
+    name: "b",
+    x: 0.5,
+    y: 1,
+    originCursor: "ns-resize",
+    cursor: "ns-resize"
+  },
+  // bottom-center
+  {
+    type: "resize",
+    name: "bl",
+    x: 0,
+    y: 1,
+    originCursor: "nesw-resize",
+    cursor: "nesw-resize"
+  },
+  // bottom-left
+  {
+    type: "resize",
+    name: "l",
+    x: 0,
+    y: 0.5,
+    originCursor: "ew-resize",
+    cursor: "ew-resize"
+  }
+  // left-center
+  // left-center
+];
+
+// src/lib/lib.ts
+function screenToWorld(point, offset, scale, dpr) {
+  return {
+    x: (point.x * dpr - offset.x) / scale,
+    y: (point.y * dpr - offset.y) / scale
+  };
+}
+function worldToScreen(point, offset, scale, dpr) {
+  return {
+    x: (point.x * scale + offset.x) / dpr,
+    y: (point.y * scale + offset.y) / dpr
+  };
+}
+var areSetsEqual = (setA, setB) => {
+  if (setA.size !== setB.size) return false;
+  for (const item of setA) {
+    if (!setB.has(item)) return false;
+  }
+  return true;
+};
+var getSymmetricDifference = (setA, setB) => {
+  const result = /* @__PURE__ */ new Set();
+  for (const item of setA) {
+    if (!setB.has(item)) result.add(item);
+  }
+  for (const item of setB) {
+    if (!setA.has(item)) result.add(item);
+  }
+  return result;
+};
+function rotatePoint(px, py, cx, cy, rotation) {
+  const dx = px - cx;
+  const dy = py - cy;
+  const angle = rotation * (Math.PI / 180);
+  const cos = Math.cos(angle);
+  const sin = Math.sin(angle);
+  return {
+    x: cx + dx * cos - dy * sin,
+    y: cy + dx * sin + dy * cos
+  };
+}
+function getResizeTransform(name, symmetric = false) {
+  const base = (() => {
+    switch (name) {
+      case "tl":
+        return { dx: -1, dy: -1, cx: 0.5, cy: 0.5 };
+      case "t":
+        return { dx: 0, dy: -1, cx: 0, cy: 0.5 };
+      case "tr":
+        return { dx: 1, dy: -1, cx: -0.5, cy: 0.5 };
+      case "r":
+        return { dx: 1, dy: 0, cx: -0.5, cy: 0 };
+      case "br":
+        return { dx: 1, dy: 1, cx: -0.5, cy: -0.5 };
+      case "b":
+        return { dx: 0, dy: 1, cx: 0, cy: -0.5 };
+      case "bl":
+        return { dx: -1, dy: 1, cx: 0.5, cy: -0.5 };
+      case "l":
+        return { dx: -1, dy: 0, cx: 0.5, cy: 0 };
+      default:
+        throw new Error(`Unsupported resize handle: ${name}`);
+    }
+  })();
+  if (symmetric) {
+    return { ...base, cx: 0, cy: 0 };
+  }
+  return base;
+}
+
+// src/core/modules/shapes/shape.ts
+var Shape = class extends base_default {
+  x;
+  y;
+  fillColor;
+  enableFill;
+  constructor({
+    x,
+    y,
+    fillColor,
+    enableFill = true,
+    ...rest
+  }) {
+    super(rest);
+    this.x = x;
+    this.y = y;
+    this.fillColor = fillColor;
+    this.enableFill = enableFill;
+  }
+  getDetails(includeIdentifiers = true) {
+    return {
+      ...super.getDetails(includeIdentifiers),
+      fillColor: this.fillColor,
+      enableFill: this.enableFill,
+      x: this.x,
+      y: this.y
+    };
+  }
+  move(x, y) {
+    this.x += x;
+    this.y += y;
+  }
+  getOperators(resizeConfig, rotateConfig, boundingRect, moduleOrigin) {
+    const { x: cx, y: cy, width, height } = boundingRect;
+    const { id, rotation } = this;
+    const handlers = HANDLER_OFFSETS.map((OFFSET) => {
+      const currentCenterX = cx - width / 2 + OFFSET.x * width;
+      const currentCenterY = cy - height / 2 + OFFSET.y * height;
+      const currentModuleProps = {
+        id,
+        width: 0,
+        height: 0,
+        x: currentCenterX,
+        y: currentCenterY,
+        lineColor: "",
+        lineWidth: 0,
+        rotation,
+        layer: this.layer,
+        opacity: 100
+      };
+      if (OFFSET.type === "resize") {
+        const rotated = rotatePoint(currentCenterX, currentCenterY, cx, cy, rotation);
+        currentModuleProps.id += "resize";
+        currentModuleProps.x = rotated.x;
+        currentModuleProps.y = rotated.y;
+        currentModuleProps.width = resizeConfig.size;
+        currentModuleProps.height = resizeConfig.size;
+        currentModuleProps.lineWidth = resizeConfig.lineWidth;
+        currentModuleProps.lineColor = resizeConfig.lineColor;
+        currentModuleProps.fillColor = resizeConfig.fillColor;
+      } else if (OFFSET.type === "rotate") {
+        const currentRotateHandlerCenterX = currentCenterX + OFFSET.offsetX * resizeConfig.lineWidth;
+        const currentRotateHandlerCenterY = currentCenterY + OFFSET.offsetY * resizeConfig.lineWidth;
+        const rotated = rotatePoint(
+          currentRotateHandlerCenterX,
+          currentRotateHandlerCenterY,
+          cx,
+          cy,
+          rotation
+        );
+        currentModuleProps.id += "rotate";
+        currentModuleProps.x = rotated.x;
+        currentModuleProps.y = rotated.y;
+        currentModuleProps.width = rotateConfig.size;
+        currentModuleProps.height = rotateConfig.size;
+        currentModuleProps.lineWidth = rotateConfig.lineWidth;
+        currentModuleProps.lineColor = rotateConfig.lineColor;
+        currentModuleProps.fillColor = rotateConfig.fillColor;
+      }
+      return {
+        id: `${id}`,
+        type: OFFSET.type,
+        name: OFFSET.name,
+        // cursor,
+        moduleOrigin,
+        module: new rectangle_default(currentModuleProps)
+      };
+    });
+    return handlers;
+  }
+  isInsideRect(outer) {
+    const inner = this.getBoundingRect();
+    return inner.left >= outer.left && inner.right <= outer.right && inner.top >= outer.top && inner.bottom <= outer.bottom;
+  }
+};
+var shape_default = Shape;
+
+// src/core/modules/shapes/rectangle.ts
+var Rectangle = class _Rectangle extends shape_default {
+  type = "rectangle";
+  width;
+  height;
+  radius;
+  constructor({
+    width,
+    height,
+    radius = 0,
+    ...rest
+  }) {
+    super({ ...rest });
+    this.width = width;
+    this.height = height;
+    this.radius = radius;
+  }
+  hitTest(point, borderPadding = 5) {
+    const { x: cx, y: cy, width, height, rotation = 0 } = this;
+    const cos = Math.cos(-rotation);
+    const sin = Math.sin(-rotation);
+    const dx = point.x - cx;
+    const dy = point.y - cy;
+    const localX = dx * cos + dy * sin;
+    const localY = -dx * sin + dy * cos;
+    const halfWidth = width / 2;
+    const halfHeight = height / 2;
+    const withinX = localX >= -halfWidth && localX <= halfWidth;
+    const withinY = localY >= -halfHeight && localY <= halfHeight;
+    if (withinX && withinY) {
+      const nearLeft = Math.abs(localX + halfWidth) <= borderPadding;
+      const nearRight = Math.abs(localX - halfWidth) <= borderPadding;
+      const nearTop = Math.abs(localY + halfHeight) <= borderPadding;
+      const nearBottom = Math.abs(localY - halfHeight) <= borderPadding;
+      if (nearLeft || nearRight || nearTop || nearBottom) {
+        return "border";
+      }
+      return "inside";
+    }
+    return null;
+  }
+  static applyResizeTransform = ({
+    downPoint,
+    movePoint,
+    moduleOrigin,
+    rotation,
+    handleName,
+    scale,
+    dpr,
+    altKey = false,
+    shiftKey = false
+  }) => {
+    const {
+      width: initialWidth,
+      height: initialHeight,
+      x: initialCX,
+      y: initialCY
+    } = moduleOrigin;
+    const dxScreen = movePoint.x - downPoint.x;
+    const dyScreen = movePoint.y - downPoint.y;
+    const dx = dxScreen / scale * dpr;
+    const dy = dyScreen / scale * dpr;
+    const angle = -rotation * (Math.PI / 180);
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    const localDX = dx * cos - dy * sin;
+    const localDY = dx * sin + dy * cos;
+    const t = getResizeTransform(handleName, altKey);
+    let deltaX = localDX * t.dx;
+    let deltaY = localDY * t.dy;
+    if (shiftKey) {
+      const aspect = initialWidth / initialHeight;
+      const absDeltaX = Math.abs(deltaX);
+      const absDeltaY = Math.abs(deltaY);
+      if (t.dx !== 0 && t.dy !== 0) {
+        if (absDeltaX > absDeltaY) {
+          deltaY = deltaX / aspect;
+        } else {
+          deltaX = deltaY * aspect;
+        }
+      } else if (t.dx !== 0) {
+        deltaY = deltaX / aspect;
+      } else if (t.dy !== 0) {
+        deltaX = deltaY * aspect;
+      }
+    }
+    const factor = altKey ? 2 : 1;
+    const width = Math.abs(initialWidth + deltaX * factor);
+    const height = Math.abs(initialHeight + deltaY * factor);
+    const centerDeltaX = -deltaX * t.cx * factor;
+    const centerDeltaY = -deltaY * t.cy * factor;
+    const globalCenterDeltaX = centerDeltaX * cos + centerDeltaY * sin;
+    const globalCenterDeltaY = -centerDeltaX * sin + centerDeltaY * cos;
+    const x = initialCX + globalCenterDeltaX;
+    const y = initialCY + globalCenterDeltaY;
+    return { x, y, width, height };
+  };
+  getDetails(includeIdentifiers = true) {
+    return {
+      type: this.type,
+      width: this.width,
+      height: this.height,
+      ...super.getDetails(includeIdentifiers)
+    };
+  }
+  getRect() {
+    const { x, y, width, height } = this;
+    return {
+      x,
+      y,
+      width,
+      height
+    };
+  }
+  getBoundingRect() {
+    const { x: cx, y: cy, width, height, rotation } = this;
+    const x = cx - width / 2;
+    const y = cy - height / 2;
+    if (rotation === 0) {
+      return {
+        x,
+        y,
+        width,
+        height,
+        left: x,
+        top: y,
+        right: x + width,
+        bottom: y + height,
+        cx,
+        cy
+      };
+    }
+    return generateBoundingRectFromRotatedRect({ x, y, width, height }, rotation);
+  }
+  getSelectedBoxModule(lineWidth, lineColor) {
+    const { id, rotation, layer } = this;
+    const rectProp = {
+      ...this.getRect(),
+      lineColor,
+      lineWidth,
+      rotation,
+      layer,
+      id: id + "-selected-box",
+      opacity: 0
+    };
+    return new _Rectangle(rectProp);
+  }
+  getHighlightModule(lineWidth, lineColor) {
+    const { x, y, width, height, rotation, layer, id } = this;
+    return new _Rectangle({
+      x,
+      y,
+      width,
+      height,
+      // fillColor,
+      lineColor,
+      lineWidth,
+      rotation,
+      layer,
+      id: id + "highlight",
+      opacity: 0
+    });
+  }
+  getOperators(resizeConfig, rotateConfig) {
+    return super.getOperators(resizeConfig, rotateConfig, this.getRect(), this.getDetails(true));
+  }
+  getSnapPoints() {
+    const { x: cx, y: cy, width, height, id } = this;
+    const halfWidth = width / 2;
+    const halfHeight = height / 2;
+    const points = [
+      { id, x: cx, y: cy, type: "center" },
+      { id, x: cx - halfWidth, y: cy - halfHeight, type: "corner-tl" },
+      { id, x: cx + halfWidth, y: cy - halfHeight, type: "corner-tr" },
+      { id, x: cx + halfWidth, y: cy + halfHeight, type: "corner-br" },
+      { id, x: cx - halfWidth, y: cy + halfHeight, type: "corner-bl" },
+      { id, x: cx, y: cy - halfHeight, type: "edge-top" },
+      { id, x: cx + halfWidth, y: cy, type: "edge-right" },
+      { id, x: cx, y: cy + halfHeight, type: "edge-bottom" },
+      { id, x: cx - halfWidth, y: cy, type: "edge-left" }
+    ];
+    return points;
+  }
+  render(ctx) {
+    const {
+      // width,
+      // height,
+      radius
+    } = this;
+    let { x, y, width, height, rotation, opacity, fillColor, lineWidth, lineColor, dashLine } = this.getDetails();
+    x = Math.round(x);
+    y = Math.round(y);
+    width = Math.round(width);
+    height = Math.round(height);
+    const LocalX = width / 2;
+    const LocalY = height / 2;
+    ctx.save();
+    ctx.translate(x, y);
+    if (rotation > 0) {
+      ctx.rotate(rotation * Math.PI / 180);
+    }
+    if (opacity > 0) {
+      ctx.fillStyle = fillColor;
+      ctx.globalAlpha = opacity / 100;
+    }
+    if (lineWidth > 0) {
+      ctx.lineWidth = lineWidth;
+      ctx.strokeStyle = lineColor;
+      ctx.lineJoin = "miter";
+    }
+    ctx.beginPath();
+    if (dashLine) {
+      ctx.setLineDash([3, 5]);
+    }
+    if (radius > 0) {
+      ctx.moveTo(-LocalX + radius, -LocalY);
+      ctx.arcTo(LocalX, -LocalY, LocalX, LocalY, radius);
+      ctx.arcTo(LocalX, LocalY, -LocalX, LocalY, radius);
+      ctx.arcTo(-LocalX, LocalY, -LocalX, -LocalY, radius);
+      ctx.arcTo(-LocalX, -LocalY, LocalX, -LocalY, radius);
+    } else {
+      ctx.rect(-LocalX, -LocalY, width, height);
+    }
+    ctx.closePath();
+    if (opacity > 0) {
+      ctx.fill();
+    }
+    if (lineWidth > 0) {
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+};
+var rectangle_default = Rectangle;
+
+// src/core/modules/shapes/ellipse.ts
+var Ellipse = class _Ellipse extends shape_default {
+  type = "ellipse";
+  r1;
+  r2;
+  // fillColor: FillColor
+  // enableFill: boolean
+  constructor({
+    fillColor,
+    enableFill = true,
+    r1,
+    r2,
+    ...rest
+  }) {
+    super({ ...rest });
+    this.r1 = r1;
+    this.r2 = r2;
+    this.fillColor = fillColor;
+    this.enableFill = enableFill;
+  }
+  static applyResizeTransform = ({
+    downPoint,
+    movePoint,
+    moduleOrigin,
+    rotation,
+    handleName,
+    scale,
+    dpr,
+    altKey = false,
+    shiftKey = false
+  }) => {
+    const {
+      r1,
+      r2,
+      x: initialCX,
+      y: initialCY
+    } = moduleOrigin;
+    const initialWidth = r1 * 2;
+    const initialHeight = r2 * 2;
+    const dxScreen = movePoint.x - downPoint.x;
+    const dyScreen = movePoint.y - downPoint.y;
+    const dx = dxScreen / scale * dpr;
+    const dy = dyScreen / scale * dpr;
+    const angle = -rotation * (Math.PI / 180);
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    const localDX = dx * cos - dy * sin;
+    const localDY = dx * sin + dy * cos;
+    const t = getResizeTransform(handleName, altKey);
+    let deltaX = localDX * t.dx;
+    let deltaY = localDY * t.dy;
+    if (shiftKey) {
+      const aspect = initialWidth / initialHeight;
+      const absDeltaX = Math.abs(deltaX);
+      const absDeltaY = Math.abs(deltaY);
+      if (t.dx !== 0 && t.dy !== 0) {
+        if (absDeltaX > absDeltaY) {
+          deltaY = deltaX / aspect;
+        } else {
+          deltaX = deltaY * aspect;
+        }
+      } else if (t.dx !== 0) {
+        deltaY = deltaX / aspect;
+      } else if (t.dy !== 0) {
+        deltaX = deltaY * aspect;
+      }
+    }
+    const factor = altKey ? 2 : 1;
+    const width = Math.abs(initialWidth + deltaX * factor);
+    const height = Math.abs(initialHeight + deltaY * factor);
+    const centerDeltaX = -deltaX * t.cx * factor;
+    const centerDeltaY = -deltaY * t.cy * factor;
+    const globalCenterDeltaX = centerDeltaX * cos + centerDeltaY * sin;
+    const globalCenterDeltaY = -centerDeltaX * sin + centerDeltaY * cos;
+    const x = initialCX + globalCenterDeltaX;
+    const y = initialCY + globalCenterDeltaY;
+    console.log();
+    return { x, y, r1: width / 2, r2: height / 2 };
+  };
+  hitTest(point, borderPadding = 5) {
+    const { x: cx, y: cy, r1, r2, rotation = 0 } = this;
+    const cos = Math.cos(-rotation);
+    const sin = Math.sin(-rotation);
+    const dx = point.x - cx;
+    const dy = point.y - cy;
+    const localX = dx * cos - dy * sin;
+    const localY = dx * sin + dy * cos;
+    const norm = localX * localX / (r1 * r1) + localY * localY / (r2 * r2);
+    const borderRange = borderPadding / Math.min(r1, r2);
+    if (norm <= 1 + borderRange) {
+      if (norm >= 1 - borderRange) {
+        return "border";
+      }
+      return "inside";
+    }
+    return null;
+  }
+  getDetails(includeIdentifiers = true) {
+    return {
+      ...super.getDetails(includeIdentifiers),
+      fillColor: this.fillColor,
+      enableFill: this.enableFill,
+      r1: this.r1,
+      r2: this.r2
+    };
+  }
+  getBoundingRect() {
+    const { x: cx, y: cy, r1, r2, rotation } = this;
+    return generateBoundingRectFromRotatedRect({
+      x: cx - r1,
+      y: cy - r2,
+      width: r1 * 2,
+      height: r2 * 2
+    }, rotation);
+  }
+  getRect() {
+    const { x, y, r1, r2 } = this;
+    return {
+      x,
+      y,
+      width: r1 * 2,
+      height: r2 * 2
+    };
+  }
+  getSelectedBoxModule(lineWidth, lineColor) {
+    const { id, rotation, layer } = this;
+    const rectProp = {
+      ...this.getRect(),
+      lineColor,
+      lineWidth,
+      rotation,
+      layer,
+      id: id + "-selected-box",
+      opacity: 0
+    };
+    return new rectangle_default(rectProp);
+  }
+  getHighlightModule(lineWidth, lineColor) {
+    const { x, y, r1, r2, rotation, layer, id } = this;
+    return new _Ellipse({
+      x,
+      y,
+      r1,
+      r2,
+      lineColor,
+      lineWidth,
+      rotation,
+      layer,
+      id: id + "highlight",
+      opacity: 0
+    });
+  }
+  getOperators(resizeConfig, rotateConfig) {
+    return super.getOperators(
+      resizeConfig,
+      rotateConfig,
+      this.getRect(),
+      this.getDetails(true)
+    );
+  }
+  getSnapPoints() {
+    const { x: cx, y: cy, r1, r2, id } = this;
+    const points = [
+      { id, x: cx, y: cy, type: "center" },
+      { id, x: cx, y: cy - r2, type: "edge-top" },
+      { id, x: cx + r1, y: cy, type: "edge-right" },
+      { id, x: cx, y: cy + r2, type: "edge-bottom" },
+      { id, x: cx - r1, y: cy, type: "edge-left" }
+    ];
+    return points;
+  }
+  render(ctx) {
+    let { x, y, r1, r2, opacity, fillColor, rotation, dashLine, gradient } = this.getDetails();
+    const {
+      lineWidth,
+      lineColor
+    } = super.getDetails();
+    x = Math.round(x);
+    y = Math.round(y);
+    r1 = Math.round(r1);
+    r2 = Math.round(r2);
+    ctx.save();
+    ctx.translate(x, y);
+    if (rotation !== 0) {
+      ctx.rotate(rotation * Math.PI / 180);
+    }
+    if (opacity > 0) {
+      ctx.fillStyle = fillColor;
+      ctx.globalAlpha = opacity / 100;
+    }
+    if (lineWidth > 0) {
+      ctx.lineWidth = lineWidth;
+      ctx.strokeStyle = lineColor;
+      ctx.lineJoin = "round";
+    }
+    ctx.beginPath();
+    ctx.ellipse(0, 0, r1, r2, 0, 0, Math.PI * 2);
+    if (dashLine) {
+      ctx.setLineDash([3, 5]);
+    } else {
+      ctx.setLineDash([]);
+    }
+    ctx.closePath();
+    if (opacity > 0) {
+      ctx.fill();
+    }
+    if (lineWidth > 0) {
+      ctx.stroke();
+    }
+    if (gradient) {
+      ctx.fillStyle = gradient;
+      if (opacity > 0) {
+        ctx.fill();
+      }
+    }
+    ctx.restore();
+  }
+};
+var ellipse_default = Ellipse;
+
+// src/lib/deepClone.ts
+function deepClone(obj, options = {}) {
+  if (typeof obj !== "object" || obj === null) {
+    return obj;
+  }
+  if (Array.isArray(obj)) {
+    return obj.map((item) => deepClone(item, options));
+  }
+  const clone = Object.create(options.clonePrototype ? Object.getPrototypeOf(obj) : null);
+  for (const key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      clone[key] = deepClone(obj[key], options);
+    }
+  }
+  return clone;
+}
+var deepClone_default = deepClone;
+
+// src/main/modules/moduleModify.ts
+function batchCreate(moduleDataList) {
+  const clonedData = deepClone_default(moduleDataList);
+  const newMap = /* @__PURE__ */ new Map();
+  let localMaxLayer = 0;
+  const create = (data) => {
+    if (!data.id) {
+      data.id = this.createModuleId;
+    }
+    if (isNaN(data.layer)) {
+      const maxFromModuleMap = this.getMaxLayerIndex;
+      localMaxLayer = Math.max(localMaxLayer, maxFromModuleMap);
+      localMaxLayer++;
+      data.layer = localMaxLayer;
+    }
+    if (data.type === "rectangle") {
+      return new rectangle_default(data);
+    }
+    if (data.type === "ellipse") {
+      return new ellipse_default(data);
+    }
+  };
+  clonedData.forEach((data) => {
+    const module = create.call(this, data);
+    newMap.set(data.id, module);
+  });
+  return newMap;
+}
+function batchAdd(modules) {
+  modules.forEach((mod) => {
+    this.moduleMap.set(mod.id, mod);
+  });
+  return modules;
+}
+var batchCopy = function(idSet, includeIdentifiers) {
+  const modulesMap = /* @__PURE__ */ new Map();
+  const moduleArr = [];
+  idSet.forEach((id) => {
+    const mod = this.moduleMap.get(id);
+    if (mod) {
+      moduleArr.push(mod);
+      modulesMap.set(id, mod);
+    }
+  });
+  moduleArr.sort((a, b) => a.layer - b.layer);
+  return moduleArr.map((mod) => mod.getDetails(includeIdentifiers));
+};
+function batchDelete(idSet) {
+  const backup = this.batchCopy(idSet);
+  backup.forEach((module) => {
+    this.moduleMap.delete(module.id);
+  });
+  return backup;
+}
+function batchMove(from, delta) {
+  const modulesMap = this.getModulesByIdSet(from);
+  modulesMap.forEach((module) => {
+    module.x += delta.x;
+    module.y += delta.y;
+  });
+}
+function batchModify(idSet, data) {
+  const modulesMap = this.getModulesByIdSet(idSet);
+  modulesMap.forEach((module) => {
+    Object.keys(data).forEach((key) => {
+      const keyName = key;
+      module[keyName] = data[keyName];
+    });
+  });
+}
+
+// src/lib/typeCheck.ts
+function typeCheck(value) {
+  if (value === null) {
+    return "null";
+  }
+  if (value === void 0) {
+    return "undefined";
+  }
+  if (value instanceof Set) {
+    return "set";
+  }
+  if (value instanceof Map) {
+    return "map";
+  }
+  if (Array.isArray(value)) {
+    return "array";
+  }
+  if (value instanceof Date) {
+    return "date";
+  }
+  if (value instanceof RegExp) {
+    return "regexp";
+  }
+  if (value instanceof Error) {
+    return "error";
+  }
+  if (value instanceof Promise) {
+    return "promise";
+  }
+  if (value instanceof ArrayBuffer) {
+    return "arraybuffer";
+  }
+  if (ArrayBuffer.isView(value)) {
+    return "typedarray";
+  }
+  if (value instanceof WeakSet) {
+    return "weakset";
+  }
+  if (value instanceof WeakMap) {
+    return "weakmap";
+  }
+  if (typeof value === "function") {
+    return "function";
+  }
+  if (typeof value === "symbol") {
+    return "symbol";
+  }
+  if (typeof value === "bigint") {
+    return "bigint";
+  }
+  if (typeof value === "object") {
+    return "object";
+  }
+  return typeof value;
+}
+var typeCheck_default = typeCheck;
+
+// src/main/selection/helper.ts
+function modifySelected(idSet, action) {
+  if (typeCheck_default(idSet) !== "set") return;
+  const realSelectedModules = this.getSelected;
+  this.selectedModules.clear();
+  if (action === "replace") {
+    realSelectedModules.clear();
+  }
+  idSet.forEach((id) => {
+    switch (action) {
+      case "add":
+        realSelectedModules.add(id);
+        break;
+      case "delete":
+        realSelectedModules.delete(id);
+        break;
+      case "toggle":
+        if (realSelectedModules.has(id)) {
+          realSelectedModules.delete(id);
+        } else {
+          realSelectedModules.add(id);
+        }
+        break;
+      case "replace":
+        realSelectedModules.add(id);
+        break;
+    }
+  });
+  realSelectedModules.forEach((id) => this.selectedModules.add(id));
+}
+
+// src/main/viewport/domManipulations.ts
+var createWith = (tagName, role, id) => {
+  const dom = document.createElement(tagName);
+  dom.setAttribute(role, "");
+  dom.id = role + "-" + id;
+  return dom;
+};
+function initViewportDom(id) {
+  const boxColor = "#1FB3FF";
+  const boxBgColor = "rgba(31,180,255,0.1)";
+  const wrapper = createWith("div", "editor-wrapper", id);
+  const mainCanvas = createWith("canvas", "editor-main-canvas", id);
+  const selectionCanvas = createWith("canvas", "editor-selection-canvas", id);
+  const scrollBarX = createWith("div", "scroll-bar-x", id);
+  const scrollBarY = createWith("div", "scroll-bar-x", id);
+  const selectionBox = createWith("div", "editor-selection-box", id);
+  const cursor = createWith("div", "editor-cursor", id);
+  const cssText = createWith("style", "editor-style", id);
+  cssText.textContent = `
+    #${mainCanvas.id} {
+      background-color: #f0f0f0;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    #${selectionCanvas.id} {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    #${wrapper.id} {
+      user-select: none;
+      position: relative;
+      scrollbar-width: thin;
+      scrollbar-color: #787878 transparent;
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+    }
+
+    #${selectionBox.id} {
+      display: none;
+      pointer-events: none;
+      position: absolute;
+      border: 1px solid ${boxColor};
+      background-color: ${boxBgColor};
+    }
+    
+    #${scrollBarX.id},
+    #${scrollBarY.id}{
+      background-color: #787878;
+      user-select:none;
+      translate:none;
+    }
+    
+    #${cursor.id}{
+      display: none;
+      pointer-events: none;
+      width:20px;
+      height:20px;
+    }
+    
+    #${cursor.id} svg{
+      width:18px;
+      height:18px;
+    }
+  `;
+  wrapper.append(mainCanvas, selectionCanvas, scrollBarX, scrollBarY, selectionBox, cursor, cssText);
+  return {
+    wrapper,
+    selectionBox,
+    selectionCanvas,
+    mainCanvas,
+    scrollBarX,
+    scrollBarY,
+    cursor
+  };
+}
+var updateScrollBars = (scrollBarX, scrollBarY) => {
+  scrollBarX.style.width = "50px";
+  scrollBarX.style.height = "6px";
+  scrollBarX.style.position = "absolute";
+  scrollBarX.style.bottom = "0";
+  scrollBarX.style.left = "0";
+  scrollBarY.style.width = "6px";
+  scrollBarY.style.height = "50px";
+  scrollBarY.style.position = "absolute";
+  scrollBarY.style.right = "0";
+  scrollBarY.style.top = "0";
+};
+var updateSelectionBox = (selectionBox, { x, y, height, width }, show = true) => {
+  selectionBox.style.transform = `translate(${x}px, ${y}px)`;
+  selectionBox.style.width = width + "px";
+  selectionBox.style.height = height + "px";
+  selectionBox.style.display = show ? "block" : "none";
+};
+function updateCursor(type, position, angle) {
+  const { wrapper, cursor } = this.viewport;
+  if (type === "default") {
+    wrapper.style.cursor = "default";
+    cursor.style.display = "none";
+    return;
+  }
+  if (type === "resize") {
+    wrapper.style.cursor = `${position}-resize`;
+    cursor.style.display = "none";
+    return;
+  }
+  if (type === "grabbing") {
+    wrapper.style.cursor = `grabbing`;
+    cursor.style.display = "none";
+    return;
+  }
+  wrapper.style.cursor = "none";
+  if (type === "rotate") {
+    const size = 24;
+    const offset = size / 2;
+    const { x, y } = position;
+    cursor.innerHTML = `
+       <?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.99 18.93">
+  <path d="M15.57,16.04c.48-.57,1-1.1,1.5-1.65.35-.38.54-.85,1.15-.82.72.04,1.01.78.55,1.34-1.07,1.3-2.37,2.5-3.44,3.82-.69.48-1.09,0-1.56-.48-.91-.95-1.92-2.07-2.78-3.07-.3-.35-.58-.72-.33-1.19.39-.73,1.08-.39,1.53.07.52.55,1.01,1.17,1.51,1.74.07.08.17.19.26.22,0-.81.02-1.64-.08-2.44-.51-4.07-3.48-7.36-7.47-8.32-1.12-.27-2.22-.25-3.37-.24.15.2.34.39.52.56.51.47,1.2.95,1.66,1.44.69.73-.3,1.84-1.1,1.19-.91-.74-1.83-1.68-2.7-2.48-.38-.35-1.06-.81-1.29-1.26-.21-.4-.1-.54.14-.89C1.59,2.57,2.79,1.18,4.11.18c.76-.58,1.72.38,1.13,1.14l-2.3,2.09c.76.04,1.52-.01,2.28.06,5.2.47,9.42,4.43,10.22,9.59.15.99.1,1.98.14,2.98Z"/>
+</svg>
+  `;
+    angle += 45;
+    cursor.style.display = "block";
+    cursor.style.transformOrigin = "center center";
+    cursor.style.transform = `translate(${x - offset}px, ${y - offset}px) rotate(${angle}deg)`;
+  }
+}
+
+// src/main/viewport/selectionRender.ts
+function selectionRender() {
+  if (this.moduleMap.size === 0) return;
+  const { selectionCTX: ctx } = this.viewport;
+  const fillColor = "#5491f8";
+  const lineColor = "#5491f8";
+  const selected = this.getVisibleSelected;
+  const centerPointWidth = 2 / this.viewport.scale * this.viewport.dpr;
+  const lineWidth = 1 / this.viewport.scale * this.viewport.dpr;
+  const centerPoints = new Set(selected);
+  if (this.hoveredModule) {
+    centerPoints.add(this.hoveredModule);
+  }
+  selected.forEach((id) => {
+    const module = this.moduleMap.get(id);
+    if (module) {
+      const moduleSelectionBoundary = module.getSelectedBoxModule(lineWidth, lineColor);
+      moduleSelectionBoundary.render(ctx);
+    }
+  });
+  centerPoints.forEach((id) => {
+    const module = this.moduleMap.get(id);
+    const { x, y, rotation, layer } = module.getDetails();
+    const lineWidth2 = 1 / this.viewport.scale * this.viewport.dpr;
+    const highlightModule = module.getHighlightModule(lineWidth2, fillColor);
+    const centerDotRect = new rectangle_default({
+      x,
+      y,
+      layer,
+      id: id + "hover-center",
+      width: centerPointWidth * 2,
+      height: centerPointWidth * 2,
+      fillColor,
+      lineColor: "transparent",
+      lineWidth: lineWidth2,
+      rotation,
+      opacity: 100,
+      radius: id === this.hoveredModule ? centerPointWidth : 0
+    });
+    highlightModule.render(ctx);
+    centerDotRect.render(ctx);
+  });
+  this.operationHandlers.forEach((operation) => {
+    operation.module.render(ctx);
+  });
+}
+var selectionRender_default = selectionRender;
+
+// src/main/viewport/eventHandlers/funcs.ts
+function detectHoveredModule() {
+  const { viewport } = this;
+  const worldPoint = this.getWorldPointByViewportPoint(
+    viewport.mouseMovePoint.x,
+    viewport.mouseMovePoint.y
+  );
+  let moduleId = null;
+  let hitOn = null;
+  const arr = [...this.operationHandlers];
+  for (let i = arr.length - 1; i >= 0; i--) {
+    if (arr[i].module.hitTest(worldPoint)) {
+      hitOn = arr[i];
+      break;
+    }
+  }
+  if (hitOn) {
+    this.action.dispatch("module-hover-enter", hitOn.id);
+    return hitOn;
+  }
+  const arr2 = [...this.getVisibleModuleMap.values()];
+  for (let i = arr2.length - 1; i >= 0; i--) {
+    const module = arr2[i];
+    const hitTest = module.hitTest(worldPoint);
+    if (hitTest) {
+      moduleId = module.id;
+      break;
+    }
+  }
+  if (this.hoveredModule !== moduleId) {
+    if (this.hoveredModule) {
+      this.action.dispatch("module-hover-leave", this.hoveredModule);
+    }
+    if (moduleId) {
+      this.action.dispatch("module-hover-enter", moduleId);
+    }
+  }
+}
+function applyResize(altKey, shiftKey) {
+  const { mouseDownPoint, mouseMovePoint, scale, dpr } = this.viewport;
+  const {
+    name: handleName,
+    module: { rotation },
+    moduleOrigin
+  } = this._resizingOperator;
+  const { id } = moduleOrigin;
+  const resizeParam = {
+    downPoint: mouseDownPoint,
+    movePoint: mouseMovePoint,
+    dpr,
+    scale,
+    rotation,
+    handleName,
+    altKey,
+    shiftKey,
+    moduleOrigin
+  };
+  const relatedModule = this.moduleMap.get(id);
+  if (relatedModule) {
+    const con = relatedModule.constructor;
+    return con.applyResizeTransform(resizeParam);
+  }
+}
+function getRotateAngle(centerPoint, mousePoint) {
+  const dx = mousePoint.x - centerPoint.x;
+  const dy = mousePoint.y - centerPoint.y;
+  const angleRad = Math.atan2(dy, dx);
+  const angleDeg = angleRad * (180 / Math.PI);
+  let normalizedAngle = angleDeg;
+  if (normalizedAngle < 0) normalizedAngle += 360;
+  return normalizedAngle;
+}
+function getResizeCursor(point, centerPoint) {
+  const angle = getRotateAngle(centerPoint, point);
+  if (angle >= 337.5 && angle <= 360 || angle >= 0 && angle < 22.5) return "e";
+  if (angle >= 22.5 && angle < 67.5) return "se";
+  if (angle >= 67.5 && angle < 112.5) return "s";
+  if (angle >= 112.5 && angle < 157.5) return "sw";
+  if (angle >= 157.5 && angle < 202.5) return "w";
+  if (angle >= 202.5 && angle < 247.5) return "nw";
+  if (angle >= 247.5 && angle < 292.5) return "n";
+  if (angle >= 292.5 && angle < 337.5) return "ne";
+  return "e";
+}
+
+// src/main/viewport/eventHandlers/mouseDown.ts
+function handleMouseDown(e) {
+  const { shiftKey, clientY, target, button, clientX, metaKey, ctrlKey } = e;
+  if (!(target === this.viewport.wrapper)) return;
+  const modifyKey = ctrlKey || metaKey || shiftKey;
+  const x = clientX - this.viewport.rect.x;
+  const y = clientY - this.viewport.rect.y;
+  this.viewport.mouseDownPoint.x = x;
+  this.viewport.mouseDownPoint.y = y;
+  this.viewport.mouseMovePoint.x = x;
+  this.viewport.mouseMovePoint.y = y;
+  const operator = detectHoveredModule.call(this);
+  e.preventDefault();
+  if (button !== 0) return;
+  if (this.viewport.spaceKeyDown) {
+    return this.manipulationStatus = "panning";
+  }
+  if (operator) {
+    if (operator.type === "resize") {
+      this._resizingOperator = operator;
+      return this.manipulationStatus = "resizing";
+    } else if (operator.type === "rotate") {
+      this._rotatingOperator = operator;
+      return this.manipulationStatus = "rotating";
+    }
+  }
+  const hoveredModule = this.hoveredModule;
+  if (!hoveredModule) {
+    if (!modifyKey) {
+      this.action.dispatch("selection-clear");
+    }
+    this.selectedShadow = this.getSelected;
+    return this.manipulationStatus = "selecting";
+  }
+  this.manipulationStatus = "dragging";
+  const realSelected = this.getSelected;
+  const isSelected = realSelected.has(hoveredModule);
+  if (realSelected.size === 0 || !isSelected && !modifyKey) {
+    this.action.dispatch("selection-modify", {
+      mode: "replace",
+      idSet: /* @__PURE__ */ new Set([hoveredModule])
+    });
+    this.draggingModules = /* @__PURE__ */ new Set([hoveredModule]);
+  } else if (modifyKey) {
+    this.draggingModules = new Set(realSelected);
+    if (isSelected) {
+      console.log("isSelected", isSelected);
+      this._deselection = hoveredModule;
+      this.draggingModules.add(hoveredModule);
+    } else {
+      this.action.dispatch("selection-modify", {
+        mode: "add",
+        idSet: /* @__PURE__ */ new Set([hoveredModule])
+      });
+    }
+    this.draggingModules.add(hoveredModule);
+  } else {
+    this.draggingModules = new Set(realSelected);
+  }
+}
+var mouseDown_default = handleMouseDown;
+
+// src/main/viewport/eventHandlers/mouseUp.ts
+function handleMouseUp(e) {
+  const leftMouseClick = e.button === 0;
+  if (leftMouseClick) {
+    const {
+      draggingModules,
+      manipulationStatus,
+      moduleMap,
+      _selectingModules,
+      selectedShadow,
+      viewport
+    } = this;
+    const x = e.clientX - viewport.rect.x;
+    const y = e.clientY - viewport.rect.y;
+    const modifyKey = e.ctrlKey || e.metaKey || e.shiftKey;
+    viewport.mouseMovePoint.x = x;
+    viewport.mouseMovePoint.y = y;
+    switch (manipulationStatus) {
+      case "selecting":
+        break;
+      case "panning":
+        updateCursor.call(this, "grabbing");
+        break;
+      case "dragging":
+        {
+          const x2 = (viewport.mouseMovePoint.x - viewport.mouseDownPoint.x) * viewport.dpr / viewport.scale;
+          const y2 = (viewport.mouseMovePoint.y - viewport.mouseDownPoint.y) * viewport.dpr / viewport.scale;
+          const moved = !(x2 === 0 && y2 === 0);
+          if (moved) {
+            const changes = [];
+            this.action.dispatch("module-modifying", {
+              type: "move",
+              data: { x: -x2, y: -y2 }
+            });
+            draggingModules.forEach((id) => {
+              const module = moduleMap.get(id);
+              if (module) {
+                const change = {
+                  id,
+                  props: {
+                    x: module.x + x2,
+                    y: module.y + y2
+                  }
+                };
+                changes.push(change);
+              }
+            });
+            this.action.dispatch("module-modify", changes);
+          } else {
+            const closestId = this.hoveredModule;
+            if (closestId && modifyKey && closestId === this._deselection) {
+              this.action.dispatch("selection-modify", {
+                mode: "toggle",
+                idSet: /* @__PURE__ */ new Set([closestId])
+              });
+            }
+          }
+        }
+        break;
+      case "resizing":
+        {
+          const { altKey, shiftKey } = e;
+          const props = applyResize.call(this, altKey, shiftKey);
+          const moduleOrigin = this._resizingOperator?.moduleOrigin;
+          const rollbackProps = {};
+          Object.keys(props).forEach((key) => {
+            rollbackProps[key] = moduleOrigin[key];
+          });
+          this.action.dispatch("module-modifying", {
+            type: "resize",
+            data: rollbackProps
+          });
+          this.action.dispatch("module-modify", [{
+            id: this._resizingOperator.id,
+            props
+          }]);
+        }
+        break;
+      case "rotating":
+        {
+          const { shiftKey } = e;
+          const newRotation = base_default.applyRotating.call(this, shiftKey);
+          const { rotation } = this._rotatingOperator?.moduleOrigin;
+          const rollbackProps = { rotation };
+          this.action.dispatch("module-modifying", {
+            type: "resize",
+            data: rollbackProps
+          });
+          this.action.dispatch("module-modify", [{
+            id: this._rotatingOperator.id,
+            props: { rotation: newRotation }
+          }]);
+        }
+        break;
+      case "waiting":
+        this.action.dispatch("selection-clear");
+        break;
+      case "static":
+        if (e.ctrlKey || e.metaKey || e.shiftKey) {
+          this.toggleSelected(draggingModules);
+        } else {
+          this.replaceSelected(draggingModules);
+        }
+        break;
+    }
+    draggingModules.clear();
+    selectedShadow.clear();
+    _selectingModules.clear();
+    _selectingModules.clear();
+    this.manipulationStatus = "static";
+    this._deselection = null;
+    this._resizingOperator = null;
+    updateSelectionBox(
+      viewport.selectionBox,
+      { x: 0, y: 0, width: 0, height: 0 },
+      false
+    );
+  }
+}
+var mouseUp_default = handleMouseUp;
+
+// src/main/viewport/eventHandlers/keyDown.ts
+function handleKeyDown(e) {
+  if (this.manipulationStatus === "panning" || this.manipulationStatus === "selecting") return;
+  if (e.code === "Space") {
+    this.viewport.spaceKeyDown = true;
+    updateCursor.call(this, "grabbing");
+    e.preventDefault();
+    return;
+  }
+  if (this.manipulationStatus === "resizing") {
+    const { altKey, shiftKey } = e;
+    const r = applyResize.call(this, altKey, shiftKey);
+    this.action.dispatch("module-modifying", {
+      type: "resize",
+      data: r
+    });
+  }
+}
+var keyDown_default = handleKeyDown;
+
+// src/main/viewport/eventHandlers/keyUp.ts
+function handleKeyUp(e) {
+  if (e.code === "Space") {
+    this.viewport.spaceKeyDown = false;
+    this.viewport.wrapper.style.cursor = "default";
+  }
+  if (this.manipulationStatus === "resizing") {
+    const { altKey, shiftKey } = e;
+    const r = applyResize.call(this, altKey, shiftKey);
+    this.action.dispatch("module-modifying", {
+      type: "resize",
+      data: r
+    });
+  }
+}
+var keyUp_default = handleKeyUp;
+
+// src/main/viewport/eventHandlers/wheel.ts
+function handleWheel(event) {
+  if (event.target !== this.viewport.wrapper) return;
+  event.preventDefault();
+  event.stopPropagation();
+  if (this.manipulationStatus !== "static") return;
+  const { trackpad, zooming, panning, scrolling, zoomFactor, translateX, translateY } = detectGestures(event);
+  console.log(trackpad);
+  this.viewport.zooming = zooming;
+  if (zooming) {
+    this.action.dispatch("world-zoom", {
+      zoomBy: true,
+      zoomFactor,
+      physicalPoint: this.viewport.mouseMovePoint
+    });
+  } else if (panning || scrolling) {
+    this.action.dispatch("world-shift", {
+      x: translateX,
+      y: translateY
+    });
+  }
+  this.updateWorldRect();
+}
+var detectGestures = /* @__PURE__ */ (() => {
+  let _timer;
+  const DELAY = 200;
+  const ACTION_THRESHOLD = 3;
+  const EVENT_BUFFER = [];
+  let zooming = false;
+  let panning = false;
+  let scrolling = false;
+  let zoomFactor = 0;
+  let translateX = 0;
+  let translateY = 0;
+  let gestureLock = false;
+  const zoomSpeedA = 0.01;
+  const zoomSpeedB = 0.1;
+  let trackpad = false;
+  return (event) => {
+    const { deltaX, deltaY, altKey } = event;
+    if (_timer) {
+      clearTimeout(_timer);
+    }
+    if (gestureLock) {
+      EVENT_BUFFER.length = 0;
+    } else {
+      EVENT_BUFFER.push(event);
+    }
+    translateX = 0;
+    translateY = 0;
+    zooming = false;
+    scrolling = false;
+    panning = false;
+    console.log(deltaX, deltaY);
+    if (altKey) {
+      zooming = true;
+    }
+    if (EVENT_BUFFER.length >= ACTION_THRESHOLD) {
+      const allXAreMinusZero = EVENT_BUFFER.every(
+        (e) => isNegativeZero(e.deltaX)
+      );
+      const allYAreFloat = EVENT_BUFFER.every((e) => isFloat(e.deltaY));
+      const absBiggerThan4 = EVENT_BUFFER.every((e) => Math.abs(e.deltaY) > 4);
+      if (allXAreMinusZero && allYAreFloat && !absBiggerThan4) {
+        gestureLock = true;
+        trackpad = true;
+        console.log("touchpadZoomingLock");
+      }
+    }
+    if (gestureLock) {
+      zoomFactor = deltaY > 0 ? -zoomSpeedA : zoomSpeedA;
+      zooming = true;
+    } else if (Math.abs(deltaX) >= 40 && isNegativeZero(deltaY)) {
+      if (altKey) {
+        zoomFactor = deltaX < 0 ? zoomSpeedB : -zoomSpeedB;
+      } else {
+        scrolling = true;
+        translateX = -deltaX;
+      }
+    } else if (isNegativeZero(deltaX) && isFloat(deltaY) && Math.abs(deltaY) > 4) {
+      if (altKey) {
+        zoomFactor = deltaY < 0 ? zoomSpeedA : -zoomSpeedA;
+      } else {
+        scrolling = true;
+        translateY = -deltaY;
+      }
+    } else if (isUInt(deltaX) && isUInt(deltaY)) {
+      if (altKey) {
+        const max = Math.abs(deltaX) > Math.abs(deltaY) ? deltaX : deltaY;
+        zoomFactor = max < 0 ? zoomSpeedA : -zoomSpeedA;
+      } else {
+        panning = true;
+        translateX = -deltaX;
+        translateY = -deltaY;
+      }
+    }
+    if (zooming && altKey) {
+      zoomFactor = zoomFactor < 0 ? -zoomSpeedB : zoomSpeedB;
+    }
+    _timer = setTimeout(() => {
+      gestureLock = false;
+      zooming = false;
+      panning = false;
+      scrolling = false;
+      zoomFactor = 0;
+      translateX = 0;
+      translateY = 0;
+      EVENT_BUFFER.length = 0;
+    }, DELAY);
+    return {
+      trackpad,
+      zooming,
+      panning,
+      scrolling,
+      zoomFactor,
+      translateX,
+      translateY
+    };
+  };
+})();
+function isUInt(v) {
+  return !isFloat(v);
+}
+function isFloat(v) {
+  return Math.abs(v) % 1 !== 0;
+}
+var wheel_default = handleWheel;
+
+// src/main/viewport/eventHandlers/pointerMove.ts
+function handlePointerMove(e) {
+  const {
+    action,
+    draggingModules,
+    viewport,
+    selectedShadow,
+    _selectingModules
+  } = this;
+  viewport.mouseMovePoint.x = e.clientX - viewport.rect.x;
+  viewport.mouseMovePoint.y = e.clientY - viewport.rect.y;
+  viewport.drawCrossLine = false;
+  action.dispatch("world-mouse-move");
+  switch (this.manipulationStatus) {
+    case "selecting":
+      {
+        viewport.wrapper.setPointerCapture(e.pointerId);
+        const rect = generateBoundingRectFromTwoPoints(
+          viewport.mouseDownPoint,
+          viewport.mouseMovePoint
+        );
+        const pointA = this.getWorldPointByViewportPoint(rect.x, rect.y);
+        const pointB = this.getWorldPointByViewportPoint(
+          rect.right,
+          rect.bottom
+        );
+        const virtualSelectionRect = generateBoundingRectFromTwoPoints(pointA, pointB);
+        const _selecting = /* @__PURE__ */ new Set();
+        const modifyKey = e.ctrlKey || e.metaKey || e.shiftKey;
+        this.moduleMap.forEach((module) => {
+          if (module.isInsideRect(virtualSelectionRect)) {
+            _selecting.add(module.id);
+          }
+        });
+        const selectingChanged = !areSetsEqual(_selectingModules, _selecting);
+        updateSelectionBox(viewport.selectionBox, rect);
+        if (!selectingChanged) return;
+        this._selectingModules = _selecting;
+        const SD = getSymmetricDifference(selectedShadow, _selecting);
+        if (modifyKey) {
+          action.dispatch("selection-modify", {
+            mode: "replace",
+            idSet: SD
+          });
+        } else {
+          if (_selecting.size === 0 && selectedShadow.size === 0) {
+            return action.dispatch("selection-clear");
+          }
+          const newSet = /* @__PURE__ */ new Set([...selectedShadow, ..._selecting]);
+          action.dispatch("selection-modify", {
+            mode: "replace",
+            idSet: newSet
+          });
+        }
+      }
+      break;
+    case "panning":
+      viewport.wrapper.setPointerCapture(e.pointerId);
+      updateCursor.call(this, "grabbing");
+      action.dispatch(
+        "world-shift",
+        {
+          x: e.movementX,
+          y: e.movementY
+        }
+      );
+      break;
+    case "dragging":
+      {
+        viewport.wrapper.setPointerCapture(e.pointerId);
+        const x = e.movementX * viewport.dpr / viewport.scale;
+        const y = e.movementY * viewport.dpr / viewport.scale;
+        this.action.dispatch("module-modifying", {
+          type: "move",
+          data: { x, y }
+        });
+      }
+      break;
+    case "resizing":
+      {
+        viewport.wrapper.setPointerCapture(e.pointerId);
+        const { altKey, shiftKey } = e;
+        const r = applyResize.call(this, altKey, shiftKey);
+        this.action.dispatch("module-modifying", {
+          type: "resize",
+          data: r
+        });
+      }
+      break;
+    case "rotating":
+      {
+        viewport.wrapper.setPointerCapture(e.pointerId);
+        const { shiftKey } = e;
+        const { x, y } = this._rotatingOperator.moduleOrigin;
+        const centerPoint = this.getViewPointByWorldPoint(x, y);
+        const rotation = base_default.applyRotating.call(this, shiftKey);
+        const cursorAngle = getRotateAngle(centerPoint, viewport.mouseMovePoint);
+        updateCursor.call(this, "rotate", viewport.mouseMovePoint, cursorAngle);
+        this.action.dispatch("module-modifying", {
+          type: "rotate",
+          data: { rotation }
+        });
+      }
+      break;
+    case "waiting":
+      {
+        console.log("mousedown");
+        const MOVE_THROTTLE = 1;
+        const moved = Math.abs(viewport.mouseMovePoint.x - viewport.mouseDownPoint.x) > MOVE_THROTTLE || Math.abs(viewport.mouseMovePoint.y - viewport.mouseDownPoint.y) > MOVE_THROTTLE;
+        if (moved) {
+          if (draggingModules.size > 0) {
+            this.manipulationStatus = "dragging";
+          } else {
+            this.manipulationStatus = "selecting";
+          }
+        }
+      }
+      break;
+    case "static":
+      {
+        const r = detectHoveredModule.call(this);
+        const { viewport: viewport2 } = this;
+        if (r) {
+          if (r.type === "rotate") {
+            const centerPoint = this.getViewPointByWorldPoint(r.moduleOrigin.x, r.moduleOrigin.y);
+            const angle = getRotateAngle(centerPoint, viewport2.mouseMovePoint);
+            updateCursor.call(this, "rotate", viewport2.mouseMovePoint, angle);
+          } else if (r.type === "resize") {
+            const { x, y } = r.moduleOrigin;
+            const centerPoint = this.getViewPointByWorldPoint(x, y);
+            const cursorDirection = getResizeCursor(viewport2.mouseMovePoint, centerPoint);
+            updateCursor.call(this, "resize", cursorDirection);
+          }
+        } else {
+          updateCursor.call(this, "default");
+        }
+        viewport2.wrapper.releasePointerCapture(e.pointerId);
+        viewport2.drawCrossLine = viewport2.drawCrossLineDefault;
+      }
+      break;
+  }
+}
+
+// src/main/viewport/eventHandlers/contextMenu.ts
+function handleContextMenu(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  detectHoveredModule.call(this);
+  const lastId = this.hoveredModule;
+  const selectedIdSet = this.getSelected;
+  const position = { ...this.viewport.mouseMovePoint };
+  let idSet = /* @__PURE__ */ new Set();
+  if (lastId) {
+    if (selectedIdSet.has(lastId)) {
+      idSet = selectedIdSet;
+    } else {
+      idSet.add(lastId);
+      this.addSelected(idSet);
+      console.log(this.selectedModules);
+      this.action.dispatch("selection-updated");
+    }
+  }
+  this.action.dispatch("context-menu", {
+    idSet,
+    position,
+    copiedItems: this.copiedItems.length > 0
+  });
+  return false;
+}
+var contextMenu_default = handleContextMenu;
+
+// src/main/viewport/createViewport.ts
+function createViewport() {
+  const {
+    wrapper,
+    mainCanvas,
+    selectionCanvas,
+    selectionBox,
+    scrollBarX,
+    scrollBarY,
+    cursor
+  } = initViewportDom(this.id);
+  const selectionCTX = selectionCanvas.getContext(
+    "2d"
+  );
+  const mainCTX = mainCanvas.getContext("2d");
+  const eventsController = new AbortController();
+  const resizeObserver = new ResizeObserver(
+    throttle(() => {
+      this.action.dispatch("world-resized");
+    }, 200)
+  );
+  const { signal } = eventsController;
+  const mouseDownPoint = { x: 0, y: 0 };
+  const mouseMovePoint = { x: 0, y: 0 };
+  const rect = generateBoundingRectFromTwoPoints(
+    mouseDownPoint,
+    mouseMovePoint
+  );
+  const viewportRect = generateBoundingRectFromTwoPoints(
+    mouseDownPoint,
+    mouseMovePoint
+  );
+  const worldRect = generateBoundingRectFromTwoPoints(
+    mouseDownPoint,
+    mouseMovePoint
+  );
+  wrapper.addEventListener("mousedown", mouseDown_default.bind(this), {
+    signal,
+    passive: false
+  });
+  wrapper.addEventListener("mouseup", mouseUp_default.bind(this), { signal });
+  window.addEventListener("keydown", keyDown_default.bind(this), { signal });
+  window.addEventListener("keyup", keyUp_default.bind(this), { signal });
+  window.addEventListener("wheel", wheel_default.bind(this), {
+    signal,
+    passive: false
+  });
+  wrapper.addEventListener("pointermove", handlePointerMove.bind(this), {
+    signal
+  });
+  wrapper.addEventListener("contextmenu", contextMenu_default.bind(this), {
+    signal
+  });
+  return {
+    drawCrossLine: false,
+    drawCrossLineDefault: false,
+    enableCrossLine: false,
+    // handlingModules: undefined,
+    // hoveredModules: undefined,
+    initialized: false,
+    // manipulationStatus: undefined,
+    scale: 1,
+    spaceKeyDown: false,
+    zooming: false,
+    dpr: this.config.dpr,
+    frame: new rectangle_default({ ...this.config.frame }),
+    offset: { x: 0, y: 0 },
+    viewportRect,
+    worldRect,
+    mouseDownPoint,
+    mouseMovePoint,
+    rect,
+    wrapper,
+    mainCanvas,
+    selectionCanvas,
+    selectionCTX,
+    mainCTX,
+    scrollBarX,
+    scrollBarY,
+    selectionBox,
+    cursor,
+    resizeObserver,
+    eventsController
+  };
+}
+
+// src/main/viewport/destroyViewport.ts
+function destroyViewport() {
+  if (!this.viewport) return;
+  this.viewport.resizeObserver.disconnect();
+  this.viewport.eventsController.abort();
+  this.viewport.wrapper.style.width = "100%";
+  this.viewport.wrapper.style.height = "100%";
+  this.viewport.wrapper.remove();
+  this.viewport = null;
+}
+
+// src/main/viewport/resetCanvas.ts
+var resetCanvas = (ctx, scale, offset) => {
+  const transform = [
+    scale,
+    0,
+    0,
+    scale,
+    offset.x,
+    offset.y
+  ];
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.clearRect(
+    0,
+    0,
+    ctx.canvas.width * 2,
+    ctx.canvas.height * 2
+  );
+  ctx.setTransform(...transform);
+};
+var resetCanvas_default = resetCanvas;
+
+// src/main/history/helpers.ts
+var extractIdSetFromArray = (from) => {
+  return new Set(from.map((item) => item.id));
+};
+
+// src/main/history/redo.ts
+function redo(quiet = false) {
+  if (this.history.current === this.history.tail) return false;
+  this.history.forward();
+  const { type, payload } = this.history.current.data;
+  const { selectedModules } = payload;
+  switch (type) {
+    case "history-init":
+      break;
+    case "history-add":
+    case "history-paste":
+    case "history-duplicate":
+      this.batchAdd(this.batchCreate(payload.modules));
+      break;
+    case "history-modify":
+      payload.changes.map(({ id, props }) => {
+        const redoProps = {};
+        Object.keys(props).forEach((propName) => {
+          redoProps[propName] = props[propName]["to"];
+          this.batchModify(/* @__PURE__ */ new Set([id]), redoProps);
+        });
+      });
+      break;
+    case "history-move":
+      this.batchMove(payload.selectedModules, {
+        x: payload.delta.x,
+        y: payload.delta.y
+      });
+      break;
+    case "history-reorder":
+      break;
+    case "history-group":
+      break;
+    case "history-ungroup":
+      break;
+    case "history-composite":
+      break;
+    case "history-delete":
+      this.batchDelete(extractIdSetFromArray(payload.modules));
+      break;
+  }
+  if (!quiet) {
+    this.replaceSelected(selectedModules);
+    this.action.dispatch("selection-updated");
+  }
+  return this.history.current;
+}
+
+// src/main/history/undo.ts
+function undo(quiet = false) {
+  if (this.history.current === this.history.head) return false;
+  const { type, payload } = this.history.current.data;
+  let modules = null;
+  switch (type) {
+    case "history-init":
+      break;
+    case "history-add":
+    case "history-paste":
+    case "history-duplicate":
+      this.batchDelete(extractIdSetFromArray(payload.modules));
+      break;
+    case "history-modify":
+      payload.changes.map(({ id, props }) => {
+        const undoProps = {};
+        Object.keys(props).forEach((propName) => {
+          undoProps[propName] = props[propName]["from"];
+          this.batchModify(/* @__PURE__ */ new Set([id]), undoProps);
+        });
+      });
+      break;
+    case "history-move":
+      this.batchMove(payload.selectedModules, {
+        x: -payload.delta.x,
+        y: -payload.delta.y
+      });
+      break;
+    case "history-reorder":
+      break;
+    case "history-group":
+      break;
+    case "history-ungroup":
+      break;
+    case "history-composite":
+      break;
+    case "history-delete":
+      modules = payload.modules;
+      this.batchAdd(this.batchCreate(modules));
+      break;
+  }
+  this.history.back();
+  if (!quiet) {
+    const backedNodeSelectedModules = this.history.current.data.payload.selectedModules;
+    this.replaceSelected(backedNodeSelectedModules);
+    this.action.dispatch("selection-updated");
+  }
+  return this.history.current;
+}
+
+// src/main/history/pick.ts
+function pick(targetNode) {
+  const relativePosition = this.history.compareToCurrentPosition(targetNode);
+  if (!relativePosition || relativePosition === "equal") return;
+  if (relativePosition === "front" || relativePosition === "behind") {
+    const quietMode = true;
+    let localCurrent;
+    while (true) {
+      if (relativePosition === "front") {
+        localCurrent = undo.call(this, quietMode);
+      } else if (relativePosition === "behind") {
+        localCurrent = redo.call(this, quietMode);
+      }
+      if (localCurrent === targetNode) break;
+    }
+    const { selectedModules } = targetNode.data.payload;
+    this.replaceSelected(selectedModules);
+  } else {
+  }
+}
+
+// src/main/viewport/helper.ts
+var fitRectToViewport = (rect, viewport, paddingScale = 0.02) => {
+  const { width: viewWidth, height: viewHeight } = viewport;
+  const { width: rectWidth, height: rectHeight } = rect;
+  const scaleX = viewWidth / rectWidth;
+  const scaleY = viewHeight / rectHeight;
+  const scale = Math.min(scaleX, scaleY) - Math.min(scaleX, scaleY) * paddingScale;
+  const scaledRectWidth = rect.width * scale;
+  const scaledRectHeight = rect.height * scale;
+  const scaledRectX = rect.x * scale;
+  const scaledRectY = rect.y * scale;
+  const offsetX = (viewWidth - scaledRectWidth) / 2 - scaledRectX;
+  const offsetY = (viewHeight - scaledRectHeight) / 2 - scaledRectY;
+  return {
+    scale,
+    offsetX,
+    offsetY
+  };
+};
+function zoomAtPoint(atPoint, newScale) {
+  const { dpr, scale, rect, offset, viewportRect } = this.viewport;
+  const pixelOffsetX = (atPoint.x - rect.width / 2) * dpr;
+  const pixelOffsetY = (atPoint.y - rect.height / 2) * dpr;
+  const centerAreaThresholdX = rect.width / 8;
+  const centerAreaThresholdY = rect.height / 8;
+  const scaleFactor = newScale / scale;
+  const idx = newScale < scale ? -0.2 : 0.2;
+  if (scaleFactor === 0) {
+    return offset;
+  }
+  const centerX = viewportRect.cx;
+  const centerY = viewportRect.cy;
+  let newOffsetX = centerX - (centerX - offset.x) * scaleFactor;
+  let newOffsetY = centerY - (centerY - offset.y) * scaleFactor;
+  if (Math.abs(pixelOffsetX) > centerAreaThresholdX) {
+    newOffsetX = newOffsetX - pixelOffsetX * scaleFactor * idx;
+  }
+  if (Math.abs(pixelOffsetY) > centerAreaThresholdY) {
+    newOffsetY = newOffsetY - pixelOffsetY * scaleFactor * idx;
+  }
+  return {
+    x: newOffsetX,
+    y: newOffsetY
+  };
+}
+
+// src/main/initEditor.ts
+function initEditor() {
+  const { container, viewport, action } = this;
+  const dispatch = action.dispatch.bind(action);
+  const on = action.on.bind(action);
+  container.appendChild(viewport.wrapper);
+  viewport.resizeObserver.observe(container);
+  on("world-resized", () => {
+    this.updateViewport();
+    if (!this.initialized) {
+      this.initialized = true;
+      dispatch("world-zoom", "fit");
+      dispatch("module-updated");
+      this.events.onInitialized?.();
+      this.events.onHistoryUpdated?.(this.history);
+      this.events.onModulesUpdated?.(this.moduleMap);
+    } else {
+      dispatch("world-updated");
+    }
+  });
+  on("world-updated", () => {
+    this.updateWorldRect();
+    this.events.onViewportUpdated?.({
+      width: this.viewport.viewportRect.width,
+      height: this.viewport.viewportRect.height,
+      scale: this.viewport.scale,
+      offsetX: this.viewport.offset.x,
+      offsetY: this.viewport.offset.y,
+      status: this.manipulationStatus
+    });
+    dispatch("visible-module-updated");
+  });
+  on("world-zoom", (arg) => {
+    if (arg === "fit") {
+      const { frame, viewportRect } = this.viewport;
+      const frameRect = frame.getBoundingRect();
+      const { scale, offsetX, offsetY } = fitRectToViewport(frameRect, viewportRect, 0.02);
+      this.viewport.scale = scale;
+      this.viewport.offset.x = offsetX;
+      this.viewport.offset.y = offsetY;
+      dispatch("world-updated");
+    } else {
+      const { scale, dpr } = this.viewport;
+      let result = null;
+      let newScale = 1;
+      const minScale = 0.01 * dpr;
+      const maxScale = 500 * dpr;
+      let point = arg.physicalPoint;
+      if (arg.zoomTo) {
+        newScale = arg.zoomFactor;
+      } else if (arg.zoomBy) {
+        newScale = scale + arg.zoomFactor;
+      }
+      newScale = Math.max(minScale, Math.min(newScale, maxScale));
+      result = this.zoom(newScale, point);
+      this.viewport.scale = newScale;
+      this.viewport.offset.x = result.x;
+      this.viewport.offset.y = result.y;
+      dispatch("world-updated");
+    }
+  });
+  on("world-shift", (data) => {
+    const { x, y } = data;
+    const { dpr } = this.viewport;
+    this.viewport.offset.x += x * dpr;
+    this.viewport.offset.y += y * dpr;
+    dispatch("world-updated");
+  });
+  on("visible-module-updated", () => {
+    this.updateVisibleModuleMap();
+    dispatch("render-modules");
+    dispatch("visible-selection-updated");
+  });
+  on("visible-selection-updated", () => {
+    this.updateVisibleSelected();
+    dispatch("render-selection");
+  });
+  on("selection-all", () => {
+    this.selectAll();
+    dispatch("selection-updated");
+  });
+  on("selection-clear", () => {
+    this.selectedModules.clear();
+    dispatch("selection-updated");
+  });
+  on("selection-modify", (data) => {
+    const { mode, idSet } = data;
+    this.modifySelected(idSet, mode);
+    dispatch("selection-updated");
+  });
+  on("module-updated", (historyData) => {
+    dispatch("visible-module-updated");
+    dispatch("selection-updated");
+    if (historyData) {
+      this.history.add(historyData);
+      this.events.onHistoryUpdated?.(this.history);
+    }
+  });
+  on("selection-updated", () => {
+    this.hoveredModule = null;
+    this.events.onSelectionUpdated?.(this.selectedModules, this.getSelectedPropsIfUnique);
+    dispatch("visible-selection-updated");
+  });
+  on("world-mouse-move", () => {
+    const p = this.getWorldPointByViewportPoint(
+      this.viewport.mouseMovePoint.x,
+      this.viewport.mouseMovePoint.y
+    );
+    this.events.onWorldMouseMove?.(p);
+  });
+  on("module-delete", () => {
+    const savedSelected = this.getSelected;
+    const backup = this.batchDelete(savedSelected);
+    this.selectedModules.clear();
+    dispatch("module-updated", {
+      type: "history-delete",
+      payload: {
+        modules: backup,
+        selectedModules: savedSelected
+      }
+    });
+  });
+  on("module-copy", () => {
+    this.copiedItems = this.batchCopy(this.getSelected, false);
+    this.updateCopiedItemsDelta();
+    this.events.onModuleCopied?.(this.copiedItems);
+  });
+  on("module-paste", (position) => {
+    if (this.copiedItems.length === 0) return;
+    let newModules;
+    if (position) {
+      const { x, y } = this.getWorldPointByViewportPoint(position.x, position.y);
+      const topLeftItem = this.copiedItems.reduce((prev, current) => {
+        return current.x < prev.x && current.y < prev.y ? current : prev;
+      });
+      const offsetX = x - topLeftItem.x;
+      const offsetY = y - topLeftItem.y;
+      const offsetItems = this.copiedItems.map((item) => {
+        return {
+          ...item,
+          x: item.x + offsetX,
+          y: item.y + offsetY
+        };
+      });
+      newModules = this.batchCreate(offsetItems);
+    } else {
+      newModules = this.batchCreate(this.copiedItems);
+    }
+    const savedSelected = new Set(newModules.keys());
+    this.batchAdd(newModules);
+    this.replaceSelected(savedSelected);
+    this.updateCopiedItemsDelta();
+    dispatch("module-updated", {
+      type: "history-paste",
+      payload: {
+        modules: [...newModules.values()].map((mod) => mod.getDetails()),
+        selectedModules: savedSelected
+      }
+    });
+  });
+  on("module-duplicate", () => {
+    if (this.selectedModules.size === 0) return;
+    const temp = this.batchCopy(this.selectedModules, false);
+    temp.forEach((copiedItem) => {
+      copiedItem.x += this.CopyDeltaX;
+      copiedItem.y += this.CopyDeltaY;
+    });
+    const newModules = this.batchCreate(temp);
+    const savedSelected = new Set(newModules.keys());
+    this.batchAdd(newModules);
+    this.replaceSelected(savedSelected);
+    const moduleProps = [...newModules.values()].map((mod) => mod.getDetails());
+    dispatch("module-updated", {
+      type: "history-duplicate",
+      payload: {
+        modules: moduleProps,
+        selectedModules: savedSelected
+      }
+    });
+  });
+  on("module-layer", (data) => {
+    console.log(data);
+  });
+  on("module-move", ({ delta = { x: 0, y: 0 } }) => {
+    const s = this.getSelected;
+    if (s.size === 0) return;
+    const changes = [];
+    s.forEach((id) => {
+      const module = this.moduleMap.get(id);
+      if (module) {
+        changes.push({
+          id,
+          props: {
+            x: module.x + delta.x,
+            y: module.y + delta.y
+          }
+        });
+      }
+    });
+    dispatch("module-modify", changes);
+  });
+  on("module-add", (data) => {
+    const newModules = this.batchAdd(this.batchCreate(data));
+    const savedSelected = new Set(newModules.keys());
+    this.batchAdd(newModules);
+    this.replaceSelected(savedSelected);
+    const moduleProps = [...newModules.values()].map((mod) => mod.getDetails());
+    dispatch("module-updated", {
+      type: "history-add",
+      payload: {
+        modules: moduleProps,
+        selectedModules: savedSelected
+      }
+    });
+  });
+  on("module-modifying", ({ type, data }) => {
+    const s = this.getSelected;
+    if (s.size === 0) return;
+    if (type === "move") {
+      this.batchMove(s, data);
+    } else if (type === "resize" || type === "rotate") {
+      this.batchModify(s, data);
+    }
+    dispatch("module-updated");
+  });
+  on("module-modify", (data) => {
+    const changes = [];
+    data.map(({ id, props: kv }) => {
+      const props = {};
+      const change = { id, props };
+      const module = this.moduleMap.get(id);
+      if (!module) return;
+      Object.keys(kv).map((keyName) => {
+        const fromValue = module[keyName];
+        const toValue = kv[keyName];
+        return props[keyName] = {
+          from: fromValue,
+          to: toValue
+        };
+      });
+      this.batchModify(/* @__PURE__ */ new Set([id]), kv);
+      changes.push(change);
+    });
+    this.history.add({
+      type: "history-modify",
+      payload: {
+        selectedModules: this.getSelected,
+        changes
+      }
+    });
+    this.events.onHistoryUpdated?.(this.history);
+    this.events.onModulesUpdated?.(this.moduleMap);
+    dispatch("module-updated");
+  });
+  on("render-modules", () => {
+    resetCanvas_default(
+      this.viewport.mainCTX,
+      this.viewport.scale,
+      this.viewport.offset
+    );
+    this.renderModules();
+  });
+  on("render-selection", () => {
+    resetCanvas_default(
+      this.viewport.selectionCTX,
+      this.viewport.scale,
+      this.viewport.offset
+    );
+    this.renderSelections();
+  });
+  on("module-hover-enter", (id) => {
+    if (this.hoveredModule && id && this.hoveredModule === id) {
+      return;
+    }
+    this.hoveredModule = id;
+    dispatch("visible-selection-updated");
+  });
+  on("module-hover-leave", () => {
+    this.hoveredModule = null;
+    dispatch("visible-selection-updated");
+  });
+  on("history-undo", () => {
+    undo.call(this);
+    dispatch("module-updated");
+    this.events.onHistoryUpdated?.(this.history);
+  });
+  on("history-redo", () => {
+    redo.call(this);
+    dispatch("module-updated");
+    this.events.onHistoryUpdated?.(this.history);
+  });
+  on("history-pick", (data) => {
+    pick.call(this, data);
+    dispatch("module-updated");
+    this.events.onHistoryUpdated?.(this.history);
+  });
+  on("context-menu", ({ position }) => {
+    this.events.onContextMenu?.(position);
+  });
+}
+
+// src/main/editor.ts
+var Editor = class {
+  id;
+  config;
+  moduleCounter = 0;
+  moduleMap;
+  // private readonly snapPoints: SnapPointData[] = []
+  visibleModuleMap;
+  action;
+  container;
+  events = {};
+  history;
+  viewport;
+  selectedModules = /* @__PURE__ */ new Set();
+  visibleSelected = /* @__PURE__ */ new Set();
+  operationHandlers = [];
+  // resizeHandleSize: number = 10
+  copiedItems = [];
+  hoveredModule = null;
+  // highlightedModules: Set<UID> = new Set()
+  draggingModules = /* @__PURE__ */ new Set();
+  _selectingModules = /* @__PURE__ */ new Set();
+  _deselection = null;
+  _resizingOperator = null;
+  _rotatingOperator = null;
+  selectedShadow = /* @__PURE__ */ new Set();
+  manipulationStatus = "static";
+  CopyDeltaX = 50;
+  CopyDeltaY = 100;
+  initialized = false;
+  constructor({
+    container,
+    data,
+    events = {},
+    config
+  }) {
+    this.visibleModuleMap = /* @__PURE__ */ new Map();
+    this.id = data.id;
+    this.config = config;
+    this.events = events;
+    this.action = new actions_default();
+    this.container = container;
+    this.history = new history_default(this);
+    this.viewport = createViewport.call(this);
+    this.moduleMap = /* @__PURE__ */ new Map();
+    this.moduleCounter = config.moduleIdCounter;
+    const modules = this.batchCreate(data.modules);
+    modules.forEach((module) => {
+      this.moduleMap.set(module.id, module);
+    });
+    this.init();
+  }
+  init() {
+    initEditor.call(this);
+  }
+  get createModuleId() {
+    return this.id + "-" + ++this.moduleCounter;
+  }
+  batchCreate(moduleDataList) {
+    return batchCreate.call(this, moduleDataList);
+  }
+  batchAdd(modules) {
+    return batchAdd.call(this, modules);
+  }
+  batchCopy(from, includeIdentifiers = true) {
+    return batchCopy.call(this, from, includeIdentifiers);
+  }
+  batchDelete(from) {
+    return batchDelete.call(this, from);
+  }
+  batchMove(from, delta) {
+    batchMove.call(this, from, delta);
+  }
+  batchModify(idSet, data) {
+    batchModify.call(this, idSet, data);
+  }
+  // getModulesByLayerIndex() {}
+  getModulesByIdSet(idSet) {
+    const result = /* @__PURE__ */ new Map();
+    idSet.forEach((id) => {
+      const mod = this.moduleMap.get(id);
+      if (mod) {
+        result.set(id, mod);
+      }
+    });
+    return result;
+  }
+  getModuleList() {
+    return [...Object.values(this.moduleMap)];
+  }
+  updateVisibleModuleMap() {
+    this.visibleModuleMap.clear();
+    const sortedModules = [...this.moduleMap.values()].filter((module) => {
+      const boundingRect = module.getBoundingRect();
+      return rectsOverlap(boundingRect, this.viewport.worldRect);
+    }).sort((a, b) => a.layer - b.layer);
+    sortedModules.forEach((module) => {
+      this.visibleModuleMap.set(module.id, module);
+    });
+  }
+  /*updateSnapPoints() {
+    this.snapPoints.length = 0
+    this.visibleModuleMap.forEach(module => {
+      this.snapPoints.push(...module.getSnapPoints())
+    })
+  }*/
+  updateVisibleSelected() {
+    this.visibleSelected.clear();
+    this.operationHandlers.length = 0;
+    this.getVisibleModuleMap.forEach((module) => {
+      if (this.selectedModules.has(module.id)) {
+        this.visibleSelected.add(module.id);
+      }
+    });
+    const moduleProps = this.getSelectedPropsIfUnique;
+    if (moduleProps) {
+      const module = this.moduleMap.get(moduleProps.id);
+      const { scale, dpr } = this.viewport;
+      const lineWidth = 1 / scale * dpr;
+      const resizeSize = 10 / scale * dpr;
+      const rotateSize = 15 / scale * dpr;
+      const lineColor = "#5491f8";
+      const operators = module.getOperators({
+        size: resizeSize,
+        lineColor,
+        lineWidth,
+        fillColor: "#fff"
+      }, {
+        size: rotateSize,
+        lineColor: "transparent",
+        lineWidth: 0,
+        fillColor: "transparent"
+      });
+      this.operationHandlers.push(...operators);
+    }
+  }
+  get getVisibleModuleMap() {
+    return new Map(this.visibleModuleMap);
+  }
+  get getVisibleSelected() {
+    return new Set(this.visibleSelected);
+  }
+  get getVisibleSelectedModuleMap() {
+    return this.getModulesByIdSet(this.getVisibleSelected);
+  }
+  get getSelected() {
+    return new Set(this.selectedModules);
+  }
+  get getMaxLayerIndex() {
+    let max = 0;
+    this.moduleMap.forEach((mod) => {
+      if (mod.layer > max) {
+        max = mod.layer;
+      }
+    });
+    return max;
+  }
+  modifySelected(idSet, action) {
+    modifySelected.call(this, idSet, action);
+  }
+  addSelected(idSet) {
+    modifySelected.call(this, idSet, "add");
+  }
+  deleteSelected(idSet) {
+    modifySelected.call(this, idSet, "delete");
+  }
+  toggleSelected(idSet) {
+    modifySelected.call(this, idSet, "toggle");
+  }
+  replaceSelected(idSet) {
+    modifySelected.call(this, idSet, "replace");
+  }
+  selectAll() {
+    this.selectedModules.clear();
+    this.moduleMap.forEach((module) => {
+      this.selectedModules.add(module.id);
+    });
+  }
+  updateCopiedItemsDelta() {
+    this.copiedItems.forEach((copiedItem) => {
+      copiedItem.x += this.CopyDeltaX;
+      copiedItem.y += this.CopyDeltaY;
+    });
+  }
+  get getSelectedPropsIfUnique() {
+    if (this.selectedModules.size === 1) {
+      const unique = [...this.selectedModules.values()][0];
+      const module = this.moduleMap.get(unique);
+      if (module) {
+        return module.getDetails();
+      }
+      return null;
+    }
+    return null;
+  }
+  execute(type, data = null) {
+    this.action.execute(type, data);
+  }
+  // viewport
+  renderModules() {
+    const animate = () => {
+      const { frame, mainCTX: ctx } = this.viewport;
+      frame.render(ctx);
+      this.visibleModuleMap.forEach(
+        (module) => {
+          module.render(ctx);
+        }
+      );
+    };
+    requestAnimationFrame(animate);
+  }
+  /*  public get getModulesInsideOfFrame(): ModuleInstance[] {
+        const arr = []
+        this.moduleMap.forEach((module) => {
+  
+        })
+      }*/
+  printOut(ctx) {
+    this.moduleMap.forEach((module) => {
+      module.render(ctx);
+    });
+  }
+  exportToFiles() {
+    const { dpr, scale, offset, frame } = this.viewport;
+    const result = {
+      id: this.id,
+      config: {
+        moduleIdCounter: this.moduleCounter,
+        dpr,
+        scale,
+        offset,
+        frame: frame.getDetails()
+      },
+      data: []
+    };
+    this.moduleMap.forEach((module) => {
+      result.data.push(module.getDetails());
+    });
+    return result;
+  }
+  renderSelections() {
+    const animate = () => {
+      selectionRender_default.call(this);
+    };
+    requestAnimationFrame(animate);
+  }
+  updateWorldRect() {
+    const { dpr } = this.viewport;
+    const { width, height } = this.viewport.viewportRect;
+    const p1 = this.getWorldPointByViewportPoint(0, 0);
+    const p2 = this.getWorldPointByViewportPoint(width / dpr, height / dpr);
+    this.viewport.worldRect = generateBoundingRectFromTwoPoints(p1, p2);
+  }
+  zoom(zoom, point) {
+    const { rect } = this.viewport;
+    point = point || { x: rect.width / 2, y: rect.height / 2 };
+    return zoomAtPoint.call(this, point, zoom);
+  }
+  updateScrollBar() {
+    const { scrollBarX, scrollBarY } = this.viewport;
+    updateScrollBars(scrollBarX, scrollBarY);
+  }
+  updateViewport() {
+    const { dpr, mainCanvas, selectionCanvas } = this.viewport;
+    const rect = this.container.getBoundingClientRect().toJSON();
+    const { x, y, width, height } = rect;
+    const viewportWidth = width * dpr;
+    const viewportHeight = height * dpr;
+    this.viewport.rect = { ...rect, cx: x + width / 2, cy: y + height / 2 };
+    this.viewport.viewportRect = generateBoundingRectFromTwoPoints(
+      { x: 0, y: 0 },
+      { x: viewportWidth, y: viewportHeight }
+    );
+    mainCanvas.width = selectionCanvas.width = viewportWidth;
+    mainCanvas.height = selectionCanvas.height = viewportHeight;
+  }
+  getWorldPointByViewportPoint(x, y) {
+    const { dpr, offset, scale } = this.viewport;
+    return screenToWorld(
+      { x, y },
+      offset,
+      scale,
+      dpr
+    );
+  }
+  getViewPointByWorldPoint(x, y) {
+    const { dpr, offset, scale } = this.viewport;
+    return worldToScreen(
+      { x, y },
+      offset,
+      scale,
+      dpr
+    );
+  }
+  //eslint-disable-block
+  destroy() {
+    destroyViewport.call(this);
+    this.action.destroy();
+    this.history.destroy();
+    this.moduleMap.clear();
+  }
+};
+var editor_default = Editor;
+
+// src/index.ts
+var index_default = editor_default;
+export {
+  index_default as default
+};
+//# sourceMappingURL=index.js.map
