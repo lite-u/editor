@@ -89,3 +89,4 @@ export function getResizeCursor(point, centerPoint) {
         return 'ne';
     return 'e'; // fallback
 }
+//# sourceMappingURL=funcs.js.map

@@ -1,4 +1,4 @@
-import {RectangleProps} from '../modules/shapes/rectangle.ts'
+import {RectangleProps} from '../modules/shapes/rectangle'
 
 export interface RectangleRenderProps extends Omit<RectangleProps, 'id' & 'layer' & 'type'> {
   shadow?: string

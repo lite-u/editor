@@ -1,4 +1,4 @@
-import { extractIdSetFromArray } from './helpers.ts';
+import { extractIdSetFromArray } from './helpers';
 export function redo(quiet = false) {
     if (this.history.current === this.history.tail)
         return false;
@@ -49,3 +49,4 @@ export function redo(quiet = false) {
     }
     return this.history.current;
 }
+//# sourceMappingURL=redo.js.map

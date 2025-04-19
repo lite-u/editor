@@ -1,20 +1,22 @@
-import Shape, {ShapeProps} from './shape.ts'
-import {generateBoundingRectFromRotatedRect} from '../../utils.ts'
+import Shape, {ShapeProps} from './shape'
+import {generateBoundingRectFromRotatedRect} from '../../utils'
 import {SnapPointData} from '../../../main/type'
-import {getResizeTransform} from '../../../lib/lib.ts'
+import {getResizeTransform} from '../../../lib/lib'
 import {ResizeHandleName} from '../../../main/selection/type'
+import {ModuleInstance} from '../modules'
 
 export interface RectangleProps extends ShapeProps {
   width: number
   height: number
   radius?: number
+  type: 'rectangle'
 }
 
 class Rectangle extends Shape {
-  // readonly type = 'rectangle'
-  private width: number
-  private height: number
-  private radius: number
+  readonly type = 'rectangle'
+  width: number
+  height: number
+  radius: number
 
   constructor({
                 width,
@@ -22,7 +24,7 @@ class Rectangle extends Shape {
                 radius = 0,
                 ...rest
               }: Omit<RectangleProps, 'type'>) {
-    super({type: 'rectangle', ...rest})
+    super({...rest})
     this.width = width!
     this.height = height!
     this.radius = radius!
@@ -159,6 +161,7 @@ class Rectangle extends Shape {
 
   public getDetails<T extends boolean>(includeIdentifiers: T = true as T): T extends true ? RectangleProps : Omit<RectangleProps, 'id' & 'layer'> {
     return {
+      type: this.type,
       width: this.width,
       height: this.height,
       ...super.getDetails(includeIdentifiers),

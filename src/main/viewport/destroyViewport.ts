@@ -1,4 +1,4 @@
-import Editor from '../editor.ts'
+import Editor from '../editor'
 
 export function destroyViewport(this: Editor) {
   if (!this.viewport) return

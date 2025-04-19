@@ -1,4 +1,5 @@
-import Base, {BasicModuleProps} from "../base.ts"
+/*
+import Base, {BasicModuleProps} from "../base"
 
 export interface ConnectorProps extends BasicModuleProps {
   start?: UID
@@ -63,4 +64,4 @@ class Connector extends Base {
   }
 }
 
-export default Connector
+export default Connector*/

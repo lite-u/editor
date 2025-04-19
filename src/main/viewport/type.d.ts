@@ -1,5 +1,5 @@
 import {RectangleRenderProps} from '../../core/renderer/type'
-import Rectangle from '../../core/modules/shapes/rectangle.ts'
+import Rectangle from '../../core/modules/shapes/rectangle'
 
 export type ViewportEventType =
   'viewport-resize'

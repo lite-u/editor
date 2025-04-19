@@ -1,4 +1,4 @@
-import { extractIdSetFromArray } from './helpers.ts';
+import { extractIdSetFromArray } from './helpers';
 export function undo(quiet = false) {
     if (this.history.current === this.history.head)
         return false;
@@ -52,3 +52,4 @@ export function undo(quiet = false) {
     }
     return this.history.current;
 }
+//# sourceMappingURL=undo.js.map

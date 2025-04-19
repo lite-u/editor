@@ -1,8 +1,9 @@
-import {updateCursor, updateSelectionBox} from '../domManipulations.ts'
-import Editor from '../../editor.ts'
+import {updateCursor, updateSelectionBox} from '../domManipulations'
+import Editor from '../../editor'
 import {ModuleModifyData} from '../../actions/type'
-import Base from '../../../core/modules/base.ts'
-import {applyResize} from './funcs.ts'
+import Base from '../../../core/modules/base'
+import {applyResize} from './funcs'
+import {ModuleProps} from '../../../core/modules/modules'
 
 function handleMouseUp(this: Editor, e: MouseEvent) {
   const leftMouseClick = e.button === 0

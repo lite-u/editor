@@ -1,4 +1,4 @@
-import Rectangle from '../../core/modules/shapes/rectangle.ts';
+import Rectangle from '../../core/modules/shapes/rectangle';
 export const createFrame = (p, id) => {
     let width = 0;
     let height = 0;
@@ -88,3 +88,4 @@ export function zoomAtPoint(atPoint, newScale) {
         y: newOffsetY,
     };
 }
+//# sourceMappingURL=helper.js.map

@@ -1,4 +1,4 @@
-import { detectHoveredModule } from './funcs.ts';
+import { detectHoveredModule } from './funcs';
 function handleContextMenu(e) {
     // const modifyKey = e.ctrlKey || e.metaKey || e.shiftKey
     e.preventDefault();
@@ -11,7 +11,7 @@ function handleContextMenu(e) {
     detectHoveredModule.call(this);
     const lastId = this.hoveredModule;
     const selectedIdSet = this.getSelected;
-    const position = Object.assign({}, this.viewport.mouseMovePoint);
+    const position = { ...this.viewport.mouseMovePoint };
     let idSet = new Set();
     // console.log(selectedIdSet,lastId)
     if (lastId) {
@@ -33,3 +33,4 @@ function handleContextMenu(e) {
     return false;
 }
 export default handleContextMenu;
+//# sourceMappingURL=contextMenu.js.map

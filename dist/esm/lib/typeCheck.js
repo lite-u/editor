@@ -59,3 +59,4 @@ function typeCheck(value) {
     return typeof value; // For primitive types like string, number, boolean, etc.
 }
 export default typeCheck;
+//# sourceMappingURL=typeCheck.js.map

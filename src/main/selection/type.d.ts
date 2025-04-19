@@ -1,3 +1,5 @@
+import {ModuleInstance, ModuleProps} from '../../core/modules/modules'
+
 export type SelectionActionMode = 'add' | 'delete' | 'toggle' | 'replace'
 
 type HandlerType = 'move' | 'resize' | 'rotate';

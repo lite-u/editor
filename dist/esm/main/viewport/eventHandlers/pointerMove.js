@@ -1,8 +1,8 @@
-import { updateCursor, updateSelectionBox } from '../domManipulations.ts';
-import { generateBoundingRectFromTwoPoints, } from '../../../core/utils.ts';
-import { areSetsEqual, getSymmetricDifference } from '../../../lib/lib.ts';
-import { applyResize, detectHoveredModule, getResizeCursor, getRotateAngle } from './funcs.ts';
-import Base from '../../../core/modules/base.ts';
+import { updateCursor, updateSelectionBox } from '../domManipulations';
+import { generateBoundingRectFromTwoPoints, } from '../../../core/utils';
+import { areSetsEqual, getSymmetricDifference } from '../../../lib/lib';
+import { applyResize, detectHoveredModule, getResizeCursor, getRotateAngle } from './funcs';
+import Base from '../../../core/modules/base';
 export default function handlePointerMove(e) {
     const { action, draggingModules, viewport, selectedShadow, _selectingModules, } = this;
     viewport.mouseMovePoint.x = e.clientX - viewport.rect.x;
@@ -150,3 +150,4 @@ export default function handlePointerMove(e) {
             break;
     }
 }
+//# sourceMappingURL=pointerMove.js.map

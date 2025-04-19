@@ -1,8 +1,10 @@
+
 import {SelectionActionMode} from '../selection/type'
-import {HistoryNode} from '../history/DoublyLinkedList.ts'
-// import {ModuleMoveDirection} from '../type'
+import {HistoryNode} from '../history/DoublyLinkedList'
 import {HistoryOperation} from '../history/type'
-import {ModulePropsWithoutIdentifiers} from '../../core/modules/modules'
+import {ModuleProps, PropsWithoutIdentifiersA} from '../../core/modules/modules'
+import {UID} from '../../core/core'
+import {Point} from '../../type'
 
 export interface SelectionModifyData {
   mode: SelectionActionMode;
@@ -14,21 +16,14 @@ export type EditorEventData<T extends EditorEventType> = EditorEventMap[T];
 
 export type ModuleMoveData = {
   idSet?: Set<UID>;
-  // direction: ModuleMoveDirection;
   delta: Point;
 };
 
-export type PropMoveOffset = {
-  offset: number
-}
 export type PropChange<T> = {
   from: T
   to: T
 }
 
-/*export type ModuleChangeProps = {
-  [K in keyof ModuleProps]?: PropChange<ModuleProps[K]> | PropMoveOffset
-}*/
 export type HistoryModuleChangeItem = {
   id: UID
   props: HistoryModuleChangeProps
@@ -64,7 +59,7 @@ export type EditorEventMap = {
   'selection-all': never;
   'module-updated': HistoryOperation;
   'module-copy': never;
-  'module-add': ModulePropsWithoutIdentifiers[];
+  'module-add': PropsWithoutIdentifiersA[];
   'module-paste': Point;
   'module-delete': never;
   'module-duplicate': never;
@@ -84,11 +79,12 @@ export type EditorEventMap = {
   'history-pick': HistoryNode;
   'context-menu': {
     idSet: Set<UID>;
-    position: Position;
+    position: Point;
     copiedItems: boolean
   };
 }
 
+// @ts-ignore
 const forwardEventDependencyMap: Record<EditorEventType, EditorEventType[]> = {
   'world-resized': ['world-updated'],
   // 'editor-initialized': ['world-updated'],
@@ -121,4 +117,4 @@ const forwardEventDependencyMap: Record<EditorEventType, EditorEventType[]> = {
   'history-undo': ['module-updated'],
   'history-redo': ['module-updated'],
   'history-pick': ['module-updated'],
-} as const
+}

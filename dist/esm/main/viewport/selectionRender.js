@@ -1,4 +1,4 @@
-import Rectangle from '../../core/modules/shapes/rectangle.ts';
+import Rectangle from '../../core/modules/shapes/rectangle';
 function selectionRender() {
     if (this.moduleMap.size === 0)
         return;
@@ -58,3 +58,4 @@ function selectionRender() {
     }*/
 }
 export default selectionRender;
+//# sourceMappingURL=selectionRender.js.map

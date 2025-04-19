@@ -1,4 +1,4 @@
-import DoublyLinkedList from './DoublyLinkedList.ts';
+import DoublyLinkedList from './DoublyLinkedList';
 class History extends DoublyLinkedList {
     constructor(editor) {
         super();
@@ -6,7 +6,6 @@ class History extends DoublyLinkedList {
         this.init();
     }
     init() {
-        var _a, _b;
         this.append({
             type: 'history-init',
             payload: {
@@ -14,7 +13,7 @@ class History extends DoublyLinkedList {
                 selectedModules: new Set(),
             },
         });
-        (_b = (_a = this.editor.events).onHistoryUpdated) === null || _b === void 0 ? void 0 : _b.call(_a, this);
+        this.editor.events.onHistoryUpdated?.(this);
     }
     // Add a History node after the current
     add(data) {
@@ -44,3 +43,4 @@ class History extends DoublyLinkedList {
     }
 }
 export default History;
+//# sourceMappingURL=history.js.map

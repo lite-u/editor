@@ -1,19 +1,19 @@
-import {initViewportDom, InitViewportDomReturn} from './domManipulations.ts'
-import Editor from '../editor.ts'
+import {initViewportDom, InitViewportDomReturn} from './domManipulations'
+import Editor from '../editor'
 import {Viewport} from './type'
 import {
   generateBoundingRectFromTwoPoints,
   throttle,
-} from '../../core/utils.ts'
-import {createFrame} from './helper.ts'
-import handleMouseDown from './eventHandlers/mouseDown.ts'
-import handleMouseUp from './eventHandlers/mouseUp.ts'
-import handleKeyDown from './eventHandlers/keyDown.ts'
-import handleKeyUp from './eventHandlers/keyUp.ts'
-import handleWheel from './eventHandlers/wheel.ts'
-import handlePointerMove from './eventHandlers/pointerMove.ts'
-import handleContextMenu from './eventHandlers/contextMenu.ts'
-import Rectangle from '../../core/modules/shapes/rectangle.ts'
+} from '../../core/utils'
+import {createFrame} from './helper'
+import handleMouseDown from './eventHandlers/mouseDown'
+import handleMouseUp from './eventHandlers/mouseUp'
+import handleKeyDown from './eventHandlers/keyDown'
+import handleKeyUp from './eventHandlers/keyUp'
+import handleWheel from './eventHandlers/wheel'
+import handlePointerMove from './eventHandlers/pointerMove'
+import handleContextMenu from './eventHandlers/contextMenu'
+import Rectangle from '../../core/modules/shapes/rectangle'
 
 export function createViewport(this: Editor): Viewport {
   const {

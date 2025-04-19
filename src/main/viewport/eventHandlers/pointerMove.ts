@@ -1,11 +1,11 @@
-import {updateCursor, updateSelectionBox} from '../domManipulations.ts'
+import {updateCursor, updateSelectionBox} from '../domManipulations'
 import {
   generateBoundingRectFromTwoPoints,
-} from '../../../core/utils.ts'
-import Editor from '../../editor.ts'
-import {areSetsEqual, getSymmetricDifference} from '../../../lib/lib.ts'
-import {applyResize, detectHoveredModule, getResizeCursor, getRotateAngle} from './funcs.ts'
-import Base from '../../../core/modules/base.ts'
+} from '../../../core/utils'
+import Editor from '../../editor'
+import {areSetsEqual, getSymmetricDifference} from '../../../lib/lib'
+import {applyResize, detectHoveredModule, getResizeCursor, getRotateAngle} from './funcs'
+import Base from '../../../core/modules/base'
 
 export default function handlePointerMove(this: Editor, e: PointerEvent) {
   const {

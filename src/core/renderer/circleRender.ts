@@ -1,13 +1,14 @@
 import {CircleRenderProps} from './type'
-import deduplicateObjectsByKeyValue from './deduplicate.ts'
-import {setFloatOnProps} from '../utils.ts'
+import deduplicateObjectsByKeyValue from './deduplicate'
+import {setFloatOnProps} from '../utils'
+import {EllipseProps} from '../modules/shapes/ellipse'
 
 const circleRender = (ctx: CanvasRenderingContext2D, circles: CircleRenderProps[]): void => {
   let uintArray = circles
 
   if (uintArray.length > 1000) {
-    uintArray = circles.map(item => {
-      return setFloatOnProps(item, ['x', 'y', 'r1', 'r2'])
+    circles.map(item => {
+      return setFloatOnProps(item, ['x', 'y', 'r1', 'r2'] as never)
     })
   }
 

@@ -1,38 +1,41 @@
-import Editor from '../../main/editor.ts'
+import Editor from '../../main/editor'
 import {RotateHandler} from '../../main/selection/type'
+import {ModuleTypeMap} from './modules'
+import {HexColor, Opacity, Rotation, Shadow, UID} from '../core'
+import {BoundingRect} from '../../type'
 
 export interface BasicModuleProps {
   id: UID
   layer: number
-  type: keyof ModuleTypeMap
+  // type: keyof ModuleTypeMap
   enableLine?: boolean
   lineColor: HexColor
   lineWidth: number
   opacity: Opacity
-  shadow?: boolean
+  shadow?: string
   rotation?: number
 }
 
 class Base {
-  readonly id: UID
-  readonly type: string
-  protected enableLine: boolean
-  protected lineWidth: number
-  protected lineColor: HexColor
-  protected opacity: Opacity
-  public rotation: Rotation
-  protected shadow: Shadow
-  readonly layer: number
+  id: UID
+  // type: string
+  enableLine: boolean
+  lineWidth: number
+  lineColor: HexColor
+  opacity: Opacity
+  rotation: Rotation
+  shadow: Shadow
+  layer: number
 
   constructor({
                 id,
                 lineColor,
                 lineWidth = 1,
                 opacity = 100,
-                type,
+                // type,
                 layer = 1,
                 rotation = 0,
-                shadow = false,
+                shadow = '',
                 enableLine = true,
               }: BasicModuleProps) {
     this.id = id
@@ -43,12 +46,12 @@ class Base {
     this.opacity = opacity!
     this.rotation = rotation
     this.shadow = shadow
-    this.type = type
+    // this.type = type
   }
 
   protected getDetails<T extends boolean>(includeIdentifiers: T = true as T): T extends true ? BasicModuleProps : Omit<BasicModuleProps, 'id' & 'layer'> {
     const base = {
-      type: this.type,
+      // type: this.type,
       enableLine: this.enableLine,
       lineColor: this.lineColor,
       lineWidth: this.lineWidth,

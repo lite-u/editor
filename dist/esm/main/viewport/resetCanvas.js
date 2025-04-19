@@ -7,3 +7,4 @@ const resetCanvas = (ctx, scale, offset) => {
     ctx.setTransform(...transform);
 };
 export default resetCanvas;
+//# sourceMappingURL=resetCanvas.js.map

@@ -1,21 +1,10 @@
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
-import Shape from './shape.ts';
-import { generateBoundingRectFromRotatedRect } from '../../utils.ts';
-import { getResizeTransform } from '../../../lib/lib.ts';
+import Shape from './shape';
+import { generateBoundingRectFromRotatedRect } from '../../utils';
+import { getResizeTransform } from '../../../lib/lib';
 class Rectangle extends Shape {
-    constructor(_a) {
-        var { width, height, radius = 0 } = _a, rest = __rest(_a, ["width", "height", "radius"]);
-        super(Object.assign({ type: 'rectangle' }, rest));
+    constructor({ width, height, radius = 0, ...rest }) {
+        super({ ...rest });
+        this.type = 'rectangle';
         this.width = width;
         this.height = height;
         this.radius = radius;
@@ -46,7 +35,12 @@ class Rectangle extends Shape {
         return null;
     }
     getDetails(includeIdentifiers = true) {
-        return Object.assign({ width: this.width, height: this.height }, super.getDetails(includeIdentifiers));
+        return {
+            type: this.type,
+            width: this.width,
+            height: this.height,
+            ...super.getDetails(includeIdentifiers),
+        };
     }
     getRect() {
         const { x, y, width, height } = this;
@@ -79,10 +73,15 @@ class Rectangle extends Shape {
     }
     getSelectedBoxModule(lineWidth, lineColor) {
         const { id, rotation, layer } = this;
-        const rectProp = Object.assign(Object.assign({}, this.getRect()), { lineColor,
+        const rectProp = {
+            ...this.getRect(),
+            lineColor,
             lineWidth,
             rotation,
-            layer, id: id + '-selected-box', opacity: 0 });
+            layer,
+            id: id + '-selected-box',
+            opacity: 0,
+        };
         return new Rectangle(rectProp);
     }
     getHighlightModule(lineWidth, lineColor) {
@@ -248,3 +247,4 @@ Rectangle.applyResizeTransform = ({ downPoint, movePoint, moduleOrigin, rotation
     return { x, y, width, height };
 };
 export default Rectangle;
+//# sourceMappingURL=rectangle.js.map

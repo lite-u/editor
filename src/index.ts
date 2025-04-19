@@ -1,3 +1,3 @@
-import Editor from './main/editor.ts'
+import Editor from './main/editor'
 
 export default Editor

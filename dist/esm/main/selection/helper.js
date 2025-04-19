@@ -1,4 +1,4 @@
-import typeCheck from '../../lib/typeCheck.ts';
+import typeCheck from '../../lib/typeCheck';
 export function modifySelected(idSet, action) {
     if (typeCheck(idSet) !== 'set')
         return;
@@ -39,26 +39,32 @@ export function modifySelected(idSet, action) {
     realSelectedModules.forEach((id) => this.selectedModules.add(id));
     // this.events.onSelectionUpdated?.(idSet, eventCallBackData)
 }
-export function updateSelectionCanvasRenderData() {
-    const moduleProps = this.getSelectedPropsIfUnique;
-    return;
-    if (moduleProps) {
-        const module = this.moduleMap.get(moduleProps.id);
-        const { scale, dpr } = this.viewport;
-        const lineWidth = 1 / scale * dpr;
-        const resizeSize = 2 / scale * dpr;
-        const lineColor = '#5491f8';
-        const o = module.getOperators({
-            size: resizeSize,
-            lineColor,
-            lineWidth,
-        }, {
-            size: 1,
-            lineColor: '',
-            lineWidth: 0,
-        });
-        o.forEach((p) => {
-            this.operationHandlers.add(p);
-        });
-    }
-}
+/*export function updateSelectionCanvasRenderData(this: Editor) {
+  const moduleProps = this.getSelectedPropsIfUnique
+
+  return
+  if (moduleProps) {
+    const module = this.moduleMap.get(moduleProps.id)
+    const {scale, dpr} = this.viewport
+    const lineWidth = 1 / scale * dpr
+    const resizeSize = 2 / scale * dpr
+    const lineColor = '#5491f8'
+
+    const o = module!.getOperators({
+      size: resizeSize,
+      lineColor,
+      lineWidth,
+    }, {
+      size: 1,
+      lineColor: '',
+      lineWidth: 0,
+    })
+
+    o.forEach(
+      (p) => {
+        this.operationHandlers.add(p)
+      },
+    )
+  }
+}*/
+//# sourceMappingURL=helper.js.map

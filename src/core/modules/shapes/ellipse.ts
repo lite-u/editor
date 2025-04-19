@@ -1,20 +1,22 @@
-import {generateBoundingRectFromRotatedRect} from '../../utils.ts'
-import Shape, {ShapeProps} from './shape.ts'
+import {generateBoundingRectFromRotatedRect} from '../../utils'
+import Shape, {ShapeProps} from './shape'
 import {SnapPointData} from '../../../main/type'
-import Rectangle, {RectangleProps} from './rectangle.ts'
+import Rectangle, {RectangleProps} from './rectangle'
 import {ResizeHandleName} from '../../../main/selection/type'
-import {getResizeTransform} from '../../../lib/lib.ts'
+import {getResizeTransform} from '../../../lib/lib'
 
 export interface EllipseProps extends ShapeProps {
   r1: number
   r2: number
+  type: 'ellipse'
 }
 
 class Ellipse extends Shape {
+  readonly type = 'ellipse'
   r1: number
   r2: number
-  readonly fillColor: FillColor
-  readonly enableFill: boolean
+  fillColor: FillColor
+  enableFill: boolean
 
   constructor({
                 fillColor,
@@ -23,7 +25,7 @@ class Ellipse extends Shape {
                 r2,
                 ...rest
               }: Omit<EllipseProps, 'type'>) {
-    super({type: 'rectangle', ...rest})
+    super({...rest})
 
     this.r1 = r1!
     this.r2 = r2!

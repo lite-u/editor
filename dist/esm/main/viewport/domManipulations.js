@@ -137,3 +137,4 @@ export function updateCursor(type, position, angle) {
         cursor.style.transform = `translate(${x - offset}px, ${y - offset}px) rotate(${angle}deg)`;
     }
 }
+//# sourceMappingURL=domManipulations.js.map

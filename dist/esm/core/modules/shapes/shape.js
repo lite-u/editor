@@ -1,21 +1,9 @@
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
-import Base from '../base.ts';
-import { HANDLER_OFFSETS } from '../handleBasics.ts';
-import { rotatePoint } from '../../../lib/lib.ts';
-import Rectangle from './rectangle.ts';
+import Base from '../base';
+import { HANDLER_OFFSETS } from '../handleBasics';
+import { rotatePoint } from '../../../lib/lib';
+import Rectangle from './rectangle';
 class Shape extends Base {
-    constructor(_a) {
-        var { x, y, fillColor, enableFill = true } = _a, rest = __rest(_a, ["x", "y", "fillColor", "enableFill"]);
+    constructor({ x, y, fillColor, enableFill = true, ...rest }) {
         super(rest);
         this.x = x;
         this.y = y;
@@ -23,7 +11,13 @@ class Shape extends Base {
         this.enableFill = enableFill;
     }
     getDetails(includeIdentifiers = true) {
-        return Object.assign(Object.assign({}, super.getDetails(includeIdentifiers)), { fillColor: this.fillColor, enableFill: this.enableFill, x: this.x, y: this.y });
+        return {
+            ...super.getDetails(includeIdentifiers),
+            fillColor: this.fillColor,
+            enableFill: this.enableFill,
+            x: this.x,
+            y: this.y,
+        };
     }
     move(x, y) {
         this.x += x;
@@ -95,3 +89,4 @@ class Shape extends Base {
     }
 }
 export default Shape;
+//# sourceMappingURL=shape.js.map

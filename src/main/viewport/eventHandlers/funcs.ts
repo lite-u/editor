@@ -1,5 +1,6 @@
-import Editor from '../../editor.ts'
+import Editor from '../../editor'
 import {ResizeDirection} from '../../selection/type'
+import {ModuleInstance} from '../../../core/modules/modules'
 export function detectHoveredModule(this: Editor) {
   const {viewport} = this
   const worldPoint = this.getWorldPointByViewportPoint(

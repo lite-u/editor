@@ -1,4 +1,4 @@
-// import Editor from '../editor.ts'
+// import Editor from '../editor'
 import {EditorEventData, EditorEventType} from './type'
 
 export type EventsCallback<K extends EditorEventType> = EditorEventData<K> extends never ? () => void : (data: EditorEventData<K>) => void;

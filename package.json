@@ -4,17 +4,21 @@
   "description": "vector editor",
   "main": "dist/index.js",
   "type": "module",
-  "types": "dist/index.d.ts",
+  "types": "dist/esm/index.d.ts",
   "scripts": {
-    "build": "tsc -p tsconfig.esm.json && tsc -p tsconfig.cjs.json"
+    "watch": "npx tsc -p tsconfig.esm.json --watch",
+    "build": "tsc -p tsconfig.esm.json"
   },
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js"
+      "require": "./dist/cjs/index.js",
+      "types": "./dist/esm/index.d.ts"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lite-u/editor.git"
@@ -27,5 +31,8 @@
   "bugs": {
     "url": "https://github.com/lite-u/editor/issues"
   },
-  "homepage": "https://github.com/lite-u/editor#readme"
+  "homepage": "https://github.com/lite-u/editor#readme",
+  "devDependencies": {
+    "@types/node": "^22.14.1"
+  }
 }

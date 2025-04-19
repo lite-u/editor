@@ -1,6 +1,6 @@
 function createGridPattern(gridSize, width, height) {
   const offscreen = new OffscreenCanvas(width, height)
-  const ctx = offscreen.getContext("2d")
+  const ctx = offscreen.getContext("2d")!
 
   ctx.strokeStyle = "#444" // Grid color
   ctx.lineWidth = 0.5

@@ -101,7 +101,8 @@ export function getResizeTransform(name, symmetric = false) {
     })();
     if (symmetric) {
         // When resizing symmetrically, center should not move.
-        return Object.assign(Object.assign({}, base), { cx: 0, cy: 0 });
+        return { ...base, cx: 0, cy: 0 };
     }
     return base;
 }
+//# sourceMappingURL=lib.js.map

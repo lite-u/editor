@@ -1,6 +1,6 @@
-import Rectangle from '../../core/modules/shapes/rectangle.ts';
-import Ellipse from '../../core/modules/shapes/ellipse.ts';
-import deepClone from '../../lib/deepClone.ts';
+import Rectangle from '../../core/modules/shapes/rectangle';
+import Ellipse from '../../core/modules/shapes/ellipse';
+import deepClone from '../../lib/deepClone';
 export function batchCreate(moduleDataList) {
     const clonedData = deepClone(moduleDataList);
     const newMap = new Map();
@@ -68,7 +68,8 @@ export function batchModify(idSet, data) {
     modulesMap.forEach((module) => {
         Object.keys(data).forEach((key) => {
             const keyName = key;
-            module[keyName] = data[key];
+            module[keyName] = data[keyName];
         });
     });
 }
+//# sourceMappingURL=moduleModify.js.map

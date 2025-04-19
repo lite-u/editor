@@ -1,9 +1,10 @@
+"use strict";
 /*
 import {CircleRenderProps, RectangleRenderProps} from "../../core/renderer/type"
-import Rectangle from "../../core/modules/shapes/rectangle.ts"
-import rectRender from "../../core/renderer/rectRender.ts"
-import circleRender from "../../core/renderer/circleRender.ts"
-import SelectionManager from "./selectionManager.ts"
+import Rectangle from "../../core/modules/shapes/rectangle"
+import rectRender from "../../core/renderer/rectRender"
+import circleRender from "../../core/renderer/circleRender"
+import SelectionManager from "./selectionManager"
 
 function render(this: SelectionManager) {
   const enableRotationHandle = this.selectedModules.size === 1
@@ -63,3 +64,4 @@ function render(this: SelectionManager) {
 }
 
 export default render*/
+//# sourceMappingURL=render.js.map

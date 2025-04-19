@@ -1,6 +1,7 @@
-import {extractIdSetFromArray} from './helpers.ts'
-import {HistoryNode} from './DoublyLinkedList.ts'
-import Editor from '../editor.ts'
+import {extractIdSetFromArray} from './helpers'
+import {HistoryNode} from './DoublyLinkedList'
+import Editor from '../editor'
+import {ModuleProps} from '../../core/modules/modules'
 
 export function redo(this: Editor, quiet: boolean = false): HistoryNode | false {
   if (this.history.current === this.history.tail) return false

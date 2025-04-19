@@ -1,4 +1,4 @@
-import { detectHoveredModule } from './funcs.ts';
+import { detectHoveredModule } from './funcs';
 function handleMouseDown(e) {
     const { shiftKey, clientY, target, button, clientX, metaKey, ctrlKey } = e;
     if (!(target === this.viewport.wrapper))
@@ -77,3 +77,4 @@ function handleMouseDown(e) {
     }
 }
 export default handleMouseDown;
+//# sourceMappingURL=mouseDown.js.map

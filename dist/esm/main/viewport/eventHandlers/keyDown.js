@@ -1,6 +1,6 @@
-import { applyResize } from './funcs.ts';
-import { updateCursor } from '../domManipulations.ts';
-// import {updateSelectionBox} from "../domManipulations.ts"
+import { applyResize } from './funcs';
+import { updateCursor } from '../domManipulations';
+// import {updateSelectionBox} from "../domManipulations"
 function handleKeyDown(e) {
     // const _t = e.target !== this.wrapper
     if (this.manipulationStatus === 'panning' || this.manipulationStatus === 'selecting')
@@ -22,3 +22,4 @@ function handleKeyDown(e) {
     }
 }
 export default handleKeyDown;
+//# sourceMappingURL=keyDown.js.map

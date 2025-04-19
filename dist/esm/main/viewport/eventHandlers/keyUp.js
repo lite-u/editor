@@ -1,5 +1,5 @@
-import { applyResize } from './funcs.ts';
-// import {updateSelectionBox} from "../domManipulations.ts"
+import { applyResize } from './funcs';
+// import {updateSelectionBox} from "../domManipulations"
 function handleKeyUp(e) {
     if (e.code === 'Space') {
         this.viewport.spaceKeyDown = false;
@@ -15,3 +15,4 @@ function handleKeyUp(e) {
     }
 }
 export default handleKeyUp;
+//# sourceMappingURL=keyUp.js.map

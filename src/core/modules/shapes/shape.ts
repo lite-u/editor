@@ -1,8 +1,9 @@
-import Base, {BasicModuleProps} from '../base.ts'
-import {HANDLER_OFFSETS} from '../handleBasics.ts'
+import Base, {BasicModuleProps} from '../base'
+import {HANDLER_OFFSETS} from '../handleBasics'
 import {OperationHandlers} from '../../../main/selection/type'
-import {rotatePoint} from '../../../lib/lib.ts'
-import Rectangle, {RectangleProps} from './rectangle.ts'
+import {rotatePoint} from '../../../lib/lib'
+import Rectangle, {RectangleProps} from './rectangle'
+import {ModuleProps} from '../modules'
 
 export interface ShapeProps extends BasicModuleProps {
   x: number
@@ -17,8 +18,8 @@ export interface ShapeProps extends BasicModuleProps {
 class Shape extends Base {
   public x: number
   public y: number
-  readonly fillColor: FillColor
-  readonly enableFill: boolean
+  fillColor: FillColor
+  enableFill: boolean
 
   constructor({
                 x,

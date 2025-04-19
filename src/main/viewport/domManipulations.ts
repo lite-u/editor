@@ -1,4 +1,4 @@
-import Editor from '../editor.ts'
+import Editor from '../editor'
 import {ResizeDirection} from '../selection/type'
 
 export interface InitViewportDomReturn {

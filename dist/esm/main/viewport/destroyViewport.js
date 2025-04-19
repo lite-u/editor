@@ -9,3 +9,4 @@ export function destroyViewport() {
     // @ts-ignore
     this.viewport = null;
 }
+//# sourceMappingURL=destroyViewport.js.map

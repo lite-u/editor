@@ -1,9 +1,9 @@
-import deduplicateObjectsByKeyValue from './deduplicate.ts';
-import { setFloatOnProps } from '../utils.ts';
+import deduplicateObjectsByKeyValue from './deduplicate';
+import { setFloatOnProps } from '../utils';
 const circleRender = (ctx, circles) => {
     let uintArray = circles;
     if (uintArray.length > 1000) {
-        uintArray = circles.map(item => {
+        circles.map(item => {
             return setFloatOnProps(item, ['x', 'y', 'r1', 'r2']);
         });
     }
@@ -65,3 +65,4 @@ const circleRender = (ctx, circles) => {
       `);*/
 };
 export default circleRender;
+//# sourceMappingURL=circleRender.js.map

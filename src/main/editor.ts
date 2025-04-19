@@ -1,10 +1,10 @@
 import {EditorExportFileType, EventHandlers} from './type'
-import History from './history/history.ts'
-import Action from './actions/actions.ts'
+import History from './history/history'
+import Action from './actions/actions'
 import {
   generateBoundingRectFromTwoPoints,
   rectsOverlap,
-} from '../core/utils.ts'
+} from '../core/utils'
 import {
   batchAdd,
   batchCopy,
@@ -12,23 +12,22 @@ import {
   batchDelete,
   batchModify,
   batchMove,
-} from './modules/moduleModify.ts'
+} from './modules/moduleModify'
 import {OperationHandlers, ResizeHandler, SelectionActionMode} from './selection/type'
 import {
   modifySelected,
-} from './selection/helper.ts'
-import {updateScrollBars} from './viewport/domManipulations.ts'
-import selectionRender from './viewport/selectionRender.ts'
-import {worldToScreen, screenToWorld} from '../lib/lib.ts'
+} from './selection/helper'
+import {updateScrollBars} from './viewport/domManipulations'
+import selectionRender from './viewport/selectionRender'
+import {worldToScreen, screenToWorld} from '../lib/lib'
 import {Viewport, ViewportManipulationType} from './viewport/type'
-import {createViewport} from './viewport/createViewport.ts'
-import {destroyViewport} from './viewport/destroyViewport.ts'
-import {initEditor} from './initEditor.ts'
+import {createViewport} from './viewport/createViewport'
+import {destroyViewport} from './viewport/destroyViewport'
+import {initEditor} from './initEditor'
 import {EditorEventType} from './actions/type'
-import {zoomAtPoint} from './viewport/helper.ts'
-// import deduplicateObjectsByKeyValue from '../core/renderer/deduplicate.ts'
-// import resetCanvas from './viewport/resetCanvas.tsx'
-import {RectangleProps} from '../core/modules/shapes/rectangle.ts'
+import {zoomAtPoint} from './viewport/helper'
+import {RectangleProps} from '../core/modules/shapes/rectangle'
+import {ModuleInstance, ModuleMap, ModuleProps} from '../core/modules/modules'
 
 export interface EditorDataProps {
   id: UID;

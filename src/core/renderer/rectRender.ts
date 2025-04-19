@@ -1,5 +1,5 @@
 import {RectangleRenderProps} from './type'
-import deduplicateObjectsByKeyValue from './deduplicate.ts'
+import deduplicateObjectsByKeyValue from './deduplicate'
 
 const rectRender = (ctx: CanvasRenderingContext2D, rects: RectangleRenderProps[]): void => {
   let uintArray = rects

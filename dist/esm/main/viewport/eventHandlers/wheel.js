@@ -1,4 +1,4 @@
-import { isNegativeZero } from '../../../core/utils.ts';
+import { isNegativeZero } from '../../../core/utils';
 function handleWheel(event) {
     // Prevent page zoom
     if (event.target !== this.viewport.wrapper)
@@ -172,3 +172,4 @@ function isFloat(v) {
     return Math.abs(v) % 1 !== 0;
 }
 export default handleWheel;
+//# sourceMappingURL=wheel.js.map

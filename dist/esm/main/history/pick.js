@@ -1,5 +1,5 @@
-import { redo } from './redo.ts';
-import { undo } from './undo.ts';
+import { redo } from './redo';
+import { undo } from './undo';
 export function pick(targetNode) {
     const relativePosition = this.history.compareToCurrentPosition(targetNode);
     if (!relativePosition || relativePosition === 'equal')
@@ -25,3 +25,4 @@ export function pick(targetNode) {
         // do sth...
     }
 }
+//# sourceMappingURL=pick.js.map

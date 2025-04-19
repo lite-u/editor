@@ -1,13 +1,13 @@
-import { initViewportDom } from './domManipulations.ts';
-import { generateBoundingRectFromTwoPoints, throttle, } from '../../core/utils.ts';
-import handleMouseDown from './eventHandlers/mouseDown.ts';
-import handleMouseUp from './eventHandlers/mouseUp.ts';
-import handleKeyDown from './eventHandlers/keyDown.ts';
-import handleKeyUp from './eventHandlers/keyUp.ts';
-import handleWheel from './eventHandlers/wheel.ts';
-import handlePointerMove from './eventHandlers/pointerMove.ts';
-import handleContextMenu from './eventHandlers/contextMenu.ts';
-import Rectangle from '../../core/modules/shapes/rectangle.ts';
+import { initViewportDom } from './domManipulations';
+import { generateBoundingRectFromTwoPoints, throttle, } from '../../core/utils';
+import handleMouseDown from './eventHandlers/mouseDown';
+import handleMouseUp from './eventHandlers/mouseUp';
+import handleKeyDown from './eventHandlers/keyDown';
+import handleKeyUp from './eventHandlers/keyUp';
+import handleWheel from './eventHandlers/wheel';
+import handlePointerMove from './eventHandlers/pointerMove';
+import handleContextMenu from './eventHandlers/contextMenu';
+import Rectangle from '../../core/modules/shapes/rectangle';
 export function createViewport() {
     const { wrapper, mainCanvas, selectionCanvas, selectionBox, scrollBarX, scrollBarY, cursor, } = initViewportDom(this.id);
     const selectionCTX = selectionCanvas.getContext('2d');
@@ -51,7 +51,7 @@ export function createViewport() {
         spaceKeyDown: false,
         zooming: false,
         dpr: this.config.dpr,
-        frame: new Rectangle(Object.assign({}, this.config.frame)),
+        frame: new Rectangle({ ...this.config.frame }),
         offset: { x: 0, y: 0 },
         viewportRect,
         worldRect,
@@ -71,3 +71,4 @@ export function createViewport() {
         eventsController,
     };
 }
+//# sourceMappingURL=createViewport.js.map

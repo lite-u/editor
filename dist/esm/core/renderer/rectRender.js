@@ -1,8 +1,14 @@
-import deduplicateObjectsByKeyValue from './deduplicate.ts';
+import deduplicateObjectsByKeyValue from './deduplicate';
 const rectRender = (ctx, rects) => {
     let uintArray = rects;
     if (uintArray.length > 1000) {
-        uintArray = rects.map(item => (Object.assign(Object.assign({}, item), { x: Math.floor(item.x), y: Math.floor(item.y), width: Math.floor(item.width), height: Math.floor(item.height) })));
+        uintArray = rects.map(item => ({
+            ...item,
+            x: Math.floor(item.x),
+            y: Math.floor(item.y),
+            width: Math.floor(item.width),
+            height: Math.floor(item.height),
+        }));
     }
     const rectQueue = deduplicateObjectsByKeyValue(uintArray);
     // Start rendering
@@ -64,3 +70,4 @@ const rectRender = (ctx, rects) => {
     });
 };
 export default rectRender;
+//# sourceMappingURL=rectRender.js.map

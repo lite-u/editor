@@ -1,5 +1,6 @@
-import Rectangle from '../../core/modules/shapes/rectangle.ts'
-import Editor from '../editor.ts'
+import Rectangle from '../../core/modules/shapes/rectangle'
+import Editor from '../editor'
+import {ModuleInstance} from '../../core/modules/modules'
 
 type FrameType = 'A4' | 'A4L' | 'photo1'
 

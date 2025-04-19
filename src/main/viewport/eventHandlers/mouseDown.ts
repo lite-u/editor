@@ -1,5 +1,5 @@
-import Editor from '../../editor.ts'
-import {detectHoveredModule} from './funcs.ts'
+import Editor from '../../editor'
+import {detectHoveredModule} from './funcs'
 
 function handleMouseDown(this: Editor, e: MouseEvent) {
   const {shiftKey, clientY, target, button, clientX, metaKey, ctrlKey} =

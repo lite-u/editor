@@ -33,3 +33,4 @@ const lineRender = (ctx, rects) => {
     ctx.restore();
 };
 export default lineRender;
+//# sourceMappingURL=lineRender.js.map

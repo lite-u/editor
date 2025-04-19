@@ -1,7 +1,8 @@
 import Editor from '../editor'
-import Rectangle from '../../core/modules/shapes/rectangle.ts'
-import Ellipse, {EllipseProps} from '../../core/modules/shapes/ellipse.ts'
-import deepClone from '../../lib/deepClone.ts'
+import Rectangle from '../../core/modules/shapes/rectangle'
+import Ellipse, {EllipseProps} from '../../core/modules/shapes/ellipse'
+import deepClone from '../../lib/deepClone'
+import {ModuleInstance, ModuleMap, ModuleProps} from '../../core/modules/modules'
 
 export function batchCreate(this: Editor, moduleDataList: ModuleProps[]): ModuleMap {
   const clonedData = deepClone(moduleDataList) as ModuleProps[]
@@ -96,7 +97,7 @@ export function batchModify(this: Editor, idSet: Set<UID>, data: Partial<ModuleP
   modulesMap.forEach((module: ModuleInstance) => {
     Object.keys(data).forEach((key) => {
       const keyName = key as keyof ModuleProps
-      module[keyName] = data[key]
+      module[keyName] = data[keyName]
     })
   })
 }

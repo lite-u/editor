@@ -1,7 +1,7 @@
-import {ModuleProps} from '../core/modules/modules'
-import History from './history/history.ts'
-import {RectangleProps} from '../core/modules/shapes/rectangle.ts'
-import {EditorConfig} from './editor.ts'
+import {ModuleMap, ModuleProps} from '../core/modules/modules'
+import History from './history/history'
+import {RectangleProps} from '../core/modules/shapes/rectangle'
+import {EditorConfig} from './editor'
 
 export type ModuleMoveDirection =
   'module-move-up' |
@@ -47,7 +47,7 @@ type ViewportUpdatedHandler = (viewportInfo: ViewportData) => void;
 type WorldUpdatedHandler = (worldInfo: WorldInfo) => void;
 type WorldMouseMoveUpdatedHandler = (point: Point) => void;
 type ContextMenuHandler = (position: Point) => void;
-type ModuleCopiedHandler = (ModuleProps) => void;
+type ModuleCopiedHandler = (p:ModuleProps[]) => void;
 
 export declare type EventHandlers = {
   onInitialized?: InitializedHandler

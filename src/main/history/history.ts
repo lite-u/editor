@@ -1,6 +1,6 @@
-import Editor from '../editor.ts'
-import DoublyLinkedList, {HistoryNode} from './DoublyLinkedList.ts'
-import {extractIdSetFromArray} from './helpers.ts'
+import Editor from '../editor'
+import DoublyLinkedList, {HistoryNode} from './DoublyLinkedList'
+import {extractIdSetFromArray} from './helpers'
 import {HistoryModules, HistoryOperation} from './type'
 
 class History extends DoublyLinkedList {

@@ -23,3 +23,4 @@ function drawGrid({ ctx, width, height, gridSize = 50, lineWidth, strokeStyle = 
     }
 }
 export default drawGrid;
+//# sourceMappingURL=Grid.js.map

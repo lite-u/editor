@@ -1,8 +1,7 @@
-import { updateCursor, updateSelectionBox } from '../domManipulations.ts';
-import Base from '../../../core/modules/base.ts';
-import { applyResize } from './funcs.ts';
+import { updateCursor, updateSelectionBox } from '../domManipulations';
+import Base from '../../../core/modules/base';
+import { applyResize } from './funcs';
 function handleMouseUp(e) {
-    var _a, _b;
     const leftMouseClick = e.button === 0;
     if (leftMouseClick) {
         const { draggingModules, manipulationStatus, moduleMap, _selectingModules, selectedShadow, viewport, } = this;
@@ -66,7 +65,7 @@ function handleMouseUp(e) {
                 {
                     const { altKey, shiftKey } = e;
                     const props = applyResize.call(this, altKey, shiftKey);
-                    const moduleOrigin = (_a = this._resizingOperator) === null || _a === void 0 ? void 0 : _a.moduleOrigin;
+                    const moduleOrigin = this._resizingOperator?.moduleOrigin;
                     const rollbackProps = {};
                     Object.keys(props).forEach((key) => {
                         rollbackProps[key] = moduleOrigin[key];
@@ -86,7 +85,7 @@ function handleMouseUp(e) {
                 {
                     const { shiftKey } = e;
                     const newRotation = Base.applyRotating.call(this, shiftKey);
-                    const { rotation } = (_b = this._rotatingOperator) === null || _b === void 0 ? void 0 : _b.moduleOrigin;
+                    const { rotation } = this._rotatingOperator?.moduleOrigin;
                     const rollbackProps = { rotation };
                     // rotate back
                     this.action.dispatch('module-modifying', {
@@ -122,3 +121,4 @@ function handleMouseUp(e) {
     }
 }
 export default handleMouseUp;
+//# sourceMappingURL=mouseUp.js.map

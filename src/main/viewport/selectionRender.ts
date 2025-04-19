@@ -1,6 +1,7 @@
-import Rectangle from '../../core/modules/shapes/rectangle.ts'
-// import {drawCrossLine} from '../../lib/lib.ts'
-import Editor from '../editor.ts'
+import Rectangle from '../../core/modules/shapes/rectangle'
+// import {drawCrossLine} from '../../lib/lib'
+import Editor from '../editor'
+import {ModuleInstance} from '../../core/modules/modules'
 
 function selectionRender(this: Editor) {
   if (this.moduleMap.size === 0) return

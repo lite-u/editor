@@ -1,15 +1,15 @@
-import History from './history/history.ts';
-import Action from './actions/actions.ts';
-import { generateBoundingRectFromTwoPoints, rectsOverlap, } from '../core/utils.ts';
-import { batchAdd, batchCopy, batchCreate, batchDelete, batchModify, batchMove, } from './modules/moduleModify.ts';
-import { modifySelected, } from './selection/helper.ts';
-import { updateScrollBars } from './viewport/domManipulations.ts';
-import selectionRender from './viewport/selectionRender.ts';
-import { worldToScreen, screenToWorld } from '../lib/lib.ts';
-import { createViewport } from './viewport/createViewport.ts';
-import { destroyViewport } from './viewport/destroyViewport.ts';
-import { initEditor } from './initEditor.ts';
-import { zoomAtPoint } from './viewport/helper.ts';
+import History from './history/history';
+import Action from './actions/actions';
+import { generateBoundingRectFromTwoPoints, rectsOverlap, } from '../core/utils';
+import { batchAdd, batchCopy, batchCreate, batchDelete, batchModify, batchMove, } from './modules/moduleModify';
+import { modifySelected, } from './selection/helper';
+import { updateScrollBars } from './viewport/domManipulations';
+import selectionRender from './viewport/selectionRender';
+import { worldToScreen, screenToWorld } from '../lib/lib';
+import { createViewport } from './viewport/createViewport';
+import { destroyViewport } from './viewport/destroyViewport';
+import { initEditor } from './initEditor';
+import { zoomAtPoint } from './viewport/helper';
 class Editor {
     constructor({ container, data, events = {}, config, }) {
         this.moduleCounter = 0;
@@ -274,7 +274,7 @@ class Editor {
         const { x, y, width, height } = rect;
         const viewportWidth = width * dpr;
         const viewportHeight = height * dpr;
-        this.viewport.rect = Object.assign(Object.assign({}, rect), { cx: x + width / 2, cy: y + height / 2 });
+        this.viewport.rect = { ...rect, cx: x + width / 2, cy: y + height / 2 };
         this.viewport.viewportRect = generateBoundingRectFromTwoPoints({ x: 0, y: 0 }, { x: viewportWidth, y: viewportHeight });
         mainCanvas.width = selectionCanvas.width = viewportWidth;
         mainCanvas.height = selectionCanvas.height = viewportHeight;
@@ -296,3 +296,4 @@ class Editor {
     }
 }
 export default Editor;
+//# sourceMappingURL=editor.js.map

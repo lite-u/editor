@@ -1,6 +1,6 @@
 import {ResizeHandler, SelectionActionMode} from './type'
-import Editor from '../editor.ts'
-import typeCheck from '../../lib/typeCheck.ts'
+import Editor from '../editor'
+import typeCheck from '../../lib/typeCheck'
 
 export function modifySelected(
   this: Editor,
@@ -52,7 +52,7 @@ export function modifySelected(
   // this.events.onSelectionUpdated?.(idSet, eventCallBackData)
 }
 
-export function updateSelectionCanvasRenderData(this: Editor) {
+/*export function updateSelectionCanvasRenderData(this: Editor) {
   const moduleProps = this.getSelectedPropsIfUnique
 
   return
@@ -79,4 +79,4 @@ export function updateSelectionCanvasRenderData(this: Editor) {
       },
     )
   }
-}
+}*/

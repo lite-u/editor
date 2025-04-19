@@ -1,22 +1,11 @@
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
-import { generateBoundingRectFromRotatedRect } from '../../utils.ts';
-import Shape from './shape.ts';
-import Rectangle from './rectangle.ts';
-import { getResizeTransform } from '../../../lib/lib.ts';
+import { generateBoundingRectFromRotatedRect } from '../../utils';
+import Shape from './shape';
+import Rectangle from './rectangle';
+import { getResizeTransform } from '../../../lib/lib';
 class Ellipse extends Shape {
-    constructor(_a) {
-        var { fillColor, enableFill = true, r1, r2 } = _a, rest = __rest(_a, ["fillColor", "enableFill", "r1", "r2"]);
-        super(Object.assign({ type: 'rectangle' }, rest));
+    constructor({ fillColor, enableFill = true, r1, r2, ...rest }) {
+        super({ ...rest });
+        this.type = 'ellipse';
         this.r1 = r1;
         this.r2 = r2;
         this.fillColor = fillColor;
@@ -42,7 +31,13 @@ class Ellipse extends Shape {
         return null;
     }
     getDetails(includeIdentifiers = true) {
-        return Object.assign(Object.assign({}, super.getDetails(includeIdentifiers)), { fillColor: this.fillColor, enableFill: this.enableFill, r1: this.r1, r2: this.r2 });
+        return {
+            ...super.getDetails(includeIdentifiers),
+            fillColor: this.fillColor,
+            enableFill: this.enableFill,
+            r1: this.r1,
+            r2: this.r2,
+        };
     }
     getBoundingRect() {
         const { x: cx, y: cy, r1, r2, rotation } = this;
@@ -64,10 +59,15 @@ class Ellipse extends Shape {
     }
     getSelectedBoxModule(lineWidth, lineColor) {
         const { id, rotation, layer } = this;
-        const rectProp = Object.assign(Object.assign({}, this.getRect()), { lineColor,
+        const rectProp = {
+            ...this.getRect(),
+            lineColor,
             lineWidth,
             rotation,
-            layer, id: id + '-selected-box', opacity: 0 });
+            layer,
+            id: id + '-selected-box',
+            opacity: 0,
+        };
         return new Rectangle(rectProp);
     }
     getHighlightModule(lineWidth, lineColor) {
@@ -217,3 +217,4 @@ Ellipse.applyResizeTransform = ({ downPoint, movePoint, moduleOrigin, rotation, 
     return { x, y, r1: width / 2, r2: height / 2 };
 };
 export default Ellipse;
+//# sourceMappingURL=ellipse.js.map

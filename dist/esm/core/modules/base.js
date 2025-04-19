@@ -1,5 +1,7 @@
 class Base {
-    constructor({ id, lineColor, lineWidth = 1, opacity = 100, type, layer = 1, rotation = 0, shadow = false, enableLine = true, }) {
+    constructor({ id, lineColor, lineWidth = 1, opacity = 100, 
+    // type,
+    layer = 1, rotation = 0, shadow = '', enableLine = true, }) {
         this.id = id;
         this.layer = layer;
         this.enableLine = enableLine;
@@ -8,11 +10,11 @@ class Base {
         this.opacity = opacity;
         this.rotation = rotation;
         this.shadow = shadow;
-        this.type = type;
+        // this.type = type
     }
     getDetails(includeIdentifiers = true) {
         const base = {
-            type: this.type,
+            // type: this.type,
             enableLine: this.enableLine,
             lineColor: this.lineColor,
             lineWidth: this.lineWidth,
@@ -21,7 +23,11 @@ class Base {
             rotation: this.rotation,
         };
         if (includeIdentifiers) {
-            return Object.assign(Object.assign({}, base), { id: this.id, layer: this.layer });
+            return {
+                ...base,
+                id: this.id,
+                layer: this.layer,
+            };
         }
         return base;
     }
@@ -52,3 +58,4 @@ class Base {
     }
 }
 export default Base;
+//# sourceMappingURL=base.js.map

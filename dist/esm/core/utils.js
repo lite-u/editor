@@ -111,3 +111,4 @@ export const setFloatOnProps = (obj, keys) => {
         obj[key] = Math.floor(obj[key]);
     });
 };
+//# sourceMappingURL=utils.js.map

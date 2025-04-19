@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    // Output modern JS
+    "module": "ESNext",
+    // Needed for ESM
+    "moduleResolution": "Node",
+    // Helps resolve imports like Node does
+    "rootDir": "src",
+    // Input source directory
+    "declaration": true,
+    // Generate .d.ts files
+    "emitDeclarationOnly": false,
+    // Emit JS + .d.ts (set true for types-only build)
+    "esModuleInterop": true,
+    // Allow default imports from CommonJS
+    "forceConsistentCasingInFileNames": true,
+    "allowImportingTsExtensions": false,
+    "strict": true,
+    // Enable all strict checks
+    "skipLibCheck": true,
+    "sourceMap": true,
+    // Optional, but good for debugging
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ]
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "test"
+  ]
+}

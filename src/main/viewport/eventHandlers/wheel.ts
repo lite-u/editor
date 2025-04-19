@@ -1,5 +1,5 @@
-import {isNegativeZero} from '../../../core/utils.ts'
-import Editor from '../../editor.ts'
+import {isNegativeZero} from '../../../core/utils'
+import Editor from '../../editor'
 
 function handleWheel(this: Editor, event: WheelEvent) {
   // Prevent page zoom
