@@ -1,0 +1,35 @@
+{
+  "name": "@lite-u/editor",
+  "type": "module",
+  "version": "0.1.22",
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc",
+    "output-json-doc": "node ./docgen.cjs",
+    "watch-json-doc": "node ./docgen.watch.cjs",
+    "PUBLISH": "npm publish --access public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lite-u/editor.git"
+  },
+  "author": "Lucas Chow",
+  "main": "./dist/esm/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "types": "./dist/types/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "ISC",
+  "description": "",
+  "dependencies": {},
+  "devDependencies": {
+    "react-docgen-typescript": "^2.2.2"
+  }
+}

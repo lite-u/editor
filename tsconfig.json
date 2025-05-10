@@ -1,0 +1,44 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "declarationDir": "dist/types",
+    "emitDeclarationOnly": false,
+    "declarationMap": false,
+    "useDefineForClassFields": true,
+    "rootDir": "src",
+    "outDir": "dist/esm",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowImportingTsExtensions": false,
+    "sourceMap": false,
+    "lib": [
+      "DOM",
+      "ES2022",
+      "DOM.Iterable",
+      "ES2015.Iterable"
+    ],
+    "module": "ESNext",
+    "target": "ESNext",
+    "jsx": "react-jsx",
+    "composite": false,
+    "moduleResolution": "node",
+    "downlevelIteration": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": false,
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "test"
+  ]
+}

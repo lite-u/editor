@@ -1,0 +1,6 @@
+docs
+.idea
+.github
+docgen.cjs
+docgen.watch.cjs
+eslint.config.js
