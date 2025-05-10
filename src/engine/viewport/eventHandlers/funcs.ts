@@ -1,5 +1,7 @@
-import Editor from '../../editor.ts'
+import Editor from '../../editor'
 import {ResizeDirection} from '../../selection/type'
+import {Point, UID} from '~/type'
+import {ModuleInstance} from '~/elements/elements'
 
 export function detectHoveredModule(this: Editor) {
   const {viewport} = this
@@ -71,8 +73,10 @@ export function applyResize(this: Editor, altKey: boolean, shiftKey: boolean) {
   const relatedModule = this.moduleMap.get(id)
 
   if (relatedModule) {
+    // @ts-ignore
     const con = relatedModule.constructor as ModuleInstance
     // console.log(resizeParam)
+    // @ts-ignore
     return con.applyResizeTransform(resizeParam)
   }/*
   if (type === 'rectangle') {

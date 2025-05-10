@@ -1,5 +1,5 @@
-import Editor from '../../editor.ts'
-import {applyResize} from './funcs.ts'
+import Editor from '../../editor'
+import {applyResize} from './funcs'
 
 // import {updateSelectionBox} from "../domManipulations.ts"
 

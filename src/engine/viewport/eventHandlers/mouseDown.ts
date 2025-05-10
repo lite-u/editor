@@ -1,4 +1,4 @@
-import Editor from '../../editor.ts'
+import Editor from '../../editor'
 
 function handleMouseDown(this: Editor, e: MouseEvent) {
   const {clientY, target, button, clientX} = e

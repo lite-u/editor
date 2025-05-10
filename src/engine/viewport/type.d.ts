@@ -1,6 +1,4 @@
-import {RectangleRenderProps} from '../../core/renderer/type'
-import Rectangle from '../../core/modules/shapes/rectangle.ts'
-
+/*
 export type ViewportEventType =
   'viewport-resize'
   | 'viewport-mouse-down'
@@ -8,6 +6,7 @@ export type ViewportEventType =
   | 'viewport-mouse-up'
   | 'world-zoom'
   | 'world-shift'
+*/
 
 export type ViewportManipulationType =
   | 'static'

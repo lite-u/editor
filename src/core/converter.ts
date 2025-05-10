@@ -10,52 +10,52 @@ const conversionFactors = {
 }
 
 // Define explicit functions for each unit conversion
-const convertMmToCm = (value: number) => value * conversionFactors.mmToCm;
-const convertCmToMm = (value: number) => value * conversionFactors.cmToMm;
-const convertMmToInches = (value: number) => value * conversionFactors.mmToInches;
-const convertInchesToMm = (value: number) => value * conversionFactors.inchesToMm;
-const convertCmToInches = (value: number) => value * conversionFactors.cmToInches;
-const convertInchesToCm = (value: number) => value * conversionFactors.inchesToCm;
-const convertPxToInches = (value: number, dpi: number) => value / dpi;
-const convertInchesToPx = (value: number, dpi: number) => value * dpi;
-const convertPxToCm = (value: number, dpi: number) => (value / dpi) * 2.54;
-const convertCmToPx = (value: number, dpi: number) => (value / 2.54) * dpi;
-const convertMmToPx = (value: number, dpi: number) => (value / 25.4) * dpi;
-const convertPxToMm = (value: number, dpi: number) => (value / dpi) * 25.4;
+const convertMmToCm = (value: number) => value * conversionFactors.mmToCm
+const convertCmToMm = (value: number) => value * conversionFactors.cmToMm
+const convertMmToInches = (value: number) => value * conversionFactors.mmToInches
+const convertInchesToMm = (value: number) => value * conversionFactors.inchesToMm
+const convertCmToInches = (value: number) => value * conversionFactors.cmToInches
+const convertInchesToCm = (value: number) => value * conversionFactors.inchesToCm
+const convertPxToInches = (value: number, dpi: number) => value / dpi
+const convertInchesToPx = (value: number, dpi: number) => value * dpi
+const convertPxToCm = (value: number, dpi: number) => (value / dpi) * 2.54
+const convertCmToPx = (value: number, dpi: number) => (value / 2.54) * dpi
+const convertMmToPx = (value: number, dpi: number) => (value / 25.4) * dpi
+const convertPxToMm = (value: number, dpi: number) => (value / dpi) * 25.4
 
 // Unit Map for converting between units
 const unitMap: { [key: string]: { [key: string]: Function } } = {
   'mm': {
     'cm': convertMmToCm,
     'inches': convertMmToInches,
-    'px': convertMmToPx
+    'px': convertMmToPx,
   },
   'cm': {
     'mm': convertCmToMm,
     'inches': convertCmToInches,
-    'px': convertCmToPx
+    'px': convertCmToPx,
   },
   'inches': {
     'mm': convertInchesToMm,
     'cm': convertInchesToCm,
-    'px': convertInchesToPx
+    'px': convertInchesToPx,
   },
   'px': {
     'mm': convertPxToMm,
     'cm': convertPxToCm,
-    'inches': convertPxToInches
-  }
+    'inches': convertPxToInches,
+  },
 }
 
 const convertUnit = (value: number, fromUnit: string, toUnit: string, dpi: number = 72): number => {
   // Check if conversion exists in the unitMap object and apply the corresponding function
   if (unitMap[fromUnit] && unitMap[fromUnit][toUnit]) {
-    const conversionFn = unitMap[fromUnit][toUnit];
-    return conversionFn(value, dpi);
+    const conversionFn = unitMap[fromUnit][toUnit]
+    return conversionFn(value, dpi)
   }
 
   // If no valid conversion is found, return NaN or throw an error
-  return NaN;
+  return NaN
 }
 
 export default convertUnit

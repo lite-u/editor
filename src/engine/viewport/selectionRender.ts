@@ -1,6 +1,7 @@
-import Rectangle from '../../core/modules/shapes/rectangle.ts'
-// import {drawCrossLine} from '../../lib/lib.ts'
-import Editor from '../editor.ts'
+import Editor from '../editor'
+import {UID} from '~/core/core'
+import Rectangle from '~/elements/rectangle/rectangle'
+import {ModuleInstance} from '~/elements/elements'
 
 function selectionRender(this: Editor) {
   if (this.moduleMap.size === 0) return
@@ -30,7 +31,7 @@ function selectionRender(this: Editor) {
   // render center points
   centerPoints.forEach((id) => {
     const module = this.moduleMap.get(id)
-    const {x, y, rotation, layer} = (module as Rectangle).getDetails()
+    const {x, y, rotation, layer} = (module as Rectangle).toJSON()
     const lineWidth = 1 / this.viewport.scale * this.viewport.dpr
     const highlightModule = module!.getHighlightModule(lineWidth, fillColor) as ModuleInstance
     const centerDotRect = new Rectangle({

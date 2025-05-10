@@ -1,27 +1,17 @@
-export interface AssetsObj {
-  id: string
-  /**
-   * Or something else
-   */
-  type: 'image'
-  mimeType: string
-  file: File
-  name: string
-  imageRef?: HTMLImageElement
-}
+import {VisionEditorAssetType} from '~/engine/assetsManager/asssetsManager'
 
 class AssetsManager {
-  assetsMap: Map<string, AssetsObj> = new Map()
+  assetsMap: Map<string, VisionEditorAssetType> = new Map()
 
-  constructor(assets: AssetsObj[] = []) {
+  constructor(assets: VisionEditorAssetType[] = []) {
     assets.forEach(asset => this.add(asset))
   }
 
-  getAssetsObj(id: string): AssetsObj | false {
+  getAssetsObj(id: string): VisionEditorAssetType | false {
     return this.assetsMap.get(id) || false
   }
 
-  add(asset: AssetsObj) {
+  add(asset: VisionEditorAssetType) {
     this.assetsMap.set(asset.id, asset)
   }
 

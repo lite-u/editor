@@ -1,4 +1,4 @@
-import {HistoryModuleChangeItem, HistoryModuleChangeProps, ModuleModifyData} from '../actions/type'
+import {HistoryModuleChangeItem} from '../actions/type'
 
 type HistoryPrev = HistoryNode | null
 type HistoryNext = HistoryPrev

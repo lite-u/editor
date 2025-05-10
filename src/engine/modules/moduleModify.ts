@@ -1,11 +1,12 @@
 import Editor from '../editor'
-import deepClone from '../../../utilities/deepClone.ts'
-import Rectangle from '../../core/modules/shapes/rectangle.ts'
-import Ellipse, {EllipseProps} from '../../core/modules/shapes/ellipse.ts'
-import ElementText, {TextProps} from '../../core/modules/shapes/text.ts'
-import ElementImage, {ImageProps} from '../../core/modules/shapes/image.ts'
-import {AssetsObj} from '@editor/engine/assetsManager/AssetsManager.ts'
-import nid from '@editor/lib/nid.ts'
+import Rectangle from '~/elements/rectangle/rectangle'
+import Ellipse, {EllipseProps} from '~/elements/ellipse/ellipse'
+import ElementText, {TextProps} from '~/elements/text/text'
+import ElementImage, {ImageProps} from '~/elements/image/image'
+import nid from '~/core/nid'
+import {ModuleInstance, ModuleMap, ModuleProps} from '~/elements/elements'
+import {UID} from '~/core/core'
+import deepClone from '~/core/deepClone'
 
 export function batchCreate(this: Editor, moduleDataList: ModuleProps[]): ModuleMap {
   const clonedData = deepClone(moduleDataList) as ModuleProps[]
@@ -73,12 +74,14 @@ export function batchAdd(this: Editor, modules: ModuleMap, callback?: VoidFuncti
         const {src} = mod as ElementImage
 
         if (src && !this.assetsManager.getAssetsObj(src)) {
+          // @ts-ignore
           pArr.push(this.assetsManager.add('image', src))
         }
       }
     })
 
-    Promise.all(pArr).then((objs: AssetsObj[]) => objs).finally((objs) => {
+    // @ts-ignore
+    Promise.all(pArr).then((objs: VisionEditorAssetType[]) => objs).finally((objs) => {
       callback(objs)
     })
   }
@@ -102,7 +105,7 @@ export const batchCopy: BatchCopyFn = function (this, idSet, includeIdentifiers)
 
   moduleArr.sort((a, b) => a.layer - b.layer)
 
-  return moduleArr.map(mod => mod.getDetails(includeIdentifiers))
+  return moduleArr.map(mod => mod.toJSON(includeIdentifiers))
 }
 
 export function batchDelete(this: Editor, idSet: Set<UID>): ModuleProps[] {
@@ -132,6 +135,7 @@ export function batchModify(this: Editor, idSet: Set<UID>, data: Partial<ModuleP
   modulesMap.forEach((module: ModuleInstance) => {
     Object.keys(data).forEach((key) => {
       const keyName = key as keyof ModuleProps
+      // @ts-ignore
       module[keyName] = data[key]
     })
   })

@@ -1,15 +1,18 @@
-import Shape, {ShapeProps} from './shape.ts'
-import {generateBoundingRectFromRotatedRect} from '../../utils.ts'
-import {SnapPointData} from '../../../engine/type'
-import {getResizeTransform} from '../../../lib/lib.ts'
-import {ResizeHandleName} from '../../../engine/selection/type'
+import Shape, {ElementShapeSaveProps} from '../shape/shape'
+import {ResizeHandleName} from '../../engine/selection/type'
+import {CenterBasedRect, Point, Rect} from '../../type'
+import {ModuleInstance} from '../elements'
+import {SnapPointData} from '../../engine/type'
+import {getResizeTransform} from '../../core/lib'
+import {generateBoundingRectFromRotatedRect} from '../../core/utils'
 
-export interface RectangleProps extends ShapeProps {
+export interface RectangleProps extends ElementShapeSaveProps {
   width: number
   height: number
   radius?: number
 }
-export type RequiredRectangleProps = Required<RectangleProps>
+
+// export type RequiredRectangleProps = Required<RectangleProps>
 class Rectangle extends Shape {
   // readonly type = 'rectangle'
   width: number
@@ -27,41 +30,6 @@ class Rectangle extends Shape {
     this.width = width!
     this.height = height!
     this.radius = radius!
-  }
-
-  public hitTest(point: Point, borderPadding = 5): 'inside' | 'border' | null {
-    const {x: cx, y: cy, width, height, rotation = 0} = this
-    const rad = rotation * (Math.PI / 180)
-    const cos = Math.cos(-rad)
-    const sin = Math.sin(-rad)
-
-    const dx = point.x - cx
-    const dy = point.y - cy
-
-    // Rotate the point into the rectangle's local coordinate system
-    const localX = dx * cos - dy * sin
-    const localY = dx * sin + dy * cos
-
-    const halfWidth = width / 2
-    const halfHeight = height / 2
-
-    const withinX = localX >= -halfWidth && localX <= halfWidth
-    const withinY = localY >= -halfHeight && localY <= halfHeight
-    // console.log('hit')
-
-    if (withinX && withinY) {
-      const nearLeft = Math.abs(localX + halfWidth) <= borderPadding
-      const nearRight = Math.abs(localX - halfWidth) <= borderPadding
-      const nearTop = Math.abs(localY + halfHeight) <= borderPadding
-      const nearBottom = Math.abs(localY - halfHeight) <= borderPadding
-
-      if (nearLeft || nearRight || nearTop || nearBottom) {
-        return 'border'
-      }
-      return 'inside'
-    }
-
-    return null
   }
 
   static applyResizeTransform = ({
@@ -159,13 +127,48 @@ class Rectangle extends Shape {
     return {x, y, width, height}
   }
 
-  public getDetails<T extends boolean>(includeIdentifiers: T = true as T): T extends true ? RectangleProps : Omit<RectangleProps, 'id' & 'layer'> {
+  public hitTest(point: Point, borderPadding = 5): 'inside' | 'border' | null {
+    const {x: cx, y: cy, width, height, rotation = 0} = this
+    const rad = rotation * (Math.PI / 180)
+    const cos = Math.cos(-rad)
+    const sin = Math.sin(-rad)
+
+    const dx = point.x - cx
+    const dy = point.y - cy
+
+    // Rotate the point into the rectangle's local coordinate system
+    const localX = dx * cos - dy * sin
+    const localY = dx * sin + dy * cos
+
+    const halfWidth = width / 2
+    const halfHeight = height / 2
+
+    const withinX = localX >= -halfWidth && localX <= halfWidth
+    const withinY = localY >= -halfHeight && localY <= halfHeight
+    // console.log('hit')
+
+    if (withinX && withinY) {
+      const nearLeft = Math.abs(localX + halfWidth) <= borderPadding
+      const nearRight = Math.abs(localX - halfWidth) <= borderPadding
+      const nearTop = Math.abs(localY + halfHeight) <= borderPadding
+      const nearBottom = Math.abs(localY - halfHeight) <= borderPadding
+
+      if (nearLeft || nearRight || nearTop || nearBottom) {
+        return 'border'
+      }
+      return 'inside'
+    }
+
+    return null
+  }
+
+  public toJSON<T extends boolean>(includeIdentifiers: T = true as T): T extends true ? RectangleProps : Omit<RectangleProps, 'id' & 'layer'> {
     return {
       type: 'rectangle',
       radius: this.radius,
       width: this.width,
       height: this.height,
-      ...super.getDetails(includeIdentifiers),
+      ...super.toJSON(includeIdentifiers),
     } as T extends true ? RectangleProps : Omit<RectangleProps, 'id' & 'layer'>
   }
 
@@ -242,7 +245,7 @@ class Rectangle extends Shape {
     rotateConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
   ) {
 
-    return super.getOperators(resizeConfig, rotateConfig, this.getRect(), this.getDetails(true))
+    return super.getOperators(resizeConfig, rotateConfig, this.getRect(), this.toJSON(true))
   }
 
   public getSnapPoints(): SnapPointData[] {
@@ -273,7 +276,7 @@ class Rectangle extends Shape {
       // height,
       radius,
     } = this
-    let {x, y, width, height, rotation, opacity, fillColor, lineWidth, lineColor, dashLine} = this.getDetails()
+    let {x, y, width, height, rotation, opacity, fillColor, lineWidth, lineColor, dashLine} = this.toJSON()
 
     // x = Math.round(x)
     // y = Math.round(y)

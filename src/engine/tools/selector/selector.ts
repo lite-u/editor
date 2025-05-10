@@ -1,17 +1,13 @@
-import Editor from '@editor/engine/editor.ts'
-import {generateBoundingRectFromTwoPoints} from '@editor/core/utils.ts'
-import {areSetsEqual, getSymmetricDifference} from '@editor/lib/lib.ts'
-import {updateCursor, updateSelectionBox} from '@editor/engine/viewport/domManipulations.ts'
-import Base from '@editor/core/modules/base.ts'
-import {Tool} from '@editor/engine/tools/tool.ts'
-import {
-  applyResize,
-  detectHoveredModule,
-  getResizeCursor,
-  getRotateAngle,
-} from '@editor/engine/viewport/eventHandlers/funcs.ts'
-import {BoundingRect} from '@editor/type.ts'
-import {ModuleModifyData} from '@editor/engine/actions/type'
+import Editor from '~/engine/editor'
+import {generateBoundingRectFromTwoPoints} from '~/core/utils'
+import {areSetsEqual, getSymmetricDifference} from '~/core/lib'
+import {updateCursor, updateSelectionBox} from '~/engine/viewport/domManipulations'
+import Base from '~/elements/base/base'
+import {Tool} from '~/engine/tools/tool'
+import {applyResize, detectHoveredModule, getResizeCursor, getRotateAngle} from '~/engine/viewport/eventHandlers/funcs'
+import {BoundingRect, UID} from '~/type'
+import {ModuleModifyData} from '~/engine/actions/type'
+import {ModuleProps} from '~/elements/elements'
 
 const selection: Tool = {
   start(this: Editor, e: MouseEvent) {

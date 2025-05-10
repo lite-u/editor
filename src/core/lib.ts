@@ -1,5 +1,5 @@
 import {ResizeHandleName, ResizeTransform} from '../engine/selection/type'
-import {BoundingRect, DPR, Point} from '@editor/type.ts'
+import {BoundingRect, DPR, Point} from '../type'
 
 interface DrawCrossLineProps {
   ctx: CanvasRenderingContext2D;

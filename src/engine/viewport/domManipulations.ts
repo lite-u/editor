@@ -1,5 +1,6 @@
-import Editor from '../editor.ts'
+import Editor from '../editor'
 import {ResizeDirection} from '../selection/type'
+import {Point, Rect} from '~/type'
 
 export interface InitViewportDomReturn {
   wrapper: HTMLDivElement

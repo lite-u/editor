@@ -1,4 +1,5 @@
-import {RenderPropsList} from './renderer/type'
+import {RenderPropsList} from '~/renderer/type'
+import {BoundingRect, Point, Rect} from '~/type'
 
 export const generateBoundingRectFromRotatedRect = ({x, y, width, height}: Rect, rotation: number): BoundingRect => {
   const centerX = x + width / 2

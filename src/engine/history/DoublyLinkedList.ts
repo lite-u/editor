@@ -1,4 +1,4 @@
-import {HistoryOperation, HistoryNext, HistoryPrev} from "./type"
+import {HistoryNext, HistoryOperation, HistoryPrev} from './type'
 
 class HistoryNode {
   data: HistoryOperation
@@ -20,6 +20,12 @@ class DoublyLinkedList {
   current: HistoryNode | null
 
   constructor() {
+    this.head = null
+    this.tail = null
+    this.current = null
+  }
+
+  destroy() {
     this.head = null
     this.tail = null
     this.current = null
@@ -106,17 +112,10 @@ class DoublyLinkedList {
         return 'front'
       }
 
-
       localCurrent = localCurrent.next
     }
 
     return false
-  }
-
-  destroy() {
-    this.head = null
-    this.tail = null
-    this.current = null
   }
 }
 

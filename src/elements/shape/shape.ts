@@ -1,53 +1,94 @@
-import Base, {BasicModuleProps} from '../base.ts'
-import {HANDLER_OFFSETS} from '../handleBasics.ts'
-import {OperationHandlers} from '../../../engine/selection/type'
-import {rotatePoint} from '../../../lib/lib.ts'
-import Rectangle, {RectangleProps} from './rectangle.ts'
+import Base, {ElementBaseProps} from '../base/base'
+import {HANDLER_OFFSETS} from '../handleBasics'
+import {OperationHandlers} from '~/engine/selection/type'
+import {rotatePoint} from '~/core/lib'
+import Rectangle, {RectangleProps} from '../rectangle/rectangle'
+import {ElementFillColor} from '~/core/core'
+import {CenterBasedRect} from '~/type'
+import {ModuleProps} from '../elements'
 
-export interface ShapeProps extends BasicModuleProps {
-  x: number
-  y: number
+export interface ElementShapeProps extends ElementBaseProps {
+  x?: number
+  y?: number
   enableGradient?: boolean
-  gradient?: Gradient
+  gradient?: string
   enableFill?: boolean
-  fillColor?: FillColor
+  fillColor?: ElementFillColor
   dashLine?: string
 }
+
+const DEFAULT_X = 0
+const DEFAULT_Y = 0
+const DEFAULT_ENABLE_GRADIENT = false
+const DEFAULT_GRADIENT = ''
+const DEFAULT_ENABLE_FILL = true
+const DEFAULT_FILL_COLOR = '#fff'
+const DEFAULT_DASH_LINE = ''
 
 class Shape extends Base {
   public x: number
   public y: number
-  readonly fillColor: FillColor
+  readonly fillColor: ElementFillColor
   readonly enableFill: boolean
+  enableGradient?: boolean
+  gradient?: string
+  dashLine?: string
 
   constructor({
-                x,
-                y,
-                fillColor,
-                enableFill = true,
+                x = DEFAULT_X,
+                y = DEFAULT_Y,
+                enableGradient = DEFAULT_ENABLE_GRADIENT,
+                gradient = DEFAULT_GRADIENT,
+                enableFill = DEFAULT_ENABLE_FILL,
+                fillColor = DEFAULT_FILL_COLOR,
+                dashLine = DEFAULT_DASH_LINE,
                 ...rest
-              }: ShapeProps) {
+              }: ElementShapeProps) {
     super(rest)
 
     this.x = x
     this.y = y
-    this.fillColor = fillColor as FillColor
+    this.fillColor = fillColor as ElementFillColor
     this.enableFill = enableFill
+    this.enableGradient = enableGradient
+    this.gradient = gradient
+    this.dashLine = dashLine
   }
 
-  public getDetails<T extends boolean>(
-    includeIdentifiers: T = true as T,
-  ): T extends true ?
-    ShapeProps :
-    Omit<ShapeProps, 'id' & 'layer'> {
+  public toJSON(): ElementShapeProps {
+    const result: ElementShapeProps = {
+      ...super.toJSON(),
+    }
 
-    return {
-      ...super.getDetails(includeIdentifiers),
-      fillColor: this.fillColor,
-      enableFill: this.enableFill,
-      x: this.x,
-      y: this.y,
-    } as T extends true ? ShapeProps : Omit<ShapeProps, 'id' & 'layer'>
+    if (this.x === DEFAULT_X) {
+      result.x = this.x
+    }
+
+    if (this.y === DEFAULT_Y) {
+      result.y = this.y
+    }
+
+    if (this.enableGradient === DEFAULT_ENABLE_GRADIENT) {
+      result.enableGradient = this.enableGradient
+    }
+
+    if (this.gradient === DEFAULT_GRADIENT) {
+      result.gradient = this.gradient
+    }
+
+    if (this.enableFill === DEFAULT_ENABLE_FILL) {
+      result.enableFill = this.enableFill
+    }
+
+    if (this.fillColor === DEFAULT_FILL_COLOR) {
+      result.fillColor = this.fillColor
+    }
+
+    if (this.dashLine === DEFAULT_DASH_LINE) {
+      result.dashLine = this.dashLine
+    }
+
+    return result
   }
 
   move(x: number, y: number) {

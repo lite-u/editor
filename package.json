@@ -3,8 +3,9 @@
   "type": "module",
   "version": "0.1.22",
   "scripts": {
-    "dev": "tsc --watch",
-    "build": "tsc",
+    "build": "tsc && resolve-tspaths",
+    "resolve-tspaths": "resolve-tspaths",
+    "build:watch": "tsc-watch --onEmit 'resolve-tspaths'",
     "output-json-doc": "node ./docgen.cjs",
     "watch-json-doc": "node ./docgen.watch.cjs",
     "PUBLISH": "npm publish --access public"
@@ -16,11 +17,15 @@
   "author": "Lucas Chow",
   "main": "./dist/esm/index.js",
   "module": "./dist/esm/index.js",
-  "types": "./dist/types/index.d.ts",
+  "types": "./dist/types/types.d.ts",
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
       "types": "./dist/types/index.d.ts"
+    },
+    "./types": {
+      "types": "./dist/types/type.d.ts",
+      "default": "./dist/types/type.d.ts"
     }
   },
   "files": [
@@ -29,6 +34,10 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "react-docgen-typescript": "^2.2.2"
+    "react-docgen-typescript": "^2.2.2",
+    "resolve-tspaths": "^0.8.23"
+  },
+  "dependencies": {
+    "tsc-watch": "^6.2.1"
   }
 }

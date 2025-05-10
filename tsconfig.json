@@ -11,6 +11,9 @@
     "forceConsistentCasingInFileNames": true,
     "allowImportingTsExtensions": false,
     "sourceMap": false,
+    "paths": {
+      "~/*": ["./src/*"]
+    },
     "lib": [
       "DOM",
       "ES2022",

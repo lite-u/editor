@@ -1,11 +1,13 @@
-import {generateBoundingRectFromRotatedRect} from '../../utils.ts'
-import Shape, {ShapeProps} from './shape.ts'
-import {SnapPointData} from '../../../engine/type'
-import Rectangle from './rectangle.ts'
-import {ResizeHandleName} from '../../../engine/selection/type'
-import {getResizeTransform} from '../../../lib/lib.ts'
+import {generateBoundingRectFromRotatedRect} from '~/core/utils'
+import Shape, {ElementShapeSaveProps} from '../shape/shape'
+import {SnapPointData} from '../../engine/type'
+import Rectangle from '../rectangle/rectangle'
+import {ResizeHandleName} from '../../engine/selection/type'
+import {getResizeTransform} from '../../core/lib'
+import { ElementFillColor } from '~/type'
+import renderer from '~/elements/image/renderer'
 
-export interface EllipseProps extends ShapeProps {
+export interface EllipseProps extends ElementShapeSaveProps {
   type: 'ellipse'
   r1: number
   r2: number
@@ -15,7 +17,7 @@ class Ellipse extends Shape {
   // type = 'ellipse'
   r1: number
   r2: number
-  readonly fillColor: FillColor
+  readonly fillColor: ElementFillColor
   readonly enableFill: boolean
 
   constructor({
@@ -29,7 +31,7 @@ class Ellipse extends Shape {
 
     this.r1 = r1!
     this.r2 = r2!
-    this.fillColor = fillColor as FillColor
+    this.fillColor = fillColor as ElementFillColor
     this.enableFill = enableFill
   }
 
@@ -158,14 +160,14 @@ class Ellipse extends Shape {
     return null
   }
 
-  public getDetails<T extends boolean>(
+  public toJSON<T extends boolean>(
     includeIdentifiers: T = true as T,
   ): T extends true ?
     EllipseProps :
     Omit<EllipseProps, 'id' & 'layer'> {
 
     return {
-      ...super.getDetails(includeIdentifiers),
+      ...super.toJSON(includeIdentifiers),
       type: 'ellipse',
       fillColor: this.fillColor,
       enableFill: this.enableFill,
@@ -233,7 +235,7 @@ class Ellipse extends Shape {
     resizeConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
     rotateConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
   ) {
-    return super.getOperators(resizeConfig, rotateConfig, this.getRect(), this.getDetails(true),
+    return super.getOperators(resizeConfig, rotateConfig, this.getRect(), this.toJSON(true),
     )
   }
 
@@ -253,72 +255,7 @@ class Ellipse extends Shape {
   }
 
   render(ctx: CanvasRenderingContext2D) {
-    let {x, y, r1, r2, opacity, fillColor, rotation, dashLine, gradient} = this.getDetails()
-    const {
-      lineWidth,
-      lineColor,
-    } = super.getDetails()
-
-    // x = Math.round(x)
-    // y = Math.round(y)
-    // r1 = Math.round(r1)
-    // r2 = Math.round(r2)
-
-    // Save current context state to avoid transformations affecting other drawings
-    ctx.save()
-    // Move context to the circle's center
-    ctx.translate(x, y)
-
-    // Apply rotation if needed
-    if (rotation !== 0) {
-      ctx.rotate(rotation! * Math.PI / 180) // Convert to radians
-    }
-
-    // Apply fill style if enabled
-    if (opacity > 0) {
-      ctx.fillStyle = fillColor as string
-      ctx.globalAlpha = opacity / 100 // Set the opacity
-    }
-
-    // Apply stroke style if enabled
-    if (lineWidth > 0) {
-      ctx.lineWidth = lineWidth
-      ctx.strokeStyle = lineColor
-      ctx.lineJoin = 'round'
-    }
-
-    // Draw circle
-    ctx.beginPath()
-    ctx.ellipse(0, 0, r1, r2, 0, 0, Math.PI * 2) // Ellipse for circle (can use same radius for both axes)
-
-    if (dashLine) {
-      ctx.setLineDash([3, 5]) // Apply dashed line pattern
-    } else {
-      ctx.setLineDash([]) // Reset line dash if no dashLine
-    }
-
-    ctx.closePath()
-
-    // Fill if enabled
-    if (opacity > 0) {
-      ctx.fill()
-    }
-
-    // Stroke if enabled
-    if (lineWidth > 0) {
-      ctx.stroke()
-    }
-
-    // Apply gradient if provided
-    if (gradient) {
-      ctx.fillStyle = gradient // Use gradient for fill
-      if (opacity > 0) {
-        ctx.fill() // Fill with gradient
-      }
-    }
-
-    // Restore the context to avoid affecting subsequent drawings
-    ctx.restore()
+    renderer(this,ctx)
   }
 }
 

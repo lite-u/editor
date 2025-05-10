@@ -1,16 +1,17 @@
-import resetCanvas from './viewport/resetCanvas.tsx'
+import resetCanvas from './viewport/resetCanvas'
 import {HistoryModuleChangeItem, ModuleModifyData, SelectionModifyData} from './actions/type'
-import Editor from './editor.ts'
-import {redo} from './history/redo.ts'
-import {undo} from './history/undo.ts'
-import {pick} from './history/pick.ts'
+import Editor from './editor'
+import {redo} from './history/redo'
+import {undo} from './history/undo'
+import {pick} from './history/pick'
 import {HistoryOperation} from './history/type'
-import {updateSelectionCanvasRenderData} from './selection/helper.ts'
+import {updateSelectionCanvasRenderData} from './selection/helper'
 // import zoom from '../../components/statusBar/zoom'
-import {fitRectToViewport} from './viewport/helper.ts'
-import {Point} from '@editor/type.ts'
-import selector from '@editor/engine/tools/selector/selector.ts'
-import rectangle from '@editor/engine/tools/rectangle/rectangle.ts'
+import {fitRectToViewport} from './viewport/helper'
+import {Point} from '~/type'
+import selector from '~/engine/tools/selector/selector'
+import rectangle from '~/engine/tools/rectangle/rectangle'
+import {ModuleProps} from '~/elements/elements'
 
 export function initEditor(this: Editor) {
   const {container, viewport, action} = this
@@ -268,7 +269,7 @@ export function initEditor(this: Editor) {
     this.batchAdd(newModules)
     this.replaceSelected(savedSelected)
 
-    const moduleProps = [...newModules.values()].map((mod) => mod.getDetails())
+    const moduleProps = [...newModules.values()].map((mod) => mod.toJSON())
 
     dispatch('module-updated', {
       type: 'history-duplicate',
@@ -340,7 +341,7 @@ export function initEditor(this: Editor) {
       })*/
     this.replaceSelected(savedSelected)
 
-    const moduleProps = [...newModules.values()].map((mod) => mod.getDetails())
+    const moduleProps = [...newModules.values()].map((mod) => mod.toJSON())
 
     dispatch('module-updated', {
       type: 'history-add',

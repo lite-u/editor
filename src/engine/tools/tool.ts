@@ -1,4 +1,4 @@
-import Editor from '@editor/engine/editor.ts'
+import Editor from '~/engine/editor'
 
 export type Tool = {
   start: (this: Editor, e: MouseEvent) => void

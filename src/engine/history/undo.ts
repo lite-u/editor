@@ -1,7 +1,7 @@
 import {HistoryModules} from './type'
-import {extractIdSetFromArray} from './helpers.ts'
-import {HistoryNode} from './DoublyLinkedList.ts'
-import Editor from '../editor.ts'
+import {extractIdSetFromArray} from './helpers'
+import {HistoryNode} from './DoublyLinkedList'
+import Editor from '../editor'
 
 export function undo(this: Editor, quiet: boolean = false): HistoryNode | false {
   if (this.history.current === this.history.head) return false
@@ -67,7 +67,7 @@ export function undo(this: Editor, quiet: boolean = false): HistoryNode | false 
     this.replaceSelected(backedNodeSelectedModules)
     this.action.dispatch('selection-updated')
 
-   }
+  }
 
   return this.history.current as HistoryNode
 }

@@ -1,4 +1,4 @@
-import Rectangle, {RectangleProps} from './rectangle'
+import Rectangle, {RectangleProps} from '../rectangle/rectangle'
 
 export interface TextProps extends RectangleProps {
   type: 'text'
@@ -53,11 +53,11 @@ class ElementText extends Rectangle {
     this.lineHeight = lineHeight
   }
 
-  public getDetails<T extends boolean>(includeIdentifiers: T = true as T): T extends true ? RectangleProps : Omit<RectangleProps, 'id' & 'layer'> {
+  public toJSON<T extends boolean>(includeIdentifiers: T = true as T): T extends true ? RectangleProps : Omit<RectangleProps, 'id' & 'layer'> {
     return {
       content: this.content,
       textColor: this.textColor,
-      ...super.getDetails(includeIdentifiers),
+      ...super.toJSON(includeIdentifiers),
     } as T extends true ? RectangleProps : Omit<RectangleProps, 'id' & 'layer'>
   }
 
@@ -66,7 +66,7 @@ class ElementText extends Rectangle {
     rotateConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
   ) {
 
-    return super.getOperators(resizeConfig, rotateConfig, this.getRect(), this.getDetails(true))
+    return super.getOperators(resizeConfig, rotateConfig, this.getRect(), this.toJSON(true))
   }
 
   render(ctx: CanvasRenderingContext2D): void {

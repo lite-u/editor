@@ -1,4 +1,4 @@
-// import Editor from '../editor.ts'
+// import Editor from '../editor'
 import {VisionEventData, VisionEventType} from './type'
 
 export type EventsCallback<K extends VisionEventType> = VisionEventData<K> extends never ? () => void : (data: VisionEventData<K>) => void;

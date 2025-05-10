@@ -1,4 +1,4 @@
-import Rectangle, {RectangleProps} from './rectangle'
+import Rectangle, {RectangleProps} from '../rectangle/rectangle'
 
 export interface ImageProps extends RectangleProps {
   type: 'image'
@@ -17,10 +17,10 @@ class ElementImage extends Rectangle {
     this.src = src
   }
 
-  public getDetails<T extends boolean>(includeIdentifiers: T = true as T): T extends true ? RectangleProps : Omit<RectangleProps, 'id' & 'layer'> {
+  public toJSON<T extends boolean>(includeIdentifiers: T = true as T): T extends true ? RectangleProps : Omit<RectangleProps, 'id' & 'layer'> {
     return {
       src: this.src,
-      ...super.getDetails(includeIdentifiers),
+      ...super.toJSON(includeIdentifiers),
     } as T extends true ? RectangleProps : Omit<RectangleProps, 'id' & 'layer'>
   }
 
@@ -29,7 +29,7 @@ class ElementImage extends Rectangle {
     rotateConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
   ) {
 
-    return super.getOperators(resizeConfig, rotateConfig, this.getRect(), this.getDetails(true))
+    return super.getOperators(resizeConfig, rotateConfig, this.getRect(), this.toJSON(true))
   }
 
   render(ctx: CanvasRenderingContext2D, img: HTMLImageElement): void {

@@ -1,7 +1,8 @@
-import {ModuleProps} from '../core/modules/modules'
-import History from './history/history.ts'
-import {EditorConfig} from './editor.ts'
-import {ToolName} from '@editor/engine/tools/tool.ts'
+import {ModuleProps} from '~/elements/elements'
+import History from './history/history'
+import {EditorConfig} from './editor'
+import {ToolName} from '~/engine/tools/tool'
+import {Point} from '~/type'
 
 export type ModuleMoveDirection =
   'module-move-up' |
@@ -85,5 +86,3 @@ export interface EditorInterface {
   events?: EventHandlers;
   config: EditorConfig;
 }
-
-export type {ToolName} from '@editor/engine/tools/tool.ts'

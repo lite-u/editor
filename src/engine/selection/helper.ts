@@ -1,6 +1,7 @@
-import {ResizeHandler, SelectionActionMode} from './type'
-import typeCheck from '../../../utilities/typeCheck.ts'
-import Editor from '../editor.ts'
+import {SelectionActionMode} from './type'
+import Editor from '../editor'
+import {UID} from '~/core/core'
+import typeCheck from '~/core/typeCheck'
 
 export function modifySelected(
   this: Editor,
@@ -15,7 +16,8 @@ export function modifySelected(
     const first = [...idSet.values()][0]
 
     if (this.moduleMap.has(first)) {
-      eventCallBackData = this.moduleMap.get(first).getDetails()
+      // @ts-ignore
+      eventCallBackData = this.moduleMap.get(first).toJSON()
       // console.log(eventCallBackData)
     }
   }
@@ -53,30 +55,33 @@ export function modifySelected(
 }
 
 export function updateSelectionCanvasRenderData(this: Editor) {
-  const moduleProps = this.getSelectedPropsIfUnique
+  // const moduleProps = this.getSelectedPropsIfUnique
 
   return
-  if (moduleProps) {
-    const module = this.moduleMap.get(moduleProps.id)
-    const {scale, dpr} = this.viewport
-    const lineWidth = 1 / scale * dpr
-    const resizeSize = 2 / scale * dpr
-    const lineColor = '#5491f8'
+  /*
+    if (moduleProps) {
+      const module = this.moduleMap.get(moduleProps.id)
+      const {scale, dpr} = this.viewport
+      const lineWidth = 1 / scale * dpr
+      const resizeSize = 2 / scale * dpr
+      const lineColor = '#5491f8'
 
-    const o = module!.getOperators({
-      size: resizeSize,
-      lineColor,
-      lineWidth,
-    }, {
-      size: 1,
-      lineColor: '',
-      lineWidth: 0,
-    })
+      const o = module!.getOperators({
+        size: resizeSize,
+        lineColor,
+        lineWidth,
+      }, {
+        size: 1,
+        lineColor: '',
+        lineWidth: 0,
+      })
 
-    o.forEach(
-      (p) => {
-        this.operationHandlers.add(p)
-      },
-    )
-  }
+      o.forEach(
+        (p) => {
+          // @ts-ignore
+          this.operationHandlers.add(p)
+        },
+      )
+    }
+  */
 }

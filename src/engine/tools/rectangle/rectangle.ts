@@ -1,16 +1,17 @@
-import Editor from '@editor/engine/editor.ts'
-import {updateCursor, updateSelectionBox} from '@editor/engine/viewport/domManipulations.ts'
-import Base from '@editor/core/modules/base.ts'
-import {Tool} from '@editor/engine/tools/tool.ts'
-import {applyResize} from '@editor/engine/viewport/eventHandlers/funcs.ts'
-import {ModuleModifyData} from '@editor/engine/actions/type'
-import nid from '@editor/lib/nid.ts'
-import {ResizeHandler} from '@editor/engine/selection/type'
+import Editor from '~/engine/editor'
+import {updateCursor, updateSelectionBox} from '~/engine/viewport/domManipulations'
+import Base from '~/elements/base/base'
+import {Tool} from '~/engine/tools/tool'
+import {applyResize} from '~/engine/viewport/eventHandlers/funcs'
+import {ModuleModifyData} from '~/engine/actions/type'
+import nid from '~/core/nid'
+import {ResizeHandler} from '~/engine/selection/type'
+import {ModuleProps} from '~/elements/elements'
 
 const rectangle: Tool = {
   start(this: Editor, e: MouseEvent) {
-    const {shiftKey, metaKey, ctrlKey} = e
-    const modifyKey = ctrlKey || metaKey || shiftKey
+    // const {shiftKey, metaKey, ctrlKey} = e
+    // const modifyKey = ctrlKey || metaKey || shiftKey
     // console.log(this.viewport.mouseMovePoint)
     const {x, y} = this.viewport.mouseMovePoint
     const {x: cx, y: cy} = this.getWorldPointByViewportPoint(x, y)

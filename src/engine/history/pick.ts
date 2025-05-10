@@ -1,7 +1,7 @@
-import {HistoryNode} from './DoublyLinkedList.ts'
-import Editor from '../editor.ts'
-import {redo} from './redo.ts'
-import {undo} from './undo.ts'
+import {HistoryNode} from './DoublyLinkedList'
+import Editor from '../editor'
+import {redo} from './redo'
+import {undo} from './undo'
 
 export function pick(this: Editor, targetNode: HistoryNode) {
 
@@ -29,8 +29,7 @@ export function pick(this: Editor, targetNode: HistoryNode) {
 
     this.replaceSelected(selectedModules)
 
-
-   } else {
+  } else {
     // do sth...
   }
 }

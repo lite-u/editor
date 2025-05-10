@@ -1,34 +1,33 @@
 import {EditorConfig, EventHandlers} from './type'
-import History from './history/history.ts'
-import Action from './actions/actions.ts'
-import {generateBoundingRectFromTwoPoints, rectsOverlap} from '../core/utils.ts'
-import {batchAdd, batchCopy, batchCreate, batchDelete, batchModify, batchMove} from './modules/moduleModify.ts'
+import History from './history/history'
+import Action from './actions/actions'
+import {generateBoundingRectFromTwoPoints, rectsOverlap} from '~/core/utils'
+import {batchAdd, batchCopy, batchCreate, batchDelete, batchModify, batchMove} from './modules/moduleModify'
 import {OperationHandlers, ResizeHandler, SelectionActionMode} from './selection/type'
-import {modifySelected} from './selection/helper.ts'
-import {updateScrollBars} from './viewport/domManipulations.ts'
-import selectionRender from './viewport/selectionRender.ts'
-import {screenToWorld, worldToScreen} from '../lib/lib.ts'
+import {modifySelected} from './selection/helper'
+import {updateScrollBars} from './viewport/domManipulations'
+import selectionRender from './viewport/selectionRender'
+import {screenToWorld, worldToScreen} from '~/core/lib'
 import {Viewport, ViewportManipulationType} from './viewport/type'
-import {createViewport} from './viewport/createViewport.ts'
-import {destroyViewport} from './viewport/destroyViewport.ts'
-import {initEditor} from './initEditor.ts'
-import {VisionEventType} from './actions/type'
-import {zoomAtPoint} from './viewport/helper.ts'
-import AssetsManager, {AssetsObj} from '@editor/engine/assetsManager/AssetsManager.ts'
-import ElementImage from '../core/modules/shapes/image.ts'
-import {BoundingRect, Point} from '@editor/type.ts'
-import nid from '@editor/lib/nid.ts'
-import Rectangle from '@editor/core/modules/shapes/rectangle.ts'
-import {Tool} from '@editor/engine/tools/tool.ts'
+import {createViewport} from './viewport/createViewport'
+import {destroyViewport} from './viewport/destroyViewport'
+import {initEditor} from './initEditor'
+import {zoomAtPoint} from './viewport/helper'
+import AssetsManager, {VisionEditorAssetType} from './assetsManager/AssetsManager'
+import ElementImage from '~/elements/image/image'
+import {ModuleInstance, ModuleMap, ModuleProps} from '~/elements/elements'
+import nid from '~/core/nid'
+import {UID} from '~/core/core'
+import {Tool} from '~/engine/tools/tool'
+import {BoundingRect, Point, VisionEventType} from '~/type'
+import Rectangle from '~/elements/rectangle/rectangle'
 
 class Editor {
   id = nid()
   // readonly id: UID
   config: EditorConfig
   // private moduleCounter = 0
-  readonly moduleMap: ModuleMap
-  // private readonly snapPoints: SnapPointData[] = []
-  private readonly visibleModuleMap: ModuleMap
+  readonly moduleMap: ModuleMap = new Map()
   readonly action: Action
   readonly container: HTMLDivElement
   events: EventHandlers = {}
@@ -54,6 +53,8 @@ class Editor {
   CopyDeltaY = 100
   initialized: boolean = false
   currentToolName: string = 'selector'
+  // private readonly snapPoints: SnapPointData[] = []
+  private readonly visibleModuleMap: ModuleMap
 
   constructor({
                 container,
@@ -63,7 +64,7 @@ class Editor {
                 config,
               }: {
     container: HTMLDivElement
-    assets: AssetsObj[]
+    assets: VisionEditorAssetType[]
     elements: ModuleProps[]
     events?: EventHandlers;
     config: EditorConfig;
@@ -84,6 +85,50 @@ class Editor {
     this.action.dispatch('module-add', elements)
   }
 
+  public get getVisibleModuleMap(): ModuleMap {
+    return new Map(this.visibleModuleMap)
+  }
+
+  public get getVisibleSelected() {
+    return new Set(this.visibleSelected)
+  }
+
+  public get getVisibleSelectedModuleMap() {
+    return this.getModulesByIdSet(this.getVisibleSelected)
+  }
+
+  public get getSelected(): Set<UID> {
+    return new Set(this.selectedModules)
+  }
+
+  public get getMaxLayerIndex(): number {
+    let max = 0
+    this.moduleMap.forEach((mod) => {
+      // console.log(mod.layer)
+      if (mod.layer > max) {
+        max = mod.layer
+      }
+    })
+
+    return max
+  }
+
+  public get getSelectedPropsIfUnique(): ModuleProps | null {
+    if (this.selectedModules.size === 1) {
+      const unique = [...this.selectedModules.values()][0]
+      const module = this.moduleMap.get(unique)
+
+      if (module) {
+        return module.toJSON()
+      }
+
+      return null
+    }
+    return null
+  }
+
+  // getModulesByLayerIndex() {}
+
   batchCreate(moduleDataList: ModuleProps[]): ModuleMap {
     return batchCreate.call(this, moduleDataList)
   }
@@ -99,6 +144,13 @@ class Editor {
     return batchCopy.call(this, from, includeIdentifiers)
   }
 
+  /*updateSnapPoints() {
+    this.snapPoints.length = 0
+    this.visibleModuleMap.forEach(module => {
+      this.snapPoints.push(...module.getSnapPoints())
+    })
+  }*/
+
   batchDelete(from: Set<UID>): ModuleProps[] {
     return batchDelete.call(this, from)
   }
@@ -113,8 +165,6 @@ class Editor {
   ) {
     batchModify.call(this, idSet, data)
   }
-
-  // getModulesByLayerIndex() {}
 
   getModulesByIdSet(idSet: Set<UID>): ModuleMap {
     const result: ModuleMap = new Map()
@@ -149,13 +199,6 @@ class Editor {
       this.visibleModuleMap.set(module.id, module)
     })
   }
-
-  /*updateSnapPoints() {
-    this.snapPoints.length = 0
-    this.visibleModuleMap.forEach(module => {
-      this.snapPoints.push(...module.getSnapPoints())
-    })
-  }*/
 
   updateVisibleSelected() {
     this.visibleSelected.clear()
@@ -193,36 +236,8 @@ class Editor {
     }
   }
 
-  public createElement(props):ModuleInstance {
+  public createElement(props): ModuleInstance {
 
-  }
-
-  public get getVisibleModuleMap(): ModuleMap {
-    return new Map(this.visibleModuleMap)
-  }
-
-  public get getVisibleSelected() {
-    return new Set(this.visibleSelected)
-  }
-
-  public get getVisibleSelectedModuleMap() {
-    return this.getModulesByIdSet(this.getVisibleSelected)
-  }
-
-  public get getSelected(): Set<UID> {
-    return new Set(this.selectedModules)
-  }
-
-  public get getMaxLayerIndex(): number {
-    let max = 0
-    this.moduleMap.forEach((mod) => {
-      // console.log(mod.layer)
-      if (mod.layer > max) {
-        max = mod.layer
-      }
-    })
-
-    return max
   }
 
   public modifySelected(idSet: Set<UID>, action: SelectionActionMode) {
@@ -259,20 +274,6 @@ class Editor {
       copiedItem!.x += this.CopyDeltaX
       copiedItem!.y += this.CopyDeltaY
     })
-  }
-
-  public get getSelectedPropsIfUnique(): ModuleProps | null {
-    if (this.selectedModules.size === 1) {
-      const unique = [...this.selectedModules.values()][0]
-      const module = this.moduleMap.get(unique)
-
-      if (module) {
-        return module.getDetails()
-      }
-
-      return null
-    }
-    return null
   }
 
   public execute(type: VisionEventType, data: unknown = null) {
@@ -369,7 +370,7 @@ class Editor {
         }
       }
 
-      result.elements.push(module.getDetails())
+      result.elements.push(module.toJSON())
     })
 
     return result
