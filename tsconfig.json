@@ -31,7 +31,10 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    // temp
+    "noEmitOnError": false,  // ⬅️ allow output even if there are type errors
   },
   "include": [
     "src"

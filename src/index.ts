@@ -1,3 +1,13 @@
+import {HexColor, UID} from './core/core'
+import {VisionEventData, VisionEventType} from './engine/actions/type'
+import Editor from './engine/editor'
+import nid from './lib/nid'
+
+export {
+  Editor,
+  nid,
+}
+
 export interface Size {
   width: number;
   height: number;
@@ -21,9 +31,13 @@ export type BoundingRect = Size & Point & {
 export type Resolution = Size
 export type DPR = number
 export type ZoomRatio = number
+
 export enum Unit {
   MM = 'mm',
   INCHES = 'inches',
   PX = 'px',
   CM = 'cm'
 }
+
+export type {VisionEventData, VisionEventType}
+export type {UID, HexColor}

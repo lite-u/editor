@@ -1,13 +1,10 @@
 // import {IntRange} from "type-fest"
 
-declare global {
-  type UID = string
-  type HexColor = string
-  type FillColor = HexColor
-  // type Opacity = IntRange<1, 101>
-  type Opacity = number
-  type Rotation = number
-  type Shadow = boolean
-  type Gradient = string
-}
-export {}
+export type UID = string
+export type HexColor = `#${string}`
+export type FillColor = HexColor
+export // type Opacity = IntRange<1, 101>
+export type Opacity = number
+export type Rotation = number
+export type Shadow = boolean
+export type Gradient = string
