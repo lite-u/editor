@@ -28,7 +28,6 @@
   ],
   "license": "ISC",
   "description": "",
-  "dependencies": {},
   "devDependencies": {
     "react-docgen-typescript": "^2.2.2"
   }
