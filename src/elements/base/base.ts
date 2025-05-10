@@ -74,8 +74,8 @@ class Base {
     return newRotation
   }
 
-  protected toJSON(): Partial<ElementBaseSaveProps> {
-    const result: Partial<ElementBaseSaveProps> = {}
+  protected toJSON(): ElementBaseProps {
+    const result: ElementBaseProps = {}
 
     if (this.enableLine !== DEFAULT_ENABLE_LINE) {
       result.enableLine = this.enableLine
