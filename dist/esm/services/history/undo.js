@@ -25,7 +25,7 @@ export function undo(quiet = false) {
             });
             break;
         case 'history-move':
-            this.batchMove(payload.selectedModules, {
+            this.elementManager.batchMove(payload.selectedModules, {
                 x: -payload.delta.x,
                 y: -payload.delta.y,
             });

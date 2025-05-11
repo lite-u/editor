@@ -1,2 +1,2 @@
-import Editor from './editor';
+import Editor from '../main/editor';
 export declare function initEditor(this: Editor): void;

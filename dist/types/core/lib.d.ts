@@ -26,4 +26,5 @@ export declare function rotatePoint(px: number, py: number, cx: number, cy: numb
     y: number;
 };
 export declare function getResizeTransform(name: ResizeHandleName, symmetric?: boolean): ResizeTransform;
+export declare const deduplicateObjectsByKeyValue: <T>(objects: T[]) => T[];
 export {};

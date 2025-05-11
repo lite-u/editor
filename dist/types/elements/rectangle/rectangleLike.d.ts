@@ -1,6 +1,6 @@
 import Shape, { ShapeProps } from '../shape/shape';
 import { CenterBasedRect, Point, Rect } from '~/type';
-import { SnapPointData } from '~/engine/type';
+import { SnapPointData } from '~/main/type';
 import { TransformProps } from '~/elements/rectangle/transform';
 import ElementRectangle from '~/elements/rectangle/rectangle';
 export interface RectangleLikeProps extends ShapeProps {

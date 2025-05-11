@@ -1,6 +1,6 @@
 import {extractIdSetFromArray} from './helpers'
 import {HistoryNode} from './DoublyLinkedList'
-import Editor from '../../engine/editor'
+import Editor from '../../main/editor'
 import {ElementProps} from '~/elements/elements'
 
 export function redo(this: Editor, quiet: boolean = false): HistoryNode | false {

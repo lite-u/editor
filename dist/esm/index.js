@@ -1,4 +1,4 @@
-import Editor from './engine/editor.js';
+import Editor from './main/editor.js';
 import convertUnit from './core/converter.js';
 import nid from './core/nid.js';
 export { Editor, nid, convertUnit };

@@ -1,5 +1,5 @@
 import {UID} from '~/core/core'
-import Editor from '~/engine/editor'
+import Editor from '~/main/editor'
 import {SelectionActionMode} from '~/services/selection/type'
 import {selectionHelper} from './selectionHelper'
 import {ElementProps} from '~/elements/elements'

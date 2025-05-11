@@ -1,6 +1,6 @@
 import { Rotation } from '~/core/core';
 import { BoundingRect } from '~/type';
-import Editor from '~/engine/editor';
+import Editor from '~/main/editor';
 export interface ElementBaseProps {
     enableLine?: boolean;
     lineColor?: CanvasRenderingContext2D['strokeStyle'];

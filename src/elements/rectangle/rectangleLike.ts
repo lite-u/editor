@@ -1,6 +1,6 @@
 import Shape, {ShapeProps} from '../shape/shape'
 import {CenterBasedRect, Point, Rect} from '~/type'
-import {SnapPointData} from '~/engine/type'
+import {SnapPointData} from '~/main/type'
 import {generateBoundingRectFromRect, generateBoundingRectFromRotatedRect} from '~/core/utils'
 import render from './render'
 import transform, {TransformProps} from '~/elements/rectangle/transform'

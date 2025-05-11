@@ -1,3 +1,6 @@
+import {ElementProps} from '~/elements/elements'
+import {UID} from '~/core/core'
+
 const extractIdSetFromArray = (from: ElementProps[]): Set<UID> => {
   return new Set(from.map(item => item.id))
 }

@@ -106,8 +106,10 @@ export function throttle(func, delay) {
         }
     };
 }
-export const setFloatOnProps = (obj, keys) => {
-    keys.forEach((key) => {
-        obj[key] = Math.floor(obj[key]);
-    });
-};
+/*
+
+export const setFloatOnProps = <T extends RenderPropsList, K extends keyof RenderPropsList>(obj: T, keys: K[]): void => {
+  keys.forEach((key) => {
+    (obj[key] as number) = Math.floor(obj[key] as number)
+  })
+}*/

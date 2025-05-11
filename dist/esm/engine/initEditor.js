@@ -1,12 +1,12 @@
-import resetCanvas from './viewport/resetCanvas.js';
+import resetCanvas from '../services/viewport/resetCanvas.js';
 import { redo } from '../services/history/redo.js';
 import { undo } from '../services/history/undo.js';
 import { pick } from '../services/history/pick.js';
 // import {updateSelectionCanvasRenderData} from '../services/selection/helper'
 // import zoom from '../../components/statusBar/zoom'
-import { fitRectToViewport } from './viewport/helper.js';
-import selector from './tools/selector/selector.js';
-import rectangle from './tools/rectangle/rectangle.js';
+import { fitRectToViewport } from '../services/viewport/helper.js';
+import selector from '../tools/selector/selector.js';
+import rectangle from '../tools/rectangle/rectangle.js';
 export function initEditor() {
     const { container, viewport, action } = this;
     const dispatch = action.dispatch.bind(action);
@@ -36,8 +36,8 @@ export function initEditor() {
         this.updateWorldRect();
         // console.log(this.viewport.scale, this.viewport.offset, this.viewport.worldRect)
         this.events.onViewportUpdated?.({
-            width: this.viewport.viewportRect.width,
-            height: this.viewport.viewportRect.height,
+            // width: this.viewport.viewportRect.width,
+            // height: this.viewport.viewportRect.height,
             scale: this.viewport.scale,
             offsetX: this.viewport.offset.x,
             offsetY: this.viewport.offset.y,
@@ -317,7 +317,6 @@ export function initEditor() {
             keys.map((propName) => {
                 const fromValue = module[propName];
                 const toValue = kv[propName];
-                // console.log(fromValue, toValue)
                 props[propName] = {
                     from: fromValue,
                     to: toValue,

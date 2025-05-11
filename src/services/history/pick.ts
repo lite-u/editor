@@ -1,5 +1,5 @@
 import {HistoryNode} from './DoublyLinkedList'
-import Editor from '../../engine/editor'
+import Editor from '../../main/editor'
 import {redo} from './redo'
 import {undo} from './undo'
 

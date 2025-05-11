@@ -1,4 +1,4 @@
-import Editor from '../../engine/editor';
+import Editor from '../../main/editor';
 import DoublyLinkedList, { HistoryNode } from './DoublyLinkedList';
 import { HistoryOperation } from './type';
 declare class History extends DoublyLinkedList {

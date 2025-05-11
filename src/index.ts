@@ -1,4 +1,4 @@
-import Editor from './engine/editor'
+import Editor from './main/editor'
 import convertUnit from './core/converter'
 import nid from './core/nid'
 

@@ -3,9 +3,9 @@ import {HistoryNode} from '~/services/history/DoublyLinkedList'
 // import {ModuleMoveDirection} from '../type'
 import {HistoryOperation} from '~/services/history/type'
 import {ElementProps, ElementPropsWithoutIdentifiers} from '~/elements/elements'
-import {VisionEditorAssetType} from '~/services/assetsManager/AssetsManager'
+import {VisionEditorAssetType} from '~/services/assets/AssetsManager'
 import {Point} from '~/type'
-import {ToolName} from '~/engine/tools/tool'
+import {ToolName} from '~/services/tools/toolManager'
 
 export interface SelectionModifyData {
   mode: SelectionActionMode;

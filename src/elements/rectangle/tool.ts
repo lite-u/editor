@@ -1,14 +1,14 @@
-import Editor from '~/engine/editor'
-import {updateCursor, updateSelectionBox} from '~/engine/viewport/domManipulations'
+import Editor from '~/main/editor'
+import {updateCursor, updateSelectionBox} from '~/services/viewport/domManipulations'
 import Base from '~/elements/base/base'
-import {Tool} from '~/engine/tools/tool'
-import {applyResize} from '~/engine/viewport/eventHandlers/funcs'
+import {ToolManager} from '~/services/tools/toolManager'
+import {applyResize} from '~/services/tools/eventHandlers/funcs'
 import {ElementModifyData} from '~/services/actions/type'
 import nid from '~/core/nid'
 import {ResizeHandler} from '~/services/selection/type'
 import {ElementProps} from '~/elements/elements'
 
-const rectangleTool: Tool = {
+const rectangleTool: ToolManager = {
   start(this: Editor, _: MouseEvent) {
     // const {shiftKey, metaKey, ctrlKey} = e
     // const modifyKey = ctrlKey || metaKey || shiftKey
@@ -80,11 +80,12 @@ const rectangleTool: Tool = {
       const {
         draggingModules,
         manipulationStatus,
-        elementMap,
+        elementManager,
         _selectingModules,
         selectedShadow,
         viewport,
       } = this
+      const elementMap = elementManager.all
       const x = e.clientX - viewport.rect!.x
       const y = e.clientY - viewport.rect!.y
       const modifyKey = e.ctrlKey || e.metaKey || e.shiftKey

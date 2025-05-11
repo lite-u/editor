@@ -1,9 +1,8 @@
 import {RotateHandler} from '~/services/selection/type'
 import {Rotation} from '~/core/core'
 import {BoundingRect} from '~/type'
-import Editor from '~/engine/editor'
+import Editor from '~/main/editor'
 import {generateBoundingRectFromTwoPoints} from '~/core/utils'
-import {ElementProps} from '~/elements/elements'
 
 export interface ElementBaseProps {
   enableLine?: boolean

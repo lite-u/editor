@@ -1,51 +1,46 @@
 import History from '../services/history/history.js';
 import Action from '../services/actions/actions.js';
 import { generateBoundingRectFromTwoPoints, rectsOverlap } from '../core/utils.js';
-import { updateScrollBars } from './viewport/domManipulations.js';
-import selectionRender from './viewport/selectionRender.js';
+import selectionRender from '../services/viewport/selectionRender.js';
 import { screenToWorld, worldToScreen } from '../core/lib.js';
-import { createViewport } from './viewport/createViewport.js';
-import { destroyViewport } from './viewport/destroyViewport.js';
+// import {createViewport} from '../services/viewport/createViewport.js'
+// import {destroyViewport} from '../services/viewport/destroyViewport.js'
 import { initEditor } from './initEditor.js';
-import { zoomAtPoint } from './viewport/helper.js';
-import AssetsManager from '../services/assetsManager/AssetsManager.js';
+import { zoomAtPoint } from '../services/viewport/helper.js';
+import AssetsManager from '../services/assets/AssetsManager.js';
 import nid from '../core/nid.js';
 import ElementRectangle from '../elements/rectangle/rectangle.js';
-import ElementManager from '../services/elementManager/ElementManager.js';
+import ElementManager from '../services/element/ElementManager.js';
 import SelectionManager from '../services/selection/SelectionManager.js';
+import Cursor from '../services/cursor/cursor.js';
+import Viewport from '../services/viewport/Viewport.js';
 class Editor {
     id = nid();
-    // readonly id: UID
     config;
-    // private moduleCounter = 0
-    // readonly elementMap: ElementMap = new Map()
-    refs = {};
-    action;
     container;
     events = {};
-    // services
+    action;
+    cursor;
     history;
+    viewport;
     elementManager;
     selection;
-    viewport;
-    selectedElementIDSet = new Set();
+    assetsManager;
     visibleSelected = new Set();
     operationHandlers = [];
-    assetsManager;
-    // resizeHandleSize: number = 10
-    copiedItems = [];
-    hoveredModule = null;
-    // highlightedModules: Set<UID> = new Set()
-    draggingModules = new Set();
-    _selectingModules = new Set();
-    _deselection = null;
-    _resizingOperator = null;
-    _rotatingOperator = null;
-    selectedShadow = new Set();
-    manipulationStatus = 'static';
-    toolMap = new Map();
-    CopyDeltaX = 50;
-    CopyDeltaY = 100;
+    /*copiedItems: ElementProps[] = []*/
+    /*hoveredModule: UID | null = null*/
+    /*// highlightedModules: Set<UID> = new Set()*/
+    /*draggingModules: Set<UID> = new Set()*/
+    /*_selectingModules: Set<UID> = new Set()*/
+    /*_deselection: UID | null = null*/
+    /*_resizingOperator: ResizeHandler | null = null*/
+    /*_rotatingOperator: OperationHandlers | null = null*/
+    /*selectedShadow: Set<UID> = new Set()*/
+    /*manipulationStatus: ViewportManipulationType = 'static'*/
+    /*toolMap: Map<string, Tool> = new Map()*/
+    /*CopyDeltaX = 50*/
+    /*CopyDeltaY = 100*/
     initialized = false;
     currentToolName = 'selector';
     // private readonly snapPoints: SnapPointData[] = []
@@ -55,7 +50,8 @@ class Editor {
         this.config = config;
         this.events = events;
         this.container = container;
-        this.viewport = createViewport.call(this);
+        this.viewport = new Viewport();
+        this.cursor = new Cursor();
         this.action = new Action();
         this.history = new History(this);
         this.selection = new SelectionManager(this);
@@ -72,9 +68,6 @@ class Editor {
     }
     get getVisibleSelectedElementMap() {
         return this.elementManager.getElementMapByIdSet(this.getVisibleSelected);
-    }
-    getModuleList() {
-        return [...Object.values(this.elementManager.all)];
     }
     updateVisibleElementMap() {
         this.visibleElementMap.clear();
@@ -230,10 +223,6 @@ class Editor {
         point = point || { x: rect.width / 2, y: rect.height / 2 };
         return zoomAtPoint.call(this, point, zoom);
     }
-    updateScrollBar() {
-        const { scrollBarX, scrollBarY } = this.viewport;
-        updateScrollBars(scrollBarX, scrollBarY);
-    }
     updateViewport() {
         const { dpr, mainCanvas, selectionCanvas } = this.viewport;
         const rect = this.container.getBoundingClientRect().toJSON();
@@ -255,7 +244,7 @@ class Editor {
     }
     //eslint-disable-block
     destroy() {
-        destroyViewport.call(this);
+        this.viewport.destroy();
         this.action.destroy();
         this.history.destroy();
         this.elementManager.destroy();

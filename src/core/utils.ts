@@ -1,4 +1,3 @@
-import {RenderPropsList} from '~/renderer/type'
 import {BoundingRect, Point, Rect} from '~/type'
 
 export const generateBoundingRectFromRotatedRect = ({x, y, width, height}: Rect, rotation: number): BoundingRect => {
@@ -141,9 +140,10 @@ export function throttle<T extends (...args: unknown[]) => void>(func: T, delay:
     }
   }
 }
+/*
 
 export const setFloatOnProps = <T extends RenderPropsList, K extends keyof RenderPropsList>(obj: T, keys: K[]): void => {
   keys.forEach((key) => {
     (obj[key] as number) = Math.floor(obj[key] as number)
   })
-}
+}*/

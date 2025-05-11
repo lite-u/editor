@@ -1,6 +1,6 @@
-import { updateCursor, updateSelectionBox } from '../../engine/viewport/domManipulations.js';
+import { updateCursor, updateSelectionBox } from '../../services/viewport/domManipulations.js';
 import Base from '../base/base.js';
-import { applyResize } from '../../engine/viewport/eventHandlers/funcs.js';
+import { applyResize } from '../../services/tools/eventHandlers/funcs.js';
 import nid from '../../core/nid.js';
 const rectangleTool = {
     start(_) {
@@ -63,7 +63,8 @@ const rectangleTool = {
     finish(e) {
         const leftMouseClick = e.button === 0;
         if (leftMouseClick) {
-            const { draggingModules, manipulationStatus, elementMap, _selectingModules, selectedShadow, viewport, } = this;
+            const { draggingModules, manipulationStatus, elementManager, _selectingModules, selectedShadow, viewport, } = this;
+            const elementMap = elementManager.all;
             const x = e.clientX - viewport.rect.x;
             const y = e.clientY - viewport.rect.y;
             const modifyKey = e.ctrlKey || e.metaKey || e.shiftKey;
