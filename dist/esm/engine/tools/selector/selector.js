@@ -26,12 +26,12 @@ const selection = {
             if (!modifyKey) {
                 this.action.dispatch('selection-clear');
             }
-            this.selectedShadow = this.getSelected;
+            this.selectedShadow = this.selection.getSelected;
             // console.warn(this.selectedShadow)
             return (this.manipulationStatus = 'selecting');
         }
         this.manipulationStatus = 'dragging';
-        const realSelected = this.getSelected;
+        const realSelected = this.selection.getSelected;
         // this.draggingModules = new Set(this.selectedModules)
         const isSelected = realSelected.has(hoveredModule);
         // console.log(isSelected)
@@ -76,7 +76,7 @@ const selection = {
                     const virtualSelectionRect = generateBoundingRectFromTwoPoints(pointA, pointB);
                     const _selecting = new Set();
                     const modifyKey = e.ctrlKey || e.metaKey || e.shiftKey;
-                    this.moduleMap.forEach((module) => {
+                    this.elementMap.forEach((module) => {
                         if (module.isInsideRect(virtualSelectionRect)) {
                             _selecting.add(module.id);
                         }
@@ -209,7 +209,7 @@ const selection = {
     finish(e) {
         const leftMouseClick = e.button === 0;
         if (leftMouseClick) {
-            const { draggingModules, manipulationStatus, moduleMap, _selectingModules, selectedShadow, viewport, } = this;
+            const { draggingModules, manipulationStatus, elementMap, _selectingModules, selectedShadow, viewport, } = this;
             const x = e.clientX - viewport.rect.x;
             const y = e.clientY - viewport.rect.y;
             const modifyKey = e.ctrlKey || e.metaKey || e.shiftKey;
@@ -241,7 +241,7 @@ const selection = {
                             });
                             // Move back to origin position and do the move again
                             draggingModules.forEach((id) => {
-                                const module = moduleMap.get(id);
+                                const module = elementMap.get(id);
                                 if (module) {
                                     const change = {
                                         id,

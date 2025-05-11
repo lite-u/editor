@@ -1,6 +1,6 @@
 import {generateBoundingRectFromRotatedRect} from '~/core/utils'
 import Shape, {ShapeProps} from '../shape/shape'
-import Rectangle from '../rectangle/rectangle'
+import ElementRectangle from '../rectangle/rectangle'
 import {ResizeHandleName} from '~/engine/selection/type'
 import {Point} from '~/type'
 import render from './render'
@@ -16,7 +16,7 @@ export interface EllipseProps extends ShapeProps {
 
 export type RequiredEllipseProps = Required<EllipseProps>
 
-class Ellipse extends Shape {
+class ElementEllipse extends Shape {
   readonly type = 'ellipse'
   id: string
   layer: number
@@ -113,7 +113,7 @@ class Ellipse extends Shape {
     }, rotation)
   }
 
-  public getSelectedBoxModule(lineWidth: number, lineColor: string): Rectangle {
+  public getSelectedBoxModule(lineWidth: number, lineColor: string): ElementRectangle {
     // const {id, rotation, layer} = this.toJSON()
     const rect = this.getBoundingRect()
     const rectProp = {
@@ -129,13 +129,13 @@ class Ellipse extends Shape {
       opacity: 0,
     }
 
-    return new Rectangle(rectProp)
+    return new ElementRectangle(rectProp)
   }
 
   public getHighlightModule(lineWidth: number, lineColor: string) {
     const {cx, cy, r1, r2, rotation, layer, id} = this
 
-    return new Ellipse({
+    return new ElementEllipse({
       cx: cx,
       cy: cy,
       r1,
@@ -179,4 +179,4 @@ class Ellipse extends Shape {
   }
 }
 
-export default Ellipse
+export default ElementEllipse

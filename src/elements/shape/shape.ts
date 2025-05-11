@@ -2,10 +2,10 @@ import Base, {ElementBaseProps} from '../base/base'
 import {HANDLER_OFFSETS} from '../handleBasics'
 import {OperationHandlers} from '~/engine/selection/type'
 import {rotatePoint} from '~/core/lib'
-import Rectangle, {RectangleProps} from '../rectangle/rectangle'
+import ElementRectangle, {RectangleProps} from '../rectangle/rectangle'
 import {ElementFillColor} from '~/core/core'
 import {BoundingRect} from '~/type'
-import {ModuleProps} from '../elements'
+import {ElementProps} from '../elements'
 
 export interface ShapeProps extends ElementBaseProps {
   cx?: number
@@ -127,7 +127,7 @@ class Shape extends Base {
     resizeConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
     rotateConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
     boundingRect: BoundingRect,
-    moduleOrigin: ModuleProps,
+    moduleOrigin: ElementProps,
   ): OperationHandlers[] {
     const {x: cx, y: cy, width, height} = boundingRect
     // const id = this.id
@@ -189,7 +189,7 @@ class Shape extends Base {
         name: OFFSET.name,
         // cursor,
         moduleOrigin,
-        module: new Rectangle(currentModuleProps),
+        module: new ElementRectangle(currentModuleProps),
       }
     })
 

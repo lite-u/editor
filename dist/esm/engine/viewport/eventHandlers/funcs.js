@@ -17,7 +17,7 @@ export function detectHoveredModule() {
         // console.log(hitOn)
         return hitOn;
     }
-    const arr2 = [...this.getVisibleModuleMap.values()];
+    const arr2 = [...this.getVisibleElementMap.values()];
     for (let i = arr2.length - 1; i >= 0; i--) {
         const module = arr2[i];
         const hitTest = module.hitTest(worldPoint);
@@ -50,7 +50,7 @@ export function applyResize(altKey, shiftKey) {
         shiftKey,
         moduleOrigin,
     };
-    const relatedModule = this.moduleMap.get(id);
+    const relatedModule = this.elementMap.get(id);
     if (relatedModule) {
         // @ts-ignore
         const con = relatedModule.constructor;

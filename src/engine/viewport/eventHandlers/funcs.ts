@@ -1,7 +1,7 @@
 import Editor from '../../editor'
 import {ResizeDirection} from '../../selection/type'
 import {Point, UID} from '~/type'
-import {ModuleInstance} from '~/elements/elements'
+import {ElementInstance} from '~/elements/elements'
 
 export function detectHoveredModule(this: Editor) {
   const {viewport} = this
@@ -28,7 +28,7 @@ export function detectHoveredModule(this: Editor) {
     return hitOn
   }
 
-  const arr2 = [...this.getVisibleModuleMap.values()]
+  const arr2 = [...this.getVisibleElementMap.values()]
 
   for (let i = arr2.length - 1; i >= 0; i--) {
     const module = arr2[i]
@@ -70,11 +70,11 @@ export function applyResize(this: Editor, altKey: boolean, shiftKey: boolean) {
     moduleOrigin,
   }
 
-  const relatedModule = this.moduleMap.get(id)
+  const relatedModule = this.elementMap.get(id)
 
   if (relatedModule) {
     // @ts-ignore
-    const con = relatedModule.constructor as ModuleInstance
+    const con = relatedModule.constructor as ElementInstance
     // console.log(resizeParam)
     // @ts-ignore
     return con.applyResizeTransform(resizeParam)

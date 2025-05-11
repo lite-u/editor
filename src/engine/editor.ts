@@ -1,8 +1,7 @@
 import {EditorConfig, EventHandlers} from './type'
-import History from './history/history'
-import Action from './actions/actions'
+import History from '~/services/history/history'
+import Action from '~/services/actions/actions'
 import {generateBoundingRectFromTwoPoints, rectsOverlap} from '~/core/utils'
-import {batchAdd, batchCopy, batchCreate, batchDelete, batchModify, batchMove} from './modules/moduleModify'
 import {OperationHandlers, ResizeHandler, SelectionActionMode} from './selection/type'
 import {modifySelected} from './selection/helper'
 import {updateScrollBars} from './viewport/domManipulations'
@@ -13,32 +12,38 @@ import {createViewport} from './viewport/createViewport'
 import {destroyViewport} from './viewport/destroyViewport'
 import {initEditor} from './initEditor'
 import {zoomAtPoint} from './viewport/helper'
-import AssetsManager, {VisionEditorAssetType} from './assetsManager/AssetsManager'
+import AssetsManager, {VisionEditorAssetType} from '~/services/assetsManager/AssetsManager'
 import ElementImage from '~/elements/image/image'
-import {ModuleInstance, ModuleMap, ModuleProps} from '~/elements/elements'
+import {ElementInstance, ElementMap, ElementProps} from '~/elements/elements'
 import nid from '~/core/nid'
 import {UID} from '~/core/core'
 import {Tool} from '~/engine/tools/tool'
 import {BoundingRect, Point, VisionEventType} from '~/type'
-import Rectangle from '~/elements/rectangle/rectangle'
+import ElementRectangle from '~/elements/rectangle/rectangle'
+import ElementManager from '~/services/elementManager/ElementManager'
+import Selection from '~/services/selection/Selection'
 
 class Editor {
   id = nid()
   // readonly id: UID
   config: EditorConfig
   // private moduleCounter = 0
-  readonly moduleMap: ModuleMap = new Map()
+  // readonly elementMap: ElementMap = new Map()
+  refs: Record<string, HTMLElement> = {}
   readonly action: Action
   readonly container: HTMLDivElement
   events: EventHandlers = {}
+  // services
   history: History
+  elementManager: ElementManager
+  selection:Selection
   viewport: Viewport
-  readonly selectedModules: Set<UID> = new Set()
+  readonly selectedElementIDSet: Set<UID> = new Set()
   readonly visibleSelected: Set<UID> = new Set()
   readonly operationHandlers: OperationHandlers[] = []
   assetsManager: AssetsManager
   // resizeHandleSize: number = 10
-  copiedItems: ModuleProps[] = []
+  copiedItems: ElementProps[] = []
   hoveredModule: UID | null = null
   // highlightedModules: Set<UID> = new Set()
   draggingModules: Set<UID> = new Set()
@@ -54,7 +59,7 @@ class Editor {
   initialized: boolean = false
   currentToolName: string = 'selector'
   // private readonly snapPoints: SnapPointData[] = []
-  private readonly visibleModuleMap: ModuleMap
+  private readonly visibleElementMap: ElementMap
 
   constructor({
                 container,
@@ -65,58 +70,46 @@ class Editor {
               }: {
     container: HTMLDivElement
     assets: VisionEditorAssetType[]
-    elements: ModuleProps[]
+    elements: ElementProps[]
     events?: EventHandlers;
     config: EditorConfig;
   }) {
-    this.visibleModuleMap = new Map()
+    this.visibleElementMap = new Map()
     this.config = config
     this.events = events
-    this.action = new Action()
     this.container = container
-    this.history = new History(this)
     this.viewport = createViewport.call(this)
-    this.moduleMap = new Map()
+    // this.elementMap = new Map()
     // this.moduleCounter = config.moduleIdCounter
+
+    this.action = new Action()
+    this.history = new History(this)
+    this.selection = new Selection(this)
     this.assetsManager = new AssetsManager(assets)
+    this.elementManager = new ElementManager(this)
 
     initEditor.call(this)
 
     this.action.dispatch('module-add', elements)
   }
 
-  public get getVisibleModuleMap(): ModuleMap {
-    return new Map(this.visibleModuleMap)
+  public get getVisibleElementMap(): ElementMap {
+    return new Map(this.visibleElementMap)
   }
 
   public get getVisibleSelected() {
     return new Set(this.visibleSelected)
   }
 
-  public get getVisibleSelectedModuleMap() {
-    return this.getModulesByIdSet(this.getVisibleSelected)
+  public get getVisibleSelectedElementMap() {
+    return this.elementManager.getElementMapByIdSet(this.getVisibleSelected)
   }
 
-  public get getSelected(): Set<UID> {
-    return new Set(this.selectedModules)
-  }
 
-  public get getMaxLayerIndex(): number {
-    let max = 0
-    this.moduleMap.forEach((mod) => {
-      // console.log(mod.layer)
-      if (mod.layer > max) {
-        max = mod.layer
-      }
-    })
-
-    return max
-  }
-
-  public get getSelectedPropsIfUnique(): ModuleProps | null {
-    if (this.selectedModules.size === 1) {
-      const unique = [...this.selectedModules.values()][0]
-      const module = this.moduleMap.get(unique)
+  public get getSelectedPropsIfUnique(): ElementProps | null {
+    if (this.selectedElementIDSet.size === 1) {
+      const unique = [...this.selectedElementIDSet.values()][0]
+      const module = this.elementMap.get(unique)
 
       if (module) {
         return module.toMinimalJSON()
@@ -128,75 +121,66 @@ class Editor {
   }
 
   // getModulesByLayerIndex() {}
+  /*
 
-  batchCreate(moduleDataList: ModuleProps[]): ModuleMap {
-    return batchCreate.call(this, moduleDataList)
-  }
+    batchCreate(moduleDataList: ElementProps[]): ElementMap {
+      return batchCreate.call(this, moduleDataList)
+    }
 
-  batchAdd(modules: ModuleMap, callback?): ModuleMap {
-    return batchAdd.call(this, modules, callback)
-  }
+    batchAdd(modules: ElementMap, callback?: VoidFunction): ElementMap {
+      return batchAdd.call(this, modules, callback)
+    }
+  */
+  /*
 
-  batchCopy(
-    from: Set<UID>,
-    includeIdentifiers = true,
-  ): ModuleProps[] {
-    return batchCopy.call(this, from, includeIdentifiers)
-  }
+    batchCopy(
+      from: Set<UID>,
+      includeIdentifiers = true,
+    ): ElementProps[] {
+      return batchCopy.call(this, from, includeIdentifiers)
+    }
+  */
 
   /*updateSnapPoints() {
     this.snapPoints.length = 0
-    this.visibleModuleMap.forEach(module => {
+    this.visibleelementMap.forEach(module => {
       this.snapPoints.push(...module.getSnapPoints())
     })
   }*/
 
-  batchDelete(from: Set<UID>): ModuleProps[] {
-    return batchDelete.call(this, from)
+  /*  batchDelete(from: Set<UID>): ElementProps[] {
+      return batchDelete.call(this, from)
+    }
+
+    batchMove(from: Set<UID>, delta: Point) {
+      batchMove.call(this, from, delta)
+    }
+
+    batchModify(
+      idSet: Set<UID>,
+      data: Partial<ElementProps>,
+    ) {
+      batchModify.call(this, idSet, data)
+    }*/
+
+  getModuleList(): ElementInstance[] {
+    return [...Object.values(this.elementMap)]
   }
 
-  batchMove(from: Set<UID>, delta: Point) {
-    batchMove.call(this, from, delta)
-  }
-
-  batchModify(
-    idSet: Set<UID>,
-    data: Partial<ModuleProps>,
-  ) {
-    batchModify.call(this, idSet, data)
-  }
-
-  getModulesByIdSet(idSet: Set<UID>): ModuleMap {
-    const result: ModuleMap = new Map()
-
-    idSet.forEach((id) => {
-      const mod = this.moduleMap.get(id)
-      if (mod) {
-        result.set(id, mod)
-      }
-    })
-
-    return result
-  }
-
-  getModuleList(): ModuleInstance[] {
-    return [...Object.values(this.moduleMap)]
-  }
-
-  updateVisibleModuleMap() {
-    this.visibleModuleMap.clear()
+  updateVisibleelementMap() {
+    this.visibleElementMap.clear()
 
     // console.log(this.viewport.offset, this.viewport.worldRect)
-    // Create an array from the Map, sort by the 'layer' property, and then add them to visibleModuleMap
-    const sortedModules = ([...this.moduleMap.values()] as ModuleInstance[])
+    // Create an array from the Map, sort by the 'layer' property, and then add them to visibleelementMap
+    const sortedModules = ([...this.elementMap.values()] as ElementInstance[])
       .filter(module => {
         const boundingRect = module.getBoundingRect() as BoundingRect
         return rectsOverlap(boundingRect, this.viewport.worldRect)
       })
       .sort((a, b) => a.layer - b.layer)
-    // console.log(this.moduleMap)
+    // console.log(this.elementMap)
     sortedModules.forEach(module => {
-      this.visibleModuleMap.set(module.id, module)
+      this.visibleElementMap.set(module.id, module)
     })
   }
 
@@ -204,16 +188,16 @@ class Editor {
     this.visibleSelected.clear()
     this.operationHandlers.length = 0
 
-    this.getVisibleModuleMap.forEach((module) => {
-      if (this.selectedModules.has(module.id)) {
+    this.getVisibleElementMap.forEach((module) => {
+      if (this.selectedElementIDSet.has(module.id)) {
         this.visibleSelected.add(module.id)
       }
     })
 
-    const moduleProps = this.getSelectedPropsIfUnique
+    const moduleProps = this.selection.getSelectedPropsIfUnique
 
     if (moduleProps) {
-      const module = this.moduleMap.get(moduleProps.id)
+      const module = this.elementMap.get(moduleProps.id)
       const {scale, dpr} = this.viewport
       const lineWidth = 1 / scale * dpr
       const resizeSize = 10 / scale * dpr
@@ -237,10 +221,6 @@ class Editor {
     }
   }
 
-  public createElement(props): ModuleInstance {
-
-  }
-
   public modifySelected(idSet: Set<UID>, action: SelectionActionMode) {
     modifySelected.call(this, idSet, action)
   }
@@ -261,14 +241,6 @@ class Editor {
     modifySelected.call(this, idSet, 'replace')
   }
 
-  public selectAll(): void {
-    this.selectedModules.clear()
-    this.moduleMap.forEach((module) => {
-      this.selectedModules.add(module.id)
-    })
-
-    // this.events.onSelectionUpdated?.(this.selectedModules)
-  }
 
   updateCopiedItemsDelta(): void {
     this.copiedItems.forEach((copiedItem) => {
@@ -304,12 +276,12 @@ class Editor {
 
       const frameFill = {...frameBorder, fillColor: '#fff', enableLine: false}
       // deduplicateObjectsByKeyValue()
-      // console.log(this.visibleModuleMap.size)
+      // console.log(this.visibleelementMap.size)
       // deduplicateObjectsByKeyValue
 
-      new Rectangle(frameFill).render(ctx)
+      new ElementRectangle(frameFill).render(ctx)
 
-      this.visibleModuleMap.forEach((module) => {
+      this.visibleElementMap.forEach((module) => {
         module.render(ctx)
 
         if (module.type === 'image') {
@@ -323,7 +295,7 @@ class Editor {
         }
       })
 
-      new Rectangle(frameBorder).render(ctx)
+      new ElementRectangle(frameBorder).render(ctx)
     }
 
     requestAnimationFrame(animate)
@@ -331,18 +303,18 @@ class Editor {
 
   /*  public get getModulesInsideOfFrame(): ModuleInstance[] {
       const arr = []
-      this.moduleMap.forEach((module) => {
+      this.elementMap.forEach((module) => {
 
       })
     }*/
 
   public printOut(ctx: CanvasRenderingContext2D): void {
-    this.moduleMap.forEach((module) => {
+    this.elementMap.forEach((module) => {
       module.render(ctx)
     })
   }
 
-  public export(): { elements: ModuleProps[], assets: never[], config: { offset: { x: number, y: number } } } {
+  public export(): { elements: ElementProps[], assets: never[], config: { offset: { x: number, y: number } } } {
     const {scale, offset} = this.viewport
     const assetSet = new Set<string>()
     const result = {
@@ -354,7 +326,7 @@ class Editor {
       assets: [],
     }
 
-    this.moduleMap.forEach((module) => {
+    this.elementMap.forEach((module) => {
       if (module.type === 'image') {
         const {src} = module as ElementImage
         if (!src) return
@@ -454,7 +426,7 @@ class Editor {
     destroyViewport.call(this)
     this.action.destroy()
     this.history.destroy()
-    this.moduleMap.clear()
+    this.elementManager.destroy()
   }
 }
 

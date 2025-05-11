@@ -1,4 +1,4 @@
-import DoublyLinkedList from './DoublyLinkedList.js';
+import DoublyLinkedList from './DoublyLinkedList';
 class History extends DoublyLinkedList {
     editor;
     constructor(editor) {

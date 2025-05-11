@@ -7,7 +7,7 @@ export interface RectangleProps extends RectangleLikeProps {
 
 export type RequiredRectangleProps = Required<RectangleProps>
 
-class Rectangle extends RectangleLike {
+class ElementRectangle extends RectangleLike {
   readonly type = 'rectangle'
 
   constructor(props: RectangleProps) {
@@ -40,7 +40,7 @@ class Rectangle extends RectangleLike {
   }
 }
 
-export default Rectangle
+export default ElementRectangle
 
 
 

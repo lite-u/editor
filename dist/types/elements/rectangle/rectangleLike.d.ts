@@ -2,7 +2,7 @@ import Shape, { ShapeProps } from '../shape/shape';
 import { CenterBasedRect, Point, Rect } from '~/type';
 import { SnapPointData } from '~/engine/type';
 import { TransformProps } from '~/elements/rectangle/transform';
-import Rectangle from '~/elements/rectangle/rectangle';
+import ElementRectangle from '~/elements/rectangle/rectangle';
 export interface RectangleLikeProps extends ShapeProps {
     id: string;
     layer: number;
@@ -24,8 +24,8 @@ declare class RectangleLike extends Shape {
     toMinimalJSON(): RectangleLikeProps;
     getRect(): CenterBasedRect;
     getBoundingRect(): import("~/type").BoundingRect;
-    getSelectedBoxModule(lineWidth: number, lineColor: string): Rectangle;
-    getHighlightModule(lineWidth: number, lineColor: string): Rectangle;
+    getSelectedBoxModule(lineWidth: number, lineColor: string): ElementRectangle;
+    getHighlightModule(lineWidth: number, lineColor: string): ElementRectangle;
     getOperators(id: string, resizeConfig: {
         lineWidth: number;
         lineColor: string;

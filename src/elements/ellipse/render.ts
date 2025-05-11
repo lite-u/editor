@@ -1,6 +1,6 @@
-import Ellipse from './ellipse'
+import ElementEllipse from './ellipse'
 
-function render(this: Ellipse, ctx: CanvasRenderingContext2D): void {
+function render(this: ElementEllipse, ctx: CanvasRenderingContext2D): void {
   let {cx, cy, r1, r2,  lineWidth,
     lineColor, opacity, fillColor, rotation, dashLine, gradient} = this.toJSON()
 

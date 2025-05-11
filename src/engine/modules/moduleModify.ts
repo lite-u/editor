@@ -1,24 +1,25 @@
+/*
 import Editor from '../editor'
-import Rectangle from '~/elements/rectangle/rectangle'
-import Ellipse, {EllipseProps} from '~/elements/ellipse/ellipse'
+import ElementRectangle from '~/elements/rectangle/rectangle'
+import ElementEllipse, {EllipseProps} from '~/elements/ellipse/ellipse'
 import ElementText, {TextProps} from '~/elements/text/text'
 import ElementImage, {ImageProps} from '~/elements/image/image'
 import nid from '~/core/nid'
-import {ModuleInstance, ModuleMap, ModuleProps} from '~/elements/elements'
+import {ElementInstance, ElementMap, ElementProps} from '~/elements/elements'
 import {UID} from '~/core/core'
 import deepClone from '~/core/deepClone'
 
-export function batchCreate(this: Editor, moduleDataList: ModuleProps[]): ModuleMap {
-  const clonedData = deepClone(moduleDataList) as ModuleProps[]
-  const newMap: ModuleMap = new Map()
+export function batchCreate(this: Editor, moduleDataList: ElementProps[]): ElementMap {
+  const clonedData = deepClone(moduleDataList) as ElementProps[]
+  const newMap: ElementMap = new Map()
   let localMaxLayer = 0
 
-  const create = (data: ModuleProps) => {
+  const create = (data: ElementProps) => {
     if (!data.id) {
       let id = nid()
 
       // ensure short id no repeat
-      if (this.moduleMap.has(id)) {
+      if (this.elementMap.has(id)) {
         id = nid()
       }
 
@@ -26,20 +27,20 @@ export function batchCreate(this: Editor, moduleDataList: ModuleProps[]): Module
     }
 
     if (isNaN(data.layer)) {
-      const maxFromModuleMap = this.getMaxLayerIndex
+      const maxFromelementMap = this.getMaxLayerIndex
 
-      localMaxLayer = Math.max(localMaxLayer, maxFromModuleMap)
+      localMaxLayer = Math.max(localMaxLayer, maxFromelementMap)
       localMaxLayer++
 
       data.layer = localMaxLayer
     }
 
     if (data.type === 'rectangle') {
-      return new Rectangle(data)
+      return new ElementRectangle(data)
     }
 
     if (data.type === 'ellipse') {
-      return new Ellipse(data as EllipseProps)
+      return new ElementEllipse(data as EllipseProps)
     }
 
     if (data.type === 'text') {
@@ -55,18 +56,18 @@ export function batchCreate(this: Editor, moduleDataList: ModuleProps[]): Module
   clonedData.forEach(data => {
     const module = create.call(this, data)
 
-    newMap.set(data.id, module as ModuleInstance)
+    newMap.set(data.id, module as ElementInstance)
   })
 
   return newMap
 }
 
-export function batchAdd(this: Editor, modules: ModuleMap, callback?: VoidFunction): ModuleMap {
+export function batchAdd(this: Editor, modules: ElementMap, callback?: VoidFunction): ElementMap {
   modules.forEach(mod => {
-    this.moduleMap.set(mod.id, mod)
+    this.elementMap.set(mod.id, mod)
   })
 //       this.assetsManager.add('image', data.src)
-  // this.events.onModulesUpdated?.(this.moduleMap)
+  // this.events.onModulesUpdated?.(this.elementMap)
   if (callback) {
     const pArr = []
     modules.forEach(mod => {
@@ -89,14 +90,14 @@ export function batchAdd(this: Editor, modules: ModuleMap, callback?: VoidFuncti
   return modules
 }
 
-type BatchCopyFn = <T extends boolean>(this: Editor, idSet: Set<UID>, includeIdentifiers: T) => T extends true ? ModuleProps[] : Omit<ModuleProps, 'id' & 'layer'>[]
+type BatchCopyFn = <T extends boolean>(this: Editor, idSet: Set<UID>, includeIdentifiers: T) => T extends true ? ElementProps[] : Omit<ElementProps, 'id' & 'layer'>[]
 
 export const batchCopy: BatchCopyFn = function (this, idSet, includeIdentifiers) {
-  const modulesMap: ModuleMap = new Map()
-  const moduleArr: ModuleInstance[] = []
+  const modulesMap: ElementMap = new Map()
+  const moduleArr: ElementInstance[] = []
 
   idSet.forEach(id => {
-    const mod = this.moduleMap.get(id)
+    const mod = this.elementMap.get(id)
     if (mod) {
       moduleArr.push(mod)
       modulesMap.set(id, mod)
@@ -108,35 +109,36 @@ export const batchCopy: BatchCopyFn = function (this, idSet, includeIdentifiers)
   return moduleArr.map(mod => mod.toMinimalJSON(includeIdentifiers))
 }
 
-export function batchDelete(this: Editor, idSet: Set<UID>): ModuleProps[] {
-  const backup: ModuleProps[] = this.batchCopy(idSet)
+export function batchDelete(this: Editor, idSet: Set<UID>): ElementProps[] {
+  const backup: ElementProps[] = this.batchCopy(idSet)
 
   backup.forEach(module => {
-    this.moduleMap.delete(module.id)
+    this.elementMap.delete(module.id)
   })
 
-  // this.events.onModulesUpdated?.(this.moduleMap)
+  // this.events.onModulesUpdated?.(this.elementMap)
 
   return backup
 }
 
 export function batchMove(this: Editor, from: Set<UID>, delta: Point) {
-  const modulesMap: ModuleMap = this.getModulesByIdSet(from)
+  const modulesMap: ElementMap = this.getElementMapByIdSet(from)
 
-  modulesMap.forEach((module: ModuleInstance) => {
+  modulesMap.forEach((module: ElementInstance) => {
     module.cx += delta.x
     module.cy += delta.y
   })
 }
 
-export function batchModify(this: Editor, idSet: Set<UID>, data: Partial<ModuleProps>) {
-  const modulesMap = this.getModulesByIdSet(idSet)
+export function batchModify(this: Editor, idSet: Set<UID>, data: Partial<ElementProps>) {
+  const modulesMap = this.getElementMapByIdSet(idSet)
 
-  modulesMap.forEach((module: ModuleInstance) => {
+  modulesMap.forEach((module: ElementInstance) => {
     Object.keys(data).forEach((key) => {
-      const keyName = key as keyof ModuleProps
+      const keyName = key as keyof ElementProps
       // @ts-ignore
       module[keyName] = data[key]
     })
   })
 }
+*/

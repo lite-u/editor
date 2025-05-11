@@ -2,7 +2,7 @@ import Shape from '../shape/shape.js';
 import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '../../core/utils.js';
 import render from './render.js';
 import transform from './transform.js';
-import Rectangle from './rectangle.js';
+import ElementRectangle from './rectangle.js';
 const DEFAULT_WIDTH = 10;
 const DEFAULT_HEIGHT = 10;
 const DEFAULT_RADIUS = 0;
@@ -97,7 +97,7 @@ class RectangleLike extends Shape {
         return generateBoundingRectFromRotatedRect({ x, y, width, height }, rotation);
     }
     getSelectedBoxModule(lineWidth, lineColor) {
-        return new Rectangle({
+        return new ElementRectangle({
             ...this.toJSON(),
             lineColor,
             lineWidth,
@@ -106,7 +106,7 @@ class RectangleLike extends Shape {
         });
     }
     getHighlightModule(lineWidth, lineColor) {
-        return new Rectangle({
+        return new ElementRectangle({
             ...this.toJSON(),
             lineColor,
             lineWidth,

@@ -1,4 +1,4 @@
-import { extractIdSetFromArray } from './helpers.js';
+import { extractIdSetFromArray } from './helpers';
 export function undo(quiet = false) {
     if (this.history.current === this.history.head)
         return false;
@@ -40,11 +40,11 @@ export function undo(quiet = false) {
             break;
         case 'history-delete':
             modules = payload.modules;
-            this.batchAdd(this.batchCreate(modules));
+            this.elementManager.batchAdd(this.elementManager.batchCreate(modules));
             break;
     }
     this.history.back();
-    // this.editor.updateVisibleModuleMap(this.editor.viewport.worldRect)
+    // this.editor.updateVisibleelementMap(this.editor.viewport.worldRect)
     if (!quiet) {
         const backedNodeSelectedModules = this.history.current.data.payload.selectedModules;
         this.replaceSelected(backedNodeSelectedModules);

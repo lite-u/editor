@@ -1,5 +1,5 @@
 import Shape, { ShapeProps } from '../shape/shape';
-import Rectangle from '../rectangle/rectangle';
+import ElementRectangle from '../rectangle/rectangle';
 import { ResizeHandleName } from '~/engine/selection/type';
 import { Point } from '~/type';
 export interface EllipseProps extends ShapeProps {
@@ -10,7 +10,7 @@ export interface EllipseProps extends ShapeProps {
     r2: number;
 }
 export type RequiredEllipseProps = Required<EllipseProps>;
-declare class Ellipse extends Shape {
+declare class ElementEllipse extends Shape {
     readonly type = "ellipse";
     id: string;
     layer: number;
@@ -41,8 +41,8 @@ declare class Ellipse extends Shape {
     toMinimalJSON(): EllipseProps;
     toJSON(): RequiredEllipseProps;
     getBoundingRect(): import("~/type").BoundingRect;
-    getSelectedBoxModule(lineWidth: number, lineColor: string): Rectangle;
-    getHighlightModule(lineWidth: number, lineColor: string): Ellipse;
+    getSelectedBoxModule(lineWidth: number, lineColor: string): ElementRectangle;
+    getHighlightModule(lineWidth: number, lineColor: string): ElementEllipse;
     getOperators(id: string, resizeConfig: {
         lineWidth: number;
         lineColor: string;
@@ -56,4 +56,4 @@ declare class Ellipse extends Shape {
     }): import("~/engine/selection/type").OperationHandlers[];
     render(ctx: CanvasRenderingContext2D): void;
 }
-export default Ellipse;
+export default ElementEllipse;

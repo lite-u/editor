@@ -2,7 +2,7 @@ import Base, { ElementBaseProps } from '../base/base';
 import { OperationHandlers } from '~/engine/selection/type';
 import { ElementFillColor } from '~/core/core';
 import { BoundingRect } from '~/type';
-import { ModuleProps } from '../elements';
+import { ElementProps } from '../elements';
 export interface ShapeProps extends ElementBaseProps {
     cx?: number;
     cy?: number;
@@ -35,7 +35,7 @@ declare class Shape extends Base {
         lineColor: string;
         size: number;
         fillColor: string;
-    }, boundingRect: BoundingRect, moduleOrigin: ModuleProps): OperationHandlers[];
+    }, boundingRect: BoundingRect, moduleOrigin: ElementProps): OperationHandlers[];
     isInsideRect(outer: BoundingRect): boolean;
 }
 export default Shape;

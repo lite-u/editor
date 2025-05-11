@@ -1,5 +1,5 @@
-import {ModuleProps} from '~/elements/elements'
-import History from './history/history'
+import {ElementProps} from '~/elements/elements'
+import History from '~/services/history/history'
 import {EditorConfig} from './editor'
 import {ToolName} from '~/engine/tools/tool'
 import {Point} from '~/type'
@@ -43,8 +43,8 @@ export interface SnapPointData extends Point {
 
 export type InitializedHandler = () => void;
 export type HistoryUpdatedHandler = (history: History) => void;
-export type ModulesUpdatedHandler = (moduleMap: ModuleMap) => void;
-export type SelectionUpdatedHandler = (selected: Set<UID>, selectedProps?: ModuleProps) => void;
+export type ModulesUpdatedHandler = (elementMap: elementMap) => void;
+export type SelectionUpdatedHandler = (selected: Set<UID>, selectedProps?: ElementProps) => void;
 export type ViewportUpdatedHandler = (viewportInfo: ViewportData) => void;
 export type WorldUpdatedHandler = (worldInfo: WorldInfo) => void;
 export type WorldMouseMoveUpdatedHandler = (point: Point) => void;
@@ -66,7 +66,7 @@ export declare type EventHandlers = {
 }
 
 export interface EditorExportFileType {
-  data: ModuleProps[]
+  data: ElementProps[]
   id: UID,
   config: EditorConfig
 }
@@ -83,7 +83,7 @@ export interface EditorConfig {
 
 export interface EditorInterface {
   container: HTMLDivElement
-  elements: ModuleProps[]
+  elements: ElementProps[]
   events?: EventHandlers;
   config: EditorConfig;
 }

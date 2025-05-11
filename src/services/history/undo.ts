@@ -1,7 +1,7 @@
 import {HistoryModules} from './type'
 import {extractIdSetFromArray} from './helpers'
 import {HistoryNode} from './DoublyLinkedList'
-import Editor from '../editor'
+import Editor from '../../engine/editor'
 
 export function undo(this: Editor, quiet: boolean = false): HistoryNode | false {
   if (this.history.current === this.history.head) return false
@@ -19,7 +19,7 @@ export function undo(this: Editor, quiet: boolean = false): HistoryNode | false 
     case 'history-duplicate':
 
       // delete modules from added
-      this.batchDelete(extractIdSetFromArray(payload.modules))
+      this.elementManager.batchDelete(extractIdSetFromArray(payload.modules))
 
       break
 
@@ -30,7 +30,7 @@ export function undo(this: Editor, quiet: boolean = false): HistoryNode | false 
         Object.keys(props).forEach(propName => {
           // console.log(props[propName]!['from'])
           undoProps[propName] = props[propName]!['from']
-          this.batchModify(new Set([id]), undoProps)
+          this.elementManager.batchModify(new Set([id]), undoProps)
         })
       })
       break
@@ -54,13 +54,13 @@ export function undo(this: Editor, quiet: boolean = false): HistoryNode | false 
     case 'history-delete':
       modules = payload.modules
 
-      this.batchAdd(this.batchCreate(modules!))
+      this.elementManager.batchAdd(this.elementManager.batchCreate(modules!))
 
       break
   }
 
   this.history.back()
-  // this.editor.updateVisibleModuleMap(this.editor.viewport.worldRect)
+  // this.editor.updateVisibleelementMap(this.editor.viewport.worldRect)
   if (!quiet) {
     const backedNodeSelectedModules = this.history.current!.data.payload.selectedModules
 

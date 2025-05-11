@@ -26,10 +26,10 @@ const rectangle = {
             width,
             height,
         };
-        const created = this.batchAdd(this.batchCreate([rectProps]));
+        const created = this.elementManager.batchAdd(this.elementManager.batchCreate([rectProps]));
         console.log(created);
         // this.action.dispatch('module-add', [rectProps])
-        // const mod = this.moduleMap.get(id)
+        // const mod = this.elementMap.get(id)
         // console.log(mod)
         // mod.getOperators()
         // console.log([...this.operationHandlers])
@@ -41,8 +41,8 @@ const rectangle = {
                 break;
             }
         }
-        // const newRect = this.batchAdd(this.batchCreate([rectProps]))
-        // this.batchAdd(newRect)
+        // const newRect = this.elementManager.batchAdd(this.elementManager.batchCreate([rectProps]))
+        // this.elementManager.batchAdd(newRect)
         // console.log(newRect)
         this.manipulationStatus = 'resizing';
         this.action.dispatch('selection-clear');
@@ -63,7 +63,7 @@ const rectangle = {
     finish(e) {
         const leftMouseClick = e.button === 0;
         if (leftMouseClick) {
-            const { draggingModules, manipulationStatus, moduleMap, _selectingModules, selectedShadow, viewport, } = this;
+            const { draggingModules, manipulationStatus, elementMap, _selectingModules, selectedShadow, viewport, } = this;
             const x = e.clientX - viewport.rect.x;
             const y = e.clientY - viewport.rect.y;
             const modifyKey = e.ctrlKey || e.metaKey || e.shiftKey;
@@ -95,7 +95,7 @@ const rectangle = {
                             });
                             // Move back to origin position and do the move again
                             draggingModules.forEach((id) => {
-                                const module = moduleMap.get(id);
+                                const module = elementMap.get(id);
                                 if (module) {
                                     const change = {
                                         id,

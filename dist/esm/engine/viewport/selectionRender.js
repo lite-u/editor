@@ -1,6 +1,6 @@
-import Rectangle from '../../elements/rectangle/rectangle.js';
+import ElementRectangle from '../../elements/rectangle/rectangle.js';
 function selectionRender() {
-    if (this.moduleMap.size === 0)
+    if (this.elementMap.size === 0)
         return;
     const { selectionCTX: ctx } = this.viewport;
     const fillColor = '#5491f8';
@@ -14,7 +14,7 @@ function selectionRender() {
     }
     // render selection box for modules
     selected.forEach((id) => {
-        const module = this.moduleMap.get(id);
+        const module = this.elementMap.get(id);
         if (module) {
             const moduleSelectionBoundary = module.getSelectedBoxModule(lineWidth, lineColor);
             moduleSelectionBoundary.render(ctx);
@@ -22,11 +22,11 @@ function selectionRender() {
     });
     // render center points
     centerPoints.forEach((id) => {
-        const module = this.moduleMap.get(id);
+        const module = this.elementMap.get(id);
         const { cx, cy, rotation, layer } = module.toMinimalJSON();
         const lineWidth = 1 / this.viewport.scale * this.viewport.dpr;
         const highlightModule = module.getHighlightModule(lineWidth, fillColor);
-        const centerDotRect = new Rectangle({
+        const centerDotRect = new ElementRectangle({
             cx: cx,
             cy: cy,
             layer,

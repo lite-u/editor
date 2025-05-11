@@ -1,4 +1,4 @@
-import { VisionEventData, VisionEventType } from './engine/actions/type';
+import { VisionEventData, VisionEventType } from '~/services/actions/type';
 import { ToolName } from './engine/tools/tool';
 import { Unit } from './index';
 export interface Size {
@@ -28,5 +28,5 @@ export type ZoomRatio = number;
 export type UnitType = Unit.MM | Unit.INCHES | Unit.PX | Unit.CM;
 export type { VisionEventData, VisionEventType };
 export type * from './core/core.d';
-export type * from './engine/assetsManager/asssetsManager';
+export type * from '~/services/assetsManager/asssetsManager';
 export type { ToolName };

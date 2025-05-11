@@ -10,7 +10,7 @@ function render(this: SelectionManager) {
   const enableRotationHandle = this.selectedModules.size === 1
   console.log(this)
 
-  const BatchDrawer = (modules: ModuleMap) => {
+  const BatchDrawer = (modules: elementMap) => {
     const {ctx} = this
 
     const l = this.resizeHandleSize / 2

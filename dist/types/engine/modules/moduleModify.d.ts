@@ -1,11 +1,1 @@
-import Editor from '../editor';
-import { ModuleMap, ModuleProps } from '~/elements/elements';
-import { UID } from '~/core/core';
-export declare function batchCreate(this: Editor, moduleDataList: ModuleProps[]): ModuleMap;
-export declare function batchAdd(this: Editor, modules: ModuleMap, callback?: VoidFunction): ModuleMap;
-type BatchCopyFn = <T extends boolean>(this: Editor, idSet: Set<UID>, includeIdentifiers: T) => T extends true ? ModuleProps[] : Omit<ModuleProps, 'id' & 'layer'>[];
-export declare const batchCopy: BatchCopyFn;
-export declare function batchDelete(this: Editor, idSet: Set<UID>): ModuleProps[];
-export declare function batchMove(this: Editor, from: Set<UID>, delta: Point): void;
-export declare function batchModify(this: Editor, idSet: Set<UID>, data: Partial<ModuleProps>): void;
 export {};

@@ -1,5 +1,5 @@
 import {HistoryNode} from './DoublyLinkedList'
-import Editor from '../editor'
+import Editor from '../../engine/editor'
 import {redo} from './redo'
 import {undo} from './undo'
 
@@ -25,7 +25,7 @@ export function pick(this: Editor, targetNode: HistoryNode) {
 
     const {selectedModules} = targetNode.data.payload
 
-    // this.editor.updateVisibleModuleMap(this.editor.viewport.worldRect)
+    // this.editor.updateVisibleelementMap(this.editor.viewport.worldRect)
 
     this.replaceSelected(selectedModules)
 

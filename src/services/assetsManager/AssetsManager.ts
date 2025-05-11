@@ -1,4 +1,4 @@
-import {VisionEditorAssetType} from '~/engine/assetsManager/asssetsManager'
+import {VisionEditorAssetType} from '~/services/assetsManager/asssetsManager'
 
 class AssetsManager {
   assetsMap: Map<string, VisionEditorAssetType> = new Map()

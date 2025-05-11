@@ -1,7 +1,6 @@
-import History from './history/history.js';
-import Action from './actions/actions.js';
+import History from '../services/history/history.js';
+import Action from '../services/actions/actions.js';
 import { generateBoundingRectFromTwoPoints, rectsOverlap } from '../core/utils.js';
-import { batchAdd, batchCopy, batchCreate, batchDelete, batchModify, batchMove } from './modules/moduleModify.js';
 import { modifySelected } from './selection/helper.js';
 import { updateScrollBars } from './viewport/domManipulations.js';
 import selectionRender from './viewport/selectionRender.js';
@@ -10,21 +9,27 @@ import { createViewport } from './viewport/createViewport.js';
 import { destroyViewport } from './viewport/destroyViewport.js';
 import { initEditor } from './initEditor.js';
 import { zoomAtPoint } from './viewport/helper.js';
-import AssetsManager from './assetsManager/AssetsManager.js';
+import AssetsManager from '../services/assetsManager/AssetsManager.js';
 import nid from '../core/nid.js';
-import Rectangle from '../elements/rectangle/rectangle.js';
+import ElementRectangle from '../elements/rectangle/rectangle.js';
+import ElementManager from '../services/elementManager/ElementManager.js';
+import Selection from '../services/selection/Selection.js';
 class Editor {
     id = nid();
     // readonly id: UID
     config;
     // private moduleCounter = 0
-    moduleMap = new Map();
+    // readonly elementMap: ElementMap = new Map()
+    refs = {};
     action;
     container;
     events = {};
+    // services
     history;
+    elementManager;
+    selection;
     viewport;
-    selectedModules = new Set();
+    selectedElementIDSet = new Set();
     visibleSelected = new Set();
     operationHandlers = [];
     assetsManager;
@@ -45,47 +50,36 @@ class Editor {
     initialized = false;
     currentToolName = 'selector';
     // private readonly snapPoints: SnapPointData[] = []
-    visibleModuleMap;
+    visibleElementMap;
     constructor({ container, elements, assets = [], events = {}, config, }) {
-        this.visibleModuleMap = new Map();
+        this.visibleElementMap = new Map();
         this.config = config;
         this.events = events;
-        this.action = new Action();
         this.container = container;
-        this.history = new History(this);
         this.viewport = createViewport.call(this);
-        this.moduleMap = new Map();
+        // this.elementMap = new Map()
         // this.moduleCounter = config.moduleIdCounter
+        this.action = new Action();
+        this.history = new History(this);
+        this.selection = new Selection(this);
         this.assetsManager = new AssetsManager(assets);
+        this.elementManager = new ElementManager(this);
         initEditor.call(this);
         this.action.dispatch('module-add', elements);
     }
-    get getVisibleModuleMap() {
-        return new Map(this.visibleModuleMap);
+    get getVisibleElementMap() {
+        return new Map(this.visibleElementMap);
     }
     get getVisibleSelected() {
         return new Set(this.visibleSelected);
     }
-    get getVisibleSelectedModuleMap() {
-        return this.getModulesByIdSet(this.getVisibleSelected);
-    }
-    get getSelected() {
-        return new Set(this.selectedModules);
-    }
-    get getMaxLayerIndex() {
-        let max = 0;
-        this.moduleMap.forEach((mod) => {
-            // console.log(mod.layer)
-            if (mod.layer > max) {
-                max = mod.layer;
-            }
-        });
-        return max;
+    get getVisibleSelectedElementMap() {
+        return this.elementManager.getElementMapByIdSet(this.getVisibleSelected);
     }
     get getSelectedPropsIfUnique() {
-        if (this.selectedModules.size === 1) {
-            const unique = [...this.selectedModules.values()][0];
-            const module = this.moduleMap.get(unique);
+        if (this.selectedElementIDSet.size === 1) {
+            const unique = [...this.selectedElementIDSet.values()][0];
+            const module = this.elementMap.get(unique);
             if (module) {
                 return module.toMinimalJSON();
             }
@@ -94,69 +88,74 @@ class Editor {
         return null;
     }
     // getModulesByLayerIndex() {}
-    batchCreate(moduleDataList) {
-        return batchCreate.call(this, moduleDataList);
-    }
-    batchAdd(modules, callback) {
-        return batchAdd.call(this, modules, callback);
-    }
-    batchCopy(from, includeIdentifiers = true) {
-        return batchCopy.call(this, from, includeIdentifiers);
-    }
+    /*
+  
+      batchCreate(moduleDataList: ElementProps[]): ElementMap {
+        return batchCreate.call(this, moduleDataList)
+      }
+  
+      batchAdd(modules: ElementMap, callback?: VoidFunction): ElementMap {
+        return batchAdd.call(this, modules, callback)
+      }
+    */
+    /*
+  
+      batchCopy(
+        from: Set<UID>,
+        includeIdentifiers = true,
+      ): ElementProps[] {
+        return batchCopy.call(this, from, includeIdentifiers)
+      }
+    */
     /*updateSnapPoints() {
       this.snapPoints.length = 0
-      this.visibleModuleMap.forEach(module => {
+      this.visibleelementMap.forEach(module => {
         this.snapPoints.push(...module.getSnapPoints())
       })
     }*/
-    batchDelete(from) {
-        return batchDelete.call(this, from);
-    }
-    batchMove(from, delta) {
-        batchMove.call(this, from, delta);
-    }
-    batchModify(idSet, data) {
-        batchModify.call(this, idSet, data);
-    }
-    getModulesByIdSet(idSet) {
-        const result = new Map();
-        idSet.forEach((id) => {
-            const mod = this.moduleMap.get(id);
-            if (mod) {
-                result.set(id, mod);
-            }
-        });
-        return result;
-    }
+    /*  batchDelete(from: Set<UID>): ElementProps[] {
+        return batchDelete.call(this, from)
+      }
+  
+      batchMove(from: Set<UID>, delta: Point) {
+        batchMove.call(this, from, delta)
+      }
+  
+      batchModify(
+        idSet: Set<UID>,
+        data: Partial<ElementProps>,
+      ) {
+        batchModify.call(this, idSet, data)
+      }*/
     getModuleList() {
-        return [...Object.values(this.moduleMap)];
+        return [...Object.values(this.elementMap)];
     }
-    updateVisibleModuleMap() {
-        this.visibleModuleMap.clear();
+    updateVisibleelementMap() {
+        this.visibleElementMap.clear();
         // console.log(this.viewport.offset, this.viewport.worldRect)
-        // Create an array from the Map, sort by the 'layer' property, and then add them to visibleModuleMap
-        const sortedModules = [...this.moduleMap.values()]
+        // Create an array from the Map, sort by the 'layer' property, and then add them to visibleelementMap
+        const sortedModules = [...this.elementMap.values()]
             .filter(module => {
             const boundingRect = module.getBoundingRect();
             return rectsOverlap(boundingRect, this.viewport.worldRect);
         })
             .sort((a, b) => a.layer - b.layer);
-        // console.log(this.moduleMap)
+        // console.log(this.elementMap)
         sortedModules.forEach(module => {
-            this.visibleModuleMap.set(module.id, module);
+            this.visibleElementMap.set(module.id, module);
         });
     }
     updateVisibleSelected() {
         this.visibleSelected.clear();
         this.operationHandlers.length = 0;
-        this.getVisibleModuleMap.forEach((module) => {
-            if (this.selectedModules.has(module.id)) {
+        this.getVisibleElementMap.forEach((module) => {
+            if (this.selectedElementIDSet.has(module.id)) {
                 this.visibleSelected.add(module.id);
             }
         });
-        const moduleProps = this.getSelectedPropsIfUnique;
+        const moduleProps = this.selection.getSelectedPropsIfUnique;
         if (moduleProps) {
-            const module = this.moduleMap.get(moduleProps.id);
+            const module = this.elementMap.get(moduleProps.id);
             const { scale, dpr } = this.viewport;
             const lineWidth = 1 / scale * dpr;
             const resizeSize = 10 / scale * dpr;
@@ -176,8 +175,6 @@ class Editor {
             this.operationHandlers.push(...operators);
         }
     }
-    createElement(props) {
-    }
     modifySelected(idSet, action) {
         modifySelected.call(this, idSet, action);
     }
@@ -192,13 +189,6 @@ class Editor {
     }
     replaceSelected(idSet) {
         modifySelected.call(this, idSet, 'replace');
-    }
-    selectAll() {
-        this.selectedModules.clear();
-        this.moduleMap.forEach((module) => {
-            this.selectedModules.add(module.id);
-        });
-        // this.events.onSelectionUpdated?.(this.selectedModules)
     }
     updateCopiedItemsDelta() {
         this.copiedItems.forEach((copiedItem) => {
@@ -231,10 +221,10 @@ class Editor {
             };
             const frameFill = { ...frameBorder, fillColor: '#fff', enableLine: false };
             // deduplicateObjectsByKeyValue()
-            // console.log(this.visibleModuleMap.size)
+            // console.log(this.visibleelementMap.size)
             // deduplicateObjectsByKeyValue
-            new Rectangle(frameFill).render(ctx);
-            this.visibleModuleMap.forEach((module) => {
+            new ElementRectangle(frameFill).render(ctx);
+            this.visibleElementMap.forEach((module) => {
                 module.render(ctx);
                 if (module.type === 'image') {
                     const { src } = module;
@@ -245,18 +235,18 @@ class Editor {
                     }
                 }
             });
-            new Rectangle(frameBorder).render(ctx);
+            new ElementRectangle(frameBorder).render(ctx);
         };
         requestAnimationFrame(animate);
     }
     /*  public get getModulesInsideOfFrame(): ModuleInstance[] {
         const arr = []
-        this.moduleMap.forEach((module) => {
+        this.elementMap.forEach((module) => {
   
         })
       }*/
     printOut(ctx) {
-        this.moduleMap.forEach((module) => {
+        this.elementMap.forEach((module) => {
             module.render(ctx);
         });
     }
@@ -271,7 +261,7 @@ class Editor {
             },
             assets: [],
         };
-        this.moduleMap.forEach((module) => {
+        this.elementMap.forEach((module) => {
             if (module.type === 'image') {
                 const { src } = module;
                 if (!src)
@@ -337,7 +327,7 @@ class Editor {
         destroyViewport.call(this);
         this.action.destroy();
         this.history.destroy();
-        this.moduleMap.clear();
+        this.elementManager.destroy();
     }
 }
 export default Editor;

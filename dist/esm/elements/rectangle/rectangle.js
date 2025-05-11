@@ -1,5 +1,5 @@
 import RectangleLike from './rectangleLike.js';
-class Rectangle extends RectangleLike {
+class ElementRectangle extends RectangleLike {
     type = 'rectangle';
     constructor(props) {
         super(props);
@@ -26,4 +26,4 @@ class Rectangle extends RectangleLike {
         };
     }
 }
-export default Rectangle;
+export default ElementRectangle;

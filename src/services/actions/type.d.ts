@@ -1,9 +1,9 @@
-import {SelectionActionMode} from '../selection/type'
-import {HistoryNode} from '../history/DoublyLinkedList'
+import {SelectionActionMode} from '../../engine/selection/type'
+import {HistoryNode} from '~/services/history/DoublyLinkedList'
 // import {ModuleMoveDirection} from '../type'
-import {HistoryOperation} from '../history/type'
+import {HistoryOperation} from '~/services/history/type'
 import {ModulePropsWithoutIdentifiers} from '~/elements/elements'
-import {VisionEditorAssetType} from '~/engine/assetsManager/AssetsManager'
+import {VisionEditorAssetType} from '~/services/assetsManager/AssetsManager'
 import {Point} from '~/type'
 import {ToolName} from '~/engine/tools/tool'
 

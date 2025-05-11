@@ -2,15 +2,15 @@
 import Editor from "../editor.ts"
 
 function batchReplaceModules(this: Editor, moduleList: ModuleProps[]) {
-  const moduleMap = this.batchCreate(moduleList)
+  const elementMap = this.elementManager.batchCreate(moduleList)
 
-  moduleMap.forEach((module) => {
-    console.log(this.moduleMap)
-    this.moduleMap.set(module.id, module)
+  elementMap.forEach((module) => {
+    console.log(this.elementMap)
+    this.elementMap.set(module.id, module)
   })
 
   this.render()
-  this.events.onModulesUpdated?.(this.moduleMap)
+  this.events.onModulesUpdated?.(this.elementMap)
   this.render()
 }
 

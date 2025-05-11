@@ -1,6 +1,6 @@
 import {extractIdSetFromArray} from './helpers'
 import {HistoryNode} from './DoublyLinkedList'
-import Editor from '../editor'
+import Editor from '../../engine/editor'
 
 export function redo(this: Editor, quiet: boolean = false): HistoryNode | false {
   if (this.history.current === this.history.tail) return false
@@ -18,7 +18,7 @@ export function redo(this: Editor, quiet: boolean = false): HistoryNode | false 
     case 'history-duplicate':
 
       // delete modules from added
-      this.batchAdd(this.batchCreate(payload.modules))
+      this.elementManager.batchAdd(this.elementManager.batchCreate(payload.modules))
 
       break
 
@@ -28,7 +28,7 @@ export function redo(this: Editor, quiet: boolean = false): HistoryNode | false 
 
         Object.keys(props).forEach(propName => {
           redoProps[propName] = props[propName]!['to']
-          this.batchModify(new Set([id]), redoProps)
+          this.elementManager.batchModify(new Set([id]), redoProps)
         })
       })
       break
@@ -50,12 +50,12 @@ export function redo(this: Editor, quiet: boolean = false): HistoryNode | false 
       break
 
     case 'history-delete':
-      this.batchDelete(extractIdSetFromArray(payload.modules))
+      this.elementManager.batchDelete(extractIdSetFromArray(payload.modules))
 
       break
   }
 
-  // this.editor.updateVisibleModuleMap(this.editor.viewport.worldRect)
+  // this.editor.updateVisibleelementMap(this.editor.viewport.worldRect)
 
   if (!quiet) {
     this.replaceSelected(selectedModules)

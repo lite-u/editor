@@ -1,4 +1,4 @@
-import Editor from '../editor'
+import Editor from '../../engine/editor'
 import DoublyLinkedList, {HistoryNode} from './DoublyLinkedList'
 import {HistoryOperation} from './type'
 

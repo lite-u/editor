@@ -4,7 +4,7 @@ import {SnapPointData} from '~/engine/type'
 import {generateBoundingRectFromRect, generateBoundingRectFromRotatedRect} from '~/core/utils'
 import render from './render'
 import transform, {TransformProps} from '~/elements/rectangle/transform'
-import Rectangle from '~/elements/rectangle/rectangle'
+import ElementRectangle from '~/elements/rectangle/rectangle'
 
 export interface RectangleLikeProps extends ShapeProps {
   id: string
@@ -147,8 +147,8 @@ class RectangleLike extends Shape {
     return generateBoundingRectFromRotatedRect({x, y, width, height}, rotation)
   }
 
-  public getSelectedBoxModule(lineWidth: number, lineColor: string): Rectangle {
-    return new Rectangle({
+  public getSelectedBoxModule(lineWidth: number, lineColor: string): ElementRectangle {
+    return new ElementRectangle({
       ...this.toJSON(),
       lineColor,
       lineWidth,
@@ -157,8 +157,8 @@ class RectangleLike extends Shape {
     })
   }
 
-  public getHighlightModule(lineWidth: number, lineColor: string): Rectangle {
-    return new Rectangle({
+  public getHighlightModule(lineWidth: number, lineColor: string): ElementRectangle {
+    return new ElementRectangle({
       ...this.toJSON(),
       lineColor,
       lineWidth,

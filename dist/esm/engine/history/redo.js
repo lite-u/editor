@@ -12,7 +12,7 @@ export function redo(quiet = false) {
         case 'history-paste':
         case 'history-duplicate':
             // delete modules from added
-            this.batchAdd(this.batchCreate(payload.modules));
+            this.elementManager.batchAdd(this.elementManager.batchCreate(payload.modules));
             break;
         case 'history-modify':
             payload.changes.map(({ id, props }) => {
@@ -41,7 +41,7 @@ export function redo(quiet = false) {
             this.batchDelete(extractIdSetFromArray(payload.modules));
             break;
     }
-    // this.editor.updateVisibleModuleMap(this.editor.viewport.worldRect)
+    // this.editor.updateVisibleelementMap(this.editor.viewport.worldRect)
     if (!quiet) {
         this.replaceSelected(selectedModules);
         // console.log(selectedModules)

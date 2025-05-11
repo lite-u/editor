@@ -1,7 +1,7 @@
 import Base from '../base/base.js';
 import { HANDLER_OFFSETS } from '../handleBasics.js';
 import { rotatePoint } from '../../core/lib.js';
-import Rectangle from '../rectangle/rectangle.js';
+import ElementRectangle from '../rectangle/rectangle.js';
 const DEFAULT_CX = 0;
 const DEFAULT_CY = 0;
 const DEFAULT_ENABLE_GRADIENT = false;
@@ -122,7 +122,7 @@ class Shape extends Base {
                 name: OFFSET.name,
                 // cursor,
                 moduleOrigin,
-                module: new Rectangle(currentModuleProps),
+                module: new ElementRectangle(currentModuleProps),
             };
         });
         return handlers;

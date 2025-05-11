@@ -1,4 +1,4 @@
-import {ModuleInstance} from '~/elements/elements'
+import {ElementInstance} from '~/elements/elements'
 import {UID} from '~/core/core'
 import Rectangle from '../tools/rectangle/rectangle'
 import {Point, Rect} from '~/type'
@@ -6,7 +6,7 @@ import Editor from '~/engine/editor'
 
 type FrameType = 'A4' | 'A4L' | 'photo1'
 
-export const createFrame = (p: FrameType, id: UID): ModuleInstance => {
+export const createFrame = (p: FrameType, id: UID): ElementInstance => {
   let width: number = 0
   let height: number = 0
   let x: number = 0

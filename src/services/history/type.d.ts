@@ -1,4 +1,4 @@
-import {HistoryModuleChangeItem} from '../actions/type'
+import {HistoryModuleChangeItem} from '~/services/actions/type'
 
 type HistoryPrev = HistoryNode | null
 type HistoryNext = HistoryPrev
@@ -42,7 +42,7 @@ interface InitOperation {
   payload: {
     state: null,
     selectedModules: HistorySelectedModules
-    // state: ModuleMap // full initial state of the modules
+    // state: elementMap // full initial state of the modules
     // HistorySelectedModules
   }
 }

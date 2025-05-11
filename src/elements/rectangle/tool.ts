@@ -3,10 +3,10 @@ import {updateCursor, updateSelectionBox} from '~/engine/viewport/domManipulatio
 import Base from '~/elements/base/base'
 import {Tool} from '~/engine/tools/tool'
 import {applyResize} from '~/engine/viewport/eventHandlers/funcs'
-import {ModuleModifyData} from '~/engine/actions/type'
+import {ModuleModifyData} from '~/services/actions/type'
 import nid from '~/core/nid'
 import {ResizeHandler} from '~/engine/selection/type'
-import {ModuleProps} from '~/elements/elements'
+import {ElementProps} from '~/elements/elements'
 
 const rectangleTool: Tool = {
   start(this: Editor, _: MouseEvent) {
@@ -19,7 +19,7 @@ const rectangleTool: Tool = {
     const height = 2
     // this._resizingOperator = operator
     const id = 'rectangle-' + nid()
-    const rectProps: ModuleProps = {
+    const rectProps: ElementProps = {
       type: 'rectangle',
       id,
       layer: 0,
@@ -33,10 +33,10 @@ const rectangleTool: Tool = {
       height,
     }
 
-    const created = this.batchAdd(this.batchCreate([rectProps]))
+    const created = this.elementManager.batchAdd(this.elementManager.batchCreate([rectProps]))
     console.log(created)
     // this.action.dispatch('module-add', [rectProps])
-    // const mod = this.moduleMap.get(id)
+    // const mod = this.elementMap.get(id)
     // console.log(mod)
     // mod.getOperators()
     // console.log([...this.operationHandlers])
@@ -50,8 +50,8 @@ const rectangleTool: Tool = {
       }
     }
 
-    // const newRect = this.batchAdd(this.batchCreate([rectProps]))
-    // this.batchAdd(newRect)
+    // const newRect = this.elementManager.batchAdd(this.elementManager.batchCreate([rectProps]))
+    // this.elementManager.batchAdd(newRect)
     // console.log(newRect)
     this.manipulationStatus = 'resizing'
     this.action.dispatch('selection-clear')
@@ -80,7 +80,7 @@ const rectangleTool: Tool = {
       const {
         draggingModules,
         manipulationStatus,
-        moduleMap,
+        elementMap,
         _selectingModules,
         selectedShadow,
         viewport,
@@ -121,7 +121,7 @@ const rectangleTool: Tool = {
 
             // Move back to origin position and do the move again
             draggingModules.forEach((id) => {
-              const module = moduleMap.get(id)
+              const module = elementMap.get(id)
 
               if (module) {
                 const change: ModuleModifyData = {
@@ -154,7 +154,7 @@ const rectangleTool: Tool = {
           const {altKey, shiftKey} = e
           const props = applyResize.call(this, altKey, shiftKey)
           const moduleOrigin = this._resizingOperator?.moduleOrigin
-          const rollbackProps: Partial<ModuleProps> = {}
+          const rollbackProps: Partial<ElementProps> = {}
 
           Object.keys(props).forEach((key) => {
             rollbackProps[key] = moduleOrigin[key]
@@ -177,7 +177,7 @@ const rectangleTool: Tool = {
           const {shiftKey} = e
           const newRotation = Base.applyRotating.call(this, shiftKey)
           const {rotation} = this._rotatingOperator?.moduleOrigin!
-          const rollbackProps: Partial<ModuleProps> = {rotation}
+          const rollbackProps: Partial<ElementProps> = {rotation}
 
           // rotate back
           this.action.dispatch('module-modifying', {

@@ -6,8 +6,8 @@ import Base from '~/elements/base/base'
 import {Tool} from '~/engine/tools/tool'
 import {applyResize, detectHoveredModule, getResizeCursor, getRotateAngle} from '~/engine/viewport/eventHandlers/funcs'
 import {BoundingRect, UID} from '~/type'
-import {ModuleModifyData} from '~/engine/actions/type'
-import {ModuleProps} from '~/elements/elements'
+import {ModuleModifyData} from '~/services/actions/type'
+import {ElementProps} from '~/elements/elements'
 
 const selection: Tool = {
   start(this: Editor, e: MouseEvent) {
@@ -34,13 +34,13 @@ const selection: Tool = {
       if (!modifyKey) {
         this.action.dispatch('selection-clear')
       }
-      this.selectedShadow = this.getSelected
+      this.selectedShadow = this.selection.getSelected
       // console.warn(this.selectedShadow)
       return (this.manipulationStatus = 'selecting')
     }
 
     this.manipulationStatus = 'dragging'
-    const realSelected = this.getSelected
+    const realSelected = this.selection.getSelected
 
     // this.draggingModules = new Set(this.selectedModules)
     const isSelected = realSelected.has(hoveredModule)
@@ -98,7 +98,7 @@ const selection: Tool = {
         const _selecting: Set<UID> = new Set()
         const modifyKey = e.ctrlKey || e.metaKey || e.shiftKey
 
-        this.moduleMap.forEach((module) => {
+        this.elementMap.forEach((module) => {
           if (module.isInsideRect(virtualSelectionRect)) {
             _selecting.add(module.id)
           }
@@ -251,7 +251,7 @@ const selection: Tool = {
       const {
         draggingModules,
         manipulationStatus,
-        moduleMap,
+        elementMap,
         _selectingModules,
         selectedShadow,
         viewport,
@@ -292,7 +292,7 @@ const selection: Tool = {
 
             // Move back to origin position and do the move again
             draggingModules.forEach((id) => {
-              const module = moduleMap.get(id)
+              const module = elementMap.get(id)
 
               if (module) {
                 const change: ModuleModifyData = {
@@ -325,7 +325,7 @@ const selection: Tool = {
           const {altKey, shiftKey} = e
           const props = applyResize.call(this, altKey, shiftKey)
           const moduleOrigin = this._resizingOperator?.moduleOrigin
-          const rollbackProps: Partial<ModuleProps> = {}
+          const rollbackProps: Partial<ElementProps> = {}
 
           Object.keys(props).forEach((key) => {
             rollbackProps[key] = moduleOrigin[key]
@@ -348,7 +348,7 @@ const selection: Tool = {
           const {shiftKey} = e
           const newRotation = Base.applyRotating.call(this, shiftKey)
           const {rotation} = this._rotatingOperator?.moduleOrigin!
-          const rollbackProps: Partial<ModuleProps> = {rotation}
+          const rollbackProps: Partial<ElementProps> = {rotation}
 
           // rotate back
           this.action.dispatch('module-modifying', {

@@ -5,14 +5,14 @@ export function modifySelected(idSet, action) {
     let eventCallBackData = null;
     if (idSet.size === 1) {
         const first = [...idSet.values()][0];
-        if (this.moduleMap.has(first)) {
+        if (this.elementMap.has(first)) {
             // @ts-ignore
-            eventCallBackData = this.moduleMap.get(first).toMinimalJSON();
+            eventCallBackData = this.elementMap.get(first).toMinimalJSON();
             // console.log(eventCallBackData)
         }
     }
-    const realSelectedModules = this.getSelected;
-    this.selectedModules.clear();
+    const realSelectedModules = this.selection.getSelected;
+    this.selectedElementIDSet.clear();
     if (action === 'replace') {
         realSelectedModules.clear();
     }
@@ -37,15 +37,15 @@ export function modifySelected(idSet, action) {
                 break;
         }
     });
-    realSelectedModules.forEach((id) => this.selectedModules.add(id));
+    realSelectedModules.forEach((id) => this.selectedElementIDSet.add(id));
     // this.events.onSelectionUpdated?.(idSet, eventCallBackData)
 }
 export function updateSelectionCanvasRenderData() {
-    // const moduleProps = this.getSelectedPropsIfUnique
+    // const moduleProps = this.selection.getSelectedPropsIfUnique
     return;
     /*
       if (moduleProps) {
-        const module = this.moduleMap.get(moduleProps.id)
+        const module = this.elementMap.get(moduleProps.id)
         const {scale, dpr} = this.viewport
         const lineWidth = 1 / scale * dpr
         const resizeSize = 2 / scale * dpr

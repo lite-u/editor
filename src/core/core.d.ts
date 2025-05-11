@@ -1,5 +1,5 @@
-import Rectangle from '~/elements/rectangle/rectangle'
-import Ellipse from '~/elements/ellipse/ellipse'
+import ElementRectangle from '~/elements/rectangle/rectangle'
+import ElementEllipse from '~/elements/ellipse/ellipse'
 
 export type UID = string
 // export type HexColor = string
@@ -10,4 +10,4 @@ export type Rotation = number
 export type Shadow = boolean
 export type Gradient = string
 
-export type {Rectangle, Ellipse}
+export type {ElementRectangle, ElementEllipse}

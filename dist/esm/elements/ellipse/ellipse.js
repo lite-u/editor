@@ -1,9 +1,9 @@
 import { generateBoundingRectFromRotatedRect } from '../../core/utils.js';
 import Shape from '../shape/shape.js';
-import Rectangle from '../rectangle/rectangle.js';
+import ElementRectangle from '../rectangle/rectangle.js';
 import render from './render.js';
 import transform from './transform.js';
-class Ellipse extends Shape {
+class ElementEllipse extends Shape {
     type = 'ellipse';
     id;
     layer;
@@ -84,11 +84,11 @@ class Ellipse extends Shape {
             id: this.id + '-selected-box',
             opacity: 0,
         };
-        return new Rectangle(rectProp);
+        return new ElementRectangle(rectProp);
     }
     getHighlightModule(lineWidth, lineColor) {
         const { cx, cy, r1, r2, rotation, layer, id } = this;
-        return new Ellipse({
+        return new ElementEllipse({
             cx: cx,
             cy: cy,
             r1,
@@ -123,4 +123,4 @@ class Ellipse extends Shape {
         render.call(this, ctx);
     }
 }
-export default Ellipse;
+export default ElementEllipse;
