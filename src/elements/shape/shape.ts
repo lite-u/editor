@@ -7,7 +7,7 @@ import {ElementFillColor} from '~/core/core'
 import {BoundingRect} from '~/type'
 import {ModuleProps} from '../elements'
 
-export interface ShapeCreationProps extends ElementBaseProps {
+export interface ShapeProps extends ElementBaseProps {
   cx?: number
   cy?: number
   enableGradient?: boolean
@@ -17,7 +17,7 @@ export interface ShapeCreationProps extends ElementBaseProps {
   dashLine?: string
 }
 
-export type RequiredShapeProps = Required<ShapeCreationProps>
+export type RequiredShapeProps = Required<ShapeProps>
 
 const DEFAULT_CX = 0
 const DEFAULT_CY = 0
@@ -45,7 +45,7 @@ class Shape extends Base {
                 fillColor = DEFAULT_FILL_COLOR,
                 dashLine = DEFAULT_DASH_LINE,
                 ...rest
-              }: ShapeCreationProps) {
+              }: ShapeProps) {
     super(rest)
 
     this.cx = cx
@@ -81,8 +81,8 @@ class Shape extends Base {
     }
   }
 
-  public toMinimalJSON(): ShapeCreationProps {
-    const result: ShapeCreationProps = {
+  public toMinimalJSON(): ShapeProps {
+    const result: ShapeProps = {
       ...super.toMinimalJSON(),
     }
 
