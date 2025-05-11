@@ -4,7 +4,7 @@ import ElementRectangle from '~/elements/rectangle/rectangle'
 import {ElementInstance} from '~/elements/elements'
 
 function selectionRender(this: Editor) {
-  if (this.elementMap.size === 0) return
+  if (this.elementManager.size === 0) return
 
   const {selectionCTX: ctx} = this.viewport
   const fillColor = '#5491f8'
@@ -20,7 +20,7 @@ function selectionRender(this: Editor) {
 
   // render selection box for modules
   selected.forEach((id) => {
-    const module = this.elementMap.get(id)
+    const module = this.elementManager.all.get(id)
 
     if (module) {
       const moduleSelectionBoundary = module.getSelectedBoxModule(lineWidth, lineColor)
@@ -30,7 +30,7 @@ function selectionRender(this: Editor) {
 
   // render center points
   centerPoints.forEach((id) => {
-    const module = this.elementMap.get(id)
+    const module = this.elementManager.all.get(id)
     const {cx, cy, rotation, layer} = (module as ElementRectangle).toMinimalJSON()
     const lineWidth = 1 / this.viewport.scale * this.viewport.dpr
     const highlightModule = module!.getHighlightModule(lineWidth, fillColor) as ElementInstance

@@ -36,7 +36,7 @@ export function initEditor(this: Editor) {
       dispatch('module-updated')
       this.events.onInitialized?.()
       this.events.onHistoryUpdated?.(this.history)
-      this.events.onModulesUpdated?.(this.elementMap)
+      this.events.onModulesUpdated?.(this.elementManager.all)
     } else {
       dispatch('world-updated')
     }
@@ -147,7 +147,7 @@ export function initEditor(this: Editor) {
       this.events.onHistoryUpdated?.(this.history)
     }
 
-    this.events.onModulesUpdated?.(this.elementMap)
+    this.events.onModulesUpdated?.(this.elementManager.all)
   })
 
   on('selection-updated', () => {
@@ -288,7 +288,7 @@ export function initEditor(this: Editor) {
      const changes: ModuleModifyData[] = []
 
      s.forEach((id) => {
-       const module = this.elementMap.get(id)
+       const module = this.elementManager.all.get(id)
        if (module) {
          changes.push({
            id,
@@ -311,7 +311,7 @@ export function initEditor(this: Editor) {
     const changes: ModuleModifyData[] = []
 
     s.forEach((id) => {
-      const module = this.elementMap.get(id)
+      const module = this.elementManager.all.get(id)
       if (module) {
         changes.push({
           id,
@@ -373,7 +373,7 @@ export function initEditor(this: Editor) {
     data.map(({id, props: kv}) => {
       const props = {}
       const change = {id, props}
-      const module = this.elementMap.get(id)
+      const module = this.elementManager.all.get(id)
 
       if (!module) return
 
@@ -399,7 +399,7 @@ export function initEditor(this: Editor) {
     })
 
     this.events.onHistoryUpdated?.(this.history)
-    this.events.onModulesUpdated?.(this.elementMap)
+    this.events.onModulesUpdated?.(this.elementManager.all)
 
     dispatch('module-updated')
   })

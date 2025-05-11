@@ -50,7 +50,7 @@ export function applyResize(altKey, shiftKey) {
         shiftKey,
         moduleOrigin,
     };
-    const relatedModule = this.elementMap.get(id);
+    const relatedModule = this.elementManager.all.get(id);
     if (relatedModule) {
         // @ts-ignore
         const con = relatedModule.constructor;

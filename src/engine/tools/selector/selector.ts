@@ -98,7 +98,7 @@ const selection: Tool = {
         const _selecting: Set<UID> = new Set()
         const modifyKey = e.ctrlKey || e.metaKey || e.shiftKey
 
-        this.elementMap.forEach((module) => {
+        this.elementManager.all.forEach((module) => {
           if (module.isInsideRect(virtualSelectionRect)) {
             _selecting.add(module.id)
           }

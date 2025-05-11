@@ -1,4 +1,4 @@
-import { ResizeHandleName } from '~/engine/selection/type';
+import { ResizeHandleName } from '~/services/selection/type';
 import { Point } from '~/type';
 import { RequiredEllipseProps } from '~/elements/ellipse/ellipse';
 declare const transform: ({ downPoint, movePoint, moduleOrigin, rotation, handleName, scale, dpr, altKey, shiftKey, }: {

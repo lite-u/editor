@@ -15,9 +15,9 @@ export function modifySelected(
   if (idSet.size === 1) {
     const first = [...idSet.values()][0]
 
-    if (this.elementMap.has(first)) {
+    if (this.elementManager.all.has(first)) {
       // @ts-ignore
-      eventCallBackData = this.elementMap.get(first).toMinimalJSON()
+      eventCallBackData = this.elementManager.all.get(first).toMinimalJSON()
       // console.log(eventCallBackData)
     }
   }
@@ -60,7 +60,7 @@ export function updateSelectionCanvasRenderData(this: Editor) {
   return
   /*
     if (moduleProps) {
-      const module = this.elementMap.get(moduleProps.id)
+      const module = this.elementManager.all.get(moduleProps.id)
       const {scale, dpr} = this.viewport
       const lineWidth = 1 / scale * dpr
       const resizeSize = 2 / scale * dpr

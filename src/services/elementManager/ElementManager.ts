@@ -17,9 +17,15 @@ class ElementManager {
     this.editor = editor
   }
 
-  init() {}
+  public has(id: string): boolean {
+    return this.elementMap.has(id)
+  }
 
-  public getAllIDSet(): Set<UID> {
+  public get size(): number {
+    return this.elementMap.size
+  }
+
+  public get keys(): Set<UID> {
     const set: Set<UID> = new Set()
 
     this.elementMap.forEach((element) => {
@@ -27,6 +33,14 @@ class ElementManager {
     })
 
     return set
+  }
+
+  public get values(): ElementInstance[] {
+    return [...this.elementMap.values()]
+  }
+
+  public get all(): ElementMap {
+    return new Map(this.elementMap)
   }
 
   public get getMaxLayerIndex(): number {
@@ -41,7 +55,25 @@ class ElementManager {
     return max
   }
 
-  getElementMapByIdSet(idSet: Set<UID>): ElementMap {
+  public getElementById(id: string): ElementInstance | undefined {
+    return this.elementMap.get(id)
+  }
+
+  public getElementsByIdSet(idSet: Set<UID>): ElementMap {
+    const result = new Map()
+
+    idSet.forEach(id => {
+      const mod = this.elementMap.get(id)
+
+      if (mod) {
+        result.set(id, mod)
+      }
+    })
+
+    return result
+  }
+
+  public getElementMapByIdSet(idSet: Set<UID>): ElementMap {
     const result: ElementMap = new Map()
 
     idSet.forEach((id) => {

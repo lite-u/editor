@@ -36,7 +36,7 @@ const rectangle: Tool = {
     const created = this.elementManager.batchAdd(this.elementManager.batchCreate([rectProps]))
     console.log(created)
     // this.action.dispatch('module-add', [rectProps])
-    // const mod = this.elementMap.get(id)
+    // const mod = this.elementManager.all.get(id)
     // console.log(mod)
     // mod.getOperators()
     // console.log([...this.operationHandlers])

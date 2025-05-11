@@ -76,7 +76,7 @@ const selection = {
                     const virtualSelectionRect = generateBoundingRectFromTwoPoints(pointA, pointB);
                     const _selecting = new Set();
                     const modifyKey = e.ctrlKey || e.metaKey || e.shiftKey;
-                    this.elementMap.forEach((module) => {
+                    this.elementManager.all.forEach((module) => {
                         if (module.isInsideRect(virtualSelectionRect)) {
                             _selecting.add(module.id);
                         }
@@ -308,10 +308,10 @@ const selection = {
                     break;
                 case 'static':
                     if (e.ctrlKey || e.metaKey || e.shiftKey) {
-                        this.toggleSelected(draggingModules);
+                        this.selection.toggleSelected(draggingModules);
                     }
                     else {
-                        this.replaceSelected(draggingModules);
+                        this.selection.replaceSelected(draggingModules);
                     }
                     break;
             }

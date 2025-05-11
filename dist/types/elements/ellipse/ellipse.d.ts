@@ -1,6 +1,6 @@
 import Shape, { ShapeProps } from '../shape/shape';
 import ElementRectangle from '../rectangle/rectangle';
-import { ResizeHandleName } from '~/engine/selection/type';
+import { ResizeHandleName } from '~/services/selection/type';
 import { Point } from '~/type';
 export interface EllipseProps extends ShapeProps {
     id: string;
@@ -53,7 +53,7 @@ declare class ElementEllipse extends Shape {
         lineColor: string;
         size: number;
         fillColor: string;
-    }): import("~/engine/selection/type").OperationHandlers[];
+    }): import("~/services/selection/type").OperationHandlers[];
     render(ctx: CanvasRenderingContext2D): void;
 }
 export default ElementEllipse;

@@ -104,19 +104,7 @@ class Editor {
   }
 
 
-  public get getSelectedPropsIfUnique(): ElementProps | null {
-    if (this.selectedElementIDSet.size === 1) {
-      const unique = [...this.selectedElementIDSet.values()][0]
-      const module = this.elementMap.get(unique)
 
-      if (module) {
-        return module.toMinimalJSON()
-      }
-
-      return null
-    }
-    return null
-  }
 
   // getModulesByLayerIndex() {}
   /*
@@ -162,7 +150,7 @@ class Editor {
     }*/
 
   getModuleList(): ElementInstance[] {
-    return [...Object.values(this.elementMap)]
+    return [...Object.values(this.elementManager.all)]
   }
 
   updateVisibleElementMap() {
@@ -170,13 +158,13 @@ class Editor {
 
     // console.log(this.viewport.offset, this.viewport.worldRect)
     // Create an array from the Map, sort by the 'layer' property, and then add them to visibleelementMap
-    const sortedModules = ([...this.elementMap.values()] as ElementInstance[])
+    const sortedModules = ([...this.elementManager.all.values()] as ElementInstance[])
       .filter(module => {
         const boundingRect = module.getBoundingRect() as BoundingRect
         return rectsOverlap(boundingRect, this.viewport.worldRect)
       })
       .sort((a, b) => a.layer - b.layer)
-    // console.log(this.elementMap)
+    // console.log(this.elementManager.all)
     sortedModules.forEach(module => {
       this.visibleElementMap.set(module.id, module)
     })
@@ -195,7 +183,7 @@ class Editor {
     const moduleProps = this.selection.getSelectedPropsIfUnique
 
     if (moduleProps) {
-      const module = this.elementMap.get(moduleProps.id)
+      const module = this.elementManager.all.get(moduleProps.id)
       const {scale, dpr} = this.viewport
       const lineWidth = 1 / scale * dpr
       const resizeSize = 10 / scale * dpr
@@ -281,13 +269,13 @@ class Editor {
 
   /*  public get getModulesInsideOfFrame(): ModuleInstance[] {
       const arr = []
-      this.elementMap.forEach((module) => {
+      this.elementManager.all.forEach((module) => {
 
       })
     }*/
 
   public printOut(ctx: CanvasRenderingContext2D): void {
-    this.elementMap.forEach((module) => {
+    this.elementManager.all.forEach((module) => {
       module.render(ctx)
     })
   }
@@ -304,7 +292,7 @@ class Editor {
       assets: [],
     }
 
-    this.elementMap.forEach((module) => {
+    this.elementManager.all.forEach((module) => {
       if (module.type === 'image') {
         const {src} = module as ElementImage
         if (!src) return

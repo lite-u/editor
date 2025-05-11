@@ -1,5 +1,5 @@
 import Base, { ElementBaseProps } from '../base/base';
-import { OperationHandlers } from '~/engine/selection/type';
+import { OperationHandlers } from '~/services/selection/type';
 import { ElementFillColor } from '~/core/core';
 import { BoundingRect } from '~/type';
 import { ElementProps } from '../elements';

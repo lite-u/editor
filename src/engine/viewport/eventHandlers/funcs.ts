@@ -70,7 +70,7 @@ export function applyResize(this: Editor, altKey: boolean, shiftKey: boolean) {
     moduleOrigin,
   }
 
-  const relatedModule = this.elementMap.get(id)
+  const relatedModule = this.elementManager.all.get(id)
 
   if (relatedModule) {
     // @ts-ignore

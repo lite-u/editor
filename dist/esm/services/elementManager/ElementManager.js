@@ -10,13 +10,24 @@ class ElementManager {
     constructor(editor) {
         this.editor = editor;
     }
-    init() { }
-    getAllIDSet() {
+    has(id) {
+        return this.elementMap.has(id);
+    }
+    get size() {
+        return this.elementMap.size;
+    }
+    get keys() {
         const set = new Set();
         this.elementMap.forEach((element) => {
             set.add(element.id);
         });
         return set;
+    }
+    get values() {
+        return [...this.elementMap.values()];
+    }
+    get all() {
+        return new Map(this.elementMap);
     }
     get getMaxLayerIndex() {
         let max = 0;
@@ -27,6 +38,19 @@ class ElementManager {
             }
         });
         return max;
+    }
+    getElementById(id) {
+        return this.elementMap.get(id);
+    }
+    getElementsByIdSet(idSet) {
+        const result = new Map();
+        idSet.forEach(id => {
+            const mod = this.elementMap.get(id);
+            if (mod) {
+                result.set(id, mod);
+            }
+        });
+        return result;
     }
     getElementMapByIdSet(idSet) {
         const result = new Map();

@@ -6,9 +6,14 @@ declare class ElementManager {
     protected elementMap: ElementMap;
     editor: Editor;
     constructor(editor: Editor);
-    init(): void;
-    getAllIDSet(): Set<UID>;
+    has(id: string): boolean;
+    get size(): number;
+    get keys(): Set<UID>;
+    get values(): ElementInstance[];
+    get all(): ElementMap;
     get getMaxLayerIndex(): number;
+    getElementById(id: string): ElementInstance | undefined;
+    getElementsByIdSet(idSet: Set<UID>): ElementMap;
     getElementMapByIdSet(idSet: Set<UID>): ElementMap;
     create(data: ElementProps): ElementInstance | false;
     batchCreate(moduleDataList: ElementProps[]): ElementMap;

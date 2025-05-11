@@ -20,7 +20,7 @@ export function batchCreate(this: Editor, moduleDataList: ElementProps[]): Eleme
       let id = nid()
 
       // ensure short id no repeat
-      if (this.elementMap.has(id)) {
+      if (this.elementManager.all.has(id)) {
         id = nid()
       }
 
@@ -65,10 +65,10 @@ export function batchCreate(this: Editor, moduleDataList: ElementProps[]): Eleme
 
 export function batchAdd(this: Editor, modules: ElementMap, callback?: VoidFunction): ElementMap {
   modules.forEach(mod => {
-    this.elementMap.set(mod.id, mod)
+    this.elementManager.all.set(mod.id, mod)
   })
 //       this.assetsManager.add('image', data.src)
-  // this.events.onModulesUpdated?.(this.elementMap)
+  // this.events.onModulesUpdated?.(this.elementManager.all)
   if (callback) {
     const pArr = []
     modules.forEach(mod => {
@@ -98,7 +98,7 @@ export const batchCopy: BatchCopyFn = function (this, idSet, includeIdentifiers)
   const moduleArr: ElementInstance[] = []
 
   idSet.forEach(id => {
-    const mod = this.elementMap.get(id)
+    const mod = this.elementManager.all.get(id)
     if (mod) {
       moduleArr.push(mod)
       modulesMap.set(id, mod)
@@ -114,10 +114,10 @@ export function batchDelete(this: Editor, idSet: Set<UID>): ElementProps[] {
   const backup: ElementProps[] = this.batchCopy(idSet)
 
   backup.forEach(module => {
-    this.elementMap.delete(module.id)
+    this.elementManager.all.delete(module.id)
   })
 
-  // this.events.onModulesUpdated?.(this.elementMap)
+  // this.events.onModulesUpdated?.(this.elementManager.all)
 
   return backup
 }

@@ -50,7 +50,6 @@ declare class Editor {
     get getVisibleElementMap(): ElementMap;
     get getVisibleSelected(): Set<string>;
     get getVisibleSelectedElementMap(): ElementMap;
-    get getSelectedPropsIfUnique(): ElementProps | null;
     getModuleList(): ElementInstance[];
     updateVisibleElementMap(): void;
     updateVisibleSelected(): void;
