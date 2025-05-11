@@ -28,6 +28,14 @@ class ElementText extends Rectangle {
         return {
             content: this.content,
             textColor: this.textColor,
+            font: this.font,
+            fontSize: this.fontSize,
+            alignment: this.alignment,
+            bold: this.bold,
+            italics: this.italics,
+            underlines: this.underlines,
+            throughLine: this.throughLine,
+            lineHeight: this.lineHeight,
             ...super.toMinimalJSON(),
         };
     }

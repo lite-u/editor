@@ -13,7 +13,7 @@ export interface TextProps extends RectangleProps {
   throughLine: boolean
   lineHeight: number
 }
-
+export type RequiredTextProps = Required<TextProps>
 class ElementText extends Rectangle {
   // readonly type = 'text'
   textColor: string
@@ -53,10 +53,18 @@ class ElementText extends Rectangle {
     this.lineHeight = lineHeight
   }
 
-  public toJSON(){
+  override toJSON(): RequiredTextProps {
     return {
       content: this.content,
       textColor: this.textColor,
+      font: this.font,
+      fontSize: this.fontSize,
+      alignment: this.alignment,
+      bold: this.bold,
+      italics: this.italics,
+      underlines: this.underlines,
+      throughLine: this.throughLine,
+      lineHeight: this.lineHeight,
       ...super.toMinimalJSON(),
     }
   }

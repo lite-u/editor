@@ -38,6 +38,7 @@ export interface WorldInfo extends Size {
 export interface SnapPointData extends Point {
   id: UID,
   type: string
+  label?: string
 }
 
 export type InitializedHandler = () => void;
