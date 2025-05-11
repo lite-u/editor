@@ -22,7 +22,7 @@ export function initEditor(this: Editor) {
   this.resizeObserver.observe(container)
 
   // this.toolMap.set('selector', selector)
-  this.toolManager.set('rectangle')
+  this.toolManager.switch('rectangle')
   // this.toolMap.set('text', selector)
   // this.toolMap.set('ellipse', selector)
 
