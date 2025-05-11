@@ -3,7 +3,7 @@ import { OperationHandlers } from '~/engine/selection/type';
 import { ElementFillColor } from '~/core/core';
 import { BoundingRect } from '~/type';
 import { ModuleProps } from '../elements';
-export interface ShapeCreationProps extends ElementBaseProps {
+export interface ShapeProps extends ElementBaseProps {
     cx?: number;
     cy?: number;
     enableGradient?: boolean;
@@ -12,7 +12,7 @@ export interface ShapeCreationProps extends ElementBaseProps {
     fillColor?: ElementFillColor;
     dashLine?: string;
 }
-export type RequiredShapeProps = Required<ShapeCreationProps>;
+export type RequiredShapeProps = Required<ShapeProps>;
 declare class Shape extends Base {
     cx: number;
     cy: number;
@@ -21,9 +21,9 @@ declare class Shape extends Base {
     enableGradient: boolean;
     gradient: string;
     dashLine: string;
-    constructor({ cx, cy, enableGradient, gradient, enableFill, fillColor, dashLine, ...rest }: ShapeCreationProps);
+    constructor({ cx, cy, enableGradient, gradient, enableFill, fillColor, dashLine, ...rest }: ShapeProps);
     protected toJSON(): RequiredShapeProps;
-    toMinimalJSON(): ShapeCreationProps;
+    toMinimalJSON(): ShapeProps;
     move(x: number, y: number): void;
     getOperators(id: string, resizeConfig: {
         lineWidth: number;

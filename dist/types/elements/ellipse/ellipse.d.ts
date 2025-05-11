@@ -1,9 +1,9 @@
-import Shape from '../shape/shape';
+import Shape, { ShapeProps } from '../shape/shape';
 import { SnapPointData } from '~/engine/type';
-import Rectangle, { RectangleProps } from '../rectangle/rectangle';
+import Rectangle from '../rectangle/rectangle';
 import { ResizeHandleName } from '~/engine/selection/type';
 import { Point } from '~/type';
-export interface EllipseProps extends RectangleProps {
+export interface EllipseProps extends ShapeProps {
     type?: 'ellipse';
     r1: number;
     r2: number;
@@ -14,7 +14,7 @@ declare class Ellipse extends Shape {
     r1: number;
     r2: number;
     constructor({ r1, r2, ...rest }: EllipseProps);
-    static applyResizeTransform: ({ downPoint, movePoint, moduleOrigin, rotation, handleName, scale, dpr, altKey, shiftKey, }: {
+    static applyResizeTransform: (props: {
         downPoint: {
             x: number;
             y: number;
@@ -35,9 +35,9 @@ declare class Ellipse extends Shape {
         r2: number;
     };
     hitTest(point: Point, borderPadding?: number): 'inside' | 'border' | null;
-    toMinimalJSON<T extends boolean>(includeIdentifiers?: T): T extends true ? EllipseProps : Omit<EllipseProps, 'id' & 'layer'>;
+    toMinimalJSON(): EllipseProps;
+    toJSON(): RequiredEllipseProps;
     getBoundingRect(): import("~/type").BoundingRect;
-    getRect(): CenterBasedRect;
     getSelectedBoxModule(lineWidth: number, lineColor: string): Rectangle;
     getHighlightModule(lineWidth: number, lineColor: string): Ellipse;
     getOperators(id: string, resizeConfig: {
