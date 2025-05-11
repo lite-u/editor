@@ -46,8 +46,8 @@ export function initEditor(this: Editor) {
     this.updateWorldRect()
     // console.log(this.viewport.scale, this.viewport.offset, this.viewport.worldRect)
     this.events.onViewportUpdated?.({
-      width: this.viewport.viewportRect.width,
-      height: this.viewport.viewportRect.height,
+      // width: this.viewport.viewportRect.width,
+      // height: this.viewport.viewportRect.height,
       scale: this.viewport.scale,
       offsetX: this.viewport.offset.x,
       offsetY: this.viewport.offset.y,
@@ -381,7 +381,7 @@ export function initEditor(this: Editor) {
       keys.map((propName: keyof ElementProps) => {
         const fromValue = module[propName]
         const toValue = kv[propName]
-        // console.log(fromValue, toValue)
+
         props[propName as ElementProps] = {
           from: fromValue,
           to: toValue,
