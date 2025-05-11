@@ -2,7 +2,7 @@ import resetCanvas from './viewport/resetCanvas.js';
 import { redo } from '../services/history/redo.js';
 import { undo } from '../services/history/undo.js';
 import { pick } from '../services/history/pick.js';
-// import {updateSelectionCanvasRenderData} from '../services/selection/helper.js'
+// import {updateSelectionCanvasRenderData} from '../services/selection/helper'
 // import zoom from '../../components/statusBar/zoom'
 import { fitRectToViewport } from './viewport/helper.js';
 import selector from './tools/selector/selector.js';
@@ -23,7 +23,7 @@ export function initEditor() {
             this.initialized = true;
             // dispatch('switch-tool', 'selector')
             dispatch('world-zoom', 'fit');
-            dispatch('module-updated');
+            dispatch('element-updated');
             this.events.onInitialized?.();
             this.events.onHistoryUpdated?.(this.history);
             this.events.onModulesUpdated?.(this.elementManager.all);
@@ -43,7 +43,7 @@ export function initEditor() {
             offsetY: this.viewport.offset.y,
             status: this.manipulationStatus,
         });
-        dispatch('visible-module-updated');
+        dispatch('visible-element-updated');
     });
     on('world-zoom', (arg) => {
         if (arg === 'fit') {
@@ -93,10 +93,10 @@ export function initEditor() {
         this.viewport.offset.y += y * dpr;
         dispatch('world-updated');
     });
-    on('visible-module-updated', () => {
+    on('visible-element-updated', () => {
         this.updateVisibleElementMap();
         // this.updateSnapPoints()
-        dispatch('render-modules');
+        dispatch('render-elements');
         dispatch('visible-selection-updated');
     });
     on('visible-selection-updated', () => {
@@ -108,7 +108,7 @@ export function initEditor() {
         dispatch('selection-updated');
     });
     on('selection-clear', () => {
-        this.selectedElementIDSet.clear();
+        this.selection.clear();
         dispatch('selection-updated');
     });
     on('selection-modify', (data) => {
@@ -116,8 +116,8 @@ export function initEditor() {
         this.selection.modify(idSet, mode);
         dispatch('selection-updated');
     });
-    on('module-updated', (historyData) => {
-        dispatch('visible-module-updated');
+    on('element-updated', (historyData) => {
+        dispatch('visible-element-updated');
         dispatch('selection-updated');
         if (historyData) {
             this.history.add(historyData);
@@ -129,7 +129,7 @@ export function initEditor() {
         this.hoveredModule = null;
         // console.log(this.selectedModules)
         // updateSelectionCanvasRenderData.call(this)
-        this.events.onSelectionUpdated?.(this.selectedElementIDSet, this.selection.pickIfUnique);
+        this.events.onSelectionUpdated?.(this.selection.values, this.selection.pickIfUnique);
         dispatch('visible-selection-updated');
     });
     on('world-mouse-move', () => {
@@ -154,13 +154,13 @@ export function initEditor() {
                 height,
             };
         });
-        dispatch('module-add', modulePropsList);
+        dispatch('element-add', modulePropsList);
     });
-    on('module-delete', () => {
+    on('element-delete', () => {
         const savedSelected = this.selection.values;
         const backup = this.elementManager.batchDelete(savedSelected);
-        this.selectedElementIDSet.clear();
-        dispatch('module-updated', {
+        this.selection.clear();
+        dispatch('element-updated', {
             type: 'history-delete',
             payload: {
                 modules: backup,
@@ -168,12 +168,12 @@ export function initEditor() {
             },
         });
     });
-    on('module-copy', () => {
-        this.copiedItems = this.batchCopy(this.selection.values, false);
+    on('element-copy', () => {
+        this.copiedItems = this.elementManager.batchCopy(this.selection.values, false);
         this.updateCopiedItemsDelta();
         this.events.onModuleCopied?.(this.copiedItems);
     });
-    on('module-paste', (position) => {
+    on('element-paste', (position) => {
         if (this.copiedItems.length === 0)
             return;
         let newModules;
@@ -200,18 +200,18 @@ export function initEditor() {
         this.elementManager.batchAdd(newModules);
         this.selection.replace(savedSelected);
         this.updateCopiedItemsDelta();
-        dispatch('module-updated', {
+        dispatch('element-updated', {
             type: 'history-paste',
             payload: {
-                modules: [...newModules.values()].map((mod) => mod.getDetails()),
+                modules: [...newModules.values()].map((mod) => mod.toMinimalJSON()),
                 selectedModules: savedSelected,
             },
         });
     });
-    on('module-duplicate', () => {
-        if (this.selectedElementIDSet.size === 0)
+    on('element-duplicate', () => {
+        if (this.selection.size === 0)
             return;
-        const temp = this.batchCopy(this.selectedElementIDSet, false);
+        const temp = this.elementManager.batchCopy(this.selection.values, false);
         temp.forEach((copiedItem) => {
             copiedItem.x += this.CopyDeltaX;
             copiedItem.y += this.CopyDeltaY;
@@ -221,7 +221,7 @@ export function initEditor() {
         this.elementManager.batchAdd(newModules);
         this.selection.replace(savedSelected);
         const moduleProps = [...newModules.values()].map((mod) => mod.toMinimalJSON());
-        dispatch('module-updated', {
+        dispatch('element-updated', {
             type: 'history-duplicate',
             payload: {
                 modules: moduleProps,
@@ -229,7 +229,7 @@ export function initEditor() {
             },
         });
     });
-    on('module-layer', (data) => {
+    on('element-layer', (data) => {
         console.log(data);
         /* const s = this.selection.getSelected
     
@@ -251,7 +251,7 @@ export function initEditor() {
         // this.batchMove(s, delta)
         // dispatch('module-modify', changes)
     });
-    on('module-move', ({ delta = { x: 0, y: 0 } }) => {
+    on('element-move', ({ delta = { x: 0, y: 0 } }) => {
         const s = this.selection.values;
         if (s.size === 0)
             return;
@@ -269,14 +269,14 @@ export function initEditor() {
             }
         });
         // this.batchMove(s, delta)
-        dispatch('module-modify', changes);
+        dispatch('element-modify', changes);
     });
-    on('module-add', (data) => {
+    on('element-add', (data) => {
         if (!data || data.length === 0)
             return;
         const newModules = this.elementManager.batchAdd(this.elementManager.batchCreate(data), () => {
             console.log(9);
-            dispatch('render-modules');
+            dispatch('render-elements');
         });
         const savedSelected = new Set(newModules.keys());
         /*  this.elementManager.batchAdd(newModules,()=>{
@@ -284,7 +284,7 @@ export function initEditor() {
           })*/
         this.selection.replace(savedSelected);
         const moduleProps = [...newModules.values()].map((mod) => mod.toMinimalJSON());
-        dispatch('module-updated', {
+        dispatch('element-updated', {
             type: 'history-add',
             payload: {
                 modules: moduleProps,
@@ -292,32 +292,33 @@ export function initEditor() {
             },
         });
     });
-    on('module-modifying', ({ type, data }) => {
+    on('element-modifying', ({ type, data }) => {
         const s = this.selection.values;
         if (s.size === 0)
             return;
         if (type === 'move') {
-            this.batchMove(s, data);
+            this.elementManager.batchMove(s, data);
         }
         else if (type === 'resize' || type === 'rotate') {
             this.elementManager.batchModify(s, data);
         }
-        dispatch('module-updated');
+        dispatch('element-updated');
     });
-    on('module-modify', (data) => {
+    on('element-modify', (data) => {
         const changes = [];
         // console.log(data)
         data.map(({ id, props: kv }) => {
             const props = {};
             const change = { id, props };
-            const module = this.elementManager.all.get(id);
+            const module = this.elementManager.getElementById(id);
             if (!module)
                 return;
-            Object.keys(kv).map((keyName) => {
-                const fromValue = module[keyName];
-                const toValue = kv[keyName];
+            const keys = Object.keys(kv);
+            keys.map((propName) => {
+                const fromValue = module[propName];
+                const toValue = kv[propName];
                 // console.log(fromValue, toValue)
-                return props[keyName] = {
+                props[propName] = {
                     from: fromValue,
                     to: toValue,
                 };
@@ -334,9 +335,9 @@ export function initEditor() {
         });
         this.events.onHistoryUpdated?.(this.history);
         this.events.onModulesUpdated?.(this.elementManager.all);
-        dispatch('module-updated');
+        dispatch('element-updated');
     });
-    on('render-modules', () => {
+    on('render-elements', () => {
         resetCanvas(this.viewport.mainCTX, this.viewport.scale, this.viewport.offset, this.viewport.dpr);
         this.renderModules();
     });
@@ -344,7 +345,7 @@ export function initEditor() {
         resetCanvas(this.viewport.selectionCTX, this.viewport.scale, this.viewport.offset, this.viewport.dpr);
         this.renderSelections();
     });
-    on('module-hover-enter', (id) => {
+    on('element-hover-enter', (id) => {
         if (this.hoveredModule && id && this.hoveredModule === id) {
             return;
         }
@@ -352,23 +353,23 @@ export function initEditor() {
         this.hoveredModule = id;
         dispatch('visible-selection-updated');
     });
-    on('module-hover-leave', () => {
+    on('element-hover-leave', () => {
         this.hoveredModule = null;
         dispatch('visible-selection-updated');
     });
     on('history-undo', () => {
         undo.call(this);
-        dispatch('module-updated');
+        dispatch('element-updated');
         this.events.onHistoryUpdated?.(this.history);
     });
     on('history-redo', () => {
         redo.call(this);
-        dispatch('module-updated');
+        dispatch('element-updated');
         this.events.onHistoryUpdated?.(this.history);
     });
     on('history-pick', (data) => {
         pick.call(this, data);
-        dispatch('module-updated');
+        dispatch('element-updated');
         this.events.onHistoryUpdated?.(this.history);
     });
     on('context-menu', ({ position }) => {

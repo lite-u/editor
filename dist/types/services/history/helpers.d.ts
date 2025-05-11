@@ -1,3 +1,3 @@
-declare const extractIdSetFromArray: (from: ModuleProps[]) => Set<UID>;
-declare const arrayToMap: (from: ModuleProps[]) => Map<UID, ModuleProps>;
+declare const extractIdSetFromArray: (from: ElementProps[]) => Set<UID>;
+declare const arrayToMap: (from: ElementProps[]) => Map<UID, ElementProps>;
 export { extractIdSetFromArray, arrayToMap };

@@ -1,15 +1,15 @@
-import { EditorConfig, EventHandlers } from './type';
+import { EditorConfig, EditorExportFileType, EventHandlers } from './type';
 import History from '~/services/history/history';
 import Action from '~/services/actions/actions';
 import { OperationHandlers, ResizeHandler } from '~/services/selection/type';
 import { Viewport, ViewportManipulationType } from './viewport/type';
-import AssetsManager, { VisionEditorAssetType } from '~/services/assetsManager/AssetsManager';
+import AssetsManager from '~/services/assetsManager/AssetsManager';
 import { ElementInstance, ElementMap, ElementProps } from '~/elements/elements';
 import { UID } from '~/core/core';
 import { Tool } from '~/engine/tools/tool';
-import { Point, VisionEventType } from '~/type';
+import { Point, VisionEditorAssetType, VisionEventType } from '~/type';
 import ElementManager from '~/services/elementManager/ElementManager';
-import Selection from '~/services/selection/Selection';
+import SelectionManager from '~/services/selection/SelectionManager';
 declare class Editor {
     id: string;
     config: EditorConfig;
@@ -19,7 +19,7 @@ declare class Editor {
     events: EventHandlers;
     history: History;
     elementManager: ElementManager;
-    selection: Selection;
+    selection: SelectionManager;
     viewport: Viewport;
     readonly selectedElementIDSet: Set<UID>;
     readonly visibleSelected: Set<UID>;
@@ -57,16 +57,7 @@ declare class Editor {
     execute(type: VisionEventType, data?: unknown): void;
     renderModules(): void;
     printOut(ctx: CanvasRenderingContext2D): void;
-    export(): {
-        elements: ElementProps[];
-        assets: never[];
-        config: {
-            offset: {
-                x: number;
-                y: number;
-            };
-        };
-    };
+    export(): EditorExportFileType;
     renderSelections(): void;
     updateWorldRect(): void;
     zoom(zoom: number, point?: Point): {

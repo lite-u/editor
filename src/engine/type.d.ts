@@ -2,14 +2,14 @@ import {ElementProps} from '~/elements/elements'
 import History from '~/services/history/history'
 import {EditorConfig} from './editor'
 import {ToolName} from '~/engine/tools/tool'
-import {Point} from '~/type'
+import {Point, VisionEditorAssetType} from '~/type'
 
 export type ModuleMoveDirection =
-  'module-move-up' |
-  'module-move-down' |
-  'module-move-left' |
-  'module-move-right' |
-  'module-move-shift'
+  'element-move-up' |
+  'element-move-down' |
+  'element-move-left' |
+  'element-move-right' |
+  'element-move-shift'
 
 export type EditorAction = {
   id: string;
@@ -49,7 +49,7 @@ export type ViewportUpdatedHandler = (viewportInfo: ViewportData) => void;
 export type WorldUpdatedHandler = (worldInfo: WorldInfo) => void;
 export type WorldMouseMoveUpdatedHandler = (point: Point) => void;
 export type ContextMenuHandler = (position: Point) => void;
-export type ModuleCopiedHandler = (ModuleProps) => void;
+export type ModuleCopiedHandler = (ElementProps) => void;
 export type SwitchToolHandler = (toolName: ToolName) => void;
 
 export declare type EventHandlers = {
@@ -66,9 +66,9 @@ export declare type EventHandlers = {
 }
 
 export interface EditorExportFileType {
-  data: ElementProps[]
-  id: UID,
-  config: EditorConfig
+  elements: ElementProps[],
+  assets: VisionEditorAssetType[],
+  config: { scale: number, offset: { x: number, y: number } }
 }
 
 export interface EditorConfig {

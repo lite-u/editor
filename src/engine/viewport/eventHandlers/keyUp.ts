@@ -14,7 +14,7 @@ function handleKeyUp(this: Editor, e: KeyboardEvent) {
 
     const r = applyResize.call(this, altKey, shiftKey)
 
-    this.action.dispatch('module-modifying', {
+    this.action.dispatch('element-modifying', {
       type: 'resize',
       data: r,
     })

@@ -1,6 +1,7 @@
 import {extractIdSetFromArray} from './helpers'
 import {HistoryNode} from './DoublyLinkedList'
 import Editor from '../../engine/editor'
+import {ElementProps} from '~/elements/elements'
 
 export function redo(this: Editor, quiet: boolean = false): HistoryNode | false {
   if (this.history.current === this.history.tail) return false
@@ -24,7 +25,7 @@ export function redo(this: Editor, quiet: boolean = false): HistoryNode | false 
 
     case 'history-modify':
       payload.changes.map(({id, props}) => {
-        const redoProps: Partial<ModuleProps> = {}
+        const redoProps: ElementProps = {}
 
         Object.keys(props).forEach(propName => {
           redoProps[propName] = props[propName]!['to']
@@ -34,7 +35,7 @@ export function redo(this: Editor, quiet: boolean = false): HistoryNode | false 
       break
 
     case 'history-move':
-      this.batchMove(payload.selectedModules, {
+      this.elementManager.batchMove(payload.selectedModules, {
         x: payload.delta.x,
         y: payload.delta.y,
       })

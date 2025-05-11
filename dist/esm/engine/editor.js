@@ -1,7 +1,6 @@
 import History from '../services/history/history.js';
 import Action from '../services/actions/actions.js';
 import { generateBoundingRectFromTwoPoints, rectsOverlap } from '../core/utils.js';
-// import {modifySelected} from '../services/selection/helper.js'
 import { updateScrollBars } from './viewport/domManipulations.js';
 import selectionRender from './viewport/selectionRender.js';
 import { screenToWorld, worldToScreen } from '../core/lib.js';
@@ -13,7 +12,7 @@ import AssetsManager from '../services/assetsManager/AssetsManager.js';
 import nid from '../core/nid.js';
 import ElementRectangle from '../elements/rectangle/rectangle.js';
 import ElementManager from '../services/elementManager/ElementManager.js';
-import Selection from '../services/selection/Selection.js';
+import SelectionManager from '../services/selection/SelectionManager.js';
 class Editor {
     id = nid();
     // readonly id: UID
@@ -59,11 +58,11 @@ class Editor {
         this.viewport = createViewport.call(this);
         this.action = new Action();
         this.history = new History(this);
-        this.selection = new Selection(this);
+        this.selection = new SelectionManager(this);
         this.assetsManager = new AssetsManager(assets);
         this.elementManager = new ElementManager(this);
         initEditor.call(this);
-        this.action.dispatch('module-add', elements);
+        this.action.dispatch('element-add', elements);
     }
     get getVisibleElementMap() {
         return new Map(this.visibleElementMap);
@@ -74,46 +73,6 @@ class Editor {
     get getVisibleSelectedElementMap() {
         return this.elementManager.getElementMapByIdSet(this.getVisibleSelected);
     }
-    // getModulesByLayerIndex() {}
-    /*
-  
-      batchCreate(moduleDataList: ElementProps[]): ElementMap {
-        return batchCreate.call(this, moduleDataList)
-      }
-  
-      batchAdd(modules: ElementMap, callback?: VoidFunction): ElementMap {
-        return batchAdd.call(this, modules, callback)
-      }
-    */
-    /*
-  
-      batchCopy(
-        from: Set<UID>,
-        includeIdentifiers = true,
-      ): ElementProps[] {
-        return batchCopy.call(this, from, includeIdentifiers)
-      }
-    */
-    /*updateSnapPoints() {
-      this.snapPoints.length = 0
-      this.visibleelementMap.forEach(module => {
-        this.snapPoints.push(...module.getSnapPoints())
-      })
-    }*/
-    /*  batchDelete(from: Set<UID>): ElementProps[] {
-        return batchDelete.call(this, from)
-      }
-  
-      batchMove(from: Set<UID>, delta: Point) {
-        batchMove.call(this, from, delta)
-      }
-  
-      batchModify(
-        idSet: Set<UID>,
-        data: Partial<ElementProps>,
-      ) {
-        batchModify.call(this, idSet, data)
-      }*/
     getModuleList() {
         return [...Object.values(this.elementManager.all)];
     }
@@ -136,11 +95,11 @@ class Editor {
         this.visibleSelected.clear();
         this.operationHandlers.length = 0;
         this.getVisibleElementMap.forEach((module) => {
-            if (this.selectedElementIDSet.has(module.id)) {
+            if (this.selection.has(module.id)) {
                 this.visibleSelected.add(module.id);
             }
         });
-        const moduleProps = this.selection.getSelectedPropsIfUnique;
+        const moduleProps = this.selection.pickIfUnique;
         if (moduleProps) {
             const module = this.elementManager.all.get(moduleProps.id);
             const { scale, dpr } = this.viewport;

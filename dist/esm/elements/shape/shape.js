@@ -79,7 +79,7 @@ class Shape extends Base {
             // Calculate the handle position in local coordinates
             const currentCenterX = cx - width / 2 + OFFSET.x * width;
             const currentCenterY = cy - height / 2 + OFFSET.y * height;
-            const currentModuleProps = {
+            const currentElementProps = {
                 id: '',
                 layer: 0,
                 // width: 0,
@@ -94,27 +94,27 @@ class Shape extends Base {
             if (OFFSET.type === 'resize') {
                 const rotated = rotatePoint(currentCenterX, currentCenterY, cx, cy, rotation);
                 // cursor = getCursor(rotated.x, rotated.y, cx, cy, rotation)
-                currentModuleProps.id = index + '-resize';
-                currentModuleProps.cx = rotated.x;
-                currentModuleProps.cy = rotated.y;
-                currentModuleProps.width = resizeConfig.size;
-                currentModuleProps.height = resizeConfig.size;
-                currentModuleProps.lineWidth = resizeConfig.lineWidth;
-                currentModuleProps.lineColor = resizeConfig.lineColor;
-                currentModuleProps.fillColor = resizeConfig.fillColor;
+                currentElementProps.id = index + '-resize';
+                currentElementProps.cx = rotated.x;
+                currentElementProps.cy = rotated.y;
+                currentElementProps.width = resizeConfig.size;
+                currentElementProps.height = resizeConfig.size;
+                currentElementProps.lineWidth = resizeConfig.lineWidth;
+                currentElementProps.lineColor = resizeConfig.lineColor;
+                currentElementProps.fillColor = resizeConfig.fillColor;
             }
             else if (OFFSET.type === 'rotate') {
                 const currentRotateHandlerCenterX = currentCenterX + OFFSET.offsetX * resizeConfig.lineWidth;
                 const currentRotateHandlerCenterY = currentCenterY + OFFSET.offsetY * resizeConfig.lineWidth;
                 const rotated = rotatePoint(currentRotateHandlerCenterX, currentRotateHandlerCenterY, cx, cy, rotation);
-                currentModuleProps.id = index + '-rotate';
-                currentModuleProps.cx = rotated.x;
-                currentModuleProps.cy = rotated.y;
-                currentModuleProps.width = rotateConfig.size;
-                currentModuleProps.height = rotateConfig.size;
-                currentModuleProps.lineWidth = rotateConfig.lineWidth;
-                currentModuleProps.lineColor = rotateConfig.lineColor;
-                currentModuleProps.fillColor = rotateConfig.fillColor;
+                currentElementProps.id = index + '-rotate';
+                currentElementProps.cx = rotated.x;
+                currentElementProps.cy = rotated.y;
+                currentElementProps.width = rotateConfig.size;
+                currentElementProps.height = rotateConfig.size;
+                currentElementProps.lineWidth = rotateConfig.lineWidth;
+                currentElementProps.lineColor = rotateConfig.lineColor;
+                currentElementProps.fillColor = rotateConfig.fillColor;
             }
             return {
                 id: `${id}`,
@@ -122,7 +122,7 @@ class Shape extends Base {
                 name: OFFSET.name,
                 // cursor,
                 moduleOrigin,
-                module: new ElementRectangle(currentModuleProps),
+                module: new ElementRectangle(currentElementProps),
             };
         });
         return handlers;

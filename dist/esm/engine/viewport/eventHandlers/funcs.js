@@ -13,7 +13,7 @@ export function detectHoveredModule() {
         }
     }
     if (hitOn) {
-        this.action.dispatch('module-hover-enter', hitOn.id);
+        this.action.dispatch('element-hover-enter', hitOn.id);
         // console.log(hitOn)
         return hitOn;
     }
@@ -28,10 +28,10 @@ export function detectHoveredModule() {
     }
     if (this.hoveredModule !== moduleId) {
         if (this.hoveredModule) {
-            this.action.dispatch('module-hover-leave', this.hoveredModule);
+            this.action.dispatch('element-hover-leave', this.hoveredModule);
         }
         if (moduleId) {
-            this.action.dispatch('module-hover-enter', moduleId);
+            this.action.dispatch('element-hover-enter', moduleId);
         }
     }
 }

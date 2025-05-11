@@ -1,9 +1,9 @@
-import {HistoryModuleChangeItem} from '~/services/actions/type'
+import {HistoryChangeItem} from '~/services/actions/type'
 
 type HistoryPrev = HistoryNode | null
 type HistoryNext = HistoryPrev
 type HistorySelectedModules = Set<UID>
-type HistoryModules = ModuleProps[] | UID[]
+type HistoryModules = ElementProps[] | UID[]
 
 export type HistoryOperationType =
   'history-init'
@@ -88,7 +88,7 @@ interface DuplicateOperation {
 interface ModifyOperation {
   type: 'history-modify'
   payload: {
-    changes: HistoryModuleChangeItem[]
+    changes: HistoryChangeItem[]
     selectedModules: HistorySelectedModules
   }
 }

@@ -40,7 +40,7 @@ export interface OperationHandler {
   /*
   * moduleOrigin is a detailed representation of the corresponding module instance.
   * */
-  moduleOrigin: ModuleProps
+  moduleOrigin: ElementProps
   module: ModuleInstance
 }
 

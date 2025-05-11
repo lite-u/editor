@@ -3,6 +3,7 @@ import {Rotation} from '~/core/core'
 import {BoundingRect} from '~/type'
 import Editor from '~/engine/editor'
 import {generateBoundingRectFromTwoPoints} from '~/core/utils'
+import {ElementProps} from '~/elements/elements'
 
 export interface ElementBaseProps {
   enableLine?: boolean

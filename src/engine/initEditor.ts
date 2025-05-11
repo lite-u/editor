@@ -1,5 +1,5 @@
 import resetCanvas from './viewport/resetCanvas'
-import {HistoryModuleChangeItem, ModuleModifyData, SelectionModifyData} from '~/services/actions/type'
+import {ElementModifyData, HistoryChangeItem, HistoryChangeProps, SelectionModifyData} from '~/services/actions/type'
 import Editor from './editor'
 import {redo} from '~/services/history/redo'
 import {undo} from '~/services/history/undo'
@@ -11,7 +11,7 @@ import {fitRectToViewport} from './viewport/helper'
 import {Point} from '~/type'
 import selector from '~/engine/tools/selector/selector'
 import rectangle from '~/engine/tools/rectangle/rectangle'
-import {ElementProps} from '~/elements/elements'
+import {ElementMap, ElementProps} from '~/elements/elements'
 
 export function initEditor(this: Editor) {
   const {container, viewport, action} = this
@@ -33,7 +33,7 @@ export function initEditor(this: Editor) {
       this.initialized = true
       // dispatch('switch-tool', 'selector')
       dispatch('world-zoom', 'fit')
-      dispatch('module-updated')
+      dispatch('element-updated')
       this.events.onInitialized?.()
       this.events.onHistoryUpdated?.(this.history)
       this.events.onModulesUpdated?.(this.elementManager.all)
@@ -53,7 +53,7 @@ export function initEditor(this: Editor) {
       offsetY: this.viewport.offset.y,
       status: this.manipulationStatus,
     })
-    dispatch('visible-module-updated')
+    dispatch('visible-element-updated')
   })
 
   on('world-zoom', (arg) => {
@@ -109,10 +109,10 @@ export function initEditor(this: Editor) {
     dispatch('world-updated')
   })
 
-  on('visible-module-updated', () => {
+  on('visible-element-updated', () => {
     this.updateVisibleElementMap()
     // this.updateSnapPoints()
-    dispatch('render-modules')
+    dispatch('render-elements')
     dispatch('visible-selection-updated')
   })
 
@@ -127,7 +127,7 @@ export function initEditor(this: Editor) {
   })
 
   on('selection-clear', () => {
-    this.selectedElementIDSet.clear()
+    this.selection.clear()
     dispatch('selection-updated')
   })
 
@@ -138,8 +138,8 @@ export function initEditor(this: Editor) {
     dispatch('selection-updated')
   })
 
-  on('module-updated', (historyData: HistoryOperation) => {
-    dispatch('visible-module-updated')
+  on('element-updated', (historyData: HistoryOperation) => {
+    dispatch('visible-element-updated')
     dispatch('selection-updated')
 
     if (historyData) {
@@ -154,7 +154,7 @@ export function initEditor(this: Editor) {
     this.hoveredModule = null
     // console.log(this.selectedModules)
     // updateSelectionCanvasRenderData.call(this)
-    this.events.onSelectionUpdated?.(this.selectedElementIDSet, this.selection.pickIfUnique)
+    this.events.onSelectionUpdated?.(this.selection.values, this.selection.pickIfUnique)
 
     dispatch('visible-selection-updated')
   })
@@ -188,16 +188,16 @@ export function initEditor(this: Editor) {
       }
     })
 
-    dispatch('module-add', modulePropsList)
+    dispatch('element-add', modulePropsList)
   })
 
-  on('module-delete', () => {
+  on('element-delete', () => {
     const savedSelected = this.selection.values
     const backup = this.elementManager.batchDelete(savedSelected)
 
-    this.selectedElementIDSet.clear()
+    this.selection.clear()
 
-    dispatch('module-updated', {
+    dispatch('element-updated', {
       type: 'history-delete',
       payload: {
         modules: backup,
@@ -206,16 +206,16 @@ export function initEditor(this: Editor) {
     })
   })
 
-  on('module-copy', () => {
-    this.copiedItems = this.batchCopy(this.selection.values, false)
+  on('element-copy', () => {
+    this.copiedItems = this.elementManager.batchCopy(this.selection.values, false)
     this.updateCopiedItemsDelta()
     this.events.onModuleCopied?.(this.copiedItems)
   })
 
-  on('module-paste', (position?) => {
+  on('element-paste', (position?) => {
     if (this.copiedItems.length === 0) return
 
-    let newModules: elementMap
+    let newModules: ElementMap
 
     if (position) {
       const {x, y} = this.getWorldPointByViewportPoint(position.x, position.y)
@@ -244,19 +244,19 @@ export function initEditor(this: Editor) {
     this.selection.replace(savedSelected)
     this.updateCopiedItemsDelta()
 
-    dispatch('module-updated', {
+    dispatch('element-updated', {
       type: 'history-paste',
       payload: {
-        modules: [...newModules.values()].map((mod) => mod.getDetails()),
+        modules: [...newModules.values()].map((mod) => mod.toMinimalJSON()),
         selectedModules: savedSelected,
       },
     })
   })
 
-  on('module-duplicate', () => {
-    if (this.selectedElementIDSet.size === 0) return
+  on('element-duplicate', () => {
+    if (this.selection.size === 0) return
 
-    const temp: ElementProps[] = this.batchCopy(this.selectedElementIDSet, false)
+    const temp: ElementProps[] = this.elementManager.batchCopy(this.selection.values, false)
 
     temp.forEach((copiedItem) => {
       copiedItem!.x += this.CopyDeltaX
@@ -271,7 +271,7 @@ export function initEditor(this: Editor) {
 
     const moduleProps = [...newModules.values()].map((mod) => mod.toMinimalJSON())
 
-    dispatch('module-updated', {
+    dispatch('element-updated', {
       type: 'history-duplicate',
       payload: {
         modules: moduleProps,
@@ -280,7 +280,7 @@ export function initEditor(this: Editor) {
     })
   })
 
-  on('module-layer', (data) => {
+  on('element-layer', (data) => {
     console.log(data)
     /* const s = this.selection.getSelected
 
@@ -304,11 +304,11 @@ export function initEditor(this: Editor) {
     // dispatch('module-modify', changes)
   })
 
-  on('module-move', ({delta = {x: 0, y: 0}}) => {
+  on('element-move', ({delta = {x: 0, y: 0}}) => {
     const s = this.selection.values
 
     if (s.size === 0) return
-    const changes: ModuleModifyData[] = []
+    const changes: ElementModifyData[] = []
 
     s.forEach((id) => {
       const module = this.elementManager.all.get(id)
@@ -324,15 +324,15 @@ export function initEditor(this: Editor) {
     })
 
     // this.batchMove(s, delta)
-    dispatch('module-modify', changes)
+    dispatch('element-modify', changes)
   })
 
-  on('module-add', (data) => {
+  on('element-add', (data) => {
     if (!data || data.length === 0) return
 
     const newModules = this.elementManager.batchAdd(this.elementManager.batchCreate(data), () => {
       console.log(9)
-      dispatch('render-modules')
+      dispatch('render-elements')
     })
     const savedSelected = new Set(newModules.keys())
 
@@ -343,7 +343,7 @@ export function initEditor(this: Editor) {
 
     const moduleProps = [...newModules.values()].map((mod) => mod.toMinimalJSON())
 
-    dispatch('module-updated', {
+    dispatch('element-updated', {
       type: 'history-add',
       payload: {
         modules: moduleProps,
@@ -352,36 +352,37 @@ export function initEditor(this: Editor) {
     })
   })
 
-  on('module-modifying', ({type, data}) => {
+  on('element-modifying', ({type, data}) => {
     const s = this.selection.values
 
     if (s.size === 0) return
 
     if (type === 'move') {
-      this.batchMove(s, data as Point)
+      this.elementManager.batchMove(s, data as Point)
     } else if (type === 'resize' || type === 'rotate') {
       this.elementManager.batchModify(s, data)
     }
 
-    dispatch('module-updated')
+    dispatch('element-updated')
   })
 
-  on('module-modify', (data) => {
-    const changes: HistoryModuleChangeItem[] = []
+  on('element-modify', (data) => {
+    const changes: HistoryChangeItem[] = []
     // console.log(data)
 
     data.map(({id, props: kv}) => {
-      const props = {}
+      const props: HistoryChangeProps = {}
       const change = {id, props}
-      const module = this.elementManager.all.get(id)
+      const module = this.elementManager.getElementById(id)
 
       if (!module) return
+      const keys = Object.keys(kv) as (keyof ElementProps)[]
 
-      Object.keys(kv).map((keyName) => {
-        const fromValue = module[keyName]
-        const toValue = kv[keyName]
+      keys.map((propName: keyof ElementProps) => {
+        const fromValue = module[propName]
+        const toValue = kv[propName]
         // console.log(fromValue, toValue)
-        return props[keyName] = {
+        props[propName as ElementProps] = {
           from: fromValue,
           to: toValue,
         }
@@ -401,10 +402,10 @@ export function initEditor(this: Editor) {
     this.events.onHistoryUpdated?.(this.history)
     this.events.onModulesUpdated?.(this.elementManager.all)
 
-    dispatch('module-updated')
+    dispatch('element-updated')
   })
 
-  on('render-modules', () => {
+  on('render-elements', () => {
     resetCanvas(
       this.viewport.mainCTX,
       this.viewport.scale,
@@ -425,7 +426,7 @@ export function initEditor(this: Editor) {
     this.renderSelections()
   })
 
-  on('module-hover-enter', (id) => {
+  on('element-hover-enter', (id) => {
     if (this.hoveredModule && id && this.hoveredModule === id) {
       return
     }
@@ -436,26 +437,26 @@ export function initEditor(this: Editor) {
     dispatch('visible-selection-updated')
   })
 
-  on('module-hover-leave', () => {
+  on('element-hover-leave', () => {
     this.hoveredModule = null
     dispatch('visible-selection-updated')
   })
 
   on('history-undo', () => {
     undo.call(this)
-    dispatch('module-updated')
+    dispatch('element-updated')
     this.events.onHistoryUpdated?.(this.history)
   })
 
   on('history-redo', () => {
     redo.call(this)
-    dispatch('module-updated')
+    dispatch('element-updated')
     this.events.onHistoryUpdated?.(this.history)
   })
 
   on('history-pick', (data) => {
     pick.call(this, data)
-    dispatch('module-updated')
+    dispatch('element-updated')
     this.events.onHistoryUpdated?.(this.history)
   })
 

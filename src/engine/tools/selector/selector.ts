@@ -6,7 +6,7 @@ import Base from '~/elements/base/base'
 import {Tool} from '~/engine/tools/tool'
 import {applyResize, detectHoveredModule, getResizeCursor, getRotateAngle} from '~/engine/viewport/eventHandlers/funcs'
 import {BoundingRect, UID} from '~/type'
-import {ModuleModifyData} from '~/services/actions/type'
+import {ElementModifyData} from '~/services/actions/type'
 import {ElementProps} from '~/elements/elements'
 
 const selection: Tool = {
@@ -157,7 +157,7 @@ const selection: Tool = {
         const y = (e.movementY * viewport.dpr) / viewport.scale
 
         // force update
-        this.action.dispatch('module-modifying', {
+        this.action.dispatch('element-modifying', {
           type: 'move',
           data: {x, y},
         })
@@ -173,7 +173,7 @@ const selection: Tool = {
 
         const r = applyResize.call(this, altKey, shiftKey)
         // console.log(r)
-        this.action.dispatch('module-modifying', {
+        this.action.dispatch('element-modifying', {
           type: 'resize',
           data: r,
         })
@@ -190,7 +190,7 @@ const selection: Tool = {
 
         updateCursor.call(this, 'rotate', viewport.mouseMovePoint, cursorAngle)
 
-        this.action.dispatch('module-modifying', {
+        this.action.dispatch('element-modifying', {
           type: 'rotate',
           data: {rotation},
         })
@@ -284,8 +284,8 @@ const selection: Tool = {
 
           // mouse stay static
           if (moved) {
-            const changes: ModuleModifyData[] = []
-            this.action.dispatch('module-modifying', {
+            const changes: ElementModifyData[] = []
+            this.action.dispatch('element-modifying', {
               type: 'move',
               data: {x: -x, y: -y},
             })
@@ -295,7 +295,7 @@ const selection: Tool = {
               const module = elementMap.get(id)
 
               if (module) {
-                const change: ModuleModifyData = {
+                const change: ElementModifyData = {
                   id,
                   props: {
                     x: module.cx + x,
@@ -307,7 +307,7 @@ const selection: Tool = {
               }
             })
 
-            this.action.dispatch('module-modify', changes)
+            this.action.dispatch('element-modify', changes)
           } else {
             const closestId = this.hoveredModule
 
@@ -332,12 +332,12 @@ const selection: Tool = {
           })
 
           // rotate back
-          this.action.dispatch('module-modifying', {
+          this.action.dispatch('element-modifying', {
             type: 'resize',
             data: rollbackProps,
           })
 
-          this.action.dispatch('module-modify', [{
+          this.action.dispatch('element-modify', [{
             id: this._resizingOperator!.id,
             props,
           }])
@@ -351,12 +351,12 @@ const selection: Tool = {
           const rollbackProps: Partial<ElementProps> = {rotation}
 
           // rotate back
-          this.action.dispatch('module-modifying', {
+          this.action.dispatch('element-modifying', {
             type: 'resize',
             data: rollbackProps,
           })
 
-          this.action.dispatch('module-modify', [{
+          this.action.dispatch('element-modify', [{
             id: this._rotatingOperator!.id,
             props: {rotation: newRotation},
           }])

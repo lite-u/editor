@@ -50,12 +50,12 @@ const rectangleTool = {
     move(e) {
         const { altKey, shiftKey } = e;
         const { viewport } = this;
-        console.log(this._resizingOperator);
+        // console.log(this._resizingOperator)
         if (!this._resizingOperator)
             return;
         viewport.wrapper.setPointerCapture(e.pointerId);
         const r = applyResize.call(this, altKey, shiftKey);
-        this.action.dispatch('module-modifying', {
+        this.action.dispatch('element-modifying', {
             type: 'resize',
             data: r,
         });
@@ -89,7 +89,7 @@ const rectangleTool = {
                         // mouse stay static
                         if (moved) {
                             const changes = [];
-                            this.action.dispatch('module-modifying', {
+                            this.action.dispatch('element-modifying', {
                                 type: 'move',
                                 data: { x: -x, y: -y },
                             });
@@ -107,7 +107,7 @@ const rectangleTool = {
                                     changes.push(change);
                                 }
                             });
-                            this.action.dispatch('module-modify', changes);
+                            this.action.dispatch('element-modify', changes);
                         }
                         else {
                             const closestId = this.hoveredModule;
@@ -130,11 +130,11 @@ const rectangleTool = {
                             rollbackProps[key] = moduleOrigin[key];
                         });
                         // rotate back
-                        this.action.dispatch('module-modifying', {
+                        this.action.dispatch('element-modifying', {
                             type: 'resize',
                             data: rollbackProps,
                         });
-                        this.action.dispatch('module-modify', [{
+                        this.action.dispatch('element-modify', [{
                                 id: this._resizingOperator.id,
                                 props,
                             }]);
@@ -147,11 +147,11 @@ const rectangleTool = {
                         const { rotation } = this._rotatingOperator?.moduleOrigin;
                         const rollbackProps = { rotation };
                         // rotate back
-                        this.action.dispatch('module-modifying', {
+                        this.action.dispatch('element-modifying', {
                             type: 'resize',
                             data: rollbackProps,
                         });
-                        this.action.dispatch('module-modify', [{
+                        this.action.dispatch('element-modify', [{
                                 id: this._rotatingOperator.id,
                                 props: { rotation: newRotation },
                             }]);

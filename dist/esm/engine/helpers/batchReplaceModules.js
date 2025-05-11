@@ -2,7 +2,7 @@ export {};
 /*
 import Editor from "../editor.js"
 
-function batchReplaceModules(this: Editor, moduleList: ModuleProps[]) {
+function batchReplaceModules(this: Editor, moduleList: ElementProps[]) {
   const elementMap = this.elementManager.batchCreate(moduleList)
 
   elementMap.forEach((module) => {

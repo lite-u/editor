@@ -126,7 +126,7 @@ const selection = {
                     const x = (e.movementX * viewport.dpr) / viewport.scale;
                     const y = (e.movementY * viewport.dpr) / viewport.scale;
                     // force update
-                    this.action.dispatch('module-modifying', {
+                    this.action.dispatch('element-modifying', {
                         type: 'move',
                         data: { x, y },
                     });
@@ -141,7 +141,7 @@ const selection = {
                     // const cursorDirection = getResizeDirection(centerPoint, viewport.mouseMovePoint)
                     const r = applyResize.call(this, altKey, shiftKey);
                     // console.log(r)
-                    this.action.dispatch('module-modifying', {
+                    this.action.dispatch('element-modifying', {
                         type: 'resize',
                         data: r,
                     });
@@ -156,7 +156,7 @@ const selection = {
                     const rotation = Base.applyRotating.call(this, shiftKey);
                     const cursorAngle = getRotateAngle(centerPoint, viewport.mouseMovePoint);
                     updateCursor.call(this, 'rotate', viewport.mouseMovePoint, cursorAngle);
-                    this.action.dispatch('module-modifying', {
+                    this.action.dispatch('element-modifying', {
                         type: 'rotate',
                         data: { rotation },
                     });
@@ -235,7 +235,7 @@ const selection = {
                         // mouse stay static
                         if (moved) {
                             const changes = [];
-                            this.action.dispatch('module-modifying', {
+                            this.action.dispatch('element-modifying', {
                                 type: 'move',
                                 data: { x: -x, y: -y },
                             });
@@ -253,7 +253,7 @@ const selection = {
                                     changes.push(change);
                                 }
                             });
-                            this.action.dispatch('module-modify', changes);
+                            this.action.dispatch('element-modify', changes);
                         }
                         else {
                             const closestId = this.hoveredModule;
@@ -276,11 +276,11 @@ const selection = {
                             rollbackProps[key] = moduleOrigin[key];
                         });
                         // rotate back
-                        this.action.dispatch('module-modifying', {
+                        this.action.dispatch('element-modifying', {
                             type: 'resize',
                             data: rollbackProps,
                         });
-                        this.action.dispatch('module-modify', [{
+                        this.action.dispatch('element-modify', [{
                                 id: this._resizingOperator.id,
                                 props,
                             }]);
@@ -293,11 +293,11 @@ const selection = {
                         const { rotation } = this._rotatingOperator?.moduleOrigin;
                         const rollbackProps = { rotation };
                         // rotate back
-                        this.action.dispatch('module-modifying', {
+                        this.action.dispatch('element-modifying', {
                             type: 'resize',
                             data: rollbackProps,
                         });
-                        this.action.dispatch('module-modify', [{
+                        this.action.dispatch('element-modify', [{
                                 id: this._rotatingOperator.id,
                                 props: { rotation: newRotation },
                             }]);

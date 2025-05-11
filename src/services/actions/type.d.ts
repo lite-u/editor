@@ -2,7 +2,7 @@ import {SelectionActionMode} from '../selection/type'
 import {HistoryNode} from '~/services/history/DoublyLinkedList'
 // import {ModuleMoveDirection} from '../type'
 import {HistoryOperation} from '~/services/history/type'
-import {ModulePropsWithoutIdentifiers} from '~/elements/elements'
+import {ElementProps, ElementPropsWithoutIdentifiers} from '~/elements/elements'
 import {VisionEditorAssetType} from '~/services/assetsManager/AssetsManager'
 import {Point} from '~/type'
 import {ToolName} from '~/engine/tools/tool'
@@ -15,7 +15,7 @@ export interface SelectionModifyData {
 export type VisionEventType = keyof VisionEventMap;
 export type VisionEventData<T extends VisionEventType> = VisionEventMap[T];
 
-export type ModuleMoveData = {
+export type ElementMoveData = {
   idSet?: Set<UID>;
   // direction: ModuleMoveDirection;
   delta: Point;
@@ -30,20 +30,24 @@ export type PropChange<T> = {
 }
 
 /*export type ModuleChangeProps = {
-  [K in keyof ModuleProps]?: PropChange<ModuleProps[K]> | PropMoveOffset
+  [K in keyof ElementProps]?: PropChange<ElementProps[K]> | PropMoveOffset
 }*/
-export type HistoryModuleChangeItem = {
+export type HistoryChangeItem = {
   id: UID
-  props: HistoryModuleChangeProps
+  props: HistoryChangeProps
 }
 
-export type HistoryModuleChangeProps = {
-  [K in keyof ModuleProps]?: PropChange<ModuleProps[K]>
+export type HistoryChangeProps = {
+  // [K in keyof ElementProps]?: PropChange<ElementProps[K]>
+  [K in keyof ElementProps]?: {
+    from: ElementProps[K]
+    to: ElementProps[K]
+  }
 }
 
-export interface ModuleModifyData {
+export interface ElementModifyData {
   id: UID
-  props: Partial<ModuleProps>
+  props: ElementProps
 }
 
 export type VisionEventMap = {
@@ -59,29 +63,29 @@ export type VisionEventMap = {
     physicalPoint?: Point;
   };
   'world-shift': Point;
-  'render-modules': boolean;
+  'render-elements': boolean;
   'render-selection': never;
   'selection-updated': never
   'selection-modify': SelectionModifyData;
   'selection-clear': never;
   'selection-all': never;
   'drop-image': { position: Point, assets: VisionEditorAssetType[] };
-  'module-updated': HistoryOperation;
-  'module-copy': never;
-  'module-add': ModulePropsWithoutIdentifiers[];
-  'module-paste': Point;
-  'module-delete': never;
-  'module-duplicate': never;
-  'module-layer': { method: 'up' | 'down' | 'top' | 'bottom', idSet: Set<UID> };
-  'module-move': ModuleMoveData;
-  'module-modify': ModuleModifyData[]
-  'module-modifying': {
+  'element-updated': HistoryOperation;
+  'element-copy': never;
+  'element-add': ElementPropsWithoutIdentifiers[];
+  'element-paste': Point;
+  'element-delete': never;
+  'element-duplicate': never;
+  'element-layer': { method: 'up' | 'down' | 'top' | 'bottom', idSet: Set<UID> };
+  'element-move': ElementMoveData;
+  'element-modify': ElementModifyData[]
+  'element-modifying': {
     type: 'move' | 'resize' | 'rotate',
-    data: Partial<ModuleProps>
+    data: Partial<ElementProps>
   }
-  'module-hover-enter': UID;
-  'module-hover-leave': UID;
-  'visible-module-updated': never;
+  'element-hover-enter': UID;
+  'element-hover-leave': UID;
+  'visible-element-updated': never;
   'visible-selection-updated': never;
   'history-redo': never;
   'history-undo': never;
@@ -97,7 +101,7 @@ export type VisionEventMap = {
 const forwardEventDependencyMap: Record<VisionEventType, VisionEventType[]> = {
   'world-resized': ['world-updated'],
   // 'editor-initialized': ['world-updated'],
-  'world-updated': ['visible-module-updated'],
+  'world-updated': ['visible-element-updated'],
   'world-zoom': ['world-updated'],
   'world-shift': ['world-updated'],
   /* selections */
@@ -107,23 +111,23 @@ const forwardEventDependencyMap: Record<VisionEventType, VisionEventType[]> = {
   'selection-updated': ['visible-selection-updated'],
   'visible-selection-updated': ['render-selection'],
   'render-selection': [],
-  'module-hover-enter': ['visible-selection-updated'],
-  'module-hover-leave': ['visible-selection-updated'],
+  'element-hover-enter': ['visible-selection-updated'],
+  'element-hover-leave': ['visible-selection-updated'],
   /* modules */
-  'module-add': ['module-updated'],
-  'module-delete': ['module-updated'],
-  'module-move': ['module-updated'],
-  'module-paste': ['module-updated'],
-  'module-duplicate': ['module-updated'],
-  'module-modifying': ['module-updated'],
-  'module-modify': ['module-updated'],
-  'module-updated': ['visible-module-updated', 'selection-updated'],
-  'visible-module-updated': ['render-modules', 'visible-selection-updated'],
-  'render-modules': [],
+  'element-add': ['element-updated'],
+  'element-delete': ['element-updated'],
+  'element-move': ['element-updated'],
+  'element-paste': ['element-updated'],
+  'element-duplicate': ['element-updated'],
+  'element-modifying': ['element-updated'],
+  'element-modify': ['element-updated'],
+  'element-updated': ['visible-element-updated', 'selection-updated'],
+  'visible-element-updated': ['render-elements', 'visible-selection-updated'],
+  'render-elements': [],
   'context-menu': [],
-  'module-copy': [],
+  'element-copy': [],
   /* history */
-  'history-undo': ['module-updated'],
-  'history-redo': ['module-updated'],
-  'history-pick': ['module-updated'],
+  'history-undo': ['element-updated'],
+  'history-redo': ['element-updated'],
+  'history-pick': ['element-updated'],
 } as const

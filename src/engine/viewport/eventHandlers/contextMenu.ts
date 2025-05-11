@@ -27,7 +27,6 @@ function handleContextMenu(this: Editor, e: MouseEvent) {
     } else {
       idSet.add(lastId)
       this.selection.add(idSet)
-      console.log(this.selectedElementIDSet)
       this.action.dispatch('selection-updated')
     }
   }

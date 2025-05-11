@@ -7,15 +7,19 @@ export type ModuleTypeMap = {
   'rectangle': ElementRectangle
   'ellipse': ElementEllipse
 }
-export type ModulePropsMap = {
+export type ElementPropsMap = {
   'rectangle': RectangleProps
   'ellipse': EllipseProps
 }
 export type ElementProps = RectangleProps | EllipseProps | TextProps | ImageProps
-// type ModulePropsType<T extends keyof ModulePropsMap> = ModulePropsMap[T]
-export type PropsWithoutIdentifiers<T extends keyof ModulePropsMap> = Omit<ModulePropsMap[T], 'id' & 'layer'>
+// type ElementPropsType<T extends keyof ElementPropsMap> = ElementPropsMap[T]
+export type PropsWithoutIdentifiers<T extends keyof ElementPropsMap> = Omit<ElementPropsMap[T], 'id' & 'layer'>
 export type ModuleNames = keyof ModuleTypeMap
-export type ElementInstance = ElementRectangle | ElementEllipse | ElementImage | ElementText
+export type ElementInstance =
+  InstanceType<ElementRectangle>
+  | InstanceType<ElementEllipse>
+  | InstanceType<ElementImage>
+  | InstanceType<ElementText>
 export type ElementMap = Map<UID, ElementInstance>
 
 export {}

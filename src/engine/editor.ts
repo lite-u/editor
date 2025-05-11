@@ -1,9 +1,8 @@
-import {EditorConfig, EventHandlers} from './type'
+import {EditorConfig, EditorExportFileType, EventHandlers} from './type'
 import History from '~/services/history/history'
 import Action from '~/services/actions/actions'
 import {generateBoundingRectFromTwoPoints, rectsOverlap} from '~/core/utils'
 import {OperationHandlers, ResizeHandler} from '~/services/selection/type'
-// import {modifySelected} from '../services/selection/helper'
 import {updateScrollBars} from './viewport/domManipulations'
 import selectionRender from './viewport/selectionRender'
 import {screenToWorld, worldToScreen} from '~/core/lib'
@@ -12,13 +11,13 @@ import {createViewport} from './viewport/createViewport'
 import {destroyViewport} from './viewport/destroyViewport'
 import {initEditor} from './initEditor'
 import {zoomAtPoint} from './viewport/helper'
-import AssetsManager, {VisionEditorAssetType} from '~/services/assetsManager/AssetsManager'
+import AssetsManager from '~/services/assetsManager/AssetsManager'
 import ElementImage from '~/elements/image/image'
 import {ElementInstance, ElementMap, ElementProps} from '~/elements/elements'
 import nid from '~/core/nid'
 import {UID} from '~/core/core'
 import {Tool} from '~/engine/tools/tool'
-import {BoundingRect, Point, VisionEventType} from '~/type'
+import {BoundingRect, Point, VisionEditorAssetType, VisionEventType} from '~/type'
 import ElementRectangle from '~/elements/rectangle/rectangle'
 import ElementManager from '~/services/elementManager/ElementManager'
 import SelectionManager from '~/services/selection/SelectionManager'
@@ -36,7 +35,7 @@ class Editor {
   // services
   history: History
   elementManager: ElementManager
-  selection:SelectionManager
+  selection: SelectionManager
   viewport: Viewport
   readonly selectedElementIDSet: Set<UID> = new Set()
   readonly visibleSelected: Set<UID> = new Set()
@@ -88,7 +87,7 @@ class Editor {
 
     initEditor.call(this)
 
-    this.action.dispatch('module-add', elements)
+    this.action.dispatch('element-add', elements)
   }
 
   public get getVisibleElementMap(): ElementMap {
@@ -102,52 +101,6 @@ class Editor {
   public get getVisibleSelectedElementMap() {
     return this.elementManager.getElementMapByIdSet(this.getVisibleSelected)
   }
-
-
-
-
-  // getModulesByLayerIndex() {}
-  /*
-
-    batchCreate(moduleDataList: ElementProps[]): ElementMap {
-      return batchCreate.call(this, moduleDataList)
-    }
-
-    batchAdd(modules: ElementMap, callback?: VoidFunction): ElementMap {
-      return batchAdd.call(this, modules, callback)
-    }
-  */
-  /*
-
-    batchCopy(
-      from: Set<UID>,
-      includeIdentifiers = true,
-    ): ElementProps[] {
-      return batchCopy.call(this, from, includeIdentifiers)
-    }
-  */
-
-  /*updateSnapPoints() {
-    this.snapPoints.length = 0
-    this.visibleelementMap.forEach(module => {
-      this.snapPoints.push(...module.getSnapPoints())
-    })
-  }*/
-
-  /*  batchDelete(from: Set<UID>): ElementProps[] {
-      return batchDelete.call(this, from)
-    }
-
-    batchMove(from: Set<UID>, delta: Point) {
-      batchMove.call(this, from, delta)
-    }
-
-    batchModify(
-      idSet: Set<UID>,
-      data: Partial<ElementProps>,
-    ) {
-      batchModify.call(this, idSet, data)
-    }*/
 
   getModuleList(): ElementInstance[] {
     return [...Object.values(this.elementManager.all)]
@@ -175,7 +128,7 @@ class Editor {
     this.operationHandlers.length = 0
 
     this.getVisibleElementMap.forEach((module) => {
-      if (this.selectedElementIDSet.has(module.id)) {
+      if (this.selection.has(module.id)) {
         this.visibleSelected.add(module.id)
       }
     })
@@ -190,7 +143,8 @@ class Editor {
       const rotateSize = 15 / scale * dpr
       const lineColor = '#5491f8'
 
-      const operators = module!.getOperators(module.id,
+      const operators = module!.getOperators(
+        module!.id,
         {
           size: resizeSize,
           lineColor,
@@ -206,7 +160,6 @@ class Editor {
       this.operationHandlers.push(...operators)
     }
   }
-
 
   updateCopiedItemsDelta(): void {
     this.copiedItems.forEach((copiedItem) => {
@@ -280,10 +233,10 @@ class Editor {
     })
   }
 
-  public export(): { elements: ElementProps[], assets: never[], config: { offset: { x: number, y: number } } } {
+  public export(): EditorExportFileType {
     const {scale, offset} = this.viewport
     const assetSet = new Set<string>()
-    const result = {
+    const result: EditorExportFileType = {
       elements: [],
       config: {
         scale,

@@ -3,7 +3,7 @@ import {updateCursor, updateSelectionBox} from '~/engine/viewport/domManipulatio
 import Base from '~/elements/base/base'
 import {Tool} from '~/engine/tools/tool'
 import {applyResize} from '~/engine/viewport/eventHandlers/funcs'
-import {ModuleModifyData} from '~/services/actions/type'
+import {ElementModifyData} from '~/services/actions/type'
 import nid from '~/core/nid'
 import {ResizeHandler} from '~/services/selection/type'
 import {ElementProps} from '~/elements/elements'
@@ -60,14 +60,14 @@ const rectangleTool: Tool = {
     const {altKey, shiftKey} = e
     const {viewport} = this
 
-    console.log(this._resizingOperator)
+    // console.log(this._resizingOperator)
     if (!this._resizingOperator) return
 
     viewport.wrapper.setPointerCapture(e.pointerId)
 
     const r = applyResize.call(this, altKey, shiftKey)
 
-    this.action.dispatch('module-modifying', {
+    this.action.dispatch('element-modifying', {
       type: 'resize',
       data: r,
     })
@@ -113,8 +113,8 @@ const rectangleTool: Tool = {
 
           // mouse stay static
           if (moved) {
-            const changes: ModuleModifyData[] = []
-            this.action.dispatch('module-modifying', {
+            const changes: ElementModifyData[] = []
+            this.action.dispatch('element-modifying', {
               type: 'move',
               data: {x: -x, y: -y},
             })
@@ -124,7 +124,7 @@ const rectangleTool: Tool = {
               const module = elementMap.get(id)
 
               if (module) {
-                const change: ModuleModifyData = {
+                const change: ElementModifyData = {
                   id,
                   props: {
                     x: module.cx + x,
@@ -136,7 +136,7 @@ const rectangleTool: Tool = {
               }
             })
 
-            this.action.dispatch('module-modify', changes)
+            this.action.dispatch('element-modify', changes)
           } else {
             const closestId = this.hoveredModule
 
@@ -161,12 +161,12 @@ const rectangleTool: Tool = {
           })
 
           // rotate back
-          this.action.dispatch('module-modifying', {
+          this.action.dispatch('element-modifying', {
             type: 'resize',
             data: rollbackProps,
           })
 
-          this.action.dispatch('module-modify', [{
+          this.action.dispatch('element-modify', [{
             id: this._resizingOperator!.id,
             props,
           }])
@@ -180,12 +180,12 @@ const rectangleTool: Tool = {
           const rollbackProps: Partial<ElementProps> = {rotation}
 
           // rotate back
-          this.action.dispatch('module-modifying', {
+          this.action.dispatch('element-modifying', {
             type: 'resize',
             data: rollbackProps,
           })
 
-          this.action.dispatch('module-modify', [{
+          this.action.dispatch('element-modify', [{
             id: this._rotatingOperator!.id,
             props: {rotation: newRotation},
           }])

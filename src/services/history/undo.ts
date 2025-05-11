@@ -25,7 +25,7 @@ export function undo(this: Editor, quiet: boolean = false): HistoryNode | false 
 
     case 'history-modify':
       payload.changes.map(({id, props}) => {
-        const undoProps: Partial<ModuleProps> = {}
+        const undoProps: Partial<ElementProps> = {}
 
         Object.keys(props).forEach(propName => {
           // console.log(props[propName]!['from'])
