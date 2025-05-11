@@ -1,4 +1,4 @@
-import {SelectionActionMode} from '../../engine/selection/type'
+import {SelectionActionMode} from '../selection/type'
 import {HistoryNode} from '~/services/history/DoublyLinkedList'
 // import {ModuleMoveDirection} from '../type'
 import {HistoryOperation} from '~/services/history/type'

@@ -1,6 +1,6 @@
 import Base, {ElementBaseProps} from '../base/base'
 import {HANDLER_OFFSETS} from '../handleBasics'
-import {OperationHandlers} from '~/engine/selection/type'
+import {OperationHandlers} from '~/services/selection/type'
 import {rotatePoint} from '~/core/lib'
 import ElementRectangle, {RectangleProps} from '../rectangle/rectangle'
 import {ElementFillColor} from '~/core/core'

@@ -1,4 +1,4 @@
-import {ResizeHandleName} from '~/engine/selection/type'
+import {ResizeHandleName} from '~/services/selection/type'
 import {RequiredRectangleProps} from '~/elements/rectangle/rectangle'
 import {getResizeTransform} from '~/core/lib'
 import {Rect} from '~/type'

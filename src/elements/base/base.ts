@@ -1,4 +1,4 @@
-import {RotateHandler} from '~/engine/selection/type'
+import {RotateHandler} from '~/services/selection/type'
 import {Rotation} from '~/core/core'
 import {BoundingRect} from '~/type'
 import Editor from '~/engine/editor'

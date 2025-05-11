@@ -27,7 +27,7 @@ export function pick(this: Editor, targetNode: HistoryNode) {
 
     // this.editor.updateVisibleelementMap(this.editor.viewport.worldRect)
 
-    this.replaceSelected(selectedModules)
+    this.selection.replaceSelected(selectedModules)
 
   } else {
     // do sth...

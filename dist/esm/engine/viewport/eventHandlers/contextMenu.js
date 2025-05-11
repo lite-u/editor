@@ -20,7 +20,7 @@ function handleContextMenu(e) {
         }
         else {
             idSet.add(lastId);
-            this.addSelected(idSet);
+            this.selection.addSelected(idSet);
             console.log(this.selectedElementIDSet);
             this.action.dispatch('selection-updated');
         }

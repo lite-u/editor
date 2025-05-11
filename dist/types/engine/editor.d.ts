@@ -1,7 +1,7 @@
 import { EditorConfig, EventHandlers } from './type';
 import History from '~/services/history/history';
 import Action from '~/services/actions/actions';
-import { OperationHandlers, ResizeHandler, SelectionActionMode } from './selection/type';
+import { OperationHandlers, ResizeHandler } from '~/services/selection/type';
 import { Viewport, ViewportManipulationType } from './viewport/type';
 import AssetsManager, { VisionEditorAssetType } from '~/services/assetsManager/AssetsManager';
 import { ElementInstance, ElementMap, ElementProps } from '~/elements/elements';
@@ -52,13 +52,8 @@ declare class Editor {
     get getVisibleSelectedElementMap(): ElementMap;
     get getSelectedPropsIfUnique(): ElementProps | null;
     getModuleList(): ElementInstance[];
-    updateVisibleelementMap(): void;
+    updateVisibleElementMap(): void;
     updateVisibleSelected(): void;
-    modifySelected(idSet: Set<UID>, action: SelectionActionMode): void;
-    addSelected(idSet: Set<UID>): void;
-    deleteSelected(idSet: Set<UID>): void;
-    toggleSelected(idSet: Set<UID>): void;
-    replaceSelected(idSet: Set<UID>): void;
     updateCopiedItemsDelta(): void;
     execute(type: VisionEventType, data?: unknown): void;
     renderModules(): void;

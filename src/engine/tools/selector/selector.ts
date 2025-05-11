@@ -368,9 +368,9 @@ const selection: Tool = {
           break
         case 'static':
           if (e.ctrlKey || e.metaKey || e.shiftKey) {
-            this.toggleSelected(draggingModules)
+            this.selection.toggleSelected(draggingModules)
           } else {
-            this.replaceSelected(draggingModules)
+            this.selection.replaceSelected(draggingModules)
           }
 
           break

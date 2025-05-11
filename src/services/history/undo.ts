@@ -64,7 +64,7 @@ export function undo(this: Editor, quiet: boolean = false): HistoryNode | false 
   if (!quiet) {
     const backedNodeSelectedModules = this.history.current!.data.payload.selectedModules
 
-    this.replaceSelected(backedNodeSelectedModules)
+    this.selection.replaceSelected(backedNodeSelectedModules)
     this.action.dispatch('selection-updated')
 
   }

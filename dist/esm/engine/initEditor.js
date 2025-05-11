@@ -2,7 +2,7 @@ import resetCanvas from './viewport/resetCanvas.js';
 import { redo } from '../services/history/redo.js';
 import { undo } from '../services/history/undo.js';
 import { pick } from '../services/history/pick.js';
-import { updateSelectionCanvasRenderData } from './selection/helper.js';
+import { updateSelectionCanvasRenderData } from '../services/selection/helper.js';
 // import zoom from '../../components/statusBar/zoom'
 import { fitRectToViewport } from './viewport/helper.js';
 import selector from './tools/selector/selector.js';
@@ -94,7 +94,7 @@ export function initEditor() {
         dispatch('world-updated');
     });
     on('visible-module-updated', () => {
-        this.updateVisibleelementMap();
+        this.updateVisibleElementMap();
         // this.updateSnapPoints()
         dispatch('render-modules');
         dispatch('visible-selection-updated');
@@ -113,7 +113,7 @@ export function initEditor() {
     });
     on('selection-modify', (data) => {
         const { mode, idSet } = data;
-        this.modifySelected(idSet, mode);
+        this.selection.modifySelected(idSet, mode);
         dispatch('selection-updated');
     });
     on('module-updated', (historyData) => {
@@ -198,7 +198,7 @@ export function initEditor() {
         }
         const savedSelected = new Set(newModules.keys());
         this.elementManager.batchAdd(newModules);
-        this.replaceSelected(savedSelected);
+        this.selection.replaceSelected(savedSelected);
         this.updateCopiedItemsDelta();
         dispatch('module-updated', {
             type: 'history-paste',
@@ -219,7 +219,7 @@ export function initEditor() {
         const newModules = this.elementManager.batchCreate(temp);
         const savedSelected = new Set(newModules.keys());
         this.elementManager.batchAdd(newModules);
-        this.replaceSelected(savedSelected);
+        this.selection.replaceSelected(savedSelected);
         const moduleProps = [...newModules.values()].map((mod) => mod.toMinimalJSON());
         dispatch('module-updated', {
             type: 'history-duplicate',
@@ -282,7 +282,7 @@ export function initEditor() {
         /*  this.elementManager.batchAdd(newModules,()=>{
             dispatch('render-modules')
           })*/
-        this.replaceSelected(savedSelected);
+        this.selection.replaceSelected(savedSelected);
         const moduleProps = [...newModules.values()].map((mod) => mod.toMinimalJSON());
         dispatch('module-updated', {
             type: 'history-add',

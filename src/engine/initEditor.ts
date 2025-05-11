@@ -5,7 +5,7 @@ import {redo} from '~/services/history/redo'
 import {undo} from '~/services/history/undo'
 import {pick} from '~/services/history/pick'
 import {HistoryOperation} from '~/services/history/type'
-import {updateSelectionCanvasRenderData} from './selection/helper'
+import {updateSelectionCanvasRenderData} from '../services/selection/helper'
 // import zoom from '../../components/statusBar/zoom'
 import {fitRectToViewport} from './viewport/helper'
 import {Point} from '~/type'
@@ -110,7 +110,7 @@ export function initEditor(this: Editor) {
   })
 
   on('visible-module-updated', () => {
-    this.updateVisibleelementMap()
+    this.updateVisibleElementMap()
     // this.updateSnapPoints()
     dispatch('render-modules')
     dispatch('visible-selection-updated')
@@ -134,7 +134,7 @@ export function initEditor(this: Editor) {
   on('selection-modify', (data) => {
     const {mode, idSet} = data as SelectionModifyData
 
-    this.modifySelected(idSet, mode)
+    this.selection.modifySelected(idSet, mode)
     dispatch('selection-updated')
   })
 
@@ -241,7 +241,7 @@ export function initEditor(this: Editor) {
     const savedSelected = new Set(newModules.keys())
 
     this.elementManager.batchAdd(newModules)
-    this.replaceSelected(savedSelected)
+    this.selection.replaceSelected(savedSelected)
     this.updateCopiedItemsDelta()
 
     dispatch('module-updated', {
@@ -267,7 +267,7 @@ export function initEditor(this: Editor) {
     const savedSelected = new Set(newModules.keys())
 
     this.elementManager.batchAdd(newModules)
-    this.replaceSelected(savedSelected)
+    this.selection.replaceSelected(savedSelected)
 
     const moduleProps = [...newModules.values()].map((mod) => mod.toMinimalJSON())
 
@@ -339,7 +339,7 @@ export function initEditor(this: Editor) {
     /*  this.elementManager.batchAdd(newModules,()=>{
         dispatch('render-modules')
       })*/
-    this.replaceSelected(savedSelected)
+    this.selection.replaceSelected(savedSelected)
 
     const moduleProps = [...newModules.values()].map((mod) => mod.toMinimalJSON())
 

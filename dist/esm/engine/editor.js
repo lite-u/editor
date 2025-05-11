@@ -1,7 +1,7 @@
 import History from '../services/history/history.js';
 import Action from '../services/actions/actions.js';
 import { generateBoundingRectFromTwoPoints, rectsOverlap } from '../core/utils.js';
-import { modifySelected } from './selection/helper.js';
+// import {modifySelected} from '../services/selection/helper.js'
 import { updateScrollBars } from './viewport/domManipulations.js';
 import selectionRender from './viewport/selectionRender.js';
 import { screenToWorld, worldToScreen } from '../core/lib.js';
@@ -57,8 +57,6 @@ class Editor {
         this.events = events;
         this.container = container;
         this.viewport = createViewport.call(this);
-        // this.elementMap = new Map()
-        // this.moduleCounter = config.moduleIdCounter
         this.action = new Action();
         this.history = new History(this);
         this.selection = new Selection(this);
@@ -130,7 +128,7 @@ class Editor {
     getModuleList() {
         return [...Object.values(this.elementMap)];
     }
-    updateVisibleelementMap() {
+    updateVisibleElementMap() {
         this.visibleElementMap.clear();
         // console.log(this.viewport.offset, this.viewport.worldRect)
         // Create an array from the Map, sort by the 'layer' property, and then add them to visibleelementMap
@@ -174,21 +172,6 @@ class Editor {
             });
             this.operationHandlers.push(...operators);
         }
-    }
-    modifySelected(idSet, action) {
-        modifySelected.call(this, idSet, action);
-    }
-    addSelected(idSet) {
-        modifySelected.call(this, idSet, 'add');
-    }
-    deleteSelected(idSet) {
-        modifySelected.call(this, idSet, 'delete');
-    }
-    toggleSelected(idSet) {
-        modifySelected.call(this, idSet, 'toggle');
-    }
-    replaceSelected(idSet) {
-        modifySelected.call(this, idSet, 'replace');
     }
     updateCopiedItemsDelta() {
         this.copiedItems.forEach((copiedItem) => {

@@ -1,7 +1,7 @@
 import {generateBoundingRectFromRotatedRect} from '~/core/utils'
 import Shape, {ShapeProps} from '../shape/shape'
 import ElementRectangle from '../rectangle/rectangle'
-import {ResizeHandleName} from '~/engine/selection/type'
+import {ResizeHandleName} from '~/services/selection/type'
 import {Point} from '~/type'
 import render from './render'
 import transform from './transform'

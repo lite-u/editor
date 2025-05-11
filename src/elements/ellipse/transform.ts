@@ -1,4 +1,4 @@
-import {ResizeHandleName} from '~/engine/selection/type'
+import {ResizeHandleName} from '~/services/selection/type'
 import {Point} from '~/type'
 import {getResizeTransform} from '~/core/lib'
 import {RequiredEllipseProps} from '~/elements/ellipse/ellipse'

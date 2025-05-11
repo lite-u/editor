@@ -2,8 +2,8 @@ import {EditorConfig, EventHandlers} from './type'
 import History from '~/services/history/history'
 import Action from '~/services/actions/actions'
 import {generateBoundingRectFromTwoPoints, rectsOverlap} from '~/core/utils'
-import {OperationHandlers, ResizeHandler, SelectionActionMode} from './selection/type'
-import {modifySelected} from './selection/helper'
+import {OperationHandlers, ResizeHandler} from '~/services/selection/type'
+// import {modifySelected} from '../services/selection/helper'
 import {updateScrollBars} from './viewport/domManipulations'
 import selectionRender from './viewport/selectionRender'
 import {screenToWorld, worldToScreen} from '~/core/lib'
@@ -79,8 +79,6 @@ class Editor {
     this.events = events
     this.container = container
     this.viewport = createViewport.call(this)
-    // this.elementMap = new Map()
-    // this.moduleCounter = config.moduleIdCounter
 
     this.action = new Action()
     this.history = new History(this)
@@ -167,7 +165,7 @@ class Editor {
     return [...Object.values(this.elementMap)]
   }
 
-  updateVisibleelementMap() {
+  updateVisibleElementMap() {
     this.visibleElementMap.clear()
 
     // console.log(this.viewport.offset, this.viewport.worldRect)
@@ -219,26 +217,6 @@ class Editor {
 
       this.operationHandlers.push(...operators)
     }
-  }
-
-  public modifySelected(idSet: Set<UID>, action: SelectionActionMode) {
-    modifySelected.call(this, idSet, action)
-  }
-
-  public addSelected(idSet: Set<UID>) {
-    modifySelected.call(this, idSet, 'add')
-  }
-
-  public deleteSelected(idSet: Set<UID>) {
-    modifySelected.call(this, idSet, 'delete')
-  }
-
-  public toggleSelected(idSet: Set<UID>) {
-    modifySelected.call(this, idSet, 'toggle')
-  }
-
-  public replaceSelected(idSet: Set<UID>) {
-    modifySelected.call(this, idSet, 'replace')
   }
 
 

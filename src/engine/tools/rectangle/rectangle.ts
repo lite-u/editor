@@ -5,7 +5,7 @@ import {Tool} from '~/engine/tools/tool'
 import {applyResize} from '~/engine/viewport/eventHandlers/funcs'
 import {ModuleModifyData} from '~/services/actions/type'
 import nid from '~/core/nid'
-import {ResizeHandler} from '~/engine/selection/type'
+import {ResizeHandler} from '~/services/selection/type'
 import {ElementProps} from '~/elements/elements'
 
 const rectangle: Tool = {
@@ -197,9 +197,9 @@ const rectangle: Tool = {
           break
         case 'static':
           if (e.ctrlKey || e.metaKey || e.shiftKey) {
-            this.toggleSelected(draggingModules)
+            this.selection.toggleSelected(draggingModules)
           } else {
-            this.replaceSelected(draggingModules)
+            this.selection.replaceSelected(draggingModules)
           }
 
           break

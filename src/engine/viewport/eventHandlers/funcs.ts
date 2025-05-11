@@ -1,5 +1,5 @@
 import Editor from '../../editor'
-import {ResizeDirection} from '../../selection/type'
+import {ResizeDirection} from '../../../services/selection/type'
 import {Point, UID} from '~/type'
 import {ElementInstance} from '~/elements/elements'
 

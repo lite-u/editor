@@ -1,10 +1,10 @@
 import {SelectionActionMode} from './type'
-import Editor from '../editor'
+import Editor from '../../engine/editor'
 import {UID} from '~/core/core'
 import typeCheck from '~/core/typeCheck'
 
 export function modifySelected(
-  this: Editor,
+  this: Selection,
   idSet: Set<UID>,
   action: SelectionActionMode,
 ) {
