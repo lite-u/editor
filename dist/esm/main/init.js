@@ -5,16 +5,14 @@ import { pick } from '../services/history/pick.js';
 // import {updateSelectionCanvasRenderData} from '../services/selection/helper'
 // import zoom from '../../components/statusBar/zoom'
 import { fitRectToViewport } from '../services/viewport/helper.js';
-import selector from '../services/tools/selector/selector.js';
-import rectangle from '../services/tools/rectangle/rectangle.js';
 export function initEditor() {
-    const { container, viewport, action } = this;
+    const { container, action } = this;
     const dispatch = action.dispatch.bind(action);
     const on = action.on.bind(action);
-    container.appendChild(viewport.wrapper);
-    viewport.resizeObserver.observe(container);
-    this.toolMap.set('selector', selector);
-    this.toolMap.set('rectangle', rectangle);
+    // container.appendChild(viewport.wrapper)
+    this.resizeObserver.observe(container);
+    // this.toolMap.set('selector', selector)
+    this.toolManager.set('rectangle');
     // this.toolMap.set('text', selector)
     // this.toolMap.set('ellipse', selector)
     on('world-resized', () => {
@@ -41,7 +39,7 @@ export function initEditor() {
             scale: this.viewport.scale,
             offsetX: this.viewport.offset.x,
             offsetY: this.viewport.offset.y,
-            status: this.manipulationStatus,
+            // status: this.manipulationStatus,
         });
         dispatch('visible-element-updated');
     });

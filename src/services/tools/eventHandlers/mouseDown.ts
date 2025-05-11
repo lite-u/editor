@@ -1,9 +1,8 @@
-import Editor from '../../../main/editor'
 import ToolManager from '~/services/tools/toolManager'
 
 function handleMouseDown(this: ToolManager, e: MouseEvent) {
   const {clientY, target, button, clientX} = e
-  if (!(target === this.editor.wrapper)) return
+  if (!(target === this.editor.container)) return
 
   const x = clientX - this.editor.viewport.rect!.x
   const y = clientY - this.editor.viewport.rect!.y

@@ -11,11 +11,14 @@ import ElementManager from '~/services/element/ElementManager';
 import SelectionManager from '~/services/selection/SelectionManager';
 import Cursor from '~/services/cursor/cursor';
 import Viewport from '~/services/viewport/Viewport';
+import CanvasView from '~/services/canvas/CanvasView';
 declare class Editor {
     id: string;
     config: EditorConfig;
     readonly container: HTMLDivElement;
     events: EventHandlers;
+    resizeObserver: ResizeObserver;
+    dpr: number;
     action: Action;
     cursor: Cursor;
     history: History;
@@ -24,10 +27,10 @@ declare class Editor {
     elementManager: ElementManager;
     selection: SelectionManager;
     assetsManager: AssetsManager;
+    canvasView: CanvasView;
     readonly visibleSelected: Set<UID>;
     readonly operationHandlers: OperationHandlers[];
     initialized: boolean;
-    currentToolName: string;
     private readonly visibleElementMap;
     constructor({ container, elements, assets, events, config, }: {
         container: HTMLDivElement;

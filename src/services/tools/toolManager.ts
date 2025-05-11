@@ -31,17 +31,11 @@ class ToolManager {
 
     this.editor = editor
 
-    container.addEventListener('mousedown', handleMouseDown.bind(this), {
-      signal,
-      passive: false,
-    })
-    container.addEventListener('mouseup', handleMouseUp.bind(this), {signal})
     window.addEventListener('keydown', handleKeyDown.bind(this), {signal})
     window.addEventListener('keyup', handleKeyUp.bind(this), {signal})
-    window.addEventListener('wheel', handleWheel.bind(this), {
-      signal,
-      passive: false,
-    })
+    window.addEventListener('wheel', handleWheel.bind(this), {signal, passive: false})
+    container.addEventListener('mousedown', handleMouseDown.bind(this), {signal, passive: false})
+    container.addEventListener('mouseup', handleMouseUp.bind(this), {signal})
     container.addEventListener('pointermove', handlePointerMove.bind(this), {signal})
     container.addEventListener('contextmenu', handleContextMenu.bind(this), {signal})
   }

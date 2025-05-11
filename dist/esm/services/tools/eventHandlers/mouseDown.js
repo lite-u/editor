@@ -1,6 +1,6 @@
 function handleMouseDown(e) {
     const { clientY, target, button, clientX } = e;
-    if (!(target === this.editor.wrapper))
+    if (!(target === this.editor.container))
         return;
     const x = clientX - this.editor.viewport.rect.x;
     const y = clientY - this.editor.viewport.rect.y;

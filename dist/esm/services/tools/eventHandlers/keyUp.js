@@ -2,8 +2,9 @@ import { applyResize } from './funcs.js';
 // import {updateSelectionBox} from "../domManipulations.ts"
 function handleKeyUp(e) {
     if (e.code === 'Space') {
-        this.viewport.spaceKeyDown = false;
-        this.viewport.wrapper.style.cursor = 'default';
+        this.spaceKeyDown = false;
+        // this.editor.cursor.set('default')
+        // this.viewport.wrapper.style.cursor = 'default'
     }
     if (this.manipulationStatus === 'resizing') {
         const { altKey, shiftKey } = e;

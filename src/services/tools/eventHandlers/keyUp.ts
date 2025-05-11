@@ -1,4 +1,3 @@
-import Editor from '../../../main/editor'
 import {applyResize} from './funcs'
 import ToolManager from '~/services/tools/toolManager'
 
@@ -6,8 +5,9 @@ import ToolManager from '~/services/tools/toolManager'
 
 function handleKeyUp(this: ToolManager, e: KeyboardEvent) {
   if (e.code === 'Space') {
-    this.viewport.spaceKeyDown = false
-    this.viewport.wrapper.style.cursor = 'default'
+    this.spaceKeyDown = false
+    // this.editor.cursor.set('default')
+    // this.viewport.wrapper.style.cursor = 'default'
   }
 
   if (this.manipulationStatus === 'resizing') {

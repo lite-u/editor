@@ -23,7 +23,7 @@ export interface ViewportData extends Size {
   scale: number
   // dx: number
   // dy: number
-  status: string
+  // status: string
 }
 
 export interface WorldInfo extends Size {

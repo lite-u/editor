@@ -1,6 +1,6 @@
 import History from '../services/history/history.js';
 import Action from '../services/actions/actions.js';
-import { generateBoundingRectFromTwoPoints, rectsOverlap } from '../core/utils.js';
+import { generateBoundingRectFromTwoPoints, rectsOverlap, throttle } from '../core/utils.js';
 import selectionRender from '../services/viewport/selectionRender.js';
 import { screenToWorld, worldToScreen } from '../core/lib.js';
 import { initEditor } from './init.js';
@@ -13,11 +13,14 @@ import ElementManager from '../services/element/ElementManager.js';
 import SelectionManager from '../services/selection/SelectionManager.js';
 import Cursor from '../services/cursor/cursor.js';
 import Viewport from '../services/viewport/Viewport.js';
+import CanvasView from '../services/canvas/CanvasView.js';
 class Editor {
     id = nid();
     config;
     container;
     events = {};
+    resizeObserver;
+    dpr;
     action;
     cursor;
     history;
@@ -26,13 +29,13 @@ class Editor {
     elementManager;
     selection;
     assetsManager;
+    canvasView;
     visibleSelected = new Set();
     operationHandlers = [];
     // toolMap: Map<string, ToolManager> = new Map()
     /*CopyDeltaX = 50*/
     /*CopyDeltaY = 100*/
     initialized = false;
-    currentToolName = 'selector';
     // private readonly snapPoints: SnapPointData[] = []
     visibleElementMap;
     constructor({ container, elements, assets = [], events = {}, config, }) {
@@ -45,9 +48,14 @@ class Editor {
         this.toolManager = new ToolManager(this);
         this.cursor = new Cursor(this);
         this.history = new History(this);
+        this.canvasView = new CanvasView(this);
         this.selection = new SelectionManager(this);
         this.assetsManager = new AssetsManager(this, assets);
         this.elementManager = new ElementManager(this);
+        this.resizeObserver = new ResizeObserver(throttle(() => {
+            // console.log('resize')
+            this.editor.action.dispatch('world-resized');
+        }, 200));
         initEditor.call(this);
         this.action.dispatch('element-add', elements);
     }

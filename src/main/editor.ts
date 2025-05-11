@@ -1,7 +1,7 @@
 import {EditorConfig, EditorExportFileType, EventHandlers} from './type'
 import History from '~/services/history/history'
 import Action from '~/services/actions/actions'
-import {generateBoundingRectFromTwoPoints, rectsOverlap} from '~/core/utils'
+import {generateBoundingRectFromTwoPoints, rectsOverlap, throttle} from '~/core/utils'
 import {OperationHandlers} from '~/services/selection/type'
 import selectionRender from '~/services/viewport/selectionRender'
 import {screenToWorld, worldToScreen} from '~/core/lib'
@@ -19,12 +19,15 @@ import ElementManager from '~/services/element/ElementManager'
 import SelectionManager from '~/services/selection/SelectionManager'
 import Cursor from '~/services/cursor/cursor'
 import Viewport from '~/services/viewport/Viewport'
+import CanvasView from '~/services/canvas/CanvasView'
 
 class Editor {
   id = nid()
   config: EditorConfig
   readonly container: HTMLDivElement
   events: EventHandlers = {}
+  resizeObserver: ResizeObserver
+  dpr: number
 
   action: Action
   cursor: Cursor
@@ -34,6 +37,7 @@ class Editor {
   elementManager: ElementManager
   selection: SelectionManager
   assetsManager: AssetsManager
+  canvasView: CanvasView
   readonly visibleSelected: Set<UID> = new Set()
   readonly operationHandlers: OperationHandlers[] = []
 
@@ -41,7 +45,6 @@ class Editor {
   /*CopyDeltaX = 50*/
   /*CopyDeltaY = 100*/
   initialized: boolean = false
-  currentToolName: string = 'selector'
   // private readonly snapPoints: SnapPointData[] = []
   private readonly visibleElementMap: ElementMap
 
@@ -62,16 +65,22 @@ class Editor {
     this.config = config
     this.events = events
     this.container = container
-
     this.action = new Action()
     this.viewport = new Viewport(this)
     this.toolManager = new ToolManager(this)
     this.cursor = new Cursor(this)
     this.history = new History(this)
+    this.canvasView = new CanvasView(this)
     this.selection = new SelectionManager(this)
     this.assetsManager = new AssetsManager(this, assets)
     this.elementManager = new ElementManager(this)
 
+    this.resizeObserver = new ResizeObserver(
+      throttle(() => {
+        // console.log('resize')
+        this.editor.action.dispatch('world-resized')
+      }, 200),
+    )
     initEditor.call(this)
 
     this.action.dispatch('element-add', elements)
