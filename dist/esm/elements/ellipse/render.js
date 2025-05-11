@@ -1,9 +1,9 @@
 function render(ctx) {
-    let { x, y, r1, r2, lineWidth, lineColor, opacity, fillColor, rotation, dashLine, gradient } = this.toJSON();
+    let { cx, cy, r1, r2, lineWidth, lineColor, opacity, fillColor, rotation, dashLine, gradient } = this.toJSON();
     // Save current context state to avoid transformations affecting other drawings
     ctx.save();
     // Move context to the circle's center
-    ctx.translate(x, y);
+    ctx.translate(cx, cy);
     // Apply rotation if needed
     if (rotation !== 0) {
         ctx.rotate(rotation * Math.PI / 180); // Convert to radians
