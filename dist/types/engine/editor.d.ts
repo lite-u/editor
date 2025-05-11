@@ -1,0 +1,101 @@
+import { EditorConfig, EventHandlers } from './type';
+import History from './history/history';
+import Action from './actions/actions';
+import { OperationHandlers, ResizeHandler, SelectionActionMode } from './selection/type';
+import { Viewport, ViewportManipulationType } from './viewport/type';
+import AssetsManager, { VisionEditorAssetType } from './assetsManager/AssetsManager';
+import { ModuleInstance, ModuleMap, ModuleProps } from '~/elements/elements';
+import { UID } from '~/core/core';
+import { Tool } from '~/engine/tools/tool';
+import { Point, VisionEventType } from '~/type';
+declare class Editor {
+    id: string;
+    config: EditorConfig;
+    readonly moduleMap: ModuleMap;
+    readonly action: Action;
+    readonly container: HTMLDivElement;
+    events: EventHandlers;
+    history: History;
+    viewport: Viewport;
+    readonly selectedModules: Set<UID>;
+    readonly visibleSelected: Set<UID>;
+    readonly operationHandlers: OperationHandlers[];
+    assetsManager: AssetsManager;
+    copiedItems: ModuleProps[];
+    hoveredModule: UID | null;
+    draggingModules: Set<UID>;
+    _selectingModules: Set<UID>;
+    _deselection: UID | null;
+    _resizingOperator: ResizeHandler | null;
+    _rotatingOperator: OperationHandlers | null;
+    selectedShadow: Set<UID>;
+    manipulationStatus: ViewportManipulationType;
+    toolMap: Map<string, Tool>;
+    CopyDeltaX: number;
+    CopyDeltaY: number;
+    initialized: boolean;
+    currentToolName: string;
+    private readonly visibleModuleMap;
+    constructor({ container, elements, assets, events, config, }: {
+        container: HTMLDivElement;
+        assets: VisionEditorAssetType[];
+        elements: ModuleProps[];
+        events?: EventHandlers;
+        config: EditorConfig;
+    });
+    get getVisibleModuleMap(): ModuleMap;
+    get getVisibleSelected(): Set<string>;
+    get getVisibleSelectedModuleMap(): ModuleMap;
+    get getSelected(): Set<UID>;
+    get getMaxLayerIndex(): number;
+    get getSelectedPropsIfUnique(): ModuleProps | null;
+    batchCreate(moduleDataList: ModuleProps[]): ModuleMap;
+    batchAdd(modules: ModuleMap, callback?: any): ModuleMap;
+    batchCopy(from: Set<UID>, includeIdentifiers?: boolean): ModuleProps[];
+    batchDelete(from: Set<UID>): ModuleProps[];
+    batchMove(from: Set<UID>, delta: Point): void;
+    batchModify(idSet: Set<UID>, data: Partial<ModuleProps>): void;
+    getModulesByIdSet(idSet: Set<UID>): ModuleMap;
+    getModuleList(): ModuleInstance[];
+    updateVisibleModuleMap(): void;
+    updateVisibleSelected(): void;
+    createElement(props: any): ModuleInstance;
+    modifySelected(idSet: Set<UID>, action: SelectionActionMode): void;
+    addSelected(idSet: Set<UID>): void;
+    deleteSelected(idSet: Set<UID>): void;
+    toggleSelected(idSet: Set<UID>): void;
+    replaceSelected(idSet: Set<UID>): void;
+    selectAll(): void;
+    updateCopiedItemsDelta(): void;
+    execute(type: VisionEventType, data?: unknown): void;
+    renderModules(): void;
+    printOut(ctx: CanvasRenderingContext2D): void;
+    export(): {
+        elements: ModuleProps[];
+        assets: never[];
+        config: {
+            offset: {
+                x: number;
+                y: number;
+            };
+        };
+    };
+    renderSelections(): void;
+    updateWorldRect(): void;
+    zoom(zoom: number, point?: Point): {
+        x: number;
+        y: number;
+    };
+    updateScrollBar(): void;
+    updateViewport(): void;
+    getWorldPointByViewportPoint(x: number, y: number): {
+        x: number;
+        y: number;
+    };
+    getViewPointByWorldPoint(x: number, y: number): {
+        x: number;
+        y: number;
+    };
+    destroy(): void;
+}
+export default Editor;

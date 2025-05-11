@@ -1,0 +1,10 @@
+import Editor from './engine/editor';
+import convertUnit from './core/converter';
+import nid from './core/nid';
+export { Editor, nid, convertUnit };
+export declare enum Unit {
+    MM = "mm",
+    INCHES = "inches",
+    PX = "px",
+    CM = "cm"
+}
