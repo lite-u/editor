@@ -1,22 +1,22 @@
 import {ResizeHandleName} from '~/engine/selection/type'
 import {Point} from '~/type'
 import {getResizeTransform} from '~/core/lib'
-import {EllipseProps} from '~/elements/ellipse/ellipse'
+import {RequiredEllipseProps} from '~/elements/ellipse/ellipse'
 
-const applyResizeTransform = ({
-                          downPoint,
-                          movePoint,
-                          moduleOrigin,
-                          rotation,
-                          handleName,
-                          scale,
-                          dpr,
-                          altKey = false,
-                          shiftKey = false,
-                        }: {
+const transform = ({
+                     downPoint,
+                     movePoint,
+                     moduleOrigin,
+                     rotation,
+                     handleName,
+                     scale,
+                     dpr,
+                     altKey = false,
+                     shiftKey = false,
+                   }: {
   downPoint: { x: number; y: number };
   movePoint: { x: number; y: number };
-  moduleOrigin: EllipseProps
+  moduleOrigin: RequiredEllipseProps
   rotation: number;
   handleName: ResizeHandleName;
   scale: number;
@@ -100,6 +100,5 @@ const applyResizeTransform = ({
   console.log()
   return {x, y, r1: width / 2, r2: height / 2}
 }
-
 
 export default transform

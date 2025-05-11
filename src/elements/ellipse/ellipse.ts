@@ -1,6 +1,5 @@
 import {generateBoundingRectFromRotatedRect} from '~/core/utils'
 import Shape, {ShapeProps} from '../shape/shape'
-import {SnapPointData} from '~/engine/type'
 import Rectangle from '../rectangle/rectangle'
 import {ResizeHandleName} from '~/engine/selection/type'
 import {Point} from '~/type'
@@ -8,6 +7,8 @@ import render from './render'
 import transform from './transform'
 
 export interface EllipseProps extends ShapeProps {
+  id: string
+  layer: number
   type?: 'ellipse'
   r1: number
   r2: number
@@ -17,6 +18,8 @@ export type RequiredEllipseProps = Required<EllipseProps>
 
 class Ellipse extends Shape {
   readonly type = 'ellipse'
+  id: string
+  layer: number
   // horizontal
   r1: number
   // vertical
@@ -25,10 +28,13 @@ class Ellipse extends Shape {
   constructor({
                 r1,
                 r2,
+                id,
+                layer,
                 ...rest
               }: EllipseProps) {
     super(rest)
-
+    this.id = id
+    this.layer = layer
     this.r1 = r1!
     this.r2 = r2!
   }
@@ -36,7 +42,7 @@ class Ellipse extends Shape {
   static applyResizeTransform = (props: {
     downPoint: { x: number; y: number };
     movePoint: { x: number; y: number };
-    moduleOrigin: EllipseProps
+    moduleOrigin: RequiredEllipseProps
     rotation: number;
     handleName: ResizeHandleName;
     scale: number;
@@ -77,7 +83,9 @@ class Ellipse extends Shape {
   public toMinimalJSON(): EllipseProps {
     return {
       ...super.toMinimalJSON(),
-      type: 'ellipse',
+      id: this.id,
+      type: this.type,
+      layer: this.layer,
       r1: this.r1,
       r2: this.r2,
     }
@@ -86,7 +94,9 @@ class Ellipse extends Shape {
   public toJSON(): RequiredEllipseProps {
     return {
       ...super.toJSON(),
-      type: 'ellipse',
+      id: this.id,
+      type: this.type,
+      layer: this.layer,
       r1: this.r1,
       r2: this.r2,
     }
@@ -104,15 +114,18 @@ class Ellipse extends Shape {
   }
 
   public getSelectedBoxModule(lineWidth: number, lineColor: string): Rectangle {
-    const {id, rotation, layer} = this
-
+    // const {id, rotation, layer} = this.toJSON()
+    const rect = this.getBoundingRect()
     const rectProp = {
-      ...this.getRect(),
+      cx: rect.cx,
+      cy: rect.cy,
+      width: rect.width,
+      height: rect.height,
       lineColor,
       lineWidth,
-      rotation,
-      layer,
-      id: id + '-selected-box',
+      rotation: this.rotation,
+      layer: this.layer,
+      id: this.id + '-selected-box',
       opacity: 0,
     }
 
@@ -141,27 +154,28 @@ class Ellipse extends Shape {
     resizeConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
     rotateConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
   ) {
-    return super.getOperators(id, resizeConfig, rotateConfig, this.getRect(), this.toMinimalJSON(true),
+    return super.getOperators(id, resizeConfig, rotateConfig, this.getBoundingRect(), this.toMinimalJSON(),
     )
   }
 
-  public getSnapPoints(): SnapPointData[] {
-    const {cx: cx, cy: cy, r1, r2} = this
+  /*
+    public getSnapPoints(): SnapPointData[] {
+      const {cx: cx, cy: cy, r1, r2} = this
 
-    // Define snap points: center, cardinal edge points (top, right, bottom, left)
-    const points: SnapPointData[] = [
-      {id, x: cx, y: cy, type: 'center'},
-      {id, x: cx, y: cy - r2, type: 'edge-top'},
-      {id, x: cx + r1, y: cy, type: 'edge-right'},
-      {id, x: cx, y: cy + r2, type: 'edge-bottom'},
-      {id, x: cx - r1, y: cy, type: 'edge-left'},
-    ]
+      // Define snap points: center, cardinal edge points (top, right, bottom, left)
+      const points: SnapPointData[] = [
+        {id, x: cx, y: cy, type: 'center'},
+        {id, x: cx, y: cy - r2, type: 'edge-top'},
+        {id, x: cx + r1, y: cy, type: 'edge-right'},
+        {id, x: cx, y: cy + r2, type: 'edge-bottom'},
+        {id, x: cx - r1, y: cy, type: 'edge-left'},
+      ]
 
-    return points
-  }
+      return points
+    }*/
 
   render(ctx: CanvasRenderingContext2D) {
-    render(this, ctx)
+    render.call(this, ctx)
   }
 }
 

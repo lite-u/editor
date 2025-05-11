@@ -1,14 +1,14 @@
 import Ellipse from './ellipse'
 
 function render(this: Ellipse, ctx: CanvasRenderingContext2D): void {
-  let {x, y, r1, r2,  lineWidth,
+  let {cx, cy, r1, r2,  lineWidth,
     lineColor, opacity, fillColor, rotation, dashLine, gradient} = this.toJSON()
 
 
   // Save current context state to avoid transformations affecting other drawings
   ctx.save()
   // Move context to the circle's center
-  ctx.translate(x, y)
+  ctx.translate(cx, cy)
 
   // Apply rotation if needed
   if (rotation !== 0) {
