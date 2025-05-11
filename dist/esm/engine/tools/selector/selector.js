@@ -246,8 +246,8 @@ const selection = {
                                     const change = {
                                         id,
                                         props: {
-                                            x: module.x + x,
-                                            y: module.y + y,
+                                            x: module.cx + x,
+                                            y: module.cy + y,
                                         },
                                     };
                                     changes.push(change);

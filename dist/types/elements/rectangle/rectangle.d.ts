@@ -25,22 +25,11 @@ declare class Rectangle extends Shape {
     static applyResizeTransform: (arg: TransformProps) => Rect;
     hitTest(point: Point, borderPadding?: number): 'inside' | 'border' | null;
     toJSON(): RequiredRectangleProps;
-    toMinimalJSON(): RectangleProps;
+    toMinimalJSON(): TypedRectangleProps;
     getRect(): CenterBasedRect;
     getBoundingRect(): import("~/type").BoundingRect;
     getSelectedBoxModule(lineWidth: number, lineColor: string): Rectangle;
     getHighlightModule(lineWidth: number, lineColor: string): ModuleInstance;
-    getOperators(id: string, resizeConfig: {
-        lineWidth: number;
-        lineColor: string;
-        size: number;
-        fillColor: string;
-    }, rotateConfig: {
-        lineWidth: number;
-        lineColor: string;
-        size: number;
-        fillColor: string;
-    }): import("../../engine/selection/type").OperationHandlers[];
     getSnapPoints(): SnapPointData[];
     render(ctx: CanvasRenderingContext2D): void;
 }

@@ -31,8 +31,8 @@ function transform(
   const {
     width: initialWidth,
     height: initialHeight,
-    x: initialCX,
-    y: initialCY,
+    cx: initialCX,
+    cy: initialCY,
   } = moduleOrigin
   // Calculate raw movement in screen coordinates
   const dxScreen = movePoint.x - downPoint.x

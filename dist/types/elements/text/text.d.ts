@@ -24,18 +24,54 @@ declare class ElementText extends Rectangle {
     throughLine: boolean;
     lineHeight: number;
     constructor({ textColor, content, font, fontSize, alignment, bold, italics, underlines, throughLine, lineHeight, ...rest }: Omit<TextProps, 'type'>);
-    toMinimalJSON<T extends boolean>(includeIdentifiers?: T): T extends true ? RectangleProps : Omit<RectangleProps, 'id' & 'layer'>;
-    getOperators(resizeConfig: {
-        lineWidth: number;
-        lineColor: string;
-        size: number;
-        fillColor: string;
-    }, rotateConfig: {
-        lineWidth: number;
-        lineColor: string;
-        size: number;
-        fillColor: string;
-    }): import("../../engine/selection/type").OperationHandlers[];
+    toJSON(): {
+        id: string;
+        layer: number;
+        width?: number;
+        height?: number;
+        radius?: number;
+        cx?: number;
+        cy?: number;
+        enableGradient?: boolean;
+        gradient?: string;
+        enableFill?: boolean;
+        fillColor?: import("../../type").ElementFillColor;
+        dashLine?: string;
+        enableLine?: boolean;
+        lineColor?: CanvasRenderingContext2D["strokeStyle"];
+        lineWidth?: CanvasRenderingContext2D["lineWidth"];
+        opacity?: CanvasRenderingContext2D["globalAlpha"];
+        enableShadow?: boolean;
+        shadow?: string;
+        rotation?: number;
+        type?: "rectangle";
+        content: string;
+        textColor: string;
+    };
+    toMinimalJSON(): {
+        content: string;
+        textColor: string;
+        id: string;
+        layer: number;
+        width?: number;
+        height?: number;
+        radius?: number;
+        cx?: number;
+        cy?: number;
+        enableGradient?: boolean;
+        gradient?: string;
+        enableFill?: boolean;
+        fillColor?: import("../../type").ElementFillColor;
+        dashLine?: string;
+        enableLine?: boolean;
+        lineColor?: CanvasRenderingContext2D["strokeStyle"];
+        lineWidth?: CanvasRenderingContext2D["lineWidth"];
+        opacity?: CanvasRenderingContext2D["globalAlpha"];
+        enableShadow?: boolean;
+        shadow?: string;
+        rotation?: number;
+        type?: "rectangle";
+    };
     render(ctx: CanvasRenderingContext2D): void;
 }
 export default ElementText;

@@ -16,8 +16,8 @@ declare class ElementImage extends Rectangle {
         width?: number;
         height?: number;
         radius?: number;
-        x?: number;
-        y?: number;
+        cx?: number;
+        cy?: number;
         enableGradient?: boolean;
         gradient?: string;
         enableFill?: boolean;
@@ -30,6 +30,7 @@ declare class ElementImage extends Rectangle {
         enableShadow?: boolean;
         shadow?: string;
         rotation?: number;
+        type?: "rectangle";
     };
     getOperators(id: string, resizeConfig: {
         lineWidth: number;

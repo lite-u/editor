@@ -53,21 +53,29 @@ class ElementText extends Rectangle {
     this.lineHeight = lineHeight
   }
 
-  public toMinimalJSON<T extends boolean>(includeIdentifiers: T = true as T): T extends true ? RectangleProps : Omit<RectangleProps, 'id' & 'layer'> {
+  public toJSON(){
     return {
       content: this.content,
       textColor: this.textColor,
-      ...super.toMinimalJSON(includeIdentifiers),
-    } as T extends true ? RectangleProps : Omit<RectangleProps, 'id' & 'layer'>
+      ...super.toMinimalJSON(),
+    }
   }
 
-  public getOperators(
-    resizeConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
-    rotateConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
-  ) {
-
-    return super.getOperators(resizeConfig, rotateConfig, this.getRect(), this.toMinimalJSON(true))
+  public toMinimalJSON() {
+    return {
+      ...super.toMinimalJSON(),
+      content: this.content,
+      textColor: this.textColor,
+    }
   }
+
+  /*  public getOperators(
+      resizeConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
+      rotateConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
+    ) {
+
+      return super.getOperators(resizeConfig, rotateConfig, this.getRect(), this.toMinimalJSON(true))
+    }*/
 
   render(ctx: CanvasRenderingContext2D): void {
     const {
@@ -78,7 +86,7 @@ class ElementText extends Rectangle {
       // height,
       // radius,
     } = this
-    let {content, alignment, textColor, x, y, width, height, rotation, opacity} = this
+    let {content, alignment, textColor, cx, cy, width, height, rotation, opacity} = this
     // x = Math.round(x)
     // y = Math.round(y)
     // width = Math.round(width)
@@ -91,7 +99,7 @@ class ElementText extends Rectangle {
     ctx.save()
 
     // Move context to the rectangle's center (Direct center point at x, y)
-    ctx.translate(x, y)
+    ctx.translate(cx, cy)
 
     // Apply rotation if needed
     if (rotation! > 0) {

@@ -262,8 +262,8 @@ export function initEditor() {
                 changes.push({
                     id,
                     props: {
-                        x: module.x + delta.x,
-                        y: module.y + delta.y,
+                        x: module.cx + delta.x,
+                        y: module.cy + delta.y,
                     },
                 });
             }

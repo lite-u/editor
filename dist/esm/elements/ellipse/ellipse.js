@@ -13,7 +13,7 @@ class Ellipse extends Shape {
         this.r2 = r2;
     }
     static applyResizeTransform = ({ downPoint, movePoint, moduleOrigin, rotation, handleName, scale, dpr, altKey = false, shiftKey = false, }) => {
-        const { r1, r2, x: initialCX, y: initialCY, } = moduleOrigin;
+        const { r1, r2, cx: initialCX, cy: initialCY, } = moduleOrigin;
         const initialWidth = r1 * 2;
         const initialHeight = r2 * 2;
         // Calculate raw movement in screen coordinates
@@ -74,7 +74,7 @@ class Ellipse extends Shape {
         return { x, y, r1: width / 2, r2: height / 2 };
     };
     hitTest(point, borderPadding = 5) {
-        const { x: cx, y: cy, r1, r2, rotation = 0 } = this;
+        const { cx: cx, cy: cy, r1, r2, rotation = 0 } = this;
         const cos = Math.cos(-rotation);
         const sin = Math.sin(-rotation);
         const dx = point.x - cx;
@@ -103,7 +103,7 @@ class Ellipse extends Shape {
         };
     }
     getBoundingRect() {
-        const { x: cx, y: cy, r1, r2, rotation } = this;
+        const { cx: cx, cy: cy, r1, r2, rotation } = this;
         return generateBoundingRectFromRotatedRect({
             x: cx - r1,
             y: cy - r2,
@@ -112,10 +112,10 @@ class Ellipse extends Shape {
         }, rotation);
     }
     getRect() {
-        const { x, y, r1, r2 } = this;
+        const { cx, cy, r1, r2 } = this;
         return {
-            x,
-            y,
+            cx: cx,
+            cy: cy,
             width: r1 * 2,
             height: r2 * 2,
         };
@@ -134,10 +134,10 @@ class Ellipse extends Shape {
         return new Rectangle(rectProp);
     }
     getHighlightModule(lineWidth, lineColor) {
-        const { x, y, r1, r2, rotation, layer, id } = this;
+        const { cx, cy, r1, r2, rotation, layer, id } = this;
         return new Ellipse({
-            x,
-            y,
+            cx: cx,
+            cy: cy,
             r1,
             r2,
             lineColor,
@@ -152,7 +152,7 @@ class Ellipse extends Shape {
         return super.getOperators(id, resizeConfig, rotateConfig, this.getRect(), this.toMinimalJSON(true));
     }
     getSnapPoints() {
-        const { x: cx, y: cy, r1, r2 } = this;
+        const { cx: cx, cy: cy, r1, r2 } = this;
         // Define snap points: center, cardinal edge points (top, right, bottom, left)
         const points = [
             { id, x: cx, y: cy, type: 'center' },

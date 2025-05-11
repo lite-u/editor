@@ -1,7 +1,7 @@
 import ElementImage from '~/elements/image/image'
 
 function renderer(this: ElementImage, ctx: CanvasRenderingContext2D, img: HTMLImageElement): void {
-  let {x, y, width, height, rotation, opacity} = this.toJSON()
+  let {cx, cy, width, height, rotation, opacity} = this.toJSON()
   // x = Math.round(x)
   // y = Math.round(y)
   // width = Math.round(width)
@@ -14,7 +14,7 @@ function renderer(this: ElementImage, ctx: CanvasRenderingContext2D, img: HTMLIm
   ctx.save()
 
   // Move context to the rectangle's center (Direct center point at x, y)
-  ctx.translate(x, y)
+  ctx.translate(cx, cy)
 
   // Apply rotation if needed
   if (rotation! > 0) {

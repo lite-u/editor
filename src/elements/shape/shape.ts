@@ -4,12 +4,12 @@ import {OperationHandlers} from '~/engine/selection/type'
 import {rotatePoint} from '~/core/lib'
 import Rectangle, {RectangleProps} from '../rectangle/rectangle'
 import {ElementFillColor} from '~/core/core'
-import {BoundingRect, CenterBasedRect} from '~/type'
+import {BoundingRect} from '~/type'
 import {ModuleProps} from '../elements'
 
 export interface ShapeCreationProps extends ElementBaseProps {
-  x?: number
-  y?: number
+  cx?: number
+  cy?: number
   enableGradient?: boolean
   gradient?: string
   enableFill?: boolean
@@ -19,8 +19,8 @@ export interface ShapeCreationProps extends ElementBaseProps {
 
 export type RequiredShapeProps = Required<ShapeCreationProps>
 
-const DEFAULT_X = 0
-const DEFAULT_Y = 0
+const DEFAULT_CX = 0
+const DEFAULT_CY = 0
 const DEFAULT_ENABLE_GRADIENT = false
 const DEFAULT_GRADIENT = ''
 const DEFAULT_ENABLE_FILL = true
@@ -28,8 +28,8 @@ const DEFAULT_FILL_COLOR = '#fff'
 const DEFAULT_DASH_LINE = ''
 
 class Shape extends Base {
-  public x: number
-  public y: number
+  public cx: number
+  public cy: number
   readonly fillColor: ElementFillColor
   readonly enableFill: boolean
   enableGradient: boolean
@@ -37,8 +37,8 @@ class Shape extends Base {
   dashLine: string
 
   constructor({
-                x = DEFAULT_X,
-                y = DEFAULT_Y,
+                cx = DEFAULT_CX,
+                cy = DEFAULT_CY,
                 enableGradient = DEFAULT_ENABLE_GRADIENT,
                 gradient = DEFAULT_GRADIENT,
                 enableFill = DEFAULT_ENABLE_FILL,
@@ -48,9 +48,9 @@ class Shape extends Base {
               }: ShapeCreationProps) {
     super(rest)
 
-    this.x = x
-    this.y = y
-    this.fillColor = fillColor as ElementFillColor
+    this.cx = cx
+    this.cy = cy
+    this.fillColor = fillColor
     this.enableFill = enableFill
     this.enableGradient = enableGradient
     this.gradient = gradient
@@ -59,8 +59,8 @@ class Shape extends Base {
 
   protected toJSON(): RequiredShapeProps {
     const {
-      x,
-      y,
+      cx,
+      cy,
       fillColor,
       enableFill,
       enableGradient,
@@ -70,8 +70,8 @@ class Shape extends Base {
 
     return {
       ...super.toJSON(),
-      x,
-      y,
+      cx,
+      cy,
       fillColor,
       enableFill,
       enableGradient,
@@ -86,12 +86,12 @@ class Shape extends Base {
       ...super.toMinimalJSON(),
     }
 
-    if (this.x === DEFAULT_X) {
-      result.x = this.x
+    if (this.cx === DEFAULT_CX) {
+      result.cx = this.cx
     }
 
-    if (this.y === DEFAULT_Y) {
-      result.y = this.y
+    if (this.cy === DEFAULT_CY) {
+      result.cy = this.cy
     }
 
     if (this.enableGradient === DEFAULT_ENABLE_GRADIENT) {
@@ -118,15 +118,15 @@ class Shape extends Base {
   }
 
   move(x: number, y: number) {
-    this.x += x
-    this.y += y
+    this.cx += x
+    this.cy += y
   }
 
   public getOperators(
     id: string,
     resizeConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
     rotateConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
-    boundingRect: CenterBasedRect,
+    boundingRect: BoundingRect,
     moduleOrigin: ModuleProps,
   ): OperationHandlers[] {
     const {x: cx, y: cy, width, height} = boundingRect
@@ -155,8 +155,8 @@ class Shape extends Base {
         const rotated = rotatePoint(currentCenterX, currentCenterY, cx, cy, rotation)
         // cursor = getCursor(rotated.x, rotated.y, cx, cy, rotation)
         currentModuleProps.id = index + '-resize'
-        currentModuleProps.x = rotated.x
-        currentModuleProps.y = rotated.y
+        currentModuleProps.cx = rotated.x
+        currentModuleProps.cy = rotated.y
         currentModuleProps.width = resizeConfig.size
         currentModuleProps.height = resizeConfig.size
         currentModuleProps.lineWidth = resizeConfig.lineWidth
@@ -174,8 +174,8 @@ class Shape extends Base {
         )
 
         currentModuleProps.id = index + '-rotate'
-        currentModuleProps.x = rotated.x
-        currentModuleProps.y = rotated.y
+        currentModuleProps.cx = rotated.x
+        currentModuleProps.cy = rotated.y
         currentModuleProps.width = rotateConfig.size
         currentModuleProps.height = rotateConfig.size
         currentModuleProps.lineWidth = rotateConfig.lineWidth

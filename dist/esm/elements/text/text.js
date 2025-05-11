@@ -24,19 +24,30 @@ class ElementText extends Rectangle {
         this.throughLine = throughLine;
         this.lineHeight = lineHeight;
     }
-    toMinimalJSON(includeIdentifiers = true) {
+    toJSON() {
         return {
             content: this.content,
             textColor: this.textColor,
-            ...super.toMinimalJSON(includeIdentifiers),
+            ...super.toMinimalJSON(),
         };
     }
-    getOperators(resizeConfig, rotateConfig) {
-        return super.getOperators(resizeConfig, rotateConfig, this.getRect(), this.toMinimalJSON(true));
+    toMinimalJSON() {
+        return {
+            ...super.toMinimalJSON(),
+            content: this.content,
+            textColor: this.textColor,
+        };
     }
+    /*  public getOperators(
+        resizeConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
+        rotateConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
+      ) {
+  
+        return super.getOperators(resizeConfig, rotateConfig, this.getRect(), this.toMinimalJSON(true))
+      }*/
     render(ctx) {
         const {} = this;
-        let { content, alignment, textColor, x, y, width, height, rotation, opacity } = this;
+        let { content, alignment, textColor, cx, cy, width, height, rotation, opacity } = this;
         // x = Math.round(x)
         // y = Math.round(y)
         // width = Math.round(width)
@@ -47,7 +58,7 @@ class ElementText extends Rectangle {
         // Save current context state to avoid transformations affecting other drawings
         ctx.save();
         // Move context to the rectangle's center (Direct center point at x, y)
-        ctx.translate(x, y);
+        ctx.translate(cx, cy);
         // Apply rotation if needed
         if (rotation > 0) {
             ctx.rotate(rotation * Math.PI / 180);

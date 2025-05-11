@@ -1,7 +1,7 @@
 import Rectangle from './rectangle'
 
 function renderer(rect: Rectangle, ctx: CanvasRenderingContext2D): void {
-  let {x, y, width, height, rotation, opacity, fillColor, lineWidth, lineColor, dashLine,radius} = rect.toJSON()
+  let {cx, cy, width, height, rotation, opacity, fillColor, lineWidth, lineColor, dashLine,radius} = rect.toJSON()
 
   // x = Math.round(x)
   // y = Math.round(y)
@@ -15,7 +15,7 @@ function renderer(rect: Rectangle, ctx: CanvasRenderingContext2D): void {
   ctx.save()
 
   // Move context to the rectangle's center (Direct center point at x, y)
-  ctx.translate(x, y)
+  ctx.translate(cx, cy)
 
   // Apply rotation if needed
   if (rotation! > 0) {

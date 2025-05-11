@@ -298,8 +298,8 @@ const selection: Tool = {
                 const change: ModuleModifyData = {
                   id,
                   props: {
-                    x: module.x + x,
-                    y: module.y + y,
+                    x: module.cx + x,
+                    y: module.cy + y,
                   },
                 }
 

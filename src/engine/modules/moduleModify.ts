@@ -124,8 +124,8 @@ export function batchMove(this: Editor, from: Set<UID>, delta: Point) {
   const modulesMap: ModuleMap = this.getModulesByIdSet(from)
 
   modulesMap.forEach((module: ModuleInstance) => {
-    module.x += delta.x
-    module.y += delta.y
+    module.cx += delta.x
+    module.cy += delta.y
   })
 }
 

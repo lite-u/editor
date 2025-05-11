@@ -28,7 +28,7 @@ class Rectangle extends Shape {
         return transform(arg);
     };
     hitTest(point, borderPadding = 5) {
-        const { x: cx, y: cy, width, height, rotation = 0 } = this;
+        const { cx: cx, cy: cy, width, height, rotation = 0 } = this;
         const rad = rotation * (Math.PI / 180);
         const cos = Math.cos(-rad);
         const sin = Math.sin(-rad);
@@ -85,16 +85,16 @@ class Rectangle extends Shape {
         return result;
     }
     getRect() {
-        const { x, y, width, height } = this;
+        const { cx, cy, width, height } = this;
         return {
-            x,
-            y,
+            cx,
+            cy,
             width,
             height,
         };
     }
     getBoundingRect() {
-        const { x: cx, y: cy, width, height, rotation } = this;
+        const { cx, cy, width, height, rotation } = this;
         const x = cx - width / 2;
         const y = cy - height / 2;
         if (rotation === 0) {
@@ -128,10 +128,10 @@ class Rectangle extends Shape {
         return new Rectangle(rectProp);
     }
     getHighlightModule(lineWidth, lineColor) {
-        const { x, y, width, height, rotation, layer, id } = this;
+        const { cx, cy, width, height, rotation, layer, id } = this;
         return new Rectangle({
-            x,
-            y,
+            cx: cx,
+            cy: cy,
             width,
             height,
             // fillColor,
@@ -143,11 +143,16 @@ class Rectangle extends Shape {
             opacity: 0,
         });
     }
-    getOperators(id, resizeConfig, rotateConfig) {
-        return super.getOperators(id, resizeConfig, rotateConfig, this.getRect(), this.toJSON());
-    }
+    /*  public getOperators(
+        id: string,
+        resizeConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
+        rotateConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
+      ) {
+    
+        return super.getOperators(id, resizeConfig, rotateConfig, this.getRect(), this.toJSON())
+      }*/
     getSnapPoints() {
-        const { x: cx, y: cy, width, height, id } = this;
+        const { cx: cx, cy: cy, width, height, id } = this;
         const halfWidth = width / 2;
         const halfHeight = height / 2;
         // Define basic snap points: center, corners, and edge centers

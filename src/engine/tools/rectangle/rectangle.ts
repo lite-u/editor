@@ -27,8 +27,8 @@ const rectangle: Tool = {
       fillColor: '#fff',
       lineWidth: 1,
       opacity: 100,
-      x: cx - width / 2,
-      y: cy - height / 2,
+      cx: cx - width / 2,
+      cy: cy - height / 2,
       width,
       height,
     }
@@ -127,8 +127,8 @@ const rectangle: Tool = {
                 const change: ModuleModifyData = {
                   id,
                   props: {
-                    x: module.x + x,
-                    y: module.y + y,
+                    x: module.cx + x,
+                    y: module.cy + y,
                   },
                 }
 

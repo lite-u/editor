@@ -2,25 +2,25 @@ import Base from '../base/base.js';
 import { HANDLER_OFFSETS } from '../handleBasics.js';
 import { rotatePoint } from '../../core/lib.js';
 import Rectangle from '../rectangle/rectangle.js';
-const DEFAULT_X = 0;
-const DEFAULT_Y = 0;
+const DEFAULT_CX = 0;
+const DEFAULT_CY = 0;
 const DEFAULT_ENABLE_GRADIENT = false;
 const DEFAULT_GRADIENT = '';
 const DEFAULT_ENABLE_FILL = true;
 const DEFAULT_FILL_COLOR = '#fff';
 const DEFAULT_DASH_LINE = '';
 class Shape extends Base {
-    x;
-    y;
+    cx;
+    cy;
     fillColor;
     enableFill;
     enableGradient;
     gradient;
     dashLine;
-    constructor({ x = DEFAULT_X, y = DEFAULT_Y, enableGradient = DEFAULT_ENABLE_GRADIENT, gradient = DEFAULT_GRADIENT, enableFill = DEFAULT_ENABLE_FILL, fillColor = DEFAULT_FILL_COLOR, dashLine = DEFAULT_DASH_LINE, ...rest }) {
+    constructor({ cx = DEFAULT_CX, cy = DEFAULT_CY, enableGradient = DEFAULT_ENABLE_GRADIENT, gradient = DEFAULT_GRADIENT, enableFill = DEFAULT_ENABLE_FILL, fillColor = DEFAULT_FILL_COLOR, dashLine = DEFAULT_DASH_LINE, ...rest }) {
         super(rest);
-        this.x = x;
-        this.y = y;
+        this.cx = cx;
+        this.cy = cy;
         this.fillColor = fillColor;
         this.enableFill = enableFill;
         this.enableGradient = enableGradient;
@@ -28,11 +28,11 @@ class Shape extends Base {
         this.dashLine = dashLine;
     }
     toJSON() {
-        const { x, y, fillColor, enableFill, enableGradient, gradient, dashLine, } = this;
+        const { cx, cy, fillColor, enableFill, enableGradient, gradient, dashLine, } = this;
         return {
             ...super.toJSON(),
-            x,
-            y,
+            cx,
+            cy,
             fillColor,
             enableFill,
             enableGradient,
@@ -44,11 +44,11 @@ class Shape extends Base {
         const result = {
             ...super.toMinimalJSON(),
         };
-        if (this.x === DEFAULT_X) {
-            result.x = this.x;
+        if (this.cx === DEFAULT_CX) {
+            result.cx = this.cx;
         }
-        if (this.y === DEFAULT_Y) {
-            result.y = this.y;
+        if (this.cy === DEFAULT_CY) {
+            result.cy = this.cy;
         }
         if (this.enableGradient === DEFAULT_ENABLE_GRADIENT) {
             result.enableGradient = this.enableGradient;
@@ -68,8 +68,8 @@ class Shape extends Base {
         return result;
     }
     move(x, y) {
-        this.x += x;
-        this.y += y;
+        this.cx += x;
+        this.cy += y;
     }
     getOperators(id, resizeConfig, rotateConfig, boundingRect, moduleOrigin) {
         const { x: cx, y: cy, width, height } = boundingRect;
@@ -95,8 +95,8 @@ class Shape extends Base {
                 const rotated = rotatePoint(currentCenterX, currentCenterY, cx, cy, rotation);
                 // cursor = getCursor(rotated.x, rotated.y, cx, cy, rotation)
                 currentModuleProps.id = index + '-resize';
-                currentModuleProps.x = rotated.x;
-                currentModuleProps.y = rotated.y;
+                currentModuleProps.cx = rotated.x;
+                currentModuleProps.cy = rotated.y;
                 currentModuleProps.width = resizeConfig.size;
                 currentModuleProps.height = resizeConfig.size;
                 currentModuleProps.lineWidth = resizeConfig.lineWidth;
@@ -108,8 +108,8 @@ class Shape extends Base {
                 const currentRotateHandlerCenterY = currentCenterY + OFFSET.offsetY * resizeConfig.lineWidth;
                 const rotated = rotatePoint(currentRotateHandlerCenterX, currentRotateHandlerCenterY, cx, cy, rotation);
                 currentModuleProps.id = index + '-rotate';
-                currentModuleProps.x = rotated.x;
-                currentModuleProps.y = rotated.y;
+                currentModuleProps.cx = rotated.x;
+                currentModuleProps.cy = rotated.y;
                 currentModuleProps.width = rotateConfig.size;
                 currentModuleProps.height = rotateConfig.size;
                 currentModuleProps.lineWidth = rotateConfig.lineWidth;

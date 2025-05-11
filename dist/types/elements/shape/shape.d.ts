@@ -1,11 +1,11 @@
 import Base, { ElementBaseProps } from '../base/base';
 import { OperationHandlers } from '~/engine/selection/type';
 import { ElementFillColor } from '~/core/core';
-import { BoundingRect, CenterBasedRect } from '~/type';
+import { BoundingRect } from '~/type';
 import { ModuleProps } from '../elements';
 export interface ShapeCreationProps extends ElementBaseProps {
-    x?: number;
-    y?: number;
+    cx?: number;
+    cy?: number;
     enableGradient?: boolean;
     gradient?: string;
     enableFill?: boolean;
@@ -14,14 +14,14 @@ export interface ShapeCreationProps extends ElementBaseProps {
 }
 export type RequiredShapeProps = Required<ShapeCreationProps>;
 declare class Shape extends Base {
-    x: number;
-    y: number;
+    cx: number;
+    cy: number;
     readonly fillColor: ElementFillColor;
     readonly enableFill: boolean;
     enableGradient: boolean;
     gradient: string;
     dashLine: string;
-    constructor({ x, y, enableGradient, gradient, enableFill, fillColor, dashLine, ...rest }: ShapeCreationProps);
+    constructor({ cx, cy, enableGradient, gradient, enableFill, fillColor, dashLine, ...rest }: ShapeCreationProps);
     protected toJSON(): RequiredShapeProps;
     toMinimalJSON(): ShapeCreationProps;
     move(x: number, y: number): void;
@@ -35,7 +35,7 @@ declare class Shape extends Base {
         lineColor: string;
         size: number;
         fillColor: string;
-    }, boundingRect: CenterBasedRect, moduleOrigin: ModuleProps): OperationHandlers[];
+    }, boundingRect: BoundingRect, moduleOrigin: ModuleProps): OperationHandlers[];
     isInsideRect(outer: BoundingRect): boolean;
 }
 export default Shape;

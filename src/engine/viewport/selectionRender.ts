@@ -31,12 +31,12 @@ function selectionRender(this: Editor) {
   // render center points
   centerPoints.forEach((id) => {
     const module = this.moduleMap.get(id)
-    const {x, y, rotation, layer} = (module as Rectangle).toMinimalJSON()
+    const {cx, cy, rotation, layer} = (module as Rectangle).toMinimalJSON()
     const lineWidth = 1 / this.viewport.scale * this.viewport.dpr
     const highlightModule = module!.getHighlightModule(lineWidth, fillColor) as ModuleInstance
     const centerDotRect = new Rectangle({
-      x,
-      y,
+      cx: cx,
+      cy: cy,
       layer,
       id: id + 'hover-center',
       width: centerPointWidth * 2,

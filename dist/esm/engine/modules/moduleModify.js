@@ -91,8 +91,8 @@ export function batchDelete(idSet) {
 export function batchMove(from, delta) {
     const modulesMap = this.getModulesByIdSet(from);
     modulesMap.forEach((module) => {
-        module.x += delta.x;
-        module.y += delta.y;
+        module.cx += delta.x;
+        module.cy += delta.y;
     });
 }
 export function batchModify(idSet, data) {

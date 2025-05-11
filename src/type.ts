@@ -13,7 +13,10 @@ export interface Point {
 }
 
 export type Rect = Size & Point
-export type CenterBasedRect = Rect
+export type CenterBasedRect = Size & {
+  cx: number;
+  cy: number;
+}
 export type BoundingRect = Size & Point & {
   top: number;
   bottom: number;

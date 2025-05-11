@@ -55,8 +55,8 @@ class Ellipse extends Shape {
     const {
       r1,
       r2,
-      x: initialCX,
-      y: initialCY,
+      cx: initialCX,
+      cy: initialCY,
     } = moduleOrigin
     const initialWidth = r1 * 2
     const initialHeight = r2 * 2
@@ -130,7 +130,7 @@ class Ellipse extends Shape {
   }
 
   public hitTest(point: Point, borderPadding = 5): 'inside' | 'border' | null {
-    const {x: cx, y: cy, r1, r2, rotation = 0} = this
+    const {cx: cx, cy: cy, r1, r2, rotation = 0} = this
 
     const cos = Math.cos(-rotation)
     const sin = Math.sin(-rotation)
@@ -173,7 +173,7 @@ class Ellipse extends Shape {
   }
 
   public getBoundingRect() {
-    const {x: cx, y: cy, r1, r2, rotation} = this
+    const {cx: cx, cy: cy, r1, r2, rotation} = this
 
     return generateBoundingRectFromRotatedRect({
       x: cx - r1,
@@ -184,11 +184,11 @@ class Ellipse extends Shape {
   }
 
   public getRect(): CenterBasedRect {
-    const {x, y, r1, r2} = this
+    const {cx, cy, r1, r2} = this
 
     return {
-      x,
-      y,
+      cx: cx,
+      cy: cy,
       width: r1 * 2,
       height: r2 * 2,
     }
@@ -211,11 +211,11 @@ class Ellipse extends Shape {
   }
 
   public getHighlightModule(lineWidth: number, lineColor: string) {
-    const {x, y, r1, r2, rotation, layer, id} = this
+    const {cx, cy, r1, r2, rotation, layer, id} = this
 
     return new Ellipse({
-      x,
-      y,
+      cx: cx,
+      cy: cy,
       r1,
       r2,
       lineColor,
@@ -237,7 +237,7 @@ class Ellipse extends Shape {
   }
 
   public getSnapPoints(): SnapPointData[] {
-    const {x: cx, y: cy, r1, r2} = this
+    const {cx: cx, cy: cy, r1, r2} = this
 
     // Define snap points: center, cardinal edge points (top, right, bottom, left)
     const points: SnapPointData[] = [

@@ -19,7 +19,6 @@ export interface RectangleProps extends ShapeCreationProps {
 export type RequiredRectangleProps = Required<RectangleProps>
 export type TypedRectangleProps = RectangleProps & {
   type?: 'rectangle'
-
 }
 
 const DEFAULT_WIDTH = 10
@@ -59,7 +58,7 @@ class Rectangle extends Shape {
   }
 
   public hitTest(point: Point, borderPadding = 5): 'inside' | 'border' | null {
-    const {x: cx, y: cy, width, height, rotation = 0} = this
+    const {cx: cx, cy: cy, width, height, rotation = 0} = this
     const rad = rotation * (Math.PI / 180)
     const cos = Math.cos(-rad)
     const sin = Math.sin(-rad)
@@ -114,8 +113,8 @@ class Rectangle extends Shape {
 
   }
 
-  public toMinimalJSON(): RectangleProps {
-    const result: RectangleProps = {
+  public toMinimalJSON(): TypedRectangleProps {
+    const result: TypedRectangleProps = {
       ...super.toMinimalJSON(),
       type: 'rectangle',
       id: this.id,
@@ -125,9 +124,11 @@ class Rectangle extends Shape {
     if (this.radius !== DEFAULT_RADIUS) {
       result.radius = this.radius
     }
+
     if (this.width !== DEFAULT_WIDTH) {
       result.width = this.width
     }
+
     if (this.height !== DEFAULT_HEIGHT) {
       result.height = this.height
     }
@@ -136,18 +137,18 @@ class Rectangle extends Shape {
   }
 
   public getRect(): CenterBasedRect {
-    const {x, y, width, height} = this
+    const {cx, cy, width, height} = this
 
     return {
-      x,
-      y,
+      cx,
+      cy,
       width,
       height,
     }
   }
 
   public getBoundingRect() {
-    const {x: cx, y: cy, width, height, rotation} = this
+    const {cx, cy, width, height, rotation} = this
 
     const x = cx - width / 2
     const y = cy - height / 2
@@ -188,10 +189,10 @@ class Rectangle extends Shape {
   }
 
   public getHighlightModule(lineWidth: number, lineColor: string): ModuleInstance {
-    const {x, y, width, height, rotation, layer, id} = this
+    const {cx, cy, width, height, rotation, layer, id} = this
     return new Rectangle({
-      x,
-      y,
+      cx: cx,
+      cy: cy,
       width,
       height,
       // fillColor,
@@ -204,17 +205,17 @@ class Rectangle extends Shape {
     })
   }
 
-  public getOperators(
+/*  public getOperators(
     id: string,
     resizeConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
     rotateConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
   ) {
 
     return super.getOperators(id, resizeConfig, rotateConfig, this.getRect(), this.toJSON())
-  }
+  }*/
 
   public getSnapPoints(): SnapPointData[] {
-    const {x: cx, y: cy, width, height, id} = this
+    const {cx: cx, cy: cy, width, height, id} = this
     const halfWidth = width / 2
     const halfHeight = height / 2
 
