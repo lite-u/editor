@@ -1,11 +1,11 @@
 import {generateBoundingRectFromRotatedRect} from '~/core/utils'
-import Shape, {ElementShapeSaveProps} from '../shape/shape'
-import {SnapPointData} from '../../engine/type'
+import Shape from '../shape/shape'
+import {SnapPointData} from '~/engine/type'
 import Rectangle, {RectangleProps} from '../rectangle/rectangle'
-import {ResizeHandleName} from '../../engine/selection/type'
-import {getResizeTransform} from '../../core/lib'
-import {ElementFillColor, Point} from '~/type'
-import renderer from '~/elements/image/renderer'
+import {ResizeHandleName} from '~/engine/selection/type'
+import {getResizeTransform} from '~/core/lib'
+import {Point} from '~/type'
+import renderer from './renderer'
 
 export interface EllipseProps extends RectangleProps {
   type?: 'ellipse'
@@ -228,11 +228,11 @@ class Ellipse extends Shape {
   }
 
   public getOperators(
-    id:string,
+    id: string,
     resizeConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
     rotateConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
   ) {
-    return super.getOperators(id,resizeConfig, rotateConfig, this.getRect(), this.toMinimalJSON(true),
+    return super.getOperators(id, resizeConfig, rotateConfig, this.getRect(), this.toMinimalJSON(true),
     )
   }
 
@@ -252,7 +252,7 @@ class Ellipse extends Shape {
   }
 
   render(ctx: CanvasRenderingContext2D) {
-    renderer(this,ctx)
+    renderer(this, ctx)
   }
 }
 

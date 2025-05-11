@@ -108,18 +108,23 @@ class Base {
     if (this.lineColor !== DEFAULT_LINE_COLOR) {
       result.lineColor = this.lineColor
     }
+
     if (this.lineWidth !== DEFAULT_LINE_WIDTH) {
       result.lineWidth = this.lineWidth
     }
+
     if (this.opacity !== DEFAULT_OPACITY) {
       result.opacity = this.opacity
     }
+
     if (this.enableShadow !== DEFAULT_ENABLE_SHADOW) {
       result.enableShadow = this.enableShadow
     }
+
     if (this.shadow !== DEFAULT_SHADOW) {
       result.shadow = this.shadow
     }
+
     if (this.rotation !== DEFAULT_ROTATION) {
       result.rotation = this.rotation
     }

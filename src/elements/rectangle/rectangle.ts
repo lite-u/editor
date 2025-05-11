@@ -9,7 +9,6 @@ import renderer from './renderer'
 import transform, {TransformProps} from '~/elements/rectangle/transform'
 
 export interface RectangleProps extends ShapeCreationProps {
-  type?: 'rectangle'
   id: string
   layer: number
   width?: number
@@ -18,13 +17,17 @@ export interface RectangleProps extends ShapeCreationProps {
 }
 
 export type RequiredRectangleProps = Required<RectangleProps>
+export type TypedRectangleProps = RectangleProps & {
+  type?: 'rectangle'
+
+}
 
 const DEFAULT_WIDTH = 10
 const DEFAULT_HEIGHT = 10
 const DEFAULT_RADIUS = 0
 
 class Rectangle extends Shape {
-  readonly type = 'rectangle'
+  // readonly type = 'rectangle'
   id: string
   layer: number
   width: number
@@ -45,6 +48,10 @@ class Rectangle extends Shape {
     this.width = width
     this.height = height
     this.radius = radius
+  }
+
+  get type(): 'rectangle' {
+    return 'rectangle'
   }
 
   static applyResizeTransform = (arg: TransformProps): Rect => {
@@ -97,7 +104,7 @@ class Rectangle extends Shape {
 
     return {
       ...super.toJSON(),
-      type: 'rectangle',
+      type: this.type,
       id,
       layer,
       radius,
@@ -233,3 +240,7 @@ class Rectangle extends Shape {
 }
 
 export default Rectangle
+
+
+
+
