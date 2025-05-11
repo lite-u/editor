@@ -58,7 +58,7 @@ export function redo(this: Editor, quiet: boolean = false): HistoryNode | false 
   // this.editor.updateVisibleelementMap(this.editor.viewport.worldRect)
 
   if (!quiet) {
-    this.selection.replaceSelected(selectedModules)
+    this.selection.replace(selectedModules)
     // console.log(selectedModules)
     this.action.dispatch('selection-updated')
 

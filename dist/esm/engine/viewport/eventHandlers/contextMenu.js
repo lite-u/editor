@@ -10,7 +10,7 @@ function handleContextMenu(e) {
     */
     detectHoveredModule.call(this);
     const lastId = this.hoveredModule;
-    const selectedIdSet = this.selection.getSelected;
+    const selectedIdSet = this.selection.values;
     const position = { ...this.viewport.mouseMovePoint };
     let idSet = new Set();
     // console.log(selectedIdSet,lastId)
@@ -20,7 +20,7 @@ function handleContextMenu(e) {
         }
         else {
             idSet.add(lastId);
-            this.selection.addSelected(idSet);
+            this.selection.add(idSet);
             console.log(this.selectedElementIDSet);
             this.action.dispatch('selection-updated');
         }

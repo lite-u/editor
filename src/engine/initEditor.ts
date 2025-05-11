@@ -5,7 +5,7 @@ import {redo} from '~/services/history/redo'
 import {undo} from '~/services/history/undo'
 import {pick} from '~/services/history/pick'
 import {HistoryOperation} from '~/services/history/type'
-import {updateSelectionCanvasRenderData} from '../services/selection/helper'
+// import {updateSelectionCanvasRenderData} from '../services/selection/helper'
 // import zoom from '../../components/statusBar/zoom'
 import {fitRectToViewport} from './viewport/helper'
 import {Point} from '~/type'
@@ -134,7 +134,7 @@ export function initEditor(this: Editor) {
   on('selection-modify', (data) => {
     const {mode, idSet} = data as SelectionModifyData
 
-    this.selection.modifySelected(idSet, mode)
+    this.selection.modify(idSet, mode)
     dispatch('selection-updated')
   })
 
@@ -153,8 +153,8 @@ export function initEditor(this: Editor) {
   on('selection-updated', () => {
     this.hoveredModule = null
     // console.log(this.selectedModules)
-    updateSelectionCanvasRenderData.call(this)
-    this.events.onSelectionUpdated?.(this.selectedElementIDSet, this.selection.getSelectedPropsIfUnique)
+    // updateSelectionCanvasRenderData.call(this)
+    this.events.onSelectionUpdated?.(this.selectedElementIDSet, this.selection.pickIfUnique)
 
     dispatch('visible-selection-updated')
   })
@@ -192,7 +192,7 @@ export function initEditor(this: Editor) {
   })
 
   on('module-delete', () => {
-    const savedSelected = this.selection.getSelected
+    const savedSelected = this.selection.values
     const backup = this.elementManager.batchDelete(savedSelected)
 
     this.selectedElementIDSet.clear()
@@ -207,7 +207,7 @@ export function initEditor(this: Editor) {
   })
 
   on('module-copy', () => {
-    this.copiedItems = this.batchCopy(this.selection.getSelected, false)
+    this.copiedItems = this.batchCopy(this.selection.values, false)
     this.updateCopiedItemsDelta()
     this.events.onModuleCopied?.(this.copiedItems)
   })
@@ -241,7 +241,7 @@ export function initEditor(this: Editor) {
     const savedSelected = new Set(newModules.keys())
 
     this.elementManager.batchAdd(newModules)
-    this.selection.replaceSelected(savedSelected)
+    this.selection.replace(savedSelected)
     this.updateCopiedItemsDelta()
 
     dispatch('module-updated', {
@@ -267,7 +267,7 @@ export function initEditor(this: Editor) {
     const savedSelected = new Set(newModules.keys())
 
     this.elementManager.batchAdd(newModules)
-    this.selection.replaceSelected(savedSelected)
+    this.selection.replace(savedSelected)
 
     const moduleProps = [...newModules.values()].map((mod) => mod.toMinimalJSON())
 
@@ -305,7 +305,7 @@ export function initEditor(this: Editor) {
   })
 
   on('module-move', ({delta = {x: 0, y: 0}}) => {
-    const s = this.selection.getSelected
+    const s = this.selection.values
 
     if (s.size === 0) return
     const changes: ModuleModifyData[] = []
@@ -339,7 +339,7 @@ export function initEditor(this: Editor) {
     /*  this.elementManager.batchAdd(newModules,()=>{
         dispatch('render-modules')
       })*/
-    this.selection.replaceSelected(savedSelected)
+    this.selection.replace(savedSelected)
 
     const moduleProps = [...newModules.values()].map((mod) => mod.toMinimalJSON())
 
@@ -353,7 +353,7 @@ export function initEditor(this: Editor) {
   })
 
   on('module-modifying', ({type, data}) => {
-    const s = this.selection.getSelected
+    const s = this.selection.values
 
     if (s.size === 0) return
 
@@ -393,7 +393,7 @@ export function initEditor(this: Editor) {
     this.history.add({
       type: 'history-modify',
       payload: {
-        selectedModules: this.selection.getSelected,
+        selectedModules: this.selection.values,
         changes,
       },
     })

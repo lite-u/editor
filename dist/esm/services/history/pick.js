@@ -19,7 +19,7 @@ export function pick(targetNode) {
         }
         const { selectedModules } = targetNode.data.payload;
         // this.editor.updateVisibleelementMap(this.editor.viewport.worldRect)
-        this.selection.replaceSelected(selectedModules);
+        this.selection.replace(selectedModules);
     }
     else {
         // do sth...

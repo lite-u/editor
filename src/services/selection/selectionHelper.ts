@@ -1,64 +1,53 @@
 import {SelectionActionMode} from './type'
-import Editor from '../../engine/editor'
 import {UID} from '~/core/core'
 import typeCheck from '~/core/typeCheck'
+import SelectionManager from '~/services/selection/SelectionManager'
 
-export function modifySelected(
-  this: Selection,
+export function selectionHelper(
+  this: SelectionManager,
   idSet: Set<UID>,
   action: SelectionActionMode,
 ) {
   if (typeCheck(idSet) !== 'set') return
 
-  let eventCallBackData = null
+  const temp = this.editor.selection.values
 
-  if (idSet.size === 1) {
-    const first = [...idSet.values()][0]
-
-    if (this.elementManager.all.has(first)) {
-      // @ts-ignore
-      eventCallBackData = this.elementManager.all.get(first).toMinimalJSON()
-      // console.log(eventCallBackData)
-    }
-  }
-  const realSelectedModules = this.selection.getSelected
-
-  this.selectedElementIDSet.clear()
+  this.clear()
 
   if (action === 'replace') {
-    realSelectedModules.clear()
+    temp.clear()
   }
 
   idSet.forEach((id) => {
     switch (action) {
       case 'add':
-        realSelectedModules.add(id)
+        temp.add(id)
         break
       case 'delete':
-        realSelectedModules.delete(id)
+        temp.delete(id)
         break
       case 'toggle':
-        if (realSelectedModules.has(id)) {
-          realSelectedModules.delete(id)
+        if (temp.has(id)) {
+          temp.delete(id)
         } else {
-          realSelectedModules.add(id)
+          temp.add(id)
         }
         break
       case 'replace':
-        realSelectedModules.add(id)
+        temp.add(id)
         break
     }
   })
 
-  realSelectedModules.forEach((id) => this.selectedElementIDSet.add(id))
-  // this.events.onSelectionUpdated?.(idSet, eventCallBackData)
+  temp.forEach((id) => this.selected.add(id))
 }
 
+/*
 export function updateSelectionCanvasRenderData(this: Editor) {
   // const moduleProps = this.selection.getSelectedPropsIfUnique
 
   return
-  /*
+  /!*
     if (moduleProps) {
       const module = this.elementManager.all.get(moduleProps.id)
       const {scale, dpr} = this.viewport
@@ -83,5 +72,6 @@ export function updateSelectionCanvasRenderData(this: Editor) {
         },
       )
     }
-  */
+  *!/
 }
+*/

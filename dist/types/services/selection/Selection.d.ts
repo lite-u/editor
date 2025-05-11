@@ -3,17 +3,19 @@ import Editor from '~/engine/editor';
 import { SelectionActionMode } from '~/services/selection/type';
 import { ElementProps } from '~/elements/elements';
 declare class Selection {
-    protected selectedElementIDSet: Set<UID>;
+    protected selected: Set<UID>;
     editor: Editor;
     constructor(editor: Editor);
-    get getSelected(): Set<UID>;
-    get getSelectedPropsIfUnique(): ElementProps | null;
+    has(id: UID): boolean;
+    get size(): number;
+    get values(): Set<UID>;
+    get pickIfUnique(): ElementProps | null;
     selectAll(): void;
-    modifySelected(idSet: Set<UID>, action: SelectionActionMode): void;
-    addSelected(idSet: Set<UID>): void;
-    deleteSelected(idSet: Set<UID>): void;
-    toggleSelected(idSet: Set<UID>): void;
-    replaceSelected(idSet: Set<UID>): void;
+    modify(idSet: Set<UID>, action: SelectionActionMode): void;
+    add(idSet: Set<UID>): void;
+    delete(idSet: Set<UID>): void;
+    toggle(idSet: Set<UID>): void;
+    replace(idSet: Set<UID>): void;
     destroy(): void;
 }
 export default Selection;

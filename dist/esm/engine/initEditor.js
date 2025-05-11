@@ -2,7 +2,7 @@ import resetCanvas from './viewport/resetCanvas.js';
 import { redo } from '../services/history/redo.js';
 import { undo } from '../services/history/undo.js';
 import { pick } from '../services/history/pick.js';
-import { updateSelectionCanvasRenderData } from '../services/selection/helper.js';
+// import {updateSelectionCanvasRenderData} from '../services/selection/helper.js'
 // import zoom from '../../components/statusBar/zoom'
 import { fitRectToViewport } from './viewport/helper.js';
 import selector from './tools/selector/selector.js';
@@ -113,7 +113,7 @@ export function initEditor() {
     });
     on('selection-modify', (data) => {
         const { mode, idSet } = data;
-        this.selection.modifySelected(idSet, mode);
+        this.selection.modify(idSet, mode);
         dispatch('selection-updated');
     });
     on('module-updated', (historyData) => {
@@ -128,8 +128,8 @@ export function initEditor() {
     on('selection-updated', () => {
         this.hoveredModule = null;
         // console.log(this.selectedModules)
-        updateSelectionCanvasRenderData.call(this);
-        this.events.onSelectionUpdated?.(this.selectedElementIDSet, this.selection.getSelectedPropsIfUnique);
+        // updateSelectionCanvasRenderData.call(this)
+        this.events.onSelectionUpdated?.(this.selectedElementIDSet, this.selection.pickIfUnique);
         dispatch('visible-selection-updated');
     });
     on('world-mouse-move', () => {
@@ -157,7 +157,7 @@ export function initEditor() {
         dispatch('module-add', modulePropsList);
     });
     on('module-delete', () => {
-        const savedSelected = this.selection.getSelected;
+        const savedSelected = this.selection.values;
         const backup = this.elementManager.batchDelete(savedSelected);
         this.selectedElementIDSet.clear();
         dispatch('module-updated', {
@@ -169,7 +169,7 @@ export function initEditor() {
         });
     });
     on('module-copy', () => {
-        this.copiedItems = this.batchCopy(this.selection.getSelected, false);
+        this.copiedItems = this.batchCopy(this.selection.values, false);
         this.updateCopiedItemsDelta();
         this.events.onModuleCopied?.(this.copiedItems);
     });
@@ -198,7 +198,7 @@ export function initEditor() {
         }
         const savedSelected = new Set(newModules.keys());
         this.elementManager.batchAdd(newModules);
-        this.selection.replaceSelected(savedSelected);
+        this.selection.replace(savedSelected);
         this.updateCopiedItemsDelta();
         dispatch('module-updated', {
             type: 'history-paste',
@@ -219,7 +219,7 @@ export function initEditor() {
         const newModules = this.elementManager.batchCreate(temp);
         const savedSelected = new Set(newModules.keys());
         this.elementManager.batchAdd(newModules);
-        this.selection.replaceSelected(savedSelected);
+        this.selection.replace(savedSelected);
         const moduleProps = [...newModules.values()].map((mod) => mod.toMinimalJSON());
         dispatch('module-updated', {
             type: 'history-duplicate',
@@ -252,7 +252,7 @@ export function initEditor() {
         // dispatch('module-modify', changes)
     });
     on('module-move', ({ delta = { x: 0, y: 0 } }) => {
-        const s = this.selection.getSelected;
+        const s = this.selection.values;
         if (s.size === 0)
             return;
         const changes = [];
@@ -282,7 +282,7 @@ export function initEditor() {
         /*  this.elementManager.batchAdd(newModules,()=>{
             dispatch('render-modules')
           })*/
-        this.selection.replaceSelected(savedSelected);
+        this.selection.replace(savedSelected);
         const moduleProps = [...newModules.values()].map((mod) => mod.toMinimalJSON());
         dispatch('module-updated', {
             type: 'history-add',
@@ -293,7 +293,7 @@ export function initEditor() {
         });
     });
     on('module-modifying', ({ type, data }) => {
-        const s = this.selection.getSelected;
+        const s = this.selection.values;
         if (s.size === 0)
             return;
         if (type === 'move') {
@@ -328,7 +328,7 @@ export function initEditor() {
         this.history.add({
             type: 'history-modify',
             payload: {
-                selectedModules: this.selection.getSelected,
+                selectedModules: this.selection.values,
                 changes,
             },
         });

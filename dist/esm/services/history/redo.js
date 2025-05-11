@@ -43,7 +43,7 @@ export function redo(quiet = false) {
     }
     // this.editor.updateVisibleelementMap(this.editor.viewport.worldRect)
     if (!quiet) {
-        this.selection.replaceSelected(selectedModules);
+        this.selection.replace(selectedModules);
         // console.log(selectedModules)
         this.action.dispatch('selection-updated');
     }

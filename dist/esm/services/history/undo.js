@@ -47,7 +47,7 @@ export function undo(quiet = false) {
     // this.editor.updateVisibleelementMap(this.editor.viewport.worldRect)
     if (!quiet) {
         const backedNodeSelectedModules = this.history.current.data.payload.selectedModules;
-        this.selection.replaceSelected(backedNodeSelectedModules);
+        this.selection.replace(backedNodeSelectedModules);
         this.action.dispatch('selection-updated');
     }
     return this.history.current;

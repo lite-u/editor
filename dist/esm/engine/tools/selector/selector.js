@@ -26,12 +26,12 @@ const selection = {
             if (!modifyKey) {
                 this.action.dispatch('selection-clear');
             }
-            this.selectedShadow = this.selection.getSelected;
+            this.selectedShadow = this.selection.values;
             // console.warn(this.selectedShadow)
             return (this.manipulationStatus = 'selecting');
         }
         this.manipulationStatus = 'dragging';
-        const realSelected = this.selection.getSelected;
+        const realSelected = this.selection.values;
         // this.draggingModules = new Set(this.selectedModules)
         const isSelected = realSelected.has(hoveredModule);
         // console.log(isSelected)
@@ -308,10 +308,10 @@ const selection = {
                     break;
                 case 'static':
                     if (e.ctrlKey || e.metaKey || e.shiftKey) {
-                        this.selection.toggleSelected(draggingModules);
+                        this.selection.toggle(draggingModules);
                     }
                     else {
-                        this.selection.replaceSelected(draggingModules);
+                        this.selection.replace(draggingModules);
                     }
                     break;
             }

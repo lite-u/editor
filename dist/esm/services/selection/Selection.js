@@ -1,16 +1,22 @@
 import { modifySelected } from './helper.js';
 class Selection {
-    selectedElementIDSet = new Set();
+    selected = new Set();
     editor;
     constructor(editor) {
         this.editor = editor;
     }
-    get getSelected() {
-        return new Set(this.selectedElementIDSet);
+    has(id) {
+        return this.selected.has(id);
     }
-    get getSelectedPropsIfUnique() {
-        if (this.selectedElementIDSet.size === 1) {
-            const unique = [...this.selectedElementIDSet.values()][0];
+    get size() {
+        return this.selected.size;
+    }
+    get values() {
+        return new Set(this.selected);
+    }
+    get pickIfUnique() {
+        if (this.selected.size === 1) {
+            const unique = [...this.selected.values()][0];
             const module = this.editor.elementManager.all.get(unique);
             if (module) {
                 return module.toMinimalJSON();
@@ -20,25 +26,25 @@ class Selection {
         return null;
     }
     selectAll() {
-        this.selectedElementIDSet = this.editor.elementManager.keys;
+        this.selected = this.editor.elementManager.keys;
     }
-    modifySelected(idSet, action) {
+    modify(idSet, action) {
         modifySelected.call(this, idSet, action);
     }
-    addSelected(idSet) {
+    add(idSet) {
         modifySelected.call(this, idSet, 'add');
     }
-    deleteSelected(idSet) {
+    delete(idSet) {
         modifySelected.call(this, idSet, 'delete');
     }
-    toggleSelected(idSet) {
+    toggle(idSet) {
         modifySelected.call(this, idSet, 'toggle');
     }
-    replaceSelected(idSet) {
-        modifySelected.call(this, idSet, 'replace');
+    replace(idSet) {
+        realSelectedModules.clear();
     }
     destroy() {
-        this.selectedElementIDSet.clear();
+        this.selected.clear();
     }
 }
 export default Selection;

@@ -162,10 +162,10 @@ const rectangleTool = {
                     break;
                 case 'static':
                     if (e.ctrlKey || e.metaKey || e.shiftKey) {
-                        this.selection.toggleSelected(draggingModules);
+                        this.selection.toggle(draggingModules);
                     }
                     else {
-                        this.selection.replaceSelected(draggingModules);
+                        this.selection.replace(draggingModules);
                     }
                     break;
             }

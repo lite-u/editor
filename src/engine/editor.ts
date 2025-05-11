@@ -21,7 +21,7 @@ import {Tool} from '~/engine/tools/tool'
 import {BoundingRect, Point, VisionEventType} from '~/type'
 import ElementRectangle from '~/elements/rectangle/rectangle'
 import ElementManager from '~/services/elementManager/ElementManager'
-import Selection from '~/services/selection/Selection'
+import SelectionManager from '~/services/selection/SelectionManager'
 
 class Editor {
   id = nid()
@@ -36,7 +36,7 @@ class Editor {
   // services
   history: History
   elementManager: ElementManager
-  selection:Selection
+  selection:SelectionManager
   viewport: Viewport
   readonly selectedElementIDSet: Set<UID> = new Set()
   readonly visibleSelected: Set<UID> = new Set()
@@ -82,7 +82,7 @@ class Editor {
 
     this.action = new Action()
     this.history = new History(this)
-    this.selection = new Selection(this)
+    this.selection = new SelectionManager(this)
     this.assetsManager = new AssetsManager(assets)
     this.elementManager = new ElementManager(this)
 
@@ -180,7 +180,7 @@ class Editor {
       }
     })
 
-    const moduleProps = this.selection.getSelectedPropsIfUnique
+    const moduleProps = this.selection.pickIfUnique
 
     if (moduleProps) {
       const module = this.elementManager.all.get(moduleProps.id)
