@@ -2,7 +2,7 @@ import Shape, {ShapeCreationProps} from '../shape/shape'
 import {CenterBasedRect, Point, Rect} from '~/type'
 import {SnapPointData} from '~/engine/type'
 import {generateBoundingRectFromRect, generateBoundingRectFromRotatedRect} from '~/core/utils'
-import renderer from './renderer'
+import render from './render'
 import transform, {TransformProps} from '~/elements/rectangle/transform'
 import Rectangle from '~/elements/rectangle/rectangle'
 
@@ -198,7 +198,7 @@ class RectangleLike extends Shape {
   }
 
   render(ctx: CanvasRenderingContext2D): void {
-    renderer(this, ctx)
+    render(this, ctx)
   }
 }
 

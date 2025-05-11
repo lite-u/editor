@@ -1,28 +1,25 @@
-import Rectangle, {RectangleProps} from '../rectangle/rectangle'
-import renderer from './renderer'
+import render from './render'
+import RectangleLike, {RectangleLikeProps} from '~/elements/rectangle/rectangleLike'
 
-export type ImageProps = RectangleProps & {
+export interface ImageProps extends RectangleLikeProps {
   type?: 'image'
-  src: string
+  src?: string
 }
 
 export type RequiredImageProps = Required<ImageProps>
+const DEFAULT_SRC = ''
 
-class ElementImage extends Rectangle {
-  // readonly type = 'image'
+class ElementImage extends RectangleLike {
+  readonly type = 'image'
   src: string
 
   constructor({
-                src,
+                src = DEFAULT_SRC,
                 ...rest
               }: ImageProps) {
     super(rest)
 
     this.src = src
-  }
-
-  get type(): 'image' {
-    return 'image'
   }
 
   public toJSON(): RequiredImageProps {
@@ -37,21 +34,12 @@ class ElementImage extends Rectangle {
     return {
       ...super.toMinimalJSON(),
       src: this.src,
+      type: this.type,
     }
   }
 
-  public getOperators(
-    id: string,
-    resizeConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
-    rotateConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
-  ) {
-
-    return super.getOperators(id, resizeConfig, rotateConfig)
-  }
-
-  render(ctx: CanvasRenderingContext2D, img: HTMLImageElement): void {
-    super.render(ctx)
-    renderer(this, ctx, img)
+  public renderImage(ctx: CanvasRenderingContext2D, img: HTMLImageElement): void {
+    render.call(this, ctx, img)
   }
 }
 

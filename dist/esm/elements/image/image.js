@@ -1,14 +1,12 @@
-import Rectangle from '../rectangle/rectangle.js';
-import renderer from './renderer.js';
-class ElementImage extends Rectangle {
-    // readonly type = 'image'
+import render from './render.js';
+import RectangleLike from '../rectangle/rectangleLike.js';
+const DEFAULT_SRC = '';
+class ElementImage extends RectangleLike {
+    type = 'image';
     src;
-    constructor({ src, ...rest }) {
+    constructor({ src = DEFAULT_SRC, ...rest }) {
         super(rest);
         this.src = src;
-    }
-    get type() {
-        return 'image';
     }
     toJSON() {
         return {
@@ -21,14 +19,11 @@ class ElementImage extends Rectangle {
         return {
             ...super.toMinimalJSON(),
             src: this.src,
+            type: this.type,
         };
     }
-    getOperators(id, resizeConfig, rotateConfig) {
-        return super.getOperators(id, resizeConfig, rotateConfig);
-    }
-    render(ctx, img) {
-        super.render(ctx);
-        renderer(this, ctx, img);
+    renderImage(ctx, img) {
+        render.call(this, ctx, img);
     }
 }
 export default ElementImage;

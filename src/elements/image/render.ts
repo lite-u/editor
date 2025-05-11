@@ -1,6 +1,6 @@
 import ElementImage from '~/elements/image/image'
 
-function renderer(this: ElementImage, ctx: CanvasRenderingContext2D, img: HTMLImageElement): void {
+function render(this: ElementImage, ctx: CanvasRenderingContext2D, img: HTMLImageElement): void {
   let {cx, cy, width, height, rotation, opacity} = this.toJSON()
   // x = Math.round(x)
   // y = Math.round(y)
@@ -44,4 +44,4 @@ function renderer(this: ElementImage, ctx: CanvasRenderingContext2D, img: HTMLIm
   ctx.restore()
 }
 
-export default renderer
+export default render

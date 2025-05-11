@@ -1,6 +1,6 @@
 import { CenterBasedRect } from '~/type';
-import RectangleLike, { RequiredRectangleLikeProps } from '~/elements/rectangle/rectangleLike';
-export interface RectangleProps extends RequiredRectangleLikeProps {
+import RectangleLike, { RectangleLikeProps } from '~/elements/rectangle/rectangleLike';
+export interface RectangleProps extends RectangleLikeProps {
     type?: 'rectangle';
 }
 export type RequiredRectangleProps = Required<RectangleProps>;

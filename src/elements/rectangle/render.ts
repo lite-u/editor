@@ -1,6 +1,6 @@
 import RectangleLike from './rectangleLike'
 
-function renderer(rect: RectangleLike, ctx: CanvasRenderingContext2D): void {
+function render(rect: RectangleLike, ctx: CanvasRenderingContext2D): void {
   let {cx, cy, width, height, rotation, opacity, fillColor, lineWidth, lineColor, dashLine,radius} = rect.toJSON()
 
   // x = Math.round(x)
@@ -76,4 +76,4 @@ function renderer(rect: RectangleLike, ctx: CanvasRenderingContext2D): void {
   ctx.restore()
 }
 
-export default renderer
+export default render

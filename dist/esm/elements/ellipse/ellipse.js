@@ -2,7 +2,7 @@ import { generateBoundingRectFromRotatedRect } from '../../core/utils.js';
 import Shape from '../shape/shape.js';
 import Rectangle from '../rectangle/rectangle.js';
 import { getResizeTransform } from '../../core/lib.js';
-import renderer from './renderer.js';
+import render from './render.js';
 class Ellipse extends Shape {
     type = 'ellipse';
     r1;
@@ -164,7 +164,7 @@ class Ellipse extends Shape {
         return points;
     }
     render(ctx) {
-        renderer(this, ctx);
+        render(this, ctx);
     }
 }
 export default Ellipse;

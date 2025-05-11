@@ -1,16 +1,17 @@
-import Rectangle, { RectangleProps } from '../rectangle/rectangle';
-export type ImageProps = RectangleProps & {
+import RectangleLike, { RectangleLikeProps } from '~/elements/rectangle/rectangleLike';
+export interface ImageProps extends RectangleLikeProps {
     type?: 'image';
-    src: string;
-};
+    src?: string;
+}
 export type RequiredImageProps = Required<ImageProps>;
-declare class ElementImage extends Rectangle {
+declare class ElementImage extends RectangleLike {
+    readonly type = "image";
     src: string;
     constructor({ src, ...rest }: ImageProps);
-    get type(): 'image';
     toJSON(): RequiredImageProps;
     toMinimalJSON(): {
         src: string;
+        type: string;
         id: string;
         layer: number;
         width?: number;
@@ -30,19 +31,7 @@ declare class ElementImage extends Rectangle {
         enableShadow?: boolean;
         shadow?: string;
         rotation?: number;
-        type?: "rectangle";
     };
-    getOperators(id: string, resizeConfig: {
-        lineWidth: number;
-        lineColor: string;
-        size: number;
-        fillColor: string;
-    }, rotateConfig: {
-        lineWidth: number;
-        lineColor: string;
-        size: number;
-        fillColor: string;
-    }): import("../../engine/selection/type").OperationHandlers[];
-    render(ctx: CanvasRenderingContext2D, img: HTMLImageElement): void;
+    renderImage(ctx: CanvasRenderingContext2D, img: HTMLImageElement): void;
 }
 export default ElementImage;

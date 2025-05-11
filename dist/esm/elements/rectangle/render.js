@@ -1,10 +1,5 @@
-const renderer = (rect, ctx) => {
-    // const { x, y, width, height, fillColor } = this.getDetails();
-    const { 
-    // width,
-    // height,
-    radius, } = rect;
-    let { x, y, width, height, rotation, opacity, fillColor, lineWidth, lineColor, dashLine } = rect.getDetails();
+function render(rect, ctx) {
+    let { cx, cy, width, height, rotation, opacity, fillColor, lineWidth, lineColor, dashLine, radius } = rect.toJSON();
     // x = Math.round(x)
     // y = Math.round(y)
     // width = Math.round(width)
@@ -15,7 +10,7 @@ const renderer = (rect, ctx) => {
     // Save current context state to avoid transformations affecting other drawings
     ctx.save();
     // Move context to the rectangle's center (Direct center point at x, y)
-    ctx.translate(x, y);
+    ctx.translate(cx, cy);
     // Apply rotation if needed
     if (rotation > 0) {
         ctx.rotate(rotation * Math.PI / 180);
@@ -63,5 +58,5 @@ const renderer = (rect, ctx) => {
        }*/
     // Restore the context to avoid affecting subsequent drawings
     ctx.restore();
-};
-export default renderer;
+}
+export default render;

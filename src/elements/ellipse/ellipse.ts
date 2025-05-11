@@ -5,7 +5,7 @@ import Rectangle, {RectangleProps} from '../rectangle/rectangle'
 import {ResizeHandleName} from '~/engine/selection/type'
 import {getResizeTransform} from '~/core/lib'
 import {Point} from '~/type'
-import renderer from './renderer'
+import render from './render'
 
 export interface EllipseProps extends RectangleProps {
   type?: 'ellipse'
@@ -252,7 +252,7 @@ class Ellipse extends Shape {
   }
 
   render(ctx: CanvasRenderingContext2D) {
-    renderer(this, ctx)
+    render(this, ctx)
   }
 }
 

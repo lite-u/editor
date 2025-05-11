@@ -222,16 +222,16 @@ class Editor {
 
       const operators = module!.getOperators(module.id,
         {
-        size: resizeSize,
-        lineColor,
-        lineWidth,
-        fillColor: '#fff',
-      }, {
-        size: rotateSize,
-        lineColor: 'transparent',
-        lineWidth: 0,
-        fillColor: 'transparent',
-      })
+          size: resizeSize,
+          lineColor,
+          lineWidth,
+          fillColor: '#fff',
+        }, {
+          size: rotateSize,
+          lineColor: 'transparent',
+          lineWidth: 0,
+          fillColor: 'transparent',
+        })
 
       this.operationHandlers.push(...operators)
     }
@@ -310,17 +310,16 @@ class Editor {
       new Rectangle(frameFill).render(ctx)
 
       this.visibleModuleMap.forEach((module) => {
+        module.render(ctx)
+
         if (module.type === 'image') {
           const {src} = module as ElementImage
 
           const obj = this.assetsManager.getAssetsObj(src)
-          console.log(this.assetsManager, src)
+          // console.log(this.assetsManager, src)
           if (obj) {
-            (module as ElementImage).render(ctx, obj.imageRef)
+            (module as ElementImage).renderImage(ctx, obj.imageRef!)
           }
-        } else {
-          module.render(ctx)
-
         }
       })
 

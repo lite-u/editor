@@ -1,3 +1,3 @@
-import Rectangle from './rectangle';
-declare const renderer: (rect: Rectangle, ctx: CanvasRenderingContext2D) => void;
-export default renderer;
+import ElementImage from '~/elements/image/image';
+declare function render(this: ElementImage, ctx: CanvasRenderingContext2D, img: HTMLImageElement): void;
+export default render;

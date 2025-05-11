@@ -1,52 +1,71 @@
-import Rectangle, {RectangleProps} from '../rectangle/rectangle'
+import RectangleLike, {RectangleLikeProps} from '../rectangle/rectangleLike'
+import render from './render'
 
-export interface TextProps extends RectangleProps {
-  type: 'text'
-  textColor: string
-  content: string
-  font: string
-  fontSize: number
-  alignment: string
-  bold: boolean
-  italics: boolean
-  underlines: boolean
-  throughLine: boolean
-  lineHeight: number
+export interface TextProps extends RectangleLikeProps {
+  type?: 'text'
+  textColor?: string
+  content?: string
+  font?: string
+  fontSize?: number
+  alignment?: string
+  fontWeight?: number
+  italics?: boolean
+  underlines?: boolean
+  throughLine?: boolean
+  lineHeight?: number
 }
+
 export type RequiredTextProps = Required<TextProps>
-class ElementText extends Rectangle {
-  // readonly type = 'text'
+
+const TEXT_COLOR = '#000000'
+const CONTENT = `
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
+Lorem ipsum dolor sit amet, cons ectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi 
+`
+const DEFAULT_FONT = 'sans-serif'
+const DEFAULT_FONT_SIZE = 12
+const DEFAULT_ALIGNMENT: Alignment = 'left'
+const DEFAULT_FONT_WEIGHT = 400
+const DEFAULT_ITALICS = false
+const DEFAULT_UNDERLINES = false
+const DEFAULT_THROUGH_LINE = false
+const DEFAULT_LINE_HEIGHT = 1.2
+type Alignment = 'left' | 'center' | 'right';
+
+class ElementText extends RectangleLike {
+  readonly type = 'text'
   textColor: string
   content: string
   font: string
   fontSize: number
   alignment: string
-  bold: boolean
+  fontWeight: number
   italics: boolean
   underlines: boolean
   throughLine: boolean
   lineHeight: number
 
   constructor({
-                textColor,
-                content,
-                font,
-                fontSize,
-                alignment,
-                bold,
-                italics,
-                underlines,
-                throughLine,
-                lineHeight,
+                textColor = TEXT_COLOR,
+                content = CONTENT,
+                font = DEFAULT_FONT,
+                fontSize = DEFAULT_FONT_SIZE,
+                alignment = DEFAULT_ALIGNMENT,
+                fontWeight = DEFAULT_FONT_WEIGHT,
+                italics = DEFAULT_ITALICS,
+                underlines = DEFAULT_UNDERLINES,
+                throughLine = DEFAULT_THROUGH_LINE,
+                lineHeight = DEFAULT_LINE_HEIGHT,
                 ...rest
-              }: Omit<TextProps, 'type'>) {
+              }: TextProps) {
     super({...rest})
     this.textColor = textColor
     this.content = content
     this.font = font
     this.fontSize = fontSize
     this.alignment = alignment
-    this.bold = bold
+    this.fontWeight = fontWeight
     this.italics = italics
     this.underlines = underlines
     this.throughLine = throughLine
@@ -55,26 +74,70 @@ class ElementText extends Rectangle {
 
   override toJSON(): RequiredTextProps {
     return {
+      ...super.toJSON(),
+      type: this.type,
       content: this.content,
       textColor: this.textColor,
       font: this.font,
       fontSize: this.fontSize,
       alignment: this.alignment,
-      bold: this.bold,
+      fontWeight: this.fontWeight,
       italics: this.italics,
       underlines: this.underlines,
       throughLine: this.throughLine,
       lineHeight: this.lineHeight,
-      ...super.toMinimalJSON(),
     }
   }
 
-  public toMinimalJSON() {
-    return {
+  public toMinimalJSON(): TextProps {
+    const result: TextProps = {
       ...super.toMinimalJSON(),
+      type: this.type,
       content: this.content,
       textColor: this.textColor,
     }
+
+    if (this.textColor !== TEXT_COLOR) {
+      result.textColor = this.textColor
+    }
+
+    if (this.content !== CONTENT) {
+      result.content = this.content
+    }
+
+    if (this.font !== DEFAULT_FONT) {
+      result.font = this.font
+    }
+
+    if (this.fontSize !== DEFAULT_FONT_SIZE) {
+      result.fontSize = this.fontSize
+    }
+
+    if (this.alignment !== DEFAULT_ALIGNMENT) {
+      result.alignment = this.alignment
+    }
+
+    if (this.fontWeight !== DEFAULT_FONT_WEIGHT) {
+      result.fontWeight = this.fontWeight
+    }
+
+    if (this.italics !== DEFAULT_ITALICS) {
+      result.italics = this.italics
+    }
+
+    if (this.underlines !== DEFAULT_UNDERLINES) {
+      result.underlines = this.underlines
+    }
+
+    if (this.throughLine !== DEFAULT_THROUGH_LINE) {
+      result.throughLine = this.throughLine
+    }
+
+    if (this.lineHeight !== DEFAULT_LINE_HEIGHT) {
+      result.lineHeight = this.lineHeight
+    }
+
+    return result
   }
 
   /*  public getOperators(
@@ -86,61 +149,8 @@ class ElementText extends Rectangle {
     }*/
 
   render(ctx: CanvasRenderingContext2D): void {
-    const {
-      // content,
-      // alignment,
-
-      // width,
-      // height,
-      // radius,
-    } = this
-    let {content, alignment, textColor, cx, cy, width, height, rotation, opacity} = this
-    // x = Math.round(x)
-    // y = Math.round(y)
-    // width = Math.round(width)
-    // height = Math.round(height)
-    // console.log(x, y, width, height)
-    // const LocalX = x - width
-    // const LocalY = y - height
-
-    // Save current context state to avoid transformations affecting other drawings
-    ctx.save()
-
-    // Move context to the rectangle's center (Direct center point at x, y)
-    ctx.translate(cx, cy)
-
-    // Apply rotation if needed
-    if (rotation! > 0) {
-      ctx.rotate(rotation! * Math.PI / 180)
-    }
-
-    // Apply fill style if enabled
-    if (opacity > 0) {
-      ctx.globalAlpha = opacity / 100 // Set the opacity
-    }
-
-    // Fill if enabled
-    if (opacity > 0) {
-      ctx.font = '20px monospace'
-      ctx.strokeStyle = 'blue'
-      ctx.textBaseline = 'middle'
-      ctx.textAlign = 'center'
-      // ctx.beginPath()
-      // ctx.fill()
-      // ctx.strokeText(content, LocalX, LocalY, width)
-      ctx.fillStyle = textColor
-      ctx.fillText(content, 0, 0, width)
-      // ctx.closePath()
-    }
-
-    // Stroke if enabled
-
-    /*   if (gradient) {
-         // Implement gradient rendering (as needed)
-       }*/
-
-    // Restore the context to avoid affecting subsequent drawings
-    ctx.restore()
+    super.render(ctx)
+    render.call(this, ctx)
   }
 }
 

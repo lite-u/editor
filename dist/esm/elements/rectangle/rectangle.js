@@ -4,14 +4,6 @@ class Rectangle extends RectangleLike {
     constructor(props) {
         super(props);
     }
-    /*
-      static applyResizeTransform = (arg: TransformProps): Rect => {
-        return transform(arg)
-      }*/
-    /*
-      public hitTest(point: Point, borderPadding = 5): 'inside' | 'border' | null {
-      }
-    */
     toJSON() {
         return {
             ...super.toJSON(),
@@ -21,7 +13,7 @@ class Rectangle extends RectangleLike {
     toMinimalJSON() {
         return {
             ...super.toMinimalJSON(),
-            type: 'rectangle',
+            type: this.type,
         };
     }
     getRect() {

@@ -1,3 +1,3 @@
-import Rectangle from './rectangle';
-declare function renderer(rect: Rectangle, ctx: CanvasRenderingContext2D): void;
+import RectangleLike from './rectangleLike';
+declare function renderer(rect: RectangleLike, ctx: CanvasRenderingContext2D): void;
 export default renderer;

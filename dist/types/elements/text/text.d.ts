@@ -1,55 +1,33 @@
-import Rectangle, { RectangleProps } from '../rectangle/rectangle';
-export interface TextProps extends RectangleProps {
-    type: 'text';
-    textColor: string;
-    content: string;
-    font: string;
-    fontSize: number;
-    alignment: string;
-    bold: boolean;
-    italics: boolean;
-    underlines: boolean;
-    throughLine: boolean;
-    lineHeight: number;
+import RectangleLike, { RectangleLikeProps } from '../rectangle/rectangleLike';
+export interface TextProps extends RectangleLikeProps {
+    type?: 'text';
+    textColor?: string;
+    content?: string;
+    font?: string;
+    fontSize?: number;
+    alignment?: string;
+    fontWeight?: number;
+    italics?: boolean;
+    underlines?: boolean;
+    throughLine?: boolean;
+    lineHeight?: number;
 }
 export type RequiredTextProps = Required<TextProps>;
-declare class ElementText extends Rectangle {
+declare class ElementText extends RectangleLike {
+    readonly type = "text";
     textColor: string;
     content: string;
     font: string;
     fontSize: number;
     alignment: string;
-    bold: boolean;
+    fontWeight: number;
     italics: boolean;
     underlines: boolean;
     throughLine: boolean;
     lineHeight: number;
-    constructor({ textColor, content, font, fontSize, alignment, bold, italics, underlines, throughLine, lineHeight, ...rest }: Omit<TextProps, 'type'>);
+    constructor({ textColor, content, font, fontSize, alignment, fontWeight, italics, underlines, throughLine, lineHeight, ...rest }: TextProps);
     toJSON(): RequiredTextProps;
-    toMinimalJSON(): {
-        content: string;
-        textColor: string;
-        type?: "rectangle";
-        id: string;
-        layer: number;
-        width: number;
-        height: number;
-        radius: number;
-        cx: number;
-        cy: number;
-        enableGradient: boolean;
-        gradient: string;
-        enableFill: boolean;
-        fillColor: import("../../type").ElementFillColor;
-        dashLine: string;
-        enableLine: boolean;
-        lineColor: CanvasRenderingContext2D["strokeStyle"];
-        lineWidth: CanvasRenderingContext2D["lineWidth"];
-        opacity: CanvasRenderingContext2D["globalAlpha"];
-        enableShadow: boolean;
-        shadow: string;
-        rotation: number;
-    };
+    toMinimalJSON(): TextProps;
     render(ctx: CanvasRenderingContext2D): void;
 }
 export default ElementText;

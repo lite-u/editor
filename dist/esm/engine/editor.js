@@ -235,16 +235,14 @@ class Editor {
             // deduplicateObjectsByKeyValue
             new Rectangle(frameFill).render(ctx);
             this.visibleModuleMap.forEach((module) => {
+                module.render(ctx);
                 if (module.type === 'image') {
                     const { src } = module;
                     const obj = this.assetsManager.getAssetsObj(src);
-                    console.log(this.assetsManager, src);
+                    // console.log(this.assetsManager, src)
                     if (obj) {
-                        module.render(ctx, obj.imageRef);
+                        module.renderImage(ctx, obj.imageRef);
                     }
-                }
-                else {
-                    module.render(ctx);
                 }
             });
             new Rectangle(frameBorder).render(ctx);
