@@ -105,7 +105,7 @@ export const batchCopy: BatchCopyFn = function (this, idSet, includeIdentifiers)
 
   moduleArr.sort((a, b) => a.layer - b.layer)
 
-  return moduleArr.map(mod => mod.toJSON(includeIdentifiers))
+  return moduleArr.map(mod => mod.toMinimalJSON(includeIdentifiers))
 }
 
 export function batchDelete(this: Editor, idSet: Set<UID>): ModuleProps[] {

@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc && resolve-tspaths",
     "resolve-tspaths": "resolve-tspaths",
-    "build:watch": "tsc-watch --onEmit 'resolve-tspaths'",
+    "build:watch": "tsc-watch --onFailure 'resolve-tspaths'",
     "output-json-doc": "node ./docgen.cjs",
     "watch-json-doc": "node ./docgen.watch.cjs",
     "PUBLISH": "npm publish --access public"

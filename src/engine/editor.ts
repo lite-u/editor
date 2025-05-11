@@ -119,7 +119,7 @@ class Editor {
       const module = this.moduleMap.get(unique)
 
       if (module) {
-        return module.toJSON()
+        return module.toMinimalJSON()
       }
 
       return null
@@ -220,7 +220,8 @@ class Editor {
       const rotateSize = 15 / scale * dpr
       const lineColor = '#5491f8'
 
-      const operators = module!.getOperators({
+      const operators = module!.getOperators(module.id,
+        {
         size: resizeSize,
         lineColor,
         lineWidth,
@@ -370,7 +371,7 @@ class Editor {
         }
       }
 
-      result.elements.push(module.toJSON())
+      result.elements.push(module.toMinimalJSON())
     })
 
     return result

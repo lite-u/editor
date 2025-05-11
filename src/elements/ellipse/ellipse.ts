@@ -1,38 +1,34 @@
 import {generateBoundingRectFromRotatedRect} from '~/core/utils'
 import Shape, {ElementShapeSaveProps} from '../shape/shape'
 import {SnapPointData} from '../../engine/type'
-import Rectangle from '../rectangle/rectangle'
+import Rectangle, {RectangleProps} from '../rectangle/rectangle'
 import {ResizeHandleName} from '../../engine/selection/type'
 import {getResizeTransform} from '../../core/lib'
-import { ElementFillColor } from '~/type'
+import {ElementFillColor, Point} from '~/type'
 import renderer from '~/elements/image/renderer'
 
-export interface EllipseProps extends ElementShapeSaveProps {
-  type: 'ellipse'
+export interface EllipseProps extends RectangleProps {
+  type?: 'ellipse'
   r1: number
   r2: number
 }
 
+export type RequiredEllipseProps = Required<EllipseProps>
+
 class Ellipse extends Shape {
-  // type = 'ellipse'
+  readonly type = 'ellipse'
   r1: number
   r2: number
-  readonly fillColor: ElementFillColor
-  readonly enableFill: boolean
 
   constructor({
-                fillColor,
-                enableFill = true,
                 r1,
                 r2,
                 ...rest
-              }: Omit<EllipseProps, 'type'>) {
-    super({type: 'rectangle', ...rest})
+              }: EllipseProps) {
+    super(rest)
 
     this.r1 = r1!
     this.r2 = r2!
-    this.fillColor = fillColor as ElementFillColor
-    this.enableFill = enableFill
   }
 
   static applyResizeTransform = ({
@@ -160,14 +156,14 @@ class Ellipse extends Shape {
     return null
   }
 
-  public toJSON<T extends boolean>(
+  public toMinimalJSON<T extends boolean>(
     includeIdentifiers: T = true as T,
   ): T extends true ?
     EllipseProps :
     Omit<EllipseProps, 'id' & 'layer'> {
 
     return {
-      ...super.toJSON(includeIdentifiers),
+      ...super.toMinimalJSON(includeIdentifiers),
       type: 'ellipse',
       fillColor: this.fillColor,
       enableFill: this.enableFill,
@@ -232,15 +228,16 @@ class Ellipse extends Shape {
   }
 
   public getOperators(
+    id:string,
     resizeConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
     rotateConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
   ) {
-    return super.getOperators(resizeConfig, rotateConfig, this.getRect(), this.toJSON(true),
+    return super.getOperators(id,resizeConfig, rotateConfig, this.getRect(), this.toMinimalJSON(true),
     )
   }
 
   public getSnapPoints(): SnapPointData[] {
-    const {x: cx, y: cy, r1, r2, id} = this
+    const {x: cx, y: cy, r1, r2} = this
 
     // Define snap points: center, cardinal edge points (top, right, bottom, left)
     const points: SnapPointData[] = [

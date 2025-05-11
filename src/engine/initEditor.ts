@@ -269,7 +269,7 @@ export function initEditor(this: Editor) {
     this.batchAdd(newModules)
     this.replaceSelected(savedSelected)
 
-    const moduleProps = [...newModules.values()].map((mod) => mod.toJSON())
+    const moduleProps = [...newModules.values()].map((mod) => mod.toMinimalJSON())
 
     dispatch('module-updated', {
       type: 'history-duplicate',
@@ -341,7 +341,7 @@ export function initEditor(this: Editor) {
       })*/
     this.replaceSelected(savedSelected)
 
-    const moduleProps = [...newModules.values()].map((mod) => mod.toJSON())
+    const moduleProps = [...newModules.values()].map((mod) => mod.toMinimalJSON())
 
     dispatch('module-updated', {
       type: 'history-add',

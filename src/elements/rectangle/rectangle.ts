@@ -1,130 +1,54 @@
-import Shape, {ElementShapeSaveProps} from '../shape/shape'
-import {ResizeHandleName} from '../../engine/selection/type'
-import {CenterBasedRect, Point, Rect} from '../../type'
+import Shape, {ShapeCreationProps} from '../shape/shape'
+// import {ResizeHandleName} from '~/engine/selection/type'
+import {CenterBasedRect, Point, Rect} from '~/type'
 import {ModuleInstance} from '../elements'
-import {SnapPointData} from '../../engine/type'
-import {getResizeTransform} from '../../core/lib'
-import {generateBoundingRectFromRotatedRect} from '../../core/utils'
+import {SnapPointData} from '~/engine/type'
+// import {getResizeTransform} from '~/core/lib'
+import {generateBoundingRectFromRect, generateBoundingRectFromRotatedRect} from '~/core/utils'
+import renderer from './renderer'
+import transform, {TransformProps} from '~/elements/rectangle/transform'
 
-export interface RectangleProps extends ElementShapeSaveProps {
-  width: number
-  height: number
+export interface RectangleProps extends ShapeCreationProps {
+  type?: 'rectangle'
+  id: string
+  layer: number
+  width?: number
+  height?: number
   radius?: number
 }
 
-// export type RequiredRectangleProps = Required<RectangleProps>
+export type RequiredRectangleProps = Required<RectangleProps>
+
+const DEFAULT_WIDTH = 10
+const DEFAULT_HEIGHT = 10
+const DEFAULT_RADIUS = 0
+
 class Rectangle extends Shape {
-  // readonly type = 'rectangle'
+  readonly type = 'rectangle'
+  id: string
+  layer: number
   width: number
   height: number
   radius: number
 
   constructor({
-                width,
-                height,
-                radius = 0,
+                id,
+                layer,
+                width = DEFAULT_WIDTH,
+                height = DEFAULT_HEIGHT,
+                radius = DEFAULT_RADIUS,
                 ...rest
-              }: Omit<RectangleProps, 'type'>) {
-    // rest = {type :'text',...textProps }
-    super({...rest})
-    this.width = width!
-    this.height = height!
-    this.radius = radius!
+              }: RectangleProps) {
+    super(rest)
+    this.id = id
+    this.layer = layer
+    this.width = width
+    this.height = height
+    this.radius = radius
   }
 
-  static applyResizeTransform = ({
-                                   downPoint,
-                                   movePoint,
-                                   moduleOrigin,
-                                   rotation,
-                                   handleName,
-                                   scale,
-                                   dpr,
-                                   altKey = false,
-                                   shiftKey = false,
-                                 }: {
-    downPoint: { x: number; y: number };
-    movePoint: { x: number; y: number };
-    moduleOrigin: RectangleProps
-    rotation: number;
-    handleName: ResizeHandleName;
-    scale: number;
-    dpr: number;
-    altKey?: boolean;
-    shiftKey?: boolean;
-  }): Rect => {
-    const {
-      width: initialWidth,
-      height: initialHeight,
-      x: initialCX,
-      y: initialCY,
-    } = moduleOrigin
-    // Calculate raw movement in screen coordinates
-    const dxScreen = movePoint.x - downPoint.x
-    const dyScreen = movePoint.y - downPoint.y
-
-    // Convert to canvas coordinates and apply DPR
-    const dx = (dxScreen / scale) * dpr
-    const dy = (dyScreen / scale) * dpr
-
-    // Convert rotation to radians and calculate rotation matrix
-    const angle = -rotation * (Math.PI / 180)
-    const cos = Math.cos(angle)
-    const sin = Math.sin(angle)
-
-    // Transform the movement vector into the object's local coordinate system
-    const localDX = dx * cos - dy * sin
-    const localDY = dx * sin + dy * cos
-
-    // Get the resize transform based on the handle
-    const t = getResizeTransform(handleName, altKey)
-
-    // Calculate the size changes in local coordinates
-    let deltaX = localDX * t.dx
-    let deltaY = localDY * t.dy
-
-    // Maintain aspect ratio if shift key is pressed
-    if (shiftKey) {
-      const aspect = initialWidth / initialHeight
-      const absDeltaX = Math.abs(deltaX)
-      const absDeltaY = Math.abs(deltaY)
-
-      // For corner handles, use the larger movement
-      if (t.dx !== 0 && t.dy !== 0) {
-        if (absDeltaX > absDeltaY) {
-          deltaY = deltaX / aspect
-        } else {
-          deltaX = deltaY * aspect
-        }
-      }
-      // For horizontal handles, maintain aspect ratio based on width change
-      else if (t.dx !== 0) {
-        deltaY = deltaX / aspect
-      }
-      // For vertical handles, maintain aspect ratio based on height change
-      else if (t.dy !== 0) {
-        deltaX = deltaY * aspect
-      }
-    }
-
-    // Apply the resize transform
-    const factor = altKey ? 2 : 1
-    const width = Math.abs(initialWidth + deltaX * factor)
-    const height = Math.abs(initialHeight + deltaY * factor)
-
-    // Calculate the center movement in local coordinates
-    const centerDeltaX = -deltaX * t.cx * factor
-    const centerDeltaY = -deltaY * t.cy * factor
-
-    // Transform the center movement back to global coordinates
-    const globalCenterDeltaX = centerDeltaX * cos + centerDeltaY * sin
-    const globalCenterDeltaY = -centerDeltaX * sin + centerDeltaY * cos
-
-    // Calculate the new center position
-    const x = initialCX + globalCenterDeltaX
-    const y = initialCY + globalCenterDeltaY
-
-    return {x, y, width, height}
+  static applyResizeTransform = (arg: TransformProps): Rect => {
+    return transform(arg)
   }
 
   public hitTest(point: Point, borderPadding = 5): 'inside' | 'border' | null {
@@ -162,14 +86,46 @@ class Rectangle extends Shape {
     return null
   }
 
-  public toJSON<T extends boolean>(includeIdentifiers: T = true as T): T extends true ? RectangleProps : Omit<RectangleProps, 'id' & 'layer'> {
+  public toJSON(): RequiredRectangleProps {
+    const {
+      radius,
+      width,
+      height,
+      id,
+      layer,
+    } = this
+
     return {
+      ...super.toJSON(),
       type: 'rectangle',
-      radius: this.radius,
-      width: this.width,
-      height: this.height,
-      ...super.toJSON(includeIdentifiers),
-    } as T extends true ? RectangleProps : Omit<RectangleProps, 'id' & 'layer'>
+      id,
+      layer,
+      radius,
+      width,
+      height,
+    }
+
+  }
+
+  public toMinimalJSON(): RectangleProps {
+    const result: RectangleProps = {
+      ...super.toMinimalJSON(),
+      type: 'rectangle',
+      id: this.id,
+      layer: this.layer,
+    }
+
+    if (this.radius !== DEFAULT_RADIUS) {
+      result.radius = this.radius
+    }
+    if (this.width !== DEFAULT_WIDTH) {
+      result.width = this.width
+    }
+    if (this.height !== DEFAULT_HEIGHT) {
+      result.height = this.height
+    }
+
+    return result
   }
 
   public getRect(): CenterBasedRect {
@@ -190,7 +146,8 @@ class Rectangle extends Shape {
     const y = cy - height / 2
 
     if (rotation === 0) {
-      return {
+      return generateBoundingRectFromRect({x, y, width, height})
+      /*return {
         x,
         y,
         width,
@@ -201,7 +158,7 @@ class Rectangle extends Shape {
         bottom: y + height,
         cx,
         cy,
-      }
+      }*/
     }
 
     return generateBoundingRectFromRotatedRect({x, y, width, height}, rotation)
@@ -241,11 +198,12 @@ class Rectangle extends Shape {
   }
 
   public getOperators(
+    id: string,
     resizeConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
     rotateConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
   ) {
 
-    return super.getOperators(resizeConfig, rotateConfig, this.getRect(), this.toJSON(true))
+    return super.getOperators(id, resizeConfig, rotateConfig, this.getRect(), this.toJSON())
   }
 
   public getSnapPoints(): SnapPointData[] {
@@ -270,83 +228,7 @@ class Rectangle extends Shape {
   }
 
   render(ctx: CanvasRenderingContext2D): void {
-    // const { x, y, width, height, fillColor } = this.getDetails();
-    const {
-      // width,
-      // height,
-      radius,
-    } = this
-    let {x, y, width, height, rotation, opacity, fillColor, lineWidth, lineColor, dashLine} = this.toJSON()
-
-    // x = Math.round(x)
-    // y = Math.round(y)
-    // width = Math.round(width)
-    // height = Math.round(height)
-    // console.log(x, y, width, height)
-    const LocalX = width / 2
-    const LocalY = height / 2
-
-    // Save current context state to avoid transformations affecting other drawings
-    ctx.save()
-
-    // Move context to the rectangle's center (Direct center point at x, y)
-    ctx.translate(x, y)
-
-    // Apply rotation if needed
-    if (rotation! > 0) {
-      ctx.rotate(rotation! * Math.PI / 180)
-    }
-
-    // Apply fill style if enabled
-    if (opacity > 0) {
-      ctx.fillStyle = fillColor as string
-      ctx.globalAlpha = opacity / 100 // Set the opacity
-    }
-
-    // Apply stroke style if enabled
-    if (lineWidth > 0) {
-      ctx.lineWidth = lineWidth
-      ctx.strokeStyle = lineColor
-      ctx.lineJoin = 'miter'
-    }
-
-    // return
-    // Draw a rounded rectangle or regular rectangle
-    ctx.beginPath()
-
-    if (dashLine) {
-      ctx.setLineDash([3, 5])
-    }
-
-    if (radius > 0) {
-      // Use arcTo for rounded corners
-      ctx.moveTo(-LocalX + radius, -LocalY)
-      ctx.arcTo(LocalX, -LocalY, LocalX, LocalY, radius)
-      ctx.arcTo(LocalX, LocalY, -LocalX, LocalY, radius)
-      ctx.arcTo(-LocalX, LocalY, -LocalX, -LocalY, radius)
-      ctx.arcTo(-LocalX, -LocalY, LocalX, -LocalY, radius)
-    } else {
-      // For square/rectangular modules with no rounded corners
-      ctx.rect(-LocalX, -LocalY, width, height)
-    }
-    ctx.closePath()
-
-    // Fill if enabled
-    if (opacity > 0) {
-      ctx.fill()
-    }
-
-    // Stroke if enabled
-    if (lineWidth > 0) {
-      ctx.stroke()
-    }
-
-    /*   if (gradient) {
-         // Implement gradient rendering (as needed)
-       }*/
-
-    // Restore the context to avoid affecting subsequent drawings
-    ctx.restore()
+    renderer(this, ctx)
   }
 }
 

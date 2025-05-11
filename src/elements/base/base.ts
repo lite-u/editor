@@ -14,6 +14,8 @@ export interface ElementBaseProps {
   rotation?: number
 }
 
+export type RequiredBaseProps = Required<ElementBaseProps>
+
 const DEFAULT_ENABLE_LINE = true
 const DEFAULT_LINE_COLOR = '#000'
 const DEFAULT_LINE_WIDTH = 1
@@ -74,7 +76,29 @@ class Base {
     return newRotation
   }
 
-  protected toJSON(): ElementBaseProps {
+  protected toJSON(): RequiredBaseProps {
+    const {
+      enableLine,
+      lineColor,
+      lineWidth,
+      opacity,
+      enableShadow,
+      shadow,
+      rotation,
+    } = this
+
+    return {
+      enableLine,
+      lineColor,
+      lineWidth,
+      opacity,
+      enableShadow,
+      shadow,
+      rotation,
+    }
+  }
+
+  protected toMinimalJSON(): ElementBaseProps {
     const result: ElementBaseProps = {}
 
     if (this.enableLine !== DEFAULT_ENABLE_LINE) {
@@ -107,7 +131,7 @@ class Base {
     return generateBoundingRectFromTwoPoints({x: 0, y: 0}, {x: 0, y: 0})
   }
 
-  protected render(/*_ctx: CanvasRenderingContext2D*/): void {
+  protected render(_ctx: CanvasRenderingContext2D): void {
     return undefined
   }
 }

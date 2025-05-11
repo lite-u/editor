@@ -17,7 +17,7 @@ export function modifySelected(
 
     if (this.moduleMap.has(first)) {
       // @ts-ignore
-      eventCallBackData = this.moduleMap.get(first).toJSON()
+      eventCallBackData = this.moduleMap.get(first).toMinimalJSON()
       // console.log(eventCallBackData)
     }
   }

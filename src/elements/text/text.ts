@@ -53,11 +53,11 @@ class ElementText extends Rectangle {
     this.lineHeight = lineHeight
   }
 
-  public toJSON<T extends boolean>(includeIdentifiers: T = true as T): T extends true ? RectangleProps : Omit<RectangleProps, 'id' & 'layer'> {
+  public toMinimalJSON<T extends boolean>(includeIdentifiers: T = true as T): T extends true ? RectangleProps : Omit<RectangleProps, 'id' & 'layer'> {
     return {
       content: this.content,
       textColor: this.textColor,
-      ...super.toJSON(includeIdentifiers),
+      ...super.toMinimalJSON(includeIdentifiers),
     } as T extends true ? RectangleProps : Omit<RectangleProps, 'id' & 'layer'>
   }
 
@@ -66,7 +66,7 @@ class ElementText extends Rectangle {
     rotateConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
   ) {
 
-    return super.getOperators(resizeConfig, rotateConfig, this.getRect(), this.toJSON(true))
+    return super.getOperators(resizeConfig, rotateConfig, this.getRect(), this.toMinimalJSON(true))
   }
 
   render(ctx: CanvasRenderingContext2D): void {
