@@ -60,7 +60,8 @@ class Editor {
         this.rect = generateBoundingRectFromTwoPoints(p1, p2);
         this.viewportRect = generateBoundingRectFromTwoPoints(p1, p2);
         this.resizeObserver.observe(container);
-        this.toolManager.set('rectangle');
+        // this.toolManager.set('rectangle')
+        // this.toolManager.set('selector')
         this.action.dispatch('element-add', elements);
     }
     execute(type, data = null) {

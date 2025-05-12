@@ -97,8 +97,8 @@ export function initViewportDom(id: UID): ViewportDomRefType {
     selectionBox,
     selectionCanvas,
     mainCanvas,
-    scrollBarX,
-    scrollBarY,
+    // scrollBarX,
+    // scrollBarY,
     cursor,
   }
 }

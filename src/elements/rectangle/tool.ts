@@ -84,14 +84,17 @@ const rectangleTool: ToolManager = {
         _selectingModules,
         selectedShadow,
         viewport,
+        interaction,
       } = this
+
+      const {mouseMovePoint} = interaction
       const elementMap = elementManager.all
       const x = e.clientX - viewport.rect!.x
       const y = e.clientY - viewport.rect!.y
       const modifyKey = e.ctrlKey || e.metaKey || e.shiftKey
       // console.log('up',manipulationStatus)
-      viewport.mouseMovePoint.x = x
-      viewport.mouseMovePoint.y = y
+      mouseMovePoint.x = x
+      mouseMovePoint.y = y
 
       switch (manipulationStatus) {
         case 'selecting':

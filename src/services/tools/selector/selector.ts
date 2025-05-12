@@ -195,7 +195,7 @@ const selection = {
         const rotation = Base.applyRotating.call(this, shiftKey)
         const cursorAngle = getRotateAngle(centerPoint, mouseMovePoint)
 
-        updateCursor.call(this, 'rotate', viewport.mouseMovePoint, cursorAngle)
+        updateCursor.call(this, 'rotate', mouseMovePoint, cursorAngle)
 
         this.action.dispatch('element-modifying', {
           type: 'rotate',
@@ -230,9 +230,9 @@ const selection = {
         if (r) {
           if (r.type === 'rotate') {
             const centerPoint = world.getViewPointByWorldPoint(r.moduleOrigin.x, r.moduleOrigin.y)
-            const angle = getRotateAngle(centerPoint, viewport.mouseMovePoint)
+            const angle = getRotateAngle(centerPoint, mouseMovePoint)
 
-            updateCursor.call(this, 'rotate', viewport.mouseMovePoint, angle)
+            updateCursor.call(this, 'rotate', mouseMovePoint, angle)
           } else if (r.type === 'resize') {
             const {x, y} = r.moduleOrigin
             const centerPoint = world.getViewPointByWorldPoint(x, y)

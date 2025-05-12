@@ -78,8 +78,8 @@ export function initViewportDom(id) {
         selectionBox,
         selectionCanvas,
         mainCanvas,
-        scrollBarX,
-        scrollBarY,
+        // scrollBarX,
+        // scrollBarY,
         cursor,
     };
 }
