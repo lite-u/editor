@@ -79,12 +79,7 @@ class Cursor {
     editor.container.appendChild(this.domRef)
     editor.container.addEventListener('mouseenter', () => { this.show() }, {signal})
     editor.container.addEventListener('mouseout', () => { this.hide() }, {signal})
-    editor.container.addEventListener('mousemove', e => {
-      this.move(e)
-      /*this.move({
-        x: e.clientX,
-      })*/
-    }, {signal})
+    editor.container.addEventListener('mousemove', e => { this.move(e) }, {signal})
   }
 
   set(name: CursorName) {
