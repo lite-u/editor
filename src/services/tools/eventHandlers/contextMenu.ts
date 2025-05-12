@@ -1,5 +1,5 @@
 import Editor from '../../../main/editor'
-import {detectHoveredModule} from './funcs'
+import {detectHoveredModule} from './helper'
 import {UID} from '~/core/core'
 import ToolManager from '~/services/tools/toolManager'
 

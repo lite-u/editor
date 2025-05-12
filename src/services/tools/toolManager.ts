@@ -43,18 +43,12 @@ class ToolManager {
     this.toolMap.set('selector', selector)
     this.currentToolName = 'selector'
     this.tool = selector
-    // this.toolMap.set('rectangle',rectangle)
-    // this.toolMap.set('rectangle',rectangle)
   }
 
   set(tool: ToolName) {
     this.currentToolName = tool
     this.tool = this.toolMap.get(tool)!
   }
-
-  // currentTool: Tool
-
-  register() {}
 
   destroy() {
     this.eventsController.abort()

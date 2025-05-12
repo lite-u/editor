@@ -1,18 +1,18 @@
-import Editor from '../../../main/editor'
 import {ResizeDirection} from '../../selection/type'
 import {Point, UID} from '~/type'
 import {ElementInstance} from '~/elements/elements'
+import ToolManager from '~/services/tools/toolManager'
 
-export function detectHoveredModule(this: Editor) {
-  const {viewport} = this
-  const worldPoint = this.world.getWorldPointByViewportPoint(
-    viewport.mouseMovePoint.x,
-    viewport.mouseMovePoint.y,
+export function detectHoveredModule(this: ToolManager) {
+  const {interaction, action, world, visible} = this.editor
+  const worldPoint = world.getWorldPointByViewportPoint(
+    interaction.mouseMovePoint.x,
+    interaction.mouseMovePoint.y,
   )
   // const maxLayer = Number.MIN_SAFE_INTEGER
   let moduleId: UID | null = null
   let hitOn = null
-  const arr = [...this.operationHandlers]
+  const arr = [...interaction.operationHandlers]
   // console.log(worldPoint)
 
   for (let i = arr.length - 1; i >= 0; i--) {
@@ -23,12 +23,12 @@ export function detectHoveredModule(this: Editor) {
   }
 
   if (hitOn) {
-    this.action.dispatch('element-hover-enter', hitOn.id)
+    action.dispatch('element-hover-enter', hitOn.id)
     // console.log(hitOn)
     return hitOn
   }
 
-  const arr2 = [...this.getVisibleElementMap.values()]
+  const arr2 = visible.values
 
   for (let i = arr2.length - 1; i >= 0; i--) {
     const module = arr2[i]
@@ -39,24 +39,26 @@ export function detectHoveredModule(this: Editor) {
     }
   }
 
-  if (this.hoveredModule !== moduleId) {
-    if (this.hoveredModule) {
-      this.action.dispatch('element-hover-leave', this.hoveredModule)
+  if (interaction.hoveredModule !== moduleId) {
+    if (interaction.hoveredModule) {
+      action.dispatch('element-hover-leave', interaction.hoveredModule)
     }
 
     if (moduleId) {
-      this.action.dispatch('element-hover-enter', moduleId)
+      action.dispatch('element-hover-enter', moduleId)
     }
   }
 }
 
-export function applyResize(this: Editor, altKey: boolean, shiftKey: boolean) {
-  const {mouseDownPoint, mouseMovePoint, scale, dpr} = this.viewport
+export function applyResize(this: ToolManager, altKey: boolean, shiftKey: boolean) {
+  const {elementManager, interaction, world} = this.editor
+  const {mouseDownPoint, mouseMovePoint, _resizingOperator} = interaction
+  const {scale, dpr} = world
   const {
     name: handleName,
     module: {rotation},
     moduleOrigin,
-  } = this._resizingOperator!
+  } = _resizingOperator!
   const {id} = moduleOrigin
   const resizeParam = {
     downPoint: mouseDownPoint,
@@ -70,7 +72,7 @@ export function applyResize(this: Editor, altKey: boolean, shiftKey: boolean) {
     moduleOrigin,
   }
 
-  const relatedModule = this.elementManager.all.get(id)
+  const relatedModule = elementManager.all.get(id)
 
   if (relatedModule) {
     // @ts-ignore

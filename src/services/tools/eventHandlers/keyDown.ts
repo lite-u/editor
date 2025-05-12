@@ -1,5 +1,5 @@
 import Editor from '../../../main/editor'
-import {applyResize} from './funcs'
+import {applyResize} from './helper'
 import {updateCursor} from '../../viewport/domManipulations'
 import ToolManager from '~/services/tools/toolManager'
 
