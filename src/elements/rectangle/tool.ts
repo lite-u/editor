@@ -217,8 +217,7 @@ const rectangleTool: ToolManager = {
       this.interaction._deselection = null
       this._resizingOperator = null
 
-      updateSelectionBox(
-        viewport.selectionBox,
+      interaction.updateSelectionBox(
         {x: 0, y: 0, width: 0, height: 0},
         false,
       )

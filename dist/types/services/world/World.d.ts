@@ -2,7 +2,6 @@ import Editor from '~/main/editor';
 import { BoundingRect, Point } from '~/type';
 declare class World {
     editor: Editor;
-    selectionBox: HTMLDivElement;
     mainCanvas: HTMLCanvasElement;
     mainCanvasContext: CanvasRenderingContext2D;
     selectionCanvas: HTMLCanvasElement;

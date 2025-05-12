@@ -113,7 +113,7 @@ const selector = {
 
         const selectingChanged = !areSetsEqual(_selectingModules, _selecting)
 
-        updateSelectionBox(world.selectionBox, rect)
+        interaction.updateSelectionBox(rect)
 
         /**
          * Simple logic
@@ -410,8 +410,7 @@ const selector = {
       interaction._deselection = null
       interaction._resizingOperator = null
 
-      updateSelectionBox(
-        world.selectionBox,
+      interaction.updateSelectionBox(
         {x: 0, y: 0, width: 0, height: 0},
         false,
       )

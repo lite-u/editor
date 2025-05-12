@@ -4,9 +4,16 @@ import { generateBoundingRectFromTwoPoints } from '../../core/utils.js';
 import { createWith, screenToWorld, worldToScreen } from '../../lib/lib.js';
 import { zoomAtPoint } from './helper.js';
 import selectionRender from './selectionRender.js';
+const STYLE = {
+    position: 'absolute',
+    left: '0',
+    top: '0',
+    width: '100%',
+    height: '100%',
+    pointerEvents: 'none',
+};
 class World {
     editor;
-    selectionBox;
     mainCanvas;
     mainCanvasContext;
     selectionCanvas;
@@ -19,20 +26,18 @@ class World {
     dpr;
     constructor(editor) {
         this.editor = editor;
-        this.mainCanvas = createWith('canvas', 'main-canvas', editor.id);
+        this.mainCanvas = createWith('canvas', 'main-canvas', editor.id, { ...STYLE });
+        this.selectionCanvas = createWith('canvas', 'selection-canvas', editor.id, { ...STYLE });
         this.mainCanvasContext = this.mainCanvas.getContext('2d');
-        this.selectionCanvas = createWith('canvas', 'selection-canvas', editor.id);
         this.selectionCanvasContext = this.selectionCanvas.getContext('2d');
-        this.selectionBox = createWith('div', 'editor-selection-box', editor.id);
+        // this.selectionBox = createWith('div', 'editor-selection-box', editor.id)
         this.mainCanvas.setAttribute('id', 'main-canvas');
         this.scale = 1;
         this.offset = { x: 0, y: 0 };
         this.worldRect = generateBoundingRectFromTwoPoints(this.offset, this.offset);
         this.dpr = 2;
-        this.mainCanvas.style.pointerEvents = 'none';
-        this.selectionCanvas.style.pointerEvents = 'none';
-        this.selectionBox.style.pointerEvents = 'none';
-        this.editor.container.append(this.mainCanvas, this.selectionCanvas, this.selectionBox);
+        // this.selectionBox.style.pointerEvents = 'none'
+        this.editor.container.append(this.mainCanvas, this.selectionCanvas);
     }
     updateWorldRect() {
         const { width, height } = this.editor.viewportRect;

@@ -1,4 +1,4 @@
-import { updateCursor, updateSelectionBox } from '../../viewport/domManipulations.js';
+import { updateCursor } from '../../viewport/domManipulations.js';
 import Base from '../../../elements/base/base.js';
 import { applyResize } from '../eventHandlers/helper.js';
 import nid from '../../../core/nid.js';
@@ -176,7 +176,7 @@ const rectangle = {
             this.manipulationStatus = 'static';
             this.interaction._deselection = null;
             this._resizingOperator = null;
-            updateSelectionBox(viewport.selectionBox, { x: 0, y: 0, width: 0, height: 0 }, false);
+            interaction.updateSelectionBox({ x: 0, y: 0, width: 0, height: 0 }, false);
         }
     },
 };

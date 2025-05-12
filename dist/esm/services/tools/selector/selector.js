@@ -1,6 +1,5 @@
 import { generateBoundingRectFromTwoPoints } from '../../../core/utils.js';
 import { areSetsEqual, getSymmetricDifference } from '../../../lib/lib.js';
-import { updateSelectionBox } from '../../viewport/domManipulations.js';
 import { applyResize, detectHoveredModule, getResizeCursor, getRotateAngle } from '../eventHandlers/helper.js';
 import { applyRotating } from '../helper.js';
 const selector = {
@@ -84,7 +83,7 @@ const selector = {
                         }
                     });
                     const selectingChanged = !areSetsEqual(_selectingModules, _selecting);
-                    updateSelectionBox(world.selectionBox, rect);
+                    interaction.updateSelectionBox(rect);
                     /**
                      * Simple logic
                      * If with modifyKey
@@ -343,7 +342,7 @@ const selector = {
             interaction.manipulationStatus = 'static';
             interaction._deselection = null;
             interaction._resizingOperator = null;
-            updateSelectionBox(world.selectionBox, { x: 0, y: 0, width: 0, height: 0 }, false);
+            interaction.updateSelectionBox({ x: 0, y: 0, width: 0, height: 0 }, false);
         }
     },
 };
