@@ -30,7 +30,6 @@ class Editor {
     elementManager;
     selection;
     assetsManager;
-    canvasView;
     rect;
     viewportRect;
     initialized = false;
@@ -44,12 +43,11 @@ class Editor {
         this.action = new Action();
         this.visible = new VisibleManager(this);
         this.clipboard = new ClipboardManager();
-        this.interaction = new InteractionState();
+        this.interaction = new InteractionState(this);
         this.world = new World(this);
         this.toolManager = new ToolManager(this);
         this.cursor = new Cursor(this);
         this.history = new History(this);
-        this.canvasView = new World(this);
         this.selection = new SelectionManager(this);
         this.assetsManager = new AssetsManager(this, assets);
         this.elementManager = new ElementManager(this);
@@ -119,6 +117,17 @@ class Editor {
         // this.destroy()
         this.action.destroy();
         this.history.destroy();
+        this.elementManager.destroy();
+        this.action.destroy();
+        this.visible.destroy();
+        this.clipboard.destroy();
+        this.interaction.destroy();
+        this.world.destroy();
+        this.toolManager.destroy();
+        this.cursor.destroy();
+        this.history.destroy();
+        this.selection.destroy();
+        this.assetsManager.destroy();
         this.elementManager.destroy();
         this.resizeObserver.disconnect();
     }

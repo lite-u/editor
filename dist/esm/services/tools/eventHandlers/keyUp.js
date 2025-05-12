@@ -1,4 +1,4 @@
-import { applyResize } from './funcs.js';
+import { applyResize } from './helper.js';
 // import {updateSelectionBox} from "../domManipulations.ts"
 function handleKeyUp(e) {
     if (e.code === 'Space') {

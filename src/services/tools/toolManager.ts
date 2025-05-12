@@ -19,10 +19,10 @@ export type ToolName = 'selector' | 'rectangle' | 'text' | 'ellipse' | 'panning'
 class ToolManager {
   editor: Editor
   eventsController = new AbortController()
-  mouseDownPoint: Point = {x: 0, y: 0}
-  mouseMovePoint: Point = {x: 0, y: 0}
+  // mouseDownPoint: Point = {x: 0, y: 0}
+  // mouseMovePoint: Point = {x: 0, y: 0}
   toolMap: Map<ToolName, ToolType> = new Map()
-  spaceKeyDown: boolean = false
+  // spaceKeyDown: boolean = false
   protected tool: ToolType
   currentToolName: ToolName
 

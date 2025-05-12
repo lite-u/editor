@@ -4,9 +4,9 @@ import {rectsOverlap} from '~/core/utils'
 import Editor from '~/main/editor'
 
 class VisibleManager {
-  private readonly visibleElementMap: ElementMap
-  private readonly visibleSelected: Set<UID> = new Set()
-  readonly editor: Editor
+  private visibleElementMap: ElementMap
+  private visibleSelected: Set<UID> = new Set()
+  private editor: Editor
 
   constructor(editor: Editor) {
     this.editor = editor
@@ -81,6 +81,14 @@ class VisibleManager {
 
       this.editor.interaction.operationHandlers.push(...operators)
     }
+  }
+
+  destroy() {
+    this.visibleElementMap.clear()
+    this.visibleSelected.clear()
+    this.editor = null!
+    this.visibleElementMap = null!
+    this.visibleSelected = null!
   }
 
 }

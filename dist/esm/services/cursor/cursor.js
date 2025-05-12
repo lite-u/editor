@@ -8,6 +8,9 @@ class Cursor {
     set(cursor) {
         console.log('set cursor', cursor);
     }
+    move(p, rotation) {
+        console.log('set cursor', p);
+    }
     grab() { }
     grabbing() { }
     default() { }

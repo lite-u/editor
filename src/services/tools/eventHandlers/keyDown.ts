@@ -1,28 +1,33 @@
-import Editor from '../../../main/editor'
 import {applyResize} from './helper'
-import {updateCursor} from '../../viewport/domManipulations'
 import ToolManager from '~/services/tools/toolManager'
 
 // import {updateSelectionBox} from "../domManipulations.ts"
 
 function handleKeyDown(this: ToolManager, e: KeyboardEvent) {
-  // const _t = e.target !== this.wrapper
-  if (this.manipulationStatus === 'panning' || this.manipulationStatus === 'selecting') return
+  const _t = e.target !== this.editor.container
+  if (_t) return
+  const {interaction, action, cursor, toolManager} = this.editor
+  const {manipulationStatus} = interaction
+  if (manipulationStatus === 'panning' || manipulationStatus === 'selecting') return
 
   if (e.code === 'Space') {
-    this.viewport.spaceKeyDown = true
-    updateCursor.call(this, 'grabbing')
+    interaction.spaceKeyDown = true
+    cursor.set('grab')
+    toolManager.set('panning')
+    // updateCursor.call(this, 'grabbing')
+    interaction._lastTool = toolManager.currentToolName
+
     // this.viewport.wrapper.style.cursor = 'grabbing'
     e.preventDefault()
     return
   }
 
-  if (this.manipulationStatus === 'resizing') {
+  if (manipulationStatus === 'resizing') {
     const {altKey, shiftKey} = e
 
     const r = applyResize.call(this, altKey, shiftKey)
 
-    this.action.dispatch('element-modifying', {
+    action.dispatch('element-modifying', {
       type: 'resize',
       data: r,
     })

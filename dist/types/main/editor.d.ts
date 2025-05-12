@@ -29,7 +29,6 @@ declare class Editor {
     elementManager: ElementManager;
     selection: SelectionManager;
     assetsManager: AssetsManager;
-    canvasView: World;
     rect: BoundingRect;
     viewportRect: BoundingRect;
     initialized: boolean;

@@ -1,6 +1,6 @@
 import { updateCursor, updateSelectionBox } from '../../viewport/domManipulations.js';
 import Base from '../../../elements/base/base.js';
-import { applyResize } from '../eventHandlers/funcs.js';
+import { applyResize } from '../eventHandlers/helper.js';
 import nid from '../../../core/nid.js';
 const rectangle = {
     start(e) {

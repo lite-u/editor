@@ -9,10 +9,10 @@ import selector from './selector/selector.js';
 class ToolManager {
     editor;
     eventsController = new AbortController();
-    mouseDownPoint = { x: 0, y: 0 };
-    mouseMovePoint = { x: 0, y: 0 };
+    // mouseDownPoint: Point = {x: 0, y: 0}
+    // mouseMovePoint: Point = {x: 0, y: 0}
     toolMap = new Map();
-    spaceKeyDown = false;
+    // spaceKeyDown: boolean = false
     tool;
     currentToolName;
     constructor(editor) {
@@ -29,15 +29,11 @@ class ToolManager {
         this.toolMap.set('selector', selector);
         this.currentToolName = 'selector';
         this.tool = selector;
-        // this.toolMap.set('rectangle',rectangle)
-        // this.toolMap.set('rectangle',rectangle)
     }
     set(tool) {
         this.currentToolName = tool;
         this.tool = this.toolMap.get(tool);
     }
-    // currentTool: Tool
-    register() { }
     destroy() {
         this.eventsController.abort();
         this.eventsController = null;

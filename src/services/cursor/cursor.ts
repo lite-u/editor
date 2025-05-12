@@ -1,5 +1,6 @@
 import {ResizeDirection} from '~/services/selection/type'
 import Editor from '~/main/editor'
+import {Point} from '~/type'
 
 export type CursorResizes = ResizeDirection
 export type CursorType =
@@ -24,6 +25,10 @@ class Cursor {
 
   set(cursor: CursorType) {
     console.log('set cursor', cursor)
+  }
+
+  move(p: Point, rotation?: number) {
+    console.log('set cursor', p)
   }
 
   grab() {}

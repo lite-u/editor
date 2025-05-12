@@ -1,6 +1,8 @@
 import {UID} from '~/core/core'
 import {OperationHandlers, ResizeHandler} from '~/services/selection/type'
-import {Point} from '~/type'
+import {Point, Rect, ToolName} from '~/type'
+import {createWith} from '~/lib/lib'
+import Editor from '~/main/editor'
 
 export type ViewportManipulationType =
   | 'static'
@@ -13,11 +15,12 @@ export type ViewportManipulationType =
   | 'selecting'
 
 class InteractionState {
+  editor: Editor
   mouseDownPoint: Point = {x: 0, y: 0}
   mouseMovePoint: Point = {x: 0, y: 0}
   hoveredModule: UID = ''
   readonly operationHandlers: OperationHandlers[] = []
-
+  spaceKeyDown = false
   draggingModules: Set<UID> = new Set()
   _selectingModules: Set<UID> = new Set()
   _deselection: UID | null = null
@@ -25,14 +28,38 @@ class InteractionState {
   _rotatingOperator: OperationHandlers | null = null
   selectedShadow: Set<UID> = new Set()
   manipulationStatus: ViewportManipulationType = 'static'
+  selectionBox: HTMLDivElement | null = null
+  _lastTool: ToolName | null = null
+  boxColor = '#1FB3FF'
+  boxBgColor = 'rgba(31,180,255,0.1)'
   // toolMap: Map<string, ToolManager> = new Map()
   CopyDeltaX = 50
   CopyDeltaY = 100
   // initialized: boolean = false
   // currentToolName: string = 'selector'
-  constructor() {
+  constructor(editor: Editor) {
+    this.editor = editor
+    this.selectionBox = createWith('div', 'selection-box', editor.id, {
+      display: 'none',
+      pointerEvents: 'none',
+      position: 'absolute',
+      border: `1px solid ${this.boxColor}`,
+      backgroundColor: `${this.boxBgColor}`,
+    })
+    editor.container.appendChild(this.selectionBox)
   }
 
+  updateSelectionBox({x, y, height, width}: Rect, show = true) {
+    this.selectionBox!.style.transform = `translate(${x}px, ${y}px)`
+    this.selectionBox!.style.width = width + 'px'
+    this.selectionBox!.style.height = height + 'px'
+    this.selectionBox!.style.display = show ? 'block' : 'none'
+  }
+
+  destroy() {
+    this.selectionBox?.remove()
+    this.selectionBox = null!
+  }
 }
 
 export default InteractionState

@@ -64,5 +64,12 @@ class VisibleManager {
             this.editor.interaction.operationHandlers.push(...operators);
         }
     }
+    destroy() {
+        this.visibleElementMap.clear();
+        this.visibleSelected.clear();
+        this.editor = null;
+        this.visibleElementMap = null;
+        this.visibleSelected = null;
+    }
 }
 export default VisibleManager;

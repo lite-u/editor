@@ -27,5 +27,6 @@ export declare function rotatePoint(px: number, py: number, cx: number, cy: numb
 };
 export declare function getResizeTransform(name: ResizeHandleName, symmetric?: boolean): ResizeTransform;
 export declare const deduplicateObjectsByKeyValue: <T>(objects: T[]) => T[];
-export declare const createWith: <T extends keyof HTMLElementTagNameMap>(tagName: T, role: string, id: string) => HTMLElementTagNameMap[T];
+export declare const createWith: <T extends keyof HTMLElementTagNameMap>(tagName: T, role: string, id: string, style?: Partial<CSSStyleDeclaration>) => HTMLElementTagNameMap[T];
+export declare const setStyle: (dom: HTMLElement, styles: Partial<CSSStyleDeclaration>) => void;
 export {};

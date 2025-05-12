@@ -19,16 +19,20 @@ class World {
     dpr;
     constructor(editor) {
         this.editor = editor;
-        this.mainCanvas = document.createElement('canvas');
+        this.mainCanvas = createWith('canvas', 'main-canvas', editor.id);
         this.mainCanvasContext = this.mainCanvas.getContext('2d');
-        this.selectionCanvas = document.createElement('canvas');
+        this.selectionCanvas = createWith('canvas', 'selection-canvas', editor.id);
         this.selectionCanvasContext = this.selectionCanvas.getContext('2d');
         this.selectionBox = createWith('div', 'editor-selection-box', editor.id);
+        this.mainCanvas.setAttribute('id', 'main-canvas');
         this.scale = 1;
         this.offset = { x: 0, y: 0 };
         this.worldRect = generateBoundingRectFromTwoPoints(this.offset, this.offset);
         this.dpr = 2;
-        this.editor.container.append(this.mainCanvas, this.selectionCanvas);
+        this.mainCanvas.style.pointerEvents = 'none';
+        this.selectionCanvas.style.pointerEvents = 'none';
+        this.selectionBox.style.pointerEvents = 'none';
+        this.editor.container.append(this.mainCanvas, this.selectionCanvas, this.selectionBox);
     }
     updateWorldRect() {
         const { width, height } = this.editor.viewportRect;
@@ -97,6 +101,7 @@ class World {
         requestAnimationFrame(animate);
     }
     destroy() {
+        console.log('destroy');
         this.mainCanvas.remove();
         this.selectionCanvas.remove();
         this.mainCanvas = null;
