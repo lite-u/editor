@@ -71,8 +71,8 @@ const selection = {
                 {
                     viewport.wrapper.setPointerCapture(e.pointerId);
                     const rect = generateBoundingRectFromTwoPoints(viewport.mouseDownPoint, viewport.mouseMovePoint);
-                    const pointA = this.getWorldPointByViewportPoint(rect.x, rect.y);
-                    const pointB = this.getWorldPointByViewportPoint(rect.right, rect.bottom);
+                    const pointA = this.world.getWorldPointByViewportPoint(rect.x, rect.y);
+                    const pointB = this.world.getWorldPointByViewportPoint(rect.right, rect.bottom);
                     const virtualSelectionRect = generateBoundingRectFromTwoPoints(pointA, pointB);
                     const _selecting = new Set();
                     const modifyKey = e.ctrlKey || e.metaKey || e.shiftKey;

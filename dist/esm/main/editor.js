@@ -2,7 +2,6 @@ import History from '../services/history/history.js';
 import Action from '../services/actions/actions.js';
 import { generateBoundingRectFromTwoPoints, rectsOverlap, throttle } from '../core/utils.js';
 import selectionRender from '../services/viewport/selectionRender.js';
-import { screenToWorld, worldToScreen } from '../core/lib.js';
 import { initEditor } from './init.js';
 import { zoomAtPoint } from '../services/viewport/helper.js';
 import AssetsManager from '../services/assets/AssetsManager.js';
@@ -12,19 +11,22 @@ import ElementRectangle from '../elements/rectangle/rectangle.js';
 import ElementManager from '../services/element/ElementManager.js';
 import SelectionManager from '../services/selection/SelectionManager.js';
 import Cursor from '../services/cursor/cursor.js';
-import Viewport from '../services/viewport/Viewport.js';
-import CanvasView from '../services/canvas/CanvasView.js';
+import World from '../services/world/World.js';
+import ClipboardManager from '../services/clipboard/Clipboard.js';
+import InteractionState from '../services/interaction/InteractionState.js';
 class Editor {
     id = nid();
-    config;
     container;
+    config;
     events = {};
     resizeObserver;
-    dpr;
+    world;
     action;
+    interaction;
+    clipboard;
     cursor;
     history;
-    viewport;
+    // viewport: Viewport
     toolManager;
     elementManager;
     selection;
@@ -32,9 +34,8 @@ class Editor {
     canvasView;
     visibleSelected = new Set();
     operationHandlers = [];
-    // toolMap: Map<string, ToolManager> = new Map()
-    /*CopyDeltaX = 50*/
-    /*CopyDeltaY = 100*/
+    rect;
+    viewportRect;
     initialized = false;
     // private readonly snapPoints: SnapPointData[] = []
     visibleElementMap;
@@ -43,20 +44,28 @@ class Editor {
         this.config = config;
         this.events = events;
         this.container = container;
+        // services
         this.action = new Action();
-        this.viewport = new Viewport(this);
+        this.clipboard = new ClipboardManager();
+        this.interaction = new InteractionState();
+        this.world = new World(this);
+        // this.viewport = new Viewport(this)
         this.toolManager = new ToolManager(this);
         this.cursor = new Cursor(this);
         this.history = new History(this);
-        this.canvasView = new CanvasView(this);
+        this.canvasView = new World(this);
         this.selection = new SelectionManager(this);
         this.assetsManager = new AssetsManager(this, assets);
         this.elementManager = new ElementManager(this);
         this.resizeObserver = new ResizeObserver(throttle(() => {
             // console.log('resize')
-            this.editor.action.dispatch('world-resized');
+            this.action.dispatch('world-resized');
         }, 200));
         initEditor.call(this);
+        const mouseDownPoint = { x: 0, y: 0 };
+        const mouseMovePoint = { x: 0, y: 0 };
+        this.rect = generateBoundingRectFromTwoPoints(mouseDownPoint, mouseMovePoint);
+        this.viewportRect = generateBoundingRectFromTwoPoints(mouseDownPoint, mouseMovePoint);
         this.action.dispatch('element-add', elements);
     }
     get getVisibleElementMap() {
@@ -75,7 +84,7 @@ class Editor {
         const sortedModules = [...this.elementManager.all.values()]
             .filter(module => {
             const boundingRect = module.getBoundingRect();
-            return rectsOverlap(boundingRect, this.viewport.worldRect);
+            return rectsOverlap(boundingRect, this.world.worldRect);
         })
             .sort((a, b) => a.layer - b.layer);
         // console.log(this.elementManager.all)
@@ -94,7 +103,7 @@ class Editor {
         const moduleProps = this.selection.pickIfUnique;
         if (moduleProps) {
             const module = this.elementManager.all.get(moduleProps.id);
-            const { scale, dpr } = this.viewport;
+            const { scale, dpr } = this.world;
             const lineWidth = 1 / scale * dpr;
             const resizeSize = 10 / scale * dpr;
             const rotateSize = 15 / scale * dpr;
@@ -113,12 +122,6 @@ class Editor {
             this.operationHandlers.push(...operators);
         }
     }
-    updateCopiedItemsDelta() {
-        this.copiedItems.forEach((copiedItem) => {
-            copiedItem.x += this.CopyDeltaX;
-            copiedItem.y += this.CopyDeltaY;
-        });
-    }
     execute(type, data = null) {
         // console.log('Editor', type)
         // @ts-ignore
@@ -128,7 +131,7 @@ class Editor {
     renderModules() {
         // console.log('renderModules')
         const animate = () => {
-            const { scale, dpr, mainCTX: ctx } = this.viewport;
+            const { scale, dpr, mainCanvasContext: ctx } = this.world;
             const frameBorder = {
                 id: nid() + '-frame',
                 x: this.config.page.width / 2,
@@ -168,13 +171,8 @@ class Editor {
   
         })
       }*/
-    printOut(ctx) {
-        this.elementManager.all.forEach((module) => {
-            module.render(ctx);
-        });
-    }
     export() {
-        const { scale, offset } = this.viewport;
+        const { scale, offset } = this.world;
         const assetSet = new Set();
         const result = {
             elements: [],
@@ -209,44 +207,29 @@ class Editor {
         };
         requestAnimationFrame(animate);
     }
-    updateWorldRect() {
-        const { dpr } = this.viewport;
-        const { width, height } = this.viewport.viewportRect;
-        const p1 = this.getWorldPointByViewportPoint(0, 0);
-        const p2 = this.getWorldPointByViewportPoint(width / dpr, height / dpr);
-        this.viewport.worldRect = generateBoundingRectFromTwoPoints(p1, p2);
-        // console.log('worldRect', this.viewport.worldRect)
-    }
     zoom(zoom, point) {
-        const { rect } = this.viewport;
+        const { rect } = this;
         point = point || { x: rect.width / 2, y: rect.height / 2 };
         return zoomAtPoint.call(this, point, zoom);
     }
     updateViewport() {
-        const { dpr, mainCanvas, selectionCanvas } = this.viewport;
+        const { dpr, mainCanvas, selectionCanvas } = this.world;
         const rect = this.container.getBoundingClientRect().toJSON();
         const { x, y, width, height } = rect;
         const viewportWidth = width * dpr;
         const viewportHeight = height * dpr;
-        this.viewport.rect = { ...rect, cx: x + width / 2, cy: y + height / 2 };
-        this.viewport.viewportRect = generateBoundingRectFromTwoPoints({ x: 0, y: 0 }, { x: viewportWidth, y: viewportHeight });
+        this.rect = { ...rect, cx: x + width / 2, cy: y + height / 2 };
+        this.viewportRect = generateBoundingRectFromTwoPoints({ x: 0, y: 0 }, { x: viewportWidth, y: viewportHeight });
         mainCanvas.width = selectionCanvas.width = viewportWidth;
         mainCanvas.height = selectionCanvas.height = viewportHeight;
     }
-    getWorldPointByViewportPoint(x, y) {
-        const { dpr, offset, scale } = this.viewport;
-        return screenToWorld({ x, y }, offset, scale, dpr);
-    }
-    getViewPointByWorldPoint(x, y) {
-        const { dpr, offset, scale } = this.viewport;
-        return worldToScreen({ x, y }, offset, scale, dpr);
-    }
     //eslint-disable-block
     destroy() {
-        this.viewport.destroy();
+        // this.destroy()
         this.action.destroy();
         this.history.destroy();
         this.elementManager.destroy();
+        this.resizeObserver.disconnect();
     }
 }
 export default Editor;

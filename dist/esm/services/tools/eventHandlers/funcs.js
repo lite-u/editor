@@ -1,6 +1,6 @@
 export function detectHoveredModule() {
     const { viewport } = this;
-    const worldPoint = this.getWorldPointByViewportPoint(viewport.mouseMovePoint.x, viewport.mouseMovePoint.y);
+    const worldPoint = this.world.getWorldPointByViewportPoint(viewport.mouseMovePoint.x, viewport.mouseMovePoint.y);
     // const maxLayer = Number.MIN_SAFE_INTEGER
     let moduleId = null;
     let hitOn = null;

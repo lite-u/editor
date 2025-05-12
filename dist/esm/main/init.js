@@ -12,7 +12,7 @@ export function initEditor() {
     // container.appendChild(viewport.wrapper)
     this.resizeObserver.observe(container);
     // this.toolMap.set('selector', selector)
-    this.toolManager.set('rectangle');
+    this.toolManager.switch('rectangle');
     // this.toolMap.set('text', selector)
     // this.toolMap.set('ellipse', selector)
     on('world-resized', () => {
@@ -31,14 +31,14 @@ export function initEditor() {
         }
     });
     on('world-updated', () => {
-        this.updateWorldRect();
+        this.world.updateWorldRect();
         // console.log(this.viewport.scale, this.viewport.offset, this.viewport.worldRect)
         this.events.onViewportUpdated?.({
             // width: this.viewport.viewportRect.width,
             // height: this.viewport.viewportRect.height,
-            scale: this.viewport.scale,
-            offsetX: this.viewport.offset.x,
-            offsetY: this.viewport.offset.y,
+            scale: this.world.scale,
+            offsetX: this.world.offset.x,
+            offsetY: this.world.offset.y,
             // status: this.manipulationStatus,
         });
         dispatch('visible-element-updated');
@@ -46,7 +46,7 @@ export function initEditor() {
     on('world-zoom', (arg) => {
         if (arg === 'fit') {
             const { width, height } = this.config.page;
-            const { viewportRect } = this.viewport;
+            const { viewportRect } = this;
             const pageRect = {
                 x: 0,
                 y: 0,
@@ -54,13 +54,13 @@ export function initEditor() {
                 height,
             };
             const { scale, offsetX, offsetY } = fitRectToViewport(pageRect, viewportRect, 0.02);
-            this.viewport.scale = scale;
-            this.viewport.offset.x = offsetX;
-            this.viewport.offset.y = offsetY;
+            this.world.scale = scale;
+            this.world.offset.x = offsetX;
+            this.world.offset.y = offsetY;
             dispatch('world-updated');
         }
         else {
-            const { scale, dpr } = this.viewport;
+            const { scale, dpr } = this.world;
             let result = null;
             let newScale = 1;
             const minScale = 0.01 * dpr;
@@ -77,18 +77,18 @@ export function initEditor() {
             result = this.zoom(newScale, point);
             // return
             // console.log(newScale)
-            this.viewport.scale = newScale;
-            this.viewport.offset.x = result.x;
-            this.viewport.offset.y = result.y;
+            this.world.scale = newScale;
+            this.world.offset.x = result.x;
+            this.world.offset.y = result.y;
             dispatch('world-updated');
         }
     });
     on('world-shift', (data) => {
         const { x, y } = data;
         // console.log(x, y)
-        const { dpr } = this.viewport;
-        this.viewport.offset.x += x * dpr;
-        this.viewport.offset.y += y * dpr;
+        const { dpr } = this.world;
+        this.world.offset.x += x * dpr;
+        this.world.offset.y += y * dpr;
         dispatch('world-updated');
     });
     on('visible-element-updated', () => {
@@ -124,21 +124,21 @@ export function initEditor() {
         this.events.onModulesUpdated?.(this.elementManager.all);
     });
     on('selection-updated', () => {
-        this.hoveredModule = null;
+        this.interaction.hoveredModule = null;
         // console.log(this.selectedModules)
         // updateSelectionCanvasRenderData.call(this)
         this.events.onSelectionUpdated?.(this.selection.values, this.selection.pickIfUnique);
         dispatch('visible-selection-updated');
     });
     on('world-mouse-move', () => {
-        const p = this.getWorldPointByViewportPoint(this.viewport.mouseMovePoint.x, this.viewport.mouseMovePoint.y);
+        const p = this.world.getWorldPointByViewportPoint(this.interaction.mouseMovePoint.x, this.interaction.mouseMovePoint.y);
         this.events.onWorldMouseMove?.(p);
     });
     on('drop-image', ({ position, assets }) => {
         // console.log(data)
-        const ox = position.x - this.viewport.rect.x;
-        const oy = position.y - this.viewport.rect.y;
-        const worldPoint = this.getWorldPointByViewportPoint(ox, oy);
+        const ox = position.x - this.rect.x;
+        const oy = position.y - this.rect.y;
+        const worldPoint = this.world.getWorldPointByViewportPoint(ox, oy);
         const modulePropsList = assets.map(asset => {
             const { width, height } = asset.imageRef;
             this.assetsManager.add(asset);
@@ -167,22 +167,22 @@ export function initEditor() {
         });
     });
     on('element-copy', () => {
-        this.copiedItems = this.elementManager.batchCopy(this.selection.values, false);
-        this.updateCopiedItemsDelta();
-        this.events.onModuleCopied?.(this.copiedItems);
+        this.clipboard.copiedItems = this.elementManager.batchCopy(this.selection.values, false);
+        this.clipboard.updateCopiedItemsDelta();
+        this.events.onModuleCopied?.(this.clipboard.copiedItems);
     });
     on('element-paste', (position) => {
-        if (this.copiedItems.length === 0)
+        if (this.clipboard.copiedItems.length === 0)
             return;
         let newModules;
         if (position) {
-            const { x, y } = this.getWorldPointByViewportPoint(position.x, position.y);
-            const topLeftItem = this.copiedItems.reduce((prev, current) => {
+            const { x, y } = this.world.getWorldPointByViewportPoint(position.x, position.y);
+            const topLeftItem = this.clipboard.copiedItems.reduce((prev, current) => {
                 return (current.x < prev.x && current.y < prev.y) ? current : prev;
             });
             const offsetX = x - topLeftItem.x;
             const offsetY = y - topLeftItem.y;
-            const offsetItems = this.copiedItems.map((item) => {
+            const offsetItems = this.clipboard.copiedItems.map((item) => {
                 return {
                     ...item,
                     x: item.x + offsetX,
@@ -192,12 +192,12 @@ export function initEditor() {
             newModules = this.elementManager.batchCreate(offsetItems);
         }
         else {
-            newModules = this.elementManager.batchCreate(this.copiedItems);
+            newModules = this.elementManager.batchCreate(this.clipboard.copiedItems);
         }
         const savedSelected = new Set(newModules.keys());
         this.elementManager.batchAdd(newModules);
         this.selection.replace(savedSelected);
-        this.updateCopiedItemsDelta();
+        this.clipboard.updateCopiedItemsDelta();
         dispatch('element-updated', {
             type: 'history-paste',
             payload: {
@@ -211,8 +211,8 @@ export function initEditor() {
             return;
         const temp = this.elementManager.batchCopy(this.selection.values, false);
         temp.forEach((copiedItem) => {
-            copiedItem.x += this.CopyDeltaX;
-            copiedItem.y += this.CopyDeltaY;
+            copiedItem.x += this.clipboard.CopyDeltaX;
+            copiedItem.y += this.clipboard.CopyDeltaY;
         });
         const newModules = this.elementManager.batchCreate(temp);
         const savedSelected = new Set(newModules.keys());
@@ -335,23 +335,23 @@ export function initEditor() {
         dispatch('element-updated');
     });
     on('render-elements', () => {
-        resetCanvas(this.viewport.mainCTX, this.viewport.scale, this.viewport.offset, this.viewport.dpr);
+        resetCanvas(this.world.mainCanvasContext, this.world.scale, this.world.offset, this.world.dpr);
         this.renderModules();
     });
     on('render-selection', () => {
-        resetCanvas(this.viewport.selectionCTX, this.viewport.scale, this.viewport.offset, this.viewport.dpr);
+        resetCanvas(this.world.selectionCanvasContext, this.world.scale, this.world.offset, this.world.dpr);
         this.renderSelections();
     });
     on('element-hover-enter', (id) => {
-        if (this.hoveredModule && id && this.hoveredModule === id) {
+        if (this.interaction.hoveredModule && id && this.interaction.hoveredModule === id) {
             return;
         }
         // console.log(this.hoveredModule, id)
-        this.hoveredModule = id;
+        this.interaction.hoveredModule = id;
         dispatch('visible-selection-updated');
     });
     on('element-hover-leave', () => {
-        this.hoveredModule = null;
+        this.interaction.hoveredModule = null;
         dispatch('visible-selection-updated');
     });
     on('history-undo', () => {
@@ -373,7 +373,7 @@ export function initEditor() {
         this.events.onContextMenu?.(position);
     });
     on('switch-tool', (toolName) => {
-        this.currentToolName = toolName;
+        this.toolManager.currentToolName = toolName;
         this.events.onSwitchTool?.(toolName);
     });
 }

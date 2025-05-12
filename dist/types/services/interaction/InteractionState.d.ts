@@ -1,8 +1,11 @@
 import { UID } from '~/core/core';
 import { OperationHandlers, ResizeHandler } from '~/services/selection/type';
-import { ViewportManipulationType } from '~/services/viewport/Viewport';
-import { ToolManager } from '~/services/tools/toolManager';
+import { Point } from '~/type';
+export type ViewportManipulationType = 'static' | 'waiting' | 'panning' | 'dragging' | 'resizing' | 'rotating' | 'zooming' | 'selecting';
 declare class InteractionState {
+    mouseDownPoint: Point;
+    mouseMovePoint: Point;
+    hoveredModule: UID;
     draggingModules: Set<UID>;
     _selectingModules: Set<UID>;
     _deselection: UID | null;
@@ -10,7 +13,6 @@ declare class InteractionState {
     _rotatingOperator: OperationHandlers | null;
     selectedShadow: Set<UID>;
     manipulationStatus: ViewportManipulationType;
-    toolMap: Map<string, ToolManager>;
     CopyDeltaX: number;
     CopyDeltaY: number;
 }

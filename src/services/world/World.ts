@@ -2,42 +2,59 @@ import nid from '~/core/nid'
 import ElementRectangle from '~/elements/rectangle/rectangle'
 import ElementImage from '~/elements/image/image'
 import Editor from '~/main/editor'
+import {BoundingRect} from '~/type'
+import {generateBoundingRectFromTwoPoints} from '~/core/utils'
+import {screenToWorld, worldToScreen} from '~/core/lib'
 
-class CanvasView {
+class World {
   editor: Editor
   mainCanvas: HTMLCanvasElement
   mainCanvasContext: CanvasRenderingContext2D
   selectionCanvas: HTMLCanvasElement
   selectionCanvasContext: CanvasRenderingContext2D
+  scale: number
+  offset: { x: number, y: number }
+  worldRect: BoundingRect
+  // drawCrossLineDefault: boolean = false
+  // drawCrossLine: boolean = false
   dpr: number
 
-  constructor(editor: Editor, dpr: number) {
+  constructor(editor: Editor) {
     this.editor = editor
     this.mainCanvas = document.createElement('canvas')
     this.mainCanvasContext = this.mainCanvas.getContext('2d') as CanvasRenderingContext2D
     this.selectionCanvas = document.createElement('canvas')
     this.selectionCanvasContext = this.selectionCanvas.getContext('2d') as CanvasRenderingContext2D
+
+    this.scale = 1
+    this.offset = {x: 0, y: 0}
+    this.worldRect = generateBoundingRectFromTwoPoints(
+      this.offset,
+      this.offset,
+    )
+    this.dpr = 2
   }
 
-  destroy() {
-    this.mainCanvas.remove()
-    this.selectionCanvas.remove()
-    this.mainCanvas = null!
-    this.selectionCanvas = null!
-    this.mainCanvasContext = null!
-    this.selectionCanvasContext = null!
+  updateWorldRect() {
+    const {width, height} = this.editor.viewportRect
+    const {dpr} = this
+    const p1 = this.getWorldPointByViewportPoint(0, 0)
+    const p2 = this.getWorldPointByViewportPoint(width / dpr, height / dpr)
+
+    this.worldRect = generateBoundingRectFromTwoPoints(p1, p2)
+    // console.log('worldRect', this.viewport.worldRect)
   }
 
   renderModules() {
     // console.log('renderModules')
     const animate = () => {
-      const {scale, dpr, mainCTX: ctx} = this.viewport
+      const {scale, dpr, mainCanvasContext: ctx} = this
       const frameBorder = {
         id: nid() + '-frame',
-        x: this.config.page.width / 2,
-        y: this.config.page.height / 2,
-        width: this.config.page.width,
-        height: this.config.page.height,
+        x: this.editor.config.page.width / 2,
+        y: this.editor.config.page.height / 2,
+        width: this.editor.config.page.width,
+        height: this.editor.config.page.height,
         fillColor: 'transparent',
         enableLine: true,
         lineWidth: 1 / scale * dpr,
@@ -72,6 +89,39 @@ class CanvasView {
 
     requestAnimationFrame(animate)
   }
+
+  getWorldPointByViewportPoint(x: number, y: number) {
+    const {offset, scale} = this
+    const dpr = this.editor.dpr
+
+    return screenToWorld(
+      {x, y},
+      offset,
+      scale,
+      dpr,
+    )
+  }
+
+  getViewPointByWorldPoint(x: number, y: number) {
+    const {offset, scale} = this
+    const dpr = this.editor.dpr
+
+    return worldToScreen(
+      {x, y},
+      offset,
+      scale,
+      dpr,
+    )
+  }
+
+  destroy() {
+    this.mainCanvas.remove()
+    this.selectionCanvas.remove()
+    this.mainCanvas = null!
+    this.selectionCanvas = null!
+    this.mainCanvasContext = null!
+    this.selectionCanvasContext = null!
+  }
 }
 
-export default CanvasView
+export default World

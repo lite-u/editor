@@ -73,6 +73,8 @@ export interface EditorExportFileType {
 
 export interface EditorConfig {
   dpr: number;
+  drawCrossLineDefault?: boolean
+  drawCrossLine?: boolean
   page: {
     // name: string
     unit: string

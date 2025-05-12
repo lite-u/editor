@@ -6,30 +6,34 @@ import AssetsManager from '~/services/assets/AssetsManager';
 import { ElementMap, ElementProps } from '~/elements/elements';
 import { UID } from '~/core/core';
 import ToolManager from '~/services/tools/toolManager';
-import { Point, VisionEditorAssetType, VisionEventType } from '~/type';
+import { BoundingRect, Point, VisionEditorAssetType, VisionEventType } from '~/type';
 import ElementManager from '~/services/element/ElementManager';
 import SelectionManager from '~/services/selection/SelectionManager';
 import Cursor from '~/services/cursor/cursor';
-import Viewport from '~/services/viewport/Viewport';
-import CanvasView from '~/services/canvas/CanvasView';
+import World from '~/services/world/World';
+import ClipboardManager from '~/services/clipboard/Clipboard';
+import InteractionState from '~/services/interaction/InteractionState';
 declare class Editor {
     id: string;
-    config: EditorConfig;
     readonly container: HTMLDivElement;
+    config: EditorConfig;
     events: EventHandlers;
     resizeObserver: ResizeObserver;
-    dpr: number;
+    world: World;
     action: Action;
+    interaction: InteractionState;
+    clipboard: ClipboardManager;
     cursor: Cursor;
     history: History;
-    viewport: Viewport;
     toolManager: ToolManager;
     elementManager: ElementManager;
     selection: SelectionManager;
     assetsManager: AssetsManager;
-    canvasView: CanvasView;
+    canvasView: World;
     readonly visibleSelected: Set<UID>;
     readonly operationHandlers: OperationHandlers[];
+    rect: BoundingRect;
+    viewportRect: BoundingRect;
     initialized: boolean;
     private readonly visibleElementMap;
     constructor({ container, elements, assets, events, config, }: {
@@ -44,26 +48,15 @@ declare class Editor {
     get getVisibleSelectedElementMap(): ElementMap;
     updateVisibleElementMap(): void;
     updateVisibleSelected(): void;
-    updateCopiedItemsDelta(): void;
     execute(type: VisionEventType, data?: unknown): void;
     renderModules(): void;
-    printOut(ctx: CanvasRenderingContext2D): void;
     export(): EditorExportFileType;
     renderSelections(): void;
-    updateWorldRect(): void;
     zoom(zoom: number, point?: Point): {
         x: number;
         y: number;
     };
     updateViewport(): void;
-    getWorldPointByViewportPoint(x: number, y: number): {
-        x: number;
-        y: number;
-    };
-    getViewPointByWorldPoint(x: number, y: number): {
-        x: number;
-        y: number;
-    };
     destroy(): void;
 }
 export default Editor;

@@ -27,7 +27,7 @@ function handleContextMenu(e) {
     this.action.dispatch('context-menu', {
         idSet,
         position,
-        copiedItems: this.copiedItems.length > 0,
+        copiedItems: this.clipboard.copiedItems.length > 0,
     });
     return false;
 }

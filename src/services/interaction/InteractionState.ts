@@ -1,9 +1,21 @@
 import {UID} from '~/core/core'
 import {OperationHandlers, ResizeHandler} from '~/services/selection/type'
-import {ViewportManipulationType} from '~/services/viewport/Viewport'
-import {ToolManager} from '~/services/tools/toolManager'
+import {Point} from '~/type'
+import {ElementInstance} from '~/elements/elements'
+export type ViewportManipulationType =
+  | 'static'
+  | 'waiting'
+  | 'panning'
+  | 'dragging'
+  | 'resizing'
+  | 'rotating'
+  | 'zooming'
+  | 'selecting'
 
 class InteractionState {
+  mouseDownPoint: Point = {x: 0, y: 0}
+  mouseMovePoint: Point = {x: 0, y: 0}
+  hoveredModule:UID
   draggingModules: Set<UID> = new Set()
   _selectingModules: Set<UID> = new Set()
   _deselection: UID | null = null
@@ -11,7 +23,7 @@ class InteractionState {
   _rotatingOperator: OperationHandlers | null = null
   selectedShadow: Set<UID> = new Set()
   manipulationStatus: ViewportManipulationType = 'static'
-  toolMap: Map<string, ToolManager> = new Map()
+  // toolMap: Map<string, ToolManager> = new Map()
   CopyDeltaX = 50
   CopyDeltaY = 100
   // initialized: boolean = false

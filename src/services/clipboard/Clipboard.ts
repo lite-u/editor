@@ -1,11 +1,24 @@
-import {UID} from '~/core/core'
+import {ElementProps} from '~/elements/elements'
 
-class Clipboard {
-  copiedItems: Set<UID> = new Set()
+class ClipboardManager {
+  copiedItems: ElementProps[] = []
+  CopyDeltaX = 50
+  CopyDeltaY = 100
 
   copy() {}
 
   paste() {}
+
+  updateCopiedItemsDelta(): void {
+    this.copiedItems.forEach((copiedItem) => {
+      copiedItem!.x += this.CopyDeltaX
+      copiedItem!.y += this.CopyDeltaY
+    })
+  }
+
+  destroy() {
+
+  }
 }
 
-export default Clipboard
+export default ClipboardManager

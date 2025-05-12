@@ -1,7 +1,11 @@
-import { UID } from '~/core/core';
-declare class Clipboard {
-    copiedItems: Set<UID>;
+import { ElementProps } from '~/elements/elements';
+declare class ClipboardManager {
+    copiedItems: ElementProps[];
+    CopyDeltaX: number;
+    CopyDeltaY: number;
     copy(): void;
     paste(): void;
+    updateCopiedItemsDelta(): void;
+    destroy(): void;
 }
-export default Clipboard;
+export default ClipboardManager;

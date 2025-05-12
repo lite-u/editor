@@ -5,7 +5,7 @@ import {ElementInstance} from '~/elements/elements'
 
 export function detectHoveredModule(this: Editor) {
   const {viewport} = this
-  const worldPoint = this.getWorldPointByViewportPoint(
+  const worldPoint = this.world.getWorldPointByViewportPoint(
     viewport.mouseMovePoint.x,
     viewport.mouseMovePoint.y,
   )

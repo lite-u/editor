@@ -9,8 +9,6 @@ import {HistoryOperation} from '~/services/history/type'
 // import zoom from '../../components/statusBar/zoom'
 import {fitRectToViewport} from '~/services/viewport/helper'
 import {Point} from '~/type'
-import selector from '~/services/tools/selector/selector'
-import rectangle from '~/services/tools/rectangle/rectangle'
 import {ElementMap, ElementProps} from '~/elements/elements'
 
 export function initEditor(this: Editor) {
@@ -43,14 +41,14 @@ export function initEditor(this: Editor) {
   })
 
   on('world-updated', () => {
-    this.updateWorldRect()
+    this.world.updateWorldRect()
     // console.log(this.viewport.scale, this.viewport.offset, this.viewport.worldRect)
     this.events.onViewportUpdated?.({
       // width: this.viewport.viewportRect.width,
       // height: this.viewport.viewportRect.height,
-      scale: this.viewport.scale,
-      offsetX: this.viewport.offset.x,
-      offsetY: this.viewport.offset.y,
+      scale: this.world.scale,
+      offsetX: this.world.offset.x,
+      offsetY: this.world.offset.y,
       // status: this.manipulationStatus,
     })
     dispatch('visible-element-updated')
@@ -59,7 +57,7 @@ export function initEditor(this: Editor) {
   on('world-zoom', (arg) => {
     if (arg === 'fit') {
       const {width, height} = this.config.page
-      const {viewportRect} = this.viewport
+      const {viewportRect} = this
       const pageRect = {
         x: 0,
         y: 0,
@@ -68,13 +66,13 @@ export function initEditor(this: Editor) {
       }
       const {scale, offsetX, offsetY} = fitRectToViewport(pageRect, viewportRect, 0.02)
 
-      this.viewport.scale = scale
-      this.viewport.offset.x = offsetX
-      this.viewport.offset.y = offsetY
+      this.world.scale = scale
+      this.world.offset.x = offsetX
+      this.world.offset.y = offsetY
 
       dispatch('world-updated')
     } else {
-      const {scale, dpr} = this.viewport
+      const {scale, dpr} = this.world
       let result = null
       let newScale = 1
       const minScale = 0.01 * dpr
@@ -93,9 +91,9 @@ export function initEditor(this: Editor) {
 // return
       // console.log(newScale)
 
-      this.viewport.scale = newScale
-      this.viewport.offset.x = result.x!
-      this.viewport.offset.y = result.y!
+      this.world.scale = newScale
+      this.world.offset.x = result.x!
+      this.world.offset.y = result.y!
       dispatch('world-updated')
     }
   })
@@ -103,9 +101,9 @@ export function initEditor(this: Editor) {
   on('world-shift', (data) => {
     const {x, y} = data
     // console.log(x, y)
-    const {dpr} = this.viewport
-    this.viewport.offset.x += x * dpr
-    this.viewport.offset.y += y * dpr
+    const {dpr} = this.world
+    this.world.offset.x += x * dpr
+    this.world.offset.y += y * dpr
     dispatch('world-updated')
   })
 
@@ -151,7 +149,7 @@ export function initEditor(this: Editor) {
   })
 
   on('selection-updated', () => {
-    this.hoveredModule = null
+    this.interaction.hoveredModule = null!
     // console.log(this.selectedModules)
     // updateSelectionCanvasRenderData.call(this)
     this.events.onSelectionUpdated?.(this.selection.values, this.selection.pickIfUnique)
@@ -160,18 +158,18 @@ export function initEditor(this: Editor) {
   })
 
   on('world-mouse-move', () => {
-    const p = this.getWorldPointByViewportPoint(
-      this.viewport.mouseMovePoint.x,
-      this.viewport.mouseMovePoint.y,
+    const p = this.world.getWorldPointByViewportPoint(
+      this.interaction.mouseMovePoint.x,
+      this.interaction.mouseMovePoint.y,
     )
     this.events.onWorldMouseMove?.(p as Point)
   })
 
   on('drop-image', ({position, assets}) => {
     // console.log(data)
-    const ox = position.x - this.viewport.rect!.x
-    const oy = position.y - this.viewport.rect!.y
-    const worldPoint = this.getWorldPointByViewportPoint(ox, oy)
+    const ox = position.x - this.rect!.x
+    const oy = position.y - this.rect!.y
+    const worldPoint = this.world.getWorldPointByViewportPoint(ox, oy)
     const modulePropsList = assets.map(asset => {
       const {width, height} = asset.imageRef!
 
@@ -207,25 +205,25 @@ export function initEditor(this: Editor) {
   })
 
   on('element-copy', () => {
-    this.copiedItems = this.elementManager.batchCopy(this.selection.values, false)
-    this.updateCopiedItemsDelta()
-    this.events.onModuleCopied?.(this.copiedItems)
+    this.clipboard.copiedItems = this.elementManager.batchCopy(this.selection.values, false)
+    this.clipboard.updateCopiedItemsDelta()
+    this.events.onModuleCopied?.(this.clipboard.copiedItems)
   })
 
   on('element-paste', (position?) => {
-    if (this.copiedItems.length === 0) return
+    if (this.clipboard.copiedItems.length === 0) return
 
     let newModules: ElementMap
 
     if (position) {
-      const {x, y} = this.getWorldPointByViewportPoint(position.x, position.y)
-      const topLeftItem = this.copiedItems.reduce((prev, current) => {
+      const {x, y} = this.world.getWorldPointByViewportPoint(position.x, position.y)
+      const topLeftItem = this.clipboard.copiedItems.reduce((prev, current) => {
         return (current.x < prev.x && current.y < prev.y) ? current : prev
       })
       const offsetX = x - topLeftItem.x
       const offsetY = y - topLeftItem.y
 
-      const offsetItems = this.copiedItems.map((item) => {
+      const offsetItems = this.clipboard.copiedItems.map((item) => {
         return {
           ...item,
           x: item.x + offsetX,
@@ -235,14 +233,14 @@ export function initEditor(this: Editor) {
 
       newModules = this.elementManager.batchCreate(offsetItems)
     } else {
-      newModules = this.elementManager.batchCreate(this.copiedItems)
+      newModules = this.elementManager.batchCreate(this.clipboard.copiedItems)
     }
 
     const savedSelected = new Set(newModules.keys())
 
     this.elementManager.batchAdd(newModules)
     this.selection.replace(savedSelected)
-    this.updateCopiedItemsDelta()
+    this.clipboard.updateCopiedItemsDelta()
 
     dispatch('element-updated', {
       type: 'history-paste',
@@ -259,8 +257,8 @@ export function initEditor(this: Editor) {
     const temp: ElementProps[] = this.elementManager.batchCopy(this.selection.values, false)
 
     temp.forEach((copiedItem) => {
-      copiedItem!.x += this.CopyDeltaX
-      copiedItem!.y += this.CopyDeltaY
+      copiedItem!.x += this.clipboard.CopyDeltaX
+      copiedItem!.y += this.clipboard.CopyDeltaY
     })
 
     const newModules = this.elementManager.batchCreate(temp)
@@ -407,10 +405,10 @@ export function initEditor(this: Editor) {
 
   on('render-elements', () => {
     resetCanvas(
-      this.viewport.mainCTX,
-      this.viewport.scale,
-      this.viewport.offset,
-      this.viewport.dpr,
+      this.world.mainCanvasContext,
+      this.world.scale,
+      this.world.offset,
+      this.world.dpr,
     )
 
     this.renderModules()
@@ -418,27 +416,27 @@ export function initEditor(this: Editor) {
 
   on('render-selection', () => {
     resetCanvas(
-      this.viewport.selectionCTX,
-      this.viewport.scale,
-      this.viewport.offset,
-      this.viewport.dpr,
+      this.world.selectionCanvasContext,
+      this.world.scale,
+      this.world.offset,
+      this.world.dpr,
     )
     this.renderSelections()
   })
 
   on('element-hover-enter', (id) => {
-    if (this.hoveredModule && id && this.hoveredModule === id) {
+    if (this.interaction.hoveredModule && id && this.interaction.hoveredModule === id) {
       return
     }
 
     // console.log(this.hoveredModule, id)
 
-    this.hoveredModule = id
+    this.interaction.hoveredModule = id
     dispatch('visible-selection-updated')
   })
 
   on('element-hover-leave', () => {
-    this.hoveredModule = null
+    this.interaction.hoveredModule = null!
     dispatch('visible-selection-updated')
   })
 
@@ -465,7 +463,7 @@ export function initEditor(this: Editor) {
   })
 
   on('switch-tool', (toolName) => {
-    this.currentToolName = toolName
+    this.toolManager.currentToolName = toolName
     this.events.onSwitchTool?.(toolName)
   })
 }

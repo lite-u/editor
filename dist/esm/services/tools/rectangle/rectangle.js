@@ -8,7 +8,7 @@ const rectangle = {
         // const modifyKey = ctrlKey || metaKey || shiftKey
         // console.log(this.viewport.mouseMovePoint)
         const { x, y } = this.viewport.mouseMovePoint;
-        const { x: cx, y: cy } = this.getWorldPointByViewportPoint(x, y);
+        const { x: cx, y: cy } = this.world.getWorldPointByViewportPoint(x, y);
         const width = 2;
         const height = 2;
         // this._resizingOperator = operator

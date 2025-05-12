@@ -93,8 +93,8 @@ const selection: ToolManager = {
           viewport.mouseDownPoint,
           viewport.mouseMovePoint,
         )
-        const pointA = this.getWorldPointByViewportPoint(rect.x, rect.y)
-        const pointB = this.getWorldPointByViewportPoint(
+        const pointA = this.world.getWorldPointByViewportPoint(rect.x, rect.y)
+        const pointB = this.world.getWorldPointByViewportPoint(
           rect.right,
           rect.bottom,
         )
