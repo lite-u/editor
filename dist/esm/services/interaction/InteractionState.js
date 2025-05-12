@@ -30,7 +30,7 @@ class InteractionState {
             position: 'absolute',
             border: `1px solid ${this.boxColor}`,
             backgroundColor: `${this.boxBgColor}`,
-            zIndex: 10,
+            zIndex: '10',
         });
         editor.container.appendChild(this.selectionBox);
     }
