@@ -6,13 +6,13 @@ export type CursorName = 'default' | 'grab' | 'grabbing' | 'rotate' | 'resize' |
 declare class Cursor {
     domRef: HTMLElement;
     editor: Editor;
+    EC: AbortController;
     constructor(editor: Editor);
     set(name: CursorName): void;
     move(p: Point, rotation?: number): void;
     rotate(rotation: number): void;
-    grab(): void;
-    grabbing(): void;
-    default(): void;
+    show(): void;
+    hide(): void;
     destroy(): void;
 }
 export default Cursor;

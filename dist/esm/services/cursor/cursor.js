@@ -39,18 +39,26 @@ const CURSORS = {
 class Cursor {
     domRef;
     editor;
+    EC;
     constructor(editor) {
+        this.EC = new AbortController();
         this.editor = editor;
         this.domRef = createWith('div', 'cursor', editor.id, {
             pointerEvents: 'none',
             width: '20px',
             height: '20px',
-            position: 'absolute',
+            position: 'fixed',
         });
+        const { signal } = this.EC;
         editor.container.appendChild(this.domRef);
-        editor.container.addEventListener('mouseout', e => {
-            console.log(8);
-        });
+        editor.container.addEventListener('mouseenter', () => { this.show(); }, { signal });
+        editor.container.addEventListener('mouseout', () => { this.hide(); }, { signal });
+        editor.container.addEventListener('mousemove', e => {
+            this.move(e);
+            /*this.move({
+              x: e.clientX,
+            })*/
+        }, { signal });
     }
     set(name) {
         // console.log('set cursor', cursor)
@@ -72,9 +80,12 @@ class Cursor {
         this.domRef.style.transformOrigin = 'center center';
         this.domRef.style.rotate = `${rotation}deg`;
     }
-    grab() { }
-    grabbing() { }
-    default() { }
+    show() {
+        this.domRef.style.display = 'block';
+    }
+    hide() {
+        this.domRef.style.display = 'none';
+    }
     destroy() {
         this.domRef.remove();
         this.domRef = null;

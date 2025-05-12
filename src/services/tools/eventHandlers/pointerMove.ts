@@ -15,7 +15,7 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
   interaction.mouseMovePoint.y = y
   // interaction.drawCrossLine = false
 
-  cursor.move({x, y})
+  // cursor.move({x, y})
   action.dispatch('world-mouse-move')
   let tool = this.toolMap.get(this.currentToolName)!
 

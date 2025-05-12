@@ -64,19 +64,27 @@ const CURSORS: Record<CursorName, string> = {
 class Cursor {
   domRef: HTMLElement
   editor: Editor
+  EC: AbortController
 
   constructor(editor: Editor) {
+    this.EC = new AbortController()
     this.editor = editor
     this.domRef = createWith('div', 'cursor', editor.id, {
       pointerEvents: 'none',
       width: '20px',
       height: '20px',
-      position: 'absolute',
+      position: 'fixed',
     })
+    const {signal} = this.EC
     editor.container.appendChild(this.domRef)
-    editor.container.addEventListener('mouseout', e => {
-      console.log(8)
-    })
+    editor.container.addEventListener('mouseenter', () => { this.show() }, {signal})
+    editor.container.addEventListener('mouseout', () => { this.hide() }, {signal})
+    editor.container.addEventListener('mousemove', e => {
+      this.move(e)
+      /*this.move({
+        x: e.clientX,
+      })*/
+    }, {signal})
   }
 
   set(name: CursorName) {
@@ -104,11 +112,13 @@ class Cursor {
     this.domRef.style.rotate = `${rotation}deg`
   }
 
-  grab() {}
+  show() {
+    this.domRef.style.display = 'block'
+  }
 
-  grabbing() {}
-
-  default() {}
+  hide() {
+    this.domRef.style.display = 'none'
+  }
 
   destroy() {
     this.domRef.remove()
