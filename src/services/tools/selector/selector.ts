@@ -5,10 +5,10 @@ import {applyResize, detectHoveredModule, getResizeCursor, getRotateAngle} from 
 import {BoundingRect, UID} from '~/type'
 import {ElementModifyData} from '~/services/actions/type'
 import {ElementProps} from '~/elements/elements'
-import ToolManager from '~/services/tools/toolManager'
+import ToolManager, {ToolType} from '~/services/tools/toolManager'
 import {applyRotating} from '~/services/tools/helper'
 
-const selector = {
+const selector:ToolType = {
   cursor:'selector',
   start(this: ToolManager, e: MouseEvent) {
     const {interaction, action, selection, cursor} = this.editor
