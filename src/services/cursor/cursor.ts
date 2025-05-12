@@ -79,10 +79,13 @@ class Cursor {
   set(name: CursorName) {
     // console.log('set cursor', cursor)
     this.domRef.innerHTML = CURSORS[name]
+    this.domRef.setAttribute('date-current-cursor', name)
   }
 
   move(p: Point, rotation?: number) {
-    // console.log('set cursor', p)
+    console.log('set cursor', p)
+    this.domRef.style.left = `${p.x}px`
+    this.domRef.style.top = `${p.y}px`
   }
 
   rotate(rotation: number) {

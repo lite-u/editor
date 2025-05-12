@@ -73,7 +73,7 @@ class Editor {
     this.resizeObserver = new ResizeObserver(throttle(() => { this.action.dispatch('world-resized') }, 200))
 
     initEvents.call(this)
-
+    container.style.cursor = 'none'
     const p1 = {x: 0, y: 0}
     const p2 = {x: 0, y: 0}
     this.rect = generateBoundingRectFromTwoPoints(p1, p2)
