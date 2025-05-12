@@ -3,7 +3,7 @@ import History from '~/services/history/history';
 import Action from '~/services/actions/actions';
 import AssetsManager from '~/services/assets/AssetsManager';
 import { ElementProps } from '~/elements/elements';
-import ToolManager from '~/services/tools/toolManager';
+import ToolManager from '~/services/tool/toolManager';
 import { BoundingRect, VisionEditorAssetType, VisionEventType } from '~/type';
 import ElementManager from '~/services/element/ElementManager';
 import SelectionManager from '~/services/selection/SelectionManager';

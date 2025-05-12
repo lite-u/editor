@@ -4,7 +4,7 @@ import { generateBoundingRectFromTwoPoints, throttle } from '../core/utils.js';
 import { initEvents } from './events.js';
 import AssetsManager from '../services/assets/AssetsManager.js';
 import nid from '../core/nid.js';
-import ToolManager from '../services/tools/toolManager.js';
+import ToolManager from '../services/tool/toolManager.js';
 import ElementManager from '../services/element/ElementManager.js';
 import SelectionManager from '../services/selection/SelectionManager.js';
 import Cursor from '../services/cursor/cursor.js';

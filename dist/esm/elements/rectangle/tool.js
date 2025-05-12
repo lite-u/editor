@@ -1,6 +1,6 @@
 import { updateCursor } from '../../services/viewport/domManipulations.js';
 import Base from '../base/base.js';
-import { applyResize } from '../../services/tools/eventHandlers/helper.js';
+import { applyResize } from '../../services/tool/eventHandlers/helper.js';
 import nid from '../../core/nid.js';
 const rectangleTool = {
     start(_) {
