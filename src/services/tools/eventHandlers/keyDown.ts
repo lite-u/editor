@@ -14,10 +14,8 @@ function handleKeyDown(this: ToolManager, e: KeyboardEvent) {
     interaction.spaceKeyDown = true
     cursor.set('grab')
     toolManager.set('panning')
-    // updateCursor.call(this, 'grabbing')
     interaction._lastTool = toolManager.currentToolName
 
-    // this.viewport.wrapper.style.cursor = 'grabbing'
     e.preventDefault()
     return
   }

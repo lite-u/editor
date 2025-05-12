@@ -5,9 +5,17 @@ import ToolManager from '~/services/tools/toolManager'
 
 function handleKeyUp(this: ToolManager, e: KeyboardEvent) {
   if (e.code === 'Space') {
-    this.spaceKeyDown = false
-    // this.editor.cursor.set('default')
-    // this.viewport.wrapper.style.cursor = 'default'
+    const {interaction, action, cursor, toolManager} = this.editor
+
+    interaction.spaceKeyDown = false
+    if(interaction._lastTool){
+      toolManager.set(interaction._lastTool)
+    }
+    cursor.set(interaction._lastTool!)
+    interaction._lastTool = toolManager.currentToolName
+
+    e.preventDefault()
+    return
   }
 
   if (this.manipulationStatus === 'resizing') {

@@ -5,25 +5,21 @@ import handleKeyUp from '~/services/tools/eventHandlers/keyUp'
 import handleWheel from '~/services/tools/eventHandlers/wheel'
 import handlePointerMove from '~/services/tools/eventHandlers/pointerMove'
 import handleContextMenu from '~/services/tools/eventHandlers/contextMenu'
-import {Point} from '~/type'
 import handleMouseDown from '~/services/tools/eventHandlers/mouseDown'
 import selector from '~/services/tools/selector/selector'
 
 export type ToolType = {
-  start: (this: Editor, e: MouseEvent) => void
-  move: (this: Editor, e: PointerEvent) => void
-  finish: (this: Editor, e: MouseEvent) => void
+  start: (this: ToolManager, e: MouseEvent) => void
+  move: (this: ToolManager, e: PointerEvent) => void
+  finish: (this: ToolManager, e: MouseEvent) => void
 }
 export type ToolName = 'selector' | 'rectangle' | 'text' | 'ellipse' | 'panning'
 
 class ToolManager {
   editor: Editor
   eventsController = new AbortController()
-  // mouseDownPoint: Point = {x: 0, y: 0}
-  // mouseMovePoint: Point = {x: 0, y: 0}
   toolMap: Map<ToolName, ToolType> = new Map()
-  // spaceKeyDown: boolean = false
-  protected tool: ToolType
+  tool: ToolType
   currentToolName: ToolName
 
   constructor(editor: Editor) {
@@ -54,11 +50,8 @@ class ToolManager {
     this.eventsController.abort()
     this.eventsController = null!
     this.editor = null!
-    this.mouseDownPoint = null!
-    this.mouseMovePoint = null!
     this.toolMap.clear()
     this.toolMap = null!
-    this.spaceKeyDown = null!
     this.tool = null!
     this.currentToolName = null!
   }
