@@ -1,5 +1,7 @@
 import Editor from '~/main/editor';
+import { CursorName } from '~/services/cursor/cursor';
 export type ToolType = {
+    cursor: CursorName;
     start: (this: ToolManager, e: MouseEvent) => void;
     move: (this: ToolManager, e: PointerEvent) => void;
     finish: (this: ToolManager, e: MouseEvent) => void;
@@ -12,7 +14,7 @@ declare class ToolManager {
     tool: ToolType;
     currentToolName: ToolName;
     constructor(editor: Editor);
-    set(tool: ToolName): void;
+    set(name: ToolName): void;
     destroy(): void;
 }
 export default ToolManager;

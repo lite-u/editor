@@ -1,4 +1,5 @@
 const panning = {
+    cursor: 'grab',
     start() {
         this.editor.cursor.set('grabbing');
         // updateCursor.call(this, 'grabbing')

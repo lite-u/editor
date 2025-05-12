@@ -12,7 +12,7 @@ function handleKeyUp(this: ToolManager, e: KeyboardEvent) {
     if (interaction._lastTool) {
       toolManager.set(interaction._lastTool)
     }
-    cursor.set('default')
+    cursor.set('selector')
     interaction._lastTool = toolManager.currentToolName
 
     e.preventDefault()

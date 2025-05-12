@@ -3,6 +3,7 @@ import { areSetsEqual, getSymmetricDifference } from '../../../lib/lib.js';
 import { applyResize, detectHoveredModule, getResizeCursor, getRotateAngle } from '../eventHandlers/helper.js';
 import { applyRotating } from '../helper.js';
 const selector = {
+    cursor: 'selector',
     start(e) {
         const { interaction, action, selection, cursor } = this.editor;
         const { shiftKey, metaKey, ctrlKey } = e;
@@ -209,7 +210,7 @@ const selector = {
                     }
                     else {
                         // updateCursor.call(this, 'default')
-                        cursor.set('default');
+                        cursor.set('selector');
                     }
                     container.releasePointerCapture(e.pointerId);
                     // viewport.drawCrossLine = viewport.drawCrossLineDefault

@@ -2,6 +2,7 @@
 import ToolManager from '~/services/tools/toolManager'
 
 const panning = {
+  cursor: 'grab',
   start(this: ToolManager) {
     this.editor.cursor.set('grabbing')
     // updateCursor.call(this, 'grabbing')

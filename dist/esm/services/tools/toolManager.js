@@ -27,9 +27,13 @@ class ToolManager {
         this.currentToolName = 'selector';
         this.tool = selector;
     }
-    set(tool) {
-        this.currentToolName = tool;
-        this.tool = this.toolMap.get(tool);
+    set(name) {
+        const tool = this.toolMap.get(name);
+        if (tool) {
+            this.currentToolName = name;
+            this.tool = tool;
+            this.editor.cursor.set(tool.cursor);
+        }
     }
     destroy() {
         this.eventsController.abort();

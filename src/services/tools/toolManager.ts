@@ -7,8 +7,10 @@ import handlePointerMove from '~/services/tools/eventHandlers/pointerMove'
 import handleContextMenu from '~/services/tools/eventHandlers/contextMenu'
 import handleMouseDown from '~/services/tools/eventHandlers/mouseDown'
 import selector from '~/services/tools/selector/selector'
+import {CursorName} from '~/services/cursor/cursor'
 
 export type ToolType = {
+  cursor: CursorName
   start: (this: ToolManager, e: MouseEvent) => void
   move: (this: ToolManager, e: PointerEvent) => void
   finish: (this: ToolManager, e: MouseEvent) => void
@@ -41,9 +43,15 @@ class ToolManager {
     this.tool = selector
   }
 
-  set(tool: ToolName) {
-    this.currentToolName = tool
-    this.tool = this.toolMap.get(tool)!
+  set(name: ToolName) {
+    const tool = this.toolMap.get(name)
+
+    if (tool) {
+
+      this.currentToolName = name
+      this.tool = tool
+      this.editor.cursor.set(tool.cursor)
+    }
   }
 
   destroy() {

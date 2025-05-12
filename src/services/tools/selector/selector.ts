@@ -9,6 +9,7 @@ import ToolManager from '~/services/tools/toolManager'
 import {applyRotating} from '~/services/tools/helper'
 
 const selector = {
+  cursor:'selector',
   start(this: ToolManager, e: MouseEvent) {
     const {interaction, action, selection, cursor} = this.editor
     const {shiftKey, metaKey, ctrlKey} = e
@@ -248,7 +249,7 @@ const selector = {
           }
         } else {
           // updateCursor.call(this, 'default')
-          cursor.set('default')
+          cursor.set('selector')
         }
 
         container.releasePointerCapture(e.pointerId)
