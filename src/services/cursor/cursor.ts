@@ -74,6 +74,9 @@ class Cursor {
       position: 'absolute',
     })
     editor.container.appendChild(this.domRef)
+    editor.container.addEventListener('mouseout', e => {
+      console.log(8)
+    })
   }
 
   set(name: CursorName) {
