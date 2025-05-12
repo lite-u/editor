@@ -9,10 +9,7 @@ import selector from './selector/selector.js';
 class ToolManager {
     editor;
     eventsController = new AbortController();
-    // mouseDownPoint: Point = {x: 0, y: 0}
-    // mouseMovePoint: Point = {x: 0, y: 0}
     toolMap = new Map();
-    // spaceKeyDown: boolean = false
     tool;
     currentToolName;
     constructor(editor) {
@@ -38,11 +35,8 @@ class ToolManager {
         this.eventsController.abort();
         this.eventsController = null;
         this.editor = null;
-        this.mouseDownPoint = null;
-        this.mouseMovePoint = null;
         this.toolMap.clear();
         this.toolMap = null;
-        this.spaceKeyDown = null;
         this.tool = null;
         this.currentToolName = null;
     }

@@ -1,15 +1,21 @@
 import { applyResize } from './helper.js';
 // import {updateSelectionBox} from "../domManipulations.ts"
 function handleKeyUp(e) {
+    const { interaction, action, cursor, toolManager } = this.editor;
     if (e.code === 'Space') {
-        this.spaceKeyDown = false;
-        // this.editor.cursor.set('default')
-        // this.viewport.wrapper.style.cursor = 'default'
+        interaction.spaceKeyDown = false;
+        if (interaction._lastTool) {
+            toolManager.set(interaction._lastTool);
+        }
+        cursor.set('default');
+        interaction._lastTool = toolManager.currentToolName;
+        e.preventDefault();
+        return;
     }
-    if (this.manipulationStatus === 'resizing') {
+    if (interaction.manipulationStatus === 'resizing') {
         const { altKey, shiftKey } = e;
         const r = applyResize.call(this, altKey, shiftKey);
-        this.action.dispatch('element-modifying', {
+        action.dispatch('element-modifying', {
             type: 'resize',
             data: r,
         });
