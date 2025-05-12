@@ -56,9 +56,8 @@ class Cursor {
       this.editor.container.style.cursor = 'none'
       this.domRef.innerHTML = CURSORS.rotate
     } else {
-      this.editor.container.style.cursor = 'none'
+      this.editor.container.style.cursor = 'name'
     }
-
   }
 
   move(p: Point, rotation?: number) {
