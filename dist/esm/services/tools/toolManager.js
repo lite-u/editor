@@ -26,7 +26,7 @@ class ToolManager {
         container.addEventListener('pointermove', handlePointerMove.bind(this), { signal });
         container.addEventListener('contextmenu', handleContextMenu.bind(this), { signal });
     }
-    switch(tool) {
+    set(tool) {
         this.currentToolName = tool;
         this.tool = this.toolMap.get(tool);
     }

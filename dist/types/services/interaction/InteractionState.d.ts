@@ -6,6 +6,7 @@ declare class InteractionState {
     mouseDownPoint: Point;
     mouseMovePoint: Point;
     hoveredModule: UID;
+    readonly operationHandlers: OperationHandlers[];
     draggingModules: Set<UID>;
     _selectingModules: Set<UID>;
     _deselection: UID | null;
@@ -15,5 +16,6 @@ declare class InteractionState {
     manipulationStatus: ViewportManipulationType;
     CopyDeltaX: number;
     CopyDeltaY: number;
+    constructor();
 }
 export default InteractionState;

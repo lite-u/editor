@@ -1,7 +1,7 @@
 import {UID} from '~/core/core'
 import {OperationHandlers, ResizeHandler} from '~/services/selection/type'
 import {Point} from '~/type'
-import {ElementInstance} from '~/elements/elements'
+
 export type ViewportManipulationType =
   | 'static'
   | 'waiting'
@@ -15,7 +15,9 @@ export type ViewportManipulationType =
 class InteractionState {
   mouseDownPoint: Point = {x: 0, y: 0}
   mouseMovePoint: Point = {x: 0, y: 0}
-  hoveredModule:UID
+  hoveredModule: UID = ''
+  readonly operationHandlers: OperationHandlers[] = []
+
   draggingModules: Set<UID> = new Set()
   _selectingModules: Set<UID> = new Set()
   _deselection: UID | null = null
@@ -28,6 +30,9 @@ class InteractionState {
   CopyDeltaY = 100
   // initialized: boolean = false
   // currentToolName: string = 'selector'
+  constructor() {
+  }
+
 }
 
 export default InteractionState

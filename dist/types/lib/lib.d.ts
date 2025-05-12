@@ -1,4 +1,4 @@
-import { ResizeHandleName, ResizeTransform } from '../engine/selection/type';
+import { ResizeHandleName, ResizeTransform } from '../services/selection/type';
 import { BoundingRect, DPR, Point } from '../type';
 interface DrawCrossLineProps {
     ctx: CanvasRenderingContext2D;
@@ -26,4 +26,6 @@ export declare function rotatePoint(px: number, py: number, cx: number, cy: numb
     y: number;
 };
 export declare function getResizeTransform(name: ResizeHandleName, symmetric?: boolean): ResizeTransform;
+export declare const deduplicateObjectsByKeyValue: <T>(objects: T[]) => T[];
+export declare const createWith: <T extends keyof HTMLElementTagNameMap>(tagName: T, role: string, id: string) => HTMLElementTagNameMap[T];
 export {};

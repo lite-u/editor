@@ -111,7 +111,7 @@ const rectangle = {
                         }
                         else {
                             const closestId = this.hoveredModule;
-                            if (closestId && modifyKey && closestId === this._deselection) {
+                            if (closestId && modifyKey && closestId === this.interaction._deselection) {
                                 this.action.dispatch('selection-modify', {
                                     mode: 'toggle',
                                     idSet: new Set([closestId]),
@@ -174,7 +174,7 @@ const rectangle = {
             _selectingModules.clear();
             _selectingModules.clear();
             this.manipulationStatus = 'static';
-            this._deselection = null;
+            this.interaction._deselection = null;
             this._resizingOperator = null;
             updateSelectionBox(viewport.selectionBox, { x: 0, y: 0, width: 0, height: 0 }, false);
         }

@@ -40,7 +40,7 @@ class ToolManager {
     container.addEventListener('contextmenu', handleContextMenu.bind(this), {signal})
   }
 
-  switch(tool: ToolName) {
+  set(tool: ToolName) {
     this.currentToolName = tool
     this.tool = this.toolMap.get(tool)
   }

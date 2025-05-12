@@ -1,6 +1,6 @@
 import Base from '../base/base.js';
 import { HANDLER_OFFSETS } from '../handleBasics.js';
-import { rotatePoint } from '../../core/lib.js';
+import { rotatePoint } from '../../lib/lib.js';
 import ElementRectangle from '../rectangle/rectangle.js';
 const DEFAULT_CX = 0;
 const DEFAULT_CY = 0;

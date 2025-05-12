@@ -1,18 +1,17 @@
 import { EditorConfig, EditorExportFileType, EventHandlers } from './type';
 import History from '~/services/history/history';
 import Action from '~/services/actions/actions';
-import { OperationHandlers } from '~/services/selection/type';
 import AssetsManager from '~/services/assets/AssetsManager';
-import { ElementMap, ElementProps } from '~/elements/elements';
-import { UID } from '~/core/core';
+import { ElementProps } from '~/elements/elements';
 import ToolManager from '~/services/tools/toolManager';
-import { BoundingRect, Point, VisionEditorAssetType, VisionEventType } from '~/type';
+import { BoundingRect, VisionEditorAssetType, VisionEventType } from '~/type';
 import ElementManager from '~/services/element/ElementManager';
 import SelectionManager from '~/services/selection/SelectionManager';
 import Cursor from '~/services/cursor/cursor';
 import World from '~/services/world/World';
 import ClipboardManager from '~/services/clipboard/Clipboard';
 import InteractionState from '~/services/interaction/InteractionState';
+import VisibleManager from '~/services/visible/VisibleManager';
 declare class Editor {
     id: string;
     readonly container: HTMLDivElement;
@@ -21,6 +20,7 @@ declare class Editor {
     resizeObserver: ResizeObserver;
     world: World;
     action: Action;
+    visible: VisibleManager;
     interaction: InteractionState;
     clipboard: ClipboardManager;
     cursor: Cursor;
@@ -30,12 +30,9 @@ declare class Editor {
     selection: SelectionManager;
     assetsManager: AssetsManager;
     canvasView: World;
-    readonly visibleSelected: Set<UID>;
-    readonly operationHandlers: OperationHandlers[];
     rect: BoundingRect;
     viewportRect: BoundingRect;
     initialized: boolean;
-    private readonly visibleElementMap;
     constructor({ container, elements, assets, events, config, }: {
         container: HTMLDivElement;
         assets: VisionEditorAssetType[];
@@ -43,19 +40,8 @@ declare class Editor {
         events?: EventHandlers;
         config: EditorConfig;
     });
-    get getVisibleElementMap(): ElementMap;
-    get getVisibleSelected(): Set<string>;
-    get getVisibleSelectedElementMap(): ElementMap;
-    updateVisibleElementMap(): void;
-    updateVisibleSelected(): void;
     execute(type: VisionEventType, data?: unknown): void;
-    renderModules(): void;
     export(): EditorExportFileType;
-    renderSelections(): void;
-    zoom(zoom: number, point?: Point): {
-        x: number;
-        y: number;
-    };
     updateViewport(): void;
     destroy(): void;
 }

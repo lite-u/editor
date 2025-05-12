@@ -1,6 +1,6 @@
 import {ResizeHandleName} from '~/services/selection/type'
 import {RequiredRectangleProps} from '~/elements/rectangle/rectangle'
-import {getResizeTransform} from '~/core/lib'
+import {getResizeTransform} from '~/lib/lib'
 import {Rect} from '~/type'
 
 export interface TransformProps {

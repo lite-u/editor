@@ -1,7 +1,8 @@
 import Editor from '~/main/editor';
-import { BoundingRect } from '~/type';
+import { BoundingRect, Point } from '~/type';
 declare class World {
     editor: Editor;
+    selectionBox: HTMLDivElement;
     mainCanvas: HTMLCanvasElement;
     mainCanvasContext: CanvasRenderingContext2D;
     selectionCanvas: HTMLCanvasElement;
@@ -15,7 +16,10 @@ declare class World {
     dpr: number;
     constructor(editor: Editor);
     updateWorldRect(): void;
-    renderModules(): void;
+    zoom(zoom: number, point?: Point): {
+        x: number;
+        y: number;
+    };
     getWorldPointByViewportPoint(x: number, y: number): {
         x: number;
         y: number;
@@ -24,6 +28,8 @@ declare class World {
         x: number;
         y: number;
     };
+    renderModules(): void;
+    renderSelections(): void;
     destroy(): void;
 }
 export default World;

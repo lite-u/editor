@@ -2,7 +2,7 @@ import {ElementInstance} from '~/elements/elements'
 import {UID} from '~/core/core'
 import Rectangle from '~/services/tools/rectangle/rectangle'
 import {Point, Rect} from '~/type'
-import Editor from '~/main/editor'
+import World from '~/services/world/World'
 
 type FrameType = 'A4' | 'A4L' | 'photo1'
 
@@ -79,7 +79,7 @@ export const fitRectToViewport = (rect: Rect, viewport: Rect, paddingScale = 0.0
 }
 
 export function zoomAtPoint(
-  this: Editor,
+  this: World,
   atPoint: Point,
   newScale: number,
 ):
@@ -87,7 +87,8 @@ export function zoomAtPoint(
     x: number;
     y: number;
   } {
-  const {dpr, scale, rect, offset, viewportRect} = this.viewport
+  const {rect, viewportRect} = this.editor
+  const {dpr, scale, offset} = this
   const pixelOffsetX = (atPoint.x - rect.width / 2) * dpr
   const pixelOffsetY = (atPoint.y - rect.height / 2) * dpr
   const centerAreaThresholdX = rect.width / 8

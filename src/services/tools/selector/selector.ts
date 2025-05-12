@@ -1,20 +1,14 @@
 import Editor from '~/main/editor'
 import {generateBoundingRectFromTwoPoints} from '~/core/utils'
-import {areSetsEqual, getSymmetricDifference} from '~/core/lib'
+import {areSetsEqual, getSymmetricDifference} from '~/lib/lib'
 import {updateCursor, updateSelectionBox} from '~/services/viewport/domManipulations'
 import Base from '~/elements/base/base'
-import {ToolManager} from '~/services/tools/toolManager'
-import {
-  applyResize,
-  detectHoveredModule,
-  getResizeCursor,
-  getRotateAngle,
-} from '~/services/tools/eventHandlers/funcs'
+import {applyResize, detectHoveredModule, getResizeCursor, getRotateAngle} from '~/services/tools/eventHandlers/funcs'
 import {BoundingRect, UID} from '~/type'
 import {ElementModifyData} from '~/services/actions/type'
 import {ElementProps} from '~/elements/elements'
 
-const selection: ToolManager = {
+const selection = {
   start(this: Editor, e: MouseEvent) {
     const {shiftKey, metaKey, ctrlKey} = e
     const modifyKey = ctrlKey || metaKey || shiftKey
@@ -23,10 +17,10 @@ const selection: ToolManager = {
 
     if (operator) {
       if (operator.type === 'resize') {
-        this._resizingOperator = operator
+        this.interaction._resizingOperator = operator
         return (this.manipulationStatus = 'resizing')
       } else if (operator.type === 'rotate') {
-        this._rotatingOperator = operator
+        this.interaction._rotatingOperator = operator
         return (this.manipulationStatus = 'rotating')
       }
     }
@@ -56,14 +50,14 @@ const selection: ToolManager = {
         mode: 'replace',
         idSet: new Set([hoveredModule]),
       })
-      this.draggingModules = new Set([hoveredModule])
+      this.interaction.draggingModules = new Set([hoveredModule])
     } else if (modifyKey) {
-      this.draggingModules = new Set(realSelected)
+      this.interaction.draggingModules = new Set(realSelected)
 
       if (isSelected) {
         console.log('isSelected', isSelected)
-        this._deselection = hoveredModule
-        this.draggingModules.add(hoveredModule)
+        this.interaction._deselection = hoveredModule
+        this.interaction.draggingModules.add(hoveredModule)
       } else {
         // Add to existing selection
         this.action.dispatch('selection-modify', {
@@ -71,27 +65,33 @@ const selection: ToolManager = {
           idSet: new Set([hoveredModule]),
         })
       }
-      this.draggingModules.add(hoveredModule)
+      this.interaction.draggingModules.add(hoveredModule)
     } else {
       // Dragging already selected module(s)
-      this.draggingModules = new Set(realSelected)
+      this.interaction.draggingModules = new Set(realSelected)
     }
   },
   move(this: Editor, e: PointerEvent) {
     const {
       action,
+      container,
+      world,
+      interaction,
+    } = this
+    const {
       draggingModules,
-      viewport,
       selectedShadow,
       _selectingModules,
-    } = this
+      mouseDownPoint,
+      mouseMovePoint,
+    } = interaction
 
-    switch (this.manipulationStatus) {
+    switch (this.interaction.manipulationStatus) {
       case 'selecting': {
-        viewport.wrapper.setPointerCapture(e.pointerId)
+        container.setPointerCapture(e.pointerId)
         const rect = generateBoundingRectFromTwoPoints(
-          viewport.mouseDownPoint,
-          viewport.mouseMovePoint,
+          mouseDownPoint,
+          mouseMovePoint,
         )
         const pointA = this.world.getWorldPointByViewportPoint(rect.x, rect.y)
         const pointB = this.world.getWorldPointByViewportPoint(
@@ -111,7 +111,7 @@ const selection: ToolManager = {
 
         const selectingChanged = !areSetsEqual(_selectingModules, _selecting)
 
-        updateSelectionBox(viewport.selectionBox, rect)
+        updateSelectionBox(world.selectionBox, rect)
 
         /**
          * Simple logic
@@ -122,7 +122,7 @@ const selection: ToolManager = {
          */
         if (!selectingChanged) return
 
-        this._selectingModules = _selecting
+        interaction._selectingModules = _selecting
 
         const SD = getSymmetricDifference(selectedShadow, _selecting)
 
@@ -144,24 +144,24 @@ const selection: ToolManager = {
         }
       }
         break
-/*
+      /*
 
-      case 'panning':
-        viewport.wrapper.setPointerCapture(e.pointerId)
-        updateCursor.call(this, 'grabbing')
-        action.dispatch('world-shift',
-          {
-            x: e.movementX,
-            y: e.movementY,
-          })
+            case 'panning':
+              container.setPointerCapture(e.pointerId)
+              updateCursor.call(this, 'grabbing')
+              action.dispatch('world-shift',
+                {
+                  x: e.movementX,
+                  y: e.movementY,
+                })
 
-        break
-*/
+              break
+      */
 
       case 'dragging': {
-        viewport.wrapper.setPointerCapture(e.pointerId)
-        const x = (e.movementX * viewport.dpr) / viewport.scale
-        const y = (e.movementY * viewport.dpr) / viewport.scale
+        container.setPointerCapture(e.pointerId)
+        const x = (e.movementX * world.dpr) / world.scale
+        const y = (e.movementY * world.dpr) / world.scale
 
         // force update
         this.action.dispatch('element-modifying', {
@@ -172,10 +172,10 @@ const selection: ToolManager = {
         break
 
       case 'resizing': {
-        viewport.wrapper.setPointerCapture(e.pointerId)
+        container.setPointerCapture(e.pointerId)
         const {altKey, shiftKey} = e
-        // const {x, y} = this._rotatingOperator!.moduleOrigin
-        // const centerPoint = this.getViewPointByWorldPoint(x, y)
+        // const {x, y} = this.interaction._rotatingOperator!.moduleOrigin
+        // const centerPoint = world.getViewPointByWorldPoint(x, y)
         // const cursorDirection = getResizeDirection(centerPoint, viewport.mouseMovePoint)
 
         const r = applyResize.call(this, altKey, shiftKey)
@@ -188,12 +188,12 @@ const selection: ToolManager = {
         break
 
       case 'rotating': {
-        viewport.wrapper.setPointerCapture(e.pointerId)
+        container.setPointerCapture(e.pointerId)
         const {shiftKey} = e
-        const {x, y} = this._rotatingOperator!.moduleOrigin
-        const centerPoint = this.getViewPointByWorldPoint(x, y)
+        const {x, y} = this.interaction._rotatingOperator!.moduleOrigin
+        const centerPoint = world.getViewPointByWorldPoint(x, y)
         const rotation = Base.applyRotating.call(this, shiftKey)
-        const cursorAngle = getRotateAngle(centerPoint, viewport.mouseMovePoint)
+        const cursorAngle = getRotateAngle(centerPoint, mouseMovePoint)
 
         updateCursor.call(this, 'rotate', viewport.mouseMovePoint, cursorAngle)
 
@@ -229,13 +229,13 @@ const selection: ToolManager = {
 
         if (r) {
           if (r.type === 'rotate') {
-            const centerPoint = this.getViewPointByWorldPoint(r.moduleOrigin.x, r.moduleOrigin.y)
+            const centerPoint = world.getViewPointByWorldPoint(r.moduleOrigin.x, r.moduleOrigin.y)
             const angle = getRotateAngle(centerPoint, viewport.mouseMovePoint)
 
             updateCursor.call(this, 'rotate', viewport.mouseMovePoint, angle)
           } else if (r.type === 'resize') {
             const {x, y} = r.moduleOrigin
-            const centerPoint = this.getViewPointByWorldPoint(x, y)
+            const centerPoint = world.getViewPointByWorldPoint(x, y)
             const cursorDirection = getResizeCursor(viewport.mouseMovePoint, centerPoint)
 
             updateCursor.call(this, 'resize', cursorDirection)
@@ -244,7 +244,7 @@ const selection: ToolManager = {
           updateCursor.call(this, 'default')
         }
 
-        viewport.wrapper.releasePointerCapture(e.pointerId)
+        container.releasePointerCapture(e.pointerId)
         viewport.drawCrossLine = viewport.drawCrossLineDefault
       }
 
@@ -255,39 +255,48 @@ const selection: ToolManager = {
     const leftMouseClick = e.button === 0
 
     if (leftMouseClick) {
+
+      const {
+        interaction,
+        // draggingModules,
+        // manipulationStatus,
+        elementManager,
+        container,
+        rect,
+        world,
+      } = this
       const {
         draggingModules,
         manipulationStatus,
-        elementManager,
+        mouseDownPoint,
+        mouseMovePoint,
+        // elementManager,
         _selectingModules,
         selectedShadow,
-        viewport,
-      } = this
+        // viewport,
+      } = interaction
+      const {dpr, scale} = world
       const elementMap = elementManager.all
-      const x = e.clientX - viewport.rect!.x
-      const y = e.clientY - viewport.rect!.y
+      const x = e.clientX - rect!.x
+      const y = e.clientY - rect!.y
       const modifyKey = e.ctrlKey || e.metaKey || e.shiftKey
-      // console.log('up',manipulationStatus)
-      viewport.mouseMovePoint.x = x
-      viewport.mouseMovePoint.y = y
+
+      mouseMovePoint.x = x
+      mouseMovePoint.y = y
 
       switch (manipulationStatus) {
         case 'selecting':
           break
-/*
-        case 'panning':
-          updateCursor.call(this, 'grabbing')
-          // this.viewport.translateViewport(e.movementX, e.movementY)
+        /*
+                case 'panning':
+                  updateCursor.call(this, 'grabbing')
+                  // this.viewport.translateViewport(e.movementX, e.movementY)
 
-          break*/
+                  break*/
 
         case 'dragging': {
-          const x = ((viewport.mouseMovePoint.x - viewport.mouseDownPoint.x) *
-              viewport.dpr) /
-            viewport.scale
-          const y = ((viewport.mouseMovePoint.y - viewport.mouseDownPoint.y) *
-              viewport.dpr) /
-            viewport.scale
+          const x = ((mouseMovePoint.x - mouseDownPoint.x) * dpr) / scale
+          const y = ((mouseMovePoint.y - mouseDownPoint.y) * dpr) / scale
           const moved = !(x === 0 && y === 0)
 
           // mouse stay static
@@ -317,9 +326,9 @@ const selection: ToolManager = {
 
             this.action.dispatch('element-modify', changes)
           } else {
-            const closestId = this.hoveredModule
+            const closestId = this.interaction.hoveredModule
 
-            if (closestId && modifyKey && closestId === this._deselection) {
+            if (closestId && modifyKey && closestId === this.interaction._deselection) {
               this.action.dispatch('selection-modify', {
                 mode: 'toggle',
                 idSet: new Set([closestId]),
@@ -332,7 +341,7 @@ const selection: ToolManager = {
         case 'resizing': {
           const {altKey, shiftKey} = e
           const props = applyResize.call(this, altKey, shiftKey)
-          const moduleOrigin = this._resizingOperator?.moduleOrigin
+          const moduleOrigin = this.interaction._resizingOperator?.moduleOrigin
           const rollbackProps: Partial<ElementProps> = {}
 
           Object.keys(props).forEach((key) => {
@@ -346,7 +355,7 @@ const selection: ToolManager = {
           })
 
           this.action.dispatch('element-modify', [{
-            id: this._resizingOperator!.id,
+            id: this.interaction._resizingOperator!.id,
             props,
           }])
         }
@@ -355,7 +364,7 @@ const selection: ToolManager = {
         case 'rotating': {
           const {shiftKey} = e
           const newRotation = Base.applyRotating.call(this, shiftKey)
-          const {rotation} = this._rotatingOperator?.moduleOrigin!
+          const {rotation} = this.interaction._rotatingOperator?.moduleOrigin!
           const rollbackProps: Partial<ElementProps> = {rotation}
 
           // rotate back
@@ -365,7 +374,7 @@ const selection: ToolManager = {
           })
 
           this.action.dispatch('element-modify', [{
-            id: this._rotatingOperator!.id,
+            id: this.interaction._rotatingOperator!.id,
             props: {rotation: newRotation},
           }])
         }
@@ -388,12 +397,12 @@ const selection: ToolManager = {
       selectedShadow.clear()
       _selectingModules.clear()
       _selectingModules.clear()
-      this.manipulationStatus = 'static'
-      this._deselection = null
-      this._resizingOperator = null
+      this.interaction.manipulationStatus = 'static'
+      this.interaction._deselection = null
+      this.interaction._resizingOperator = null
 
       updateSelectionBox(
-        viewport.selectionBox,
+        world.selectionBox,
         {x: 0, y: 0, width: 0, height: 0},
         false,
       )

@@ -6,13 +6,11 @@ import { pick } from '../services/history/pick.js';
 // import zoom from '../../components/statusBar/zoom'
 import { fitRectToViewport } from '../services/viewport/helper.js';
 export function initEditor() {
-    const { container, action } = this;
+    const { action } = this;
     const dispatch = action.dispatch.bind(action);
     const on = action.on.bind(action);
+    // const {on, dispatch} = this.action
     // container.appendChild(viewport.wrapper)
-    this.resizeObserver.observe(container);
-    // this.toolMap.set('selector', selector)
-    this.toolManager.switch('rectangle');
     // this.toolMap.set('text', selector)
     // this.toolMap.set('ellipse', selector)
     on('world-resized', () => {
@@ -74,7 +72,7 @@ export function initEditor() {
             }
             // clamp
             newScale = Math.max(minScale, Math.min(newScale, maxScale));
-            result = this.zoom(newScale, point);
+            result = this.world.zoom(newScale, point);
             // return
             // console.log(newScale)
             this.world.scale = newScale;
@@ -92,13 +90,13 @@ export function initEditor() {
         dispatch('world-updated');
     });
     on('visible-element-updated', () => {
-        this.updateVisibleElementMap();
+        this.visible.updateVisibleElementMap();
         // this.updateSnapPoints()
         dispatch('render-elements');
         dispatch('visible-selection-updated');
     });
     on('visible-selection-updated', () => {
-        this.updateVisibleSelected();
+        this.visible.updateVisibleSelected();
         dispatch('render-selection');
     });
     on('selection-all', () => {
@@ -336,11 +334,11 @@ export function initEditor() {
     });
     on('render-elements', () => {
         resetCanvas(this.world.mainCanvasContext, this.world.scale, this.world.offset, this.world.dpr);
-        this.renderModules();
+        this.world.renderModules();
     });
     on('render-selection', () => {
         resetCanvas(this.world.selectionCanvasContext, this.world.scale, this.world.offset, this.world.dpr);
-        this.renderSelections();
+        this.world.renderSelections();
     });
     on('element-hover-enter', (id) => {
         if (this.interaction.hoveredModule && id && this.interaction.hoveredModule === id) {

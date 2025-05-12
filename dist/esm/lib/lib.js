@@ -105,3 +105,25 @@ export function getResizeTransform(name, symmetric = false) {
     }
     return base;
 }
+export const deduplicateObjectsByKeyValue = (objects) => {
+    if (!Array.isArray(objects))
+        return [];
+    const seen = new Set();
+    return objects.filter((item) => {
+        const key = Object.keys(item)
+            .sort()
+            .map(key => `${key}:${String(item[key])}`)
+            .join(';');
+        if (seen.has(key)) {
+            return false;
+        }
+        seen.add(key);
+        return true;
+    });
+};
+export const createWith = (tagName, role, id) => {
+    const dom = document.createElement(tagName);
+    dom.setAttribute(role, '');
+    dom.id = role + '-' + id;
+    return dom;
+};

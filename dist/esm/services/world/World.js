@@ -1,9 +1,12 @@
 import nid from '../../core/nid.js';
 import ElementRectangle from '../../elements/rectangle/rectangle.js';
 import { generateBoundingRectFromTwoPoints } from '../../core/utils.js';
-import { screenToWorld, worldToScreen } from '../../core/lib.js';
+import { createWith, screenToWorld, worldToScreen } from '../../lib/lib.js';
+import { zoomAtPoint } from './helper.js';
+import selectionRender from './selectionRender.js';
 class World {
     editor;
+    selectionBox;
     mainCanvas;
     mainCanvasContext;
     selectionCanvas;
@@ -20,10 +23,12 @@ class World {
         this.mainCanvasContext = this.mainCanvas.getContext('2d');
         this.selectionCanvas = document.createElement('canvas');
         this.selectionCanvasContext = this.selectionCanvas.getContext('2d');
+        this.selectionBox = createWith('div', 'editor-selection-box', editor.id);
         this.scale = 1;
         this.offset = { x: 0, y: 0 };
         this.worldRect = generateBoundingRectFromTwoPoints(this.offset, this.offset);
         this.dpr = 2;
+        this.editor.container.append(this.mainCanvas, this.selectionCanvas);
     }
     updateWorldRect() {
         const { width, height } = this.editor.viewportRect;
@@ -32,6 +37,20 @@ class World {
         const p2 = this.getWorldPointByViewportPoint(width / dpr, height / dpr);
         this.worldRect = generateBoundingRectFromTwoPoints(p1, p2);
         // console.log('worldRect', this.viewport.worldRect)
+    }
+    zoom(zoom, point) {
+        const { rect } = this.editor;
+        point = point || { x: rect.width / 2, y: rect.height / 2 };
+        return zoomAtPoint.call(this, point, zoom);
+    }
+    getWorldPointByViewportPoint(x, y) {
+        const { offset, scale } = this;
+        const dpr = this.dpr;
+        return screenToWorld({ x, y }, offset, scale, dpr);
+    }
+    getViewPointByWorldPoint(x, y) {
+        const { offset, scale, dpr } = this;
+        return worldToScreen({ x, y }, offset, scale, dpr);
     }
     renderModules() {
         // console.log('renderModules')
@@ -55,11 +74,11 @@ class World {
             // console.log(this.visibleelementMap.size)
             // deduplicateObjectsByKeyValue
             new ElementRectangle(frameFill).render(ctx);
-            this.visibleElementMap.forEach((module) => {
+            this.editor.visible.values.forEach((module) => {
                 module.render(ctx);
                 if (module.type === 'image') {
                     const { src } = module;
-                    const obj = this.assetsManager.getAssetsObj(src);
+                    const obj = this.editor.assetsManager.getAssetsObj(src);
                     // console.log(this.assetsManager, src)
                     if (obj) {
                         module.renderImage(ctx, obj.imageRef);
@@ -70,15 +89,12 @@ class World {
         };
         requestAnimationFrame(animate);
     }
-    getWorldPointByViewportPoint(x, y) {
-        const { offset, scale } = this;
-        const dpr = this.editor.dpr;
-        return screenToWorld({ x, y }, offset, scale, dpr);
-    }
-    getViewPointByWorldPoint(x, y) {
-        const { offset, scale } = this;
-        const dpr = this.editor.dpr;
-        return worldToScreen({ x, y }, offset, scale, dpr);
+    renderSelections() {
+        // console.log('renderSelections')
+        const animate = () => {
+            selectionRender.call(this);
+        };
+        requestAnimationFrame(animate);
     }
     destroy() {
         this.mainCanvas.remove();

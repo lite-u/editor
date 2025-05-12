@@ -2,7 +2,7 @@ import ElementRectangle from '../../elements/rectangle/rectangle.js';
 function selectionRender() {
     if (this.elementManager.size === 0)
         return;
-    const { selectionCTX: ctx } = this.viewport;
+    const { selectionCTX: ctx } = this;
     const fillColor = '#5491f8';
     const lineColor = '#5491f8';
     const selected = this.getVisibleSelected;

@@ -1,4 +1,4 @@
-import resetCanvas from '~/services/viewport/resetCanvas'
+import resetCanvas from '~/services/world/resetCanvas'
 import {ElementModifyData, HistoryChangeItem, HistoryChangeProps, SelectionModifyData} from '~/services/actions/type'
 import Editor from './editor'
 import {redo} from '~/services/history/redo'
@@ -7,20 +7,18 @@ import {pick} from '~/services/history/pick'
 import {HistoryOperation} from '~/services/history/type'
 // import {updateSelectionCanvasRenderData} from '../services/selection/helper'
 // import zoom from '../../components/statusBar/zoom'
-import {fitRectToViewport} from '~/services/viewport/helper'
+import {fitRectToViewport} from '~/services/world/helper'
 import {Point} from '~/type'
 import {ElementMap, ElementProps} from '~/elements/elements'
 
-export function initEditor(this: Editor) {
-  const {container, action} = this
+export function initEvents(this: Editor) {
+  const {action} = this
   const dispatch = action.dispatch.bind(action)
   const on = action.on.bind(action)
+  // const {on, dispatch} = this.action
 
   // container.appendChild(viewport.wrapper)
-  this.resizeObserver.observe(container)
 
-  // this.toolMap.set('selector', selector)
-  this.toolManager.switch('rectangle')
   // this.toolMap.set('text', selector)
   // this.toolMap.set('ellipse', selector)
 
@@ -87,7 +85,7 @@ export function initEditor(this: Editor) {
 
       // clamp
       newScale = Math.max(minScale, Math.min(newScale, maxScale))
-      result = this.zoom(newScale, point)
+      result = this.world.zoom(newScale, point)
 // return
       // console.log(newScale)
 
@@ -108,14 +106,14 @@ export function initEditor(this: Editor) {
   })
 
   on('visible-element-updated', () => {
-    this.updateVisibleElementMap()
+    this.visible.updateVisibleElementMap()
     // this.updateSnapPoints()
     dispatch('render-elements')
     dispatch('visible-selection-updated')
   })
 
   on('visible-selection-updated', () => {
-    this.updateVisibleSelected()
+    this.visible.updateVisibleSelected()
     dispatch('render-selection')
   })
 
@@ -411,7 +409,7 @@ export function initEditor(this: Editor) {
       this.world.dpr,
     )
 
-    this.renderModules()
+    this.world.renderModules()
   })
 
   on('render-selection', () => {
@@ -421,7 +419,7 @@ export function initEditor(this: Editor) {
       this.world.offset,
       this.world.dpr,
     )
-    this.renderSelections()
+    this.world.renderSelections()
   })
 
   on('element-hover-enter', (id) => {

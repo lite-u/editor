@@ -1,4 +1,4 @@
-import { getResizeTransform } from '../../core/lib.js';
+import { getResizeTransform } from '../../lib/lib.js';
 const transform = ({ downPoint, movePoint, moduleOrigin, rotation, handleName, scale, dpr, altKey = false, shiftKey = false, }) => {
     const { r1, r2, cx: initialCX, cy: initialCY, } = moduleOrigin;
     const initialWidth = r1 * 2;

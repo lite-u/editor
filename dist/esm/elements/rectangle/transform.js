@@ -1,4 +1,4 @@
-import { getResizeTransform } from '../../core/lib.js';
+import { getResizeTransform } from '../../lib/lib.js';
 function transform({ downPoint, movePoint, moduleOrigin, rotation, handleName, scale, dpr, altKey = false, shiftKey = false, }) {
     const { width: initialWidth, height: initialHeight, cx: initialCX, cy: initialCY, } = moduleOrigin;
     // Calculate raw movement in screen coordinates

@@ -1,6 +1,6 @@
 import {ResizeHandleName} from '~/services/selection/type'
 import {Point} from '~/type'
-import {getResizeTransform} from '~/core/lib'
+import {getResizeTransform} from '~/lib/lib'
 import {RequiredEllipseProps} from '~/elements/ellipse/ellipse'
 
 const transform = ({
