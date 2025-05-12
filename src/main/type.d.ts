@@ -1,7 +1,7 @@
 import {ElementProps} from '~/elements/elements'
 import History from '~/services/history/history'
 import {EditorConfig} from './editor'
-import {ToolName} from '~/services/tools/toolManager'
+import {ToolName} from '~/services/tool/toolManager'
 import {Point, VisionEditorAssetType} from '~/type'
 
 export type ModuleMoveDirection =

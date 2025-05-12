@@ -1,5 +1,5 @@
 import Editor from '../../../main/editor'
-import ToolManager from '~/services/tools/toolManager'
+import ToolManager from '~/services/tool/toolManager'
 
 function handleMouseUp(this: ToolManager, e: MouseEvent) {
   let tool = this.toolMap.get(this.currentToolName)!

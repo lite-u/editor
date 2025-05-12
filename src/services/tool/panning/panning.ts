@@ -1,5 +1,5 @@
 // import {updateCursor} from '~/services/viewport/domManipulations'
-import ToolManager from '~/services/tools/toolManager'
+import ToolManager from '~/services/tool/toolManager'
 
 const panning = {
   cursor: 'grab',

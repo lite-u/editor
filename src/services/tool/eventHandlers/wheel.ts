@@ -1,7 +1,7 @@
 import {isNegativeZero} from '../../../core/utils'
 import Editor from '../../../main/editor'
 import Tool from '~/elements/rectangle/tool'
-import ToolManager from '~/services/tools/toolManager'
+import ToolManager from '~/services/tool/toolManager'
 
 function handleWheel(this: ToolManager, event: WheelEvent) {
   // Prevent page zoom

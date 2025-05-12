@@ -1,4 +1,4 @@
-import ToolManager from '~/services/tools/toolManager'
+import ToolManager from '~/services/tool/toolManager'
 
 function handleMouseDown(this: ToolManager, e: MouseEvent) {
   const {clientY, target, button, clientX} = e

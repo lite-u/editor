@@ -5,7 +5,7 @@ import {HistoryOperation} from '~/services/history/type'
 import {ElementProps, ElementPropsWithoutIdentifiers} from '~/elements/elements'
 import {VisionEditorAssetType} from '~/services/assets/AssetsManager'
 import {Point} from '~/type'
-import {ToolName} from '~/services/tools/toolManager'
+import {ToolName} from '~/services/tool/toolManager'
 
 export interface SelectionModifyData {
   mode: SelectionActionMode;

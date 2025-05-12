@@ -1,4 +1,4 @@
-import ToolManager from '~/services/tools/toolManager'
+import ToolManager from '~/services/tool/toolManager'
 import {RotateHandler} from '~/services/selection/type'
 
 export function applyRotating(this: ToolManager, shiftKey: boolean) {

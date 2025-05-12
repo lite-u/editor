@@ -1,5 +1,5 @@
 // import Editor from '../../../main/editor'
-import ToolManager from '~/services/tools/toolManager'
+import ToolManager from '~/services/tool/toolManager'
 
 export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
   const {
