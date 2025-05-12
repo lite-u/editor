@@ -1,4 +1,3 @@
-import Editor from '../../../main/editor'
 import {detectHoveredModule} from './helper'
 import {UID} from '~/core/core'
 import ToolManager from '~/services/tools/toolManager'
@@ -14,11 +13,11 @@ function handleContextMenu(this: ToolManager, e: MouseEvent) {
       return false
     }
   */
-
+  const {action, clipboard, interaction, selection} = this.editor
   detectHoveredModule.call(this)
-  const lastId = this.hoveredModule
-  const selectedIdSet = this.selection.values
-  const position = {...this.viewport.mouseMovePoint}
+  const lastId = interaction.hoveredModule
+  const selectedIdSet = selection.values
+  const position = {...interaction.mouseMovePoint}
   let idSet = new Set<UID>()
 
   // console.log(selectedIdSet,lastId)
@@ -27,15 +26,15 @@ function handleContextMenu(this: ToolManager, e: MouseEvent) {
       idSet = selectedIdSet
     } else {
       idSet.add(lastId)
-      this.selection.add(idSet)
-      this.action.dispatch('selection-updated')
+      selection.add(idSet)
+      action.dispatch('selection-updated')
     }
   }
 
-  this.action.dispatch('context-menu', {
+  action.dispatch('context-menu', {
     idSet,
     position,
-    copiedItems: this.clipboard.copiedItems.length > 0,
+    copiedItems: clipboard.copiedItems.length > 0,
   })
 
   return false

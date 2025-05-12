@@ -8,10 +8,11 @@ function handleContextMenu(e) {
         return false
       }
     */
+    const { action, clipboard, interaction, selection } = this.editor;
     detectHoveredModule.call(this);
-    const lastId = this.hoveredModule;
-    const selectedIdSet = this.selection.values;
-    const position = { ...this.viewport.mouseMovePoint };
+    const lastId = interaction.hoveredModule;
+    const selectedIdSet = selection.values;
+    const position = { ...interaction.mouseMovePoint };
     let idSet = new Set();
     // console.log(selectedIdSet,lastId)
     if (lastId) {
@@ -20,14 +21,14 @@ function handleContextMenu(e) {
         }
         else {
             idSet.add(lastId);
-            this.selection.add(idSet);
-            this.action.dispatch('selection-updated');
+            selection.add(idSet);
+            action.dispatch('selection-updated');
         }
     }
-    this.action.dispatch('context-menu', {
+    action.dispatch('context-menu', {
         idSet,
         position,
-        copiedItems: this.clipboard.copiedItems.length > 0,
+        copiedItems: clipboard.copiedItems.length > 0,
     });
     return false;
 }
