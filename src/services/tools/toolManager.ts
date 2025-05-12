@@ -7,6 +7,7 @@ import handlePointerMove from '~/services/tools/eventHandlers/pointerMove'
 import handleContextMenu from '~/services/tools/eventHandlers/contextMenu'
 import {Point} from '~/type'
 import handleMouseDown from '~/services/tools/eventHandlers/mouseDown'
+import selector from '~/services/tools/selector/selector'
 
 export type ToolType = {
   start: (this: Editor, e: MouseEvent) => void
@@ -22,7 +23,7 @@ class ToolManager {
   mouseMovePoint: Point = {x: 0, y: 0}
   toolMap: Map<ToolName, ToolType> = new Map()
   spaceKeyDown: boolean = false
-  tool: ToolType
+  protected tool: ToolType
   currentToolName: ToolName
 
   constructor(editor: Editor) {
@@ -38,11 +39,17 @@ class ToolManager {
     container.addEventListener('mouseup', handleMouseUp.bind(this), {signal})
     container.addEventListener('pointermove', handlePointerMove.bind(this), {signal})
     container.addEventListener('contextmenu', handleContextMenu.bind(this), {signal})
+
+    this.toolMap.set('selector', selector)
+    this.currentToolName = 'selector'
+    this.tool = selector
+    // this.toolMap.set('rectangle',rectangle)
+    // this.toolMap.set('rectangle',rectangle)
   }
 
   set(tool: ToolName) {
     this.currentToolName = tool
-    this.tool = this.toolMap.get(tool)
+    this.tool = this.toolMap.get(tool)!
   }
 
   // currentTool: Tool

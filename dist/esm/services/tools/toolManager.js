@@ -5,6 +5,7 @@ import handleWheel from './eventHandlers/wheel.js';
 import handlePointerMove from './eventHandlers/pointerMove.js';
 import handleContextMenu from './eventHandlers/contextMenu.js';
 import handleMouseDown from './eventHandlers/mouseDown.js';
+import selector from './selector/selector.js';
 class ToolManager {
     editor;
     eventsController = new AbortController();
@@ -25,6 +26,11 @@ class ToolManager {
         container.addEventListener('mouseup', handleMouseUp.bind(this), { signal });
         container.addEventListener('pointermove', handlePointerMove.bind(this), { signal });
         container.addEventListener('contextmenu', handleContextMenu.bind(this), { signal });
+        this.toolMap.set('selector', selector);
+        this.currentToolName = 'selector';
+        this.tool = selector;
+        // this.toolMap.set('rectangle',rectangle)
+        // this.toolMap.set('rectangle',rectangle)
     }
     set(tool) {
         this.currentToolName = tool;

@@ -13,7 +13,7 @@ declare class ToolManager {
     mouseMovePoint: Point;
     toolMap: Map<ToolName, ToolType>;
     spaceKeyDown: boolean;
-    tool: ToolType;
+    protected tool: ToolType;
     currentToolName: ToolName;
     constructor(editor: Editor);
     set(tool: ToolName): void;
