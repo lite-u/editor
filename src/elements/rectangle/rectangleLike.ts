@@ -6,7 +6,7 @@ import render from './render'
 import transform, {TransformProps} from '~/elements/rectangle/transform'
 import ElementRectangle from '~/elements/rectangle/rectangle'
 import {BorderRadius} from '~/elements/props'
-import {DEFAULT_BORDER_RADIUS} from '~/elements/defaultProps'
+import {DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH} from '~/elements/defaultProps'
 import {isEqual} from '~/lib/lib'
 
 export interface RectangleLikeProps extends ShapeProps {
@@ -18,7 +18,6 @@ export interface RectangleLikeProps extends ShapeProps {
 }
 
 export type RequiredRectangleLikeProps = Required<RectangleLikeProps>
-
 
 class RectangleLike extends Shape {
   id: string
