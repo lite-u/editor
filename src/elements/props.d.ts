@@ -12,6 +12,7 @@ export type Point = {
 };
 
 export type Stroke = {
+  enabled: boolean
   color: string; // e.g., "#000000"
   weight: number; // stroke width
   cap: 'butt' | 'round' | 'projecting';
@@ -54,8 +55,8 @@ export type Transform = {
   };
 };
 
-// [topLeft,topRight,bottomRight,bottomLeft]| [repeat]
-export type BorderRadius = [number, number, number, number] | [number];
+// [topLeft,topRight,bottomRight,bottomLeft]
+export type BorderRadius = [number, number, number, number];
 
 export type Appearance = {
   effects: string[]; // e.g., ["drop shadow", "outer glow"]

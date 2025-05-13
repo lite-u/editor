@@ -18,7 +18,7 @@ export const DEFAULT_CY = 0
 export const DEFAULT_WIDTH = 10
 export const DEFAULT_HEIGHT = 10
 
-export const DEFAULT_BORDER_RADIUS: BorderRadius = [0]
+export const DEFAULT_BORDER_RADIUS: BorderRadius = [0, 0, 0, 0]
 
 export const DEFAULT_POINT: Point = {
   x: 0,
@@ -34,6 +34,7 @@ export const DEFAULT_ANCHOR_POINT: AnchorPoint = {
 }
 
 export const DEFAULT_STROKE: Stroke = {
+  enabled: true,
   color: '#000000',
   weight: 1,
   cap: 'butt',

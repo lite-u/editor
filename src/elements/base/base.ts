@@ -19,6 +19,7 @@ export interface ElementBaseProps {
   shadow?: Shadow
   rotation?: number
   transform?: Transform
+  show?: boolean
 }
 
 export type RequiredBaseProps = Required<ElementBaseProps>
@@ -30,6 +31,7 @@ class Base {
   shadow: Shadow
   rotation: number
   transform: Transform
+  show: boolean
 
   constructor({
                 stroke = deepClone(DEFAULT_STROKE),
@@ -38,6 +40,7 @@ class Base {
                 shadow = deepClone(DEFAULT_SHADOW),
                 rotation = deepClone(DEFAULT_ROTATION),
                 transform = deepClone(DEFAULT_TRANSFORM),
+                show = true,
               }: ElementBaseProps) {
     this.stroke = stroke
     this.fill = fill
@@ -45,10 +48,12 @@ class Base {
     this.shadow = shadow
     this.rotation = rotation
     this.transform = transform
+    this.show = show
   }
 
   protected toJSON(): RequiredBaseProps {
     const {
+      show,
       stroke,
       fill,
       opacity,
@@ -58,6 +63,7 @@ class Base {
     } = this
 
     return {
+      show,
       stroke: deepClone(stroke),
       fill: deepClone(fill),
       opacity: opacity,
@@ -69,6 +75,11 @@ class Base {
 
   protected toMinimalJSON(): ElementBaseProps {
     const result: ElementBaseProps = {}
+
+    if (!this.show) {
+      result.show = false
+    }
+
     if (!isEqual(this.stroke, DEFAULT_STROKE)) {
       result.stroke = deepClone(this.stroke)
     }

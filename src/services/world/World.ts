@@ -1,5 +1,5 @@
 import nid from '~/core/nid'
-import ElementRectangle from '~/elements/rectangle/rectangle'
+import ElementRectangle, {RectangleProps} from '~/elements/rectangle/rectangle'
 import ElementImage from '~/elements/image/image'
 import Editor from '~/main/editor'
 import {BoundingRect, Point} from '~/type'
@@ -95,18 +95,12 @@ class World {
     // console.log('renderModules')
     const animate = () => {
       const {scale, dpr, mainCanvasContext: ctx} = this
-      const frameBorder = {
+      const frameBorder: RectangleProps = {
         id: nid() + '-frame',
-        x: this.editor.config.page.width / 2,
-        y: this.editor.config.page.height / 2,
+        cx: this.editor.config.page.width / 2,
+        cy: this.editor.config.page.height / 2,
         width: this.editor.config.page.width,
         height: this.editor.config.page.height,
-        fillColor: 'transparent',
-        fill: {
-          enabled: true,
-          color: 'transparent',
-          type: 'solid',
-        },
         stroke: {
           color: '#000',
           weight: 1 / scale * dpr,
@@ -114,9 +108,6 @@ class World {
           join: 'miter',
           dashed: false,
         },
-        // enableLine: true,
-        // lineWidth: 1 / scale * dpr,
-        // lineColor: '#000',
         layer: -1,
         opacity: 100,
       }
@@ -131,7 +122,7 @@ class World {
       this.editor.visible.values.forEach((module) => {
         module.render(ctx)
 
-        if (module.type === 'image') {
+     /*   if (module.type === 'image') {
           const {asset} = module as ElementImage
 
           const obj = this.editor.assetsManager.getAssetsObj(asset)
@@ -139,7 +130,7 @@ class World {
           if (obj) {
             (module as ElementImage).renderImage(ctx, obj.imageRef!)
           }
-        }
+        }*/
       })
 
       new ElementRectangle(frameBorder).render(ctx)

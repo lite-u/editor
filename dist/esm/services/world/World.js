@@ -67,16 +67,10 @@ class World {
             const { scale, dpr, mainCanvasContext: ctx } = this;
             const frameBorder = {
                 id: nid() + '-frame',
-                x: this.editor.config.page.width / 2,
-                y: this.editor.config.page.height / 2,
+                cx: this.editor.config.page.width / 2,
+                cy: this.editor.config.page.height / 2,
                 width: this.editor.config.page.width,
                 height: this.editor.config.page.height,
-                fillColor: 'transparent',
-                fill: {
-                    enabled: true,
-                    color: 'transparent',
-                    type: 'solid',
-                },
                 stroke: {
                     color: '#000',
                     weight: 1 / scale * dpr,
@@ -84,9 +78,6 @@ class World {
                     join: 'miter',
                     dashed: false,
                 },
-                // enableLine: true,
-                // lineWidth: 1 / scale * dpr,
-                // lineColor: '#000',
                 layer: -1,
                 opacity: 100,
             };
@@ -97,14 +88,15 @@ class World {
             new ElementRectangle(frameFill).render(ctx);
             this.editor.visible.values.forEach((module) => {
                 module.render(ctx);
-                if (module.type === 'image') {
-                    const { asset } = module;
-                    const obj = this.editor.assetsManager.getAssetsObj(asset);
-                    // console.log(this.assetsManager, src)
-                    if (obj) {
-                        module.renderImage(ctx, obj.imageRef);
-                    }
-                }
+                /*   if (module.type === 'image') {
+                     const {asset} = module as ElementImage
+           
+                     const obj = this.editor.assetsManager.getAssetsObj(asset)
+                     // console.log(this.assetsManager, src)
+                     if (obj) {
+                       (module as ElementImage).renderImage(ctx, obj.imageRef!)
+                     }
+                   }*/
             });
             new ElementRectangle(frameBorder).render(ctx);
         };
