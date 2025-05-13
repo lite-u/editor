@@ -1,6 +1,5 @@
-import { Shadow } from '~/core/core';
 import { BoundingRect } from '~/type';
-import { Fill, Stroke, Transform } from '~/elements/defaultProps';
+import { Fill, Shadow, Stroke, Transform } from '~/elements/props';
 export interface ElementBaseProps {
     stroke?: Stroke;
     fill?: Fill;

@@ -6,9 +6,6 @@ const DEFAULT_CX = 0;
 const DEFAULT_CY = 0;
 const DEFAULT_ENABLE_GRADIENT = false;
 const DEFAULT_GRADIENT = '';
-const DEFAULT_ENABLE_FILL = true;
-const DEFAULT_FILL_COLOR = '#fff';
-const DEFAULT_DASH_LINE = '';
 class Shape extends Base {
     cx;
     cy;
@@ -17,7 +14,7 @@ class Shape extends Base {
     enableGradient;
     gradient;
     dashLine;
-    constructor({ cx = DEFAULT_CX, cy = DEFAULT_CY, enableGradient = DEFAULT_ENABLE_GRADIENT, gradient = DEFAULT_GRADIENT, enableFill = DEFAULT_ENABLE_FILL, fillColor = DEFAULT_FILL_COLOR, dashLine = DEFAULT_DASH_LINE, ...rest }) {
+    constructor({ cx = DEFAULT_CX, cy = DEFAULT_CY, enableGradient = DEFAULT_ENABLE_GRADIENT, gradient = DEFAULT_GRADIENT, ...rest }) {
         super(rest);
         this.cx = cx;
         this.cy = cy;

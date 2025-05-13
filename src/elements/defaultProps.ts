@@ -1,4 +1,4 @@
-import {AnchorPoint, Appearance, Fill, Point, Shadow, Stroke, Transform} from '~/elements/props'
+import {AnchorPoint, Appearance, Fill, Point, Shadow, Stroke, Transform, Gradient} from '~/elements/props'
 
 export const DEFAULT_POINT: Point = {
   x: 0,
@@ -53,6 +53,15 @@ export const DEFAULT_SHADOW: Shadow = {
   opacity: 1,
   blendMode: 'normal',
   enabled: false,
+};
+
+export const DEFAULT_GRADIENT: Gradient = {
+  type: 'linear',
+  angle: 0,
+  stops: [
+    { offset: 0, color: '#000000', opacity: 1 },
+    { offset: 1, color: '#FFFFFF', opacity: 1 },
+  ],
 };
 
 export const DEFAULT_OPACITY = 100

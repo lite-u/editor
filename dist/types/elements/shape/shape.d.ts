@@ -8,9 +8,6 @@ export interface ShapeProps extends ElementBaseProps {
     cy?: number;
     enableGradient?: boolean;
     gradient?: string;
-    enableFill?: boolean;
-    fillColor?: ElementFillColor;
-    dashLine?: string;
 }
 export type RequiredShapeProps = Required<ShapeProps>;
 declare class Shape extends Base {
@@ -21,7 +18,7 @@ declare class Shape extends Base {
     enableGradient: boolean;
     gradient: string;
     dashLine: string;
-    constructor({ cx, cy, enableGradient, gradient, enableFill, fillColor, dashLine, ...rest }: ShapeProps);
+    constructor({ cx, cy, enableGradient, gradient, ...rest }: ShapeProps);
     protected toJSON(): RequiredShapeProps;
     toMinimalJSON(): ShapeProps;
     move(x: number, y: number): void;

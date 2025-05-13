@@ -46,5 +46,13 @@ export const DEFAULT_SHADOW = {
     blendMode: 'normal',
     enabled: false,
 };
+export const DEFAULT_GRADIENT = {
+    type: 'linear',
+    angle: 0,
+    stops: [
+        { offset: 0, color: '#000000', opacity: 1 },
+        { offset: 1, color: '#FFFFFF', opacity: 1 },
+    ],
+};
 export const DEFAULT_OPACITY = 100;
 export const DEFAULT_ROTATION = 0;

@@ -12,9 +12,6 @@ export interface ShapeProps extends ElementBaseProps {
   cy?: number
   enableGradient?: boolean
   gradient?: string
-  enableFill?: boolean
-  fillColor?: ElementFillColor
-  dashLine?: string
 }
 
 export type RequiredShapeProps = Required<ShapeProps>
@@ -23,9 +20,6 @@ const DEFAULT_CX = 0
 const DEFAULT_CY = 0
 const DEFAULT_ENABLE_GRADIENT = false
 const DEFAULT_GRADIENT = ''
-const DEFAULT_ENABLE_FILL = true
-const DEFAULT_FILL_COLOR = '#fff'
-const DEFAULT_DASH_LINE = ''
 
 class Shape extends Base {
   public cx: number
@@ -41,9 +35,6 @@ class Shape extends Base {
                 cy = DEFAULT_CY,
                 enableGradient = DEFAULT_ENABLE_GRADIENT,
                 gradient = DEFAULT_GRADIENT,
-                enableFill = DEFAULT_ENABLE_FILL,
-                fillColor = DEFAULT_FILL_COLOR,
-                dashLine = DEFAULT_DASH_LINE,
                 ...rest
               }: ShapeProps) {
     super(rest)

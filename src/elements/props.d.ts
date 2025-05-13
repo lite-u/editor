@@ -75,14 +75,26 @@ export type Appearance = {
 };
 
 export type Shadow = {
-  type: 'drop' | 'inner';      // 'drop' = drop shadow, 'inner' = inner shadow
-  color: string;               // e.g., "#000000" or "rgba(0,0,0,0.5)"
-  offsetX: number;             // Horizontal offset in px
-  offsetY: number;             // Vertical offset in px
-  blur: number;                // Blur radius in px
-  spread?: number;             // Optional: spread radius (like in CSS box-shadow)
-  opacity: number;             // 0 to 1
-  blendMode?: BlendMode;       // Optional: 'normal', 'multiply', etc.
-  enabled: boolean;            // For toggling effect
+  type: 'drop' | 'inner';
+  color: string;
+  offsetX: number;
+  offsetY: number;
+  blur: number;
+  spread?: number;
+  opacity: number;
+  blendMode?: BlendMode;
+  enabled: boolean;
 };
-export type Transform = {}
+
+export type Gradient = {
+  type: 'linear' | 'radial';
+  angle?: number;
+  cx?: number;
+  cy?: number;
+  r?: number;
+  stops: {
+    offset: number;
+    color: string;
+    opacity?: number;
+  }[];
+};

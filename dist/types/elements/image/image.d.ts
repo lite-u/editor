@@ -21,15 +21,12 @@ declare class ElementImage extends RectangleLike {
         cy?: number;
         enableGradient?: boolean;
         gradient?: string;
-        enableFill?: boolean;
-        fillColor?: ElementFillColor;
-        dashLine?: string;
-        stroke?: Stroke;
-        fill?: Fill;
+        stroke?: import("../props").Stroke;
+        fill?: import("../props").Fill;
         opacity?: number;
-        shadow?: Shadow;
+        shadow?: import("../props").Shadow;
         rotation?: number;
-        transform?: Transform;
+        transform?: import("../props").Transform;
     };
     renderImage(ctx: CanvasRenderingContext2D, img: HTMLImageElement): void;
 }
