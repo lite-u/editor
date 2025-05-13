@@ -39,8 +39,8 @@ class ElementImage extends RectangleLike {
     }
   }
 
-  public renderImage(ctx: CanvasRenderingContext2D, img: HTMLImageElement): void {
-    render.call(this, ctx, img)
+  public render(ctx: CanvasRenderingContext2D): void {
+    render.call(this, ctx)
   }
 }
 

@@ -1,7 +1,8 @@
 import ElementImage from '~/elements/image/image'
 
-function render(this: ElementImage, ctx: CanvasRenderingContext2D, img: HTMLImageElement): void {
-  let {cx, cy, width, height, rotation, opacity} = this.toJSON()
+function render(this: ElementImage, ctx: CanvasRenderingContext2D): void {
+  let {cx, cy, asset, width, height, rotation, opacity} = this.toJSON()
+  const {img} = asset
   // x = Math.round(x)
   // y = Math.round(y)
   // width = Math.round(width)
