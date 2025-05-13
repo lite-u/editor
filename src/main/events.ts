@@ -168,7 +168,7 @@ export function initEvents(this: Editor) {
     const ox = position.x - this.rect!.x
     const oy = position.y - this.rect!.y
     const worldPoint = this.world.getWorldPointByViewportPoint(ox, oy)
-    const modulePropsList = assets.map(asset => {
+    const elementPropsList = assets.map(asset => {
       const {width, height} = asset.imageRef!
 
       this.assetsManager.add(asset)
@@ -184,7 +184,7 @@ export function initEvents(this: Editor) {
       }
     })
 
-    dispatch('element-add', modulePropsList)
+    dispatch('element-add', elementPropsList)
   })
 
   on('element-delete', () => {

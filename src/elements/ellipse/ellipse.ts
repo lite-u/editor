@@ -42,7 +42,7 @@ class ElementEllipse extends Shape {
   static applyResizeTransform = (props: {
     downPoint: { x: number; y: number };
     movePoint: { x: number; y: number };
-    moduleOrigin: RequiredEllipseProps
+    elementOrigin: RequiredEllipseProps
     rotation: number;
     handleName: ResizeHandleName;
     scale: number;

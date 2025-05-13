@@ -6,7 +6,7 @@ import {RequiredEllipseProps} from '~/elements/ellipse/ellipse'
 const transform = ({
                      downPoint,
                      movePoint,
-                     moduleOrigin,
+                     elementOrigin,
                      rotation,
                      handleName,
                      scale,
@@ -16,7 +16,7 @@ const transform = ({
                    }: {
   downPoint: { x: number; y: number };
   movePoint: { x: number; y: number };
-  moduleOrigin: RequiredEllipseProps
+  elementOrigin: RequiredEllipseProps
   rotation: number;
   handleName: ResizeHandleName;
   scale: number;
@@ -29,7 +29,7 @@ const transform = ({
     r2,
     cx: initialCX,
     cy: initialCY,
-  } = moduleOrigin
+  } = elementOrigin
   const initialWidth = r1 * 2
   const initialHeight = r2 * 2
 

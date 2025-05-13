@@ -6,7 +6,7 @@ import {Rect} from '~/type'
 export interface TransformProps {
   downPoint: { x: number; y: number };
   movePoint: { x: number; y: number };
-  moduleOrigin: RequiredRectangleProps
+  elementOrigin: RequiredRectangleProps
   rotation: number;
   handleName: ResizeHandleName;
   scale: number;
@@ -19,7 +19,7 @@ function transform(
   {
     downPoint,
     movePoint,
-    moduleOrigin,
+    elementOrigin,
     rotation,
     handleName,
     scale,
@@ -33,7 +33,7 @@ function transform(
     height: initialHeight,
     cx: initialCX,
     cy: initialCY,
-  } = moduleOrigin
+  } = elementOrigin
   // Calculate raw movement in screen coordinates
   const dxScreen = movePoint.x - downPoint.x
   const dyScreen = movePoint.y - downPoint.y

@@ -107,9 +107,9 @@ class Editor {
       assets: [],
     }
 
-    this.elementManager.all.forEach((module) => {
-      if (module.type === 'image') {
-        const {asset} = module as ElementImage
+    this.elementManager.all.forEach((element) => {
+      if (element.type === 'image') {
+        const {asset} = element as ElementImage
         if (!asset) return
 
         const r = this.assetsManager.getAssetsObj(asset)
@@ -123,7 +123,7 @@ class Editor {
         }
       }
 
-      result.elements.push(module.toMinimalJSON())
+      result.elements.push(element.toMinimalJSON())
     })
 
     return result

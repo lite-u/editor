@@ -16,7 +16,7 @@ export function detectHoveredElement(this: ToolManager) {
   // console.log(worldPoint)
 
   for (let i = arr.length - 1; i >= 0; i--) {
-    if (arr[i].module.hitTest(worldPoint)) {
+    if (arr[i].element.hitTest(worldPoint)) {
       hitOn = arr[i]
       break
     }
@@ -56,10 +56,10 @@ export function applyResize(this: ToolManager, altKey: boolean, shiftKey: boolea
   const {scale, dpr} = world
   const {
     name: handleName,
-    module: {rotation},
-    moduleOrigin,
+    element: {rotation},
+    elementOrigin,
   } = _resizingOperator!
-  const {id} = moduleOrigin
+  const {id} = elementOrigin
   const resizeParam = {
     downPoint: mouseDownPoint,
     movePoint: mouseMovePoint,
@@ -69,7 +69,7 @@ export function applyResize(this: ToolManager, altKey: boolean, shiftKey: boolea
     handleName,
     altKey,
     shiftKey,
-    moduleOrigin,
+    elementOrigin,
   }
 
   const relatedModule = elementManager.all.get(id)

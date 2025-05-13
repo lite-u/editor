@@ -81,7 +81,7 @@ class Shape extends Base {
     resizeConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
     rotateConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
     boundingRect: BoundingRect,
-    moduleOrigin: ElementProps,
+    elementOrigin: ElementProps,
   ): OperationHandlers[] {
     const {x: cx, y: cy, width, height} = boundingRect
     // const id = this.id
@@ -145,8 +145,8 @@ class Shape extends Base {
         type: OFFSET.type,
         name: OFFSET.name,
         // cursor,
-        moduleOrigin,
-        module: new ElementRectangle(currentElementProps),
+        elementOrigin,
+        element: new ElementRectangle(currentElementProps),
       }
     })
 

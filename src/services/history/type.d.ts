@@ -51,7 +51,7 @@ interface InitOperation {
 interface AddOperation {
   type: 'history-add'
   payload: {
-    modules: HistoryModules // newly added modules with their full data
+    elements: HistoryModules // newly added modules with their full data
     selectedElements: HistorySelectedElements
   }
 }
@@ -60,7 +60,7 @@ interface AddOperation {
 interface DeleteOperation {
   type: 'history-delete'
   payload: {
-    modules: HistoryModules // full data of deleted modules, to restore them
+    elements: HistoryModules // full data of deleted modules, to restore them
     selectedElements: HistorySelectedElements
   }
 }
@@ -69,7 +69,7 @@ interface DeleteOperation {
 interface PasteOperation {
   type: 'history-paste'
   payload: {
-    modules: HistoryModules // modules that were pasted into the scene
+    elements: HistoryModules // modules that were pasted into the scene
     selectedElements: HistorySelectedElements
   }
 }
@@ -79,7 +79,7 @@ interface DuplicateOperation {
   type: 'history-duplicate'
   payload: {
     // sourceIds: string[] // ids of the original modules being duplicated
-    modules: HistoryModules  // the new duplicated modules
+    elements: HistoryModules  // the new duplicated modules
     selectedElements: HistorySelectedElements
   }
 }

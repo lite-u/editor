@@ -54,7 +54,7 @@ function selectionRender(this: World) {
   })
 
   this.editor.interaction.operationHandlers.forEach(operation => {
-    operation.module.render(ctx)
+    operation.element.render(ctx)
   })
 
   /*if (this.viewport.enableCrossLine && this.viewport.drawCrossLine) {

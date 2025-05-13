@@ -137,11 +137,11 @@ const rectangleTool: ToolType = {
         case 'resizing': {
           const {altKey, shiftKey} = e
           const props = applyResize.call(this, altKey, shiftKey)
-          const moduleOrigin = interaction._resizingOperator?.moduleOrigin
+          const elementOrigin = interaction._resizingOperator?.elementOrigin
           const rollbackProps: Partial<ElementProps> = {}
 
           Object.keys(props).forEach((key) => {
-            rollbackProps[key] = moduleOrigin[key]
+            rollbackProps[key] = elementOrigin[key]
           })
 
           // rotate back
@@ -160,7 +160,7 @@ const rectangleTool: ToolType = {
         case 'rotating': {
           const {shiftKey} = e
           const newRotation = applyRotating.call(this, shiftKey)
-          const {rotation} = interaction._rotatingOperator?.moduleOrigin!
+          const {rotation} = interaction._rotatingOperator?.elementOrigin!
           const rollbackProps: Partial<ElementProps> = {rotation}
 
           // rotate back

@@ -105,9 +105,9 @@ const selector: ToolType = {
         const _selecting: Set<UID> = new Set()
         const modifyKey = e.ctrlKey || e.metaKey || e.shiftKey
 
-        elementManager.all.forEach((module) => {
-          if (module.isInsideRect(virtualSelectionRect)) {
-            _selecting.add(module.id)
+        elementManager.all.forEach((ele) => {
+          if (ele.isInsideRect(virtualSelectionRect)) {
+            _selecting.add(ele.id)
           }
         })
 
@@ -176,7 +176,7 @@ const selector: ToolType = {
       case 'resizing': {
         container.setPointerCapture(e.pointerId)
         const {altKey, shiftKey} = e
-        // const {x, y} = interaction._rotatingOperator!.moduleOrigin
+        // const {x, y} = interaction._rotatingOperator!.elementOrigin
         // const centerPoint = world.getViewPointByWorldPoint(x, y)
         // const cursorDirection = getResizeDirection(centerPoint, interaction.mouseMovePoint)
 
@@ -192,7 +192,7 @@ const selector: ToolType = {
       case 'rotating': {
         container.setPointerCapture(e.pointerId)
         const {shiftKey} = e
-        const {x, y} = interaction._rotatingOperator!.moduleOrigin
+        const {x, y} = interaction._rotatingOperator!.elementOrigin
         const centerPoint = world.getViewPointByWorldPoint(x, y)
         const rotation = applyRotating.call(this, shiftKey)
         const cursorAngle = getRotateAngle(centerPoint, mouseMovePoint)
@@ -232,14 +232,14 @@ const selector: ToolType = {
 
         if (r) {
           if (r.type === 'rotate') {
-            const centerPoint = world.getViewPointByWorldPoint(r.moduleOrigin.x, r.moduleOrigin.y)
+            const centerPoint = world.getViewPointByWorldPoint(r.elementOrigin.x, r.elementOrigin.y)
             const angle = getRotateAngle(centerPoint, mouseMovePoint)
 
             cursor.set('rotate')
             cursor.move(mouseMovePoint, angle)
             // updateCursor.call(this, 'rotate', mouseMovePoint, angle)
           } else if (r.type === 'resize') {
-            const {x, y} = r.moduleOrigin
+            const {x, y} = r.elementOrigin
             const centerPoint = world.getViewPointByWorldPoint(x, y)
             const cursorDirection = getResizeCursor(interaction.mouseMovePoint, centerPoint)
 
@@ -350,11 +350,11 @@ const selector: ToolType = {
         case 'resizing': {
           const {altKey, shiftKey} = e
           const props = applyResize.call(this, altKey, shiftKey)
-          const moduleOrigin = interaction._resizingOperator?.moduleOrigin
+          const elementOrigin = interaction._resizingOperator?.elementOrigin
           const rollbackProps: Partial<ElementProps> = {}
 
           Object.keys(props).forEach((key) => {
-            rollbackProps[key] = moduleOrigin[key]
+            rollbackProps[key] = elementOrigin[key]
           })
 
           // rotate back
@@ -373,7 +373,7 @@ const selector: ToolType = {
         case 'rotating': {
           const {shiftKey} = e
           const newRotation = applyRotating.call(this, shiftKey)
-          const {rotation} = interaction._rotatingOperator?.moduleOrigin!
+          const {rotation} = interaction._rotatingOperator?.elementOrigin!
           const rollbackProps: Partial<ElementProps> = {rotation}
 
           // rotate back

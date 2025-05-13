@@ -1,3 +1,5 @@
+import {ElementInstance} from '~/elements/elements'
+
 export type SelectionActionMode = 'add' | 'delete' | 'toggle' | 'replace'
 
 type HandlerType = 'move' | 'resize' | 'rotate';
@@ -38,10 +40,10 @@ export interface OperationHandler {
   id: string;
   type: HandlerType
   /*
-  * moduleOrigin is a detailed representation of the corresponding module instance.
+  * elementOrigin is a detailed representation of the corresponding module instance.
   * */
-  moduleOrigin: ElementProps
-  module: ModuleInstance
+  elementOrigin: ElementProps
+  element: ElementInstance
 }
 
 interface ResizeHandler extends OperationHandler {
