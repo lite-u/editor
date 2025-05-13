@@ -58,14 +58,14 @@ class VisibleManager {
     const elementProps = this.editor.selection.pickIfUnique
 
     if (elementProps) {
-      const element = this.editor.elementManager.all.get(elementProps.id)
+      const element = this.editor.elementManager.getElementById(elementProps.id)
       const {scale, dpr} = this.editor.world
       const lineWidth = 1 / scale * dpr
       const resizeSize = 10 / scale * dpr
       const rotateSize = 15 / scale * dpr
       const lineColor = '#5491f8'
 
-      const operators = element!.getOperators(
+      const operators = element.getOperators(
         element!.id,
         {
           size: resizeSize,

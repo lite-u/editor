@@ -1,4 +1,5 @@
 import ElementRectangle from '../../elements/rectangle/rectangle.js';
+import { DEFAULT_FILL, DEFAULT_STROKE } from '../../elements/defaultProps.js';
 function selectionRender() {
     if (this.editor.elementManager.size === 0)
         return;
@@ -26,6 +27,8 @@ function selectionRender() {
         const { cx, cy, rotation, layer } = element.toMinimalJSON();
         const lineWidth = 1 / this.scale * this.dpr;
         const highlightElement = element.getHighlightElement(lineWidth, fillColor);
+        const BRN = id === this.editor.interaction.hoveredElement ? centerPointWidth : 0;
+        const borderRadius = [BRN, BRN, BRN, BRN];
         const centerDotRect = new ElementRectangle({
             cx: cx,
             cy: cy,
@@ -33,12 +36,17 @@ function selectionRender() {
             id: id + 'hover-center',
             width: centerPointWidth * 2,
             height: centerPointWidth * 2,
-            fillColor: fillColor,
-            lineColor: 'transparent',
-            lineWidth,
+            fill: {
+                ...DEFAULT_FILL,
+                color: fillColor,
+            },
+            stroke: {
+                ...DEFAULT_STROKE,
+                weight: lineWidth,
+                color: 'transparent',
+            },
             rotation,
-            opacity: 100,
-            borderRadius: id === this.editor.interaction.hoveredElement ? centerPointWidth : 0,
+            borderRadius,
         });
         highlightElement.render(ctx);
         centerDotRect.render(ctx);
