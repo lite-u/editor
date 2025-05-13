@@ -43,7 +43,8 @@ export type BlendMode =
   | 'luminosity';
 
 export type Transform = {
-  position: Point
+  cx: number
+  cy: number
   rotation: number
   width: number
   height: number

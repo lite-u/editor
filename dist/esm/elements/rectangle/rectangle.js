@@ -27,3 +27,7 @@ class ElementRectangle extends RectangleLike {
     }
 }
 export default ElementRectangle;
+console.log(new ElementRectangle({
+    id: 'aa',
+    layer: 0,
+}));

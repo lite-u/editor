@@ -3,12 +3,14 @@ import {
   Appearance,
   BorderRadius,
   Fill,
-  TextFontProps,
   Gradient,
+  HorizontalAlign,
   Point,
   Shadow,
   Stroke,
-  Transform, VerticalAlign, HorizontalAlign,
+  TextFontProps,
+  Transform,
+  VerticalAlign,
 } from '~/elements/props'
 
 export const DEFAULT_CX = 0
@@ -45,7 +47,8 @@ export const DEFAULT_FILL: Fill = {
 }
 
 export const DEFAULT_TRANSFORM: Transform = {
-  position: {x: 0, y: 0},
+  cx: 0,
+  cy: 0,
   rotation: 0,
   width: 0,
   height: 0,
