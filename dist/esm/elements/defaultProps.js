@@ -26,7 +26,8 @@ export const DEFAULT_FILL = {
     color: '#FFFFFF',
 };
 export const DEFAULT_TRANSFORM = {
-    position: { x: 0, y: 0 },
+    cx: 0,
+    cy: 0,
     rotation: 0,
     width: 0,
     height: 0,

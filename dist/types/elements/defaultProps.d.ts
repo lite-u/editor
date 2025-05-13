@@ -1,4 +1,4 @@
-import { AnchorPoint, Appearance, BorderRadius, Fill, TextFontProps, Gradient, Point, Shadow, Stroke, Transform, VerticalAlign, HorizontalAlign } from '~/elements/props';
+import { AnchorPoint, Appearance, BorderRadius, Fill, Gradient, HorizontalAlign, Point, Shadow, Stroke, TextFontProps, Transform, VerticalAlign } from '~/elements/props';
 export declare const DEFAULT_CX = 0;
 export declare const DEFAULT_CY = 0;
 export declare const DEFAULT_WIDTH = 10;
