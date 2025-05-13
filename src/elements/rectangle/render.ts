@@ -1,7 +1,7 @@
 import RectangleLike from './rectangleLike'
 
 function render(rect: RectangleLike, ctx: CanvasRenderingContext2D): void {
-  let {cx, cy, width, height, rotation, opacity, fill, stroke, borderRadius} = rect.toJSON()
+  let {cx, cy, show, width, height, rotation, opacity, fill, stroke, borderRadius} = rect.toJSON()
   const {enabled: enabledFill, color: fillColor} = fill
   const {enabled: enabledStroke, color: strokeColor, weight, join, dashed, cap} = stroke
 
@@ -13,7 +13,8 @@ function render(rect: RectangleLike, ctx: CanvasRenderingContext2D): void {
   const LocalX = width / 2
   const LocalY = height / 2
 
-  if (opacity <= 0) return
+  if (!show || opacity <= 0) return
+
   // Save current context state to avoid transformations affecting other drawings
   ctx.save()
 
