@@ -1,21 +1,16 @@
-import {Shadow} from '~/core/core'
 import {BoundingRect} from '~/type'
 import {generateBoundingRectFromTwoPoints} from '~/core/utils'
 import {
-  AnchorPoint,
-  Appearance,
   DEFAULT_FILL,
   DEFAULT_OPACITY,
   DEFAULT_ROTATION,
   DEFAULT_SHADOW,
   DEFAULT_STROKE,
   DEFAULT_TRANSFORM,
-  Fill,
-  Stroke,
-  Transform,
 } from '~/elements/defaultProps'
 import deepClone from '~/core/deepClone'
 import {isEqual} from '~/lib/lib'
+import {Fill, Shadow, Stroke, Transform} from '~/elements/props'
 
 export interface ElementBaseProps {
   stroke?: Stroke;
