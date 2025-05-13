@@ -6,8 +6,9 @@ import {DEFAULT_FILL, DEFAULT_STROKE} from '~/elements/defaultProps'
 import {ElementInstance} from '~/elements/elements'
 import {EllipseProps} from '~/elements/ellipse/ellipse'
 
-export const generateHandles = (element: ElementInstance, ratio: number) => {
-  const {id, x: ox, y: oy, rotation} = element.toJSON()
+export const generateHandles = (element: ElementInstance, ratio: number): OperationHandler[] => {
+  const elementData = element.toJSON()
+  const {id, x: ox, y: oy, rotation} = elementData
   const {width, height} = element.getBoundingRect()
   // const {rotation} = this
   const lineWidth = 1 / ratio
@@ -33,21 +34,19 @@ export const generateHandles = (element: ElementInstance, ratio: number) => {
     const cx = ox - width / 2 + OFFSET.x * width
     const cy = oy - height / 2 + OFFSET.y * height
 
-    const eleProps: RectangleProps = {
+    const basicProps: RectangleProps = {
       id: `${id}-${OFFSET.type}-${index}`,
       layer: 0,
       rotation,
     }
 
-    // let cursor: ResizeCursor = OFFSET.cursor as ResizeCursor
-
     if (OFFSET.type === 'resize') {
       const rotated = rotatePointAroundPoint(cx, cy, ox, oy, rotation)
 
-      eleProps.cx = rotated.x
-      eleProps.cy = rotated.y
+      basicProps.cx = rotated.x
+      basicProps.cy = rotated.y
 
-      Object.assign(eleProps, resizeConfig)
+      Object.assign(basicProps, resizeConfig)
     } else {
       const currentRotateHandlerCX = cx + OFFSET.offsetX * lineWidth
       const currentRotateHandlerCY = cy + OFFSET.offsetY * lineWidth
@@ -59,9 +58,9 @@ export const generateHandles = (element: ElementInstance, ratio: number) => {
         rotation,
       )
 
-      eleProps.cx = rotated.x
-      eleProps.cy = rotated.y
-      Object.assign(eleProps, resizeConfig)
+      basicProps.cx = rotated.x
+      basicProps.cy = rotated.y
+      Object.assign(basicProps, rotateConfig)
     }
 
     return {
@@ -69,8 +68,8 @@ export const generateHandles = (element: ElementInstance, ratio: number) => {
       type: OFFSET.type,
       name: OFFSET.name,
       // cursor,
-      elementOrigin,
-      element: new ElementRectangle(eleProps),
+      elementOrigin: elementData,
+      element: new ElementRectangle(basicProps),
     }
   })
 }

@@ -48,11 +48,7 @@ class VisibleManager {
             const element = this.editor.elementManager.getElementById(elementProps.id);
             const { scale, dpr } = this.editor.world;
             const ratio = scale * dpr;
-            const lineWidth = 1 / ratio;
-            const resizeSize = 10 / ratio;
-            const rotateSize = 15 / ratio;
-            const lineColor = '#5491f8';
-            generateHandles(element, ratio);
+            const operators = generateHandles(element, ratio);
             /* const operators = element.getOperators(
                element!.id,
                {
