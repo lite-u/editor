@@ -1,7 +1,7 @@
 function render(rect, ctx) {
     let { cx, cy, show, width, height, rotation, opacity, fill, stroke, borderRadius } = rect.toJSON();
     const { enabled: enabledFill, color: fillColor } = fill;
-    const { enabled: enabledStroke, color: strokeColor, weight, join, dashed, cap } = stroke;
+    const { enabled: enabledStroke, color: strokeColor, weight, join, dashed } = stroke;
     // x = Math.round(x)
     // y = Math.round(y)
     // width = Math.round(width)
