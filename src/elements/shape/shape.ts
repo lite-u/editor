@@ -2,38 +2,32 @@ import Base, {ElementBaseProps} from '../base/base'
 import {HANDLER_OFFSETS} from '../handleBasics'
 import {OperationHandlers} from '~/services/selection/type'
 import ElementRectangle, {RectangleProps} from '../rectangle/rectangle'
-import {ElementFillColor} from '~/core/core'
 import {BoundingRect} from '~/type'
 import {ElementProps} from '../elements'
 import {rotatePointAroundPoint} from '~/core/geometry'
+import {Gradient} from '~/elements/props'
+import {DEFAULT_GRADIENT} from '~/elements/defaultProps'
+import {isEqual} from '~/lib/lib'
 
 export interface ShapeProps extends ElementBaseProps {
   cx?: number
   cy?: number
-  enableGradient?: boolean
-  gradient?: string
+  gradient?: Gradient
 }
 
 export type RequiredShapeProps = Required<ShapeProps>
 
 const DEFAULT_CX = 0
 const DEFAULT_CY = 0
-const DEFAULT_ENABLE_GRADIENT = false
-const DEFAULT_GRADIENT = ''
 
 class Shape extends Base {
   public cx: number
   public cy: number
-  readonly fillColor: ElementFillColor
-  readonly enableFill: boolean
-  enableGradient: boolean
-  gradient: string
-  dashLine: string
+  gradient: Gradient
 
   constructor({
                 cx = DEFAULT_CX,
                 cy = DEFAULT_CY,
-                enableGradient = DEFAULT_ENABLE_GRADIENT,
                 gradient = DEFAULT_GRADIENT,
                 ...rest
               }: ShapeProps) {
@@ -41,34 +35,21 @@ class Shape extends Base {
 
     this.cx = cx
     this.cy = cy
-    this.fillColor = fillColor
-    this.enableFill = enableFill
-    this.enableGradient = enableGradient
     this.gradient = gradient
-    this.dashLine = dashLine
   }
 
   protected toJSON(): RequiredShapeProps {
     const {
       cx,
       cy,
-      fillColor,
-      enableFill,
-      enableGradient,
       gradient,
-      dashLine,
     } = this
 
     return {
       ...super.toJSON(),
       cx,
       cy,
-      fillColor,
-      enableFill,
-      enableGradient,
       gradient,
-      dashLine,
-
     }
   }
 
@@ -85,7 +66,7 @@ class Shape extends Base {
       result.cy = this.cy
     }
 
-    if (this.enableGradient === DEFAULT_ENABLE_GRADIENT) {
+    if (!isEqual(this.gradient,DEFAULT_GRADIENT)) {
       result.enableGradient = this.enableGradient
     }
 

@@ -1,4 +1,4 @@
-import { AnchorPoint, Appearance, Fill, Point, Shadow, Stroke, Transform, Gradient } from '~/elements/props';
+import { AnchorPoint, Appearance, Fill, Gradient, Point, Shadow, Stroke, Transform } from '~/elements/props';
 export declare const DEFAULT_POINT: Point;
 export declare const DEFAULT_ANCHOR_POINT: AnchorPoint;
 export declare const DEFAULT_STROKE: Stroke;

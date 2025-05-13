@@ -24,7 +24,8 @@ export const DEFAULT_FILL = {
 export const DEFAULT_TRANSFORM = {
     position: { x: 0, y: 0 },
     rotation: 0,
-    scale: { x: 1, y: 1 },
+    width: 0,
+    height: 0,
     shear: {
         angle: 0,
         axis: 'horizontal',

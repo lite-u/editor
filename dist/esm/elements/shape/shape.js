@@ -2,39 +2,27 @@ import Base from '../base/base.js';
 import { HANDLER_OFFSETS } from '../handleBasics.js';
 import ElementRectangle from '../rectangle/rectangle.js';
 import { rotatePointAroundPoint } from '../../core/geometry.js';
+import { DEFAULT_GRADIENT } from '../defaultProps.js';
+import { isEqual } from '../../lib/lib.js';
 const DEFAULT_CX = 0;
 const DEFAULT_CY = 0;
-const DEFAULT_ENABLE_GRADIENT = false;
-const DEFAULT_GRADIENT = '';
 class Shape extends Base {
     cx;
     cy;
-    fillColor;
-    enableFill;
-    enableGradient;
     gradient;
-    dashLine;
-    constructor({ cx = DEFAULT_CX, cy = DEFAULT_CY, enableGradient = DEFAULT_ENABLE_GRADIENT, gradient = DEFAULT_GRADIENT, ...rest }) {
+    constructor({ cx = DEFAULT_CX, cy = DEFAULT_CY, gradient = DEFAULT_GRADIENT, ...rest }) {
         super(rest);
         this.cx = cx;
         this.cy = cy;
-        this.fillColor = fillColor;
-        this.enableFill = enableFill;
-        this.enableGradient = enableGradient;
         this.gradient = gradient;
-        this.dashLine = dashLine;
     }
     toJSON() {
-        const { cx, cy, fillColor, enableFill, enableGradient, gradient, dashLine, } = this;
+        const { cx, cy, gradient, } = this;
         return {
             ...super.toJSON(),
             cx,
             cy,
-            fillColor,
-            enableFill,
-            enableGradient,
             gradient,
-            dashLine,
         };
     }
     toMinimalJSON() {
@@ -47,7 +35,7 @@ class Shape extends Base {
         if (this.cy === DEFAULT_CY) {
             result.cy = this.cy;
         }
-        if (this.enableGradient === DEFAULT_ENABLE_GRADIENT) {
+        if (!isEqual(this.gradient, DEFAULT_GRADIENT)) {
             result.enableGradient = this.enableGradient;
         }
         if (this.gradient === DEFAULT_GRADIENT) {

@@ -1,24 +1,19 @@
 import Base, { ElementBaseProps } from '../base/base';
 import { OperationHandlers } from '~/services/selection/type';
-import { ElementFillColor } from '~/core/core';
 import { BoundingRect } from '~/type';
 import { ElementProps } from '../elements';
+import { Gradient } from '~/elements/props';
 export interface ShapeProps extends ElementBaseProps {
     cx?: number;
     cy?: number;
-    enableGradient?: boolean;
-    gradient?: string;
+    gradient?: Gradient;
 }
 export type RequiredShapeProps = Required<ShapeProps>;
 declare class Shape extends Base {
     cx: number;
     cy: number;
-    readonly fillColor: ElementFillColor;
-    readonly enableFill: boolean;
-    enableGradient: boolean;
-    gradient: string;
-    dashLine: string;
-    constructor({ cx, cy, enableGradient, gradient, ...rest }: ShapeProps);
+    gradient: Gradient;
+    constructor({ cx, cy, gradient, ...rest }: ShapeProps);
     protected toJSON(): RequiredShapeProps;
     toMinimalJSON(): ShapeProps;
     move(x: number, y: number): void;
