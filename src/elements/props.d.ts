@@ -54,12 +54,8 @@ export type Transform = {
   };
 };
 
-export type BorderRadius = {
-  topLeft: number;
-  topRight: number;
-  bottomRight: number;
-  bottomLeft: number;
-};
+// [topLeft,topRight,bottomRight,bottomLeft]| [repeat]
+export type BorderRadius = [number, number, number, number] | [number];
 
 export const DEFAULT_BORDER_RADIUS: BorderRadius = {
   topLeft: 0,

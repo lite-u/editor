@@ -116,7 +116,10 @@ class Shape extends Base {
         currentElementProps.cy = rotated.y
         currentElementProps.width = resizeConfig.size
         currentElementProps.height = resizeConfig.size
-        currentElementProps.lineWidth = resizeConfig.lineWidth
+        currentElementProps.stroke = {
+          weight
+        }
+        currentElementProps.stroke.weight = resizeConfig.stroke?.weight
         currentElementProps.lineColor = resizeConfig.lineColor
         currentElementProps.fillColor = resizeConfig.fillColor
       } else if (OFFSET.type === 'rotate') {

@@ -5,27 +5,27 @@ import {generateBoundingRectFromRect, generateBoundingRectFromRotatedRect} from 
 import render from './render'
 import transform, {TransformProps} from '~/elements/rectangle/transform'
 import ElementRectangle from '~/elements/rectangle/rectangle'
+import {BorderRadius} from '~/elements/props'
 
 export interface RectangleLikeProps extends ShapeProps {
   id: string
   layer: number
   width?: number
   height?: number
-  radius?: number
+  radius?: BorderRadius
 }
 
 export type RequiredRectangleLikeProps = Required<RectangleLikeProps>
 
 const DEFAULT_WIDTH = 10
 const DEFAULT_HEIGHT = 10
-const DEFAULT_RADIUS = 0
 
 class RectangleLike extends Shape {
   id: string
   layer: number
   width: number
   height: number
-  radius: number
+  radius: BorderRadius
 
   constructor({
                 id,
