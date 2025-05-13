@@ -1,6 +1,6 @@
 export function detectHoveredElement() {
     const { interaction, action, world, visible } = this.editor;
-    const worldPoint = world.getWorldPointByViewportPoint(interaction.mouseNow.x, interaction.mouseNow.y);
+    const worldPoint = world.getWorldPointByViewportPoint(interaction.mouseCurrent.x, interaction.mouseCurrent.y);
     // const maxLayer = Number.MIN_SAFE_INTEGER
     let elementId = null;
     let hitOn = null;

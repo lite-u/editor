@@ -3,16 +3,15 @@ const rectangleTool = {
     cursor: 'rectangle',
     start(e) {
         const { elementManager, interaction, action, selection, } = this.editor;
-        const { x, y } = interaction.mouseNow;
-        const { x: cx, y: cy } = this.editor.world.getWorldPointByViewportPoint(x, y);
-        const width = 2;
-        const height = 2;
+        const { x, y } = this.editor.interaction.mouseWorldCurrent;
+        const width = 1;
+        const height = 1;
         // this._resizingOperator = operator
         const id = 'rectangle-' + nid();
         const rectProps = {
             type: 'rectangle',
-            cx: cx - width / 2,
-            cy: cy - height / 2,
+            cx: x - width / 2,
+            cy: y - height / 2,
             width,
             height,
             id,
@@ -24,21 +23,35 @@ const rectangleTool = {
         action.dispatch('selection-clear');
         selection.replace(new Set([ele.id]));
         action.dispatch('visible-element-updated');
-        // const r = this.editor.interaction.operationHandlers.find(o => o.type === 'resize' && o.name === 'br')
-        /*  if (r) {
-            this.editor.interaction._resizingOperator = r as ResizeHandle
-          }*/
     },
     move(e) {
-        // if (!this.editor.interaction._resizingOperator) return
+        if (!this.editor.interaction._ele)
+            return;
+        this.editor.container.setPointerCapture(e.pointerId);
         const { altKey, shiftKey } = e;
         const { interaction, world, selection, action, elementManager, rect } = this.editor;
-        const { mouseNow, mouseStart } = interaction;
-        const dx = mouseNow.x - mouseStart.x;
-        const dy = mouseNow.y - mouseStart.y;
-        this.editor.container.setPointerCapture(e.pointerId);
-        interaction._ele.scaleFrom(dx, dy);
-        console.log(dx, dy);
+        const { mouseWorldCurrent, mouseWorldStart } = interaction;
+        const { cx, cy, width, height } = interaction._ele.original;
+        // const dx = mouseCurrent.x - mouseStart.x
+        // const dy = mouseCurrent.y - mouseStart.y
+        const anchor = {
+            x: cx - width / 2,
+            y: cy - height / 2,
+        };
+        const startVec = {
+            x: mouseWorldStart.x - anchor.x,
+            y: mouseWorldStart.y - anchor.y,
+        };
+        // Distance from anchor to mouseCurrent (current handle position)
+        const currentVec = {
+            x: mouseWorldCurrent.x - anchor.x,
+            y: mouseWorldCurrent.y - anchor.y,
+        };
+        // Prevent division by 0
+        const scaleX = startVec.x !== 0 ? currentVec.x / startVec.x : 1;
+        const scaleY = startVec.y !== 0 ? currentVec.y / startVec.y : 1;
+        console.log(anchor, scaleX, scaleY);
+        interaction._ele.scaleFrom(scaleX, scaleY, anchor);
         action.dispatch('visible-element-updated');
         // const r = applyResize.call(this, altKey, shiftKey)
         /*    this.editor.action.dispatch('element-modifying', {
@@ -47,6 +60,7 @@ const rectangleTool = {
             })*/
     },
     finish(e) {
+        this.editor.interaction._ele = null;
     },
 };
 export default rectangleTool;

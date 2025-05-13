@@ -9,8 +9,8 @@ const rectangleTool: ToolType = {
       elementManager, interaction, action, selection,
     } = this.editor
     const {x, y} = this.editor.interaction.mouseWorldCurrent
-    const width = 2
-    const height = 2
+    const width = 1
+    const height = 1
     // this._resizingOperator = operator
     const id = 'rectangle-' + nid()
     const rectProps: RectangleProps = {
@@ -30,24 +30,39 @@ const rectangleTool: ToolType = {
     action.dispatch('selection-clear')
     selection.replace(new Set([ele.id]))
     action.dispatch('visible-element-updated')
-
-    // const r = this.editor.interaction.operationHandlers.find(o => o.type === 'resize' && o.name === 'br')
-
-    /*  if (r) {
-        this.editor.interaction._resizingOperator = r as ResizeHandle
-      }*/
   },
   move(this: ToolManager, e: PointerEvent) {
-    // if (!this.editor.interaction._resizingOperator) return
-    const {altKey, shiftKey} = e
-    const {interaction, world, selection, action, elementManager, rect} = this.editor
-    const {mouseCurrent, mouseStart} = interaction
-    const dx = mouseCurrent.x - mouseStart.x
-    const dy = mouseCurrent.y - mouseStart.y
+    if (!this.editor.interaction._ele) return
+
     this.editor.container.setPointerCapture(e.pointerId)
 
-    interaction._ele.scaleFrom(dx, dy)
-    console.log(dx, dy)
+    const {altKey, shiftKey} = e
+    const {interaction, world, selection, action, elementManager, rect} = this.editor
+    const {mouseWorldCurrent, mouseWorldStart} = interaction
+    const {cx, cy, width, height} = interaction._ele.original
+    // const dx = mouseCurrent.x - mouseStart.x
+    // const dy = mouseCurrent.y - mouseStart.y
+    const anchor = {
+      x: cx - width / 2,
+      y: cy - height / 2,
+    }
+    const startVec = {
+      x: mouseWorldStart.x - anchor.x,
+      y: mouseWorldStart.y - anchor.y,
+    }
+    // Distance from anchor to mouseCurrent (current handle position)
+    const currentVec = {
+      x: mouseWorldCurrent.x - anchor.x,
+      y: mouseWorldCurrent.y - anchor.y,
+    }
+
+    // Prevent division by 0
+    const scaleX = startVec.x !== 0 ? currentVec.x / startVec.x : 1
+    const scaleY = startVec.y !== 0 ? currentVec.y / startVec.y : 1
+
+    console.log(anchor, scaleX, scaleY)
+    interaction._ele.scaleFrom(scaleX, scaleY, anchor)
+
     action.dispatch('visible-element-updated')
 
     // const r = applyResize.call(this, altKey, shiftKey)
@@ -58,7 +73,7 @@ const rectangleTool: ToolType = {
 
   },
   finish(this: ToolManager, e: MouseEvent) {
-
+    this.editor.interaction._ele = null
   },
 }
 

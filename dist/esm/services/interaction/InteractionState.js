@@ -3,10 +3,10 @@ class InteractionState {
     editor;
     state = 'static';
     mouseStart = { x: 0, y: 0 };
-    mouseNow = { x: 0, y: 0 };
+    mouseCurrent = { x: 0, y: 0 };
     mouseDelta = { x: 0, y: 0 };
     mouseWorldStart = { x: 0, y: 0 };
-    mouseWorldNow = { x: 0, y: 0 };
+    mouseWorldCurrent = { x: 0, y: 0 };
     mouseWorldDelta = { x: 0, y: 0 };
     hoveredElement = '';
     operationHandlers = [];

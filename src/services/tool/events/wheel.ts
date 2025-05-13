@@ -5,7 +5,7 @@ import ToolManager from '~/services/tool/toolManager'
 
 function handleWheel(this: ToolManager, event: WheelEvent) {
   // Prevent page zoom
-  if ((event.target as HTMLElement) !== this.viewport.wrapper) return
+  if ((event.target as HTMLElement) !== this.editor.container) return
   // console.log(this.state)
   event.preventDefault()
   event.stopPropagation()

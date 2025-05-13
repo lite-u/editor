@@ -9,10 +9,10 @@ declare class InteractionState {
     editor: Editor;
     state: EditorManipulationType;
     mouseStart: Point;
-    mouseNow: Point;
+    mouseCurrent: Point;
     mouseDelta: Point;
     mouseWorldStart: Point;
-    mouseWorldNow: Point;
+    mouseWorldCurrent: Point;
     mouseWorldDelta: Point;
     hoveredElement: UID;
     readonly operationHandlers: OperationHandler[];
