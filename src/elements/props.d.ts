@@ -91,5 +91,5 @@ export type Gradient = {
 export type Asset = {
   id: string;
   name: string;
-  img: Image;
+  img: HTMLImageElement;
 }
