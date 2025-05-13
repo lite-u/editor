@@ -1,3 +1,3 @@
-import { ToolManager } from '~/services/tool/toolManager';
-declare const rectangle: ToolManager;
-export default rectangle;
+import { ToolType } from '~/services/tool/toolManager';
+declare const rectangleTool: ToolType;
+export default rectangleTool;

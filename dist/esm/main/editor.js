@@ -25,7 +25,6 @@ class Editor {
     clipboard;
     cursor;
     history;
-    // viewport: Viewport
     toolManager;
     elementManager;
     selection;

@@ -9,9 +9,10 @@ function handleKeyDown(e) {
     if (manipulationStatus === 'panning' || manipulationStatus === 'selecting')
         return;
     if (e.code === 'Space') {
-        interaction.spaceKeyDown = true;
-        cursor.set('grab');
-        toolManager.set('panning');
+        // interaction.spaceKeyDown = true
+        // cursor.set('grab')
+        // toolManager.set('panning')
+        action.dispatch('switch-tool', 'panning');
         interaction._lastTool = toolManager.currentToolName;
         e.preventDefault();
         return;

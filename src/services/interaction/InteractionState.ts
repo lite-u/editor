@@ -21,6 +21,7 @@ class InteractionState {
   hoveredModule: UID = ''
   readonly operationHandlers: OperationHandlers[] = []
   spaceKeyDown = false
+  _snapped = false
   draggingModules: Set<UID> = new Set()
   _selectingModules: Set<UID> = new Set()
   _deselection: UID | null = null

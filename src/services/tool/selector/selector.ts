@@ -1,15 +1,14 @@
 import {generateBoundingRectFromTwoPoints} from '~/core/utils'
 import {areSetsEqual, getSymmetricDifference} from '~/lib/lib'
-import {updateSelectionBox} from '~/services/viewport/domManipulations'
-import {applyResize, detectHoveredModule, getResizeCursor, getRotateAngle} from '~/services/tool/eventHandlers/helper'
+import {applyResize, detectHoveredModule, getResizeCursor, getRotateAngle} from '~/services/tool/events/helper'
 import {BoundingRect, UID} from '~/type'
 import {ElementModifyData} from '~/services/actions/type'
 import {ElementProps} from '~/elements/elements'
 import ToolManager, {ToolType} from '~/services/tool/toolManager'
 import {applyRotating} from '~/services/tool/helper'
 
-const selector:ToolType = {
-  cursor:'selector',
+const selector: ToolType = {
+  cursor: 'default',
   start(this: ToolManager, e: MouseEvent) {
     const {interaction, action, selection, cursor} = this.editor
     const {shiftKey, metaKey, ctrlKey} = e

@@ -1,7 +1,7 @@
 import Base from '../base/base.js';
 import { HANDLER_OFFSETS } from '../handleBasics.js';
-import { rotatePoint } from '../../lib/lib.js';
 import ElementRectangle from '../rectangle/rectangle.js';
+import { rotatePointAroundPoint } from '../../core/geometry.js';
 const DEFAULT_CX = 0;
 const DEFAULT_CY = 0;
 const DEFAULT_ENABLE_GRADIENT = false;
@@ -92,7 +92,7 @@ class Shape extends Base {
             };
             // let cursor: ResizeCursor = OFFSET.cursor as ResizeCursor
             if (OFFSET.type === 'resize') {
-                const rotated = rotatePoint(currentCenterX, currentCenterY, cx, cy, rotation);
+                const rotated = rotatePointAroundPoint(currentCenterX, currentCenterY, cx, cy, rotation);
                 // cursor = getCursor(rotated.x, rotated.y, cx, cy, rotation)
                 currentElementProps.id = index + '-resize';
                 currentElementProps.cx = rotated.x;
@@ -106,7 +106,7 @@ class Shape extends Base {
             else if (OFFSET.type === 'rotate') {
                 const currentRotateHandlerCenterX = currentCenterX + OFFSET.offsetX * resizeConfig.lineWidth;
                 const currentRotateHandlerCenterY = currentCenterY + OFFSET.offsetY * resizeConfig.lineWidth;
-                const rotated = rotatePoint(currentRotateHandlerCenterX, currentRotateHandlerCenterY, cx, cy, rotation);
+                const rotated = rotatePointAroundPoint(currentRotateHandlerCenterX, currentRotateHandlerCenterY, cx, cy, rotation);
                 currentElementProps.id = index + '-rotate';
                 currentElementProps.cx = rotated.x;
                 currentElementProps.cy = rotated.y;

@@ -2,7 +2,7 @@ import { ResizeDirection } from '~/services/selection/type';
 import Editor from '~/main/editor';
 import { Point } from '~/type';
 export type CursorResizes = ResizeDirection;
-export type CursorName = 'selector' | 'grab' | 'grabbing' | 'rotate' | 'resize' | 'move' | 'not-allowed' | 'move-up' | 'move-down';
+export type CursorName = 'default' | 'rectangle' | 'grab' | 'grabbing' | 'rotate' | 'resize' | 'move' | 'not-allowed' | 'move-up' | 'move-down';
 declare class Cursor {
     domRef: HTMLElement;
     editor: Editor;

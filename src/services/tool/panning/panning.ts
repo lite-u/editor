@@ -1,7 +1,7 @@
 // import {updateCursor} from '~/services/viewport/domManipulations'
-import ToolManager from '~/services/tool/toolManager'
+import ToolManager, {ToolType} from '~/services/tool/toolManager'
 
-const panning = {
+const panning:ToolType = {
   cursor: 'grab',
   start(this: ToolManager) {
     this.editor.cursor.set('grabbing')

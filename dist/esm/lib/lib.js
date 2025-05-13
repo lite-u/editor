@@ -65,17 +65,6 @@ export const getSymmetricDifference = (setA, setB) => {
     }
     return result;
 };
-export function rotatePoint(px, py, cx, cy, rotation) {
-    const dx = px - cx;
-    const dy = py - cy;
-    const angle = rotation * (Math.PI / 180);
-    const cos = Math.cos(angle);
-    const sin = Math.sin(angle);
-    return {
-        x: cx + dx * cos - dy * sin,
-        y: cy + dx * sin + dy * cos,
-    };
-}
 export function getResizeTransform(name, symmetric = false) {
     const base = (() => {
         switch (name) {

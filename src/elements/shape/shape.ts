@@ -1,11 +1,11 @@
 import Base, {ElementBaseProps} from '../base/base'
 import {HANDLER_OFFSETS} from '../handleBasics'
 import {OperationHandlers} from '~/services/selection/type'
-import {rotatePoint} from '~/lib/lib'
 import ElementRectangle, {RectangleProps} from '../rectangle/rectangle'
 import {ElementFillColor} from '~/core/core'
 import {BoundingRect} from '~/type'
 import {ElementProps} from '../elements'
+import {rotatePointAroundPoint} from '~/core/geometry'
 
 export interface ShapeProps extends ElementBaseProps {
   cx?: number
@@ -152,7 +152,7 @@ class Shape extends Base {
       // let cursor: ResizeCursor = OFFSET.cursor as ResizeCursor
 
       if (OFFSET.type === 'resize') {
-        const rotated = rotatePoint(currentCenterX, currentCenterY, cx, cy, rotation)
+        const rotated = rotatePointAroundPoint(currentCenterX, currentCenterY, cx, cy, rotation)
         // cursor = getCursor(rotated.x, rotated.y, cx, cy, rotation)
         currentElementProps.id = index + '-resize'
         currentElementProps.cx = rotated.x
@@ -165,7 +165,7 @@ class Shape extends Base {
       } else if (OFFSET.type === 'rotate') {
         const currentRotateHandlerCenterX = currentCenterX + OFFSET.offsetX * resizeConfig.lineWidth
         const currentRotateHandlerCenterY = currentCenterY + OFFSET.offsetY * resizeConfig.lineWidth
-        const rotated = rotatePoint(
+        const rotated = rotatePointAroundPoint(
           currentRotateHandlerCenterX,
           currentRotateHandlerCenterY,
           cx,

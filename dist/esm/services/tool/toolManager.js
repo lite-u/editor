@@ -1,11 +1,13 @@
-import handleMouseUp from './eventHandlers/mouseUp.js';
-import handleKeyDown from './eventHandlers/keyDown.js';
-import handleKeyUp from './eventHandlers/keyUp.js';
-import handleWheel from './eventHandlers/wheel.js';
-import handlePointerMove from './eventHandlers/pointerMove.js';
-import handleContextMenu from './eventHandlers/contextMenu.js';
-import handleMouseDown from './eventHandlers/mouseDown.js';
+import handleMouseUp from './events/mouseUp.js';
+import handleKeyDown from './events/keyDown.js';
+import handleKeyUp from './events/keyUp.js';
+import handleWheel from './events/wheel.js';
+import handlePointerMove from './events/pointerMove.js';
+import handleContextMenu from './events/contextMenu.js';
+import handleMouseDown from './events/mouseDown.js';
 import selector from './selector/selector.js';
+import rectangleTool from './rectangle/rectangle.js';
+import panning from './panning/panning.js';
 class ToolManager {
     editor;
     eventsController = new AbortController();
@@ -24,6 +26,8 @@ class ToolManager {
         container.addEventListener('pointermove', handlePointerMove.bind(this), { signal });
         container.addEventListener('contextmenu', handleContextMenu.bind(this), { signal });
         this.toolMap.set('selector', selector);
+        this.toolMap.set('panning', panning);
+        this.toolMap.set('rectangle', rectangleTool);
         this.currentToolName = 'selector';
         this.tool = selector;
     }

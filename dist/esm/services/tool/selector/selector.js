@@ -1,9 +1,9 @@
 import { generateBoundingRectFromTwoPoints } from '../../../core/utils.js';
 import { areSetsEqual, getSymmetricDifference } from '../../../lib/lib.js';
-import { applyResize, detectHoveredModule, getResizeCursor, getRotateAngle } from '../eventHandlers/helper.js';
+import { applyResize, detectHoveredModule, getResizeCursor, getRotateAngle } from '../events/helper.js';
 import { applyRotating } from '../helper.js';
 const selector = {
-    cursor: 'selector',
+    cursor: 'default',
     start(e) {
         const { interaction, action, selection, cursor } = this.editor;
         const { shiftKey, metaKey, ctrlKey } = e;

@@ -31,7 +31,6 @@ class Editor {
   clipboard: ClipboardManager
   cursor: Cursor
   history: History
-  // viewport: Viewport
   toolManager: ToolManager
   elementManager: ElementManager
   selection: SelectionManager

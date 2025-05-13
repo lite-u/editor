@@ -12,10 +12,12 @@ function handleMouseDown(e) {
     e.preventDefault();
     if (button !== 0)
         return;
-    if (this.editor.interaction.spaceKeyDown) {
-        return (this.editor.interaction.manipulationStatus = 'panning');
-    }
-    let tool = this.toolMap.get(this.currentToolName);
-    tool.start.call(this, e);
+    /*
+    
+      if (this.editor.interaction.spaceKeyDown) {
+        return (this.editor.interaction.manipulationStatus = 'panning')
+      }
+    */
+    this.tool.start.call(this, e);
 }
 export default handleMouseDown;

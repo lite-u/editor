@@ -1,4 +1,5 @@
 import ToolManager from '~/services/tool/toolManager'
+import snapTool from '~/services/tool/snap/snap'
 
 function handleMouseDown(this: ToolManager, e: MouseEvent) {
   const {clientY, target, button, clientX} = e
@@ -14,14 +15,15 @@ function handleMouseDown(this: ToolManager, e: MouseEvent) {
   // console.log(operator)
   e.preventDefault()
   if (button !== 0) return
+  /*
 
-  if (this.editor.interaction.spaceKeyDown) {
-    return (this.editor.interaction.manipulationStatus = 'panning')
-  }
+    if (this.editor.interaction.spaceKeyDown) {
+      return (this.editor.interaction.manipulationStatus = 'panning')
+    }
+  */
 
-  let tool = this.toolMap.get(this.currentToolName)!
-
-  tool.start.call(this, e)
+  snapTool.start.call(this, e)
+  this.tool.start.call(this, e)
 }
 
 export default handleMouseDown

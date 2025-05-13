@@ -1,13 +1,15 @@
 import Editor from '~/main/editor'
-import handleMouseUp from '~/services/tool/eventHandlers/mouseUp'
-import handleKeyDown from '~/services/tool/eventHandlers/keyDown'
-import handleKeyUp from '~/services/tool/eventHandlers/keyUp'
-import handleWheel from '~/services/tool/eventHandlers/wheel'
-import handlePointerMove from '~/services/tool/eventHandlers/pointerMove'
-import handleContextMenu from '~/services/tool/eventHandlers/contextMenu'
-import handleMouseDown from '~/services/tool/eventHandlers/mouseDown'
+import handleMouseUp from '~/services/tool/events/mouseUp'
+import handleKeyDown from '~/services/tool/events/keyDown'
+import handleKeyUp from '~/services/tool/events/keyUp'
+import handleWheel from '~/services/tool/events/wheel'
+import handlePointerMove from '~/services/tool/events/pointerMove'
+import handleContextMenu from '~/services/tool/events/contextMenu'
+import handleMouseDown from '~/services/tool/events/mouseDown'
 import selector from '~/services/tool/selector/selector'
 import {CursorName} from '~/services/cursor/cursor'
+import rectangleTool from '~/services/tool/rectangle/rectangle'
+import panning from '~/services/tool/panning/panning'
 
 export type ToolType = {
   cursor: CursorName
@@ -39,6 +41,9 @@ class ToolManager {
     container.addEventListener('contextmenu', handleContextMenu.bind(this), {signal})
 
     this.toolMap.set('selector', selector)
+    this.toolMap.set('panning', panning)
+    this.toolMap.set('rectangle', rectangleTool)
+
     this.currentToolName = 'selector'
     this.tool = selector
   }
@@ -47,7 +52,6 @@ class ToolManager {
     const tool = this.toolMap.get(name)
 
     if (tool) {
-
       this.currentToolName = name
       this.tool = tool
       this.editor.cursor.set(tool.cursor)

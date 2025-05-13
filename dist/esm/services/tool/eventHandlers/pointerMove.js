@@ -7,6 +7,7 @@ export default function handlePointerMove(e) {
     // interaction.drawCrossLine = false
     // cursor.move({x, y})
     action.dispatch('world-mouse-move');
-    let tool = this.toolMap.get(this.currentToolName);
-    tool.move.call(this, e);
+    // let tool = this.tool
+    // console.log(tool)
+    this.tool.move.call(this, e);
 }

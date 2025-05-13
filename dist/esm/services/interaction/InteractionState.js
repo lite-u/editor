@@ -6,6 +6,7 @@ class InteractionState {
     hoveredModule = '';
     operationHandlers = [];
     spaceKeyDown = false;
+    _snapped = false;
     draggingModules = new Set();
     _selectingModules = new Set();
     _deselection = null;

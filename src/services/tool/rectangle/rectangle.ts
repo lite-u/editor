@@ -1,20 +1,17 @@
-import Editor from '~/main/editor'
-import {updateCursor, updateSelectionBox} from '~/services/viewport/domManipulations'
-import Base from '~/elements/base/base'
-import {ToolManager} from '~/services/tool/toolManager'
-import {applyResize} from '~/services/tool/eventHandlers/helper'
+import ToolManager, {ToolType} from '~/services/tool/toolManager'
+import {applyResize} from '~/services/tool/events/helper'
 import {ElementModifyData} from '~/services/actions/type'
 import nid from '~/core/nid'
 import {ResizeHandler} from '~/services/selection/type'
 import {ElementProps} from '~/elements/elements'
+import {applyRotating} from '~/services/tool/helper'
 
-const rectangle: ToolManager = {
-  start(this: Editor, e: MouseEvent) {
-    // const {shiftKey, metaKey, ctrlKey} = e
-    // const modifyKey = ctrlKey || metaKey || shiftKey
-    // console.log(this.viewport.mouseMovePoint)
-    const {x, y} = this.viewport.mouseMovePoint
-    const {x: cx, y: cy} = this.world.getWorldPointByViewportPoint(x, y)
+const rectangleTool: ToolType = {
+  cursor: 'rectangle',
+  start(this: ToolManager, e: MouseEvent) {
+
+    const {x, y} = this.editor.interaction.mouseMovePoint
+    const {x: cx, y: cy} = this.editor.world.getWorldPointByViewportPoint(x, y)
     const width = 2
     const height = 2
     // this._resizingOperator = operator
@@ -33,95 +30,80 @@ const rectangle: ToolManager = {
       height,
     }
 
-    const created = this.elementManager.batchAdd(this.elementManager.batchCreate([rectProps]))
+    const created = this.editor.elementManager.add(this.editor.elementManager.create(rectProps))
     console.log(created)
-    // this.action.dispatch('module-add', [rectProps])
-    // const mod = this.elementManager.all.get(id)
-    // console.log(mod)
-    // mod.getOperators()
-    // console.log([...this.operationHandlers])
-    const arr = [...this.operationHandlers] as ResizeHandler[]
-
-    for (let i = arr.length - 1; i >= 0; i--) {
-      const {id: OId, type, name} = arr[i]
-      if (OId === id && type === 'resize' && name === 'br') {
-        this._resizingOperator = arr[i]
-        break
-      }
-    }
+    const arr = [...this.editor.interaction.operationHandlers] as ResizeHandler[]
 
     // const newRect = this.elementManager.batchAdd(this.elementManager.batchCreate([rectProps]))
     // this.elementManager.batchAdd(newRect)
     // console.log(newRect)
-    this.manipulationStatus = 'resizing'
-    this.action.dispatch('selection-clear')
+    this.editor.interaction.manipulationStatus = 'resizing'
+    this.editor.action.dispatch('selection-clear')
   },
-  move(this: Editor, e: PointerEvent) {
+  move(this: ToolManager, e: PointerEvent) {
     const {altKey, shiftKey} = e
-    const {viewport} = this
 
     // console.log(this._resizingOperator)
-    if (!this._resizingOperator) return
+    if (!this.editor.interaction._resizingOperator) return
 
-    viewport.wrapper.setPointerCapture(e.pointerId)
+    this.editor.container.setPointerCapture(e.pointerId)
 
     const r = applyResize.call(this, altKey, shiftKey)
 
-    this.action.dispatch('element-modifying', {
+    this.editor.action.dispatch('element-modifying', {
       type: 'resize',
       data: r,
     })
 
   },
-  finish(this: Editor, e: MouseEvent) {
+  finish(this: ToolManager, e: MouseEvent) {
     const leftMouseClick = e.button === 0
-
+    const {interaction, world, selection, action, elementManager, rect} = this.editor
+    const {scale, dpr} = world
     if (leftMouseClick) {
       const {
         draggingModules,
         manipulationStatus,
-        elementMap,
         _selectingModules,
         selectedShadow,
-        viewport,
-      } = this
-      const x = e.clientX - viewport.rect!.x
-      const y = e.clientY - viewport.rect!.y
+      } = interaction
+      const x = e.clientX - rect!.x
+      const y = e.clientY - rect!.y
       const modifyKey = e.ctrlKey || e.metaKey || e.shiftKey
       // console.log('up',manipulationStatus)
-      viewport.mouseMovePoint.x = x
-      viewport.mouseMovePoint.y = y
+      interaction.mouseMovePoint.x = x
+      interaction.mouseMovePoint.y = y
 
       switch (manipulationStatus) {
         case 'selecting':
           break
 
-        case 'panning':
-          updateCursor.call(this, 'grabbing')
-          // this.viewport.translateViewport(e.movementX, e.movementY)
+        /*        case 'panning':
+                  updateCursor.call(this, 'grabbing')
+                  // this.viewport.translateViewport(e.movementX, e.movementY)
 
-          break
+                  break*/
 
         case 'dragging': {
-          const x = ((viewport.mouseMovePoint.x - viewport.mouseDownPoint.x) *
-              viewport.dpr) /
-            viewport.scale
-          const y = ((viewport.mouseMovePoint.y - viewport.mouseDownPoint.y) *
-              viewport.dpr) /
-            viewport.scale
+          const x = ((interaction.mouseMovePoint.x - interaction.mouseDownPoint.x) *
+              dpr) /
+            scale
+          const y = ((interaction.mouseMovePoint.y - interaction.mouseDownPoint.y) *
+              dpr) /
+            scale
           const moved = !(x === 0 && y === 0)
 
           // mouse stay static
           if (moved) {
             const changes: ElementModifyData[] = []
-            this.action.dispatch('element-modifying', {
+            action.dispatch('element-modifying', {
               type: 'move',
               data: {x: -x, y: -y},
             })
 
             // Move back to origin position and do the move again
             draggingModules.forEach((id) => {
-              const module = elementMap.get(id)
+              const module = elementManager.getElementById(id)
 
               if (module) {
                 const change: ElementModifyData = {
@@ -136,12 +118,12 @@ const rectangle: ToolManager = {
               }
             })
 
-            this.action.dispatch('element-modify', changes)
+            action.dispatch('element-modify', changes)
           } else {
-            const closestId = this.hoveredModule
+            const closestId = interaction.hoveredModule
 
-            if (closestId && modifyKey && closestId === this.interaction._deselection) {
-              this.action.dispatch('selection-modify', {
+            if (closestId && modifyKey && closestId === interaction._deselection) {
+              action.dispatch('selection-modify', {
                 mode: 'toggle',
                 idSet: new Set([closestId]),
               })
@@ -153,7 +135,7 @@ const rectangle: ToolManager = {
         case 'resizing': {
           const {altKey, shiftKey} = e
           const props = applyResize.call(this, altKey, shiftKey)
-          const moduleOrigin = this._resizingOperator?.moduleOrigin
+          const moduleOrigin = interaction._resizingOperator?.moduleOrigin
           const rollbackProps: Partial<ElementProps> = {}
 
           Object.keys(props).forEach((key) => {
@@ -161,13 +143,13 @@ const rectangle: ToolManager = {
           })
 
           // rotate back
-          this.action.dispatch('element-modifying', {
+          action.dispatch('element-modifying', {
             type: 'resize',
             data: rollbackProps,
           })
 
-          this.action.dispatch('element-modify', [{
-            id: this._resizingOperator!.id,
+          action.dispatch('element-modify', [{
+            id: interaction._resizingOperator!.id,
             props,
           }])
         }
@@ -175,31 +157,31 @@ const rectangle: ToolManager = {
 
         case 'rotating': {
           const {shiftKey} = e
-          const newRotation = Base.applyRotating.call(this, shiftKey)
-          const {rotation} = this._rotatingOperator?.moduleOrigin!
+          const newRotation = applyRotating.call(this, shiftKey)
+          const {rotation} = interaction._rotatingOperator?.moduleOrigin!
           const rollbackProps: Partial<ElementProps> = {rotation}
 
           // rotate back
-          this.action.dispatch('element-modifying', {
+          action.dispatch('element-modifying', {
             type: 'resize',
             data: rollbackProps,
           })
 
-          this.action.dispatch('element-modify', [{
-            id: this._rotatingOperator!.id,
+          action.dispatch('element-modify', [{
+            id: interaction._rotatingOperator!.id,
             props: {rotation: newRotation},
           }])
         }
           break
 
         case 'waiting':
-          this.action.dispatch('selection-clear')
+          action.dispatch('selection-clear')
           break
         case 'static':
           if (e.ctrlKey || e.metaKey || e.shiftKey) {
-            this.selection.toggle(draggingModules)
+            selection.toggle(draggingModules)
           } else {
-            this.selection.replace(draggingModules)
+            selection.replace(draggingModules)
           }
 
           break
@@ -209,9 +191,9 @@ const rectangle: ToolManager = {
       selectedShadow.clear()
       _selectingModules.clear()
       _selectingModules.clear()
-      this.manipulationStatus = 'static'
-      this.interaction._deselection = null
-      this._resizingOperator = null
+      interaction.manipulationStatus = 'static'
+      interaction._deselection = null
+      interaction._resizingOperator = null
 
       interaction.updateSelectionBox(
         {x: 0, y: 0, width: 0, height: 0},
@@ -222,4 +204,4 @@ const rectangle: ToolManager = {
   },
 }
 
-export default rectangle
+export default rectangleTool

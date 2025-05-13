@@ -10,6 +10,7 @@ declare class InteractionState {
     hoveredModule: UID;
     readonly operationHandlers: OperationHandlers[];
     spaceKeyDown: boolean;
+    _snapped: boolean;
     draggingModules: Set<UID>;
     _selectingModules: Set<UID>;
     _deselection: UID | null;
