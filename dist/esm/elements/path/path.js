@@ -5,60 +5,20 @@ import { rotatePointAroundPoint } from '../../core/geometry.js';
 import { BasePath } from '../basePath/basePath.js';
 class Path extends ElementBase {
     type = 'path';
-    points;
-    constructor({ ...rest }) {
+    points = [];
+    constructor({ points = [], ...rest }) {
         super(rest);
-        this.cx = cx;
-        this.cy = cy;
-        this.fillColor = fillColor;
-        this.enableFill = enableFill;
-        this.enableGradient = enableGradient;
-        this.gradient = gradient;
-        this.dashLine = dashLine;
     }
     toJSON() {
-        const { cx, cy, fillColor, enableFill, enableGradient, gradient, dashLine, } = this;
         return {
             ...super.toJSON(),
-            cx,
-            cy,
-            fillColor,
-            enableFill,
-            enableGradient,
-            gradient,
-            dashLine,
         };
     }
     toMinimalJSON() {
         const result = {
             ...super.toMinimalJSON(),
         };
-        if (this.cx === DEFAULT_CX) {
-            result.cx = this.cx;
-        }
-        if (this.cy === DEFAULT_CY) {
-            result.cy = this.cy;
-        }
-        if (this.enableGradient === DEFAULT_ENABLE_GRADIENT) {
-            result.enableGradient = this.enableGradient;
-        }
-        if (this.gradient === DEFAULT_GRADIENT) {
-            result.gradient = this.gradient;
-        }
-        if (this.enableFill === DEFAULT_ENABLE_FILL) {
-            result.enableFill = this.enableFill;
-        }
-        if (this.fillColor === DEFAULT_FILL_COLOR) {
-            result.fillColor = this.fillColor;
-        }
-        if (this.dashLine === DEFAULT_DASH_LINE) {
-            result.dashLine = this.dashLine;
-        }
         return result;
-    }
-    move(x, y) {
-        this.cx += x;
-        this.cy += y;
     }
     getOperators(id, resizeConfig, rotateConfig, boundingRect, elementOrigin) {
         const { x: cx, y: cy, width, height } = boundingRect;

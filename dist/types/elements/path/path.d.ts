@@ -1,9 +1,9 @@
 import { ElementBaseProps } from '../base/elementBase';
-import { Point } from '~/type';
 import { BasePath } from '~/elements/basePath/basePath';
+import { BezierPoint } from '~/elements/props';
 export interface PathProps extends ElementBaseProps {
     type: 'path';
-    points: Point[];
+    points: BezierPoint[];
     closed: boolean;
     layer: string;
     group: string | null;
