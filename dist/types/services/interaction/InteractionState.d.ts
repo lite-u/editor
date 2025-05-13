@@ -1,5 +1,5 @@
 import { UID } from '~/core/core';
-import { OperationHandlers, ResizeHandler } from '~/services/selection/type';
+import { OperationHandler, ResizeHandle } from '~/services/selection/type';
 import { Point, Rect, ToolName } from '~/type';
 import Editor from '~/main/editor';
 export type ViewportManipulationType = 'static' | 'waiting' | 'panning' | 'dragging' | 'resizing' | 'rotating' | 'zooming' | 'selecting';
@@ -8,14 +8,14 @@ declare class InteractionState {
     mouseDownPoint: Point;
     mouseMovePoint: Point;
     hoveredElement: UID;
-    readonly operationHandlers: OperationHandlers[];
+    readonly operationHandlers: OperationHandler[];
     spaceKeyDown: boolean;
     _snapped: boolean;
     draggingElements: Set<UID>;
     _selectingElements: Set<UID>;
     _deselection: UID | null;
-    _resizingOperator: ResizeHandler | null;
-    _rotatingOperator: OperationHandlers | null;
+    _resizingOperator: ResizeHandle | null;
+    _rotatingOperator: OperationHandler | null;
     selectedShadow: Set<UID>;
     manipulationStatus: ViewportManipulationType;
     selectionBox: HTMLDivElement | null;

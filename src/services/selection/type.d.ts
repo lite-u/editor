@@ -36,7 +36,7 @@ interface ResizeTransform {
   cy: number;
 }
 
-export interface OperationHandler {
+export interface OperationHandle {
   id: string;
   type: HandlerType
   /*
@@ -46,18 +46,18 @@ export interface OperationHandler {
   element: ElementInstance
 }
 
-interface ResizeHandler extends OperationHandler {
+interface ResizeHandle extends OperationHandle {
   type: 'resize';
   name: ResizeHandleName
 }
 
-export interface RotateHandler extends OperationHandler {
+export interface RotateHandle extends OperationHandle {
   type: 'rotate';
 }
 
-export interface MoveHandler extends OperationHandler {
+export interface MoveHandle extends OperationHandle {
   type: 'move';
 }
 
-export type OperationHandlers = RotateHandler | ResizeHandler | MoveHandler
+export type OperationHandler = RotateHandle | ResizeHandle | MoveHandle
 

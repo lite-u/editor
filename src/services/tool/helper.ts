@@ -1,11 +1,11 @@
 import ToolManager from '~/services/tool/toolManager'
-import {RotateHandler} from '~/services/selection/type'
+import {RotateHandle} from '~/services/selection/type'
 
 export function applyRotating(this: ToolManager, shiftKey: boolean) {
   const {interaction, world} = this.editor
   const {mouseDownPoint, mouseMovePoint, _rotatingOperator} = interaction
   const {scale, dpr, offset} = world
-  const {element: {rotation}, elementOrigin} = _rotatingOperator as RotateHandler
+  const {element: {rotation}, elementOrigin} = _rotatingOperator as RotateHandle
   const {x, y} = elementOrigin
 
   const startX = (mouseDownPoint.x - offset.x / dpr) / scale * dpr

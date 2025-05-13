@@ -1,5 +1,5 @@
 import Base, { ElementBaseProps } from '../base/base';
-import { OperationHandlers } from '~/services/selection/type';
+import { OperationHandler } from '~/services/selection/type';
 import { ElementFillColor } from '~/core/core';
 import { BoundingRect } from '~/type';
 import { ElementProps } from '../elements';
@@ -43,7 +43,7 @@ declare class Shape extends Base {
         lineColor: string;
         size: number;
         fillColor: string;
-    }, boundingRect: BoundingRect, elementOrigin: ElementProps): OperationHandlers[];
+    }, boundingRect: BoundingRect, elementOrigin: ElementProps): OperationHandler[];
     isInsideRect(outer: BoundingRect): boolean;
 }
 export default Shape;

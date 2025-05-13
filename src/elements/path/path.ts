@@ -1,6 +1,6 @@
 import Base, {ElementBaseProps} from '../base/base'
 import {HANDLER_OFFSETS} from '../handleBasics'
-import {OperationHandlers} from '~/services/selection/type'
+import {OperationHandler} from '~/services/selection/type'
 import ElementRectangle, {RectangleProps} from '../rectangle/rectangle'
 import {ElementFillColor} from '~/core/core'
 import {BoundingRect} from '~/type'
@@ -146,12 +146,12 @@ class Shape extends Base {
     rotateConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
     boundingRect: BoundingRect,
     elementOrigin: ElementProps,
-  ): OperationHandlers[] {
+  ): OperationHandler[] {
     const {x: cx, y: cy, width, height} = boundingRect
     // const id = this.id
     const {rotation} = this
 
-    const handlers = HANDLER_OFFSETS.map((OFFSET, index): OperationHandlers => {
+    const handlers = HANDLER_OFFSETS.map((OFFSET, index): OperationHandler => {
       // Calculate the handle position in local coordinates
       const currentCenterX = cx - width / 2 + OFFSET.x * width
       const currentCenterY = cy - height / 2 + OFFSET.y * height

@@ -2,7 +2,7 @@ import ToolManager, {ToolType} from '~/services/tool/toolManager'
 import {applyResize} from '~/services/tool/events/helper'
 import {ElementModifyData} from '~/services/actions/type'
 import nid from '~/core/nid'
-import {ResizeHandler} from '~/services/selection/type'
+import {ResizeHandle} from '~/services/selection/type'
 import {ElementProps} from '~/elements/elements'
 import {applyRotating} from '~/services/tool/helper'
 
@@ -32,7 +32,7 @@ const rectangleTool: ToolType = {
 
     const created = this.editor.elementManager.add(this.editor.elementManager.create(rectProps))
     console.log(created)
-    const arr = [...this.editor.interaction.operationHandlers] as ResizeHandler[]
+    const arr = [...this.editor.interaction.operationHandlers] as ResizeHandle[]
 
     // const newRect = this.elementManager.batchAdd(this.elementManager.batchCreate([rectProps]))
     // this.elementManager.batchAdd(newRect)

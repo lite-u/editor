@@ -53,7 +53,7 @@ declare class ElementEllipse extends Shape {
         lineColor: string;
         size: number;
         fillColor: string;
-    }): import("~/services/selection/type").OperationHandlers[];
+    }): import("~/services/selection/type").OperationHandler[];
     render(ctx: CanvasRenderingContext2D): void;
 }
 export default ElementEllipse;

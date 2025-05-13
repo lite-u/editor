@@ -1,12 +1,12 @@
 import Base, {ElementBaseProps} from '../base/base'
 import {HANDLER_OFFSETS} from '../handleBasics'
-import {OperationHandlers} from '~/services/selection/type'
+import {OperationHandler} from '~/services/selection/type'
 import ElementRectangle, {RectangleProps} from '../rectangle/rectangle'
 import {BoundingRect} from '~/type'
 import {ElementProps} from '../elements'
 import {rotatePointAroundPoint} from '~/core/geometry'
 import {Gradient} from '~/elements/props'
-import {DEFAULT_CX, DEFAULT_CY, DEFAULT_GRADIENT} from '~/elements/defaultProps'
+import {DEFAULT_CX, DEFAULT_CY, DEFAULT_GRADIENT, DEFAULT_STROKE} from '~/elements/defaultProps'
 import {isEqual} from '~/lib/lib'
 import deepClone from '~/core/deepClone'
 
@@ -80,26 +80,21 @@ class Shape extends Base {
     id: string,
     resizeConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
     rotateConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
-    boundingRect: BoundingRect,
+    // boundingRect: BoundingRect,
     elementOrigin: ElementProps,
-  ): OperationHandlers[] {
+  ): OperationHandler[] {
+    const boundingRect = this.getBoundingRect()
     const {x: cx, y: cy, width, height} = boundingRect
-    // const id = this.id
     const {rotation} = this
 
-    const handlers = HANDLER_OFFSETS.map((OFFSET, index): OperationHandlers => {
+    return HANDLER_OFFSETS.map((OFFSET, index): OperationHandler => {
       // Calculate the handle position in local coordinates
       const currentCenterX = cx - width / 2 + OFFSET.x * width
       const currentCenterY = cy - height / 2 + OFFSET.y * height
-      const currentElementProps: RectangleProps = {
-        id: '',
+
+      const handleElementProps: RectangleProps = {
+        id: `${id}-${OFFSET.type}-${index}`,
         layer: 0,
-        // width: 0,
-        // height: 0,
-        // x: currentCenterX,
-        // y: currentCenterY,
-        // lineColor: '',
-        // lineWidth: 0,
         rotation,
       }
 
@@ -107,37 +102,37 @@ class Shape extends Base {
 
       if (OFFSET.type === 'resize') {
         const rotated = rotatePointAroundPoint(currentCenterX, currentCenterY, cx, cy, rotation)
-        // cursor = getCursor(rotated.x, rotated.y, cx, cy, rotation)
-        currentElementProps.id = index + '-resize'
-        currentElementProps.cx = rotated.x
-        currentElementProps.cy = rotated.y
-        currentElementProps.width = resizeConfig.size
-        currentElementProps.height = resizeConfig.size
-        currentElementProps.stroke = {
-          weight,
+
+        handleElementProps.cx = rotated.x
+        handleElementProps.cy = rotated.y
+        handleElementProps.width = resizeConfig.size
+        handleElementProps.height = resizeConfig.size
+        handleElementProps.stroke = {
+          ...DEFAULT_STROKE,
+          weight: resizeConfig.lineWidth,
         }
-        currentElementProps.stroke.weight = resizeConfig.stroke?.weight
-        currentElementProps.lineColor = resizeConfig.lineColor
-        currentElementProps.fillColor = resizeConfig.fillColor
+        // currentElementProps.stroke.weight = resizeConfig.stroke?.weight
+        // currentElementProps.lineColor = resizeConfig.lineColor
+        // currentElementProps.fillColor = resizeConfig.fillColor
       } else if (OFFSET.type === 'rotate') {
-        const currentRotateHandlerCenterX = currentCenterX + OFFSET.offsetX * resizeConfig.lineWidth
-        const currentRotateHandlerCenterY = currentCenterY + OFFSET.offsetY * resizeConfig.lineWidth
+        const currentRotateHandlerCX = currentCenterX + OFFSET.offsetX * resizeConfig.lineWidth
+        const currentRotateHandlerCY = currentCenterY + OFFSET.offsetY * resizeConfig.lineWidth
         const rotated = rotatePointAroundPoint(
-          currentRotateHandlerCenterX,
-          currentRotateHandlerCenterY,
+          currentRotateHandlerCX,
+          currentRotateHandlerCY,
           cx,
           cy,
           rotation,
         )
 
-        currentElementProps.id = index + '-rotate'
-        currentElementProps.cx = rotated.x
-        currentElementProps.cy = rotated.y
-        currentElementProps.width = rotateConfig.size
-        currentElementProps.height = rotateConfig.size
-        currentElementProps.lineWidth = rotateConfig.lineWidth
-        currentElementProps.lineColor = rotateConfig.lineColor
-        currentElementProps.fillColor = rotateConfig.fillColor
+        // handleElementProps.id = index + '-rotate'
+        handleElementProps.cx = rotated.x
+        handleElementProps.cy = rotated.y
+        handleElementProps.width = rotateConfig.size
+        handleElementProps.height = rotateConfig.size
+        handleElementProps.lineWidth = rotateConfig.lineWidth
+        handleElementProps.lineColor = rotateConfig.lineColor
+        handleElementProps.fillColor = rotateConfig.fillColor
       }
 
       return {
@@ -146,11 +141,9 @@ class Shape extends Base {
         name: OFFSET.name,
         // cursor,
         elementOrigin,
-        element: new ElementRectangle(currentElementProps),
+        element: new ElementRectangle(handleElementProps),
       }
     })
-
-    return handlers
   }
 
   public isInsideRect(outer: BoundingRect): boolean {

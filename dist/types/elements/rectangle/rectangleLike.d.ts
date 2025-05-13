@@ -37,7 +37,7 @@ declare class RectangleLike extends Shape {
         lineColor: string;
         size: number;
         fillColor: string;
-    }): import("../../services/selection/type").OperationHandlers[];
+    }): import("../../services/selection/type").OperationHandler[];
     getSnapPoints(): SnapPointData[];
     render(ctx: CanvasRenderingContext2D): void;
 }
