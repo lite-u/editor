@@ -4,6 +4,7 @@ import { generateBoundingRectFromTwoPoints } from '../../core/utils.js';
 import { createWith, screenToWorld, worldToScreen } from '../../lib/lib.js';
 import { zoomAtPoint } from './helper.js';
 import selectionRender from './selectionRender.js';
+import { DEFAULT_STROKE } from '../../elements/defaultProps.js';
 const STYLE = {
     position: 'absolute',
     left: '0',
@@ -72,11 +73,8 @@ class World {
                 width: this.editor.config.page.width,
                 height: this.editor.config.page.height,
                 stroke: {
-                    color: '#000',
+                    ...DEFAULT_STROKE,
                     weight: 1 / scale * dpr,
-                    cap: 'butt',
-                    join: 'miter',
-                    dashed: false,
                 },
                 layer: -1,
                 opacity: 100,
@@ -90,7 +88,7 @@ class World {
                 module.render(ctx);
                 /*   if (module.type === 'image') {
                      const {asset} = module as ElementImage
-           
+        
                      const obj = this.editor.assetsManager.getAssetsObj(asset)
                      // console.log(this.assetsManager, src)
                      if (obj) {

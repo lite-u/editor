@@ -1,12 +1,12 @@
 import nid from '~/core/nid'
 import ElementRectangle, {RectangleProps} from '~/elements/rectangle/rectangle'
-import ElementImage from '~/elements/image/image'
 import Editor from '~/main/editor'
 import {BoundingRect, Point} from '~/type'
 import {generateBoundingRectFromTwoPoints} from '~/core/utils'
 import {createWith, screenToWorld, worldToScreen} from '~/lib/lib'
 import {zoomAtPoint} from '~/services/world/helper'
 import selectionRender from '~/services/world/selectionRender'
+import {DEFAULT_STROKE} from '~/elements/defaultProps'
 
 const STYLE = {
   position: 'absolute',
@@ -102,11 +102,8 @@ class World {
         width: this.editor.config.page.width,
         height: this.editor.config.page.height,
         stroke: {
-          color: '#000',
+          ...DEFAULT_STROKE,
           weight: 1 / scale * dpr,
-          cap: 'butt',
-          join: 'miter',
-          dashed: false,
         },
         layer: -1,
         opacity: 100,
@@ -122,15 +119,15 @@ class World {
       this.editor.visible.values.forEach((module) => {
         module.render(ctx)
 
-     /*   if (module.type === 'image') {
-          const {asset} = module as ElementImage
+        /*   if (module.type === 'image') {
+             const {asset} = module as ElementImage
 
-          const obj = this.editor.assetsManager.getAssetsObj(asset)
-          // console.log(this.assetsManager, src)
-          if (obj) {
-            (module as ElementImage).renderImage(ctx, obj.imageRef!)
-          }
-        }*/
+             const obj = this.editor.assetsManager.getAssetsObj(asset)
+             // console.log(this.assetsManager, src)
+             if (obj) {
+               (module as ElementImage).renderImage(ctx, obj.imageRef!)
+             }
+           }*/
       })
 
       new ElementRectangle(frameBorder).render(ctx)
