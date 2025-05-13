@@ -196,7 +196,7 @@ export function initEvents(this: Editor) {
     dispatch('element-updated', {
       type: 'history-delete',
       payload: {
-        modules: backup,
+        elements: backup,
         selectedElements: savedSelected,
       },
     })
@@ -243,7 +243,7 @@ export function initEvents(this: Editor) {
     dispatch('element-updated', {
       type: 'history-paste',
       payload: {
-        modules: [...newModules.values()].map((mod) => mod.toMinimalJSON()),
+        elements: [...newModules.values()].map((mod) => mod.toMinimalJSON()),
         selectedElements: savedSelected,
       },
     })
@@ -265,12 +265,12 @@ export function initEvents(this: Editor) {
     this.elementManager.batchAdd(newModules)
     this.selection.replace(savedSelected)
 
-    const moduleProps = [...newModules.values()].map((mod) => mod.toMinimalJSON())
+    const elementProps = [...newModules.values()].map((mod) => mod.toMinimalJSON())
 
     dispatch('element-updated', {
       type: 'history-duplicate',
       payload: {
-        modules: moduleProps,
+        elements: elementProps,
         selectedElements: savedSelected,
       },
     })
@@ -307,13 +307,13 @@ export function initEvents(this: Editor) {
     const changes: ElementModifyData[] = []
 
     s.forEach((id) => {
-      const module = this.elementManager.all.get(id)
-      if (module) {
+      const ele = this.elementManager.all.get(id)
+      if (ele) {
         changes.push({
           id,
           props: {
-            x: module.cx + delta.x,
-            y: module.cy + delta.y,
+            x: ele.cx + delta.x,
+            y: ele.cy + delta.y,
           },
         })
       }
@@ -342,7 +342,7 @@ export function initEvents(this: Editor) {
     dispatch('element-updated', {
       type: 'history-add',
       payload: {
-        modules: moduleProps,
+        elements: moduleProps,
         selectedElements: savedSelected,
       },
     })

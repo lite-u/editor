@@ -318,14 +318,14 @@ const selector: ToolType = {
 
             // Move back to origin position and do the move again
             draggingModules.forEach((id) => {
-              const module = elementMap.get(id)
+              const ele = elementMap.get(id)
 
-              if (module) {
+              if (ele) {
                 const change: ElementModifyData = {
                   id,
                   props: {
-                    x: module.cx + x,
-                    y: module.cy + y,
+                    x: ele.cx + x,
+                    y: ele.cy + y,
                   },
                 }
 

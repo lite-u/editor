@@ -20,7 +20,7 @@ export function undo(this: Editor, quiet: boolean = false): HistoryNode | false 
     case 'history-duplicate':
 
       // delete modules from added
-      this.elementManager.batchDelete(extractIdSetFromArray(payload.modules))
+      this.elementManager.batchDelete(extractIdSetFromArray(payload.elements))
 
       break
 
@@ -53,7 +53,7 @@ export function undo(this: Editor, quiet: boolean = false): HistoryNode | false 
       break
 
     case 'history-delete':
-      modules = payload.modules
+      modules = payload.elements
 
       this.elementManager.batchAdd(this.elementManager.batchCreate(modules!))
 

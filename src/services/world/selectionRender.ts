@@ -20,10 +20,10 @@ function selectionRender(this: World) {
 
   // render selection box for modules
   selected.forEach((id) => {
-    const module = this.editor.elementManager.all.get(id)
+    const ele = this.editor.elementManager.all.get(id)
 
-    if (module) {
-      const moduleSelectionBoundary = module.getSelectedBoxModule(lineWidth, lineColor)
+    if (ele) {
+      const moduleSelectionBoundary = ele.getSelectedBoxModule(lineWidth, lineColor)
       moduleSelectionBoundary.render(ctx)
     }
   })
