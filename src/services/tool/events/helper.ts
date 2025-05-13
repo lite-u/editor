@@ -3,7 +3,7 @@ import {Point, UID} from '~/type'
 import {ElementInstance} from '~/elements/elements'
 import ToolManager from '~/services/tool/toolManager'
 
-export function detectHoveredModule(this: ToolManager) {
+export function detectHoveredElement(this: ToolManager) {
   const {interaction, action, world, visible} = this.editor
   const worldPoint = world.getWorldPointByViewportPoint(
     interaction.mouseMovePoint.x,

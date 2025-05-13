@@ -1,6 +1,6 @@
 import {generateBoundingRectFromTwoPoints} from '~/core/utils'
 import {areSetsEqual, getSymmetricDifference} from '~/lib/lib'
-import {applyResize, detectHoveredModule, getResizeCursor, getRotateAngle} from '~/services/tool/events/helper'
+import {applyResize, detectHoveredElement, getResizeCursor, getRotateAngle} from '~/services/tool/events/helper'
 import {BoundingRect, UID} from '~/type'
 import {ElementModifyData} from '~/services/actions/type'
 import {ElementProps} from '~/elements/elements'
@@ -13,7 +13,7 @@ const selector: ToolType = {
     const {interaction, action, selection, cursor} = this.editor
     const {shiftKey, metaKey, ctrlKey} = e
     const modifyKey = ctrlKey || metaKey || shiftKey
-    const operator = detectHoveredModule.call(this)
+    const operator = detectHoveredElement.call(this)
 
     if (operator) {
       if (operator.type === 'resize') {
@@ -41,7 +41,7 @@ const selector: ToolType = {
     interaction.manipulationStatus = 'dragging'
     const realSelected = selection.values
 
-    // this.draggingModules = new Set(this.selectedModules)
+    // this.draggingModules = new Set(this.selectedElements)
     const isSelected = realSelected.has(hoveredModule)
     // console.log(isSelected)
     if (realSelected.size === 0 || (!isSelected && !modifyKey)) {
@@ -227,7 +227,7 @@ const selector: ToolType = {
         break
 
       case 'static': {
-        const r = detectHoveredModule.call(this)
+        const r = detectHoveredElement.call(this)
         const {interaction} = this.editor
 
         if (r) {

@@ -2,7 +2,7 @@ import {HistoryChangeItem} from '~/services/actions/type'
 
 type HistoryPrev = HistoryNode | null
 type HistoryNext = HistoryPrev
-type HistorySelectedModules = Set<UID>
+type HistorySelectedElements = Set<UID>
 type HistoryModules = ElementProps[] | UID[]
 
 export type HistoryOperationType =
@@ -41,9 +41,9 @@ interface InitOperation {
   type: 'history-init'
   payload: {
     state: null,
-    selectedModules: HistorySelectedModules
+    selectedElements: HistorySelectedElements
     // state: elementMap // full initial state of the modules
-    // HistorySelectedModules
+    // HistorySelectedElements
   }
 }
 
@@ -52,7 +52,7 @@ interface AddOperation {
   type: 'history-add'
   payload: {
     modules: HistoryModules // newly added modules with their full data
-    selectedModules: HistorySelectedModules
+    selectedElements: HistorySelectedElements
   }
 }
 
@@ -61,7 +61,7 @@ interface DeleteOperation {
   type: 'history-delete'
   payload: {
     modules: HistoryModules // full data of deleted modules, to restore them
-    selectedModules: HistorySelectedModules
+    selectedElements: HistorySelectedElements
   }
 }
 
@@ -70,7 +70,7 @@ interface PasteOperation {
   type: 'history-paste'
   payload: {
     modules: HistoryModules // modules that were pasted into the scene
-    selectedModules: HistorySelectedModules
+    selectedElements: HistorySelectedElements
   }
 }
 
@@ -80,7 +80,7 @@ interface DuplicateOperation {
   payload: {
     // sourceIds: string[] // ids of the original modules being duplicated
     modules: HistoryModules  // the new duplicated modules
-    selectedModules: HistorySelectedModules
+    selectedElements: HistorySelectedElements
   }
 }
 
@@ -89,7 +89,7 @@ interface ModifyOperation {
   type: 'history-modify'
   payload: {
     changes: HistoryChangeItem[]
-    selectedModules: HistorySelectedModules
+    selectedElements: HistorySelectedElements
   }
 }
 
@@ -99,7 +99,7 @@ interface MoveOperation {
   payload: {
     delta: { x: number, y: number } // amount by which to move (x and y deltas)
     // modules: HistoryModules // ids of the modules to move
-    selectedModules: HistorySelectedModules
+    selectedElements: HistorySelectedElements
   }
 }
 
@@ -109,7 +109,7 @@ interface ReorderOperation {
   payload: {
     from: string[] // old order of module ids
     to: string[]   // new order of module ids
-    selectedModules: HistorySelectedModules
+    selectedElements: HistorySelectedElements
   }
 }
 
@@ -128,7 +128,7 @@ interface GroupOperation {
   payload: {
     groupId: string // ID of the newly created group
     children: string[] // IDs of the modules being grouped
-    selectedModules: HistorySelectedModules
+    selectedElements: HistorySelectedElements
   }
 }
 
@@ -138,7 +138,7 @@ interface UngroupOperation {
   payload: {
     groupId: string // ID of the group being ungrouped
     children: HistoryModules // full modules being ungrouped
-    selectedModules: HistorySelectedModules
+    selectedElements: HistorySelectedElements
   }
 }
 
@@ -147,6 +147,6 @@ interface CompositeOperation {
   type: 'history-composite'
   payload: {
     actions: HistoryOperationA[] // list of actions to be treated as a single undo/redo unit
-    selectedModules: HistorySelectedModules
+    selectedElements: HistorySelectedElements
   }
 }

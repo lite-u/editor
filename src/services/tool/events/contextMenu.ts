@@ -1,4 +1,4 @@
-import {detectHoveredModule} from './helper'
+import {detectHoveredElement} from './helper'
 import {UID} from '~/core/core'
 import ToolManager from '~/services/tool/toolManager'
 
@@ -14,7 +14,7 @@ function handleContextMenu(this: ToolManager, e: MouseEvent) {
     }
   */
   const {action, clipboard, interaction, selection} = this.editor
-  detectHoveredModule.call(this)
+  detectHoveredElement.call(this)
   const lastId = interaction.hoveredModule
   const selectedIdSet = selection.values
   const position = {...interaction.mouseMovePoint}

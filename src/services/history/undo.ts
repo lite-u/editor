@@ -9,7 +9,7 @@ export function undo(this: Editor, quiet: boolean = false): HistoryNode | false 
 
   const {type, payload} = this.history.current!.data
 
-  // const {selectedModules} = payload
+  // const {selectedElements} = payload
   let modules: HistoryModules | null = null
 
   switch (type) {
@@ -37,7 +37,7 @@ export function undo(this: Editor, quiet: boolean = false): HistoryNode | false 
       break
 
     case 'history-move':
-      this.elementManager.batchMove(payload.selectedModules, {
+      this.elementManager.batchMove(payload.selectedElements, {
         x: -payload.delta.x,
         y: -payload.delta.y,
       })
@@ -63,9 +63,9 @@ export function undo(this: Editor, quiet: boolean = false): HistoryNode | false 
   this.history.back()
   // this.editor.updateVisibleelementMap(this.editor.viewport.worldRect)
   if (!quiet) {
-    const backedNodeSelectedModules = this.history.current!.data.payload.selectedModules
+    const backedNodeSelectedElements = this.history.current!.data.payload.selectedElements
 
-    this.selection.replace(backedNodeSelectedModules)
+    this.selection.replace(backedNodeSelectedElements)
     this.action.dispatch('selection-updated')
 
   }

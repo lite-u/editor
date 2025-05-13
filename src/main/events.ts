@@ -148,7 +148,7 @@ export function initEvents(this: Editor) {
 
   on('selection-updated', () => {
     this.interaction.hoveredModule = null!
-    // console.log(this.selectedModules)
+    // console.log(this.selectedElements)
     // updateSelectionCanvasRenderData.call(this)
     this.events.onSelectionUpdated?.(this.selection.values, this.selection.pickIfUnique)
 
@@ -197,7 +197,7 @@ export function initEvents(this: Editor) {
       type: 'history-delete',
       payload: {
         modules: backup,
-        selectedModules: savedSelected,
+        selectedElements: savedSelected,
       },
     })
   })
@@ -244,7 +244,7 @@ export function initEvents(this: Editor) {
       type: 'history-paste',
       payload: {
         modules: [...newModules.values()].map((mod) => mod.toMinimalJSON()),
-        selectedModules: savedSelected,
+        selectedElements: savedSelected,
       },
     })
   })
@@ -271,7 +271,7 @@ export function initEvents(this: Editor) {
       type: 'history-duplicate',
       payload: {
         modules: moduleProps,
-        selectedModules: savedSelected,
+        selectedElements: savedSelected,
       },
     })
   })
@@ -343,7 +343,7 @@ export function initEvents(this: Editor) {
       type: 'history-add',
       payload: {
         modules: moduleProps,
-        selectedModules: savedSelected,
+        selectedElements: savedSelected,
       },
     })
   })
@@ -390,7 +390,7 @@ export function initEvents(this: Editor) {
     this.history.add({
       type: 'history-modify',
       payload: {
-        selectedModules: this.selection.values,
+        selectedElements: this.selection.values,
         changes,
       },
     })
