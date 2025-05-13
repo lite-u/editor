@@ -1,6 +1,7 @@
 import { VisionEventData, VisionEventType } from '~/services/actions/type';
 import { ToolName } from '~/services/tool/toolManager';
 import { Unit } from './index';
+export type UID = string;
 export interface Size {
     width: number;
     height: number;
