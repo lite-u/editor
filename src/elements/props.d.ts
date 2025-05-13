@@ -87,3 +87,9 @@ export type Gradient = {
     opacity?: number;
   }[];
 };
+
+export type Asset = {
+  id: string;
+  name: string;
+  img: Image;
+}

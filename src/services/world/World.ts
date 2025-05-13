@@ -132,9 +132,9 @@ class World {
         module.render(ctx)
 
         if (module.type === 'image') {
-          const {src} = module as ElementImage
+          const {asset} = module as ElementImage
 
-          const obj = this.editor.assetsManager.getAssetsObj(src)
+          const obj = this.editor.assetsManager.getAssetsObj(asset)
           // console.log(this.assetsManager, src)
           if (obj) {
             (module as ElementImage).renderImage(ctx, obj.imageRef!)

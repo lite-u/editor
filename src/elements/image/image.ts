@@ -3,28 +3,27 @@ import RectangleLike, {RectangleLikeProps} from '~/elements/rectangle/rectangleL
 
 export interface ImageProps extends RectangleLikeProps {
   type?: 'image'
-  src?: string
+  asset: Asset
 }
 
 export type RequiredImageProps = Required<ImageProps>
-const DEFAULT_SRC = ''
 
 class ElementImage extends RectangleLike {
   readonly type = 'image'
-  src: string
+  asset: Asset
 
   constructor({
-                src = DEFAULT_SRC,
+                asset,
                 ...rest
               }: ImageProps) {
     super(rest)
 
-    this.src = src
+    this.asset = asset
   }
 
   public toJSON(): RequiredImageProps {
     return {
-      src: this.src,
+      asset: this.asset,
       type: this.type,
       ...super.toJSON(),
     }
@@ -33,7 +32,7 @@ class ElementImage extends RectangleLike {
   public toMinimalJSON() {
     return {
       ...super.toMinimalJSON(),
-      src: this.src,
+      src: this.asset,
       type: this.type,
     }
   }
