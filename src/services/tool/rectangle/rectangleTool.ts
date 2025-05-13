@@ -10,7 +10,9 @@ import {ResizeHandle} from '~/services/selection/type'
 const rectangleTool: ToolType = {
   cursor: 'rectangle',
   start(this: ToolManager, e: MouseEvent) {
-
+    const {
+      elementManager, interaction, action, selection,
+    } = this.editor
     const {x, y} = this.editor.interaction.mouseMovePoint
     const {x: cx, y: cy} = this.editor.world.getWorldPointByViewportPoint(x, y)
     const width = 2
@@ -31,12 +33,12 @@ const rectangleTool: ToolType = {
       height,
     }
 
-    const ele: ElementRectangle = this.editor.elementManager.add(this.editor.elementManager.create(rectProps))
+    const ele: ElementRectangle = elementManager.add(elementManager.create(rectProps))
 
-    this.editor.interaction.manipulationStatus = 'resizing'
-    this.editor.action.dispatch('selection-clear')
-    this.editor.selection.replace(new Set([ele.id]))
-    this.editor.action.dispatch('visible-element-updated')
+    interaction.manipulationStatus = 'resizing'
+    action.dispatch('selection-clear')
+    selection.replace(new Set([ele.id]))
+    action.dispatch('visible-element-updated')
 
     const r = this.editor.interaction.operationHandlers.find(o => o.type === 'resize' && o.name === 'br')
 
