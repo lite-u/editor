@@ -1,4 +1,4 @@
-import Rectangle from '../tool/rectangle/rectangle.js';
+import Rectangle from '../tool/rectangle/rectangleTool.js';
 export const createFrame = (p, id) => {
     let width = 0;
     let height = 0;

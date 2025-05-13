@@ -22,6 +22,7 @@ class InteractionState {
   readonly operationHandlers: OperationHandler[] = []
   spaceKeyDown = false
   _snapped = false
+  _creatingElementId: UID
   draggingElements: Set<UID> = new Set()
   _selectingElements: Set<UID> = new Set()
   _deselection: UID | null = null

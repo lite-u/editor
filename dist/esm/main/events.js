@@ -271,7 +271,7 @@ export function initEvents() {
         if (!data || data.length === 0)
             return;
         const newElements = this.elementManager.batchAdd(this.elementManager.batchCreate(data), () => {
-            console.log(9);
+            // console.log(9)
             dispatch('render-elements');
         });
         const savedSelected = new Set(newElements.keys());

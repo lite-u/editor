@@ -2,9 +2,10 @@ import ToolManager, {ToolType} from '~/services/tool/toolManager'
 import {applyResize} from '~/services/tool/events/helper'
 import {ElementModifyData} from '~/services/actions/type'
 import nid from '~/core/nid'
-import {ResizeHandle} from '~/services/selection/type'
 import {ElementProps} from '~/elements/elements'
 import {applyRotating} from '~/services/tool/helper'
+import ElementRectangle from '~/elements/rectangle/rectangle'
+import {ResizeHandle} from '~/services/selection/type'
 
 const rectangleTool: ToolType = {
   cursor: 'rectangle',
@@ -30,23 +31,23 @@ const rectangleTool: ToolType = {
       height,
     }
 
-    const created = this.editor.elementManager.add(this.editor.elementManager.create(rectProps))
-    console.log(created)
-    const arr = [...this.editor.interaction.operationHandlers] as ResizeHandle[]
+    const ele: ElementRectangle = this.editor.elementManager.add(this.editor.elementManager.create(rectProps))
 
-    // const newRect = this.elementManager.batchAdd(this.elementManager.batchCreate([rectProps]))
-    // this.elementManager.batchAdd(newRect)
-    // console.log(newRect)
     this.editor.interaction.manipulationStatus = 'resizing'
     this.editor.action.dispatch('selection-clear')
-    this.editor.action.dispatch('element-updated')
+    this.editor.selection.replace(new Set([ele.id]))
+    this.editor.action.dispatch('visible-element-updated')
+
+    const r = this.editor.interaction.operationHandlers.find(o => o.type === 'resize' && o.name === 'br')
+
+    if (r) {
+      this.editor.interaction._resizingOperator = r as ResizeHandle
+    }
 
   },
   move(this: ToolManager, e: PointerEvent) {
-    const {altKey, shiftKey} = e
-
-    // console.log(this._resizingOperator)
     if (!this.editor.interaction._resizingOperator) return
+    const {altKey, shiftKey} = e
 
     this.editor.container.setPointerCapture(e.pointerId)
 

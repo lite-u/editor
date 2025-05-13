@@ -62,6 +62,7 @@ class VisibleManager {
                  lineWidth: 0,
                  fillColor: 'transparent',
                })*/
+            console.log(...operators);
             this.editor.interaction.operationHandlers.push(...operators);
         }
     }

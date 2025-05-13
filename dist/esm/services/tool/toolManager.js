@@ -6,7 +6,7 @@ import handlePointerMove from './events/pointerMove.js';
 import handleContextMenu from './events/contextMenu.js';
 import handleMouseDown from './events/mouseDown.js';
 import selector from './selector/selector.js';
-import rectangleTool from './rectangle/rectangle.js';
+import rectangleTool from './rectangle/rectangleTool.js';
 import panning from './panning/panning.js';
 class ToolManager {
     editor;

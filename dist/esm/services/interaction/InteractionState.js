@@ -7,6 +7,7 @@ class InteractionState {
     operationHandlers = [];
     spaceKeyDown = false;
     _snapped = false;
+    _creatingElementId;
     draggingElements = new Set();
     _selectingElements = new Set();
     _deselection = null;

@@ -11,6 +11,7 @@ declare class InteractionState {
     readonly operationHandlers: OperationHandler[];
     spaceKeyDown: boolean;
     _snapped: boolean;
+    _creatingElementId: UID;
     draggingElements: Set<UID>;
     _selectingElements: Set<UID>;
     _deselection: UID | null;

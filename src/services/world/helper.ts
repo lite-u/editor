@@ -1,6 +1,6 @@
 import {ElementInstance} from '~/elements/elements'
 import {UID} from '~/core/core'
-import Rectangle from '~/services/tool/rectangle/rectangle'
+import Rectangle from '~/services/tool/rectangle/rectangleTool'
 import {Point, Rect} from '~/type'
 import World from '~/services/world/World'
 

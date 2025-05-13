@@ -8,7 +8,7 @@ import handleContextMenu from '~/services/tool/events/contextMenu'
 import handleMouseDown from '~/services/tool/events/mouseDown'
 import selector from '~/services/tool/selector/selector'
 import {CursorName} from '~/services/cursor/cursor'
-import rectangleTool from '~/services/tool/rectangle/rectangle'
+import rectangleTool from '~/services/tool/rectangle/rectangleTool'
 import panning from '~/services/tool/panning/panning'
 
 export type ToolType = {

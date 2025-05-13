@@ -1,4 +1,3 @@
-import { selectionHelper } from './selectionHelper.js';
 class SelectionManager {
     selected = new Set();
     editor;
@@ -29,10 +28,11 @@ class SelectionManager {
         return null;
     }
     selectAll() {
+        console.log('all');
         this.selected = this.editor.elementManager.keys;
     }
     modify(idSet, action) {
-        selectionHelper.call(this, idSet, action);
+        // selectionHelper.call(this, idSet, action)
         switch (action) {
             case 'add':
                 this.add(idSet);
@@ -70,6 +70,10 @@ class SelectionManager {
     }
     replace(idSet) {
         this.clear();
+        console.log('replace', idSet);
+        if (typeof idSet === 'string') {
+            debugger;
+        }
         this.selected = idSet;
     }
     destroy() {

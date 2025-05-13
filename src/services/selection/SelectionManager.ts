@@ -43,11 +43,12 @@ class SelectionManager {
   }
 
   public selectAll(): void {
+    console.log('all')
     this.selected = this.editor.elementManager.keys
   }
 
   public modify(idSet: Set<UID>, action: SelectionActionMode) {
-    selectionHelper.call(this, idSet, action)
+    // selectionHelper.call(this, idSet, action)
     switch (action) {
       case 'add':
         this.add(idSet)
@@ -88,6 +89,10 @@ class SelectionManager {
 
   public replace(idSet: Set<UID>) {
     this.clear()
+    console.log('replace',idSet)
+    if(typeof idSet === 'string') {
+      debugger
+    }
     this.selected = idSet
   }
 
