@@ -2,6 +2,8 @@ import {AnchorPoint, Appearance, BorderRadius, Fill, Gradient, Point, Shadow, St
 
 export const DEFAULT_CX = 0
 export const DEFAULT_CY = 0
+export const DEFAULT_WIDTH = 10
+export const DEFAULT_HEIGHT = 10
 
 export const DEFAULT_BORDER_RADIUS: BorderRadius = [0]
 

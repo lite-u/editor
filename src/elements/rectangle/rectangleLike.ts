@@ -7,6 +7,7 @@ import transform, {TransformProps} from '~/elements/rectangle/transform'
 import ElementRectangle from '~/elements/rectangle/rectangle'
 import {BorderRadius} from '~/elements/props'
 import {DEFAULT_BORDER_RADIUS} from '~/elements/defaultProps'
+import {isEqual} from '~/lib/lib'
 
 export interface RectangleLikeProps extends ShapeProps {
   id: string
@@ -18,8 +19,6 @@ export interface RectangleLikeProps extends ShapeProps {
 
 export type RequiredRectangleLikeProps = Required<RectangleLikeProps>
 
-const DEFAULT_WIDTH = 10
-const DEFAULT_HEIGHT = 10
 
 class RectangleLike extends Shape {
   id: string
@@ -96,7 +95,7 @@ class RectangleLike extends Shape {
       ...super.toJSON(),
       id,
       layer,
-      borderRadius: borderRadius,
+      borderRadius: [...borderRadius],
       width,
       height,
     }
@@ -109,8 +108,8 @@ class RectangleLike extends Shape {
       layer: this.layer,
     }
 
-    if (this.borderRadius !== DEFAULT_RADIUS) {
-      result.borderRadius = this.borderRadius
+    if (!isEqual(this.borderRadius, DEFAULT_BORDER_RADIUS)) {
+      result.borderRadius = [...this.borderRadius]
     }
 
     if (this.width !== DEFAULT_WIDTH) {
