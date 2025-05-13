@@ -7,6 +7,7 @@ export interface ElementBaseProps {
     shadow?: Shadow;
     rotation?: number;
     transform?: Transform;
+    show?: boolean;
 }
 export type RequiredBaseProps = Required<ElementBaseProps>;
 declare class Base {
@@ -16,7 +17,8 @@ declare class Base {
     shadow: Shadow;
     rotation: number;
     transform: Transform;
-    constructor({ stroke, fill, opacity, shadow, rotation, transform, }: ElementBaseProps);
+    show: boolean;
+    constructor({ stroke, fill, opacity, shadow, rotation, transform, show, }: ElementBaseProps);
     protected toJSON(): RequiredBaseProps;
     protected toMinimalJSON(): ElementBaseProps;
     protected getBoundingRect(): BoundingRect;

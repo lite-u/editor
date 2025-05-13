@@ -9,17 +9,20 @@ class Base {
     shadow;
     rotation;
     transform;
-    constructor({ stroke = deepClone(DEFAULT_STROKE), fill = deepClone(DEFAULT_FILL), opacity = deepClone(DEFAULT_OPACITY), shadow = deepClone(DEFAULT_SHADOW), rotation = deepClone(DEFAULT_ROTATION), transform = deepClone(DEFAULT_TRANSFORM), }) {
+    show;
+    constructor({ stroke = deepClone(DEFAULT_STROKE), fill = deepClone(DEFAULT_FILL), opacity = deepClone(DEFAULT_OPACITY), shadow = deepClone(DEFAULT_SHADOW), rotation = deepClone(DEFAULT_ROTATION), transform = deepClone(DEFAULT_TRANSFORM), show = true, }) {
         this.stroke = stroke;
         this.fill = fill;
         this.opacity = opacity;
         this.shadow = shadow;
         this.rotation = rotation;
         this.transform = transform;
+        this.show = show;
     }
     toJSON() {
-        const { stroke, fill, opacity, shadow, rotation, transform, } = this;
+        const { show, stroke, fill, opacity, shadow, rotation, transform, } = this;
         return {
+            show,
             stroke: deepClone(stroke),
             fill: deepClone(fill),
             opacity: opacity,
@@ -30,6 +33,9 @@ class Base {
     }
     toMinimalJSON() {
         const result = {};
+        if (!this.show) {
+            result.show = false;
+        }
         if (!isEqual(this.stroke, DEFAULT_STROKE)) {
             result.stroke = deepClone(this.stroke);
         }
