@@ -1,9 +1,9 @@
-import {AnchorPoint, Appearance, Fill, Point, Shadow, Stroke, Transform, Gradient} from '~/elements/props'
+import {AnchorPoint, Appearance, Fill, Gradient, Point, Shadow, Stroke, Transform} from '~/elements/props'
 
 export const DEFAULT_POINT: Point = {
   x: 0,
   y: 0,
-};
+}
 
 export const DEFAULT_ANCHOR_POINT: AnchorPoint = {
   x: 0,
@@ -11,7 +11,7 @@ export const DEFAULT_ANCHOR_POINT: AnchorPoint = {
   type: 'corner',
   leftDirection: null,
   rightDirection: null,
-};
+}
 
 export const DEFAULT_STROKE: Stroke = {
   color: '#000000',
@@ -19,29 +19,30 @@ export const DEFAULT_STROKE: Stroke = {
   cap: 'butt',
   join: 'miter',
   dashed: false,
-};
+}
 
 export const DEFAULT_FILL: Fill = {
   enabled: false,
   color: '#FFFFFF',
   type: 'solid',
-};
+}
 
 export const DEFAULT_TRANSFORM: Transform = {
-  position: { x: 0, y: 0 },
+  position: {x: 0, y: 0},
   rotation: 0,
-  scale: { x: 1, y: 1 },
+  width: 0,
+  height: 0,
   shear: {
     angle: 0,
     axis: 'horizontal',
   },
-};
+}
 
 export const DEFAULT_APPEARANCE: Appearance = {
   effects: [],
   multipleFills: false,
   multipleStrokes: false,
-};
+}
 
 export const DEFAULT_SHADOW: Shadow = {
   type: 'drop',
@@ -53,16 +54,16 @@ export const DEFAULT_SHADOW: Shadow = {
   opacity: 1,
   blendMode: 'normal',
   enabled: false,
-};
+}
 
 export const DEFAULT_GRADIENT: Gradient = {
   type: 'linear',
   angle: 0,
   stops: [
-    { offset: 0, color: '#000000', opacity: 1 },
-    { offset: 1, color: '#FFFFFF', opacity: 1 },
+    {offset: 0, color: '#000000', opacity: 1},
+    {offset: 1, color: '#FFFFFF', opacity: 1},
   ],
-};
+}
 
 export const DEFAULT_OPACITY = 100
 export const DEFAULT_ROTATION = 0
