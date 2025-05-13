@@ -1,6 +1,6 @@
 export {};
 /*
-import Editor from '../../engine/editor.js'
+import Editor from '../../engine/editor'
 
 export function destroyViewport(this: Editor) {
   if (!this.viewport) return

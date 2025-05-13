@@ -1,107 +1,101 @@
-import {RotateHandler} from '~/services/selection/type'
-import {Rotation} from '~/core/core'
+import {Shadow} from '~/core/core'
 import {BoundingRect} from '~/type'
-import Editor from '~/main/editor'
 import {generateBoundingRectFromTwoPoints} from '~/core/utils'
+import {
+  AnchorPoint,
+  Appearance,
+  DEFAULT_FILL,
+  DEFAULT_OPACITY,
+  DEFAULT_ROTATION,
+  DEFAULT_SHADOW,
+  DEFAULT_STROKE,
+  DEFAULT_TRANSFORM,
+  Fill,
+  Stroke,
+  Transform,
+} from '~/elements/defaultProps'
+import deepClone from '~/core/deepClone'
+import {isEqual} from '~/lib/lib'
 
 export interface ElementBaseProps {
-  enableLine?: boolean
-  lineColor?: CanvasRenderingContext2D['strokeStyle']
-  lineWidth?: CanvasRenderingContext2D['lineWidth']
-  opacity?: CanvasRenderingContext2D['globalAlpha']
-  enableShadow?: boolean
-  shadow?: string
+  stroke?: Stroke;
+  fill?: Fill;
+  opacity?: number;
+  shadow?: Shadow
   rotation?: number
+  transform?: Transform
 }
 
 export type RequiredBaseProps = Required<ElementBaseProps>
 
-const DEFAULT_ENABLE_LINE = true
-const DEFAULT_LINE_COLOR = '#000'
-const DEFAULT_LINE_WIDTH = 1
-const DEFAULT_OPACITY = 100
-const DEFAULT_ROTATION = 0
-const DEFAULT_ENABLE_SHADOW = false
-const DEFAULT_SHADOW = ''
-
 class Base {
-  public rotation: Rotation
-  protected enableLine: boolean
-  protected lineWidth: CanvasRenderingContext2D['lineWidth']
-  protected lineColor: CanvasRenderingContext2D['strokeStyle']
-  protected opacity: CanvasRenderingContext2D['globalAlpha']
-  protected enableShadow: boolean
-  protected shadow: string
+  stroke: Stroke
+  fill: Fill
+  opacity: number
+  shadow: Shadow
+  rotation: number
+  transform: Transform
 
   constructor({
-                enableLine = DEFAULT_ENABLE_LINE,
-                lineColor = DEFAULT_LINE_COLOR,
-                lineWidth = DEFAULT_LINE_WIDTH,
-                opacity = DEFAULT_OPACITY,
-                rotation = DEFAULT_ROTATION,
-                enableShadow = DEFAULT_ENABLE_SHADOW,
-                shadow = DEFAULT_SHADOW,
+                stroke = deepClone(DEFAULT_STROKE),
+                fill = deepClone(DEFAULT_FILL),
+                opacity = deepClone(DEFAULT_OPACITY),
+                shadow = deepClone(DEFAULT_SHADOW),
+                rotation = deepClone(DEFAULT_ROTATION),
+                transform = deepClone(DEFAULT_TRANSFORM),
               }: ElementBaseProps) {
-    this.enableLine = enableLine
-    this.lineColor = lineColor
-    this.lineWidth = lineWidth
+    this.stroke = stroke
+    this.fill = fill
     this.opacity = opacity
-    this.rotation = rotation
-    this.enableShadow = enableShadow
     this.shadow = shadow
+    this.rotation = rotation
+    this.transform = transform
   }
 
   protected toJSON(): RequiredBaseProps {
     const {
-      enableLine,
-      lineColor,
-      lineWidth,
+      stroke,
+      fill,
       opacity,
-      enableShadow,
       shadow,
       rotation,
+      transform,
     } = this
 
     return {
-      enableLine,
-      lineColor,
-      lineWidth,
+      stroke,
+      fill,
       opacity,
-      enableShadow,
       shadow,
       rotation,
+      transform,
     }
   }
 
   protected toMinimalJSON(): ElementBaseProps {
     const result: ElementBaseProps = {}
-
-    if (this.enableLine !== DEFAULT_ENABLE_LINE) {
-      result.enableLine = this.enableLine
+    if (isEqual(this.stroke, DEFAULT_STROKE)) {
+      result.stroke = deepClone(this.stroke)
     }
 
-    if (this.lineColor !== DEFAULT_LINE_COLOR) {
-      result.lineColor = this.lineColor
+    if (isEqual(this.fill, DEFAULT_FILL)) {
+      result.fill = deepClone(this.fill)
     }
 
-    if (this.lineWidth !== DEFAULT_LINE_WIDTH) {
-      result.lineWidth = this.lineWidth
-    }
-
-    if (this.opacity !== DEFAULT_OPACITY) {
+    if (isEqual(this.opacity, DEFAULT_OPACITY)) {
       result.opacity = this.opacity
     }
 
-    if (this.enableShadow !== DEFAULT_ENABLE_SHADOW) {
-      result.enableShadow = this.enableShadow
+    if (isEqual(this.shadow, DEFAULT_SHADOW)) {
+      result.shadow = deepClone(this.shadow)
     }
 
-    if (this.shadow !== DEFAULT_SHADOW) {
-      result.shadow = this.shadow
-    }
-
-    if (this.rotation !== DEFAULT_ROTATION) {
+    if (isEqual(this.rotation, DEFAULT_ROTATION)) {
       result.rotation = this.rotation
+    }
+
+    if (isEqual(this.transform, DEFAULT_TRANSFORM)) {
+      result.transform = deepClone(this.transform)
     }
 
     return result

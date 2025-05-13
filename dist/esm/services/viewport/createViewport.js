@@ -1,16 +1,16 @@
 export {};
 /*
 import {initViewportDom, ViewportDomRefType} from './domManipulations.js'
-import Editor from '../../engine/editor.js'
+import Editor from '../../engine/editor'
 import {Viewport} from './type.d.js'
 import {generateBoundingRectFromTwoPoints, throttle} from '../../core/utils.js'
-import handleMouseDown from './eventHandlers/mouseDown.js'
-import handleMouseUp from './eventHandlers/mouseUp.js'
-import handleKeyDown from './eventHandlers/keyDown.js'
-import handleKeyUp from './eventHandlers/keyUp.js'
-import handleWheel from './eventHandlers/wheel.js'
-import handlePointerMove from './eventHandlers/pointerMove.js'
-import handleContextMenu from './eventHandlers/contextMenu.js'
+import handleMouseDown from './eventHandlers/mouseDown'
+import handleMouseUp from './eventHandlers/mouseUp'
+import handleKeyDown from './eventHandlers/keyDown'
+import handleKeyUp from './eventHandlers/keyUp'
+import handleWheel from './eventHandlers/wheel'
+import handlePointerMove from './eventHandlers/pointerMove'
+import handleContextMenu from './eventHandlers/contextMenu'
 
 export function createViewport(this: Viewport): Viewport {
   const {

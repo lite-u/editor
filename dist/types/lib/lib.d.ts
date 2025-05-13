@@ -25,4 +25,5 @@ export declare function getResizeTransform(name: ResizeHandleName, symmetric?: b
 export declare const deduplicateObjectsByKeyValue: <T>(objects: T[]) => T[];
 export declare const createWith: <T extends keyof HTMLElementTagNameMap>(tagName: T, role: string, id: string, style?: Partial<CSSStyleDeclaration>) => HTMLElementTagNameMap[T];
 export declare const setStyle: (dom: HTMLElement, styles: Partial<CSSStyleDeclaration>) => void;
+export declare const isEqual: (o1: string | number | object, o2: string | number | object) => boolean;
 export {};

@@ -7,7 +7,7 @@ declare class VisibleManager {
     constructor(editor: Editor);
     get values(): any[];
     get getVisibleElementMap(): ElementMap;
-    get getVisibleSelected(): Set<string>;
+    get getVisibleSelected(): Set<UID>;
     get getVisibleSelectedElementMap(): ElementMap;
     updateVisibleElementMap(): void;
     updateVisibleSelected(): void;

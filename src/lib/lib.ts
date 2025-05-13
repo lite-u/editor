@@ -192,3 +192,25 @@ export const setStyle = (
 ) => {
   Object.assign(dom.style, styles)
 }
+
+export const isEqual = (o1: string | number | object, o2: string | number | object) => {
+  if (o1 === o2) return true;
+
+  if (typeof o1 !== typeof o2) return false;
+
+  if (typeof o1 === 'object' && o1 !== null && o2 !== null) {
+    const keys1 = Object.keys(o1 as object);
+    const keys2 = Object.keys(o2 as object);
+
+    if (keys1.length !== keys2.length) return false;
+
+    for (const key of keys1) {
+      if (!(key in (o2 as object))) return false;
+      if (!isEqual((o1 as any)[key], (o2 as any)[key])) return false;
+    }
+
+    return true;
+  }
+
+  return false;
+}
