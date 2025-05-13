@@ -8,6 +8,7 @@ import {rotatePointAroundPoint} from '~/core/geometry'
 import {Gradient} from '~/elements/props'
 import {DEFAULT_GRADIENT} from '~/elements/defaultProps'
 import {isEqual} from '~/lib/lib'
+import deepClone from '~/core/deepClone'
 
 export interface ShapeProps extends ElementBaseProps {
   cx?: number
@@ -58,32 +59,16 @@ class Shape extends Base {
       ...super.toMinimalJSON(),
     }
 
-    if (this.cx === DEFAULT_CX) {
+    if (this.cx !== DEFAULT_CX) {
       result.cx = this.cx
     }
 
-    if (this.cy === DEFAULT_CY) {
+    if (this.cy !== DEFAULT_CY) {
       result.cy = this.cy
     }
 
-    if (!isEqual(this.gradient,DEFAULT_GRADIENT)) {
-      result.enableGradient = this.enableGradient
-    }
-
-    if (this.gradient === DEFAULT_GRADIENT) {
-      result.gradient = this.gradient
-    }
-
-    if (this.enableFill === DEFAULT_ENABLE_FILL) {
-      result.enableFill = this.enableFill
-    }
-
-    if (this.fillColor === DEFAULT_FILL_COLOR) {
-      result.fillColor = this.fillColor
-    }
-
-    if (this.dashLine === DEFAULT_DASH_LINE) {
-      result.dashLine = this.dashLine
+    if (!isEqual(this.gradient, DEFAULT_GRADIENT)) {
+      result.gradient = deepClone(this.gradient)
     }
 
     return result
