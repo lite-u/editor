@@ -128,8 +128,8 @@ class ElementManager {
     return false
   }
 
-  batchCreate(moduleDataList: ElementProps[]): ElementMap {
-    const clonedData = deepClone(moduleDataList) as ElementProps[]
+  batchCreate(elementDataList: ElementProps[]): ElementMap {
+    const clonedData = deepClone(elementDataList) as ElementProps[]
     const newMap: ElementMap = new Map()
     // let localMaxLayer = 0
 
@@ -143,10 +143,10 @@ class ElementManager {
         }*/
 
     clonedData.forEach(data => {
-      const module = this.create(data)
+      const element = this.create(data)
 
-      if (module) {
-        newMap.set(data.id, module as ElementInstance)
+      if (element) {
+        newMap.set(data.id, element as ElementInstance)
       }
     })
 
@@ -159,18 +159,18 @@ class ElementManager {
     return element
   }
 
-  batchAdd(modules: ElementMap, callback?: VoidFunction): ElementMap {
-    modules.forEach(mod => {
+  batchAdd(elements: ElementMap, callback?: VoidFunction): ElementMap {
+    elements.forEach(mod => {
       this.add(mod)
     })
 
     callback && callback()
 
 //       this.assetsManager.add('image', data.src)
-    // this.events.onModulesUpdated?.(this.elementMap)
+    // this.events.onElementsUpdated?.(this.elementMap)
     /* if (callback) {
        const pArr = []
-       modules.forEach(mod => {
+       elements.forEach(mod => {
          if (mod.type === 'image') {
            const {src} = mod as ElementImage
 
@@ -187,18 +187,18 @@ class ElementManager {
        })
      }*/
 
-    return modules
+    return elements
   }
 
   batchCopy(idSet: Set<UID>, includeIdentifiers: boolean = true): ElementProps[] {
-    // const modulesMap: ElementMap = new Map()
+    // const elementsMap: ElementMap = new Map()
     const elementArr: ElementInstance[] = []
 
     idSet.forEach(id => {
       const mod = this.elementMap.get(id)
       if (mod) {
         elementArr.push(mod)
-        // modulesMap.set(id, mod)
+        // elementsMap.set(id, mod)
       }
     })
 
@@ -218,32 +218,32 @@ class ElementManager {
   batchDelete(idSet: Set<UID>): ElementProps[] {
     const backup: ElementProps[] = this.batchCopy(idSet)
 
-    backup.forEach(module => {
-      this.elementMap.delete(module.id)
+    backup.forEach(element => {
+      this.elementMap.delete(element.id)
     })
 
-    // this.events.onModulesUpdated?.(this.elementMap)
+    // this.events.onElementsUpdated?.(this.elementMap)
 
     return backup
   }
 
   batchMove(from: Set<UID>, delta: Point) {
-    const modulesMap: ElementMap = this.getElementMapByIdSet(from)
+    const elementsMap: ElementMap = this.getElementMapByIdSet(from)
 
-    modulesMap.forEach((module: ElementInstance) => {
-      module.cx += delta.x
-      module.cy += delta.y
+    elementsMap.forEach((element: ElementInstance) => {
+      element.cx += delta.x
+      element.cy += delta.y
     })
   }
 
   batchModify(idSet: Set<UID>, data: Partial<ElementProps>) {
-    const modulesMap = this.getElementMapByIdSet(idSet)
+    const elementsMap = this.getElementMapByIdSet(idSet)
 
-    modulesMap.forEach((module: ElementInstance) => {
+    elementsMap.forEach((element: ElementInstance) => {
       Object.keys(data).forEach((key) => {
         const keyName = key as keyof ElementProps
         // @ts-ignore
-        module[keyName] = data[key]
+        element[keyName] = data[key]
       })
     })
   }

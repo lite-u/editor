@@ -14,26 +14,26 @@ function selectionRender(this: World) {
   const lineWidth = 1 / this.scale * this.dpr
   const centerPoints = new Set<UID>(selected)
 
-  if (this.editor.interaction.hoveredModule) {
-    centerPoints.add(this.editor.interaction.hoveredModule)
+  if (this.editor.interaction.hoveredElement) {
+    centerPoints.add(this.editor.interaction.hoveredElement)
   }
 
-  // render selection box for modules
+  // render selection box for elements
   selected.forEach((id) => {
     const ele = this.editor.elementManager.all.get(id)
 
     if (ele) {
-      const moduleSelectionBoundary = ele.getSelectedBoxModule(lineWidth, lineColor)
-      moduleSelectionBoundary.render(ctx)
+      const elementSelectionBoundary = ele.getSelectedBoxElement(lineWidth, lineColor)
+      elementSelectionBoundary.render(ctx)
     }
   })
 
   // render center points
   centerPoints.forEach((id) => {
-    const module = this.editor.elementManager.all.get(id)
-    const {cx, cy, rotation, layer} = (module as ElementRectangle).toMinimalJSON()
+    const element = this.editor.elementManager.all.get(id)
+    const {cx, cy, rotation, layer} = (element as ElementRectangle).toMinimalJSON()
     const lineWidth = 1 / this.scale * this.dpr
-    const highlightModule = module!.getHighlightModule(lineWidth, fillColor) as ElementInstance
+    const highlightElement = element!.getHighlightElement(lineWidth, fillColor) as ElementInstance
     const centerDotRect = new ElementRectangle({
       cx: cx,
       cy: cy,
@@ -46,10 +46,10 @@ function selectionRender(this: World) {
       lineWidth,
       rotation,
       opacity: 100,
-      borderRadius: id === this.editor.interaction.hoveredModule ? centerPointWidth : 0,
+      borderRadius: id === this.editor.interaction.hoveredElement ? centerPointWidth : 0,
     })
 
-    highlightModule!.render(ctx)
+    highlightElement!.render(ctx)
     centerDotRect.render(ctx)
   })
 

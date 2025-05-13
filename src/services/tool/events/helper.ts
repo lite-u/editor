@@ -10,7 +10,7 @@ export function detectHoveredElement(this: ToolManager) {
     interaction.mouseMovePoint.y,
   )
   // const maxLayer = Number.MIN_SAFE_INTEGER
-  let moduleId: UID | null = null
+  let elementId: UID | null = null
   let hitOn = null
   const arr = [...interaction.operationHandlers]
   // console.log(worldPoint)
@@ -31,21 +31,21 @@ export function detectHoveredElement(this: ToolManager) {
   const arr2 = visible.values
 
   for (let i = arr2.length - 1; i >= 0; i--) {
-    const module = arr2[i]
-    const hitTest = module.hitTest(worldPoint)
+    const element = arr2[i]
+    const hitTest = element.hitTest(worldPoint)
     if (hitTest) {
-      moduleId = module.id
+      elementId = element.id
       break
     }
   }
 
-  if (interaction.hoveredModule !== moduleId) {
-    if (interaction.hoveredModule) {
-      action.dispatch('element-hover-leave', interaction.hoveredModule)
+  if (interaction.hoveredElement !== elementId) {
+    if (interaction.hoveredElement) {
+      action.dispatch('element-hover-leave', interaction.hoveredElement)
     }
 
-    if (moduleId) {
-      action.dispatch('element-hover-enter', moduleId)
+    if (elementId) {
+      action.dispatch('element-hover-enter', elementId)
     }
   }
 }
@@ -72,11 +72,11 @@ export function applyResize(this: ToolManager, altKey: boolean, shiftKey: boolea
     elementOrigin,
   }
 
-  const relatedModule = elementManager.all.get(id)
+  const relatedElement = elementManager.all.get(id)
 
-  if (relatedModule) {
+  if (relatedElement) {
     // @ts-ignore
-    const con = relatedModule.constructor as ElementInstance
+    const con = relatedElement.constructor as ElementInstance
     // console.log(resizeParam)
     // @ts-ignore
     return con.applyResizeTransform(resizeParam)

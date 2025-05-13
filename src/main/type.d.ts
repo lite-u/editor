@@ -4,7 +4,7 @@ import {EditorConfig} from './editor'
 import {ToolName} from '~/services/tool/toolManager'
 import {Point, VisionEditorAssetType} from '~/type'
 
-export type ModuleMoveDirection =
+export type ElementMoveDirection =
   'element-move-up' |
   'element-move-down' |
   'element-move-left' |
@@ -43,25 +43,25 @@ export interface SnapPointData extends Point {
 
 export type InitializedHandler = () => void;
 export type HistoryUpdatedHandler = (history: History) => void;
-export type ModulesUpdatedHandler = (elementMap: elementMap) => void;
+export type ElementsUpdatedHandler = (elementMap: elementMap) => void;
 export type SelectionUpdatedHandler = (selected: Set<UID>, selectedProps?: ElementProps) => void;
 export type ViewportUpdatedHandler = (viewportInfo: ViewportData) => void;
 export type WorldUpdatedHandler = (worldInfo: WorldInfo) => void;
 export type WorldMouseMoveUpdatedHandler = (point: Point) => void;
 export type ContextMenuHandler = (position: Point) => void;
-export type ModuleCopiedHandler = (ElementProps) => void;
+export type ElementCopiedHandler = (ElementProps) => void;
 export type SwitchToolHandler = (toolName: ToolName) => void;
 
 export declare type EventHandlers = {
   onInitialized?: InitializedHandler
   onHistoryUpdated?: HistoryUpdatedHandler
-  onModulesUpdated?: ModulesUpdatedHandler
+  onElementsUpdated?: ElementsUpdatedHandler
   onSelectionUpdated?: SelectionUpdatedHandler
   onViewportUpdated?: ViewportUpdatedHandler
   onWorldUpdated?: WorldUpdatedHandler
   onWorldMouseMove?: WorldMouseMoveUpdatedHandler
   onContextMenu?: ContextMenuHandler
-  onModuleCopied?: ModuleCopiedHandler
+  onElementCopied?: ElementCopiedHandler
   onSwitchTool?: SwitchToolHandler
 }
 

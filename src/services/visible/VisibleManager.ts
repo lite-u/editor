@@ -33,15 +33,15 @@ class VisibleManager {
     this.visibleElementMap.clear()
     // console.log(this.viewport.offset, this.viewport.worldRect)
     // Create an array from the Map, sort by the 'layer' property, and then add them to visibleelementMap
-    const sortedModules = (this.editor.elementManager.values)
-      .filter(module => {
-        const boundingRect = module.getBoundingRect() as BoundingRect
+    const sortedElements = (this.editor.elementManager.values)
+      .filter(element => {
+        const boundingRect = element.getBoundingRect() as BoundingRect
         return rectsOverlap(boundingRect, this.editor.world.worldRect)
       })
       .sort((a, b) => a.layer - b.layer)
     // console.log(this.editor.elementManager.all)
-    sortedModules.forEach(module => {
-      this.visibleElementMap.set(module.id, module)
+    sortedElements.forEach(element => {
+      this.visibleElementMap.set(element.id, element)
     })
   }
 
@@ -49,24 +49,24 @@ class VisibleManager {
     this.visibleSelected.clear()
     this.editor.interaction.operationHandlers.length = 0
 
-    this.getVisibleElementMap.forEach((module) => {
-      if (this.editor.selection.has(module.id)) {
-        this.visibleSelected.add(module.id)
+    this.getVisibleElementMap.forEach((element) => {
+      if (this.editor.selection.has(element.id)) {
+        this.visibleSelected.add(element.id)
       }
     })
 
-    const moduleProps = this.editor.selection.pickIfUnique
+    const elementProps = this.editor.selection.pickIfUnique
 
-    if (moduleProps) {
-      const module = this.editor.elementManager.all.get(moduleProps.id)
+    if (elementProps) {
+      const element = this.editor.elementManager.all.get(elementProps.id)
       const {scale, dpr} = this.editor.world
       const lineWidth = 1 / scale * dpr
       const resizeSize = 10 / scale * dpr
       const rotateSize = 15 / scale * dpr
       const lineColor = '#5491f8'
 
-      const operators = module!.getOperators(
-        module!.id,
+      const operators = element!.getOperators(
+        element!.id,
         {
           size: resizeSize,
           lineColor,

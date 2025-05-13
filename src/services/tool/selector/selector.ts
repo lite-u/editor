@@ -25,11 +25,11 @@ const selector: ToolType = {
       }
     }
 
-    const hoveredModule = interaction.hoveredModule
-    // console.log(hoveredModule)
+    const hoveredElement = interaction.hoveredElement
+    // console.log(hoveredElement)
     // Click on blank area and not doing multi-selection
-    if (!hoveredModule) {
-      // Determine clear selected modules
+    if (!hoveredElement) {
+      // Determine clear selected elements
       if (!modifyKey) {
         action.dispatch('selection-clear')
       }
@@ -41,34 +41,34 @@ const selector: ToolType = {
     interaction.manipulationStatus = 'dragging'
     const realSelected = selection.values
 
-    // this.draggingModules = new Set(this.selectedElements)
-    const isSelected = realSelected.has(hoveredModule)
+    // this.draggingElements = new Set(this.selectedElements)
+    const isSelected = realSelected.has(hoveredElement)
     // console.log(isSelected)
     if (realSelected.size === 0 || (!isSelected && !modifyKey)) {
       // Initial selection or replace selection without modifier key
       action.dispatch('selection-modify', {
         mode: 'replace',
-        idSet: new Set([hoveredModule]),
+        idSet: new Set([hoveredElement]),
       })
-      interaction.draggingModules = new Set([hoveredModule])
+      interaction.draggingElements = new Set([hoveredElement])
     } else if (modifyKey) {
-      interaction.draggingModules = new Set(realSelected)
+      interaction.draggingElements = new Set(realSelected)
 
       if (isSelected) {
         console.log('isSelected', isSelected)
-        interaction._deselection = hoveredModule
-        interaction.draggingModules.add(hoveredModule)
+        interaction._deselection = hoveredElement
+        interaction.draggingElements.add(hoveredElement)
       } else {
         // Add to existing selection
         action.dispatch('selection-modify', {
           mode: 'add',
-          idSet: new Set([hoveredModule]),
+          idSet: new Set([hoveredElement]),
         })
       }
-      interaction.draggingModules.add(hoveredModule)
+      interaction.draggingElements.add(hoveredElement)
     } else {
-      // Dragging already selected module(s)
-      interaction.draggingModules = new Set(realSelected)
+      // Dragging already selected element(s)
+      interaction.draggingElements = new Set(realSelected)
     }
   },
   move(this: ToolManager, e: PointerEvent) {
@@ -81,9 +81,9 @@ const selector: ToolType = {
       cursor,
     } = this.editor
     const {
-      draggingModules,
+      draggingElements,
       selectedShadow,
-      _selectingModules,
+      _selectingElements,
       mouseDownPoint,
       mouseMovePoint,
     } = interaction
@@ -111,7 +111,7 @@ const selector: ToolType = {
           }
         })
 
-        const selectingChanged = !areSetsEqual(_selectingModules, _selecting)
+        const selectingChanged = !areSetsEqual(_selectingElements, _selecting)
 
         interaction.updateSelectionBox(rect)
 
@@ -124,7 +124,7 @@ const selector: ToolType = {
          */
         if (!selectingChanged) return
 
-        interaction._selectingModules = _selecting
+        interaction._selectingElements = _selecting
 
         const SD = getSymmetricDifference(selectedShadow, _selecting)
 
@@ -217,7 +217,7 @@ const selector: ToolType = {
           MOVE_THROTTLE
 
         if (moved) {
-          if (draggingModules.size > 0) {
+          if (draggingElements.size > 0) {
             interaction.manipulationStatus = 'dragging'
           } else {
             interaction.manipulationStatus = 'selecting'
@@ -265,7 +265,7 @@ const selector: ToolType = {
 
       const {
         interaction,
-        // draggingModules,
+        // draggingElements,
         // manipulationStatus,
         elementManager,
         // container,
@@ -275,12 +275,12 @@ const selector: ToolType = {
         world,
       } = this.editor
       const {
-        draggingModules,
+        draggingElements,
         manipulationStatus,
         mouseDownPoint,
         mouseMovePoint,
         // elementManager,
-        _selectingModules,
+        _selectingElements,
         selectedShadow,
         // viewport,
       } = interaction
@@ -317,7 +317,7 @@ const selector: ToolType = {
             })
 
             // Move back to origin position and do the move again
-            draggingModules.forEach((id) => {
+            draggingElements.forEach((id) => {
               const ele = elementMap.get(id)
 
               if (ele) {
@@ -335,7 +335,7 @@ const selector: ToolType = {
 
             action.dispatch('element-modify', changes)
           } else {
-            const closestId = interaction.hoveredModule
+            const closestId = interaction.hoveredElement
 
             if (closestId && modifyKey && closestId === interaction._deselection) {
               action.dispatch('selection-modify', {
@@ -394,18 +394,18 @@ const selector: ToolType = {
           break
         case 'static':
           if (e.ctrlKey || e.metaKey || e.shiftKey) {
-            selection.toggle(draggingModules)
+            selection.toggle(draggingElements)
           } else {
-            selection.replace(draggingModules)
+            selection.replace(draggingElements)
           }
 
           break
       }
 
-      draggingModules.clear()
+      draggingElements.clear()
       selectedShadow.clear()
-      _selectingModules.clear()
-      _selectingModules.clear()
+      _selectingElements.clear()
+      _selectingElements.clear()
       interaction.manipulationStatus = 'static'
       interaction._deselection = null
       interaction._resizingOperator = null

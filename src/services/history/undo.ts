@@ -1,4 +1,4 @@
-import {HistoryModules} from './type'
+import {HistoryElements} from './type'
 import {extractIdSetFromArray} from './helpers'
 import {HistoryNode} from './DoublyLinkedList'
 import Editor from '../../main/editor'
@@ -10,7 +10,7 @@ export function undo(this: Editor, quiet: boolean = false): HistoryNode | false 
   const {type, payload} = this.history.current!.data
 
   // const {selectedElements} = payload
-  let modules: HistoryModules | null = null
+  let elements: HistoryElements | null = null
 
   switch (type) {
     case 'history-init':
@@ -19,7 +19,7 @@ export function undo(this: Editor, quiet: boolean = false): HistoryNode | false 
     case 'history-paste':
     case 'history-duplicate':
 
-      // delete modules from added
+      // delete elements from added
       this.elementManager.batchDelete(extractIdSetFromArray(payload.elements))
 
       break
@@ -53,9 +53,9 @@ export function undo(this: Editor, quiet: boolean = false): HistoryNode | false 
       break
 
     case 'history-delete':
-      modules = payload.elements
+      elements = payload.elements
 
-      this.elementManager.batchAdd(this.elementManager.batchCreate(modules!))
+      this.elementManager.batchAdd(this.elementManager.batchCreate(elements!))
 
       break
   }

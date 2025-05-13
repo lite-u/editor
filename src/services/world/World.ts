@@ -91,8 +91,8 @@ class World {
     )
   }
 
-  renderModules() {
-    // console.log('renderModules')
+  renderElements() {
+    // console.log('renderElements')
     const animate = () => {
       const {scale, dpr, mainCanvasContext: ctx} = this
       const frameBorder: RectangleProps = {
@@ -117,16 +117,16 @@ class World {
 
       new ElementRectangle(frameFill).render(ctx)
 
-      this.editor.visible.values.forEach((module) => {
-        module.render(ctx)
+      this.editor.visible.values.forEach((element) => {
+        element.render(ctx)
 
-        /*   if (module.type === 'image') {
-             const {asset} = module as ElementImage
+        /*   if (element.type === 'image') {
+             const {asset} = element as ElementImage
 
              const obj = this.editor.assetsManager.getAssetsObj(asset)
              // console.log(this.assetsManager, src)
              if (obj) {
-               (module as ElementImage).renderImage(ctx, obj.imageRef!)
+               (element as ElementImage).renderImage(ctx, obj.imageRef!)
              }
            }*/
       })

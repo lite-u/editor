@@ -31,10 +31,10 @@ class SelectionManager {
   public get pickIfUnique(): ElementProps | null {
     if (this.selected.size === 1) {
       const unique = [...this.selected.values()][0]
-      const module = this.editor.elementManager.all.get(unique)
+      const element = this.editor.elementManager.all.get(unique)
 
-      if (module) {
-        return module.toMinimalJSON()
+      if (element) {
+        return element.toMinimalJSON()
       }
 
       return null

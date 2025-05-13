@@ -64,9 +64,9 @@ const rectangleTool: ToolType = {
     const {scale, dpr} = world
     if (leftMouseClick) {
       const {
-        draggingModules,
+        draggingElements,
         manipulationStatus,
-        _selectingModules,
+        _selectingElements,
         selectedShadow,
       } = interaction
       const x = e.clientX - rect!.x
@@ -104,15 +104,15 @@ const rectangleTool: ToolType = {
             })
 
             // Move back to origin position and do the move again
-            draggingModules.forEach((id) => {
-              const module = elementManager.getElementById(id)
+            draggingElements.forEach((id) => {
+              const element = elementManager.getElementById(id)
 
-              if (module) {
+              if (element) {
                 const change: ElementModifyData = {
                   id,
                   props: {
-                    x: module.cx + x,
-                    y: module.cy + y,
+                    x: element.cx + x,
+                    y: element.cy + y,
                   },
                 }
 
@@ -122,7 +122,7 @@ const rectangleTool: ToolType = {
 
             action.dispatch('element-modify', changes)
           } else {
-            const closestId = interaction.hoveredModule
+            const closestId = interaction.hoveredElement
 
             if (closestId && modifyKey && closestId === interaction._deselection) {
               action.dispatch('selection-modify', {
@@ -181,18 +181,18 @@ const rectangleTool: ToolType = {
           break
         case 'static':
           if (e.ctrlKey || e.metaKey || e.shiftKey) {
-            selection.toggle(draggingModules)
+            selection.toggle(draggingElements)
           } else {
-            selection.replace(draggingModules)
+            selection.replace(draggingElements)
           }
 
           break
       }
 
-      draggingModules.clear()
+      draggingElements.clear()
       selectedShadow.clear()
-      _selectingModules.clear()
-      _selectingModules.clear()
+      _selectingElements.clear()
+      _selectingElements.clear()
       interaction.manipulationStatus = 'static'
       interaction._deselection = null
       interaction._resizingOperator = null

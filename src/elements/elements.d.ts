@@ -3,7 +3,7 @@ import ElementEllipse, {EllipseProps} from './ellipse/ellipse'
 import ElementImage, {ImageProps} from './image/image'
 import ElementText from '~/elements/text/text'
 
-export type ModuleTypeMap = {
+export type ElementTypeMap = {
   'rectangle': ElementRectangle
   'ellipse': ElementEllipse
 }
@@ -14,7 +14,7 @@ export type ElementPropsMap = {
 export type ElementProps = RectangleProps | EllipseProps | TextProps | ImageProps
 // type ElementPropsType<T extends keyof ElementPropsMap> = ElementPropsMap[T]
 export type PropsWithoutIdentifiers<T extends keyof ElementPropsMap> = Omit<ElementPropsMap[T], 'id' & 'layer'>
-export type ModuleNames = keyof ModuleTypeMap
+export type ElementNames = keyof ElementTypeMap
 export type ElementInstance =
   InstanceType<ElementRectangle>
   | InstanceType<ElementEllipse>

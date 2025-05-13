@@ -88,9 +88,9 @@ class Editor {
     this.action.execute(type, data)
   }
 
-  /*  public get getModulesInsideOfFrame(): ModuleInstance[] {
+  /*  public get getElementsInsideOfFrame(): ElementInstance[] {
       const arr = []
-      this.elementManager.all.forEach((module) => {
+      this.elementManager.all.forEach((element) => {
 
       })
     }*/

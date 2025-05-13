@@ -1,6 +1,6 @@
 import {SelectionActionMode} from '../selection/type'
 import {HistoryNode} from '~/services/history/DoublyLinkedList'
-// import {ModuleMoveDirection} from '../type'
+// import {ElementMoveDirection} from '../type'
 import {HistoryOperation} from '~/services/history/type'
 import {ElementProps, ElementPropsWithoutIdentifiers} from '~/elements/elements'
 import {VisionEditorAssetType} from '~/services/assets/AssetsManager'
@@ -17,7 +17,7 @@ export type VisionEventData<T extends VisionEventType> = VisionEventMap[T];
 
 export type ElementMoveData = {
   idSet?: Set<UID>;
-  // direction: ModuleMoveDirection;
+  // direction: ElementMoveDirection;
   delta: Point;
 };
 
@@ -29,7 +29,7 @@ export type PropChange<T> = {
   to: T
 }
 
-/*export type ModuleChangeProps = {
+/*export type ElementChangeProps = {
   [K in keyof ElementProps]?: PropChange<ElementProps[K]> | PropMoveOffset
 }*/
 export type HistoryChangeItem = {
@@ -113,7 +113,7 @@ const forwardEventDependencyMap: Record<VisionEventType, VisionEventType[]> = {
   'render-selection': [],
   'element-hover-enter': ['visible-selection-updated'],
   'element-hover-leave': ['visible-selection-updated'],
-  /* modules */
+  /* elements */
   'element-add': ['element-updated'],
   'element-delete': ['element-updated'],
   'element-move': ['element-updated'],

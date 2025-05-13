@@ -18,12 +18,12 @@ class InteractionState {
   editor: Editor
   mouseDownPoint: Point = {x: 0, y: 0}
   mouseMovePoint: Point = {x: 0, y: 0}
-  hoveredModule: UID = ''
+  hoveredElement: UID = ''
   readonly operationHandlers: OperationHandlers[] = []
   spaceKeyDown = false
   _snapped = false
-  draggingModules: Set<UID> = new Set()
-  _selectingModules: Set<UID> = new Set()
+  draggingElements: Set<UID> = new Set()
+  _selectingElements: Set<UID> = new Set()
   _deselection: UID | null = null
   _resizingOperator: ResizeHandler | null = null
   _rotatingOperator: OperationHandlers | null = null

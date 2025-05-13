@@ -18,7 +18,7 @@ export function redo(this: Editor, quiet: boolean = false): HistoryNode | false 
     case 'history-paste':
     case 'history-duplicate':
 
-      // delete modules from added
+      // delete elements from added
       this.elementManager.batchAdd(this.elementManager.batchCreate(payload.elements))
 
       break

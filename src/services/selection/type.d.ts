@@ -40,7 +40,7 @@ export interface OperationHandler {
   id: string;
   type: HandlerType
   /*
-  * elementOrigin is a detailed representation of the corresponding module instance.
+  * elementOrigin is a detailed representation of the corresponding element instance.
   * */
   elementOrigin: ElementProps
   element: ElementInstance
