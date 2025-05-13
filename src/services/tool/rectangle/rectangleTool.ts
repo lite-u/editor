@@ -8,16 +8,15 @@ const rectangleTool: ToolType = {
     const {
       elementManager, interaction, action, selection,
     } = this.editor
-    const {x, y} = interaction.mouseCurrent
-    const {x: cx, y: cy} = this.editor.world.getWorldPointByViewportPoint(x, y)
+    const {x, y} = this.editor.interaction.mouseWorldCurrent
     const width = 2
     const height = 2
     // this._resizingOperator = operator
     const id = 'rectangle-' + nid()
     const rectProps: RectangleProps = {
       type: 'rectangle',
-      cx: cx - width / 2,
-      cy: cy - height / 2,
+      cx: x - width / 2,
+      cy: y - height / 2,
       width,
       height,
       id,
