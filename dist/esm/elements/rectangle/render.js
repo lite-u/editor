@@ -1,5 +1,5 @@
 function render(rect, ctx) {
-    let { cx, cy, width, height, rotation, opacity, fillColor, lineWidth, lineColor, dashLine, radius } = rect.toJSON();
+    let { cx, cy, width, height, rotation, opacity, fillColor, lineWidth, lineColor, dashLine, borderRadius } = rect.toJSON();
     // x = Math.round(x)
     // y = Math.round(y)
     // width = Math.round(width)
@@ -32,13 +32,13 @@ function render(rect, ctx) {
     if (dashLine) {
         ctx.setLineDash([3, 5]);
     }
-    if (radius > 0) {
+    if (borderRadius > 0) {
         // Use arcTo for rounded corners
-        ctx.moveTo(-LocalX + radius, -LocalY);
-        ctx.arcTo(LocalX, -LocalY, LocalX, LocalY, radius);
-        ctx.arcTo(LocalX, LocalY, -LocalX, LocalY, radius);
-        ctx.arcTo(-LocalX, LocalY, -LocalX, -LocalY, radius);
-        ctx.arcTo(-LocalX, -LocalY, LocalX, -LocalY, radius);
+        ctx.moveTo(-LocalX + borderRadius, -LocalY);
+        ctx.arcTo(LocalX, -LocalY, LocalX, LocalY, borderRadius);
+        ctx.arcTo(LocalX, LocalY, -LocalX, LocalY, borderRadius);
+        ctx.arcTo(-LocalX, LocalY, -LocalX, -LocalY, borderRadius);
+        ctx.arcTo(-LocalX, -LocalY, LocalX, -LocalY, borderRadius);
     }
     else {
         // For square/rectangular modules with no rounded corners

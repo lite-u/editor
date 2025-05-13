@@ -20,32 +20,32 @@ class Base {
     toJSON() {
         const { stroke, fill, opacity, shadow, rotation, transform, } = this;
         return {
-            stroke,
-            fill,
-            opacity,
-            shadow,
-            rotation,
-            transform,
+            stroke: deepClone(stroke),
+            fill: deepClone(fill),
+            opacity: opacity,
+            shadow: deepClone(shadow),
+            rotation: rotation,
+            transform: deepClone(transform),
         };
     }
     toMinimalJSON() {
         const result = {};
-        if (isEqual(this.stroke, DEFAULT_STROKE)) {
+        if (!isEqual(this.stroke, DEFAULT_STROKE)) {
             result.stroke = deepClone(this.stroke);
         }
-        if (isEqual(this.fill, DEFAULT_FILL)) {
+        if (!isEqual(this.fill, DEFAULT_FILL)) {
             result.fill = deepClone(this.fill);
         }
-        if (isEqual(this.opacity, DEFAULT_OPACITY)) {
+        if (!isEqual(this.opacity, DEFAULT_OPACITY)) {
             result.opacity = this.opacity;
         }
-        if (isEqual(this.shadow, DEFAULT_SHADOW)) {
+        if (!isEqual(this.shadow, DEFAULT_SHADOW)) {
             result.shadow = deepClone(this.shadow);
         }
-        if (isEqual(this.rotation, DEFAULT_ROTATION)) {
+        if (!isEqual(this.rotation, DEFAULT_ROTATION)) {
             result.rotation = this.rotation;
         }
-        if (isEqual(this.transform, DEFAULT_TRANSFORM)) {
+        if (!isEqual(this.transform, DEFAULT_TRANSFORM)) {
             result.transform = deepClone(this.transform);
         }
         return result;

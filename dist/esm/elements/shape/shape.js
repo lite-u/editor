@@ -2,10 +2,9 @@ import Base from '../base/base.js';
 import { HANDLER_OFFSETS } from '../handleBasics.js';
 import ElementRectangle from '../rectangle/rectangle.js';
 import { rotatePointAroundPoint } from '../../core/geometry.js';
-import { DEFAULT_GRADIENT } from '../defaultProps.js';
+import { DEFAULT_CX, DEFAULT_CY, DEFAULT_GRADIENT } from '../defaultProps.js';
 import { isEqual } from '../../lib/lib.js';
-const DEFAULT_CX = 0;
-const DEFAULT_CY = 0;
+import deepClone from '../../core/deepClone.js';
 class Shape extends Base {
     cx;
     cy;
@@ -22,33 +21,21 @@ class Shape extends Base {
             ...super.toJSON(),
             cx,
             cy,
-            gradient,
+            gradient: deepClone(gradient),
         };
     }
     toMinimalJSON() {
         const result = {
             ...super.toMinimalJSON(),
         };
-        if (this.cx === DEFAULT_CX) {
+        if (this.cx !== DEFAULT_CX) {
             result.cx = this.cx;
         }
-        if (this.cy === DEFAULT_CY) {
+        if (this.cy !== DEFAULT_CY) {
             result.cy = this.cy;
         }
         if (!isEqual(this.gradient, DEFAULT_GRADIENT)) {
-            result.enableGradient = this.enableGradient;
-        }
-        if (this.gradient === DEFAULT_GRADIENT) {
-            result.gradient = this.gradient;
-        }
-        if (this.enableFill === DEFAULT_ENABLE_FILL) {
-            result.enableFill = this.enableFill;
-        }
-        if (this.fillColor === DEFAULT_FILL_COLOR) {
-            result.fillColor = this.fillColor;
-        }
-        if (this.dashLine === DEFAULT_DASH_LINE) {
-            result.dashLine = this.dashLine;
+            result.gradient = deepClone(this.gradient);
         }
         return result;
     }
@@ -84,7 +71,10 @@ class Shape extends Base {
                 currentElementProps.cy = rotated.y;
                 currentElementProps.width = resizeConfig.size;
                 currentElementProps.height = resizeConfig.size;
-                currentElementProps.lineWidth = resizeConfig.lineWidth;
+                currentElementProps.stroke = {
+                    weight,
+                };
+                currentElementProps.stroke.weight = resizeConfig.stroke?.weight;
                 currentElementProps.lineColor = resizeConfig.lineColor;
                 currentElementProps.fillColor = resizeConfig.fillColor;
             }

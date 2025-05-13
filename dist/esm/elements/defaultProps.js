@@ -1,3 +1,8 @@
+export const DEFAULT_CX = 0;
+export const DEFAULT_CY = 0;
+export const DEFAULT_WIDTH = 10;
+export const DEFAULT_HEIGHT = 10;
+export const DEFAULT_BORDER_RADIUS = [0];
 export const DEFAULT_POINT = {
     x: 0,
     y: 0,

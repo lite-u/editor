@@ -16,11 +16,10 @@ declare class ElementImage extends RectangleLike {
         layer: number;
         width?: number;
         height?: number;
-        radius?: number;
+        borderRadius?: import("../props").BorderRadius;
         cx?: number;
         cy?: number;
-        enableGradient?: boolean;
-        gradient?: string;
+        gradient?: import("../props").Gradient;
         stroke?: import("../props").Stroke;
         fill?: import("../props").Fill;
         opacity?: number;

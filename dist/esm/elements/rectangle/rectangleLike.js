@@ -3,22 +3,21 @@ import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } fro
 import render from './render.js';
 import transform from './transform.js';
 import ElementRectangle from './rectangle.js';
-const DEFAULT_WIDTH = 10;
-const DEFAULT_HEIGHT = 10;
-const DEFAULT_RADIUS = 0;
+import { DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../defaultProps.js';
+import { isEqual } from '../../lib/lib.js';
 class RectangleLike extends Shape {
     id;
     layer;
     width;
     height;
-    radius;
-    constructor({ id, layer, width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, radius = DEFAULT_RADIUS, ...rest }) {
+    borderRadius;
+    constructor({ id, layer, width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, borderRadius = DEFAULT_BORDER_RADIUS, ...rest }) {
         super(rest);
         this.id = id;
         this.layer = layer;
         this.width = width;
         this.height = height;
-        this.radius = radius;
+        this.borderRadius = borderRadius;
     }
     static applyResizeTransform = (arg) => {
         return transform(arg);
@@ -51,12 +50,12 @@ class RectangleLike extends Shape {
         return null;
     }
     toJSON() {
-        const { radius, width, height, id, layer, } = this;
+        const { borderRadius, width, height, id, layer, } = this;
         return {
             ...super.toJSON(),
             id,
             layer,
-            radius,
+            borderRadius: [...borderRadius],
             width,
             height,
         };
@@ -67,8 +66,8 @@ class RectangleLike extends Shape {
             id: this.id,
             layer: this.layer,
         };
-        if (this.radius !== DEFAULT_RADIUS) {
-            result.radius = this.radius;
+        if (!isEqual(this.borderRadius, DEFAULT_BORDER_RADIUS)) {
+            result.borderRadius = [...this.borderRadius];
         }
         if (this.width !== DEFAULT_WIDTH) {
             result.width = this.width;
