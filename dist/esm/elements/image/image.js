@@ -1,29 +1,29 @@
 import render from './render.js';
 import RectangleLike from '../rectangle/rectangleLike.js';
-const DEFAULT_SRC = '';
+import deepClone from '../../core/deepClone.js';
 class ElementImage extends RectangleLike {
     type = 'image';
-    src;
-    constructor({ src = DEFAULT_SRC, ...rest }) {
+    asset;
+    constructor({ asset, ...rest }) {
         super(rest);
-        this.src = src;
+        this.asset = asset;
     }
     toJSON() {
         return {
-            src: this.src,
-            type: this.type,
             ...super.toJSON(),
+            asset: deepClone(this.asset),
+            type: this.type,
         };
     }
     toMinimalJSON() {
         return {
             ...super.toMinimalJSON(),
-            src: this.src,
+            asset: deepClone(this.asset),
             type: this.type,
         };
     }
-    renderImage(ctx, img) {
-        render.call(this, ctx, img);
+    render(ctx) {
+        render.call(this, ctx);
     }
 }
 export default ElementImage;

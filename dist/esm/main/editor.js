@@ -85,13 +85,13 @@ class Editor {
         };
         this.elementManager.all.forEach((module) => {
             if (module.type === 'image') {
-                const { src } = module;
-                if (!src)
+                const { asset } = module;
+                if (!asset)
                     return;
-                const r = this.assetsManager.getAssetsObj(src);
+                const r = this.assetsManager.getAssetsObj(asset);
                 if (r) {
-                    if (!assetSet.has(src)) {
-                        assetSet.add(src);
+                    if (!assetSet.has(asset)) {
+                        assetSet.add(asset);
                         result.assets.push(r);
                     }
                     console.log(result.assets);

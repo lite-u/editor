@@ -1,31 +1,24 @@
 import RectangleLike, { RectangleLikeProps } from '../rectangle/rectangleLike';
+import { Fill, Stroke, TextFontProps, TextRun } from '~/elements/props';
 export interface TextProps extends RectangleLikeProps {
     type?: 'text';
-    textColor?: string;
-    content?: string;
-    font?: string;
-    fontSize?: number;
-    alignment?: string;
-    fontWeight?: number;
-    italics?: boolean;
-    underlines?: boolean;
-    throughLine?: boolean;
-    lineHeight?: number;
+    content: TextRun[];
+    font?: TextFontProps;
+    fill?: Fill;
+    stroke: Stroke;
+    verticalAlign: 'left' | 'center' | 'right';
+    horizontalAlign: 'top' | 'middle' | 'bottom';
 }
 export type RequiredTextProps = Required<TextProps>;
 declare class ElementText extends RectangleLike {
     readonly type = "text";
-    textColor: string;
-    content: string;
-    font: string;
-    fontSize: number;
-    alignment: string;
-    fontWeight: number;
-    italics: boolean;
-    underlines: boolean;
-    throughLine: boolean;
-    lineHeight: number;
-    constructor({ textColor, content, font, fontSize, alignment, fontWeight, italics, underlines, throughLine, lineHeight, ...rest }: TextProps);
+    content: TextRun[];
+    font?: TextFontProps;
+    fill?: Fill;
+    stroke: Stroke;
+    verticalAlign: 'left' | 'center' | 'right';
+    horizontalAlign: 'top' | 'middle' | 'bottom';
+    constructor({ content, text, font, ...rest }: TextProps);
     toJSON(): RequiredTextProps;
     toMinimalJSON(): TextProps;
     render(ctx: CanvasRenderingContext2D): void;

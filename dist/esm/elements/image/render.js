@@ -1,5 +1,6 @@
-function render(ctx, img) {
-    let { cx, cy, width, height, rotation, opacity } = this.toJSON();
+function render(ctx) {
+    let { cx, cy, asset, width, height, rotation, opacity } = this.toJSON();
+    const { img } = asset;
     // x = Math.round(x)
     // y = Math.round(y)
     // width = Math.round(width)

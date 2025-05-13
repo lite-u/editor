@@ -93,3 +93,23 @@ export type Asset = {
   name: string;
   img: HTMLImageElement;
 }
+
+export interface TextFontProps {
+  family?: string;
+  size?: number;
+  weight?: 'normal' | 'bold';
+  italic?: boolean;
+  underline?: boolean;
+  lineHeight?: number;
+  letterSpacing?: number;
+}
+
+export interface TextRun {
+  text: string;
+  font?: TextFontProps;
+  fill?: Fill;
+  stroke: Stroke
+}
+
+export type VerticalAlign = 'top' | 'middle' | 'bottom'
+export type HorizontalAlign = 'left' | 'center' | 'right'

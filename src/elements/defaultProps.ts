@@ -1,4 +1,15 @@
-import {AnchorPoint, Appearance, BorderRadius, Fill, Gradient, Point, Shadow, Stroke, Transform} from '~/elements/props'
+import {
+  AnchorPoint,
+  Appearance,
+  BorderRadius,
+  Fill,
+  TextFontProps,
+  Gradient,
+  Point,
+  Shadow,
+  Stroke,
+  Transform,
+} from '~/elements/props'
 
 export const DEFAULT_CX = 0
 export const DEFAULT_CY = 0
@@ -74,3 +85,13 @@ export const DEFAULT_GRADIENT: Gradient = {
 
 export const DEFAULT_OPACITY = 100
 export const DEFAULT_ROTATION = 0
+
+export const DEFAULT_FONT: TextFontProps = {
+  family: 'sans-serif',
+  size: 12,
+  weight: 'normal',
+  underline: false,
+  italic: false,
+  lineHeight: 1.2,
+  letterSpacing: 1,
+}

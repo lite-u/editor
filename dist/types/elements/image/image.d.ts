@@ -1,32 +1,16 @@
 import RectangleLike, { RectangleLikeProps } from '~/elements/rectangle/rectangleLike';
+import { Asset } from '~/elements/props';
 export interface ImageProps extends RectangleLikeProps {
     type?: 'image';
-    src?: string;
+    asset: Asset;
 }
 export type RequiredImageProps = Required<ImageProps>;
 declare class ElementImage extends RectangleLike {
     readonly type = "image";
-    src: string;
-    constructor({ src, ...rest }: ImageProps);
+    asset: Asset;
+    constructor({ asset, ...rest }: ImageProps);
     toJSON(): RequiredImageProps;
-    toMinimalJSON(): {
-        src: string;
-        type: string;
-        id: string;
-        layer: number;
-        width?: number;
-        height?: number;
-        borderRadius?: import("../props").BorderRadius;
-        cx?: number;
-        cy?: number;
-        gradient?: import("../props").Gradient;
-        stroke?: import("../props").Stroke;
-        fill?: import("../props").Fill;
-        opacity?: number;
-        shadow?: import("../props").Shadow;
-        rotation?: number;
-        transform?: import("../props").Transform;
-    };
-    renderImage(ctx: CanvasRenderingContext2D, img: HTMLImageElement): void;
+    toMinimalJSON(): ImageProps;
+    render(ctx: CanvasRenderingContext2D): void;
 }
 export default ElementImage;

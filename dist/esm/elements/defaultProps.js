@@ -62,3 +62,12 @@ export const DEFAULT_GRADIENT = {
 };
 export const DEFAULT_OPACITY = 100;
 export const DEFAULT_ROTATION = 0;
+export const DEFAULT_FONT = {
+    family: 'sans-serif',
+    size: 12,
+    weight: 'normal',
+    underline: false,
+    italic: false,
+    lineHeight: 1.2,
+    letterSpacing: 1,
+};

@@ -98,8 +98,8 @@ class World {
             this.editor.visible.values.forEach((module) => {
                 module.render(ctx);
                 if (module.type === 'image') {
-                    const { src } = module;
-                    const obj = this.editor.assetsManager.getAssetsObj(src);
+                    const { asset } = module;
+                    const obj = this.editor.assetsManager.getAssetsObj(asset);
                     // console.log(this.assetsManager, src)
                     if (obj) {
                         module.renderImage(ctx, obj.imageRef);

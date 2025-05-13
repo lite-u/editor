@@ -1,21 +1,8 @@
 import RectangleLike, {RectangleLikeProps} from '../rectangle/rectangleLike'
 import render from './render'
+import {Fill, Stroke, TextFontProps, TextRun} from '~/elements/props'
+import deepClone from '~/core/deepClone'
 
-export interface TextProps extends RectangleLikeProps {
-  type?: 'text'
-  textColor?: string
-  content?: string
-  font?: string
-  fontSize?: number
-  alignment?: string
-  fontWeight?: number
-  italics?: boolean
-  underlines?: boolean
-  throughLine?: boolean
-  lineHeight?: number
-}
-
-export type RequiredTextProps = Required<TextProps>
 
 const TEXT_COLOR = '#000000'
 const CONTENT = `
@@ -33,30 +20,33 @@ const DEFAULT_THROUGH_LINE = false
 const DEFAULT_LINE_HEIGHT = 1.2
 type Alignment = 'left' | 'center' | 'right';
 
+
+export interface TextProps extends RectangleLikeProps {
+  type?: 'text'
+  content: TextRun[];  // Array of styled fragments
+  font?: TextFontProps;
+  fill?: Fill;
+  stroke: Stroke
+  verticalAlign: 'left' | 'center' | 'right';
+  horizontalAlign: 'top' | 'middle' | 'bottom';
+}
+
+export type RequiredTextProps = Required<TextProps>
+
 class ElementText extends RectangleLike {
   readonly type = 'text'
-  textColor: string
-  content: string
-  font: string
-  fontSize: number
-  alignment: string
-  fontWeight: number
-  italics: boolean
-  underlines: boolean
-  throughLine: boolean
-  lineHeight: number
+  content: TextRun[];
+  font?: TextFontProps;
+  fill?: Fill;
+  stroke: Stroke
+  verticalAlign: 'left' | 'center' | 'right';
+  horizontalAlign: 'top' | 'middle' | 'bottom';
 
   constructor({
-                textColor = TEXT_COLOR,
-                content = CONTENT,
-                font = DEFAULT_FONT,
-                fontSize = DEFAULT_FONT_SIZE,
-                alignment = DEFAULT_ALIGNMENT,
-                fontWeight = DEFAULT_FONT_WEIGHT,
-                italics = DEFAULT_ITALICS,
-                underlines = DEFAULT_UNDERLINES,
-                throughLine = DEFAULT_THROUGH_LINE,
-                lineHeight = DEFAULT_LINE_HEIGHT,
+                content = [],
+                text = CONTENT,
+                font = deepClone(DEFAULT_FONT),
+
                 ...rest
               }: TextProps) {
     super({...rest})
