@@ -57,13 +57,6 @@ export type Transform = {
 // [topLeft,topRight,bottomRight,bottomLeft]| [repeat]
 export type BorderRadius = [number, number, number, number] | [number];
 
-export const DEFAULT_BORDER_RADIUS: BorderRadius = {
-  topLeft: 0,
-  topRight: 0,
-  bottomRight: 0,
-  bottomLeft: 0,
-}
-
 export type Appearance = {
   effects: string[]; // e.g., ["drop shadow", "outer glow"]
   multipleFills: boolean;

@@ -1,4 +1,6 @@
-import {AnchorPoint, Appearance, Fill, Gradient, Point, Shadow, Stroke, Transform} from '~/elements/props'
+import {AnchorPoint, Appearance, BorderRadius, Fill, Gradient, Point, Shadow, Stroke, Transform} from '~/elements/props'
+
+export const DEFAULT_BORDER_RADIUS: BorderRadius = [0]
 
 export const DEFAULT_POINT: Point = {
   x: 0,

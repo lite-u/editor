@@ -46,7 +46,7 @@ function selectionRender(this: World) {
       lineWidth,
       rotation,
       opacity: 100,
-      radius: id === this.editor.interaction.hoveredModule ? centerPointWidth : 0,
+      borderRadius: id === this.editor.interaction.hoveredModule ? centerPointWidth : 0,
     })
 
     highlightModule!.render(ctx)
