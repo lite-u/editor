@@ -24,6 +24,7 @@ declare class Base {
     protected toMinimalJSON(): ElementBaseProps;
     protected getBoundingRect(): BoundingRect;
     protected getTransformedPoints(): Point[];
+    protected getCenter(): Point;
     protected resetTransform(): void;
     protected applyTransform(matrix: DOMMatrix): void;
     protected getTransformMatrix(): DOMMatrix;

@@ -1,23 +1,12 @@
-import Base from '../base/base.js';
+import ElementBase from '../base/elementBase.js';
 import { HANDLER_OFFSETS } from '../handleBasics.js';
 import ElementRectangle from '../rectangle/rectangle.js';
 import { rotatePointAroundPoint } from '../../core/geometry.js';
-const DEFAULT_CX = 0;
-const DEFAULT_CY = 0;
-const DEFAULT_ENABLE_GRADIENT = false;
-const DEFAULT_GRADIENT = '';
-const DEFAULT_ENABLE_FILL = true;
-const DEFAULT_FILL_COLOR = '#fff';
-const DEFAULT_DASH_LINE = '';
-class Shape extends Base {
-    cx;
-    cy;
-    fillColor;
-    enableFill;
-    enableGradient;
-    gradient;
-    dashLine;
-    constructor({ cx = DEFAULT_CX, cy = DEFAULT_CY, enableGradient = DEFAULT_ENABLE_GRADIENT, gradient = DEFAULT_GRADIENT, enableFill = DEFAULT_ENABLE_FILL, fillColor = DEFAULT_FILL_COLOR, dashLine = DEFAULT_DASH_LINE, ...rest }) {
+import { BasePath } from '../basePath/basePath.js';
+class Path extends ElementBase {
+    type = 'path';
+    points;
+    constructor({ ...rest }) {
         super(rest);
         this.cx = cx;
         this.cy = cy;
@@ -135,4 +124,4 @@ class Shape extends Base {
             inner.bottom <= outer.bottom);
     }
 }
-export default Shape;
+export default BasePath;

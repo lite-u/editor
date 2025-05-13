@@ -24,7 +24,7 @@ export interface ElementBaseProps {
 
 export type RequiredBaseProps = Required<ElementBaseProps>
 
-class Base {
+class ElementBase {
   stroke: Stroke
   fill: Fill
   opacity: number
@@ -116,6 +116,10 @@ class Base {
     return []
   }
 
+  protected getCenter(): Point {
+    return {x: 0, y: 0}
+  }
+
   protected resetTransform() {
     this.matrix = new DOMMatrix()
   }
@@ -133,4 +137,4 @@ class Base {
   }
 }
 
-export default Base
+export default ElementBase

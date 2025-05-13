@@ -1,4 +1,4 @@
-import Base, { ElementBaseProps } from '../base/base';
+import ElementBase, { ElementBaseProps } from '../base/elementBase';
 import { OperationHandler } from '~/services/selection/type';
 import { BoundingRect } from '~/type';
 import { ElementProps } from '../type';
@@ -9,7 +9,7 @@ export interface ShapeProps extends ElementBaseProps {
     gradient?: Gradient;
 }
 export type RequiredShapeProps = Required<ShapeProps>;
-declare class Shape extends Base {
+declare class Shape extends ElementBase {
     cx: number;
     cy: number;
     gradient: Gradient;

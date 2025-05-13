@@ -1,6 +1,7 @@
 import {
   AnchorPoint,
   Appearance,
+  BezierPoint,
   BorderRadius,
   Fill,
   Gradient,
@@ -111,3 +112,10 @@ export const DEFAULT_FONT: TextFontProps = {
 
 export const DEFAULT_VERTICAL_ALIGN: VerticalAlign = 'top'
 export const DEFAULT_HORIZONTAL_ALIGN: HorizontalAlign = 'left'
+
+export const DEFAULT_BEZIER_POINT: BezierPoint = {
+  anchor: {x: 0, y: 0},
+  handleIn: {x: 0, y: 0},
+  handleOut: {x: 0, y: 0},
+  type: 'corner',
+}

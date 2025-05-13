@@ -1,4 +1,4 @@
-import Base, {ElementBaseProps} from '../base/base'
+import ElementBase, {ElementBaseProps} from '../base/elementBase'
 import {HANDLER_OFFSETS} from '../handleBasics'
 import {OperationHandler} from '~/services/selection/type'
 import ElementRectangle, {RectangleProps} from '../rectangle/rectangle'
@@ -18,7 +18,7 @@ export interface ShapeProps extends ElementBaseProps {
 
 export type RequiredShapeProps = Required<ShapeProps>
 
-class Shape extends Base {
+class Shape extends ElementBase {
   public cx: number
   public cy: number
   gradient: Gradient

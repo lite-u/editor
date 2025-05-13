@@ -27,17 +27,51 @@ class RectangleLike extends Shape {
             height,
         };
     }
-    getCorners() {
-        const { cx, cy, width, height } = this.original;
-        const x = cx + width / 2;
-        const y = cy + height / 2;
+    get center() {
+        return { x: this.cx, y: this.cy };
+    }
+    get corners() {
+        const w = this.width / 2;
+        const h = this.height / 2;
         return [
-            { x, y },
-            { x: x + width, y: y + height },
-            { x: x + width, y: y },
-            { x: x + width, y: y + height },
-            { x: x, y: y + height },
+            { x: this.cx - w, y: this.cy - h }, // top-left
+            { x: this.cx + w, y: this.cy - h }, // top-right
+            { x: this.cx + w, y: this.cy + h }, // bottom-right
+            { x: this.cx - w, y: this.cy + h } // bottom-left
         ];
+    }
+    applyMatrix(matrix) {
+        const points = this.corners.map(p => {
+            const r = matrix.transformPoint(p);
+            return { x: r.x, y: r.y };
+        });
+        // Recalculate x, y, width, height from transformed corners
+        const xs = points.map(p => p.x);
+        const ys = points.map(p => p.y);
+        this.x = Math.min(...xs);
+        this.y = Math.min(...ys);
+        this.width = Math.max(...xs) - this.x;
+        this.height = Math.max(...ys) - this.y;
+    }
+    translate(dx, dy) {
+        const matrix = new DOMMatrix().translate(dx, dy);
+        this.applyMatrix(matrix);
+    }
+    rotate(angle, center) {
+        const pivot = center ?? this.center;
+        const matrix = new DOMMatrix()
+            .translate(pivot.x, pivot.y)
+            .rotate(angle)
+            .translate(-pivot.x, -pivot.y);
+        this.applyMatrix(matrix);
+    }
+    scale(sx, sy, pivot) {
+        const center = pivot ?? this.center;
+        const m = new DOMMatrix()
+            .translate(center.x, center.y)
+            .scale(sx, sy)
+            .translate(-center.x, -center.y);
+        this.applyTransform(m);
     }
     getTransformedPoints() {
         // const {cx, cy, width, height} = this.original

@@ -63,6 +63,9 @@ class Base {
     getTransformedPoints() {
         return [];
     }
+    getCenter() {
+        return { x: 0, y: 0 };
+    }
     resetTransform() {
         this.matrix = new DOMMatrix();
     }

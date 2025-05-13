@@ -20,7 +20,12 @@ declare class RectangleLike extends Shape {
     borderRadius: BorderRadius;
     private original;
     constructor({ id, layer, width, height, borderRadius, ...rest }: RectangleLikeProps);
-    getCorners(): Point[];
+    protected get center(): Point;
+    protected get corners(): Point[];
+    applyMatrix(matrix: DOMMatrix): void;
+    translate(dx: number, dy: number): void;
+    rotate(angle: number, center?: Point): void;
+    scale(sx: number, sy: number, pivot?: Point): void;
     getTransformedPoints(): Point[];
     static applyResizeTransform: (arg: TransformProps) => Rect;
     hitTest(point: Point, borderPadding?: number): 'inside' | 'border' | null;

@@ -114,3 +114,10 @@ export interface TextRun {
 
 export type VerticalAlign = 'top' | 'middle' | 'bottom'
 export type HorizontalAlign = 'left' | 'center' | 'right'
+
+export type BezierPoint = {
+  anchor: Point;
+  handleIn: Point | null;
+  handleOut: Point | null;
+  type?: 'corner' | 'smooth' | 'symmetric';
+};

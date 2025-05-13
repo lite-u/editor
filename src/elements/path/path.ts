@@ -1,67 +1,28 @@
-import Base, {ElementBaseProps} from '../base/base'
+import ElementBase, {ElementBaseProps} from '../base/elementBase'
 import {HANDLER_OFFSETS} from '../handleBasics'
 import {OperationHandler} from '~/services/selection/type'
 import ElementRectangle, {RectangleProps} from '../rectangle/rectangle'
-import {ElementFillColor} from '~/core/core'
-import {BoundingRect} from '~/type'
+import {BoundingRect, Point} from '~/type'
 import {ElementProps} from '../type'
 import {rotatePointAroundPoint} from '~/core/geometry'
-import {AnchorPoint, Appearance, BlendMode, Fill, Stroke, Transform} from '~/elements/defaultProps'
-
-export type Path = {
-  id: string;
-
-};
+import {AnchorPoint, Appearance, Fill, Stroke, Transform} from '~/elements/defaultProps'
+import {BasePath} from '~/elements/basePath/basePath'
 
 export interface PathProps extends ElementBaseProps {
-  // cx?: number
-  // cy?: number
-  // enableGradient?: boolean
-  // gradient?: string
-  // enableFill?: boolean
-  // fillColor?: ElementFillColor
-  // dashLine?: string
-//
+  type: 'path'
+  points: Point[];
   closed: boolean;
-  anchorPoints: AnchorPoint[];
-  stroke: Stroke;
-  fill: Fill;
-  opacity: number;
-  blendMode: BlendMode;
-  transform: Transform;
-  appearance: Appearance;
   layer: string;
   group: string | null;
-  visible: boolean;
 }
 
 export type RequiredShapeProps = Required<PathProps>
 
-const DEFAULT_CX = 0
-const DEFAULT_CY = 0
-const DEFAULT_ENABLE_GRADIENT = false
-const DEFAULT_GRADIENT = ''
-const DEFAULT_ENABLE_FILL = true
-const DEFAULT_FILL_COLOR = '#fff'
-const DEFAULT_DASH_LINE = ''
-
-class Shape extends Base {
-  public cx: number
-  public cy: number
-  readonly fillColor: ElementFillColor
-  readonly enableFill: boolean
-  enableGradient: boolean
-  gradient: string
-  dashLine: string
+class Path extends ElementBase implements BasePath {
+  readonly type = 'path'
+  private points: Point[]
 
   constructor({
-                cx = DEFAULT_CX,
-                cy = DEFAULT_CY,
-                enableGradient = DEFAULT_ENABLE_GRADIENT,
-                gradient = DEFAULT_GRADIENT,
-                enableFill = DEFAULT_ENABLE_FILL,
-                fillColor = DEFAULT_FILL_COLOR,
-                dashLine = DEFAULT_DASH_LINE,
                 ...rest
               }: PathProps) {
     super(rest)
@@ -226,4 +187,4 @@ class Shape extends Base {
   }
 }
 
-export default Shape
+export default BasePath

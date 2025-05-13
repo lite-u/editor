@@ -1,11 +1,11 @@
-import Base from '../base/base.js';
+import ElementBase from '../base/elementBase.js';
 import { HANDLER_OFFSETS } from '../handleBasics.js';
 import ElementRectangle from '../rectangle/rectangle.js';
 import { rotatePointAroundPoint } from '../../core/geometry.js';
 import { DEFAULT_CX, DEFAULT_CY, DEFAULT_GRADIENT, DEFAULT_STROKE } from '../defaultProps.js';
 import { isEqual } from '../../lib/lib.js';
 import deepClone from '../../core/deepClone.js';
-class Shape extends Base {
+class Shape extends ElementBase {
     cx;
     cy;
     gradient;
