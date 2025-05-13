@@ -1,5 +1,5 @@
 import {ResizeDirection} from '../../selection/type'
-import {Point} from '~/type'
+import {Point, UID} from '~/type'
 import {ElementInstance} from '~/elements/elements'
 import ToolManager from '~/services/tool/toolManager'
 
