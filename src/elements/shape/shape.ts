@@ -50,7 +50,7 @@ class Shape extends Base {
       ...super.toJSON(),
       cx,
       cy,
-      gradient,
+      gradient: deepClone(gradient),
     }
   }
 
@@ -117,7 +117,7 @@ class Shape extends Base {
         currentElementProps.width = resizeConfig.size
         currentElementProps.height = resizeConfig.size
         currentElementProps.stroke = {
-          weight
+          weight,
         }
         currentElementProps.stroke.weight = resizeConfig.stroke?.weight
         currentElementProps.lineColor = resizeConfig.lineColor
