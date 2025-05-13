@@ -1,5 +1,7 @@
 import render from './render'
 import RectangleLike, {RectangleLikeProps} from '~/elements/rectangle/rectangleLike'
+import {Asset} from '~/elements/props'
+import deepClone from '~/core/deepClone'
 
 export interface ImageProps extends RectangleLikeProps {
   type?: 'image'
@@ -23,16 +25,16 @@ class ElementImage extends RectangleLike {
 
   public toJSON(): RequiredImageProps {
     return {
-      asset: this.asset,
-      type: this.type,
       ...super.toJSON(),
+      asset: deepClone(this.asset),
+      type: this.type,
     }
   }
 
-  public toMinimalJSON() {
+  public toMinimalJSON(): ImageProps {
     return {
       ...super.toMinimalJSON(),
-      src: this.asset,
+      asset: deepClone(this.asset),
       type: this.type,
     }
   }
