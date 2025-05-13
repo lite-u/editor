@@ -89,7 +89,10 @@ class RectangleLike extends Shape {
       id,
       layer,
     } = this
+    if(!borderRadius){
+debugger
 
+    }
     return {
       ...super.toJSON(),
       id,

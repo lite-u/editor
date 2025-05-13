@@ -51,6 +51,9 @@ class RectangleLike extends Shape {
     }
     toJSON() {
         const { borderRadius, width, height, id, layer, } = this;
+        if (!borderRadius) {
+            debugger;
+        }
         return {
             ...super.toJSON(),
             id,

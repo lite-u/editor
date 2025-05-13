@@ -39,7 +39,7 @@ const rectangleTool: ToolType = {
     // console.log(newRect)
     this.editor.interaction.manipulationStatus = 'resizing'
     this.editor.action.dispatch('selection-clear')
-    // this.editor.action.dispatch('element-add',)
+    this.editor.action.dispatch('element-updated')
 
   },
   move(this: ToolManager, e: PointerEvent) {
