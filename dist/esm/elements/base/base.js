@@ -59,6 +59,9 @@ class Base {
     getBoundingRect() {
         return generateBoundingRectFromTwoPoints({ x: 0, y: 0 }, { x: 0, y: 0 });
     }
+    _toJSON() {
+        return this.toJSON();
+    }
     render(_ctx) {
         return undefined;
     }

@@ -14,14 +14,14 @@ export const generateHandles = (element: ElementInstance, ratio: number) => {
   const resizeSize = 10 / ratio
   const rotateSize = 15 / ratio
   const lineColor = '#5491f8'
-  const resizeConfig: RectangleProps = {
+  const resizeConfig: Partial<RectangleProps> = {
     width: resizeSize,
     height: resizeSize,
     fill: {...DEFAULT_FILL, color: '#ffffff', enabled: false},
     stroke: {...DEFAULT_STROKE, weight: lineWidth, color: lineColor},
   }
 
-  const rotateConfig: EllipseProps = {
+  const rotateConfig: Partial<EllipseProps> = {
     r1: rotateSize,
     r2: rotateSize,
     fill: {...DEFAULT_FILL, enabled: false},

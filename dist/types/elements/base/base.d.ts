@@ -22,6 +22,7 @@ declare class Base {
     protected toJSON(): RequiredBaseProps;
     protected toMinimalJSON(): ElementBaseProps;
     protected getBoundingRect(): BoundingRect;
+    protected _toJSON(): unknown;
     protected render(_ctx: CanvasRenderingContext2D): void;
 }
 export default Base;
