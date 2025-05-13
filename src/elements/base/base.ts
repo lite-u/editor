@@ -58,12 +58,12 @@ class Base {
     } = this
 
     return {
-      stroke,
-      fill,
-      opacity,
-      shadow,
-      rotation,
-      transform,
+      stroke: deepClone(stroke),
+      fill: deepClone(fill),
+      opacity: opacity,
+      shadow: deepClone(shadow),
+      rotation: rotation,
+      transform: deepClone(transform),
     }
   }
 
