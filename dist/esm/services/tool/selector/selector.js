@@ -1,6 +1,6 @@
 import { generateBoundingRectFromTwoPoints } from '../../../core/utils.js';
 import { areSetsEqual, getSymmetricDifference } from '../../../lib/lib.js';
-import { applyResize, detectHoveredModule, getResizeCursor, getRotateAngle } from '../events/helper.js';
+import { applyResize, detectHoveredElement, getResizeCursor, getRotateAngle } from '../events/helper.js';
 import { applyRotating } from '../helper.js';
 const selector = {
     cursor: 'default',
@@ -8,7 +8,7 @@ const selector = {
         const { interaction, action, selection, cursor } = this.editor;
         const { shiftKey, metaKey, ctrlKey } = e;
         const modifyKey = ctrlKey || metaKey || shiftKey;
-        const operator = detectHoveredModule.call(this);
+        const operator = detectHoveredElement.call(this);
         if (operator) {
             if (operator.type === 'resize') {
                 interaction._resizingOperator = operator;
@@ -19,11 +19,11 @@ const selector = {
                 return (interaction.manipulationStatus = 'rotating');
             }
         }
-        const hoveredModule = interaction.hoveredModule;
-        // console.log(hoveredModule)
+        const hoveredElement = interaction.hoveredElement;
+        // console.log(hoveredElement)
         // Click on blank area and not doing multi-selection
-        if (!hoveredModule) {
-            // Determine clear selected modules
+        if (!hoveredElement) {
+            // Determine clear selected elements
             if (!modifyKey) {
                 action.dispatch('selection-clear');
             }
@@ -33,41 +33,41 @@ const selector = {
         }
         interaction.manipulationStatus = 'dragging';
         const realSelected = selection.values;
-        // this.draggingModules = new Set(this.selectedModules)
-        const isSelected = realSelected.has(hoveredModule);
+        // this.draggingElements = new Set(this.selectedElements)
+        const isSelected = realSelected.has(hoveredElement);
         // console.log(isSelected)
         if (realSelected.size === 0 || (!isSelected && !modifyKey)) {
             // Initial selection or replace selection without modifier key
             action.dispatch('selection-modify', {
                 mode: 'replace',
-                idSet: new Set([hoveredModule]),
+                idSet: new Set([hoveredElement]),
             });
-            interaction.draggingModules = new Set([hoveredModule]);
+            interaction.draggingElements = new Set([hoveredElement]);
         }
         else if (modifyKey) {
-            interaction.draggingModules = new Set(realSelected);
+            interaction.draggingElements = new Set(realSelected);
             if (isSelected) {
                 console.log('isSelected', isSelected);
-                interaction._deselection = hoveredModule;
-                interaction.draggingModules.add(hoveredModule);
+                interaction._deselection = hoveredElement;
+                interaction.draggingElements.add(hoveredElement);
             }
             else {
                 // Add to existing selection
                 action.dispatch('selection-modify', {
                     mode: 'add',
-                    idSet: new Set([hoveredModule]),
+                    idSet: new Set([hoveredElement]),
                 });
             }
-            interaction.draggingModules.add(hoveredModule);
+            interaction.draggingElements.add(hoveredElement);
         }
         else {
-            // Dragging already selected module(s)
-            interaction.draggingModules = new Set(realSelected);
+            // Dragging already selected element(s)
+            interaction.draggingElements = new Set(realSelected);
         }
     },
     move(e) {
         const { action, container, world, interaction, elementManager, cursor, } = this.editor;
-        const { draggingModules, selectedShadow, _selectingModules, mouseDownPoint, mouseMovePoint, } = interaction;
+        const { draggingElements, selectedShadow, _selectingElements, mouseDownPoint, mouseMovePoint, } = interaction;
         switch (interaction.manipulationStatus) {
             case 'selecting':
                 {
@@ -78,12 +78,12 @@ const selector = {
                     const virtualSelectionRect = generateBoundingRectFromTwoPoints(pointA, pointB);
                     const _selecting = new Set();
                     const modifyKey = e.ctrlKey || e.metaKey || e.shiftKey;
-                    elementManager.all.forEach((module) => {
-                        if (module.isInsideRect(virtualSelectionRect)) {
-                            _selecting.add(module.id);
+                    elementManager.all.forEach((ele) => {
+                        if (ele.isInsideRect(virtualSelectionRect)) {
+                            _selecting.add(ele.id);
                         }
                     });
-                    const selectingChanged = !areSetsEqual(_selectingModules, _selecting);
+                    const selectingChanged = !areSetsEqual(_selectingElements, _selecting);
                     interaction.updateSelectionBox(rect);
                     /**
                      * Simple logic
@@ -94,7 +94,7 @@ const selector = {
                      */
                     if (!selectingChanged)
                         return;
-                    interaction._selectingModules = _selecting;
+                    interaction._selectingElements = _selecting;
                     const SD = getSymmetricDifference(selectedShadow, _selecting);
                     if (modifyKey) {
                         action.dispatch('selection-modify', {
@@ -143,7 +143,7 @@ const selector = {
                 {
                     container.setPointerCapture(e.pointerId);
                     const { altKey, shiftKey } = e;
-                    // const {x, y} = interaction._rotatingOperator!.moduleOrigin
+                    // const {x, y} = interaction._rotatingOperator!.elementOrigin
                     // const centerPoint = world.getViewPointByWorldPoint(x, y)
                     // const cursorDirection = getResizeDirection(centerPoint, interaction.mouseMovePoint)
                     const r = applyResize.call(this, altKey, shiftKey);
@@ -158,7 +158,7 @@ const selector = {
                 {
                     container.setPointerCapture(e.pointerId);
                     const { shiftKey } = e;
-                    const { x, y } = interaction._rotatingOperator.moduleOrigin;
+                    const { x, y } = interaction._rotatingOperator.elementOrigin;
                     const centerPoint = world.getViewPointByWorldPoint(x, y);
                     const rotation = applyRotating.call(this, shiftKey);
                     const cursorAngle = getRotateAngle(centerPoint, mouseMovePoint);
@@ -179,7 +179,7 @@ const selector = {
                         Math.abs(interaction.mouseMovePoint.y - mouseDownPoint.y) >
                             MOVE_THROTTLE;
                     if (moved) {
-                        if (draggingModules.size > 0) {
+                        if (draggingElements.size > 0) {
                             interaction.manipulationStatus = 'dragging';
                         }
                         else {
@@ -190,18 +190,18 @@ const selector = {
                 break;
             case 'static':
                 {
-                    const r = detectHoveredModule.call(this);
+                    const r = detectHoveredElement.call(this);
                     const { interaction } = this.editor;
                     if (r) {
                         if (r.type === 'rotate') {
-                            const centerPoint = world.getViewPointByWorldPoint(r.moduleOrigin.x, r.moduleOrigin.y);
+                            const centerPoint = world.getViewPointByWorldPoint(r.elementOrigin.x, r.elementOrigin.y);
                             const angle = getRotateAngle(centerPoint, mouseMovePoint);
                             cursor.set('rotate');
                             cursor.move(mouseMovePoint, angle);
                             // updateCursor.call(this, 'rotate', mouseMovePoint, angle)
                         }
                         else if (r.type === 'resize') {
-                            const { x, y } = r.moduleOrigin;
+                            const { x, y } = r.elementOrigin;
                             const centerPoint = world.getViewPointByWorldPoint(x, y);
                             const cursorDirection = getResizeCursor(interaction.mouseMovePoint, centerPoint);
                             cursor.set('resize', cursorDirection);
@@ -222,14 +222,14 @@ const selector = {
         const leftMouseClick = e.button === 0;
         if (leftMouseClick) {
             const { interaction, 
-            // draggingModules,
+            // draggingElements,
             // manipulationStatus,
             elementManager, 
             // container,
             action, selection, rect, world, } = this.editor;
-            const { draggingModules, manipulationStatus, mouseDownPoint, mouseMovePoint, 
+            const { draggingElements, manipulationStatus, mouseDownPoint, mouseMovePoint, 
             // elementManager,
-            _selectingModules, selectedShadow,
+            _selectingElements, selectedShadow,
             // viewport,
              } = interaction;
             const { dpr, scale } = world;
@@ -261,14 +261,14 @@ const selector = {
                                 data: { x: -x, y: -y },
                             });
                             // Move back to origin position and do the move again
-                            draggingModules.forEach((id) => {
-                                const module = elementMap.get(id);
-                                if (module) {
+                            draggingElements.forEach((id) => {
+                                const ele = elementMap.get(id);
+                                if (ele) {
                                     const change = {
                                         id,
                                         props: {
-                                            x: module.cx + x,
-                                            y: module.cy + y,
+                                            x: ele.cx + x,
+                                            y: ele.cy + y,
                                         },
                                     };
                                     changes.push(change);
@@ -277,7 +277,7 @@ const selector = {
                             action.dispatch('element-modify', changes);
                         }
                         else {
-                            const closestId = interaction.hoveredModule;
+                            const closestId = interaction.hoveredElement;
                             if (closestId && modifyKey && closestId === interaction._deselection) {
                                 action.dispatch('selection-modify', {
                                     mode: 'toggle',
@@ -291,10 +291,10 @@ const selector = {
                     {
                         const { altKey, shiftKey } = e;
                         const props = applyResize.call(this, altKey, shiftKey);
-                        const moduleOrigin = interaction._resizingOperator?.moduleOrigin;
+                        const elementOrigin = interaction._resizingOperator?.elementOrigin;
                         const rollbackProps = {};
                         Object.keys(props).forEach((key) => {
-                            rollbackProps[key] = moduleOrigin[key];
+                            rollbackProps[key] = elementOrigin[key];
                         });
                         // rotate back
                         action.dispatch('element-modifying', {
@@ -311,7 +311,7 @@ const selector = {
                     {
                         const { shiftKey } = e;
                         const newRotation = applyRotating.call(this, shiftKey);
-                        const { rotation } = interaction._rotatingOperator?.moduleOrigin;
+                        const { rotation } = interaction._rotatingOperator?.elementOrigin;
                         const rollbackProps = { rotation };
                         // rotate back
                         action.dispatch('element-modifying', {
@@ -329,17 +329,17 @@ const selector = {
                     break;
                 case 'static':
                     if (e.ctrlKey || e.metaKey || e.shiftKey) {
-                        selection.toggle(draggingModules);
+                        selection.toggle(draggingElements);
                     }
                     else {
-                        selection.replace(draggingModules);
+                        selection.replace(draggingElements);
                     }
                     break;
             }
-            draggingModules.clear();
+            draggingElements.clear();
             selectedShadow.clear();
-            _selectingModules.clear();
-            _selectingModules.clear();
+            _selectingElements.clear();
+            _selectingElements.clear();
             interaction.manipulationStatus = 'static';
             interaction._deselection = null;
             interaction._resizingOperator = null;

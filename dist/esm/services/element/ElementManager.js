@@ -93,8 +93,8 @@ class ElementManager {
         }
         return false;
     }
-    batchCreate(moduleDataList) {
-        const clonedData = deepClone(moduleDataList);
+    batchCreate(elementDataList) {
+        const clonedData = deepClone(elementDataList);
         const newMap = new Map();
         // let localMaxLayer = 0
         /*    if (isNaN(data.layer)) {
@@ -106,9 +106,9 @@ class ElementManager {
               data.layer = localMaxLayer
             }*/
         clonedData.forEach(data => {
-            const module = this.create(data);
-            if (module) {
-                newMap.set(data.id, module);
+            const element = this.create(data);
+            if (element) {
+                newMap.set(data.id, element);
             }
         });
         return newMap;
@@ -117,16 +117,16 @@ class ElementManager {
         this.elementMap.set(element.id, element);
         return element;
     }
-    batchAdd(modules, callback) {
-        modules.forEach(mod => {
+    batchAdd(elements, callback) {
+        elements.forEach(mod => {
             this.add(mod);
         });
         callback && callback();
         //       this.assetsManager.add('image', data.src)
-        // this.events.onModulesUpdated?.(this.elementMap)
+        // this.events.onElementsUpdated?.(this.elementMap)
         /* if (callback) {
            const pArr = []
-           modules.forEach(mod => {
+           elements.forEach(mod => {
              if (mod.type === 'image') {
                const {src} = mod as ElementImage
     
@@ -142,16 +142,16 @@ class ElementManager {
              callback(objs)
            })
          }*/
-        return modules;
+        return elements;
     }
     batchCopy(idSet, includeIdentifiers = true) {
-        // const modulesMap: ElementMap = new Map()
+        // const elementsMap: ElementMap = new Map()
         const elementArr = [];
         idSet.forEach(id => {
             const mod = this.elementMap.get(id);
             if (mod) {
                 elementArr.push(mod);
-                // modulesMap.set(id, mod)
+                // elementsMap.set(id, mod)
             }
         });
         elementArr.sort((a, b) => a.layer - b.layer);
@@ -165,26 +165,26 @@ class ElementManager {
     }
     batchDelete(idSet) {
         const backup = this.batchCopy(idSet);
-        backup.forEach(module => {
-            this.elementMap.delete(module.id);
+        backup.forEach(element => {
+            this.elementMap.delete(element.id);
         });
-        // this.events.onModulesUpdated?.(this.elementMap)
+        // this.events.onElementsUpdated?.(this.elementMap)
         return backup;
     }
     batchMove(from, delta) {
-        const modulesMap = this.getElementMapByIdSet(from);
-        modulesMap.forEach((module) => {
-            module.cx += delta.x;
-            module.cy += delta.y;
+        const elementsMap = this.getElementMapByIdSet(from);
+        elementsMap.forEach((element) => {
+            element.cx += delta.x;
+            element.cy += delta.y;
         });
     }
     batchModify(idSet, data) {
-        const modulesMap = this.getElementMapByIdSet(idSet);
-        modulesMap.forEach((module) => {
+        const elementsMap = this.getElementMapByIdSet(idSet);
+        elementsMap.forEach((element) => {
             Object.keys(data).forEach((key) => {
                 const keyName = key;
                 // @ts-ignore
-                module[keyName] = data[key];
+                element[keyName] = data[key];
             });
         });
     }

@@ -7,12 +7,12 @@ declare class InteractionState {
     editor: Editor;
     mouseDownPoint: Point;
     mouseMovePoint: Point;
-    hoveredModule: UID;
+    hoveredElement: UID;
     readonly operationHandlers: OperationHandlers[];
     spaceKeyDown: boolean;
     _snapped: boolean;
-    draggingModules: Set<UID>;
-    _selectingModules: Set<UID>;
+    draggingElements: Set<UID>;
+    _selectingElements: Set<UID>;
     _deselection: UID | null;
     _resizingOperator: ResizeHandler | null;
     _rotatingOperator: OperationHandlers | null;

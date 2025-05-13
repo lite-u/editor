@@ -66,9 +66,9 @@ class Editor {
         // @ts-ignore
         this.action.execute(type, data);
     }
-    /*  public get getModulesInsideOfFrame(): ModuleInstance[] {
+    /*  public get getElementsInsideOfFrame(): ElementInstance[] {
         const arr = []
-        this.elementManager.all.forEach((module) => {
+        this.elementManager.all.forEach((element) => {
   
         })
       }*/
@@ -83,9 +83,9 @@ class Editor {
             },
             assets: [],
         };
-        this.elementManager.all.forEach((module) => {
-            if (module.type === 'image') {
-                const { asset } = module;
+        this.elementManager.all.forEach((element) => {
+            if (element.type === 'image') {
+                const { asset } = element;
                 if (!asset)
                     return;
                 const r = this.assetsManager.getAssetsObj(asset);
@@ -97,7 +97,7 @@ class Editor {
                     console.log(result.assets);
                 }
             }
-            result.elements.push(module.toMinimalJSON());
+            result.elements.push(element.toMinimalJSON());
         });
         return result;
     }

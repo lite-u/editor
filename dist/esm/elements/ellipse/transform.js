@@ -1,6 +1,6 @@
 import { getResizeTransform } from '../../lib/lib.js';
-const transform = ({ downPoint, movePoint, moduleOrigin, rotation, handleName, scale, dpr, altKey = false, shiftKey = false, }) => {
-    const { r1, r2, cx: initialCX, cy: initialCY, } = moduleOrigin;
+const transform = ({ downPoint, movePoint, elementOrigin, rotation, handleName, scale, dpr, altKey = false, shiftKey = false, }) => {
+    const { r1, r2, cx: initialCX, cy: initialCY, } = elementOrigin;
     const initialWidth = r1 * 2;
     const initialHeight = r2 * 2;
     // Calculate raw movement in screen coordinates

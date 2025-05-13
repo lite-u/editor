@@ -27,7 +27,7 @@ declare class World {
         x: number;
         y: number;
     };
-    renderModules(): void;
+    renderElements(): void;
     renderSelections(): void;
     destroy(): void;
 }

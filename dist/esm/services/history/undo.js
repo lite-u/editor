@@ -3,16 +3,16 @@ export function undo(quiet = false) {
     if (this.history.current === this.history.head)
         return false;
     const { type, payload } = this.history.current.data;
-    // const {selectedModules} = payload
-    let modules = null;
+    // const {selectedElements} = payload
+    let elements = null;
     switch (type) {
         case 'history-init':
             break;
         case 'history-add':
         case 'history-paste':
         case 'history-duplicate':
-            // delete modules from added
-            this.elementManager.batchDelete(extractIdSetFromArray(payload.modules));
+            // delete elements from added
+            this.elementManager.batchDelete(extractIdSetFromArray(payload.elements));
             break;
         case 'history-modify':
             payload.changes.map(({ id, props }) => {
@@ -25,7 +25,7 @@ export function undo(quiet = false) {
             });
             break;
         case 'history-move':
-            this.elementManager.batchMove(payload.selectedModules, {
+            this.elementManager.batchMove(payload.selectedElements, {
                 x: -payload.delta.x,
                 y: -payload.delta.y,
             });
@@ -39,15 +39,15 @@ export function undo(quiet = false) {
         case 'history-composite':
             break;
         case 'history-delete':
-            modules = payload.modules;
-            this.elementManager.batchAdd(this.elementManager.batchCreate(modules));
+            elements = payload.elements;
+            this.elementManager.batchAdd(this.elementManager.batchCreate(elements));
             break;
     }
     this.history.back();
     // this.editor.updateVisibleelementMap(this.editor.viewport.worldRect)
     if (!quiet) {
-        const backedNodeSelectedModules = this.history.current.data.payload.selectedModules;
-        this.selection.replace(backedNodeSelectedModules);
+        const backedNodeSelectedElements = this.history.current.data.payload.selectedElements;
+        this.selection.replace(backedNodeSelectedElements);
         this.action.dispatch('selection-updated');
     }
     return this.history.current;

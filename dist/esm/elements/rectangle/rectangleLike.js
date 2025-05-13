@@ -95,7 +95,7 @@ class RectangleLike extends Shape {
         }
         return generateBoundingRectFromRotatedRect({ x, y, width, height }, rotation);
     }
-    getSelectedBoxModule(lineWidth, lineColor) {
+    getSelectedBoxElement(lineWidth, lineColor) {
         return new ElementRectangle({
             ...this.toJSON(),
             lineColor,
@@ -104,7 +104,7 @@ class RectangleLike extends Shape {
             opacity: 0,
         });
     }
-    getHighlightModule(lineWidth, lineColor) {
+    getHighlightElement(lineWidth, lineColor) {
         return new ElementRectangle({
             ...this.toJSON(),
             lineColor,

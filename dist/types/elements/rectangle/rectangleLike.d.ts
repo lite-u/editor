@@ -25,8 +25,8 @@ declare class RectangleLike extends Shape {
     toMinimalJSON(): RectangleLikeProps;
     getRect(): CenterBasedRect;
     getBoundingRect(): import("~/type").BoundingRect;
-    getSelectedBoxModule(lineWidth: number, lineColor: string): ElementRectangle;
-    getHighlightModule(lineWidth: number, lineColor: string): ElementRectangle;
+    getSelectedBoxElement(lineWidth: number, lineColor: string): ElementRectangle;
+    getHighlightElement(lineWidth: number, lineColor: string): ElementRectangle;
     getOperators(id: string, resizeConfig: {
         lineWidth: number;
         lineColor: string;

@@ -32,18 +32,18 @@ export function selectionHelper(idSet, action) {
 }
 /*
 export function updateSelectionCanvasRenderData(this: Editor) {
-  // const moduleProps = this.selection.getSelectedPropsIfUnique
+  // const elementProps = this.selection.getSelectedPropsIfUnique
 
   return
   /!*
-    if (moduleProps) {
-      const module = this.elementManager.all.get(moduleProps.id)
+    if (elementProps) {
+      const element = this.elementManager.all.get(elementProps.id)
       const {scale, dpr} = this.viewport
       const lineWidth = 1 / scale * dpr
       const resizeSize = 2 / scale * dpr
       const lineColor = '#5491f8'
 
-      const o = module!.getOperators({
+      const o = element!.getOperators({
         size: resizeSize,
         lineColor,
         lineWidth,

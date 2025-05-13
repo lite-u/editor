@@ -71,7 +71,7 @@ class Shape extends Base {
         this.cx += x;
         this.cy += y;
     }
-    getOperators(id, resizeConfig, rotateConfig, boundingRect, moduleOrigin) {
+    getOperators(id, resizeConfig, rotateConfig, boundingRect, elementOrigin) {
         const { x: cx, y: cy, width, height } = boundingRect;
         // const id = this.id
         const { rotation } = this;
@@ -121,8 +121,8 @@ class Shape extends Base {
                 type: OFFSET.type,
                 name: OFFSET.name,
                 // cursor,
-                moduleOrigin,
-                module: new ElementRectangle(currentElementProps),
+                elementOrigin,
+                element: new ElementRectangle(currentElementProps),
             };
         });
         return handlers;

@@ -69,7 +69,7 @@ class ElementEllipse extends Shape {
             height: r2 * 2,
         }, rotation);
     }
-    getSelectedBoxModule(lineWidth, lineColor) {
+    getSelectedBoxElement(lineWidth, lineColor) {
         // const {id, rotation, layer} = this.toJSON()
         const rect = this.getBoundingRect();
         const rectProp = {
@@ -86,7 +86,7 @@ class ElementEllipse extends Shape {
         };
         return new ElementRectangle(rectProp);
     }
-    getHighlightModule(lineWidth, lineColor) {
+    getHighlightElement(lineWidth, lineColor) {
         const { cx, cy, r1, r2, rotation, layer, id } = this;
         return new ElementEllipse({
             cx: cx,

@@ -26,7 +26,7 @@ declare class ElementEllipse extends Shape {
             x: number;
             y: number;
         };
-        moduleOrigin: RequiredEllipseProps;
+        elementOrigin: RequiredEllipseProps;
         rotation: number;
         handleName: ResizeHandleName;
         scale: number;
@@ -41,8 +41,8 @@ declare class ElementEllipse extends Shape {
     toMinimalJSON(): EllipseProps;
     toJSON(): RequiredEllipseProps;
     getBoundingRect(): import("~/type").BoundingRect;
-    getSelectedBoxModule(lineWidth: number, lineColor: string): ElementRectangle;
-    getHighlightModule(lineWidth: number, lineColor: string): ElementEllipse;
+    getSelectedBoxElement(lineWidth: number, lineColor: string): ElementRectangle;
+    getHighlightElement(lineWidth: number, lineColor: string): ElementEllipse;
     getOperators(id: string, resizeConfig: {
         lineWidth: number;
         lineColor: string;

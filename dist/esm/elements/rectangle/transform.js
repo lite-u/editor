@@ -1,6 +1,6 @@
 import { getResizeTransform } from '../../lib/lib.js';
-function transform({ downPoint, movePoint, moduleOrigin, rotation, handleName, scale, dpr, altKey = false, shiftKey = false, }) {
-    const { width: initialWidth, height: initialHeight, cx: initialCX, cy: initialCY, } = moduleOrigin;
+function transform({ downPoint, movePoint, elementOrigin, rotation, handleName, scale, dpr, altKey = false, shiftKey = false, }) {
+    const { width: initialWidth, height: initialHeight, cx: initialCX, cy: initialCY, } = elementOrigin;
     // Calculate raw movement in screen coordinates
     const dxScreen = movePoint.x - downPoint.x;
     const dyScreen = movePoint.y - downPoint.y;

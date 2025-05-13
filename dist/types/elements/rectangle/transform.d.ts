@@ -10,7 +10,7 @@ export interface TransformProps {
         x: number;
         y: number;
     };
-    moduleOrigin: RequiredRectangleProps;
+    elementOrigin: RequiredRectangleProps;
     rotation: number;
     handleName: ResizeHandleName;
     scale: number;
@@ -18,5 +18,5 @@ export interface TransformProps {
     altKey?: boolean;
     shiftKey?: boolean;
 }
-declare function transform({ downPoint, movePoint, moduleOrigin, rotation, handleName, scale, dpr, altKey, shiftKey, }: TransformProps): Rect;
+declare function transform({ downPoint, movePoint, elementOrigin, rotation, handleName, scale, dpr, altKey, shiftKey, }: TransformProps): Rect;
 export default transform;

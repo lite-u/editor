@@ -43,7 +43,7 @@ declare class Shape extends Base {
         lineColor: string;
         size: number;
         fillColor: string;
-    }, boundingRect: BoundingRect, moduleOrigin: ElementProps): OperationHandlers[];
+    }, boundingRect: BoundingRect, elementOrigin: ElementProps): OperationHandlers[];
     isInsideRect(outer: BoundingRect): boolean;
 }
 export default Shape;

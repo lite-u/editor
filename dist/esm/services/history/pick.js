@@ -17,9 +17,9 @@ export function pick(targetNode) {
             if (localCurrent === targetNode)
                 break;
         }
-        const { selectedModules } = targetNode.data.payload;
+        const { selectedElements } = targetNode.data.payload;
         // this.editor.updateVisibleelementMap(this.editor.viewport.worldRect)
-        this.selection.replace(selectedModules);
+        this.selection.replace(selectedElements);
     }
     else {
         // do sth...

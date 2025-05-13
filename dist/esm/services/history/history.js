@@ -11,7 +11,7 @@ class History extends DoublyLinkedList {
             type: 'history-init',
             payload: {
                 state: null,
-                selectedModules: new Set(),
+                selectedElements: new Set(),
             },
         });
         this.editor.events.onHistoryUpdated?.(this);

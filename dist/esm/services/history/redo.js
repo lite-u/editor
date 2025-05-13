@@ -4,15 +4,15 @@ export function redo(quiet = false) {
         return false;
     this.history.forward();
     const { type, payload } = this.history.current.data;
-    const { selectedModules } = payload;
+    const { selectedElements } = payload;
     switch (type) {
         case 'history-init':
             break;
         case 'history-add':
         case 'history-paste':
         case 'history-duplicate':
-            // delete modules from added
-            this.elementManager.batchAdd(this.elementManager.batchCreate(payload.modules));
+            // delete elements from added
+            this.elementManager.batchAdd(this.elementManager.batchCreate(payload.elements));
             break;
         case 'history-modify':
             payload.changes.map(({ id, props }) => {
@@ -24,7 +24,7 @@ export function redo(quiet = false) {
             });
             break;
         case 'history-move':
-            this.elementManager.batchMove(payload.selectedModules, {
+            this.elementManager.batchMove(payload.selectedElements, {
                 x: payload.delta.x,
                 y: payload.delta.y,
             });
@@ -38,13 +38,13 @@ export function redo(quiet = false) {
         case 'history-composite':
             break;
         case 'history-delete':
-            this.elementManager.batchDelete(extractIdSetFromArray(payload.modules));
+            this.elementManager.batchDelete(extractIdSetFromArray(payload.elements));
             break;
     }
     // this.editor.updateVisibleelementMap(this.editor.viewport.worldRect)
     if (!quiet) {
-        this.selection.replace(selectedModules);
-        // console.log(selectedModules)
+        this.selection.replace(selectedElements);
+        // console.log(selectedElements)
         this.action.dispatch('selection-updated');
     }
     return this.history.current;

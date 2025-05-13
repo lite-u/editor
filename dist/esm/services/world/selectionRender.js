@@ -9,23 +9,23 @@ function selectionRender() {
     const centerPointWidth = 2 / this.scale * this.dpr;
     const lineWidth = 1 / this.scale * this.dpr;
     const centerPoints = new Set(selected);
-    if (this.editor.interaction.hoveredModule) {
-        centerPoints.add(this.editor.interaction.hoveredModule);
+    if (this.editor.interaction.hoveredElement) {
+        centerPoints.add(this.editor.interaction.hoveredElement);
     }
-    // render selection box for modules
+    // render selection box for elements
     selected.forEach((id) => {
-        const module = this.editor.elementManager.all.get(id);
-        if (module) {
-            const moduleSelectionBoundary = module.getSelectedBoxModule(lineWidth, lineColor);
-            moduleSelectionBoundary.render(ctx);
+        const ele = this.editor.elementManager.all.get(id);
+        if (ele) {
+            const elementSelectionBoundary = ele.getSelectedBoxElement(lineWidth, lineColor);
+            elementSelectionBoundary.render(ctx);
         }
     });
     // render center points
     centerPoints.forEach((id) => {
-        const module = this.editor.elementManager.all.get(id);
-        const { cx, cy, rotation, layer } = module.toMinimalJSON();
+        const element = this.editor.elementManager.all.get(id);
+        const { cx, cy, rotation, layer } = element.toMinimalJSON();
         const lineWidth = 1 / this.scale * this.dpr;
-        const highlightModule = module.getHighlightModule(lineWidth, fillColor);
+        const highlightElement = element.getHighlightElement(lineWidth, fillColor);
         const centerDotRect = new ElementRectangle({
             cx: cx,
             cy: cy,
@@ -38,13 +38,13 @@ function selectionRender() {
             lineWidth,
             rotation,
             opacity: 100,
-            borderRadius: id === this.editor.interaction.hoveredModule ? centerPointWidth : 0,
+            borderRadius: id === this.editor.interaction.hoveredElement ? centerPointWidth : 0,
         });
-        highlightModule.render(ctx);
+        highlightElement.render(ctx);
         centerDotRect.render(ctx);
     });
     this.editor.interaction.operationHandlers.forEach(operation => {
-        operation.module.render(ctx);
+        operation.element.render(ctx);
     });
     /*if (this.viewport.enableCrossLine && this.viewport.drawCrossLine) {
       drawCrossLine({

@@ -2,8 +2,8 @@ export function applyRotating(shiftKey) {
     const { interaction, world } = this.editor;
     const { mouseDownPoint, mouseMovePoint, _rotatingOperator } = interaction;
     const { scale, dpr, offset } = world;
-    const { module: { rotation }, moduleOrigin } = _rotatingOperator;
-    const { x, y } = moduleOrigin;
+    const { element: { rotation }, elementOrigin } = _rotatingOperator;
+    const { x, y } = elementOrigin;
     const startX = (mouseDownPoint.x - offset.x / dpr) / scale * dpr;
     const startY = (mouseDownPoint.y - offset.y / dpr) / scale * dpr;
     const currentX = (mouseMovePoint.x - offset.x / dpr) / scale * dpr;

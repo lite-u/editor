@@ -1,13 +1,13 @@
-export function detectHoveredModule() {
+export function detectHoveredElement() {
     const { interaction, action, world, visible } = this.editor;
     const worldPoint = world.getWorldPointByViewportPoint(interaction.mouseMovePoint.x, interaction.mouseMovePoint.y);
     // const maxLayer = Number.MIN_SAFE_INTEGER
-    let moduleId = null;
+    let elementId = null;
     let hitOn = null;
     const arr = [...interaction.operationHandlers];
     // console.log(worldPoint)
     for (let i = arr.length - 1; i >= 0; i--) {
-        if (arr[i].module.hitTest(worldPoint)) {
+        if (arr[i].element.hitTest(worldPoint)) {
             hitOn = arr[i];
             break;
         }
@@ -19,19 +19,19 @@ export function detectHoveredModule() {
     }
     const arr2 = visible.values;
     for (let i = arr2.length - 1; i >= 0; i--) {
-        const module = arr2[i];
-        const hitTest = module.hitTest(worldPoint);
+        const element = arr2[i];
+        const hitTest = element.hitTest(worldPoint);
         if (hitTest) {
-            moduleId = module.id;
+            elementId = element.id;
             break;
         }
     }
-    if (interaction.hoveredModule !== moduleId) {
-        if (interaction.hoveredModule) {
-            action.dispatch('element-hover-leave', interaction.hoveredModule);
+    if (interaction.hoveredElement !== elementId) {
+        if (interaction.hoveredElement) {
+            action.dispatch('element-hover-leave', interaction.hoveredElement);
         }
-        if (moduleId) {
-            action.dispatch('element-hover-enter', moduleId);
+        if (elementId) {
+            action.dispatch('element-hover-enter', elementId);
         }
     }
 }
@@ -39,8 +39,8 @@ export function applyResize(altKey, shiftKey) {
     const { elementManager, interaction, world } = this.editor;
     const { mouseDownPoint, mouseMovePoint, _resizingOperator } = interaction;
     const { scale, dpr } = world;
-    const { name: handleName, module: { rotation }, moduleOrigin, } = _resizingOperator;
-    const { id } = moduleOrigin;
+    const { name: handleName, element: { rotation }, elementOrigin, } = _resizingOperator;
+    const { id } = elementOrigin;
     const resizeParam = {
         downPoint: mouseDownPoint,
         movePoint: mouseMovePoint,
@@ -50,12 +50,12 @@ export function applyResize(altKey, shiftKey) {
         handleName,
         altKey,
         shiftKey,
-        moduleOrigin,
+        elementOrigin,
     };
-    const relatedModule = elementManager.all.get(id);
-    if (relatedModule) {
+    const relatedElement = elementManager.all.get(id);
+    if (relatedElement) {
         // @ts-ignore
-        const con = relatedModule.constructor;
+        const con = relatedElement.constructor;
         // console.log(resizeParam)
         // @ts-ignore
         return con.applyResizeTransform(resizeParam);

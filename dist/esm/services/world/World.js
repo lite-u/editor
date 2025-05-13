@@ -62,8 +62,8 @@ class World {
         const { offset, scale, dpr } = this;
         return worldToScreen({ x, y }, offset, scale, dpr);
     }
-    renderModules() {
-        // console.log('renderModules')
+    renderElements() {
+        // console.log('renderElements')
         const animate = () => {
             const { scale, dpr, mainCanvasContext: ctx } = this;
             const frameBorder = {
@@ -85,15 +85,15 @@ class World {
             // console.log(this.visibleelementMap.size)
             // deduplicateObjectsByKeyValue
             new ElementRectangle(frameFill).render(ctx);
-            this.editor.visible.values.forEach((module) => {
-                module.render(ctx);
-                /*   if (module.type === 'image') {
-                     const {asset} = module as ElementImage
+            this.editor.visible.values.forEach((element) => {
+                element.render(ctx);
+                /*   if (element.type === 'image') {
+                     const {asset} = element as ElementImage
         
                      const obj = this.editor.assetsManager.getAssetsObj(asset)
                      // console.log(this.assetsManager, src)
                      if (obj) {
-                       (module as ElementImage).renderImage(ctx, obj.imageRef!)
+                       (element as ElementImage).renderImage(ctx, obj.imageRef!)
                      }
                    }*/
             });

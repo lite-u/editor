@@ -1,4 +1,4 @@
-import { detectHoveredModule } from './helper.js';
+import { detectHoveredElement } from './helper.js';
 function handleContextMenu(e) {
     // const modifyKey = e.ctrlKey || e.metaKey || e.shiftKey
     e.preventDefault();
@@ -9,8 +9,8 @@ function handleContextMenu(e) {
       }
     */
     const { action, clipboard, interaction, selection } = this.editor;
-    detectHoveredModule.call(this);
-    const lastId = interaction.hoveredModule;
+    detectHoveredElement.call(this);
+    const lastId = interaction.hoveredElement;
     const selectedIdSet = selection.values;
     const position = { ...interaction.mouseMovePoint };
     let idSet = new Set();

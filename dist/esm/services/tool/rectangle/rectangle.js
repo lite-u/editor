@@ -31,6 +31,7 @@ const rectangleTool = {
         // console.log(newRect)
         this.editor.interaction.manipulationStatus = 'resizing';
         this.editor.action.dispatch('selection-clear');
+        // this.editor.action.dispatch('element-add',)
     },
     move(e) {
         const { altKey, shiftKey } = e;
@@ -49,7 +50,7 @@ const rectangleTool = {
         const { interaction, world, selection, action, elementManager, rect } = this.editor;
         const { scale, dpr } = world;
         if (leftMouseClick) {
-            const { draggingModules, manipulationStatus, _selectingModules, selectedShadow, } = interaction;
+            const { draggingElements, manipulationStatus, _selectingElements, selectedShadow, } = interaction;
             const x = e.clientX - rect.x;
             const y = e.clientY - rect.y;
             const modifyKey = e.ctrlKey || e.metaKey || e.shiftKey;
@@ -81,14 +82,14 @@ const rectangleTool = {
                                 data: { x: -x, y: -y },
                             });
                             // Move back to origin position and do the move again
-                            draggingModules.forEach((id) => {
-                                const module = elementManager.getElementById(id);
-                                if (module) {
+                            draggingElements.forEach((id) => {
+                                const element = elementManager.getElementById(id);
+                                if (element) {
                                     const change = {
                                         id,
                                         props: {
-                                            x: module.cx + x,
-                                            y: module.cy + y,
+                                            x: element.cx + x,
+                                            y: element.cy + y,
                                         },
                                     };
                                     changes.push(change);
@@ -97,7 +98,7 @@ const rectangleTool = {
                             action.dispatch('element-modify', changes);
                         }
                         else {
-                            const closestId = interaction.hoveredModule;
+                            const closestId = interaction.hoveredElement;
                             if (closestId && modifyKey && closestId === interaction._deselection) {
                                 action.dispatch('selection-modify', {
                                     mode: 'toggle',
@@ -111,10 +112,10 @@ const rectangleTool = {
                     {
                         const { altKey, shiftKey } = e;
                         const props = applyResize.call(this, altKey, shiftKey);
-                        const moduleOrigin = interaction._resizingOperator?.moduleOrigin;
+                        const elementOrigin = interaction._resizingOperator?.elementOrigin;
                         const rollbackProps = {};
                         Object.keys(props).forEach((key) => {
-                            rollbackProps[key] = moduleOrigin[key];
+                            rollbackProps[key] = elementOrigin[key];
                         });
                         // rotate back
                         action.dispatch('element-modifying', {
@@ -131,7 +132,7 @@ const rectangleTool = {
                     {
                         const { shiftKey } = e;
                         const newRotation = applyRotating.call(this, shiftKey);
-                        const { rotation } = interaction._rotatingOperator?.moduleOrigin;
+                        const { rotation } = interaction._rotatingOperator?.elementOrigin;
                         const rollbackProps = { rotation };
                         // rotate back
                         action.dispatch('element-modifying', {
@@ -149,17 +150,17 @@ const rectangleTool = {
                     break;
                 case 'static':
                     if (e.ctrlKey || e.metaKey || e.shiftKey) {
-                        selection.toggle(draggingModules);
+                        selection.toggle(draggingElements);
                     }
                     else {
-                        selection.replace(draggingModules);
+                        selection.replace(draggingElements);
                     }
                     break;
             }
-            draggingModules.clear();
+            draggingElements.clear();
             selectedShadow.clear();
-            _selectingModules.clear();
-            _selectingModules.clear();
+            _selectingElements.clear();
+            _selectingElements.clear();
             interaction.manipulationStatus = 'static';
             interaction._deselection = null;
             interaction._resizingOperator = null;

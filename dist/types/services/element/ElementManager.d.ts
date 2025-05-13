@@ -16,9 +16,9 @@ declare class ElementManager {
     getElementsByIdSet(idSet: Set<UID>): ElementMap;
     getElementMapByIdSet(idSet: Set<UID>): ElementMap;
     create(data: ElementProps): ElementInstance | false;
-    batchCreate(moduleDataList: ElementProps[]): ElementMap;
+    batchCreate(elementDataList: ElementProps[]): ElementMap;
     add(element: ElementInstance): ElementInstance;
-    batchAdd(modules: ElementMap, callback?: VoidFunction): ElementMap;
+    batchAdd(elements: ElementMap, callback?: VoidFunction): ElementMap;
     batchCopy(idSet: Set<UID>, includeIdentifiers?: boolean): ElementProps[];
     batchDelete(idSet: Set<UID>): ElementProps[];
     batchMove(from: Set<UID>, delta: Point): void;

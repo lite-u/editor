@@ -3,12 +3,12 @@ class InteractionState {
     editor;
     mouseDownPoint = { x: 0, y: 0 };
     mouseMovePoint = { x: 0, y: 0 };
-    hoveredModule = '';
+    hoveredElement = '';
     operationHandlers = [];
     spaceKeyDown = false;
     _snapped = false;
-    draggingModules = new Set();
-    _selectingModules = new Set();
+    draggingElements = new Set();
+    _selectingElements = new Set();
     _deselection = null;
     _resizingOperator = null;
     _rotatingOperator = null;
