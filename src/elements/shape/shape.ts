@@ -6,7 +6,7 @@ import {BoundingRect} from '~/type'
 import {ElementProps} from '../elements'
 import {rotatePointAroundPoint} from '~/core/geometry'
 import {Gradient} from '~/elements/props'
-import {DEFAULT_GRADIENT} from '~/elements/defaultProps'
+import {DEFAULT_CX, DEFAULT_CY, DEFAULT_GRADIENT} from '~/elements/defaultProps'
 import {isEqual} from '~/lib/lib'
 import deepClone from '~/core/deepClone'
 
@@ -17,9 +17,6 @@ export interface ShapeProps extends ElementBaseProps {
 }
 
 export type RequiredShapeProps = Required<ShapeProps>
-
-const DEFAULT_CX = 0
-const DEFAULT_CY = 0
 
 class Shape extends Base {
   public cx: number
