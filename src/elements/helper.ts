@@ -30,10 +30,10 @@ export const generateHandles = (element: ElementInstance, ratio: number) => {
 
   return HANDLER_OFFSETS.map((OFFSET, index): OperationHandler => {
     // Calculate the handle position in local coordinates
-    const currentCenterX = ox - width / 2 + OFFSET.x * width
-    const currentCenterY = oy - height / 2 + OFFSET.y * height
+    const cx = ox - width / 2 + OFFSET.x * width
+    const cy = oy - height / 2 + OFFSET.y * height
 
-    const handleElementProps: RectangleProps = {
+    const eleProps: RectangleProps = {
       id: `${id}-${OFFSET.type}-${index}`,
       layer: 0,
       rotation,
@@ -42,22 +42,15 @@ export const generateHandles = (element: ElementInstance, ratio: number) => {
     // let cursor: ResizeCursor = OFFSET.cursor as ResizeCursor
 
     if (OFFSET.type === 'resize') {
-      const rotated = rotatePointAroundPoint(currentCenterX, currentCenterY, ox, oy, rotation)
+      const rotated = rotatePointAroundPoint(cx, cy, ox, oy, rotation)
 
-      handleElementProps.cx = rotated.x
-      handleElementProps.cy = rotated.y
-      handleElementProps.width = resizeConfig.size
-      handleElementProps.height = resizeConfig.size
-      handleElementProps.stroke = {
-        ...DEFAULT_STROKE,
-        weight: resizeConfig.lineWidth,
-      }
-      // currentElementProps.stroke.weight = resizeConfig.stroke?.weight
-      // currentElementProps.lineColor = resizeConfig.lineColor
-      // currentElementProps.fillColor = resizeConfig.fillColor
-    } else if (OFFSET.type === 'rotate') {
-      const currentRotateHandlerCX = currentCenterX + OFFSET.offsetX * resizeConfig.lineWidth
-      const currentRotateHandlerCY = currentCenterY + OFFSET.offsetY * resizeConfig.lineWidth
+      eleProps.cx = rotated.x
+      eleProps.cy = rotated.y
+
+      Object.assign(eleProps, resizeConfig)
+    } else {
+      const currentRotateHandlerCX = cx + OFFSET.offsetX * lineWidth
+      const currentRotateHandlerCY = cy + OFFSET.offsetY * lineWidth
       const rotated = rotatePointAroundPoint(
         currentRotateHandlerCX,
         currentRotateHandlerCY,
@@ -66,14 +59,9 @@ export const generateHandles = (element: ElementInstance, ratio: number) => {
         rotation,
       )
 
-      // handleElementProps.id = index + '-rotate'
-      handleElementProps.cx = rotated.x
-      handleElementProps.cy = rotated.y
-      handleElementProps.width = rotateConfig.size
-      handleElementProps.height = rotateConfig.size
-      handleElementProps.lineWidth = rotateConfig.lineWidth
-      handleElementProps.lineColor = rotateConfig.lineColor
-      handleElementProps.fillColor = rotateConfig.fillColor
+      eleProps.cx = rotated.x
+      eleProps.cy = rotated.y
+      Object.assign(eleProps, resizeConfig)
     }
 
     return {
@@ -82,7 +70,7 @@ export const generateHandles = (element: ElementInstance, ratio: number) => {
       name: OFFSET.name,
       // cursor,
       elementOrigin,
-      element: new ElementRectangle(handleElementProps),
+      element: new ElementRectangle(eleProps),
     }
   })
 }
