@@ -42,7 +42,6 @@ export const DEFAULT_STROKE: Stroke = {
 export const DEFAULT_FILL: Fill = {
   enabled: false,
   color: '#FFFFFF',
-  type: 'solid',
 }
 
 export const DEFAULT_TRANSFORM: Transform = {
@@ -85,6 +84,16 @@ export const DEFAULT_GRADIENT: Gradient = {
 
 export const DEFAULT_OPACITY = 100
 export const DEFAULT_ROTATION = 0
+
+export const DEFAULT_TEXT_FONT: TextFontProps = {
+  family: 'sans-serif',
+  size: 12,
+  weight: 'normal',
+  underline: false,
+  italic: false,
+  lineHeight: 1.2,
+  letterSpacing: 1,
+}
 
 export const DEFAULT_FONT: TextFontProps = {
   family: 'sans-serif',

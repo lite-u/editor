@@ -21,8 +21,7 @@ export type Stroke = {
 
 export type Fill = {
   enabled: boolean;
-  color: string; // e.g., "#FF0000"
-  type: 'solid' | 'gradient' | 'pattern';
+  color: string;
 };
 
 export type BlendMode =

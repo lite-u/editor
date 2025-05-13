@@ -1,8 +1,8 @@
 import RectangleLike, {RectangleLikeProps} from '../rectangle/rectangleLike'
 import render from './render'
-import {Fill, Stroke, TextFontProps, TextRun} from '~/elements/props'
+import {Fill, HorizontalAlign, Stroke, TextFontProps, TextRun, VerticalAlign} from '~/elements/props'
 import deepClone from '~/core/deepClone'
-
+import {DEFAULT_TEXT_FONT} from '~/elements/defaultProps'
 
 const TEXT_COLOR = '#000000'
 const CONTENT = `
@@ -20,46 +20,40 @@ const DEFAULT_THROUGH_LINE = false
 const DEFAULT_LINE_HEIGHT = 1.2
 type Alignment = 'left' | 'center' | 'right';
 
-
 export interface TextProps extends RectangleLikeProps {
   type?: 'text'
   content: TextRun[];  // Array of styled fragments
   font?: TextFontProps;
   fill?: Fill;
   stroke: Stroke
-  verticalAlign: 'left' | 'center' | 'right';
-  horizontalAlign: 'top' | 'middle' | 'bottom';
+  verticalAlign: VerticalAlign
+  horizontalAlign: HorizontalAlign
 }
 
 export type RequiredTextProps = Required<TextProps>
 
 class ElementText extends RectangleLike {
   readonly type = 'text'
-  content: TextRun[];
-  font?: TextFontProps;
-  fill?: Fill;
+  content: TextRun[]
+  font?: TextFontProps
+  fill?: Fill
   stroke: Stroke
-  verticalAlign: 'left' | 'center' | 'right';
-  horizontalAlign: 'top' | 'middle' | 'bottom';
+  verticalAlign: VerticalAlign
+  horizontalAlign: HorizontalAlign
 
   constructor({
                 content = [],
-                text = CONTENT,
-                font = deepClone(DEFAULT_FONT),
-
+                font = deepClone(DEFAULT_TEXT_FONT),
+                fill,
+                stroke,
+                verticalAlign,
+                horizontalAlign,
                 ...rest
               }: TextProps) {
     super({...rest})
-    this.textColor = textColor
     this.content = content
     this.font = font
-    this.fontSize = fontSize
-    this.alignment = alignment
-    this.fontWeight = fontWeight
-    this.italics = italics
-    this.underlines = underlines
-    this.throughLine = throughLine
-    this.lineHeight = lineHeight
+
   }
 
   override toJSON(): RequiredTextProps {
