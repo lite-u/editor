@@ -1,28 +1,32 @@
 import { createWith } from '../../lib/lib.js';
 class InteractionState {
     editor;
+    state = 'static';
     mouseStart = { x: 0, y: 0 };
-    mouseMove = { x: 0, y: 0 };
+    mouseNow = { x: 0, y: 0 };
+    mouseDelta = { x: 0, y: 0 };
+    mouseWorldStart = { x: 0, y: 0 };
+    mouseWorldNow = { x: 0, y: 0 };
+    mouseWorldDelta = { x: 0, y: 0 };
     hoveredElement = '';
     operationHandlers = [];
     spaceKeyDown = false;
     _snapped = false;
-    _creatingElementId;
-    draggingElements = new Set();
+    // _creatingElementId: UID
+    // _ele: Set<UID> = new Set()
     _selectingElements = new Set();
     _deselection = null;
     _resizingOperator = null;
     _rotatingOperator = null;
     selectedShadow = new Set();
-    state = 'static';
     _ele;
     selectionBox = null;
     _lastTool = null;
     boxColor = '#1FB3FF';
     boxBgColor = 'rgba(31,180,255,0.1)';
     // toolMap: Map<string, ToolManager> = new Map()
-    CopyDeltaX = 50;
-    CopyDeltaY = 100;
+    // CopyDeltaX = 50
+    // CopyDeltaY = 100
     // initialized: boolean = false
     // currentToolName: string = 'selector'
     constructor(editor) {

@@ -5,10 +5,11 @@ function handleMouseDown(e) {
         return;
     const x = clientX - this.editor.rect.x;
     const y = clientY - this.editor.rect.y;
-    this.editor.interaction.mouseStart.x = x;
-    this.editor.interaction.mouseStart.y = y;
-    this.editor.interaction.mouseMove.x = x;
-    this.editor.interaction.mouseMove.y = y;
+    const { interaction, world } = this.editor;
+    interaction.mouseStart = { x, y };
+    interaction.mouseNow = { x, y };
+    interaction.mouseWorldStart = world.getWorldPointByViewportPoint(x, y);
+    interaction.mouseWorldNow = world.getWorldPointByViewportPoint(x, y);
     // console.log(operator)
     e.preventDefault();
     if (button !== 0)

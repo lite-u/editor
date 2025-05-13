@@ -6,12 +6,16 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
     action,
     rect,
     interaction,
+    world,
   } = this.editor
   const x = e.clientX - rect!.x
   const y = e.clientY - rect!.y
 
-  interaction.mouseMove.x = x
-  interaction.mouseMove.y = y
+  interaction.mouseNow = {x, y}
+  interaction.mouseDelta.x = x - interaction.mouseStart.x
+  interaction.mouseDelta.y = y - interaction.mouseStart.y
+  interaction.mouseWorldNow = world.getWorldPointByViewportPoint(x, y)
+  interaction.mouseWorldDelta = world.getWorldPointByViewportPoint(x, y)
   // interaction.drawCrossLine = false
 
   // cursor.move({x, y})

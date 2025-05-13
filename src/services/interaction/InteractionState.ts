@@ -1,11 +1,12 @@
 import {UID} from '~/core/core'
 import {OperationHandler, ResizeHandle} from '~/services/selection/type'
-import {Point, Rect, ToolName} from '~/type'
+import {Point, Rect} from '~/type'
 import {createWith} from '~/lib/lib'
 import Editor from '~/main/editor'
 import {ElementInstance} from '~/elements/type'
+import {ToolName} from '~/services/tool/toolManager'
 
-export type ViewportManipulationType =
+export type EditorManipulationType =
   | 'static'
   | 'waiting'
   | 'panning'
@@ -17,28 +18,35 @@ export type ViewportManipulationType =
 
 class InteractionState {
   editor: Editor
+  state: EditorManipulationType = 'static'
+
   mouseStart: Point = {x: 0, y: 0}
-  mouseMove: Point = {x: 0, y: 0}
+  mouseNow: Point = {x: 0, y: 0}
+  mouseDelta: Point = {x: 0, y: 0}
+
+  mouseWorldStart: Point = {x: 0, y: 0}
+  mouseWorldNow: Point = {x: 0, y: 0}
+  mouseWorldDelta: Point = {x: 0, y: 0}
+
   hoveredElement: UID = ''
   readonly operationHandlers: OperationHandler[] = []
   spaceKeyDown = false
   _snapped = false
-  _creatingElementId: UID
-  draggingElements: Set<UID> = new Set()
+  // _creatingElementId: UID
+  // _ele: Set<UID> = new Set()
   _selectingElements: Set<UID> = new Set()
   _deselection: UID | null = null
   _resizingOperator: ResizeHandle | null = null
   _rotatingOperator: OperationHandler | null = null
   selectedShadow: Set<UID> = new Set()
-  state: ViewportManipulationType = 'static'
   _ele: ElementInstance
   selectionBox: HTMLDivElement | null = null
   _lastTool: ToolName | null = null
   boxColor = '#1FB3FF'
   boxBgColor = 'rgba(31,180,255,0.1)'
   // toolMap: Map<string, ToolManager> = new Map()
-  CopyDeltaX = 50
-  CopyDeltaY = 100
+  // CopyDeltaX = 50
+  // CopyDeltaY = 100
   // initialized: boolean = false
   // currentToolName: string = 'selector'
   constructor(editor: Editor) {

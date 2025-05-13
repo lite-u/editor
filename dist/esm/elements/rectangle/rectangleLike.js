@@ -64,6 +64,22 @@ class RectangleLike extends Shape {
         this.width *= sx;
         this.height *= sy;
     }
+    scaleFrom(scaleX, scaleY, anchor) {
+        const matrix = new DOMMatrix()
+            .translate(anchor.x, anchor.y)
+            .scale(scaleX, scaleY)
+            .translate(-anchor.x, -anchor.y);
+        const topLeft = this.transformPoint(this.cx - this.width / 2, this.cy - this.height / 2, matrix);
+        const bottomRight = this.transformPoint(this.cx + this.width / 2, this.cy + this.height / 2, matrix);
+        this.cx = (topLeft.x + bottomRight.x) / 2;
+        this.cy = (topLeft.y + bottomRight.y) / 2;
+        this.width = Math.abs(bottomRight.x - topLeft.x);
+        this.height = Math.abs(bottomRight.y - topLeft.y);
+    }
+    transformPoint(x, y, matrix) {
+        const p = matrix.transformPoint({ x, y });
+        return { x: p.x, y: p.y };
+    }
     getTransformedPoints() {
         // const {cx, cy, width, height} = this.original
         const corners = this.getCorners();

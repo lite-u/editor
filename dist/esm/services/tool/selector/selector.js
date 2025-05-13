@@ -33,7 +33,7 @@ const selector = {
         }
         interaction.state = 'dragging';
         const realSelected = selection.values;
-        // this.draggingElements = new Set(this.selectedElements)
+        // this._ele = new Set(this.selectedElements)
         const isSelected = realSelected.has(hoveredElement);
         // console.log(isSelected)
         if (realSelected.size === 0 || (!isSelected && !modifyKey)) {
@@ -42,14 +42,14 @@ const selector = {
                 mode: 'replace',
                 idSet: new Set([hoveredElement]),
             });
-            interaction.draggingElements = new Set([hoveredElement]);
+            interaction._ele = new Set([hoveredElement]);
         }
         else if (modifyKey) {
-            interaction.draggingElements = new Set(realSelected);
+            interaction._ele = new Set(realSelected);
             if (isSelected) {
                 console.log('isSelected', isSelected);
                 interaction._deselection = hoveredElement;
-                interaction.draggingElements.add(hoveredElement);
+                interaction._ele.add(hoveredElement);
             }
             else {
                 // Add to existing selection
@@ -58,21 +58,21 @@ const selector = {
                     idSet: new Set([hoveredElement]),
                 });
             }
-            interaction.draggingElements.add(hoveredElement);
+            interaction._ele.add(hoveredElement);
         }
         else {
             // Dragging already selected element(s)
-            interaction.draggingElements = new Set(realSelected);
+            interaction._ele = new Set(realSelected);
         }
     },
     move(e) {
         const { action, container, world, interaction, elementManager, cursor, } = this.editor;
-        const { draggingElements, selectedShadow, _selectingElements, mouseStart, mouseMove, } = interaction;
+        const { _ele, selectedShadow, _selectingElements, mouseStart, mouseNow, } = interaction;
         switch (interaction.state) {
             case 'selecting':
                 {
                     container.setPointerCapture(e.pointerId);
-                    const rect = generateBoundingRectFromTwoPoints(mouseStart, mouseMove);
+                    const rect = generateBoundingRectFromTwoPoints(mouseStart, mouseNow);
                     const pointA = world.getWorldPointByViewportPoint(rect.x, rect.y);
                     const pointB = world.getWorldPointByViewportPoint(rect.right, rect.bottom);
                     const virtualSelectionRect = generateBoundingRectFromTwoPoints(pointA, pointB);
@@ -162,8 +162,8 @@ const selector = {
                     const { x, y } = interaction._rotatingOperator.elementOrigin;
                     const centerPoint = world.getViewPointByWorldPoint(x, y);
                     const rotation = applyRotating.call(this, shiftKey);
-                    const cursorAngle = getRotateAngle(centerPoint, mouseMove);
-                    cursor.move(mouseMove, cursorAngle);
+                    const cursorAngle = getRotateAngle(centerPoint, mouseNow);
+                    cursor.move(mouseNow, cursorAngle);
                     // updateCursor.call(this, 'rotate', mouseMovePoint, cursorAngle)
                     action.dispatch('element-modifying', {
                         type: 'rotate',
@@ -175,12 +175,12 @@ const selector = {
                 {
                     console.log('mousedown');
                     const MOVE_THROTTLE = 1;
-                    const moved = Math.abs(interaction.mouseMove.x - mouseStart.x) >
+                    const moved = Math.abs(interaction.mouseNow.x - mouseStart.x) >
                         MOVE_THROTTLE ||
-                        Math.abs(interaction.mouseMove.y - mouseStart.y) >
+                        Math.abs(interaction.mouseNow.y - mouseStart.y) >
                             MOVE_THROTTLE;
                     if (moved) {
-                        if (draggingElements.size > 0) {
+                        if (_ele.size > 0) {
                             interaction.state = 'dragging';
                         }
                         else {
@@ -196,15 +196,15 @@ const selector = {
                     if (r) {
                         if (r.type === 'rotate') {
                             const centerPoint = world.getViewPointByWorldPoint(r.elementOrigin.x, r.elementOrigin.y);
-                            const angle = getRotateAngle(centerPoint, mouseMove);
+                            const angle = getRotateAngle(centerPoint, mouseNow);
                             cursor.set('rotate');
-                            cursor.move(mouseMove, angle);
+                            cursor.move(mouseNow, angle);
                             // updateCursor.call(this, 'rotate', mouseMovePoint, angle)
                         }
                         else if (r.type === 'resize') {
                             const { x, y } = r.elementOrigin;
                             const centerPoint = world.getViewPointByWorldPoint(x, y);
-                            const cursorDirection = getResizeCursor(interaction.mouseMove, centerPoint);
+                            const cursorDirection = getResizeCursor(interaction.mouseNow, centerPoint);
                             cursor.set('resize', cursorDirection);
                             // updateCursor.call(this, 'resize', cursorDirection)
                         }
@@ -223,12 +223,12 @@ const selector = {
         const leftMouseClick = e.button === 0;
         if (leftMouseClick) {
             const { interaction, 
-            // draggingElements,
+            // _ele,
             // state,
             elementManager, 
             // container,
             action, selection, rect, world, } = this.editor;
-            const { draggingElements, state, mouseStart, mouseMove, 
+            const { _ele, state, mouseStart, mouseNow, 
             // elementManager,
             _selectingElements, selectedShadow,
             // viewport,
@@ -238,8 +238,8 @@ const selector = {
             const x = e.clientX - rect.x;
             const y = e.clientY - rect.y;
             const modifyKey = e.ctrlKey || e.metaKey || e.shiftKey;
-            mouseMove.x = x;
-            mouseMove.y = y;
+            mouseNow.x = x;
+            mouseNow.y = y;
             switch (state) {
                 case 'selecting':
                     break;
@@ -251,8 +251,8 @@ const selector = {
                           break*/
                 case 'dragging':
                     {
-                        const x = ((mouseMove.x - mouseStart.x) * dpr) / scale;
-                        const y = ((mouseMove.y - mouseStart.y) * dpr) / scale;
+                        const x = ((mouseNow.x - mouseStart.x) * dpr) / scale;
+                        const y = ((mouseNow.y - mouseStart.y) * dpr) / scale;
                         const moved = !(x === 0 && y === 0);
                         // mouse stay static
                         if (moved) {
@@ -262,7 +262,7 @@ const selector = {
                                 data: { x: -x, y: -y },
                             });
                             // Move back to origin position and do the move again
-                            draggingElements.forEach((id) => {
+                            _ele.forEach((id) => {
                                 const ele = elementMap.get(id);
                                 if (ele) {
                                     const change = {
@@ -330,14 +330,14 @@ const selector = {
                     break;
                 case 'static':
                     if (e.ctrlKey || e.metaKey || e.shiftKey) {
-                        selection.toggle(draggingElements);
+                        selection.toggle(_ele);
                     }
                     else {
-                        selection.replace(draggingElements);
+                        selection.replace(_ele);
                     }
                     break;
             }
-            draggingElements.clear();
+            _ele.clear();
             selectedShadow.clear();
             _selectingElements.clear();
             _selectingElements.clear();

@@ -157,8 +157,8 @@ export function initEvents(this: Editor) {
 
   on('world-mouse-move', () => {
     const p = this.world.getWorldPointByViewportPoint(
-      this.interaction.mouseMove.x,
-      this.interaction.mouseMove.y,
+      this.interaction.mouseNow.x,
+      this.interaction.mouseNow.y,
     )
     this.events.onWorldMouseMove?.(p as Point)
   })

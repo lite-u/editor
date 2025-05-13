@@ -129,7 +129,7 @@ export function initEvents() {
         dispatch('visible-selection-updated');
     });
     on('world-mouse-move', () => {
-        const p = this.world.getWorldPointByViewportPoint(this.interaction.mouseMove.x, this.interaction.mouseMove.y);
+        const p = this.world.getWorldPointByViewportPoint(this.interaction.mouseNow.x, this.interaction.mouseNow.y);
         this.events.onWorldMouseMove?.(p);
     });
     on('drop-image', ({ position, assets }) => {

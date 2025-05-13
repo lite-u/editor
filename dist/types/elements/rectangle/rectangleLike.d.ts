@@ -26,6 +26,8 @@ declare class RectangleLike extends Shape {
     translate(dx: number, dy: number): void;
     rotate(angle: number, center?: Point): void;
     scale(sx: number, sy: number): void;
+    scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
+    private transformPoint;
     getTransformedPoints(): Point[];
     static applyResizeTransform: (arg: TransformProps) => Rect;
     hitTest(point: Point, borderPadding?: number): 'inside' | 'border' | null;
