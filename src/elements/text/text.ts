@@ -1,37 +1,26 @@
 import RectangleLike, {RectangleLikeProps} from '../rectangle/rectangleLike'
 import render from './render'
-import {Fill, HorizontalAlign, Stroke, TextFontProps, TextRun, VerticalAlign} from '~/elements/props'
+import {HorizontalAlign, TextFontProps, TextRun, VerticalAlign} from '~/elements/props'
 import deepClone from '~/core/deepClone'
 import {
-  DEFAULT_FILL,
+  DEFAULT_FONT,
   DEFAULT_HORIZONTAL_ALIGN,
-  DEFAULT_STROKE,
   DEFAULT_TEXT_FONT,
   DEFAULT_VERTICAL_ALIGN,
 } from '~/elements/defaultProps'
+import {isEqual} from '~/lib/lib'
 
-const TEXT_COLOR = '#000000'
+/*
 const CONTENT = `
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
 Lorem ipsum dolor sit amet, cons ectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi 
-`
-const DEFAULT_FONT = 'sans-serif'
-const DEFAULT_FONT_SIZE = 12
-const DEFAULT_ALIGNMENT: Alignment = 'left'
-const DEFAULT_FONT_WEIGHT = 400
-const DEFAULT_ITALICS = false
-const DEFAULT_UNDERLINES = false
-const DEFAULT_THROUGH_LINE = false
-const DEFAULT_LINE_HEIGHT = 1.2
-type Alignment = 'left' | 'center' | 'right';
+`*/
 
 export interface TextProps extends RectangleLikeProps {
   type?: 'text'
-  content: TextRun[];  // Array of styled fragments
+  content: TextRun[]
   font?: TextFontProps;
-  // fill?: Fill;
-  // stroke: Stroke
   verticalAlign: VerticalAlign
   horizontalAlign: HorizontalAlign
 }
@@ -41,16 +30,13 @@ export type RequiredTextProps = Required<TextProps>
 class ElementText extends RectangleLike {
   readonly type = 'text'
   content: TextRun[]
-  font?: TextFontProps
-  // stroke: Stroke
+  font: TextFontProps
   verticalAlign: VerticalAlign
   horizontalAlign: HorizontalAlign
 
   constructor({
                 content = [],
                 font = deepClone(DEFAULT_TEXT_FONT),
-                // fill = deepClone(DEFAULT_FILL),
-                // stroke = deepClone(DEFAULT_STROKE),
                 verticalAlign = DEFAULT_VERTICAL_ALIGN,
                 horizontalAlign = DEFAULT_HORIZONTAL_ALIGN,
                 ...rest
@@ -58,8 +44,6 @@ class ElementText extends RectangleLike {
     super({...rest})
     this.content = content
     this.font = font
-    // this.fill = fill
-    // this.stroke = stroke
     this.verticalAlign = verticalAlign
     this.horizontalAlign = horizontalAlign
 
@@ -69,16 +53,10 @@ class ElementText extends RectangleLike {
     return {
       ...super.toJSON(),
       type: this.type,
-      content: this.content,
-      textColor: this.textColor,
-      font: this.font,
-      fontSize: this.fontSize,
-      alignment: this.alignment,
-      fontWeight: this.fontWeight,
-      italics: this.italics,
-      underlines: this.underlines,
-      throughLine: this.throughLine,
-      lineHeight: this.lineHeight,
+      content: deepClone(this.content),
+      font: deepClone(this.font),
+      verticalAlign: this.verticalAlign,
+      horizontalAlign: this.horizontalAlign,
     }
   }
 
@@ -86,48 +64,22 @@ class ElementText extends RectangleLike {
     const result: TextProps = {
       ...super.toMinimalJSON(),
       type: this.type,
-      content: this.content,
-      textColor: this.textColor,
+      content: deepClone(this.content),
+      font: deepClone(this.font),
+      verticalAlign: this.verticalAlign,
+      horizontalAlign: this.horizontalAlign,
     }
 
-    if (this.textColor !== TEXT_COLOR) {
-      result.textColor = this.textColor
+    if (this.verticalAlign !== DEFAULT_VERTICAL_ALIGN) {
+      result.verticalAlign = this.verticalAlign
     }
 
-    if (this.content !== CONTENT) {
-      result.content = this.content
+    if (this.horizontalAlign !== DEFAULT_HORIZONTAL_ALIGN) {
+      result.horizontalAlign = this.horizontalAlign
     }
 
-    if (this.font !== DEFAULT_FONT) {
-      result.font = this.font
-    }
-
-    if (this.fontSize !== DEFAULT_FONT_SIZE) {
-      result.fontSize = this.fontSize
-    }
-
-    if (this.alignment !== DEFAULT_ALIGNMENT) {
-      result.alignment = this.alignment
-    }
-
-    if (this.fontWeight !== DEFAULT_FONT_WEIGHT) {
-      result.fontWeight = this.fontWeight
-    }
-
-    if (this.italics !== DEFAULT_ITALICS) {
-      result.italics = this.italics
-    }
-
-    if (this.underlines !== DEFAULT_UNDERLINES) {
-      result.underlines = this.underlines
-    }
-
-    if (this.throughLine !== DEFAULT_THROUGH_LINE) {
-      result.throughLine = this.throughLine
-    }
-
-    if (this.lineHeight !== DEFAULT_LINE_HEIGHT) {
-      result.lineHeight = this.lineHeight
+    if (!isEqual(this.font, DEFAULT_FONT)) {
+      result.horizontalAlign = this.horizontalAlign
     }
 
     return result
