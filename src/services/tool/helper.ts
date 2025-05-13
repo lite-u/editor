@@ -3,15 +3,15 @@ import {RotateHandle} from '~/services/selection/type'
 
 export function applyRotating(this: ToolManager, shiftKey: boolean) {
   const {interaction, world} = this.editor
-  const {mouseDownPoint, mouseMovePoint, _rotatingOperator} = interaction
+  const {mouseStart, mouseMove, _rotatingOperator} = interaction
   const {scale, dpr, offset} = world
   const {element: {rotation}, elementOrigin} = _rotatingOperator as RotateHandle
   const {x, y} = elementOrigin
 
-  const startX = (mouseDownPoint.x - offset.x / dpr) / scale * dpr
-  const startY = (mouseDownPoint.y - offset.y / dpr) / scale * dpr
-  const currentX = (mouseMovePoint.x - offset.x / dpr) / scale * dpr
-  const currentY = (mouseMovePoint.y - offset.y / dpr) / scale * dpr
+  const startX = (mouseStart.x - offset.x / dpr) / scale * dpr
+  const startY = (mouseStart.y - offset.y / dpr) / scale * dpr
+  const currentX = (mouseMove.x - offset.x / dpr) / scale * dpr
+  const currentY = (mouseMove.y - offset.y / dpr) / scale * dpr
 
   const startAngle = Math.atan2(startY - y, startX - x)
   const currentAngle = Math.atan2(currentY - y, currentX - x)

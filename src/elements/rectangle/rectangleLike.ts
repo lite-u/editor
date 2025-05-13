@@ -55,17 +55,16 @@ class RectangleLike extends Shape {
     return {x: this.cx, y: this.cy}
   }
 
-
   protected get corners(): Point[] {
-    const w = this.width / 2;
-    const h = this.height / 2;
+    const w = this.width / 2
+    const h = this.height / 2
 
     return [
-      { x: this.cx - w, y: this.cy - h }, // top-left
-      { x: this.cx + w, y: this.cy - h }, // top-right
-      { x: this.cx + w, y: this.cy + h }, // bottom-right
-      { x: this.cx - w, y: this.cy + h }  // bottom-left
-    ];
+      {x: this.cx - w, y: this.cy - h}, // top-left
+      {x: this.cx + w, y: this.cy - h}, // top-right
+      {x: this.cx + w, y: this.cy + h}, // bottom-right
+      {x: this.cx - w, y: this.cy + h},  // bottom-left
+    ]
   }
 
   applyMatrix(matrix: DOMMatrix) {
@@ -84,28 +83,18 @@ class RectangleLike extends Shape {
   }
 
   translate(dx: number, dy: number) {
-    const matrix = new DOMMatrix().translate(dx, dy)
-    this.applyMatrix(matrix)
+    this.cx = this.original.cx + dx
+    this.cy = this.original.cx + dy
   }
 
   rotate(angle: number, center?: Point) {
-    const pivot = center ?? this.center
-    const matrix = new DOMMatrix()
-      .translate(pivot.x, pivot.y)
-      .rotate(angle)
-      .translate(-pivot.x, -pivot.y)
-    this.applyMatrix(matrix)
+    this.rotation = angle
   }
 
-  scale(sx: number, sy: number, pivot?: Point) {
-    const center = pivot ?? this.center
-    const m = new DOMMatrix()
-      .translate(center.x, center.y)
-      .scale(sx, sy)
-      .translate(-center.x, -center.y)
-    this.applyTransform(m)
+  scale(sx: number, sy: number) {
+    this.width *= sx;
+    this.height *= sy;
   }
-
 
   getTransformedPoints(): Point[] {
     // const {cx, cy, width, height} = this.original

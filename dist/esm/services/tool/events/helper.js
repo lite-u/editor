@@ -1,6 +1,6 @@
 export function detectHoveredElement() {
     const { interaction, action, world, visible } = this.editor;
-    const worldPoint = world.getWorldPointByViewportPoint(interaction.mouseMovePoint.x, interaction.mouseMovePoint.y);
+    const worldPoint = world.getWorldPointByViewportPoint(interaction.mouseMove.x, interaction.mouseMove.y);
     // const maxLayer = Number.MIN_SAFE_INTEGER
     let elementId = null;
     let hitOn = null;
@@ -35,35 +35,44 @@ export function detectHoveredElement() {
         }
     }
 }
-export function applyResize(altKey, shiftKey) {
-    const { elementManager, interaction, world } = this.editor;
-    const { mouseDownPoint, mouseMovePoint, _resizingOperator } = interaction;
-    const { scale, dpr } = world;
-    const { name: handleName, element: { rotation }, elementOrigin, } = _resizingOperator;
-    const { id } = elementOrigin;
-    const resizeParam = {
-        downPoint: mouseDownPoint,
-        movePoint: mouseMovePoint,
-        dpr,
-        scale,
-        rotation,
-        handleName,
-        altKey,
-        shiftKey,
-        elementOrigin,
-    };
-    const relatedElement = elementManager.all.get(id);
-    if (relatedElement) {
-        // @ts-ignore
-        const con = relatedElement.constructor;
-        // console.log(resizeParam)
-        // @ts-ignore
-        return con.applyResizeTransform(resizeParam);
-    } /*
-    if (type === 'rectangle') {
-      return Rectangle.applyResizeTransform(resizeParam)
-    }*/
+/*
+
+export function applyResize(this: ToolManager, altKey: boolean, shiftKey: boolean) {
+  const {elementManager, interaction, world} = this.editor
+  const {mouseStart, mouseMove, _resizingOperator} = interaction
+  const {scale, dpr} = world
+  const {
+    name: handleName,
+    element: {rotation},
+    elementOrigin,
+  } = _resizingOperator!
+  const {id} = elementOrigin
+  const resizeParam = {
+    downPoint: mouseStart,
+    movePoint: mouseMove,
+    dpr,
+    scale,
+    rotation,
+    handleName,
+    altKey,
+    shiftKey,
+    elementOrigin,
+  }
+
+  const relatedElement = elementManager.all.get(id)
+
+  if (relatedElement) {
+    // @ts-ignore
+    const con = relatedElement.constructor as ElementInstance
+    // console.log(resizeParam)
+    // @ts-ignore
+    return con.applyResizeTransform(resizeParam)
+  }/!*
+  if (type === 'rectangle') {
+    return Rectangle.applyResizeTransform(resizeParam)
+  }*!/
 }
+*/
 export function getRotateAngle(centerPoint, mousePoint) {
     const dx = mousePoint.x - centerPoint.x;
     const dy = mousePoint.y - centerPoint.y;

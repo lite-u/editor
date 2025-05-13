@@ -6,10 +6,10 @@ import ToolManager from '~/services/tool/toolManager'
 function handleWheel(this: ToolManager, event: WheelEvent) {
   // Prevent page zoom
   if ((event.target as HTMLElement) !== this.viewport.wrapper) return
-  // console.log(this.manipulationStatus)
+  // console.log(this.state)
   event.preventDefault()
   event.stopPropagation()
-  if (this.manipulationStatus !== 'static') return
+  if (this.state !== 'static') return
   const {trackpad, zooming, panning, scrolling, zoomFactor, translateX, translateY} =
     detectGestures(event)
 

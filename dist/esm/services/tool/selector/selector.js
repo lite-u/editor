@@ -1,6 +1,6 @@
 import { generateBoundingRectFromTwoPoints } from '../../../core/utils.js';
 import { areSetsEqual, getSymmetricDifference } from '../../../lib/lib.js';
-import { applyResize, detectHoveredElement, getResizeCursor, getRotateAngle } from '../events/helper.js';
+import { detectHoveredElement, getResizeCursor, getRotateAngle } from '../events/helper.js';
 import { applyRotating } from '../helper.js';
 const selector = {
     cursor: 'default',
@@ -12,11 +12,11 @@ const selector = {
         if (operator) {
             if (operator.type === 'resize') {
                 interaction._resizingOperator = operator;
-                return (interaction.manipulationStatus = 'resizing');
+                return (interaction.state = 'resizing');
             }
             else if (operator.type === 'rotate') {
                 interaction._rotatingOperator = operator;
-                return (interaction.manipulationStatus = 'rotating');
+                return (interaction.state = 'rotating');
             }
         }
         const hoveredElement = interaction.hoveredElement;
@@ -29,9 +29,9 @@ const selector = {
             }
             interaction.selectedShadow = selection.values;
             // console.warn(this.selectedShadow)
-            return (interaction.manipulationStatus = 'selecting');
+            return (interaction.state = 'selecting');
         }
-        interaction.manipulationStatus = 'dragging';
+        interaction.state = 'dragging';
         const realSelected = selection.values;
         // this.draggingElements = new Set(this.selectedElements)
         const isSelected = realSelected.has(hoveredElement);
@@ -67,12 +67,12 @@ const selector = {
     },
     move(e) {
         const { action, container, world, interaction, elementManager, cursor, } = this.editor;
-        const { draggingElements, selectedShadow, _selectingElements, mouseDownPoint, mouseMovePoint, } = interaction;
-        switch (interaction.manipulationStatus) {
+        const { draggingElements, selectedShadow, _selectingElements, mouseStart, mouseMove, } = interaction;
+        switch (interaction.state) {
             case 'selecting':
                 {
                     container.setPointerCapture(e.pointerId);
-                    const rect = generateBoundingRectFromTwoPoints(mouseDownPoint, mouseMovePoint);
+                    const rect = generateBoundingRectFromTwoPoints(mouseStart, mouseMove);
                     const pointA = world.getWorldPointByViewportPoint(rect.x, rect.y);
                     const pointB = world.getWorldPointByViewportPoint(rect.right, rect.bottom);
                     const virtualSelectionRect = generateBoundingRectFromTwoPoints(pointA, pointB);
@@ -142,16 +142,17 @@ const selector = {
             case 'resizing':
                 {
                     container.setPointerCapture(e.pointerId);
-                    const { altKey, shiftKey } = e;
+                    console.log(this.editor.interaction._ele);
+                    // const {altKey, shiftKey} = e
                     // const {x, y} = interaction._rotatingOperator!.elementOrigin
                     // const centerPoint = world.getViewPointByWorldPoint(x, y)
                     // const cursorDirection = getResizeDirection(centerPoint, interaction.mouseMovePoint)
-                    const r = applyResize.call(this, altKey, shiftKey);
+                    /*const r = applyResize.call(this, altKey, shiftKey)
                     // console.log(r)
                     action.dispatch('element-modifying', {
-                        type: 'resize',
-                        data: r,
-                    });
+                      type: 'resize',
+                      data: r,
+                    })*/
                 }
                 break;
             case 'rotating':
@@ -161,8 +162,8 @@ const selector = {
                     const { x, y } = interaction._rotatingOperator.elementOrigin;
                     const centerPoint = world.getViewPointByWorldPoint(x, y);
                     const rotation = applyRotating.call(this, shiftKey);
-                    const cursorAngle = getRotateAngle(centerPoint, mouseMovePoint);
-                    cursor.move(mouseMovePoint, cursorAngle);
+                    const cursorAngle = getRotateAngle(centerPoint, mouseMove);
+                    cursor.move(mouseMove, cursorAngle);
                     // updateCursor.call(this, 'rotate', mouseMovePoint, cursorAngle)
                     action.dispatch('element-modifying', {
                         type: 'rotate',
@@ -174,16 +175,16 @@ const selector = {
                 {
                     console.log('mousedown');
                     const MOVE_THROTTLE = 1;
-                    const moved = Math.abs(interaction.mouseMovePoint.x - mouseDownPoint.x) >
+                    const moved = Math.abs(interaction.mouseMove.x - mouseStart.x) >
                         MOVE_THROTTLE ||
-                        Math.abs(interaction.mouseMovePoint.y - mouseDownPoint.y) >
+                        Math.abs(interaction.mouseMove.y - mouseStart.y) >
                             MOVE_THROTTLE;
                     if (moved) {
                         if (draggingElements.size > 0) {
-                            interaction.manipulationStatus = 'dragging';
+                            interaction.state = 'dragging';
                         }
                         else {
-                            interaction.manipulationStatus = 'selecting';
+                            interaction.state = 'selecting';
                         }
                     }
                 }
@@ -195,15 +196,15 @@ const selector = {
                     if (r) {
                         if (r.type === 'rotate') {
                             const centerPoint = world.getViewPointByWorldPoint(r.elementOrigin.x, r.elementOrigin.y);
-                            const angle = getRotateAngle(centerPoint, mouseMovePoint);
+                            const angle = getRotateAngle(centerPoint, mouseMove);
                             cursor.set('rotate');
-                            cursor.move(mouseMovePoint, angle);
+                            cursor.move(mouseMove, angle);
                             // updateCursor.call(this, 'rotate', mouseMovePoint, angle)
                         }
                         else if (r.type === 'resize') {
                             const { x, y } = r.elementOrigin;
                             const centerPoint = world.getViewPointByWorldPoint(x, y);
-                            const cursorDirection = getResizeCursor(interaction.mouseMovePoint, centerPoint);
+                            const cursorDirection = getResizeCursor(interaction.mouseMove, centerPoint);
                             cursor.set('resize', cursorDirection);
                             // updateCursor.call(this, 'resize', cursorDirection)
                         }
@@ -223,11 +224,11 @@ const selector = {
         if (leftMouseClick) {
             const { interaction, 
             // draggingElements,
-            // manipulationStatus,
+            // state,
             elementManager, 
             // container,
             action, selection, rect, world, } = this.editor;
-            const { draggingElements, manipulationStatus, mouseDownPoint, mouseMovePoint, 
+            const { draggingElements, state, mouseStart, mouseMove, 
             // elementManager,
             _selectingElements, selectedShadow,
             // viewport,
@@ -237,9 +238,9 @@ const selector = {
             const x = e.clientX - rect.x;
             const y = e.clientY - rect.y;
             const modifyKey = e.ctrlKey || e.metaKey || e.shiftKey;
-            mouseMovePoint.x = x;
-            mouseMovePoint.y = y;
-            switch (manipulationStatus) {
+            mouseMove.x = x;
+            mouseMove.y = y;
+            switch (state) {
                 case 'selecting':
                     break;
                 /*
@@ -250,8 +251,8 @@ const selector = {
                           break*/
                 case 'dragging':
                     {
-                        const x = ((mouseMovePoint.x - mouseDownPoint.x) * dpr) / scale;
-                        const y = ((mouseMovePoint.y - mouseDownPoint.y) * dpr) / scale;
+                        const x = ((mouseMove.x - mouseStart.x) * dpr) / scale;
+                        const y = ((mouseMove.y - mouseStart.y) * dpr) / scale;
                         const moved = !(x === 0 && y === 0);
                         // mouse stay static
                         if (moved) {
@@ -340,7 +341,7 @@ const selector = {
             selectedShadow.clear();
             _selectingElements.clear();
             _selectingElements.clear();
-            interaction.manipulationStatus = 'static';
+            interaction.state = 'static';
             interaction._deselection = null;
             interaction._resizingOperator = null;
             interaction.updateSelectionBox({ x: 0, y: 0, width: 0, height: 0 }, false);

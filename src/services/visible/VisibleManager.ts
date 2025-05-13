@@ -78,7 +78,7 @@ class VisibleManager {
            fillColor: 'transparent',
          })*/
 
-      console.log(...operators)
+      // console.log(...operators)
       this.editor.interaction.operationHandlers.push(...operators)
     }
   }

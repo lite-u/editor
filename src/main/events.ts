@@ -47,7 +47,7 @@ export function initEvents(this: Editor) {
       scale: this.world.scale,
       offsetX: this.world.offset.x,
       offsetY: this.world.offset.y,
-      // status: this.manipulationStatus,
+      // status: this.state,
     })
     dispatch('visible-element-updated')
   })
@@ -157,8 +157,8 @@ export function initEvents(this: Editor) {
 
   on('world-mouse-move', () => {
     const p = this.world.getWorldPointByViewportPoint(
-      this.interaction.mouseMovePoint.x,
-      this.interaction.mouseMovePoint.y,
+      this.interaction.mouseMove.x,
+      this.interaction.mouseMove.y,
     )
     this.events.onWorldMouseMove?.(p as Point)
   })

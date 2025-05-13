@@ -3,10 +3,10 @@ function handleWheel(event) {
     // Prevent page zoom
     if (event.target !== this.viewport.wrapper)
         return;
-    // console.log(this.manipulationStatus)
+    // console.log(this.state)
     event.preventDefault();
     event.stopPropagation();
-    if (this.manipulationStatus !== 'static')
+    if (this.state !== 'static')
         return;
     const { trackpad, zooming, panning, scrolling, zoomFactor, translateX, translateY } = detectGestures(event);
     console.log(trackpad);

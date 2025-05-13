@@ -37,7 +37,7 @@ export function initEvents() {
             scale: this.world.scale,
             offsetX: this.world.offset.x,
             offsetY: this.world.offset.y,
-            // status: this.manipulationStatus,
+            // status: this.state,
         });
         dispatch('visible-element-updated');
     });
@@ -129,7 +129,7 @@ export function initEvents() {
         dispatch('visible-selection-updated');
     });
     on('world-mouse-move', () => {
-        const p = this.world.getWorldPointByViewportPoint(this.interaction.mouseMovePoint.x, this.interaction.mouseMovePoint.y);
+        const p = this.world.getWorldPointByViewportPoint(this.interaction.mouseMove.x, this.interaction.mouseMove.y);
         this.events.onWorldMouseMove?.(p);
     });
     on('drop-image', ({ position, assets }) => {

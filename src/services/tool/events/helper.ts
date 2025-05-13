@@ -6,8 +6,8 @@ import ToolManager from '~/services/tool/toolManager'
 export function detectHoveredElement(this: ToolManager) {
   const {interaction, action, world, visible} = this.editor
   const worldPoint = world.getWorldPointByViewportPoint(
-    interaction.mouseMovePoint.x,
-    interaction.mouseMovePoint.y,
+    interaction.mouseMove.x,
+    interaction.mouseMove.y,
   )
   // const maxLayer = Number.MIN_SAFE_INTEGER
   let elementId: UID | null = null
@@ -49,10 +49,11 @@ export function detectHoveredElement(this: ToolManager) {
     }
   }
 }
+/*
 
 export function applyResize(this: ToolManager, altKey: boolean, shiftKey: boolean) {
   const {elementManager, interaction, world} = this.editor
-  const {mouseDownPoint, mouseMovePoint, _resizingOperator} = interaction
+  const {mouseStart, mouseMove, _resizingOperator} = interaction
   const {scale, dpr} = world
   const {
     name: handleName,
@@ -61,8 +62,8 @@ export function applyResize(this: ToolManager, altKey: boolean, shiftKey: boolea
   } = _resizingOperator!
   const {id} = elementOrigin
   const resizeParam = {
-    downPoint: mouseDownPoint,
-    movePoint: mouseMovePoint,
+    downPoint: mouseStart,
+    movePoint: mouseMove,
     dpr,
     scale,
     rotation,
@@ -80,11 +81,12 @@ export function applyResize(this: ToolManager, altKey: boolean, shiftKey: boolea
     // console.log(resizeParam)
     // @ts-ignore
     return con.applyResizeTransform(resizeParam)
-  }/*
+  }/!*
   if (type === 'rectangle') {
     return Rectangle.applyResizeTransform(resizeParam)
-  }*/
+  }*!/
 }
+*/
 
 export function getRotateAngle(centerPoint: Point, mousePoint: Point) {
   const dx = mousePoint!.x - centerPoint.x

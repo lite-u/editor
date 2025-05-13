@@ -3,6 +3,7 @@ import {OperationHandler, ResizeHandle} from '~/services/selection/type'
 import {Point, Rect, ToolName} from '~/type'
 import {createWith} from '~/lib/lib'
 import Editor from '~/main/editor'
+import {ElementInstance} from '~/elements/type'
 
 export type ViewportManipulationType =
   | 'static'
@@ -16,8 +17,8 @@ export type ViewportManipulationType =
 
 class InteractionState {
   editor: Editor
-  mouseDownPoint: Point = {x: 0, y: 0}
-  mouseMovePoint: Point = {x: 0, y: 0}
+  mouseStart: Point = {x: 0, y: 0}
+  mouseMove: Point = {x: 0, y: 0}
   hoveredElement: UID = ''
   readonly operationHandlers: OperationHandler[] = []
   spaceKeyDown = false
@@ -29,7 +30,8 @@ class InteractionState {
   _resizingOperator: ResizeHandle | null = null
   _rotatingOperator: OperationHandler | null = null
   selectedShadow: Set<UID> = new Set()
-  manipulationStatus: ViewportManipulationType = 'static'
+  state: ViewportManipulationType = 'static'
+  _ele: ElementInstance
   selectionBox: HTMLDivElement | null = null
   _lastTool: ToolName | null = null
   boxColor = '#1FB3FF'

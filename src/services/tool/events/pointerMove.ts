@@ -6,13 +6,12 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
     action,
     rect,
     interaction,
-    cursor,
   } = this.editor
   const x = e.clientX - rect!.x
   const y = e.clientY - rect!.y
 
-  interaction.mouseMovePoint.x = x
-  interaction.mouseMovePoint.y = y
+  interaction.mouseMove.x = x
+  interaction.mouseMove.y = y
   // interaction.drawCrossLine = false
 
   // cursor.move({x, y})

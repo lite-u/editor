@@ -1,9 +1,9 @@
 export default function handlePointerMove(e) {
-    const { action, rect, interaction, cursor, } = this.editor;
+    const { action, rect, interaction, } = this.editor;
     const x = e.clientX - rect.x;
     const y = e.clientY - rect.y;
-    interaction.mouseMovePoint.x = x;
-    interaction.mouseMovePoint.y = y;
+    interaction.mouseMove.x = x;
+    interaction.mouseMove.y = y;
     // interaction.drawCrossLine = false
     // cursor.move({x, y})
     action.dispatch('world-mouse-move');

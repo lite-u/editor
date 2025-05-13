@@ -25,7 +25,7 @@ declare class RectangleLike extends Shape {
     applyMatrix(matrix: DOMMatrix): void;
     translate(dx: number, dy: number): void;
     rotate(angle: number, center?: Point): void;
-    scale(sx: number, sy: number, pivot?: Point): void;
+    scale(sx: number, sy: number): void;
     getTransformedPoints(): Point[];
     static applyResizeTransform: (arg: TransformProps) => Rect;
     hitTest(point: Point, borderPadding?: number): 'inside' | 'border' | null;

@@ -1,12 +1,11 @@
-import { applyResize } from './helper.js';
 // import {updateSelectionBox} from "../domManipulations.ts"
 function handleKeyDown(e) {
     const _t = e.target !== this.editor.container;
     if (_t)
         return;
     const { interaction, action, cursor, toolManager } = this.editor;
-    const { manipulationStatus } = interaction;
-    if (manipulationStatus === 'panning' || manipulationStatus === 'selecting')
+    const { state } = interaction;
+    if (state === 'panning' || state === 'selecting')
         return;
     if (e.code === 'Space') {
         // interaction.spaceKeyDown = true
@@ -17,13 +16,15 @@ function handleKeyDown(e) {
         e.preventDefault();
         return;
     }
-    if (manipulationStatus === 'resizing') {
-        const { altKey, shiftKey } = e;
-        const r = applyResize.call(this, altKey, shiftKey);
+    if (state === 'resizing') {
+        /*const {altKey, shiftKey} = e
+    
+        const r = applyResize.call(this, altKey, shiftKey)
+    
         action.dispatch('element-modifying', {
-            type: 'resize',
-            data: r,
-        });
+          type: 'resize',
+          data: r,
+        })*/
     }
 }
 export default handleKeyDown;

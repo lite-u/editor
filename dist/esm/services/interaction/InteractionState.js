@@ -1,8 +1,8 @@
 import { createWith } from '../../lib/lib.js';
 class InteractionState {
     editor;
-    mouseDownPoint = { x: 0, y: 0 };
-    mouseMovePoint = { x: 0, y: 0 };
+    mouseStart = { x: 0, y: 0 };
+    mouseMove = { x: 0, y: 0 };
     hoveredElement = '';
     operationHandlers = [];
     spaceKeyDown = false;
@@ -14,7 +14,8 @@ class InteractionState {
     _resizingOperator = null;
     _rotatingOperator = null;
     selectedShadow = new Set();
-    manipulationStatus = 'static';
+    state = 'static';
+    _ele;
     selectionBox = null;
     _lastTool = null;
     boxColor = '#1FB3FF';

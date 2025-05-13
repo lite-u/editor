@@ -19,7 +19,7 @@ function handleKeyUp(this: ToolManager, e: KeyboardEvent) {
     return
   }
 
-  if (interaction.manipulationStatus === 'resizing') {
+ /* if (interaction.state === 'resizing') {
     const {altKey, shiftKey} = e
 
     const r = applyResize.call(this, altKey, shiftKey)
@@ -28,7 +28,7 @@ function handleKeyUp(this: ToolManager, e: KeyboardEvent) {
       type: 'resize',
       data: r,
     })
-  }
+  }*/
 }
 
 export default handleKeyUp

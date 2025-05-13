@@ -7,8 +7,8 @@ function handleKeyDown(this: ToolManager, e: KeyboardEvent) {
   const _t = e.target !== this.editor.container
   if (_t) return
   const {interaction, action, cursor, toolManager} = this.editor
-  const {manipulationStatus} = interaction
-  if (manipulationStatus === 'panning' || manipulationStatus === 'selecting') return
+  const {state} = interaction
+  if (state === 'panning' || state === 'selecting') return
 
   if (e.code === 'Space') {
     // interaction.spaceKeyDown = true
@@ -21,15 +21,15 @@ function handleKeyDown(this: ToolManager, e: KeyboardEvent) {
     return
   }
 
-  if (manipulationStatus === 'resizing') {
-    const {altKey, shiftKey} = e
+  if (state === 'resizing') {
+    /*const {altKey, shiftKey} = e
 
     const r = applyResize.call(this, altKey, shiftKey)
 
     action.dispatch('element-modifying', {
       type: 'resize',
       data: r,
-    })
+    })*/
   }
 
 }

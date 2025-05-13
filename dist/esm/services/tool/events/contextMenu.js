@@ -12,7 +12,7 @@ function handleContextMenu(e) {
     detectHoveredElement.call(this);
     const lastId = interaction.hoveredElement;
     const selectedIdSet = selection.values;
-    const position = { ...interaction.mouseMovePoint };
+    const position = { ...interaction.mouseMove };
     let idSet = new Set();
     // console.log(selectedIdSet,lastId)
     if (lastId) {

@@ -7,10 +7,10 @@ function handleMouseDown(this: ToolManager, e: MouseEvent) {
 
   const x = clientX - this.editor.rect!.x
   const y = clientY - this.editor.rect!.y
-  this.editor.interaction.mouseDownPoint.x = x
-  this.editor.interaction.mouseDownPoint.y = y
-  this.editor.interaction.mouseMovePoint.x = x
-  this.editor.interaction.mouseMovePoint.y = y
+  this.editor.interaction.mouseStart.x = x
+  this.editor.interaction.mouseStart.y = y
+  this.editor.interaction.mouseMove.x = x
+  this.editor.interaction.mouseMove.y = y
 
   // console.log(operator)
   e.preventDefault()
@@ -18,7 +18,7 @@ function handleMouseDown(this: ToolManager, e: MouseEvent) {
   /*
 
     if (this.editor.interaction.spaceKeyDown) {
-      return (this.editor.interaction.manipulationStatus = 'panning')
+      return (this.editor.interaction.state = 'panning')
     }
   */
 

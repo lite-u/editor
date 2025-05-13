@@ -71,7 +71,7 @@ export function createViewport(this: Viewport): Viewport {
     // handlingElements: undefined,
     // hoveredElements: undefined,
     initialized: false,
-    // manipulationStatus: undefined,
+    // state: undefined,
     scale: 1,
     spaceKeyDown: false,
     zooming: false,
