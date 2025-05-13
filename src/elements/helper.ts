@@ -7,7 +7,7 @@ import {ElementInstance} from '~/elements/elements'
 import {EllipseProps} from '~/elements/ellipse/ellipse'
 
 export const generateHandles = (element: ElementInstance, ratio: number) => {
-  const {id, x: cx, y: cy, rotation} = element.toJSON()
+  const {id, x: ox, y: oy, rotation} = element.toJSON()
   const {width, height} = element.getBoundingRect()
   // const {rotation} = this
   const lineWidth = 1 / ratio
@@ -30,8 +30,8 @@ export const generateHandles = (element: ElementInstance, ratio: number) => {
 
   return HANDLER_OFFSETS.map((OFFSET, index): OperationHandler => {
     // Calculate the handle position in local coordinates
-    const currentCenterX = cx - width / 2 + OFFSET.x * width
-    const currentCenterY = cy - height / 2 + OFFSET.y * height
+    const currentCenterX = ox - width / 2 + OFFSET.x * width
+    const currentCenterY = oy - height / 2 + OFFSET.y * height
 
     const handleElementProps: RectangleProps = {
       id: `${id}-${OFFSET.type}-${index}`,
@@ -42,7 +42,7 @@ export const generateHandles = (element: ElementInstance, ratio: number) => {
     // let cursor: ResizeCursor = OFFSET.cursor as ResizeCursor
 
     if (OFFSET.type === 'resize') {
-      const rotated = rotatePointAroundPoint(currentCenterX, currentCenterY, cx, cy, rotation)
+      const rotated = rotatePointAroundPoint(currentCenterX, currentCenterY, ox, oy, rotation)
 
       handleElementProps.cx = rotated.x
       handleElementProps.cy = rotated.y
@@ -61,8 +61,8 @@ export const generateHandles = (element: ElementInstance, ratio: number) => {
       const rotated = rotatePointAroundPoint(
         currentRotateHandlerCX,
         currentRotateHandlerCY,
-        cx,
-        cy,
+        ox,
+        oy,
         rotation,
       )
 
