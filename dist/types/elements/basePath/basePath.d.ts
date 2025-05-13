@@ -2,9 +2,9 @@ type Point = {
     x: number;
     y: number;
 };
-export declare abstract class BasePath {
-    abstract getPoints(): Point[];
-    abstract setPoints(points: Point[]): void;
+export declare class BasePath {
+    protected getPoints(): Point[];
+    protected setPoints(_: Point[]): void;
     getCenter(): Point;
     applyMatrix(matrix: DOMMatrix): void;
     translate(dx: number, dy: number): void;

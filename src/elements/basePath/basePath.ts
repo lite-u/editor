@@ -1,9 +1,11 @@
 type Point = { x: number; y: number };
 
-export abstract class BasePath {
-  abstract getPoints(): Point[];
+export class BasePath {
+  protected getPoints(): Point[] {return []}
 
-  abstract setPoints(points: Point[]): void;
+  protected setPoints(_: Point[]): void {
+    return undefined
+  }
 
   getCenter(): Point {
     const points = this.getPoints()
