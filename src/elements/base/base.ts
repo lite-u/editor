@@ -111,6 +111,10 @@ class Base {
     return generateBoundingRectFromTwoPoints({x: 0, y: 0}, {x: 0, y: 0})
   }
 
+  protected _toJSON(): unknown {
+    return this.toJSON()
+  }
+
   protected render(_ctx: CanvasRenderingContext2D): void {
     return undefined
   }

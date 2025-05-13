@@ -55,9 +55,11 @@ export interface RotateHandle extends OperationHandle {
   type: 'rotate';
 }
 
+/*
 export interface MoveHandle extends OperationHandle {
   type: 'move';
-}
+}*/
 
-export type OperationHandler = RotateHandle | ResizeHandle | MoveHandle
+export type OperationHandler = RotateHandle | ResizeHandle
+/* | MoveHandle*/
 

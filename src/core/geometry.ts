@@ -1,4 +1,3 @@
-import {Point} from '~/type'
 
 /*
 const rotatePointAroundPoint = (p1: Point, p2: Point, rotation: number) => {

@@ -2,6 +2,7 @@ import {ElementMap} from '~/elements/elements'
 import {BoundingRect, UID} from '~/type'
 import {rectsOverlap} from '~/core/utils'
 import Editor from '~/main/editor'
+import {generateHandles} from '~/elements/helper'
 
 class VisibleManager {
   private visibleElementMap: ElementMap
@@ -60,12 +61,14 @@ class VisibleManager {
     if (elementProps) {
       const element = this.editor.elementManager.getElementById(elementProps.id)
       const {scale, dpr} = this.editor.world
-      const lineWidth = 1 / scale * dpr
-      const resizeSize = 10 / scale * dpr
-      const rotateSize = 15 / scale * dpr
+      const ratio = scale * dpr
+      const lineWidth = 1 / ratio
+      const resizeSize = 10 / ratio
+      const rotateSize = 15 / ratio
       const lineColor = '#5491f8'
 
-      const operators = element.getOperators(
+      generateHandles(element, ratio)
+     /* const operators = element.getOperators(
         element!.id,
         {
           size: resizeSize,
@@ -77,7 +80,7 @@ class VisibleManager {
           lineColor: 'transparent',
           lineWidth: 0,
           fillColor: 'transparent',
-        })
+        })*/
 
       this.editor.interaction.operationHandlers.push(...operators)
     }
