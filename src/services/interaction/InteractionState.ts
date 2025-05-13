@@ -21,11 +21,11 @@ class InteractionState {
   state: EditorManipulationType = 'static'
 
   mouseStart: Point = {x: 0, y: 0}
-  mouseNow: Point = {x: 0, y: 0}
+  mouseCurrent: Point = {x: 0, y: 0}
   mouseDelta: Point = {x: 0, y: 0}
 
   mouseWorldStart: Point = {x: 0, y: 0}
-  mouseWorldNow: Point = {x: 0, y: 0}
+  mouseWorldCurrent: Point = {x: 0, y: 0}
   mouseWorldDelta: Point = {x: 0, y: 0}
 
   hoveredElement: UID = ''

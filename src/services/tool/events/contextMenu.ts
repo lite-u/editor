@@ -17,7 +17,7 @@ function handleContextMenu(this: ToolManager, e: MouseEvent) {
   detectHoveredElement.call(this)
   const lastId = interaction.hoveredElement
   const selectedIdSet = selection.values
-  const position = {...interaction.mouseNow}
+  const position = {...interaction.mouseCurrent}
   let idSet = new Set<UID>()
 
   // console.log(selectedIdSet,lastId)

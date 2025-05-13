@@ -6,8 +6,8 @@ import ToolManager from '~/services/tool/toolManager'
 export function detectHoveredElement(this: ToolManager) {
   const {interaction, action, world, visible} = this.editor
   const worldPoint = world.getWorldPointByViewportPoint(
-    interaction.mouseNow.x,
-    interaction.mouseNow.y,
+    interaction.mouseCurrent.x,
+    interaction.mouseCurrent.y,
   )
   // const maxLayer = Number.MIN_SAFE_INTEGER
   let elementId: UID | null = null

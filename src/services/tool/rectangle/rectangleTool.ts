@@ -8,7 +8,7 @@ const rectangleTool: ToolType = {
     const {
       elementManager, interaction, action, selection,
     } = this.editor
-    const {x, y} = interaction.mouseNow
+    const {x, y} = interaction.mouseCurrent
     const {x: cx, y: cy} = this.editor.world.getWorldPointByViewportPoint(x, y)
     const width = 2
     const height = 2
@@ -42,9 +42,9 @@ const rectangleTool: ToolType = {
     // if (!this.editor.interaction._resizingOperator) return
     const {altKey, shiftKey} = e
     const {interaction, world, selection, action, elementManager, rect} = this.editor
-    const {mouseNow, mouseStart} = interaction
-    const dx = mouseNow.x - mouseStart.x
-    const dy = mouseNow.y - mouseStart.y
+    const {mouseCurrent, mouseStart} = interaction
+    const dx = mouseCurrent.x - mouseStart.x
+    const dy = mouseCurrent.y - mouseStart.y
     this.editor.container.setPointerCapture(e.pointerId)
 
     interaction._ele.scaleFrom(dx, dy)

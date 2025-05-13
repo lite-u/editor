@@ -85,7 +85,7 @@ const selector: ToolType = {
       selectedShadow,
       _selectingElements,
       mouseStart,
-      mouseNow,
+      mouseCurrent,
     } = interaction
 
     switch (interaction.state) {
@@ -93,7 +93,7 @@ const selector: ToolType = {
         container.setPointerCapture(e.pointerId)
         const rect = generateBoundingRectFromTwoPoints(
           mouseStart,
-          mouseNow,
+          mouseCurrent,
         )
         const pointA = world.getWorldPointByViewportPoint(rect.x, rect.y)
         const pointB = world.getWorldPointByViewportPoint(
@@ -196,9 +196,9 @@ const selector: ToolType = {
         const {x, y} = interaction._rotatingOperator!.elementOrigin
         const centerPoint = world.getViewPointByWorldPoint(x, y)
         const rotation = applyRotating.call(this, shiftKey)
-        const cursorAngle = getRotateAngle(centerPoint, mouseNow)
+        const cursorAngle = getRotateAngle(centerPoint, mouseCurrent)
 
-        cursor.move(mouseNow, cursorAngle)
+        cursor.move(mouseCurrent, cursorAngle)
         // updateCursor.call(this, 'rotate', mouseMovePoint, cursorAngle)
 
         action.dispatch('element-modifying', {
@@ -212,9 +212,9 @@ const selector: ToolType = {
         console.log('mousedown')
         const MOVE_THROTTLE = 1
         const moved =
-          Math.abs(interaction.mouseNow.x - mouseStart.x) >
+          Math.abs(interaction.mouseCurrent.x - mouseStart.x) >
           MOVE_THROTTLE ||
-          Math.abs(interaction.mouseNow.y - mouseStart.y) >
+          Math.abs(interaction.mouseCurrent.y - mouseStart.y) >
           MOVE_THROTTLE
 
         if (moved) {
@@ -234,15 +234,15 @@ const selector: ToolType = {
         if (r) {
           if (r.type === 'rotate') {
             const centerPoint = world.getViewPointByWorldPoint(r.elementOrigin.x, r.elementOrigin.y)
-            const angle = getRotateAngle(centerPoint, mouseNow)
+            const angle = getRotateAngle(centerPoint, mouseCurrent)
 
             cursor.set('rotate')
-            cursor.move(mouseNow, angle)
+            cursor.move(mouseCurrent, angle)
             // updateCursor.call(this, 'rotate', mouseMovePoint, angle)
           } else if (r.type === 'resize') {
             const {x, y} = r.elementOrigin
             const centerPoint = world.getViewPointByWorldPoint(x, y)
-            const cursorDirection = getResizeCursor(interaction.mouseNow, centerPoint)
+            const cursorDirection = getResizeCursor(interaction.mouseCurrent, centerPoint)
 
             cursor.set('resize', cursorDirection)
             // updateCursor.call(this, 'resize', cursorDirection)
@@ -279,7 +279,7 @@ const selector: ToolType = {
         _ele,
         state,
         mouseStart,
-        mouseNow,
+        mouseCurrent,
         // elementManager,
         _selectingElements,
         selectedShadow,
@@ -291,8 +291,8 @@ const selector: ToolType = {
       const y = e.clientY - rect!.y
       const modifyKey = e.ctrlKey || e.metaKey || e.shiftKey
 
-      mouseNow.x = x
-      mouseNow.y = y
+      mouseCurrent.x = x
+      mouseCurrent.y = y
 
       switch (state) {
         case 'selecting':
@@ -305,8 +305,8 @@ const selector: ToolType = {
                   break*/
 
         case 'dragging': {
-          const x = ((mouseNow.x - mouseStart.x) * dpr) / scale
-          const y = ((mouseNow.y - mouseStart.y) * dpr) / scale
+          const x = ((mouseCurrent.x - mouseStart.x) * dpr) / scale
+          const y = ((mouseCurrent.y - mouseStart.y) * dpr) / scale
           const moved = !(x === 0 && y === 0)
 
           // mouse stay static
