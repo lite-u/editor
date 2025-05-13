@@ -3,7 +3,7 @@ import {OperationHandler} from '~/services/selection/type'
 import ElementRectangle, {RectangleProps} from '~/elements/rectangle/rectangle'
 import {rotatePointAroundPoint} from '~/core/geometry'
 import {DEFAULT_FILL, DEFAULT_STROKE} from '~/elements/defaultProps'
-import {ElementInstance} from '~/elements/elements'
+import {ElementInstance} from '~/elements/type'
 import {EllipseProps} from '~/elements/ellipse/ellipse'
 
 export const generateHandles = (element: ElementInstance, ratio: number): OperationHandler[] => {

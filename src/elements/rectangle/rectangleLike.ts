@@ -8,6 +8,7 @@ import ElementRectangle from '~/elements/rectangle/rectangle'
 import {BorderRadius} from '~/elements/props'
 import {DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH} from '~/elements/defaultProps'
 import {isEqual} from '~/lib/lib'
+import {transformPoints} from '~/core/geometry'
 
 export interface RectangleLikeProps extends ShapeProps {
   id: string
@@ -25,6 +26,7 @@ class RectangleLike extends Shape {
   width: number
   height: number
   borderRadius: BorderRadius
+  private original: { cx: number, cy: number, width: number, height: number }
 
   constructor({
                 id,
@@ -35,11 +37,38 @@ class RectangleLike extends Shape {
                 ...rest
               }: RectangleLikeProps) {
     super(rest)
+
     this.id = id
     this.layer = layer
     this.width = width
     this.height = height
     this.borderRadius = borderRadius
+    this.original = {
+      cx: this.cx,
+      cy: this.cy,
+      width,
+      height,
+    }
+  }
+
+  getCorners(): Point[] {
+    const {cx, cy, width, height} = this.original
+    const x = cx + width / 2
+    const y = cy + height / 2
+
+    return [
+      {x, y},
+      {x: x + width, y: y + height},
+      {x: x + width, y: y},
+      {x: x + width, y: y + height},
+      {x: x, y: y + height},
+    ]
+  }
+
+  getTransformedPoints(): Point[] {
+    // const {cx, cy, width, height} = this.original
+    const corners: Point[] = this.getCorners()
+    return transformPoints(corners, this.matrix)
   }
 
   static applyResizeTransform = (arg: TransformProps): Rect => {
@@ -89,8 +118,8 @@ class RectangleLike extends Shape {
       id,
       layer,
     } = this
-    if(!borderRadius){
-debugger
+    if (!borderRadius) {
+      debugger
 
     }
     return {

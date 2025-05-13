@@ -1,4 +1,4 @@
-import {ElementProps} from '~/elements/elements'
+import {ElementProps} from '~/elements/type'
 import {UID} from '~/core/core'
 
 const extractIdSetFromArray = (from: ElementProps[]): Set<UID> => {

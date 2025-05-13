@@ -1,4 +1,4 @@
-import {ElementInstance} from '~/elements/elements'
+import {ElementInstance} from '~/elements/type'
 import {UID} from '~/core/core'
 import Rectangle from '~/services/tool/rectangle/rectangleTool'
 import {Point, Rect} from '~/type'

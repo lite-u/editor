@@ -2,7 +2,7 @@ import {HistoryElements} from './type'
 import {extractIdSetFromArray} from './helpers'
 import {HistoryNode} from './DoublyLinkedList'
 import Editor from '../../main/editor'
-import {ElementProps} from '~/elements/elements'
+import {ElementProps} from '~/elements/type'
 
 export function undo(this: Editor, quiet: boolean = false): HistoryNode | false {
   if (this.history.current === this.history.head) return false

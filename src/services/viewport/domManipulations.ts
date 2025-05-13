@@ -1,3 +1,4 @@
+/*
 import Editor from '../../main/editor'
 import {ResizeDirection} from '../selection/type'
 import {Point, Rect, UID} from '~/type'
@@ -166,4 +167,4 @@ export function updateCursor(this: Editor, type: 'rotate' | 'resize' | 'default'
     cursor.style.transformOrigin = 'center center'
     cursor.style.transform = `translate(${x - offset}px, ${y - offset}px) rotate(${angle}deg)`
   }
-}
+}*/

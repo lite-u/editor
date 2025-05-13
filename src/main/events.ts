@@ -9,7 +9,7 @@ import {HistoryOperation} from '~/services/history/type'
 // import zoom from '../../components/statusBar/zoom'
 import {fitRectToViewport} from '~/services/world/helper'
 import {Point} from '~/type'
-import {ElementMap, ElementProps} from '~/elements/elements'
+import {ElementMap, ElementProps} from '~/elements/type'
 
 export function initEvents(this: Editor) {
   const {action} = this

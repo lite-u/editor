@@ -2,7 +2,7 @@ import {UID} from '~/core/core'
 import Editor from '~/main/editor'
 import {SelectionActionMode} from '~/services/selection/type'
 import {selectionHelper} from './selectionHelper'
-import {ElementProps} from '~/elements/elements'
+import {ElementProps} from '~/elements/type'
 
 class SelectionManager {
   protected selected: Set<UID> = new Set()

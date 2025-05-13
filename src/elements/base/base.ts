@@ -1,4 +1,4 @@
-import {BoundingRect} from '~/type'
+import {BoundingRect, Point} from '~/type'
 import {generateBoundingRectFromTwoPoints} from '~/core/utils'
 import {
   DEFAULT_FILL,
@@ -32,6 +32,7 @@ class Base {
   rotation: number
   transform: Transform
   show: boolean
+  protected matrix = new DOMMatrix()
 
   constructor({
                 stroke = deepClone(DEFAULT_STROKE),
@@ -111,11 +112,23 @@ class Base {
     return generateBoundingRectFromTwoPoints({x: 0, y: 0}, {x: 0, y: 0})
   }
 
-  protected _toJSON(): unknown {
-    return this.toJSON()
+  protected getTransformedPoints(): Point[] {
+    return []
   }
 
-  protected render(_ctx: CanvasRenderingContext2D): void {
+  protected resetTransform() {
+    this.matrix = new DOMMatrix()
+  }
+
+  protected applyTransform(matrix: DOMMatrix): void {
+    this.matrix = matrix.multiply(this.matrix)
+  }
+
+  protected getTransformMatrix(): DOMMatrix {
+    return this.matrix
+  }
+
+  protected render(_: CanvasRenderingContext2D): void {
     return undefined
   }
 }

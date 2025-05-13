@@ -1,5 +1,5 @@
 import Editor from '~/main/editor'
-import {ElementInstance, ElementMap, ElementProps} from '~/elements/elements'
+import {ElementInstance, ElementMap, ElementProps} from '~/elements/type'
 import deepClone from '~/core/deepClone'
 import nid from '~/core/nid'
 import ElementRectangle from '~/elements/rectangle/rectangle'

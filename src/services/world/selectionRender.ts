@@ -1,9 +1,9 @@
-import {UID} from '~/core/core'
 import ElementRectangle from '~/elements/rectangle/rectangle'
-import {ElementInstance} from '~/elements/elements'
+import {ElementInstance} from '~/elements/type'
 import World from '~/services/world/World'
 import {BorderRadius} from '~/elements/props'
 import {DEFAULT_FILL, DEFAULT_STROKE} from '~/elements/defaultProps'
+import {UID} from '~/type'
 
 function selectionRender(this: World) {
   if (this.editor.elementManager.size === 0) return

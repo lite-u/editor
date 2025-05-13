@@ -1,5 +1,4 @@
 import {VisionEventData, VisionEventType} from '~/services/actions/type'
-import {ToolName} from '~/services/tool/toolManager'
 import {Unit} from './index'
 
 export type UID = string
@@ -35,6 +34,8 @@ export type UnitType = Unit.MM | Unit.INCHES | Unit.PX | Unit.CM;
 export type {VisionEventData, VisionEventType}
 // export type {UID, HexColor}
 
-export type * from './core/core.d'
-export type * from '~/services/assets/asssetsManager'
-export type {ToolName}
+// export type * from './core/core.d'
+// export type * from '~/services/assets/asssetsManager'
+// export type {ElementProps}
+export type {ElementProps} from './elements/type'
+

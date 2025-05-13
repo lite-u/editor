@@ -7,6 +7,8 @@ const rotatePointAroundPoint = (p1: Point, p2: Point, rotation: number) => {
 export default rotatePointAroundPoint
 */
 
+import {Point} from '~/type'
+
 export function rotatePointAroundPoint(
   px: number,
   py: number,
@@ -24,4 +26,12 @@ export function rotatePointAroundPoint(
     x: cx + dx * cos - dy * sin,
     y: cy + dx * sin + dy * cos,
   }
+}
+
+export function transformPoints(points: Point[], matrix: DOMMatrix): Point[] {
+  return points.map(p => matrix.transformPoint(p));
+}
+
+export function getCornerByRect(rect) {
+
 }

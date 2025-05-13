@@ -1,4 +1,4 @@
-import {ElementInstance} from '~/elements/elements'
+import {ElementInstance} from '~/elements/type'
 
 export type SelectionActionMode = 'add' | 'delete' | 'toggle' | 'replace'
 

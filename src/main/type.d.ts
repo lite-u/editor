@@ -1,4 +1,4 @@
-import {ElementProps} from '~/elements/elements'
+import {ElementProps} from '~/elements/type'
 import History from '~/services/history/history'
 import {EditorConfig} from './editor'
 import {ToolName} from '~/services/tool/toolManager'

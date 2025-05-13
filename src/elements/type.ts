@@ -21,5 +21,3 @@ export type ElementInstance =
   | InstanceType<ElementImage>
   | InstanceType<ElementText>
 export type ElementMap = Map<UID, ElementInstance>
-
-export {}

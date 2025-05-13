@@ -1,6 +1,6 @@
 import {ResizeDirection} from '../../selection/type'
 import {Point, UID} from '~/type'
-import {ElementInstance} from '~/elements/elements'
+import {ElementInstance} from '~/elements/type'
 import ToolManager from '~/services/tool/toolManager'
 
 export function detectHoveredElement(this: ToolManager) {

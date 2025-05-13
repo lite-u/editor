@@ -1,4 +1,4 @@
-import {ElementProps} from '~/elements/elements'
+import {ElementProps} from '~/elements/type'
 
 class ClipboardManager {
   copiedItems: ElementProps[] = []

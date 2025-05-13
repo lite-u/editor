@@ -4,7 +4,7 @@ import {OperationHandler} from '~/services/selection/type'
 import ElementRectangle, {RectangleProps} from '../rectangle/rectangle'
 import {ElementFillColor} from '~/core/core'
 import {BoundingRect} from '~/type'
-import {ElementProps} from '../elements'
+import {ElementProps} from '../type'
 import {rotatePointAroundPoint} from '~/core/geometry'
 import {AnchorPoint, Appearance, BlendMode, Fill, Stroke, Transform} from '~/elements/defaultProps'
 

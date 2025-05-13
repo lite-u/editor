@@ -3,7 +3,7 @@ import {areSetsEqual, getSymmetricDifference} from '~/lib/lib'
 import {applyResize, detectHoveredElement, getResizeCursor, getRotateAngle} from '~/services/tool/events/helper'
 import {BoundingRect, UID} from '~/type'
 import {ElementModifyData} from '~/services/actions/type'
-import {ElementProps} from '~/elements/elements'
+import {ElementProps} from '~/elements/type'
 import ToolManager, {ToolType} from '~/services/tool/toolManager'
 import {applyRotating} from '~/services/tool/helper'
 

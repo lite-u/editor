@@ -1,4 +1,4 @@
-import {ElementMap} from '~/elements/elements'
+import {ElementMap} from '~/elements/type'
 import {BoundingRect, UID} from '~/type'
 import {rectsOverlap} from '~/core/utils'
 import Editor from '~/main/editor'
