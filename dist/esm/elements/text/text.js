@@ -1,5 +1,7 @@
 import RectangleLike from '../rectangle/rectangleLike.js';
 import render from './render.js';
+import deepClone from '../../core/deepClone.js';
+import { DEFAULT_HORIZONTAL_ALIGN, DEFAULT_TEXT_FONT, DEFAULT_VERTICAL_ALIGN, } from '../defaultProps.js';
 const TEXT_COLOR = '#000000';
 const CONTENT = `
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
@@ -16,28 +18,22 @@ const DEFAULT_THROUGH_LINE = false;
 const DEFAULT_LINE_HEIGHT = 1.2;
 class ElementText extends RectangleLike {
     type = 'text';
-    textColor;
     content;
     font;
-    fontSize;
-    alignment;
-    fontWeight;
-    italics;
-    underlines;
-    throughLine;
-    lineHeight;
-    constructor({ textColor = TEXT_COLOR, content = CONTENT, font = DEFAULT_FONT, fontSize = DEFAULT_FONT_SIZE, alignment = DEFAULT_ALIGNMENT, fontWeight = DEFAULT_FONT_WEIGHT, italics = DEFAULT_ITALICS, underlines = DEFAULT_UNDERLINES, throughLine = DEFAULT_THROUGH_LINE, lineHeight = DEFAULT_LINE_HEIGHT, ...rest }) {
+    // stroke: Stroke
+    verticalAlign;
+    horizontalAlign;
+    constructor({ content = [], font = deepClone(DEFAULT_TEXT_FONT), 
+    // fill = deepClone(DEFAULT_FILL),
+    // stroke = deepClone(DEFAULT_STROKE),
+    verticalAlign = DEFAULT_VERTICAL_ALIGN, horizontalAlign = DEFAULT_HORIZONTAL_ALIGN, ...rest }) {
         super({ ...rest });
-        this.textColor = textColor;
         this.content = content;
         this.font = font;
-        this.fontSize = fontSize;
-        this.alignment = alignment;
-        this.fontWeight = fontWeight;
-        this.italics = italics;
-        this.underlines = underlines;
-        this.throughLine = throughLine;
-        this.lineHeight = lineHeight;
+        // this.fill = fill
+        // this.stroke = stroke
+        this.verticalAlign = verticalAlign;
+        this.horizontalAlign = horizontalAlign;
     }
     toJSON() {
         return {

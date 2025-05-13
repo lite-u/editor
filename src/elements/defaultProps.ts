@@ -8,7 +8,7 @@ import {
   Point,
   Shadow,
   Stroke,
-  Transform,
+  Transform, VerticalAlign, HorizontalAlign,
 } from '~/elements/props'
 
 export const DEFAULT_CX = 0
@@ -104,3 +104,6 @@ export const DEFAULT_FONT: TextFontProps = {
   lineHeight: 1.2,
   letterSpacing: 1,
 }
+
+export const DEFAULT_VERTICAL_ALIGN: VerticalAlign = 'top'
+export const DEFAULT_HORIZONTAL_ALIGN: HorizontalAlign = 'left'

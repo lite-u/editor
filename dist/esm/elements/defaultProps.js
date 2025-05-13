@@ -24,7 +24,6 @@ export const DEFAULT_STROKE = {
 export const DEFAULT_FILL = {
     enabled: false,
     color: '#FFFFFF',
-    type: 'solid',
 };
 export const DEFAULT_TRANSFORM = {
     position: { x: 0, y: 0 },
@@ -62,6 +61,15 @@ export const DEFAULT_GRADIENT = {
 };
 export const DEFAULT_OPACITY = 100;
 export const DEFAULT_ROTATION = 0;
+export const DEFAULT_TEXT_FONT = {
+    family: 'sans-serif',
+    size: 12,
+    weight: 'normal',
+    underline: false,
+    italic: false,
+    lineHeight: 1.2,
+    letterSpacing: 1,
+};
 export const DEFAULT_FONT = {
     family: 'sans-serif',
     size: 12,
@@ -71,3 +79,5 @@ export const DEFAULT_FONT = {
     lineHeight: 1.2,
     letterSpacing: 1,
 };
+export const DEFAULT_VERTICAL_ALIGN = 'top';
+export const DEFAULT_HORIZONTAL_ALIGN = 'left';

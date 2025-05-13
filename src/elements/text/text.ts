@@ -2,7 +2,13 @@ import RectangleLike, {RectangleLikeProps} from '../rectangle/rectangleLike'
 import render from './render'
 import {Fill, HorizontalAlign, Stroke, TextFontProps, TextRun, VerticalAlign} from '~/elements/props'
 import deepClone from '~/core/deepClone'
-import {DEFAULT_TEXT_FONT} from '~/elements/defaultProps'
+import {
+  DEFAULT_FILL,
+  DEFAULT_HORIZONTAL_ALIGN,
+  DEFAULT_STROKE,
+  DEFAULT_TEXT_FONT,
+  DEFAULT_VERTICAL_ALIGN,
+} from '~/elements/defaultProps'
 
 const TEXT_COLOR = '#000000'
 const CONTENT = `
@@ -24,8 +30,8 @@ export interface TextProps extends RectangleLikeProps {
   type?: 'text'
   content: TextRun[];  // Array of styled fragments
   font?: TextFontProps;
-  fill?: Fill;
-  stroke: Stroke
+  // fill?: Fill;
+  // stroke: Stroke
   verticalAlign: VerticalAlign
   horizontalAlign: HorizontalAlign
 }
@@ -36,23 +42,26 @@ class ElementText extends RectangleLike {
   readonly type = 'text'
   content: TextRun[]
   font?: TextFontProps
-  fill?: Fill
-  stroke: Stroke
+  // stroke: Stroke
   verticalAlign: VerticalAlign
   horizontalAlign: HorizontalAlign
 
   constructor({
                 content = [],
                 font = deepClone(DEFAULT_TEXT_FONT),
-                fill,
-                stroke,
-                verticalAlign,
-                horizontalAlign,
+                // fill = deepClone(DEFAULT_FILL),
+                // stroke = deepClone(DEFAULT_STROKE),
+                verticalAlign = DEFAULT_VERTICAL_ALIGN,
+                horizontalAlign = DEFAULT_HORIZONTAL_ALIGN,
                 ...rest
               }: TextProps) {
     super({...rest})
     this.content = content
     this.font = font
+    // this.fill = fill
+    // this.stroke = stroke
+    this.verticalAlign = verticalAlign
+    this.horizontalAlign = horizontalAlign
 
   }
 
