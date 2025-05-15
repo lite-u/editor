@@ -1,4 +1,5 @@
 import ToolManager from '~/services/tool/toolManager';
 import { ElementInstance } from '~/elements/type';
-declare function resizeTool(this: ToolManager, elements: ElementInstance[]): void;
+import { ResizeHandleName } from '~/services/selection/type';
+declare function resizeTool(this: ToolManager, elements: ElementInstance[], direction?: ResizeHandleName): void;
 export default resizeTool;

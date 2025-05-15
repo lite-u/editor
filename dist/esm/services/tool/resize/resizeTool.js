@@ -1,5 +1,4 @@
-function resizeTool(elements) {
-    console.log(9);
+function resizeTool(elements, direction = 'br') {
     const { interaction, action } = this.editor;
     const { mouseWorldCurrent, _modifier, mouseWorldStart } = interaction;
     const { altKey, shiftKey } = _modifier;
@@ -7,8 +6,8 @@ function resizeTool(elements) {
     let minY = Number.MAX_SAFE_INTEGER;
     let maxX = Number.MIN_SAFE_INTEGER;
     let maxY = Number.MIN_SAFE_INTEGER;
-    let centerX = 0;
-    let centerY = 0;
+    let centerX;
+    let centerY;
     const anchor = {
         x: Number.MAX_SAFE_INTEGER,
         y: Number.MAX_SAFE_INTEGER,
