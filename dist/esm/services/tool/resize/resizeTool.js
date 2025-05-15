@@ -1,4 +1,5 @@
 function resizeTool() {
+    console.log(9);
     const { interaction, action } = this.editor;
     const { mouseWorldCurrent, _modifier, mouseWorldStart, _ele } = interaction;
     const { altKey, shiftKey } = _modifier;

@@ -6,31 +6,18 @@ import ToolManager from '~/services/tool/toolManager'
 function handleKeyDown(this: ToolManager, e: KeyboardEvent) {
   const {target, shiftKey, metaKey, ctrlKey, altKey} = e
 
-  if (target !== this.editor.container) return
+  // if (target !== this.editor.container) return
 
   const {interaction, action, toolManager} = this.editor
-  const {state} = interaction
-  if (state === 'panning' || state === 'selecting') return
+  // const {state} = interaction
 
   if (e.code === 'Space') {
     action.dispatch('switch-tool', 'panning')
     interaction._lastTool = toolManager.currentToolName
-
     e.preventDefault()
   } else {
     interaction._modifier = {...interaction._modifier, shiftKey, metaKey, ctrlKey, altKey}
     this.tool.mouseMove.call(this)
-  }
-
-  if (state === 'resizing') {
-    /*const {altKey, shiftKey} = e
-
-    const r = applyResize.call(this, altKey, shiftKey)
-
-    action.dispatch('element-modifying', {
-      type: 'resize',
-      data: r,
-    })*/
   }
 
 }
