@@ -14,7 +14,7 @@ const lineSegmentTool: ToolType = {
     const p2Props: PointProps = {x, y}
     const eleProps: LineSegmentProps = {
       type: 'lineSegment',
-      points: [p1Props, p2Props],
+      points: {start: p1Props, end: p2Props},
       id,
       layer: 0,
     }

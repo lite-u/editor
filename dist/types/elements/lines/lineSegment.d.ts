@@ -23,6 +23,6 @@ declare class ElementLineSegment extends ElementBase implements BasePath {
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
     protected toJSON(): RequiredLineSegmentProps;
     toMinimalJSON(): LineSegmentProps;
-    render(): void;
+    render(ctx: CanvasRenderingContext2D): void;
 }
 export default ElementLineSegment;

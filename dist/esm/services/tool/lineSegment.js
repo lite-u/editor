@@ -9,7 +9,7 @@ const lineSegmentTool = {
         const p2Props = { x, y };
         const eleProps = {
             type: 'lineSegment',
-            points: [p1Props, p2Props],
+            points: { start: p1Props, end: p2Props },
             id,
             layer: 0,
         };
