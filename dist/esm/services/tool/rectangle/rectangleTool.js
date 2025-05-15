@@ -25,7 +25,6 @@ const rectangleTool = {
         action.dispatch('visible-element-updated');
     },
     mouseMove() {
-        // console.log(this.editor.interaction._ele)
         if (!this.editor.interaction._ele)
             return;
         resizeTool.call(this);
