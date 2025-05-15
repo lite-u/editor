@@ -36,7 +36,16 @@ function render(this: Text, ctx: CanvasRenderingContext2D): void {
     // ctx.fill()
     // ctx.strokeText(content, LocalX, LocalY, width)
     ctx.fillStyle = textColor
-    ctx.fillText(content, 0, 0, width)
+    content.map(({text, fill, font, stroke}) => {
+      ctx.font = `${font?.size}`
+      ctx.fillStyle = fill?.color!
+
+      ctx.fillText(text, 0, 0, width)
+      ctx.strokeStyle = stroke.color
+      ctx.lineWidth = stroke.weight
+      // ctx.strok
+
+    })
     // ctx.closePath()
   }
 
