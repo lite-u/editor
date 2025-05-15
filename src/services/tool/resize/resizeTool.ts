@@ -18,7 +18,6 @@ function resizeTool(this: ToolManager) {
     y: mouseWorldCurrent.y - anchor.y,
   }
 
-  // Prevent division by 0
   let scaleX = startVec.x !== 0 ? currentVec.x / startVec.x : 1
   let scaleY = startVec.y !== 0 ? currentVec.y / startVec.y : 1
 

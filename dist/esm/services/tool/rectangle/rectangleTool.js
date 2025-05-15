@@ -1,7 +1,7 @@
 import nid from '../../../core/nid.js';
 import resizeTool from '../resize/resizeTool.js';
 const rectangleTool = {
-    cursor: 'rectangle',
+    cursor: 'cross',
     mouseDown() {
         const { elementManager, interaction, action, selection, } = this.editor;
         const { x, y } = this.editor.interaction.mouseWorldCurrent;

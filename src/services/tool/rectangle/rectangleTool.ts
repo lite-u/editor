@@ -4,7 +4,7 @@ import ElementRectangle, {RectangleProps} from '~/elements/rectangle/rectangle'
 import resizeTool from '~/services/tool/resize/resizeTool'
 
 const rectangleTool: ToolType = {
-  cursor: 'rectangle',
+  cursor: 'cross',
   mouseDown(this: ToolManager) {
     const {
       elementManager, interaction, action, selection,
