@@ -1,4 +1,5 @@
-import nid from '../../core/nid.js';
+import nid from '~/core/nid';
+import { getRotateAngle } from '~/services/tool/selector/helper';
 const lineSegmentTool = {
     cursor: 'crosshair',
     mouseDown() {
@@ -22,9 +23,10 @@ const lineSegmentTool = {
         if (!this.editor.interaction._ele)
             return;
         const { interaction } = this.editor;
-        const line = this.editor.interaction._ele;
-        line.points.end.x = interaction.mouseWorldDelta.x;
-        line.points.end.y = interaction.mouseWorldDelta.y;
+        const { points: { start, end } } = this.editor.interaction._ele;
+        end.x = interaction.mouseWorldDelta.x;
+        end.y = interaction.mouseWorldDelta.y;
+        getRotateAngle(start, end);
         this.editor.action.dispatch('visible-element-updated');
     },
     mouseUp() {

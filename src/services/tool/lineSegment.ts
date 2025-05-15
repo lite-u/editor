@@ -3,6 +3,7 @@ import nid from '~/core/nid'
 import ElementRectangle from '~/elements/rectangle/rectangle'
 import LineSegment, {LineSegmentProps} from '~/elements/lines/lineSegment'
 import {PointProps} from '~/elements/point/point'
+import {getRotateAngle} from '~/services/tool/selector/helper'
 
 const lineSegmentTool: ToolType = {
   cursor: 'crosshair',
@@ -28,10 +29,12 @@ const lineSegmentTool: ToolType = {
   mouseMove(this: ToolManager) {
     if (!this.editor.interaction._ele) return
     const {interaction} = this.editor
-    const line = this.editor.interaction._ele as InstanceType<LineSegment>
+    const {points: {start, end}} = this.editor.interaction._ele as InstanceType<LineSegment>
 
-    line.points.end.x = interaction.mouseWorldDelta.x
-    line.points.end.y = interaction.mouseWorldDelta.y
+    end.x = interaction.mouseWorldDelta.x
+    end.y = interaction.mouseWorldDelta.y
+
+    getRotateAngle(start, end)
 
     this.editor.action.dispatch('visible-element-updated')
   },
