@@ -11,9 +11,9 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
   } = this.editor
   const x = e.clientX - rect!.x
   const y = e.clientY - rect!.y
-  const {button, shiftKey, metaKey, ctrlKey, altKey} = e
+  const {button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY} = e
   const modifiers = {
-    button, shiftKey, metaKey, ctrlKey, altKey,
+    button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY,
   }
   interaction.mouseCurrent = {x, y}
   interaction.mouseDelta.x = x - interaction.mouseStart.x

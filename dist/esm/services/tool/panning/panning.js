@@ -4,11 +4,12 @@ const panning = {
         this.editor.cursor.set('grabbing');
         // updateCursor.call(this, 'grabbing')
     },
-    mouseMove(e) {
+    mouseMove() {
         // this.editor.container.setPointerCapture(e.pointerId)
+        const { _modifier } = this.editor.interaction;
         this.editor.action.dispatch('world-shift', {
-            x: e.movementX,
-            y: e.movementY,
+            x: _modifier.movementX,
+            y: _modifier.movementY,
         });
     },
     mouseUp() {

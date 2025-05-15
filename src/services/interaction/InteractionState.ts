@@ -22,6 +22,8 @@ export type Modifier = {
   shiftKey: boolean
   metaKey: boolean
   ctrlKey: boolean
+  movementX: number
+  movementY: number
 }
 
 class InteractionState {
@@ -54,6 +56,8 @@ class InteractionState {
     shiftKey: false,
     metaKey: false,
     ctrlKey: false,
+    movementX: 0,
+    movementY: 0,
   }
   selectionBox: HTMLDivElement | null = null
   _lastTool: ToolName | null = null

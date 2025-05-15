@@ -11,6 +11,8 @@ export type Modifier = {
     shiftKey: boolean;
     metaKey: boolean;
     ctrlKey: boolean;
+    movementX: number;
+    movementY: number;
 };
 declare class InteractionState {
     editor: Editor;

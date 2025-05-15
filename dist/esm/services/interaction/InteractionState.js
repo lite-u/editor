@@ -26,6 +26,8 @@ class InteractionState {
         shiftKey: false,
         metaKey: false,
         ctrlKey: false,
+        movementX: 0,
+        movementY: 0,
     };
     selectionBox = null;
     _lastTool = null;
