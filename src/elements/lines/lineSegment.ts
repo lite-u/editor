@@ -1,13 +1,13 @@
 import ElementBase, {ElementBaseProps} from '~/elements/base/elementBase'
 import {BasePath} from '~/elements/basePath/basePath'
-import {Point} from '~/type'
+import {Point, UID} from '~/type'
 import deepClone from '~/core/deepClone'
 
 export interface LineSegmentProps extends ElementBaseProps {
   id: string
   layer: number
   type: 'lineSegment'
-  points: Point[];
+  points: Record<UID, Point>
 }
 
 export type RequiredLineSegmentProps = Required<LineSegmentProps>
@@ -16,13 +16,13 @@ class ElementLineSegment extends ElementBase implements BasePath {
   readonly id: string
   readonly layer: number
   readonly type = 'lineSegment'
-  private points: Point[] = []
-  private original: { points: Point[] }
+  private points: Record<UID, Point> = {}
+  private original: { points: Record<UID, Point> }
 
   constructor({
                 id,
                 layer,
-                points = [],
+                points,
                 ...rest
               }: LineSegmentProps) {
     super(rest)
@@ -33,7 +33,7 @@ class ElementLineSegment extends ElementBase implements BasePath {
   }
 
   protected getPoints(): Point[] {
-    return deepClone(this.points)
+    return Object.values(this.points).map(p => p)
   }
 
   translate(dx: number, dy: number) {

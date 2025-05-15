@@ -30,6 +30,7 @@ const lineSegmentTool: ToolType = {
     if (!this.editor.interaction._ele) return
     this.editor.action.dispatch('visible-element-updated')
 
+    this.editor.interaction._ele
     resizeTool.call(this, [this.editor.interaction._ele], 'br')
   },
   mouseUp(this: ToolManager) {
