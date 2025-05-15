@@ -32,7 +32,7 @@ const rectangleTool: ToolType = {
     selection.replace(new Set([ele.id]))
     action.dispatch('visible-element-updated')
   },
-  mouseMove(this: ToolManager,) {
+  mouseMove(this: ToolManager) {
     if (!this.editor.interaction._ele) return
 
     const {interaction, world, selection, action, elementManager, rect} = this.editor

@@ -1,20 +1,20 @@
 // import {updateSelectionBox} from "../domManipulations.ts"
 function handleKeyDown(e) {
-    const _t = e.target !== this.editor.container;
-    if (_t)
+    const { target, shiftKey, metaKey, ctrlKey, altKey } = e;
+    if (target !== this.editor.container)
         return;
     const { interaction, action, toolManager } = this.editor;
     const { state } = interaction;
     if (state === 'panning' || state === 'selecting')
         return;
     if (e.code === 'Space') {
-        // interaction.spaceKeyDown = true
-        // cursor.set('grab')
-        // toolManager.set('panning')
         action.dispatch('switch-tool', 'panning');
         interaction._lastTool = toolManager.currentToolName;
         e.preventDefault();
-        return;
+    }
+    else {
+        interaction._modifier = { ...interaction._modifier, shiftKey, metaKey, ctrlKey, altKey };
+        this.tool.mouseMove.call(this);
     }
     if (state === 'resizing') {
         /*const {altKey, shiftKey} = e
