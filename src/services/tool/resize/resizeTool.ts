@@ -10,8 +10,8 @@ function resizeTool(this: ToolManager, elements: ElementInstance[]) {
   let minY = Number.MAX_SAFE_INTEGER
   let maxX = Number.MIN_SAFE_INTEGER
   let maxY = Number.MIN_SAFE_INTEGER
-  let centerX = 0
-  let centerY = 0
+  let centerX: number
+  let centerY: number
   const anchor = {
     x: Number.MAX_SAFE_INTEGER,
     y: Number.MAX_SAFE_INTEGER,
