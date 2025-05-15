@@ -1,6 +1,5 @@
-import {UID} from '~/core/core'
 import {OperationHandler, ResizeHandle} from '~/services/selection/type'
-import {Point, Rect} from '~/type'
+import {Point, Rect, UID} from '~/type'
 import {createWith} from '~/lib/lib'
 import Editor from '~/main/editor'
 import {ElementInstance} from '~/elements/type'
