@@ -1,6 +1,6 @@
 import nid from '../../core/nid.js';
 import resizeTool from './resize/resizeTool.js';
-import { DEFAULT_FILL, DEFAULT_FONT, DEFAULT_STROKE } from '../../elements/defaultProps.js';
+import { DEFAULT_FONT, DEFAULT_STROKE, DEFAULT_TEXT_FILL } from '../../elements/defaultProps.js';
 const textTool = {
     cursor: 'text',
     mouseDown() {
@@ -14,7 +14,7 @@ const textTool = {
             content: [{
                     text: 'hello',
                     font: { ...DEFAULT_FONT },
-                    fill: { ...DEFAULT_FILL },
+                    fill: { ...DEFAULT_TEXT_FILL },
                     stroke: { ...DEFAULT_STROKE },
                 }],
             cx: x - width / 2,

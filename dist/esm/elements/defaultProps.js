@@ -26,6 +26,10 @@ export const DEFAULT_FILL = {
     enabled: false,
     color: '#FFFFFF',
 };
+export const DEFAULT_TEXT_FILL = {
+    enabled: false,
+    color: '#000000',
+};
 export const DEFAULT_TRANSFORM = {
     cx: 0,
     cy: 0,

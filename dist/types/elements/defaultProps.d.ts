@@ -8,6 +8,7 @@ export declare const DEFAULT_POINT: Point;
 export declare const DEFAULT_ANCHOR_POINT: AnchorPoint;
 export declare const DEFAULT_STROKE: Stroke;
 export declare const DEFAULT_FILL: Fill;
+export declare const DEFAULT_TEXT_FILL: Fill;
 export declare const DEFAULT_TRANSFORM: Transform;
 export declare const DEFAULT_APPEARANCE: Appearance;
 export declare const DEFAULT_SHADOW: Shadow;

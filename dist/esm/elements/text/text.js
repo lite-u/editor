@@ -1,7 +1,7 @@
 import RectangleLike from '../rectangle/rectangleLike.js';
 import render from './render.js';
 import deepClone from '../../core/deepClone.js';
-import { DEFAULT_FONT, DEFAULT_HORIZONTAL_ALIGN, DEFAULT_TEXT_FONT, DEFAULT_VERTICAL_ALIGN, } from '../defaultProps.js';
+import { DEFAULT_FONT, DEFAULT_HORIZONTAL_ALIGN, DEFAULT_TEXT_FILL, DEFAULT_TEXT_FONT, DEFAULT_VERTICAL_ALIGN, } from '../defaultProps.js';
 import { isEqual } from '../../lib/lib.js';
 class ElementText extends RectangleLike {
     type = 'text';
@@ -15,6 +15,7 @@ class ElementText extends RectangleLike {
         this.font = font;
         this.verticalAlign = verticalAlign;
         this.horizontalAlign = horizontalAlign;
+        this.fill = deepClone(DEFAULT_TEXT_FILL);
     }
     toJSON() {
         return {
