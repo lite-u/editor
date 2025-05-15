@@ -11,6 +11,7 @@ import {CursorName} from '~/services/cursor/cursor'
 import rectangleTool from '~/services/tool/rectangle/rectangleTool'
 import panning from '~/services/tool/panning/panning'
 import ellipseTool from '~/services/tool/ellipseTool'
+import textTool from '~/services/tool/textTool'
 
 export type ToolType = {
   cursor: CursorName
@@ -47,6 +48,7 @@ class ToolManager {
     this.toolMap.set('panning', panning)
     this.toolMap.set('rectangle', rectangleTool)
     this.toolMap.set('ellipse', ellipseTool)
+    this.toolMap.set('text', textTool)
 
     this.currentToolName = 'selector'
     this.tool = selector

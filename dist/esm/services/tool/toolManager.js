@@ -9,6 +9,7 @@ import selector from './selector/selector.js';
 import rectangleTool from './rectangle/rectangleTool.js';
 import panning from './panning/panning.js';
 import ellipseTool from './ellipseTool.js';
+import textTool from './textTool.js';
 class ToolManager {
     editor;
     eventsController = new AbortController();
@@ -30,6 +31,7 @@ class ToolManager {
         this.toolMap.set('panning', panning);
         this.toolMap.set('rectangle', rectangleTool);
         this.toolMap.set('ellipse', ellipseTool);
+        this.toolMap.set('text', textTool);
         this.currentToolName = 'selector';
         this.tool = selector;
     }
