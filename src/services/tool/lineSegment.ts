@@ -29,11 +29,11 @@ const lineSegmentTool: ToolType = {
     if (!this.editor.interaction._ele) return
     const {interaction} = this.editor
     const line = this.editor.interaction._ele as InstanceType<LineSegment>
-    this.editor.action.dispatch('visible-element-updated')
 
     line.points.end.x += interaction.mouseWorldDelta.x
     line.points.end.y += interaction.mouseWorldDelta.y
-    // resizeTool.call(this, [this.editor.interaction._ele], 'br')
+
+    this.editor.action.dispatch('visible-element-updated')
   },
   mouseUp(this: ToolManager) {
     this.editor.interaction._ele = null

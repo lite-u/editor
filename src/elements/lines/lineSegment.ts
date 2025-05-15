@@ -85,10 +85,11 @@ class ElementLineSegment extends ElementBase implements BasePath {
   render(ctx: CanvasRenderingContext2D) {
     const {start, end} = this.points
     ctx.save()
+    ctx.beginPath(); // Start a new path
 
     ctx.moveTo(start.x, start.y)
     ctx.lineTo(end.x, end.y)
-
+    ctx.stroke()
     ctx.restore()
 
   }
