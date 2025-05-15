@@ -9,7 +9,7 @@ export interface ShapeProps extends ElementBaseProps {
     gradient?: Gradient;
 }
 export type RequiredShapeProps = Required<ShapeProps>;
-declare class Shape extends ElementBase {
+declare class ElementShape extends ElementBase {
     cx: number;
     cy: number;
     gradient: Gradient;
@@ -32,4 +32,4 @@ declare class Shape extends ElementBase {
     }, elementOrigin: ElementProps): OperationHandler[];
     isInsideRect(outer: BoundingRect): boolean;
 }
-export default Shape;
+export default ElementShape;

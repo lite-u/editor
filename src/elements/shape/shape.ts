@@ -18,7 +18,7 @@ export interface ShapeProps extends ElementBaseProps {
 
 export type RequiredShapeProps = Required<ShapeProps>
 
-class Shape extends ElementBase {
+class ElementShape extends ElementBase {
   public cx: number
   public cy: number
   gradient: Gradient
@@ -167,4 +167,4 @@ class Shape extends ElementBase {
   }
 }
 
-export default Shape
+export default ElementShape

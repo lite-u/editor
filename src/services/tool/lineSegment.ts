@@ -4,6 +4,7 @@ import ElementRectangle from '~/elements/rectangle/rectangle'
 import LineSegment, {LineSegmentProps} from '~/elements/lines/lineSegment'
 import {PointProps} from '~/elements/point/point'
 import {getRotateAngle} from '~/services/tool/selector/helper'
+import ElementLineSegment from '~/elements/lines/lineSegment'
 
 const lineSegmentTool: ToolType = {
   cursor: 'crosshair',
@@ -29,7 +30,7 @@ const lineSegmentTool: ToolType = {
   mouseMove(this: ToolManager) {
     if (!this.editor.interaction._ele) return
     const {interaction} = this.editor
-    const {points: {start, end}} = this.editor.interaction._ele as InstanceType<LineSegment>
+    const {points: {start, end}} = this.editor.interaction._ele as InstanceType<ElementLineSegment>
 
     end.x = interaction.mouseWorldDelta.x
     end.y = interaction.mouseWorldDelta.y

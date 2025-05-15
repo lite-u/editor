@@ -1,4 +1,4 @@
-import Shape, {ShapeProps} from '../shape/shape'
+import ElementShape, {ShapeProps} from '../shape/shape'
 import {CenterBasedRect, Point, Rect} from '~/type'
 import {SnapPointData} from '~/main/type'
 import {generateBoundingRectFromRect, generateBoundingRectFromRotatedRect} from '~/core/utils'
@@ -19,7 +19,7 @@ export interface RectangleLikeProps extends ShapeProps {
 
 export type RequiredRectangleLikeProps = Required<RectangleLikeProps>
 
-class RectangleLike extends Shape {
+class RectangleLike extends ElementShape {
   id: string
   layer: number
   width: number

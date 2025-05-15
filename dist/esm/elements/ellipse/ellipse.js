@@ -1,9 +1,9 @@
 import { generateBoundingRectFromRotatedRect } from '../../core/utils.js';
-import Shape from '../shape/shape.js';
+import ElementShape from '../shape/shape.js';
 import ElementRectangle from '../rectangle/rectangle.js';
 import render from './render.js';
 import transform from './transform.js';
-class ElementEllipse extends Shape {
+class ElementEllipse extends ElementShape {
     type = 'ellipse';
     id;
     layer;

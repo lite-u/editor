@@ -1,4 +1,4 @@
-import Shape, { ShapeProps } from '../shape/shape';
+import ElementShape, { ShapeProps } from '../shape/shape';
 import ElementRectangle from '../rectangle/rectangle';
 import { ResizeDirectionName } from '~/services/selection/type';
 import { Point } from '~/type';
@@ -10,7 +10,7 @@ export interface EllipseProps extends ShapeProps {
     r2: number;
 }
 export type RequiredEllipseProps = Required<EllipseProps>;
-declare class ElementEllipse extends Shape {
+declare class ElementEllipse extends ElementShape {
     readonly type = "ellipse";
     id: string;
     layer: number;

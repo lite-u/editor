@@ -5,7 +5,7 @@ import { rotatePointAroundPoint } from '../../core/geometry.js';
 import { DEFAULT_CX, DEFAULT_CY, DEFAULT_GRADIENT, DEFAULT_STROKE } from '../defaultProps.js';
 import { isEqual } from '../../lib/lib.js';
 import deepClone from '../../core/deepClone.js';
-class Shape extends ElementBase {
+class ElementShape extends ElementBase {
     cx;
     cy;
     gradient;
@@ -111,4 +111,4 @@ class Shape extends ElementBase {
             inner.bottom <= outer.bottom);
     }
 }
-export default Shape;
+export default ElementShape;

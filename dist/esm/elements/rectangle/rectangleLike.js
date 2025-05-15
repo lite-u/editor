@@ -1,11 +1,11 @@
-import Shape from '../shape/shape.js';
+import ElementShape from '../shape/shape.js';
 import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '../../core/utils.js';
 import render from './render.js';
 import transform from './transform.js';
 import ElementRectangle from './rectangle.js';
 import { DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../defaultProps.js';
 import { isEqual } from '../../lib/lib.js';
-class RectangleLike extends Shape {
+class RectangleLike extends ElementShape {
     id;
     layer;
     width;

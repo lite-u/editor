@@ -1,5 +1,5 @@
 import {generateBoundingRectFromRotatedRect} from '~/core/utils'
-import Shape, {ShapeProps} from '../shape/shape'
+import ElementShape, {ShapeProps} from '../shape/shape'
 import ElementRectangle from '../rectangle/rectangle'
 import {ResizeDirectionName} from '~/services/selection/type'
 import {Point} from '~/type'
@@ -16,7 +16,7 @@ export interface EllipseProps extends ShapeProps {
 
 export type RequiredEllipseProps = Required<EllipseProps>
 
-class ElementEllipse extends Shape {
+class ElementEllipse extends ElementShape {
   readonly type = 'ellipse'
   id: string
   layer: number
