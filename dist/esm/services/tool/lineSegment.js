@@ -23,8 +23,8 @@ const lineSegmentTool = {
             return;
         const { interaction } = this.editor;
         const line = this.editor.interaction._ele;
-        line.points.end.x += interaction.mouseWorldDelta.x;
-        line.points.end.y += interaction.mouseWorldDelta.y;
+        line.points.end.x = interaction.mouseWorldDelta.x;
+        line.points.end.y = interaction.mouseWorldDelta.y;
         this.editor.action.dispatch('visible-element-updated');
     },
     mouseUp() {

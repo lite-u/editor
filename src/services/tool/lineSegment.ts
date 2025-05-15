@@ -30,8 +30,8 @@ const lineSegmentTool: ToolType = {
     const {interaction} = this.editor
     const line = this.editor.interaction._ele as InstanceType<LineSegment>
 
-    line.points.end.x += interaction.mouseWorldDelta.x
-    line.points.end.y += interaction.mouseWorldDelta.y
+    line.points.end.x = interaction.mouseWorldDelta.x
+    line.points.end.y = interaction.mouseWorldDelta.y
 
     this.editor.action.dispatch('visible-element-updated')
   },
