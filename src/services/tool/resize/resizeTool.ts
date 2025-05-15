@@ -8,8 +8,8 @@ function resizeTool(this: ToolManager, elements: ElementInstance[]) {
   const {altKey, shiftKey} = _modifier
   const {cx, cy, width, height} = _ele.original
   const anchor = {
-    x: cx - width / 2,
-    y: cy - height / 2,
+    x: 0,
+    y: 0,
   }
 
   const startVec = {
