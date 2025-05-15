@@ -36,13 +36,13 @@ class ElementEllipse extends Shape {
             .scale(scaleX, scaleY)
             .translate(-anchor.x, -anchor.y);
         const { cx, cy, r1, r2 } = this.original;
-        const topLeft = this.transformPoint(cx - r1, cy - r2 / 2, matrix);
-        const bottomRight = this.transformPoint(cx + r1, cy + r2, matrix);
-        this.cx = (topLeft.x + bottomRight.x) / 2;
-        this.cy = (topLeft.y + bottomRight.y) / 2;
-        this.r1 = Math.abs(bottomRight.x - topLeft.x);
-        this.r2 = Math.abs(bottomRight.y - topLeft.y);
-        // console.log(this.cx, this.cy, this.width, this.height)
+        const center = this.transformPoint(cx, cy, matrix);
+        const rx = this.transformPoint(cx + r1, cy, matrix);
+        const ry = this.transformPoint(cx, cy + r2, matrix);
+        this.cx = center.x;
+        this.cy = center.y;
+        this.r1 = Math.abs(rx.x - center.x);
+        this.r2 = Math.abs(ry.y - center.y);
     }
     static applyResizeTransform = (props) => {
         return transform(props);
