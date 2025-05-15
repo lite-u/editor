@@ -3,7 +3,7 @@ function handleKeyUp(e) {
     const { interaction, toolManager } = this.editor;
     const { shiftKey, metaKey, ctrlKey, altKey } = e;
     if (e.code === 'Space') {
-        interaction.spaceKeyDown = false;
+        // interaction.spaceKeyDown = false
         if (interaction._lastTool) {
             toolManager.set(interaction._lastTool);
         }

@@ -10,7 +10,8 @@ class InteractionState {
     mouseWorldDelta = { x: 0, y: 0 };
     hoveredElement = '';
     operationHandlers = [];
-    spaceKeyDown = false;
+    _pointDown = false;
+    // spaceKeyDown = false
     _snapped = false;
     // _creatingElementId: UID
     // _ele: Set<UID> = new Set()

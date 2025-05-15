@@ -1,6 +1,5 @@
-import { UID } from '~/core/core';
 import { OperationHandler, ResizeHandle } from '~/services/selection/type';
-import { Point, Rect } from '~/type';
+import { Point, Rect, UID } from '~/type';
 import Editor from '~/main/editor';
 import { ElementInstance } from '~/elements/type';
 import { ToolName } from '~/services/tool/toolManager';
@@ -25,7 +24,7 @@ declare class InteractionState {
     mouseWorldDelta: Point;
     hoveredElement: UID;
     readonly operationHandlers: OperationHandler[];
-    spaceKeyDown: boolean;
+    _pointDown: boolean;
     _snapped: boolean;
     _selectingElements: Set<UID>;
     _deselection: UID | null;
