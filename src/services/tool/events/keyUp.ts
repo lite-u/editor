@@ -15,7 +15,6 @@ function handleKeyUp(this: ToolManager, e: KeyboardEvent) {
   } else {
     interaction._modifier = {...interaction._modifier, shiftKey, metaKey, ctrlKey, altKey}
     this.tool.mouseMove.call(this)
-
   }
 
   interaction._lastTool = null
