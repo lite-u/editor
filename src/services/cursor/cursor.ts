@@ -7,6 +7,7 @@ export type CursorResizes = ResizeDirection
 export type CursorName =
   'default'
   | 'crosshair'
+  | 'text'
   | 'grab'
   | 'grabbing'
   | 'rotate'

@@ -31,7 +31,6 @@ const textTool: ToolType = {
 
     const ele: ElementRectangle = elementManager.add(elementManager.create(eleProps))
 
-    // interaction.state = 'resizing'
     interaction._ele = ele
     action.dispatch('selection-clear')
     selection.replace(new Set([ele.id]))
