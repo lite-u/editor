@@ -24,6 +24,8 @@ export type ResizeHandleName =
   | 'b'
   | 'bl'
   | 'l'
+
+export type RotateHandleName =
   | 'rotate-tl'
   | 'rotate-tr'
   | 'rotate-br'

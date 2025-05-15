@@ -1,8 +1,8 @@
 import ToolManager from '~/services/tool/toolManager'
 import {ElementInstance} from '~/elements/type'
+import {ResizeHandleName} from '~/services/selection/type'
 
-function resizeTool(this: ToolManager, elements: ElementInstance[]) {
-  console.log(9)
+function resizeTool(this: ToolManager, elements: ElementInstance[], direction: ResizeHandleName = 'br') {
   const {interaction, action} = this.editor
   const {mouseWorldCurrent, _modifier, mouseWorldStart} = interaction
   const {altKey, shiftKey} = _modifier
