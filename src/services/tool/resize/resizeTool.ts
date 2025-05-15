@@ -4,13 +4,30 @@ import {ElementInstance} from '~/elements/type'
 function resizeTool(this: ToolManager, elements: ElementInstance[]) {
   console.log(9)
   const {interaction, action} = this.editor
-  const {mouseWorldCurrent, _modifier, mouseWorldStart, _ele} = interaction
+  const {mouseWorldCurrent, _modifier, mouseWorldStart} = interaction
   const {altKey, shiftKey} = _modifier
-  const {cx, cy, width, height} = _ele.original
+  let minX = Number.MAX_SAFE_INTEGER
+  let minY = Number.MAX_SAFE_INTEGER
+  let maxX = Number.MIN_SAFE_INTEGER
+  let maxY = Number.MIN_SAFE_INTEGER
+  let centerX = 0
+  let centerY = 0
   const anchor = {
-    x: 0,
-    y: 0,
+    x: Number.MAX_SAFE_INTEGER,
+    y: Number.MAX_SAFE_INTEGER,
   }
+
+  elements.forEach((el: ElementInstance) => {
+    const rect = el.getBoundingRect()
+    minX = Math.min(anchor.x, rect.x)
+    minY = Math.min(anchor.y, rect.y)
+    maxX = Math.max(anchor.x, rect.x)
+    maxY = Math.max(anchor.y, rect.y)
+  })
+  centerX = (maxX - minX) / 2
+  centerY = (maxY - minY) / 2
+  anchor.x = minX
+  anchor.y = minY
 
   const startVec = {
     x: mouseWorldStart.x - anchor.x,
@@ -31,9 +48,12 @@ function resizeTool(this: ToolManager, elements: ElementInstance[]) {
   }
 
   const scalingAnchor = altKey
-    ? {x: cx, y: cy}
+    ? {x: centerX, y: centerY}
     : anchor
-  interaction._ele.scaleFrom(scaleX, scaleY, scalingAnchor)
+
+  elements.forEach((el: ElementInstance) => {
+    el.scaleFrom(scaleX, scaleY, scalingAnchor)
+  })
 
   action.dispatch('visible-element-updated')
 }

@@ -1,3 +1,4 @@
 import ToolManager from '~/services/tool/toolManager';
-declare function resizeTool(this: ToolManager): void;
+import { ElementInstance } from '~/elements/type';
+declare function resizeTool(this: ToolManager, elements: ElementInstance[]): void;
 export default resizeTool;
