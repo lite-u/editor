@@ -13,6 +13,10 @@ class LineSegment extends ElementBase {
         this.points = points;
         this.original = { points: [] };
     }
+    translate(dx, dy) {
+        this.cx = this.original.cx + dx;
+        this.cy = this.original.cx + dy;
+    }
     toJSON() {
         return {
             ...super.toJSON(),

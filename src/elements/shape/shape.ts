@@ -44,6 +44,7 @@ class Shape extends ElementBase {
     this.cx = this.original.cx + dx
     this.cy = this.original.cx + dy
   }
+
   protected toJSON(): RequiredShapeProps {
     const {
       cx,

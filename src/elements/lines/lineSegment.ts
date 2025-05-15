@@ -32,6 +32,11 @@ class LineSegment extends ElementBase implements BasePath {
     this.original = {points: []}
   }
 
+  translate(dx: number, dy: number) {
+    this.cx = this.original.cx + dx
+    this.cy = this.original.cx + dy
+  }
+
   protected toJSON(): RequiredLineSegmentProps {
     return {
       ...super.toJSON(),
