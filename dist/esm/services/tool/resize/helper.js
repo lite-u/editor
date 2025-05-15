@@ -36,25 +36,17 @@ export const getBoundingRectFromBoundingRects = (list) => {
         cy: minY + (maxY - minY) / 2,
     };
 };
-export const getAnchorByResizeDirection = (r, d) => {
-    switch (d) {
-        case 'tl':
-            return { x: r.left, y: r.top };
-        case 't':
-            return { x: r.cx, y: r.top };
-        case 'tr':
-            return { x: r.right, y: r.top };
-        case 'r':
-            return { x: r.right, y: r.cy };
-        case 'br':
-            return { x: r.right, y: r.bottom };
-        case 'b':
-            return { x: r.cx, y: r.bottom };
-        case 'bl':
-            return { x: r.left, y: r.bottom };
-        case 'l':
-            return { x: r.left, y: r.cy };
-        default:
-            return { x: r.cx, y: r.cy };
-    }
+export const getAnchorsByResizeDirection = (r, d) => {
+    const map = {
+        tl: [{ x: r.left, y: r.top }, { x: r.right, y: r.bottom }],
+        t: [{ x: r.cx, y: r.top }, { x: r.cx, y: r.bottom }],
+        tr: [{ x: r.right, y: r.top }, { x: r.left, y: r.bottom }],
+        r: [{ x: r.right, y: r.cy }, { x: r.left, y: r.cy }],
+        br: [{ x: r.right, y: r.bottom }, { x: r.left, y: r.top }],
+        b: [{ x: r.cx, y: r.bottom }, { x: r.cx, y: r.top }],
+        bl: [{ x: r.left, y: r.bottom }, { x: r.right, y: r.top }],
+        l: [{ x: r.left, y: r.cy }, { x: r.right, y: r.cy }],
+    };
+    const [anchor, opposite] = map[d] ?? [{ x: r.cx, y: r.cy }, { x: r.cx, y: r.cy }];
+    return { anchor, opposite };
 };

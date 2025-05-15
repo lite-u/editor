@@ -61,6 +61,7 @@ class RectangleLike extends Shape {
         this.height *= sy;
     }
     scaleFrom(scaleX, scaleY, anchor) {
+        // console.log(scaleX, scaleY, anchor)
         const matrix = new DOMMatrix()
             .translate(anchor.x, anchor.y)
             .scale(scaleX, scaleY)
@@ -72,7 +73,7 @@ class RectangleLike extends Shape {
         this.cy = (topLeft.y + bottomRight.y) / 2;
         this.width = Math.abs(bottomRight.x - topLeft.x);
         this.height = Math.abs(bottomRight.y - topLeft.y);
-        console.log(this.cx, this.cy, this.width, this.height);
+        // console.log(this.cx, this.cy, this.width, this.height)
     }
     /*  getTransformedPoints(): Point[] {
         // const {cx, cy, width, height} = this.original
