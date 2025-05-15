@@ -1,48 +1,12 @@
+import { getAnchorByResizeDirection, getBoundingRectFromBoundingRects } from './helper.js';
 function resizeTool(elements, direction = 'br') {
     const { interaction, action } = this.editor;
     const { mouseWorldCurrent, _modifier, mouseWorldStart } = interaction;
     const { altKey, shiftKey } = _modifier;
-    let minX = Number.MAX_SAFE_INTEGER;
-    let minY = Number.MAX_SAFE_INTEGER;
-    let maxX = Number.MIN_SAFE_INTEGER;
-    let maxY = Number.MIN_SAFE_INTEGER;
-    let centerX;
-    let centerY;
-    const anchor = {
-        x: Number.MAX_SAFE_INTEGER,
-        y: Number.MAX_SAFE_INTEGER,
-    };
-    elements.forEach((el) => {
-        const rect = el.getBoundingRect();
-        minX = Math.min(anchor.x, rect.x);
-        minY = Math.min(anchor.y, rect.y);
-        maxX = Math.max(anchor.x, rect.x);
-        maxY = Math.max(anchor.y, rect.y);
-    });
-    centerX = (maxX - minX) / 2;
-    centerY = (maxY - minY) / 2;
-    switch (direction) {
-        case "tl":
-            centerX = (maxX - minX) / 2;
-            centerY = (maxY - minY) / 2;
-            break;
-        case "t":
-            break;
-        case "tr":
-            break;
-        case "r":
-            break;
-        case "br":
-            break;
-        case "b":
-            break;
-        case "bl":
-            break;
-        case "l":
-            break;
-    }
-    anchor.x = minX;
-    anchor.y = minY;
+    const rect = getBoundingRectFromBoundingRects(elements.map(el => el.getBoundingRect()));
+    const anchor = getAnchorByResizeDirection(rect, direction);
+    const centerX = rect.cx;
+    const centerY = rect.cy;
     const startVec = {
         x: mouseWorldStart.x - anchor.x,
         y: mouseWorldStart.y - anchor.y,

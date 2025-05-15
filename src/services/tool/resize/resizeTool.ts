@@ -1,57 +1,17 @@
 import ToolManager from '~/services/tool/toolManager'
 import {ElementInstance} from '~/elements/type'
 import {ResizeDirectionName} from '~/services/selection/type'
+import {getAnchorByResizeDirection, getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
 
 function resizeTool(this: ToolManager, elements: ElementInstance[], direction: ResizeDirectionName = 'br') {
   const {interaction, action} = this.editor
   const {mouseWorldCurrent, _modifier, mouseWorldStart} = interaction
   const {altKey, shiftKey} = _modifier
-  let minX = Number.MAX_SAFE_INTEGER
-  let minY = Number.MAX_SAFE_INTEGER
-  let maxX = Number.MIN_SAFE_INTEGER
-  let maxY = Number.MIN_SAFE_INTEGER
-  let centerX: number
-  let centerY: number
-  const anchor = {
-    x: Number.MAX_SAFE_INTEGER,
-    y: Number.MAX_SAFE_INTEGER,
-  }
+  const rect = getBoundingRectFromBoundingRects(elements.map(el => el.getBoundingRect()))
+  const anchor = getAnchorByResizeDirection(rect, direction)
 
-  elements.forEach((el: ElementInstance) => {
-    const rect = el.getBoundingRect()
-    minX = Math.min(anchor.x, rect.x)
-    minY = Math.min(anchor.y, rect.y)
-    maxX = Math.max(anchor.x, rect.x)
-    maxY = Math.max(anchor.y, rect.y)
-  })
-
-  centerX = (maxX - minX) / 2
-  centerY = (maxY - minY) / 2
-
-  switch (direction) {
-    case "tl":
-      centerX = (maxX - minX) / 2
-      centerY = (maxY - minY) / 2
-      break;
-    case "t":
-      break;
-    case "tr":
-      break;
-    case "r":
-      break;
-    case "br":
-      break;
-    case "b":
-      break;
-    case "bl":
-      break;
-    case "l":
-      break;
-
-  }
-
-  anchor.x = minX
-  anchor.y = minY
+  const centerX = rect.cx
+  const centerY = rect.cy
 
   const startVec = {
     x: mouseWorldStart.x - anchor.x,
