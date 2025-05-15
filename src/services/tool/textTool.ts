@@ -3,7 +3,7 @@ import nid from '~/core/nid'
 import ElementRectangle from '~/elements/rectangle/rectangle'
 import resizeTool from '~/services/tool/resize/resizeTool'
 import {TextProps} from '~/elements/text/text'
-import {DEFAULT_FILL, DEFAULT_FONT, DEFAULT_STROKE} from '~/elements/defaultProps'
+import {DEFAULT_FILL, DEFAULT_FONT, DEFAULT_STROKE, DEFAULT_TEXT_FILL} from '~/elements/defaultProps'
 
 const textTool: ToolType = {
   cursor: 'text',
@@ -18,7 +18,7 @@ const textTool: ToolType = {
       content: [{
         text: 'hello',
         font: {...DEFAULT_FONT},
-        fill: {...DEFAULT_FILL},
+        fill: {...DEFAULT_TEXT_FILL},
         stroke: {...DEFAULT_STROKE},
       }],
       cx: x - width / 2,

@@ -3,8 +3,9 @@ import render from './render'
 import {HorizontalAlign, TextFontProps, TextRun, VerticalAlign} from '~/elements/props'
 import deepClone from '~/core/deepClone'
 import {
+  DEFAULT_FILL,
   DEFAULT_FONT,
-  DEFAULT_HORIZONTAL_ALIGN,
+  DEFAULT_HORIZONTAL_ALIGN, DEFAULT_TEXT_FILL,
   DEFAULT_TEXT_FONT,
   DEFAULT_VERTICAL_ALIGN,
 } from '~/elements/defaultProps'
@@ -46,7 +47,7 @@ class ElementText extends RectangleLike {
     this.font = font
     this.verticalAlign = verticalAlign
     this.horizontalAlign = horizontalAlign
-
+    this.fill = deepClone(DEFAULT_TEXT_FILL)
   }
 
   override toJSON(): RequiredTextProps {
