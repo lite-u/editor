@@ -1,6 +1,7 @@
 import ToolManager, {ToolType} from '~/services/tool/toolManager'
 import nid from '~/core/nid'
 import ElementRectangle, {RectangleProps} from '~/elements/rectangle/rectangle'
+import resizeTool from '~/services/tool/resize/resizeTool'
 
 const rectangleTool: ToolType = {
   cursor: 'rectangle',
@@ -34,48 +35,7 @@ const rectangleTool: ToolType = {
   },
   mouseMove(this: ToolManager) {
     if (!this.editor.interaction._ele) return
-
-    const {interaction, world, selection, action, elementManager, rect} = this.editor
-    const {mouseWorldCurrent, _modifier, mouseWorldStart, _ele} = interaction
-    const {altKey, shiftKey} = _modifier
-    const {cx, cy, width, height} = _ele.original
-    const anchor = {
-      x: cx - width / 2,
-      y: cy - height / 2,
-    }
-    const startVec = {
-      x: mouseWorldStart.x - anchor.x,
-      y: mouseWorldStart.y - anchor.y,
-    }
-    // Distance from anchor to mouseCurrent (current handle position)
-    const currentVec = {
-      x: mouseWorldCurrent.x - anchor.x,
-      y: mouseWorldCurrent.y - anchor.y,
-    }
-
-    // Prevent division by 0
-    let scaleX = startVec.x !== 0 ? currentVec.x / startVec.x : 1
-    let scaleY = startVec.y !== 0 ? currentVec.y / startVec.y : 1
-
-    /*
-        if (shiftKey) {
-          anchor.x = _ele.cx
-          anchor.y = _ele.cy
-        }
-    */
-
-    if (shiftKey) {
-      const uniformScale = Math.max(Math.abs(scaleX), Math.abs(scaleY))
-      scaleX = Math.sign(scaleX) * uniformScale
-      scaleY = Math.sign(scaleY) * uniformScale
-    }
-
-    const scalingAnchor = altKey
-      ? {x: cx, y: cy}
-      : anchor
-    interaction._ele.scaleFrom(scaleX, scaleY, scalingAnchor)
-
-    action.dispatch('visible-element-updated')
+    resizeTool.call(this)
   },
   mouseUp(this: ToolManager) {
     this.editor.interaction._ele = null
