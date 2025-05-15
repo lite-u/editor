@@ -21,7 +21,7 @@ class InteractionState {
     selectedShadow = new Set();
     _ele;
     _modifier = {
-        button: false,
+        button: -2,
         altKey: false,
         shiftKey: false,
         metaKey: false,
