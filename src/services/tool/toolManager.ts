@@ -16,8 +16,8 @@ export type ToolType = {
   mouseDown: (this: ToolManager) => void
   mouseMove: (this: ToolManager) => void
   mouseUp: (this: ToolManager) => void
-  keyDown: (this: ToolManager) => void
-  keyUp: (this: ToolManager) => void
+  // keyDown: (this: ToolManager) => void
+  // keyUp: (this: ToolManager) => void
 }
 export type ToolName = 'selector' | 'rectangle' | 'text' | 'ellipse' | 'panning'
 
