@@ -4,6 +4,7 @@ import {ResizeDirectionName} from '~/services/selection/type'
 import {getAnchorByResizeDirection, getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
 
 function resizeTool(this: ToolManager, elements: ElementInstance[], direction: ResizeDirectionName = 'br') {
+  console.log(elements)
   const {interaction, action} = this.editor
   const {mouseWorldCurrent, _modifier, mouseWorldStart} = interaction
   const {altKey, shiftKey} = _modifier

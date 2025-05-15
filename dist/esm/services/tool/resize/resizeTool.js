@@ -1,5 +1,6 @@
 import { getAnchorByResizeDirection, getBoundingRectFromBoundingRects } from './helper.js';
 function resizeTool(elements, direction = 'br') {
+    console.log(elements);
     const { interaction, action } = this.editor;
     const { mouseWorldCurrent, _modifier, mouseWorldStart } = interaction;
     const { altKey, shiftKey } = _modifier;
