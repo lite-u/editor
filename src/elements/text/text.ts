@@ -3,7 +3,6 @@ import render from './render'
 import {HorizontalAlign, TextFontProps, TextRun, VerticalAlign} from '~/elements/props'
 import deepClone from '~/core/deepClone'
 import {
-  DEFAULT_FILL,
   DEFAULT_FONT,
   DEFAULT_HORIZONTAL_ALIGN, DEFAULT_TEXT_FILL,
   DEFAULT_TEXT_FONT,
