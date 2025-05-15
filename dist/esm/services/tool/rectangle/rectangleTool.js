@@ -27,7 +27,7 @@ const rectangleTool = {
     mouseMove() {
         if (!this.editor.interaction._ele)
             return;
-        resizeTool.call(this, [this.editor.interaction._ele]);
+        resizeTool.call(this, [this.editor.interaction._ele], 'br');
     },
     mouseUp() {
         this.editor.interaction._ele = null;

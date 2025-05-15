@@ -106,7 +106,7 @@ class RectangleLike extends Shape {
     this.width = Math.abs(bottomRight.x - topLeft.x)
     this.height = Math.abs(bottomRight.y - topLeft.y)
 
-    // console.log(this.cx, this.cy, this.width, this.height)
+    console.log(this.cx, this.cy, this.width, this.height)
   }
 
 

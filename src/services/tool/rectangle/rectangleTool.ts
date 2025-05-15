@@ -31,7 +31,7 @@ const rectangleTool: ToolType = {
   },
   mouseMove(this: ToolManager) {
     if (!this.editor.interaction._ele) return
-    resizeTool.call(this, [this.editor.interaction._ele])
+    resizeTool.call(this, [this.editor.interaction._ele], 'br')
   },
   mouseUp(this: ToolManager) {
     this.editor.interaction._ele = null
