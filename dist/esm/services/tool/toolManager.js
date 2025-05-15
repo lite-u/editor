@@ -8,6 +8,7 @@ import handleMouseDown from './events/pointerDown.js';
 import selector from './selector/selector.js';
 import rectangleTool from './rectangle/rectangleTool.js';
 import panning from './panning/panning.js';
+import ellipseTool from './ellipseTool.js';
 class ToolManager {
     editor;
     eventsController = new AbortController();
@@ -28,6 +29,7 @@ class ToolManager {
         this.toolMap.set('selector', selector);
         this.toolMap.set('panning', panning);
         this.toolMap.set('rectangle', rectangleTool);
+        this.toolMap.set('ellipse', ellipseTool);
         this.currentToolName = 'selector';
         this.tool = selector;
     }
