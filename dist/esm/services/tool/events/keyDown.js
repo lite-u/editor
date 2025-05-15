@@ -6,7 +6,9 @@ function handleKeyDown(e) {
     // const {state} = interaction
     if (e.code === 'Space') {
         action.dispatch('switch-tool', 'panning');
-        interaction._lastTool = toolManager.currentToolName;
+        if (!interaction._lastTool) {
+            interaction._lastTool = toolManager.currentToolName;
+        }
         e.preventDefault();
     }
     else {

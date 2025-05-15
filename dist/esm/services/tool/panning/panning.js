@@ -6,7 +6,7 @@ const panning = {
     },
     mouseMove() {
         // this.editor.container.setPointerCapture(e.pointerId)
-        const { _modifier, _pointDown, mouseDelta, mouseStart, mouseCurrent } = this.editor.interaction;
+        const { _modifier, _pointDown } = this.editor.interaction;
         const { movementX, movementY } = _modifier;
         if (!_pointDown)
             return;

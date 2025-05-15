@@ -13,7 +13,10 @@ function handleKeyDown(this: ToolManager, e: KeyboardEvent) {
 
   if (e.code === 'Space') {
     action.dispatch('switch-tool', 'panning')
-    interaction._lastTool = toolManager.currentToolName
+
+    if (!interaction._lastTool) {
+      interaction._lastTool = toolManager.currentToolName
+    }
     e.preventDefault()
   } else {
     interaction._modifier = {...interaction._modifier, shiftKey, metaKey, ctrlKey, altKey}
