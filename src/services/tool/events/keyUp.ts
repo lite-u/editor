@@ -8,7 +8,7 @@ function handleKeyUp(this: ToolManager, e: KeyboardEvent) {
 
   if (e.code === 'Space') {
 
-    interaction.spaceKeyDown = false
+    // interaction.spaceKeyDown = false
     if (interaction._lastTool) {
       toolManager.set(interaction._lastTool)
     }

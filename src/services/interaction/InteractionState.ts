@@ -40,7 +40,8 @@ class InteractionState {
 
   hoveredElement: UID = ''
   readonly operationHandlers: OperationHandler[] = []
-  spaceKeyDown = false
+  _pointDown = false
+  // spaceKeyDown = false
   _snapped = false
   // _creatingElementId: UID
   // _ele: Set<UID> = new Set()

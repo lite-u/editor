@@ -20,6 +20,7 @@ function handleMouseDown(this: ToolManager, e: PointerEvent) {
   // console.log(operator)
   this.editor.container.setPointerCapture(e.pointerId)
   this.editor.interaction._modifier = modifiers
+  this.editor.interaction._pointDown = true
   e.preventDefault()
   if (button !== 0) return
 
