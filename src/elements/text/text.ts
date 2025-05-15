@@ -21,8 +21,8 @@ export interface TextProps extends RectangleLikeProps {
   type?: 'text'
   content: TextRun[]
   font?: TextFontProps;
-  verticalAlign: VerticalAlign
-  horizontalAlign: HorizontalAlign
+  verticalAlign?: VerticalAlign
+  horizontalAlign?: HorizontalAlign
 }
 
 export type RequiredTextProps = Required<TextProps>
