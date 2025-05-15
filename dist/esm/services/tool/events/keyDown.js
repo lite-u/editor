@@ -5,10 +5,10 @@ function handleKeyDown(e) {
     const { interaction, action, toolManager } = this.editor;
     // const {state} = interaction
     if (e.code === 'Space') {
-        action.dispatch('switch-tool', 'panning');
         if (!interaction._lastTool) {
             interaction._lastTool = toolManager.currentToolName;
         }
+        action.dispatch('switch-tool', 'panning');
         e.preventDefault();
     }
     else {

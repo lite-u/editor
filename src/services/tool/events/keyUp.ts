@@ -3,7 +3,7 @@ import ToolManager from '~/services/tool/toolManager'
 // import {updateSelectionBox} from "../domManipulations.ts"
 
 function handleKeyUp(this: ToolManager, e: KeyboardEvent) {
-  const {interaction, toolManager} = this.editor
+  const {interaction, toolManager, action} = this.editor
   const {shiftKey, metaKey, ctrlKey, altKey} = e
 
   console.log(e.code)
@@ -13,9 +13,11 @@ function handleKeyUp(this: ToolManager, e: KeyboardEvent) {
     // interaction.spaceKeyDown = false
     if (interaction._lastTool) {
       toolManager.set(interaction._lastTool)
+      action.dispatch('switch-tool', interaction._lastTool)
     }
+
     // cursor.set('selector')
-    interaction._lastTool = toolManager.currentToolName
+    // interaction._lastTool = toolManager.currentToolName
 
     e.preventDefault()
   } else {
