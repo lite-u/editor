@@ -1,6 +1,6 @@
 // import {updateSelectionBox} from "../domManipulations.ts"
 function handleKeyDown(e) {
-    const { target, shiftKey, metaKey, ctrlKey, altKey } = e;
+    const { shiftKey, metaKey, ctrlKey, altKey } = e;
     // if (target !== this.editor.container) return
     const { interaction, action, toolManager } = this.editor;
     // const {state} = interaction
