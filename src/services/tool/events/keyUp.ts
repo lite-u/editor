@@ -1,10 +1,9 @@
-import {applyResize} from '../selector/helper'
 import ToolManager from '~/services/tool/toolManager'
 
 // import {updateSelectionBox} from "../domManipulations.ts"
 
 function handleKeyUp(this: ToolManager, e: KeyboardEvent) {
-  const {interaction, action, cursor, toolManager} = this.editor
+  const {interaction, toolManager} = this.editor
 
   if (e.code === 'Space') {
 
@@ -19,16 +18,16 @@ function handleKeyUp(this: ToolManager, e: KeyboardEvent) {
     return
   }
 
- /* if (interaction.state === 'resizing') {
-    const {altKey, shiftKey} = e
+  /* if (interaction.state === 'resizing') {
+     const {altKey, shiftKey} = e
 
-    const r = applyResize.call(this, altKey, shiftKey)
+     const r = applyResize.call(this, altKey, shiftKey)
 
-    action.dispatch('element-modifying', {
-      type: 'resize',
-      data: r,
-    })
-  }*/
+     action.dispatch('element-modifying', {
+       type: 'resize',
+       data: r,
+     })
+   }*/
 }
 
 export default handleKeyUp

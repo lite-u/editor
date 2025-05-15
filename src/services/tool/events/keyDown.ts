@@ -6,7 +6,7 @@ import ToolManager from '~/services/tool/toolManager'
 function handleKeyDown(this: ToolManager, e: KeyboardEvent) {
   const _t = e.target !== this.editor.container
   if (_t) return
-  const {interaction, action, cursor, toolManager} = this.editor
+  const {interaction, action, toolManager} = this.editor
   const {state} = interaction
   if (state === 'panning' || state === 'selecting') return
 
