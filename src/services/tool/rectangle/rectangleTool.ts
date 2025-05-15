@@ -30,7 +30,6 @@ const rectangleTool: ToolType = {
     action.dispatch('visible-element-updated')
   },
   mouseMove(this: ToolManager) {
-    // console.log(this.editor.interaction._ele)
     if (!this.editor.interaction._ele) return
     resizeTool.call(this)
   },
