@@ -15,7 +15,7 @@ export class BasePath {
     const cy = (Math.min(...ys) + Math.max(...ys)) / 2
     return {x: cx, y: cy}
   }
-
+/*
   applyMatrix(matrix: DOMMatrix) {
     const transformed = this.getPoints().map(p => matrix.transformPoint(p))
     this.setPoints(transformed)
@@ -42,5 +42,5 @@ export class BasePath {
       .scale(sx, sy)
       .translate(-pivot.x, -pivot.y)
     this.applyMatrix(matrix)
-  }
+  }*/
 }

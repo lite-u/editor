@@ -20,7 +20,7 @@ declare class ElementBase {
     show: boolean;
     protected matrix: DOMMatrix;
     constructor({ stroke, fill, opacity, shadow, rotation, transform, show, }: ElementBaseProps);
-    protected rotate(angle: number, center?: Point): void;
+    protected rotate(angle: number): void;
     protected transformPoint(x: number, y: number, matrix: DOMMatrix): Point;
     protected toJSON(): RequiredBaseProps;
     protected toMinimalJSON(): ElementBaseProps;

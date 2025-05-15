@@ -20,7 +20,7 @@ class ElementBase {
         this.transform = transform;
         this.show = show;
     }
-    rotate(angle, center) {
+    rotate(angle) {
         this.rotation = angle;
     }
     transformPoint(x, y, matrix) {
