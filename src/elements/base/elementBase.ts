@@ -52,7 +52,7 @@ class ElementBase {
     this.show = show
   }
 
-  protected rotate(angle: number, center?: Point) {
+  protected rotate(angle: number) {
     this.rotation = angle
   }
 
@@ -60,6 +60,7 @@ class ElementBase {
     const p = matrix.transformPoint({x, y})
     return {x: p.x, y: p.y}
   }
+
   protected toJSON(): RequiredBaseProps {
     const {
       show,
