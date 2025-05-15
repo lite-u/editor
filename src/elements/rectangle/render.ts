@@ -14,8 +14,6 @@ function render(rect: RectangleLike, ctx: CanvasRenderingContext2D): void {
 
   if (!show || opacity <= 0) return
   ctx.save()
-
-  // Move context to the rectangle's center (Direct center point at x, y)
   ctx.translate(cx, cy)
 
   if (rotation > 0) {
@@ -26,7 +24,8 @@ function render(rect: RectangleLike, ctx: CanvasRenderingContext2D): void {
     ctx.fillStyle = fillColor
   }
 
-  if (opacity < 100) {
+  if (opacity > 0) {
+    ctx.fillStyle = fillColor as string
     ctx.globalAlpha = opacity / 100
   }
 

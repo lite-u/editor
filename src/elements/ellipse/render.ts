@@ -1,64 +1,45 @@
 import ElementEllipse from './ellipse'
 
 function render(this: ElementEllipse, ctx: CanvasRenderingContext2D): void {
-  let {cx, cy, r1, r2,  lineWidth,
-    lineColor, opacity, fillColor, rotation, dashLine, gradient} = this.toJSON()
+  let {cx, cy, r1, r2, show, rotation, opacity, fill, stroke} = this.toJSON()
+  const {enabled: enabledFill, color: fillColor} = fill
+  const {enabled: enabledStroke, color: strokeColor, weight, join, dashed} = stroke
 
-
-  // Save current context state to avoid transformations affecting other drawings
+  if (!show || opacity <= 0) return
   ctx.save()
-  // Move context to the circle's center
   ctx.translate(cx, cy)
 
-  // Apply rotation if needed
   if (rotation !== 0) {
-    ctx.rotate(rotation! * Math.PI / 180) // Convert to radians
+    ctx.rotate(rotation! * Math.PI / 180)
   }
 
   // Apply fill style if enabled
   if (opacity > 0) {
     ctx.fillStyle = fillColor as string
-    ctx.globalAlpha = opacity / 100 // Set the opacity
+    ctx.globalAlpha = opacity / 100
   }
 
-  // Apply stroke style if enabled
-  if (lineWidth > 0) {
-    ctx.lineWidth = lineWidth
-    ctx.strokeStyle = lineColor
-    ctx.lineJoin = 'round'
-  }
+  if (enabledStroke && weight > 0) {
+    ctx.lineWidth = weight
+    ctx.strokeStyle = strokeColor
+    ctx.lineJoin = join
+    ctx.beginPath()
 
-  // Draw circle
-  ctx.beginPath()
-  ctx.ellipse(0, 0, r1, r2, 0, 0, Math.PI * 2) // Ellipse for circle (can use same radius for both axes)
+    if (dashed) {
+      ctx.setLineDash([3, 5])
+    }
 
-  if (dashLine) {
-    ctx.setLineDash([3, 5]) // Apply dashed line pattern
-  } else {
-    ctx.setLineDash([]) // Reset line dash if no dashLine
-  }
+    ctx.beginPath()
+    ctx.ellipse(0, 0, r1, r2, 0, 0, Math.PI * 2) // Ellipse for circle (can use same radius for both axes)
 
-  ctx.closePath()
-
-  // Fill if enabled
-  if (opacity > 0) {
-    ctx.fill()
-  }
-
-  // Stroke if enabled
-  if (lineWidth > 0) {
+    ctx.closePath()
     ctx.stroke()
   }
 
-  // Apply gradient if provided
-  if (gradient) {
-    ctx.fillStyle = gradient // Use gradient for fill
-    if (opacity > 0) {
-      ctx.fill() // Fill with gradient
-    }
+  if (enabledFill) {
+    ctx.fill()
   }
 
-  // Restore the context to avoid affecting subsequent drawings
   ctx.restore()
 }
 

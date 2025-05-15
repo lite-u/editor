@@ -12,7 +12,6 @@ function render(rect, ctx) {
     if (!show || opacity <= 0)
         return;
     ctx.save();
-    // Move context to the rectangle's center (Direct center point at x, y)
     ctx.translate(cx, cy);
     if (rotation > 0) {
         ctx.rotate(rotation * Math.PI / 180);
@@ -20,7 +19,8 @@ function render(rect, ctx) {
     if (enabledFill) {
         ctx.fillStyle = fillColor;
     }
-    if (opacity < 100) {
+    if (opacity > 0) {
+        ctx.fillStyle = fillColor;
         ctx.globalAlpha = opacity / 100;
     }
     if (enabledStroke && weight > 0) {
