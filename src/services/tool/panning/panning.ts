@@ -1,4 +1,3 @@
-// import {updateCursor} from '~/services/viewport/domManipulations'
 import ToolManager, {ToolType} from '~/services/tool/toolManager'
 
 const panning:ToolType = {
@@ -7,7 +6,7 @@ const panning:ToolType = {
     this.editor.cursor.set('grabbing')
     // updateCursor.call(this, 'grabbing')
   },
-  mouseMove(this: ToolManager, e: PointerEvent) {
+  mouseMove(this: ToolManager) {
     // this.editor.container.setPointerCapture(e.pointerId)
 
     this.editor.action.dispatch('world-shift',
