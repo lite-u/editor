@@ -5,7 +5,6 @@ import transform from './transform.js';
 import ElementRectangle from './rectangle.js';
 import { DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../defaultProps.js';
 import { isEqual } from '../../lib/lib.js';
-import { transformPoints } from '../../core/geometry.js';
 class RectangleLike extends Shape {
     id;
     layer;
@@ -27,9 +26,6 @@ class RectangleLike extends Shape {
             height,
         };
     }
-    get center() {
-        return { x: this.cx, y: this.cy };
-    }
     get corners() {
         const w = this.width / 2;
         const h = this.height / 2;
@@ -40,26 +36,25 @@ class RectangleLike extends Shape {
             { x: this.cx - w, y: this.cy + h }, // bottom-left
         ];
     }
-    applyMatrix(matrix) {
+    /*
+      applyMatrix(matrix: DOMMatrix) {
         const points = this.corners.map(p => {
-            const r = matrix.transformPoint(p);
-            return { x: r.x, y: r.y };
-        });
+          const r = matrix.transformPoint(p)
+          return {x: r.x, y: r.y}
+        })
+    
         // Recalculate x, y, width, height from transformed corners
-        const xs = points.map(p => p.x);
-        const ys = points.map(p => p.y);
-        this.x = Math.min(...xs);
-        this.y = Math.min(...ys);
-        this.width = Math.max(...xs) - this.x;
-        this.height = Math.max(...ys) - this.y;
-    }
-    translate(dx, dy) {
-        this.cx = this.original.cx + dx;
-        this.cy = this.original.cx + dy;
-    }
-    rotate(angle, center) {
-        this.rotation = angle;
-    }
+        const xs = points.map(p => p.x)
+        const ys = points.map(p => p.y)
+        this.x = Math.min(...xs)
+        this.y = Math.min(...ys)
+        this.width = Math.max(...xs) - this.x
+        this.height = Math.max(...ys) - this.y
+      }
+    */
+    /*  rotate(angle: number, center?: Point) {
+        this.rotation = angle
+      }*/
     scale(sx, sy) {
         this.width *= sx;
         this.height *= sy;
@@ -78,15 +73,11 @@ class RectangleLike extends Shape {
         this.height = Math.abs(bottomRight.y - topLeft.y);
         // console.log(this.cx, this.cy, this.width, this.height)
     }
-    transformPoint(x, y, matrix) {
-        const p = matrix.transformPoint({ x, y });
-        return { x: p.x, y: p.y };
-    }
-    getTransformedPoints() {
+    /*  getTransformedPoints(): Point[] {
         // const {cx, cy, width, height} = this.original
-        const corners = this.getCorners();
-        return transformPoints(corners, this.matrix);
-    }
+        const corners: Point[] = this.corners
+        return transformPoints(corners, this.matrix)
+      }*/
     static applyResizeTransform = (arg) => {
         return transform(arg);
     };

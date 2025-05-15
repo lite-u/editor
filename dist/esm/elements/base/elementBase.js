@@ -20,6 +20,13 @@ class ElementBase {
         this.transform = transform;
         this.show = show;
     }
+    rotate(angle, center) {
+        this.rotation = angle;
+    }
+    transformPoint(x, y, matrix) {
+        const p = matrix.transformPoint({ x, y });
+        return { x: p.x, y: p.y };
+    }
     toJSON() {
         const { show, stroke, fill, opacity, shadow, rotation, transform, } = this;
         return {

@@ -1,6 +1,6 @@
 import ElementBase, { ElementBaseProps } from '../base/elementBase';
 import { OperationHandler } from '~/services/selection/type';
-import { BoundingRect } from '~/type';
+import { BoundingRect, Point } from '~/type';
 import { ElementProps } from '../type';
 import { Gradient } from '~/elements/props';
 export interface ShapeProps extends ElementBaseProps {
@@ -14,6 +14,8 @@ declare class Shape extends ElementBase {
     cy: number;
     gradient: Gradient;
     constructor({ cx, cy, gradient, ...rest }: ShapeProps);
+    protected get center(): Point;
+    translate(dx: number, dy: number): void;
     protected toJSON(): RequiredShapeProps;
     toMinimalJSON(): ShapeProps;
     move(x: number, y: number): void;

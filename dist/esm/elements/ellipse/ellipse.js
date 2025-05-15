@@ -11,12 +11,31 @@ class ElementEllipse extends Shape {
     r1;
     // vertical
     r2;
+    original;
     constructor({ r1, r2, id, layer, ...rest }) {
         super(rest);
         this.id = id;
         this.layer = layer;
         this.r1 = r1;
         this.r2 = r2;
+    }
+    scale(sx, sy) {
+        this.r1 *= sx;
+        this.r2 *= sy;
+    }
+    scaleFrom(scaleX, scaleY, anchor) {
+        const matrix = new DOMMatrix()
+            .translate(anchor.x, anchor.y)
+            .scale(scaleX, scaleY)
+            .translate(-anchor.x, -anchor.y);
+        const { cx, cy, r1, r2 } = this.original;
+        const topLeft = this.transformPoint(cx - r1, cy - r2 / 2, matrix);
+        const bottomRight = this.transformPoint(cx + r1, cy + r2, matrix);
+        this.cx = (topLeft.x + bottomRight.x) / 2;
+        this.cy = (topLeft.y + bottomRight.y) / 2;
+        this.r1 = Math.abs(bottomRight.x - topLeft.x);
+        this.r2 = Math.abs(bottomRight.y - topLeft.y);
+        // console.log(this.cx, this.cy, this.width, this.height)
     }
     static applyResizeTransform = (props) => {
         return transform(props);

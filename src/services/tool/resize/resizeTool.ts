@@ -1,6 +1,7 @@
 import ToolManager from '~/services/tool/toolManager'
+import {ElementInstance} from '~/elements/type'
 
-function resizeTool(this: ToolManager) {
+function resizeTool(this: ToolManager, elements: ElementInstance[]) {
   console.log(9)
   const {interaction, action} = this.editor
   const {mouseWorldCurrent, _modifier, mouseWorldStart, _ele} = interaction
@@ -10,6 +11,7 @@ function resizeTool(this: ToolManager) {
     x: cx - width / 2,
     y: cy - height / 2,
   }
+
   const startVec = {
     x: mouseWorldStart.x - anchor.x,
     y: mouseWorldStart.y - anchor.y,

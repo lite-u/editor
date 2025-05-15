@@ -2,7 +2,7 @@ import ElementBase, {ElementBaseProps} from '../base/elementBase'
 import {HANDLER_OFFSETS} from '../handleBasics'
 import {OperationHandler} from '~/services/selection/type'
 import ElementRectangle, {RectangleProps} from '../rectangle/rectangle'
-import {BoundingRect} from '~/type'
+import {BoundingRect, Point} from '~/type'
 import {ElementProps} from '../type'
 import {rotatePointAroundPoint} from '~/core/geometry'
 import {Gradient} from '~/elements/props'
@@ -36,6 +36,14 @@ class Shape extends ElementBase {
     this.gradient = gradient
   }
 
+  protected get center(): Point {
+    return {x: this.cx, y: this.cy}
+  }
+
+  translate(dx: number, dy: number) {
+    this.cx = this.original.cx + dx
+    this.cy = this.original.cx + dy
+  }
   protected toJSON(): RequiredShapeProps {
     const {
       cx,

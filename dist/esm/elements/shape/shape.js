@@ -15,6 +15,13 @@ class Shape extends ElementBase {
         this.cy = cy;
         this.gradient = gradient;
     }
+    get center() {
+        return { x: this.cx, y: this.cy };
+    }
+    translate(dx, dy) {
+        this.cx = this.original.cx + dx;
+        this.cy = this.original.cx + dy;
+    }
     toJSON() {
         const { cx, cy, gradient, } = this;
         return {

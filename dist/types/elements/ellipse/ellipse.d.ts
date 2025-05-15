@@ -16,7 +16,10 @@ declare class ElementEllipse extends Shape {
     layer: number;
     r1: number;
     r2: number;
+    private original;
     constructor({ r1, r2, id, layer, ...rest }: EllipseProps);
+    scale(sx: number, sy: number): void;
+    scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
     static applyResizeTransform: (props: {
         downPoint: {
             x: number;

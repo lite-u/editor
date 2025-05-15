@@ -51,10 +51,6 @@ class RectangleLike extends Shape {
     }
   }
 
-  protected get center(): Point {
-    return {x: this.cx, y: this.cy}
-  }
-
   protected get corners(): Point[] {
     const w = this.width / 2
     const h = this.height / 2
@@ -67,6 +63,7 @@ class RectangleLike extends Shape {
     ]
   }
 
+/*
   applyMatrix(matrix: DOMMatrix) {
     const points = this.corners.map(p => {
       const r = matrix.transformPoint(p)
@@ -81,15 +78,13 @@ class RectangleLike extends Shape {
     this.width = Math.max(...xs) - this.x
     this.height = Math.max(...ys) - this.y
   }
+*/
 
-  translate(dx: number, dy: number) {
-    this.cx = this.original.cx + dx
-    this.cy = this.original.cx + dy
-  }
 
-  rotate(angle: number, center?: Point) {
+
+/*  rotate(angle: number, center?: Point) {
     this.rotation = angle
-  }
+  }*/
 
   scale(sx: number, sy: number) {
     this.width *= sx
@@ -114,16 +109,12 @@ class RectangleLike extends Shape {
     // console.log(this.cx, this.cy, this.width, this.height)
   }
 
-  private transformPoint(x: number, y: number, matrix: DOMMatrix): Point {
-    const p = matrix.transformPoint({x, y})
-    return {x: p.x, y: p.y}
-  }
 
-  getTransformedPoints(): Point[] {
+/*  getTransformedPoints(): Point[] {
     // const {cx, cy, width, height} = this.original
-    const corners: Point[] = this.getCorners()
+    const corners: Point[] = this.corners
     return transformPoints(corners, this.matrix)
-  }
+  }*/
 
   static applyResizeTransform = (arg: TransformProps): Rect => {
     return transform(arg)
