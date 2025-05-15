@@ -1,13 +1,12 @@
 import nid from '../../../core/nid.js';
 import resizeTool from '../resize/resizeTool.js';
 const rectangleTool = {
-    cursor: 'cross',
+    cursor: 'crosshair',
     mouseDown() {
         const { elementManager, interaction, action, selection, } = this.editor;
         const { x, y } = this.editor.interaction.mouseWorldCurrent;
         const width = 1;
         const height = 1;
-        // this._resizingOperator = operator
         const id = 'rectangle-' + nid();
         const rectProps = {
             type: 'rectangle',
@@ -19,7 +18,6 @@ const rectangleTool = {
             layer: 0,
         };
         const ele = elementManager.add(elementManager.create(rectProps));
-        // console.log(ele)
         interaction.state = 'resizing';
         interaction._ele = ele;
         action.dispatch('selection-clear');

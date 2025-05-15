@@ -4,7 +4,7 @@ import ElementRectangle, {RectangleProps} from '~/elements/rectangle/rectangle'
 import resizeTool from '~/services/tool/resize/resizeTool'
 
 const rectangleTool: ToolType = {
-  cursor: 'cross',
+  cursor: 'crosshair',
   mouseDown(this: ToolManager) {
     const {
       elementManager, interaction, action, selection,
@@ -12,7 +12,6 @@ const rectangleTool: ToolType = {
     const {x, y} = this.editor.interaction.mouseWorldCurrent
     const width = 1
     const height = 1
-    // this._resizingOperator = operator
     const id = 'rectangle-' + nid()
     const rectProps: RectangleProps = {
       type: 'rectangle',
@@ -26,7 +25,6 @@ const rectangleTool: ToolType = {
 
     const ele: ElementRectangle = elementManager.add(elementManager.create(rectProps))
 
-    // console.log(ele)
     interaction.state = 'resizing'
     interaction._ele = ele
     action.dispatch('selection-clear')

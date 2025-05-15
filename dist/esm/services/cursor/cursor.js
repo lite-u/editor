@@ -28,8 +28,8 @@ class Cursor {
         editor.container.addEventListener('mousemove', e => { this.move(e); }, { signal });
     }
     set(name) {
-        // console.log('set cursor', cursor)
         this.domRef.setAttribute('date-current-cursor', name);
+        console.log(name);
         if (name === 'rotate') {
             this.domRef.style.display = 'block';
             this.editor.container.style.cursor = 'none';

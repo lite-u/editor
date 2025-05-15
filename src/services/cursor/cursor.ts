@@ -6,7 +6,7 @@ import {createWith} from '~/lib/lib'
 export type CursorResizes = ResizeDirection
 export type CursorName =
   'default'
-  | 'cross'
+  | 'crosshair'
   | 'grab'
   | 'grabbing'
   | 'rotate'
@@ -51,7 +51,7 @@ class Cursor {
 
   set(name: CursorName) {
     this.domRef.setAttribute('date-current-cursor', name)
-
+    console.log(name)
     if (name === 'rotate') {
       this.domRef.style.display = 'block'
       this.editor.container.style.cursor = 'none'
