@@ -3,7 +3,7 @@ import nid from '~/core/nid'
 import ElementRectangle from '~/elements/rectangle/rectangle'
 import resizeTool from '~/services/tool/resize/resizeTool'
 import {TextProps} from '~/elements/text/text'
-import {DEFAULT_FILL, DEFAULT_FONT, DEFAULT_STROKE, DEFAULT_TEXT_FILL} from '~/elements/defaultProps'
+import {DEFAULT_FONT, DEFAULT_STROKE, DEFAULT_TEXT_FILL} from '~/elements/defaultProps'
 
 const textTool: ToolType = {
   cursor: 'text',
@@ -34,10 +34,11 @@ const textTool: ToolType = {
     interaction._ele = ele
     action.dispatch('selection-clear')
     selection.replace(new Set([ele.id]))
-    action.dispatch('visible-element-updated')
   },
   mouseMove(this: ToolManager) {
     if (!this.editor.interaction._ele) return
+    this.editor.action.dispatch('visible-element-updated')
+
     resizeTool.call(this, [this.editor.interaction._ele], 'br')
   },
   mouseUp(this: ToolManager) {

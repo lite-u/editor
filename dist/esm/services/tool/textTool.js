@@ -28,11 +28,11 @@ const textTool = {
         interaction._ele = ele;
         action.dispatch('selection-clear');
         selection.replace(new Set([ele.id]));
-        action.dispatch('visible-element-updated');
     },
     mouseMove() {
         if (!this.editor.interaction._ele)
             return;
+        this.editor.action.dispatch('visible-element-updated');
         resizeTool.call(this, [this.editor.interaction._ele], 'br');
     },
     mouseUp() {
