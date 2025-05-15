@@ -1,5 +1,5 @@
 function render(ctx) {
-    let { content, textColor, cx, cy, width, rotation, opacity } = this.toJSON();
+    let { content, cx, cy, width, rotation, opacity } = this.toJSON();
     // x = Math.round(x)
     // y = Math.round(y)
     // width = Math.round(width)
@@ -21,14 +21,10 @@ function render(ctx) {
     }
     // Fill if enabled
     if (opacity > 0) {
-        ctx.font = '20px monospace';
-        ctx.strokeStyle = 'blue';
-        ctx.textBaseline = 'middle';
-        ctx.textAlign = 'center';
-        // ctx.beginPath()
-        // ctx.fill()
-        // ctx.strokeText(content, LocalX, LocalY, width)
-        ctx.fillStyle = textColor;
+        // ctx.font = '20px monospace'
+        // ctx.strokeStyle = 'blue'
+        // ctx.textBaseline = 'middle'
+        // ctx.textAlign = 'center'
         content.map(({ text, fill, font, stroke }) => {
             ctx.font = `${font?.size}`;
             ctx.fillStyle = fill?.color;

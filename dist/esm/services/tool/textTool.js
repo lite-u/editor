@@ -25,7 +25,6 @@ const textTool = {
             layer: 0,
         };
         const ele = elementManager.add(elementManager.create(eleProps));
-        // interaction.state = 'resizing'
         interaction._ele = ele;
         action.dispatch('selection-clear');
         selection.replace(new Set([ele.id]));
