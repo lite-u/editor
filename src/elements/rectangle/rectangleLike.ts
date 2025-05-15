@@ -8,7 +8,6 @@ import ElementRectangle from '~/elements/rectangle/rectangle'
 import {BorderRadius} from '~/elements/props'
 import {DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH} from '~/elements/defaultProps'
 import {isEqual} from '~/lib/lib'
-import {transformPoints} from '~/core/geometry'
 
 export interface RectangleLikeProps extends ShapeProps {
   id: string
@@ -26,7 +25,7 @@ class RectangleLike extends Shape {
   width: number
   height: number
   borderRadius: BorderRadius
-  private original: { cx: number, cy: number, width: number, height: number }
+  private original: { cx: number, cy: number, width: number, height: number, rotation: number }
 
   constructor({
                 id,
@@ -48,6 +47,7 @@ class RectangleLike extends Shape {
       cy: this.cy,
       width,
       height,
+      rotation: this.rotation,
     }
   }
 
@@ -63,28 +63,26 @@ class RectangleLike extends Shape {
     ]
   }
 
-/*
-  applyMatrix(matrix: DOMMatrix) {
-    const points = this.corners.map(p => {
-      const r = matrix.transformPoint(p)
-      return {x: r.x, y: r.y}
-    })
+  /*
+    applyMatrix(matrix: DOMMatrix) {
+      const points = this.corners.map(p => {
+        const r = matrix.transformPoint(p)
+        return {x: r.x, y: r.y}
+      })
 
-    // Recalculate x, y, width, height from transformed corners
-    const xs = points.map(p => p.x)
-    const ys = points.map(p => p.y)
-    this.x = Math.min(...xs)
-    this.y = Math.min(...ys)
-    this.width = Math.max(...xs) - this.x
-    this.height = Math.max(...ys) - this.y
-  }
-*/
+      // Recalculate x, y, width, height from transformed corners
+      const xs = points.map(p => p.x)
+      const ys = points.map(p => p.y)
+      this.x = Math.min(...xs)
+      this.y = Math.min(...ys)
+      this.width = Math.max(...xs) - this.x
+      this.height = Math.max(...ys) - this.y
+    }
+  */
 
-
-
-/*  rotate(angle: number, center?: Point) {
-    this.rotation = angle
-  }*/
+  /*  rotate(angle: number, center?: Point) {
+      this.rotation = angle
+    }*/
 
   scale(sx: number, sy: number) {
     this.width *= sx
@@ -109,12 +107,11 @@ class RectangleLike extends Shape {
     console.log(this.cx, this.cy, this.width, this.height)
   }
 
-
-/*  getTransformedPoints(): Point[] {
-    // const {cx, cy, width, height} = this.original
-    const corners: Point[] = this.corners
-    return transformPoints(corners, this.matrix)
-  }*/
+  /*  getTransformedPoints(): Point[] {
+      // const {cx, cy, width, height} = this.original
+      const corners: Point[] = this.corners
+      return transformPoints(corners, this.matrix)
+    }*/
 
   static applyResizeTransform = (arg: TransformProps): Rect => {
     return transform(arg)
@@ -212,6 +209,19 @@ class RectangleLike extends Shape {
 
   public getBoundingRect() {
     const {cx, cy, width, height, rotation} = this
+
+    const x = cx - width / 2
+    const y = cy - height / 2
+
+    if (rotation === 0) {
+      return generateBoundingRectFromRect({x, y, width, height})
+    }
+
+    return generateBoundingRectFromRotatedRect({x, y, width, height}, rotation)
+  }
+
+  public getBoundingRectFromOriginal() {
+    const {cx, cy, width, height, rotation} = this.original
 
     const x = cx - width / 2
     const y = cy - height / 2
