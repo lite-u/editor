@@ -1,5 +1,5 @@
-import nid from '~/core/nid';
-import { getRotateAngle } from '~/services/tool/selector/helper';
+import nid from '../../core/nid.js';
+import { getRotateAngle } from './selector/helper.js';
 const lineSegmentTool = {
     cursor: 'crosshair',
     mouseDown() {
