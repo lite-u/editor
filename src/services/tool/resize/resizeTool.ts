@@ -24,6 +24,7 @@ function resizeTool(this: ToolManager, elements: ElementInstance[]) {
     maxX = Math.max(anchor.x, rect.x)
     maxY = Math.max(anchor.y, rect.y)
   })
+
   centerX = (maxX - minX) / 2
   centerY = (maxY - minY) / 2
   anchor.x = minX
