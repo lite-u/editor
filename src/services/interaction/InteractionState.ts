@@ -51,7 +51,7 @@ class InteractionState {
   selectedShadow: Set<UID> = new Set()
   _ele: ElementInstance
   _modifier: Modifier = {
-    button: false,
+    button: -2,
     altKey: false,
     shiftKey: false,
     metaKey: false,
