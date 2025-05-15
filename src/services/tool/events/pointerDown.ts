@@ -2,11 +2,11 @@ import ToolManager from '~/services/tool/toolManager'
 import snapTool from '~/services/tool/snap/snap'
 
 function handleMouseDown(this: ToolManager, e: PointerEvent) {
-  const {button, target, shiftKey, metaKey, ctrlKey, altKey, clientX, clientY} = e
+  const {button, target, shiftKey, metaKey, ctrlKey, altKey, clientX, clientY, movementX, movementY} = e
 
   if (target !== this.editor.container) return
   const modifiers = {
-    shiftKey, metaKey, ctrlKey, altKey, button,
+    shiftKey, metaKey, ctrlKey, altKey, button, movementX, movementY,
   }
   const x = clientX - this.editor.rect!.x
   const y = clientY - this.editor.rect!.y

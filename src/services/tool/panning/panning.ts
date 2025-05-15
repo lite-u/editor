@@ -8,12 +8,12 @@ const panning: ToolType = {
   },
   mouseMove(this: ToolManager) {
     // this.editor.container.setPointerCapture(e.pointerId)
-    const {_modifier} = this.editor.interaction
+    const {_modifier, mouseStart, mouseCurrent} = this.editor.interaction
 
     this.editor.action.dispatch('world-shift',
       {
-        x: _modifier.movementX,
-        y: _modifier.movementY,
+        x: mouseCurrent.x - mouseStart.x,
+        y: mouseCurrent.y - mouseStart.y,
       })
   },
   mouseUp(this: ToolManager) {
