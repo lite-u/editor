@@ -1,6 +1,4 @@
-import {isNegativeZero} from '../../../core/utils'
-import Editor from '../../../main/editor'
-import Tool from '~/elements/rectangle/tool'
+import {isNegativeZero} from '~/core/utils'
 import ToolManager from '~/services/tool/toolManager'
 
 function handleWheel(this: ToolManager, event: WheelEvent) {
@@ -10,31 +8,31 @@ function handleWheel(this: ToolManager, event: WheelEvent) {
   // console.log(this.state)
   event.preventDefault()
   event.stopPropagation()
-  if (this.state !== 'static') return
+  if (this.editor.interaction.state !== 'static') return
   const {trackpad, zooming, panning, scrolling, zoomFactor, translateX, translateY} =
     detectGestures(event)
 
   console.log(trackpad)
   // console.log(`${zooming ? 'zooming' : ''} ${panning ? 'panning' : ''} ${scrolling ? 'scrolling' : ''} `)
 
-  this.viewport.zooming = zooming
+  // this.editor.interaction.zooming = zooming
 
   if (zooming) {
     // console.log(zoomFactor)
-    this.action.dispatch('world-zoom', {
+    this.editor.action.dispatch('world-zoom', {
       zoomBy: true,
       zoomFactor,
-      physicalPoint: this.viewport.mouseMovePoint,
+      physicalPoint: this.editor.interaction.mouseCurrent,
     })
   } else if (panning || scrolling) {
-    this.action.dispatch('world-shift', {
+    this.editor.action.dispatch('world-shift', {
       x: translateX,
       y: translateY,
     })
     // this.translateViewport(translateX, translateY)
   }
 
-  this.updateWorldRect()
+  this.editor.world.updateWorldRect()
 }
 
 const detectGestures = (() => {
