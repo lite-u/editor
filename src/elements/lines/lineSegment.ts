@@ -39,6 +39,25 @@ class LineSegment extends ElementBase implements BasePath {
     })
   }
 
+  scaleFrom(scaleX: number, scaleY: number, anchor: Point) {
+    // console.log(scaleX, scaleY, anchor)
+    const matrix = new DOMMatrix()
+      .translate(anchor.x, anchor.y)
+      .scale(scaleX, scaleY)
+      .translate(-anchor.x, -anchor.y)
+/*
+    const {cx, cy, width, height} = this.original
+    const topLeft = this.transformPoint(cx - width / 2, cy - height / 2, matrix)
+    const bottomRight = this.transformPoint(cx + width / 2, cy + height / 2, matrix)
+
+    this.cx = (topLeft.x + bottomRight.x) / 2
+    this.cy = (topLeft.y + bottomRight.y) / 2
+    this.width = Math.abs(bottomRight.x - topLeft.x)
+    this.height = Math.abs(bottomRight.y - topLeft.y)*/
+
+    // console.log(this.cx, this.cy, this.width, this.height)
+  }
+
   protected toJSON(): RequiredLineSegmentProps {
     return {
       ...super.toJSON(),
