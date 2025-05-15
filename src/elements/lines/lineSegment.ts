@@ -29,7 +29,11 @@ class ElementLineSegment extends ElementBase implements BasePath {
     this.id = id
     this.layer = layer
     this.points = points
-    this.original = {points: []}
+    this.original = {points: deepClone(points)}
+  }
+
+  protected getPoints(): Point[] {
+    return deepClone(this.points)
   }
 
   translate(dx: number, dy: number) {

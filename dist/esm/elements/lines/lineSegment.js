@@ -11,7 +11,10 @@ class ElementLineSegment extends ElementBase {
         this.id = id;
         this.layer = layer;
         this.points = points;
-        this.original = { points: [] };
+        this.original = { points: deepClone(points) };
+    }
+    getPoints() {
+        return deepClone(this.points);
     }
     translate(dx, dy) {
         this.points.forEach((point) => {

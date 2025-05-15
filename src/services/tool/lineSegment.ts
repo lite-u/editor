@@ -10,8 +10,6 @@ const lineSegmentTool: ToolType = {
   mouseDown(this: ToolManager) {
     const {elementManager, interaction, action, selection} = this.editor
     const {x, y} = this.editor.interaction.mouseWorldCurrent
-    const width = 1
-    const height = 1
     const id = 'rectangle-' + nid()
     const p1Props: PointProps = {x, y}
     const p2Props: PointProps = {x, y}
@@ -22,8 +20,6 @@ const lineSegmentTool: ToolType = {
       layer: 0,
     }
 
-    // const p1 = elementManager.add(elementManager.create(p1Props))
-    // const p2 = elementManager.add(elementManager.create(p2Props))
     const ele: ElementRectangle = elementManager.add(elementManager.create(eleProps))
 
     interaction._ele = ele

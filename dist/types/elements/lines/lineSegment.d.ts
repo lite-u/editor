@@ -15,6 +15,7 @@ declare class ElementLineSegment extends ElementBase implements BasePath {
     private points;
     private original;
     constructor({ id, layer, points, ...rest }: LineSegmentProps);
+    protected getPoints(): Point[];
     translate(dx: number, dy: number): void;
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
     protected toJSON(): RequiredLineSegmentProps;

@@ -3,6 +3,7 @@ import ElementEllipse, {EllipseProps} from './ellipse/ellipse'
 import ElementImage, {ImageProps} from './image/image'
 import ElementText, {TextProps} from '~/elements/text/text'
 import LineSegment, {LineSegmentProps} from '~/elements/lines/lineSegment'
+import {UID} from '~/type'
 
 export type ElementTypeMap = {
   'rectangle': ElementRectangle
