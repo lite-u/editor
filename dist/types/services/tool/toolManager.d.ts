@@ -2,11 +2,11 @@ import Editor from '~/main/editor';
 import { CursorName } from '~/services/cursor/cursor';
 export type ToolType = {
     cursor: CursorName;
-    mouseDown: (this: ToolManager, e: MouseEvent) => void;
-    mouseMove: (this: ToolManager, e: PointerEvent) => void;
-    mouseUp: (this: ToolManager, e: MouseEvent) => void;
-    keyDown: (this: ToolManager, e: KeyboardEvent) => void;
-    keyUp: (this: ToolManager, e: KeyboardEvent) => void;
+    mouseDown: (this: ToolManager) => void;
+    mouseMove: (this: ToolManager) => void;
+    mouseUp: (this: ToolManager) => void;
+    keyDown: (this: ToolManager) => void;
+    keyUp: (this: ToolManager) => void;
 };
 export type ToolName = 'selector' | 'rectangle' | 'text' | 'ellipse' | 'panning';
 declare class ToolManager {

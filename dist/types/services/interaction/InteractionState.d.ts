@@ -5,6 +5,13 @@ import Editor from '~/main/editor';
 import { ElementInstance } from '~/elements/type';
 import { ToolName } from '~/services/tool/toolManager';
 export type EditorManipulationType = 'static' | 'waiting' | 'panning' | 'dragging' | 'resizing' | 'rotating' | 'zooming' | 'selecting';
+export type Modifier = {
+    button: number;
+    altKey: boolean;
+    shiftKey: boolean;
+    metaKey: boolean;
+    ctrlKey: boolean;
+};
 declare class InteractionState {
     editor: Editor;
     state: EditorManipulationType;
@@ -24,6 +31,7 @@ declare class InteractionState {
     _rotatingOperator: OperationHandler | null;
     selectedShadow: Set<UID>;
     _ele: ElementInstance;
+    _modifier: Modifier;
     selectionBox: HTMLDivElement | null;
     _lastTool: ToolName | null;
     boxColor: string;

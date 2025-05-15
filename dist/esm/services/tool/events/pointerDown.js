@@ -1,8 +1,11 @@
 import snapTool from '../snap/snap.js';
 function handleMouseDown(e) {
-    const { clientY, target, button, clientX } = e;
+    const { button, target, shiftKey, metaKey, ctrlKey, altKey, clientX, clientY } = e;
     if (target !== this.editor.container)
         return;
+    const modifiers = {
+        shiftKey, metaKey, ctrlKey, altKey, button,
+    };
     const x = clientX - this.editor.rect.x;
     const y = clientY - this.editor.rect.y;
     const { interaction, world } = this.editor;
@@ -12,16 +15,11 @@ function handleMouseDown(e) {
     interaction.mouseWorldCurrent = world.getWorldPointByViewportPoint(x, y);
     // console.log(operator)
     this.editor.container.setPointerCapture(e.pointerId);
+    this.editor.interaction._modifier = modifiers;
     e.preventDefault();
     if (button !== 0)
         return;
-    /*
-  
-      if (this.editor.interaction.spaceKeyDown) {
-        return (this.editor.interaction.state = 'panning')
-      }
-    */
-    snapTool.mouseDown.call(this, e);
-    this.tool.mouseDown.call(this, e);
+    snapTool.mouseDown.call(this);
+    this.tool.mouseDown.call(this);
 }
 export default handleMouseDown;

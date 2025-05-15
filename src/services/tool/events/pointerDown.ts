@@ -2,9 +2,12 @@ import ToolManager from '~/services/tool/toolManager'
 import snapTool from '~/services/tool/snap/snap'
 
 function handleMouseDown(this: ToolManager, e: PointerEvent) {
-  const {clientY, target, button, clientX} = e
-  if (target !== this.editor.container) return
+  const {button, target, shiftKey, metaKey, ctrlKey, altKey, clientX, clientY} = e
 
+  if (target !== this.editor.container) return
+  const modifiers = {
+    shiftKey, metaKey, ctrlKey, altKey, button,
+  }
   const x = clientX - this.editor.rect!.x
   const y = clientY - this.editor.rect!.y
   const {interaction, world} = this.editor
@@ -16,17 +19,12 @@ function handleMouseDown(this: ToolManager, e: PointerEvent) {
 
   // console.log(operator)
   this.editor.container.setPointerCapture(e.pointerId)
+  this.editor.interaction._modifier = modifiers
   e.preventDefault()
   if (button !== 0) return
-  /*
 
-    if (this.editor.interaction.spaceKeyDown) {
-      return (this.editor.interaction.state = 'panning')
-    }
-  */
-
-  snapTool.mouseDown.call(this, e)
-  this.tool.mouseDown.call(this, e)
+  snapTool.mouseDown.call(this)
+  this.tool.mouseDown.call(this)
 }
 
 export default handleMouseDown

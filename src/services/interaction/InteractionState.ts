@@ -16,6 +16,14 @@ export type EditorManipulationType =
   | 'zooming'
   | 'selecting'
 
+export type Modifier = {
+  button: number
+  altKey: boolean
+  shiftKey: boolean
+  metaKey: boolean
+  ctrlKey: boolean
+}
+
 class InteractionState {
   editor: Editor
   state: EditorManipulationType = 'static'
@@ -40,6 +48,13 @@ class InteractionState {
   _rotatingOperator: OperationHandler | null = null
   selectedShadow: Set<UID> = new Set()
   _ele: ElementInstance
+  _modifier: Modifier = {
+    button: false,
+    altKey: false,
+    shiftKey: false,
+    metaKey: false,
+    ctrlKey: false,
+  }
   selectionBox: HTMLDivElement | null = null
   _lastTool: ToolName | null = null
   boxColor = '#1FB3FF'

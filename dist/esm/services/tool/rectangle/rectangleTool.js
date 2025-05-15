@@ -1,7 +1,7 @@
 import nid from '../../../core/nid.js';
 const rectangleTool = {
     cursor: 'rectangle',
-    mouseDown(e) {
+    mouseDown() {
         const { elementManager, interaction, action, selection, } = this.editor;
         const { x, y } = this.editor.interaction.mouseWorldCurrent;
         const width = 1;
@@ -25,16 +25,13 @@ const rectangleTool = {
         selection.replace(new Set([ele.id]));
         action.dispatch('visible-element-updated');
     },
-    mouseMove(e) {
+    mouseMove() {
         if (!this.editor.interaction._ele)
             return;
-        // this.editor.container.setPointerCapture(e.pointerId)
-        const { altKey, shiftKey } = e;
         const { interaction, world, selection, action, elementManager, rect } = this.editor;
-        const { mouseWorldCurrent, mouseWorldStart, _ele } = interaction;
+        const { mouseWorldCurrent, _modifier, mouseWorldStart, _ele } = interaction;
+        const { altKey, shiftKey } = _modifier;
         const { cx, cy, width, height } = _ele.original;
-        // const dx = mouseCurrent.x - mouseStart.x
-        // const dy = mouseCurrent.y - mouseStart.y
         const anchor = {
             x: cx - width / 2,
             y: cy - height / 2,
@@ -51,29 +48,24 @@ const rectangleTool = {
         // Prevent division by 0
         let scaleX = startVec.x !== 0 ? currentVec.x / startVec.x : 1;
         let scaleY = startVec.y !== 0 ? currentVec.y / startVec.y : 1;
-        if (shiftKey) {
-            anchor.x = _ele.cx;
-            anchor.y = _ele.cy;
-        }
+        /*
+            if (shiftKey) {
+              anchor.x = _ele.cx
+              anchor.y = _ele.cy
+            }
+        */
         if (shiftKey) {
             const uniformScale = Math.max(Math.abs(scaleX), Math.abs(scaleY));
             scaleX = Math.sign(scaleX) * uniformScale;
             scaleY = Math.sign(scaleY) * uniformScale;
         }
-        // ✅ Alt: scale from center (not from opposite corner)
         const scalingAnchor = altKey
-            ? { x: rect.cx, y: rect.cy }
+            ? { x: cx, y: cy }
             : anchor;
-        // console.log(anchor, scaleX, scaleY)
         interaction._ele.scaleFrom(scaleX, scaleY, scalingAnchor);
         action.dispatch('visible-element-updated');
-        // const r = applyResize.call(this, altKey, shiftKey)
-        /*    this.editor.action.dispatch('element-modifying', {
-              type: 'resize',
-              data: r,
-            })*/
     },
-    mouseUp(e) {
+    mouseUp() {
         this.editor.interaction._ele = null;
     },
 };

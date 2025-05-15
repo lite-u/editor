@@ -20,6 +20,13 @@ class InteractionState {
     _rotatingOperator = null;
     selectedShadow = new Set();
     _ele;
+    _modifier = {
+        button: false,
+        altKey: false,
+        shiftKey: false,
+        metaKey: false,
+        ctrlKey: false,
+    };
     selectionBox = null;
     _lastTool = null;
     boxColor = '#1FB3FF';

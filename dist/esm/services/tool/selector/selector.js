@@ -4,9 +4,8 @@ import { getResizeCursor, getRotateAngle } from './helper.js';
 import { applyRotating, detectHoveredElement } from '../helper.js';
 const selector = {
     cursor: 'default',
-    mouseDown(e) {
+    mouseDown({ shiftKey, metaKey, ctrlKey }) {
         const { interaction, action, selection, cursor } = this.editor;
-        const { shiftKey, metaKey, ctrlKey } = e;
         const modifyKey = ctrlKey || metaKey || shiftKey;
         const operator = detectHoveredElement.call(this);
         if (operator) {
@@ -66,7 +65,9 @@ const selector = {
         }
     },
     mouseMove(e) {
-        const { action, container, world, interaction, elementManager, cursor, } = this.editor;
+        const { action, 
+        // container,
+        world, interaction, elementManager, cursor, } = this.editor;
         const { _ele, selectedShadow, _selectingElements, mouseStart, mouseCurrent, } = interaction;
         switch (interaction.state) {
             case 'selecting':
@@ -211,7 +212,7 @@ const selector = {
                     }
                     else {
                         // updateCursor.call(this, 'default')
-                        cursor.set('selector');
+                        cursor.set('default');
                     }
                     // container.releasePointerCapture(e.pointerId)
                     // viewport.drawCrossLine = viewport.drawCrossLineDefault
@@ -219,8 +220,8 @@ const selector = {
                 break;
         }
     },
-    mouseUp(e) {
-        const leftMouseClick = e.button === 0;
+    mouseUp({ button }) {
+        const leftMouseClick = button === 0;
         if (leftMouseClick) {
             const { interaction, 
             // _ele,

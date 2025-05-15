@@ -9,9 +9,8 @@ import {applyRotating, detectHoveredElement} from '~/services/tool/helper'
 
 const selector: ToolType = {
   cursor: 'default',
-  mouseDown(this: ToolManager, e: MouseEvent) {
+  mouseDown(this: ToolManager, {shiftKey, metaKey, ctrlKey}) {
     const {interaction, action, selection, cursor} = this.editor
-    const {shiftKey, metaKey, ctrlKey} = e
     const modifyKey = ctrlKey || metaKey || shiftKey
     const operator = detectHoveredElement.call(this)
 
@@ -74,7 +73,7 @@ const selector: ToolType = {
   mouseMove(this: ToolManager, e: PointerEvent) {
     const {
       action,
-      container,
+      // container,
       world,
       interaction,
       elementManager,
@@ -249,7 +248,7 @@ const selector: ToolType = {
           }
         } else {
           // updateCursor.call(this, 'default')
-          cursor.set('selector')
+          cursor.set('default')
         }
 
         // container.releasePointerCapture(e.pointerId)
@@ -259,8 +258,8 @@ const selector: ToolType = {
         break
     }
   },
-  mouseUp(this: ToolManager, e: MouseEvent) {
-    const leftMouseClick = e.button === 0
+  mouseUp(this: ToolManager, {button}) {
+    const leftMouseClick = button === 0
 
     if (leftMouseClick) {
 
