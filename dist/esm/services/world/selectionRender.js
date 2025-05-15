@@ -3,6 +3,7 @@ import { DEFAULT_FILL, DEFAULT_STROKE } from '../../elements/defaultProps.js';
 function selectionRender() {
     if (this.editor.elementManager.size === 0)
         return;
+    return;
     const { selectionCanvasContext: ctx } = this;
     const fillColor = '#5491f8';
     const lineColor = '#5491f8';

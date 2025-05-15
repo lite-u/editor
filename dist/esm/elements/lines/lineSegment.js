@@ -4,9 +4,9 @@ class ElementLineSegment extends ElementBase {
     id;
     layer;
     type = 'lineSegment';
-    points = [];
+    points;
     original;
-    constructor({ id, layer, points = [], ...rest }) {
+    constructor({ id, layer, points, ...rest }) {
         super(rest);
         this.id = id;
         this.layer = layer;
@@ -14,10 +14,10 @@ class ElementLineSegment extends ElementBase {
         this.original = { points: deepClone(points) };
     }
     getPoints() {
-        return deepClone(this.points);
+        return Object.values(this.points).map(p => p);
     }
     translate(dx, dy) {
-        this.points.forEach((point) => {
+        Object.values(this.points).forEach((point) => {
             point.x += dx;
             point.y += dy;
         });

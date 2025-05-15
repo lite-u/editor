@@ -5,7 +5,10 @@ export interface LineSegmentProps extends ElementBaseProps {
     id: string;
     layer: number;
     type: 'lineSegment';
-    points: Point[];
+    points: {
+        start: Point;
+        end: Point;
+    };
 }
 export type RequiredLineSegmentProps = Required<LineSegmentProps>;
 declare class ElementLineSegment extends ElementBase implements BasePath {

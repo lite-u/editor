@@ -1,8 +1,7 @@
 import ToolManager, {ToolType} from '~/services/tool/toolManager'
 import nid from '~/core/nid'
 import ElementRectangle from '~/elements/rectangle/rectangle'
-import resizeTool from '~/services/tool/resize/resizeTool'
-import {LineSegmentProps} from '~/elements/lines/lineSegment'
+import LineSegment, {LineSegmentProps} from '~/elements/lines/lineSegment'
 import {PointProps} from '~/elements/point/point'
 
 const lineSegmentTool: ToolType = {
@@ -28,10 +27,13 @@ const lineSegmentTool: ToolType = {
   },
   mouseMove(this: ToolManager) {
     if (!this.editor.interaction._ele) return
+    const {interaction} = this.editor
+    const line = this.editor.interaction._ele as InstanceType<LineSegment>
     this.editor.action.dispatch('visible-element-updated')
 
-    this.editor.interaction._ele
-    resizeTool.call(this, [this.editor.interaction._ele], 'br')
+    line.points.end.x += interaction.mouseWorldDelta.x
+    line.points.end.y += interaction.mouseWorldDelta.y
+    // resizeTool.call(this, [this.editor.interaction._ele], 'br')
   },
   mouseUp(this: ToolManager) {
     this.editor.interaction._ele = null
