@@ -4,7 +4,7 @@ import ToolManager from '~/services/tool/toolManager'
 
 function handleKeyUp(this: ToolManager, e: KeyboardEvent) {
   const {interaction, toolManager} = this.editor
-  const {target, shiftKey, metaKey, ctrlKey, altKey} = e
+  const {shiftKey, metaKey, ctrlKey, altKey} = e
 
   if (e.code === 'Space') {
 
@@ -18,18 +18,8 @@ function handleKeyUp(this: ToolManager, e: KeyboardEvent) {
     e.preventDefault()
   } else {
     interaction._modifier = {...interaction._modifier, shiftKey, metaKey, ctrlKey, altKey}
-
-    /* if (interaction.state === 'resizing') {
-       const {altKey, shiftKey} = e
-
-       const r = applyResize.call(this, altKey, shiftKey)
-
-       action.dispatch('element-modifying', {
-         type: 'resize',
-         data: r,
-       })
-     }*/
   }
+}
 
-  export default handleKeyUp
+export default handleKeyUp
 
