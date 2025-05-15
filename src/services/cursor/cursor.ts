@@ -50,7 +50,6 @@ class Cursor {
   }
 
   set(name: CursorName) {
-    // console.log('set cursor', cursor)
     this.domRef.setAttribute('date-current-cursor', name)
 
     if (name === 'rotate') {
