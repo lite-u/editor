@@ -6,9 +6,7 @@ import resizeTool from '~/services/tool/resize/resizeTool'
 const rectangleTool: ToolType = {
   cursor: 'crosshair',
   mouseDown(this: ToolManager) {
-    const {
-      elementManager, interaction, action, selection,
-    } = this.editor
+    const {elementManager, interaction, action, selection} = this.editor
     const {x, y} = this.editor.interaction.mouseWorldCurrent
     const width = 1
     const height = 1

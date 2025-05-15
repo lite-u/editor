@@ -13,6 +13,7 @@ function handleKeyUp(e) {
     }
     else {
         interaction._modifier = { ...interaction._modifier, shiftKey, metaKey, ctrlKey, altKey };
+        this.tool.mouseMove.call(this);
     }
 }
 export default handleKeyUp;

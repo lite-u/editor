@@ -18,6 +18,8 @@ function handleKeyUp(this: ToolManager, e: KeyboardEvent) {
     e.preventDefault()
   } else {
     interaction._modifier = {...interaction._modifier, shiftKey, metaKey, ctrlKey, altKey}
+    this.tool.mouseMove.call(this)
+
   }
 }
 
