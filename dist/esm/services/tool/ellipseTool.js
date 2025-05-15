@@ -27,7 +27,7 @@ const ellipseTool = {
     mouseMove() {
         if (!this.editor.interaction._ele)
             return;
-        resizeTool.call(this);
+        resizeTool.call(this, [this.editor.interaction._ele]);
     },
     mouseUp() {
         this.editor.interaction._ele = null;

@@ -38,6 +38,13 @@ class ElementEllipse extends Shape {
     this.layer = layer
     this.r1 = r1!
     this.r2 = r2!
+
+    this.original = {
+      cx: this.cx,
+      cy: this.cy,
+      r1: this.r1,
+      r2: this.r1,
+    }
   }
 
   scale(sx: number, sy: number) {
