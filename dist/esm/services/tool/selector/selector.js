@@ -1,7 +1,7 @@
 import { generateBoundingRectFromTwoPoints } from '../../../core/utils.js';
 import { areSetsEqual, getSymmetricDifference } from '../../../lib/lib.js';
-import { detectHoveredElement, getResizeCursor, getRotateAngle } from '../events/helper.js';
-import { applyRotating } from '../helper.js';
+import { getResizeCursor, getRotateAngle } from './helper.js';
+import { applyRotating, detectHoveredElement } from '../helper.js';
 const selector = {
     cursor: 'default',
     mouseDown(e) {

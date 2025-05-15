@@ -1,4 +1,4 @@
-import { detectHoveredElement } from './helper.js';
+import { detectHoveredElement } from '../helper.js';
 function handleContextMenu(e) {
     // const modifyKey = e.ctrlKey || e.metaKey || e.shiftKey
     e.preventDefault();

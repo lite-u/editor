@@ -3,7 +3,7 @@ function handleKeyDown(e) {
     const _t = e.target !== this.editor.container;
     if (_t)
         return;
-    const { interaction, action, cursor, toolManager } = this.editor;
+    const { interaction, action, toolManager } = this.editor;
     const { state } = interaction;
     if (state === 'panning' || state === 'selecting')
         return;

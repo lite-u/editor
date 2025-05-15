@@ -7,28 +7,28 @@ function handleWheel(event) {
     // console.log(this.state)
     event.preventDefault();
     event.stopPropagation();
-    if (this.state !== 'static')
+    if (this.editor.interaction.state !== 'static')
         return;
     const { trackpad, zooming, panning, scrolling, zoomFactor, translateX, translateY } = detectGestures(event);
     console.log(trackpad);
     // console.log(`${zooming ? 'zooming' : ''} ${panning ? 'panning' : ''} ${scrolling ? 'scrolling' : ''} `)
-    this.viewport.zooming = zooming;
+    // this.editor.interaction.zooming = zooming
     if (zooming) {
         // console.log(zoomFactor)
-        this.action.dispatch('world-zoom', {
+        this.editor.action.dispatch('world-zoom', {
             zoomBy: true,
             zoomFactor,
-            physicalPoint: this.viewport.mouseMovePoint,
+            physicalPoint: this.editor.interaction.mouseCurrent,
         });
     }
     else if (panning || scrolling) {
-        this.action.dispatch('world-shift', {
+        this.editor.action.dispatch('world-shift', {
             x: translateX,
             y: translateY,
         });
         // this.translateViewport(translateX, translateY)
     }
-    this.updateWorldRect();
+    this.editor.world.updateWorldRect();
 }
 const detectGestures = (() => {
     let _timer;
