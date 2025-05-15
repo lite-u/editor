@@ -44,6 +44,7 @@ declare class ElementEllipse extends Shape {
     toMinimalJSON(): EllipseProps;
     toJSON(): RequiredEllipseProps;
     getBoundingRect(): import("~/type").BoundingRect;
+    getBoundingRectFromOriginal(): import("~/type").BoundingRect;
     getSelectedBoxElement(lineWidth: number, lineColor: string): ElementRectangle;
     getHighlightElement(lineWidth: number, lineColor: string): ElementEllipse;
     getOperators(id: string, resizeConfig: {

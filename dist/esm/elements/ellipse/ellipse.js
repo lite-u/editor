@@ -18,6 +18,13 @@ class ElementEllipse extends Shape {
         this.layer = layer;
         this.r1 = r1;
         this.r2 = r2;
+        this.original = {
+            cx: this.cx,
+            cy: this.cy,
+            r1: this.r1,
+            r2: this.r1,
+            rotation: this.rotation,
+        };
     }
     scale(sx, sy) {
         this.r1 *= sx;
@@ -81,6 +88,15 @@ class ElementEllipse extends Shape {
     }
     getBoundingRect() {
         const { cx: cx, cy: cy, r1, r2, rotation } = this;
+        return generateBoundingRectFromRotatedRect({
+            x: cx - r1,
+            y: cy - r2,
+            width: r1 * 2,
+            height: r2 * 2,
+        }, rotation);
+    }
+    getBoundingRectFromOriginal() {
+        const { cx: cx, cy: cy, r1, r2, rotation } = this.original;
         return generateBoundingRectFromRotatedRect({
             x: cx - r1,
             y: cy - r2,

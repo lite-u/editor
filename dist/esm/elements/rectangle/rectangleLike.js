@@ -24,6 +24,7 @@ class RectangleLike extends Shape {
             cy: this.cy,
             width,
             height,
+            rotation: this.rotation,
         };
     }
     get corners() {
@@ -42,7 +43,7 @@ class RectangleLike extends Shape {
           const r = matrix.transformPoint(p)
           return {x: r.x, y: r.y}
         })
-    
+  
         // Recalculate x, y, width, height from transformed corners
         const xs = points.map(p => p.x)
         const ys = points.map(p => p.y)
@@ -150,6 +151,15 @@ class RectangleLike extends Shape {
     }
     getBoundingRect() {
         const { cx, cy, width, height, rotation } = this;
+        const x = cx - width / 2;
+        const y = cy - height / 2;
+        if (rotation === 0) {
+            return generateBoundingRectFromRect({ x, y, width, height });
+        }
+        return generateBoundingRectFromRotatedRect({ x, y, width, height }, rotation);
+    }
+    getBoundingRectFromOriginal() {
+        const { cx, cy, width, height, rotation } = this.original;
         const x = cx - width / 2;
         const y = cy - height / 2;
         if (rotation === 0) {
