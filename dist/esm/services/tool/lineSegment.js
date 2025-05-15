@@ -1,8 +1,7 @@
-import nid from '../../core/nid.js';
-import resizeTool from './resize/resizeTool.js';
-import { DEFAULT_FONT, DEFAULT_STROKE, DEFAULT_TEXT_FILL } from '../../elements/defaultProps.js';
+import nid from '~/core/nid';
+import resizeTool from '~/services/tool/resize/resizeTool';
 const lineSegmentTool = {
-    cursor: 'text',
+    cursor: 'crosshair',
     mouseDown() {
         const { elementManager, interaction, action, selection } = this.editor;
         const { x, y } = this.editor.interaction.mouseWorldCurrent;
@@ -10,13 +9,7 @@ const lineSegmentTool = {
         const height = 1;
         const id = 'rectangle-' + nid();
         const eleProps = {
-            type: 'text',
-            content: [{
-                    text: 'hello',
-                    font: { ...DEFAULT_FONT },
-                    fill: { ...DEFAULT_TEXT_FILL },
-                    stroke: { ...DEFAULT_STROKE },
-                }],
+            type: 'lineSegment',
             cx: x - width / 2,
             cy: y - height / 2,
             width,

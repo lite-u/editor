@@ -3,7 +3,7 @@ import deepClone from '../../core/deepClone.js';
 class LineSegment extends ElementBase {
     id;
     layer;
-    type = 'path';
+    type = 'lineSegment';
     points = [];
     original;
     constructor({ id, layer, points = [], ...rest }) {
@@ -29,7 +29,7 @@ class LineSegment extends ElementBase {
             const {cx, cy, width, height} = this.original
             const topLeft = this.transformPoint(cx - width / 2, cy - height / 2, matrix)
             const bottomRight = this.transformPoint(cx + width / 2, cy + height / 2, matrix)
-        
+    
             this.cx = (topLeft.x + bottomRight.x) / 2
             this.cy = (topLeft.y + bottomRight.y) / 2
             this.width = Math.abs(bottomRight.x - topLeft.x)
@@ -53,6 +53,8 @@ class LineSegment extends ElementBase {
             type: this.type,
             points: deepClone(this.points),
         };
+    }
+    render() {
     }
 }
 export default LineSegment;

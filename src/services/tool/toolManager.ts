@@ -12,6 +12,7 @@ import rectangleTool from '~/services/tool/rectangle/rectangleTool'
 import panning from '~/services/tool/panning/panning'
 import ellipseTool from '~/services/tool/ellipseTool'
 import textTool from '~/services/tool/textTool'
+import lineSegmentTool from '~/services/tool/lineSegment'
 
 export type ToolType = {
   cursor: CursorName
@@ -21,7 +22,7 @@ export type ToolType = {
   // keyDown: (this: ToolManager) => void
   // keyUp: (this: ToolManager) => void
 }
-export type ToolName = 'selector' | 'rectangle' | 'text' | 'ellipse' | 'panning'
+export type ToolName = 'selector' | 'rectangle' | 'text' | 'ellipse' | 'panning' | 'lineSegment' | 'path'
 
 class ToolManager {
   editor: Editor
@@ -49,6 +50,7 @@ class ToolManager {
     this.toolMap.set('rectangle', rectangleTool)
     this.toolMap.set('ellipse', ellipseTool)
     this.toolMap.set('text', textTool)
+    this.toolMap.set('lineSegment', lineSegmentTool)
 
     this.currentToolName = 'selector'
     this.tool = selector

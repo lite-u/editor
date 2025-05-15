@@ -2,25 +2,18 @@ import ToolManager, {ToolType} from '~/services/tool/toolManager'
 import nid from '~/core/nid'
 import ElementRectangle from '~/elements/rectangle/rectangle'
 import resizeTool from '~/services/tool/resize/resizeTool'
-import {TextProps} from '~/elements/text/text'
-import {DEFAULT_FONT, DEFAULT_STROKE, DEFAULT_TEXT_FILL} from '~/elements/defaultProps'
+import {LineSegmentProps} from '~/elements/lines/lineSegment'
 
 const lineSegmentTool: ToolType = {
-  cursor: 'text',
+  cursor: 'crosshair',
   mouseDown(this: ToolManager) {
     const {elementManager, interaction, action, selection} = this.editor
     const {x, y} = this.editor.interaction.mouseWorldCurrent
     const width = 1
     const height = 1
     const id = 'rectangle-' + nid()
-    const eleProps: TextProps = {
-      type: 'text',
-      content: [{
-        text: 'hello',
-        font: {...DEFAULT_FONT},
-        fill: {...DEFAULT_TEXT_FILL},
-        stroke: {...DEFAULT_STROKE},
-      }],
+    const eleProps: LineSegmentProps = {
+      type: 'lineSegment',
       cx: x - width / 2,
       cy: y - height / 2,
       width,

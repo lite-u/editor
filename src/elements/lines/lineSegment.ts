@@ -6,7 +6,7 @@ import deepClone from '~/core/deepClone'
 export interface LineSegmentProps extends ElementBaseProps {
   id: string
   layer: number
-  type: 'path'
+  type: 'lineSegment'
   points: Point[];
 }
 
@@ -15,7 +15,7 @@ export type RequiredLineSegmentProps = Required<LineSegmentProps>
 class LineSegment extends ElementBase implements BasePath {
   readonly id: string
   readonly layer: number
-  readonly type = 'path'
+  readonly type = 'lineSegment'
   private points: Point[] = []
   private original: { points: Point[] }
 
@@ -45,15 +45,15 @@ class LineSegment extends ElementBase implements BasePath {
       .translate(anchor.x, anchor.y)
       .scale(scaleX, scaleY)
       .translate(-anchor.x, -anchor.y)
-/*
-    const {cx, cy, width, height} = this.original
-    const topLeft = this.transformPoint(cx - width / 2, cy - height / 2, matrix)
-    const bottomRight = this.transformPoint(cx + width / 2, cy + height / 2, matrix)
+    /*
+        const {cx, cy, width, height} = this.original
+        const topLeft = this.transformPoint(cx - width / 2, cy - height / 2, matrix)
+        const bottomRight = this.transformPoint(cx + width / 2, cy + height / 2, matrix)
 
-    this.cx = (topLeft.x + bottomRight.x) / 2
-    this.cy = (topLeft.y + bottomRight.y) / 2
-    this.width = Math.abs(bottomRight.x - topLeft.x)
-    this.height = Math.abs(bottomRight.y - topLeft.y)*/
+        this.cx = (topLeft.x + bottomRight.x) / 2
+        this.cy = (topLeft.y + bottomRight.y) / 2
+        this.width = Math.abs(bottomRight.x - topLeft.x)
+        this.height = Math.abs(bottomRight.y - topLeft.y)*/
 
     // console.log(this.cx, this.cy, this.width, this.height)
   }
@@ -78,6 +78,9 @@ class LineSegment extends ElementBase implements BasePath {
     }
   }
 
+  render() {
+
+  }
 }
 
 export default LineSegment

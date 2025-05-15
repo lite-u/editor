@@ -6,7 +6,7 @@ export type ToolType = {
     mouseMove: (this: ToolManager) => void;
     mouseUp: (this: ToolManager) => void;
 };
-export type ToolName = 'selector' | 'rectangle' | 'text' | 'ellipse' | 'panning';
+export type ToolName = 'selector' | 'rectangle' | 'text' | 'ellipse' | 'panning' | 'lineSegment' | 'path';
 declare class ToolManager {
     editor: Editor;
     eventsController: AbortController;
