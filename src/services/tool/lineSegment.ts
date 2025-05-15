@@ -34,7 +34,7 @@ const lineSegmentTool: ToolType = {
     end.x = interaction.mouseWorldDelta.x
     end.y = interaction.mouseWorldDelta.y
 
-    getRotateAngle(start, end)
+    console.log(getRotateAngle(start, end))
 
     this.editor.action.dispatch('visible-element-updated')
   },
