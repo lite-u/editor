@@ -1,6 +1,6 @@
 import ElementBase from '../base/elementBase.js';
 import deepClone from '../../core/deepClone.js';
-class LineSegment extends ElementBase {
+class ElementLineSegment extends ElementBase {
     id;
     layer;
     type = 'lineSegment';
@@ -57,4 +57,4 @@ class LineSegment extends ElementBase {
     render() {
     }
 }
-export default LineSegment;
+export default ElementLineSegment;

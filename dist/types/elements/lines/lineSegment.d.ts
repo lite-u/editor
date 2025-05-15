@@ -8,7 +8,7 @@ export interface LineSegmentProps extends ElementBaseProps {
     points: Point[];
 }
 export type RequiredLineSegmentProps = Required<LineSegmentProps>;
-declare class LineSegment extends ElementBase implements BasePath {
+declare class ElementLineSegment extends ElementBase implements BasePath {
     readonly id: string;
     readonly layer: number;
     readonly type = "lineSegment";
@@ -21,4 +21,4 @@ declare class LineSegment extends ElementBase implements BasePath {
     toMinimalJSON(): LineSegmentProps;
     render(): void;
 }
-export default LineSegment;
+export default ElementLineSegment;

@@ -12,7 +12,7 @@ export interface LineSegmentProps extends ElementBaseProps {
 
 export type RequiredLineSegmentProps = Required<LineSegmentProps>
 
-class LineSegment extends ElementBase implements BasePath {
+class ElementLineSegment extends ElementBase implements BasePath {
   readonly id: string
   readonly layer: number
   readonly type = 'lineSegment'
@@ -83,4 +83,4 @@ class LineSegment extends ElementBase implements BasePath {
   }
 }
 
-export default LineSegment
+export default ElementLineSegment

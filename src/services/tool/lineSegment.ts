@@ -3,6 +3,7 @@ import nid from '~/core/nid'
 import ElementRectangle from '~/elements/rectangle/rectangle'
 import resizeTool from '~/services/tool/resize/resizeTool'
 import {LineSegmentProps} from '~/elements/lines/lineSegment'
+import {PointProps} from '~/elements/point/point'
 
 const lineSegmentTool: ToolType = {
   cursor: 'crosshair',
@@ -12,16 +13,17 @@ const lineSegmentTool: ToolType = {
     const width = 1
     const height = 1
     const id = 'rectangle-' + nid()
-    const p1Props:PointProps = {
-
-    }
+    const p1Props: PointProps = {x, y}
+    const p2Props: PointProps = {x, y}
     const eleProps: LineSegmentProps = {
       type: 'lineSegment',
-      points: [{}],
+      points: [p1Props, p2Props],
       id,
       layer: 0,
     }
 
+    // const p1 = elementManager.add(elementManager.create(p1Props))
+    // const p2 = elementManager.add(elementManager.create(p2Props))
     const ele: ElementRectangle = elementManager.add(elementManager.create(eleProps))
 
     interaction._ele = ele

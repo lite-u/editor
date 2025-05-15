@@ -8,13 +8,16 @@ const lineSegmentTool = {
         const width = 1;
         const height = 1;
         const id = 'rectangle-' + nid();
-        const p1Props = {};
+        const p1Props = { x, y };
+        const p2Props = { x, y };
         const eleProps = {
             type: 'lineSegment',
-            points: [{}],
+            points: [p1Props, p2Props],
             id,
             layer: 0,
         };
+        // const p1 = elementManager.add(elementManager.create(p1Props))
+        // const p2 = elementManager.add(elementManager.create(p2Props))
         const ele = elementManager.add(elementManager.create(eleProps));
         interaction._ele = ele;
         action.dispatch('selection-clear');
