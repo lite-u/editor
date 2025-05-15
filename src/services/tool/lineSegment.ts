@@ -12,12 +12,12 @@ const lineSegmentTool: ToolType = {
     const width = 1
     const height = 1
     const id = 'rectangle-' + nid()
+    const p1Props:PointProps = {
+
+    }
     const eleProps: LineSegmentProps = {
       type: 'lineSegment',
-      cx: x - width / 2,
-      cy: y - height / 2,
-      width,
-      height,
+      points: [{}],
       id,
       layer: 0,
     }

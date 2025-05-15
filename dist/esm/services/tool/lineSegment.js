@@ -1,5 +1,5 @@
-import nid from '~/core/nid';
-import resizeTool from '~/services/tool/resize/resizeTool';
+import nid from '../../core/nid.js';
+import resizeTool from './resize/resizeTool.js';
 const lineSegmentTool = {
     cursor: 'crosshair',
     mouseDown() {
@@ -8,12 +8,10 @@ const lineSegmentTool = {
         const width = 1;
         const height = 1;
         const id = 'rectangle-' + nid();
+        const p1Props = {};
         const eleProps = {
             type: 'lineSegment',
-            cx: x - width / 2,
-            cy: y - height / 2,
-            width,
-            height,
+            points: [{}],
             id,
             layer: 0,
         };
