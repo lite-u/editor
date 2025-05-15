@@ -24,7 +24,7 @@ class ElementEllipse extends Shape {
   r1: number
   // vertical
   r2: number
-  private original: { cx: number, cy: number, r1: number, r2: number }
+  private original: { cx: number, cy: number, r1: number, r2: number, rotation: number }
 
   constructor({
                 r1,
@@ -44,6 +44,7 @@ class ElementEllipse extends Shape {
       cy: this.cy,
       r1: this.r1,
       r2: this.r1,
+      rotation: this.rotation,
     }
   }
 
@@ -135,6 +136,17 @@ class ElementEllipse extends Shape {
 
   public getBoundingRect() {
     const {cx: cx, cy: cy, r1, r2, rotation} = this
+
+    return generateBoundingRectFromRotatedRect({
+      x: cx - r1,
+      y: cy - r2,
+      width: r1 * 2,
+      height: r2 * 2,
+    }, rotation)
+  }
+
+  public getBoundingRectFromOriginal() {
+    const {cx: cx, cy: cy, r1, r2, rotation} = this.original
 
     return generateBoundingRectFromRotatedRect({
       x: cx - r1,
