@@ -17,6 +17,7 @@ function resizeTool(this: ToolManager, elements: ElementInstance[], direction: R
     x: mouseWorldStart.x - anchor.x,
     y: mouseWorldStart.y - anchor.y,
   }
+
   const currentVec = {
     x: mouseWorldCurrent.x - anchor.x,
     y: mouseWorldCurrent.y - anchor.y,
