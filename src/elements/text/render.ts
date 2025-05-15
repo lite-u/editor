@@ -1,7 +1,7 @@
 import Text from './text'
 
 function render(this: Text, ctx: CanvasRenderingContext2D): void {
-  let {content, textColor, cx, cy, width, rotation, opacity} = this.toJSON()
+  let {content, cx, cy, width, rotation, opacity} = this.toJSON()
   // x = Math.round(x)
   // y = Math.round(y)
   // width = Math.round(width)
