@@ -2,13 +2,13 @@ import ToolManager, {ToolType} from '~/services/tool/toolManager'
 
 const snapTool: ToolType = {
   cursor: 'rectangle',
-  start(this: ToolManager, e: MouseEvent) {
+  mouseDown(this: ToolManager, e: MouseEvent) {
 
   },
-  move(this: ToolManager, e: PointerEvent) {
+  mouseMove(this: ToolManager, e: PointerEvent) {
     // this.editor.interaction._snapped = true
   },
-  finish(this: ToolManager, e: MouseEvent) {
+  mouseUp(this: ToolManager, e: MouseEvent) {
   },
 }
 

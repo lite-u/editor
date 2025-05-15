@@ -4,6 +4,7 @@ import Tool from '~/elements/rectangle/tool'
 import ToolManager from '~/services/tool/toolManager'
 
 function handleWheel(this: ToolManager, event: WheelEvent) {
+  console.log('wheel')
   // Prevent page zoom
   if ((event.target as HTMLElement) !== this.editor.container) return
   // console.log(this.state)

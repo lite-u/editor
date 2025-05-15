@@ -4,7 +4,7 @@ import ElementRectangle, {RectangleProps} from '~/elements/rectangle/rectangle'
 
 const rectangleTool: ToolType = {
   cursor: 'rectangle',
-  start(this: ToolManager, e: MouseEvent) {
+  mouseDown(this: ToolManager, e: MouseEvent) {
     const {
       elementManager, interaction, action, selection,
     } = this.editor
@@ -25,21 +25,22 @@ const rectangleTool: ToolType = {
 
     const ele: ElementRectangle = elementManager.add(elementManager.create(rectProps))
 
+    // console.log(ele)
     interaction.state = 'resizing'
     interaction._ele = ele
     action.dispatch('selection-clear')
     selection.replace(new Set([ele.id]))
     action.dispatch('visible-element-updated')
   },
-  move(this: ToolManager, e: PointerEvent) {
+  mouseMove(this: ToolManager, e: PointerEvent) {
     if (!this.editor.interaction._ele) return
 
-    this.editor.container.setPointerCapture(e.pointerId)
+    // this.editor.container.setPointerCapture(e.pointerId)
 
     const {altKey, shiftKey} = e
     const {interaction, world, selection, action, elementManager, rect} = this.editor
-    const {mouseWorldCurrent, mouseWorldStart} = interaction
-    const {cx, cy, width, height} = interaction._ele.original
+    const {mouseWorldCurrent, mouseWorldStart, _ele} = interaction
+    const {cx, cy, width, height} = _ele.original
     // const dx = mouseCurrent.x - mouseStart.x
     // const dy = mouseCurrent.y - mouseStart.y
     const anchor = {
@@ -57,11 +58,25 @@ const rectangleTool: ToolType = {
     }
 
     // Prevent division by 0
-    const scaleX = startVec.x !== 0 ? currentVec.x / startVec.x : 1
-    const scaleY = startVec.y !== 0 ? currentVec.y / startVec.y : 1
+    let scaleX = startVec.x !== 0 ? currentVec.x / startVec.x : 1
+    let scaleY = startVec.y !== 0 ? currentVec.y / startVec.y : 1
 
-    console.log(anchor, scaleX, scaleY)
-    interaction._ele.scaleFrom(scaleX, scaleY, anchor)
+    if (shiftKey) {
+      anchor.x = _ele.cx
+      anchor.y = _ele.cy
+    }
+    if (shiftKey) {
+      const uniformScale = Math.max(Math.abs(scaleX), Math.abs(scaleY));
+      scaleX = Math.sign(scaleX) * uniformScale;
+      scaleY = Math.sign(scaleY) * uniformScale;
+    }
+
+    // ✅ Alt: scale from center (not from opposite corner)
+    const scalingAnchor = altKey
+      ? { x: rect.cx, y: rect.cy }
+      : anchor;
+    // console.log(anchor, scaleX, scaleY)
+    interaction._ele.scaleFrom(scaleX, scaleY, scalingAnchor)
 
     action.dispatch('visible-element-updated')
 
@@ -72,7 +87,7 @@ const rectangleTool: ToolType = {
         })*/
 
   },
-  finish(this: ToolManager, e: MouseEvent) {
+  mouseUp(this: ToolManager, e: MouseEvent) {
     this.editor.interaction._ele = null
   },
 }

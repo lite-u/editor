@@ -11,6 +11,7 @@ function handleMouseDown(e) {
     interaction.mouseWorldStart = world.getWorldPointByViewportPoint(x, y);
     interaction.mouseWorldCurrent = world.getWorldPointByViewportPoint(x, y);
     // console.log(operator)
+    this.editor.container.setPointerCapture(e.pointerId);
     e.preventDefault();
     if (button !== 0)
         return;
@@ -20,7 +21,7 @@ function handleMouseDown(e) {
         return (this.editor.interaction.state = 'panning')
       }
     */
-    snapTool.start.call(this, e);
-    this.tool.start.call(this, e);
+    snapTool.mouseDown.call(this, e);
+    this.tool.mouseDown.call(this, e);
 }
 export default handleMouseDown;

@@ -4,7 +4,7 @@ import { detectHoveredElement, getResizeCursor, getRotateAngle } from '../events
 import { applyRotating } from '../helper.js';
 const selector = {
     cursor: 'default',
-    start(e) {
+    mouseDown(e) {
         const { interaction, action, selection, cursor } = this.editor;
         const { shiftKey, metaKey, ctrlKey } = e;
         const modifyKey = ctrlKey || metaKey || shiftKey;
@@ -65,13 +65,13 @@ const selector = {
             interaction._ele = new Set(realSelected);
         }
     },
-    move(e) {
+    mouseMove(e) {
         const { action, container, world, interaction, elementManager, cursor, } = this.editor;
         const { _ele, selectedShadow, _selectingElements, mouseStart, mouseCurrent, } = interaction;
         switch (interaction.state) {
             case 'selecting':
                 {
-                    container.setPointerCapture(e.pointerId);
+                    // container.setPointerCapture(e.pointerId)
                     const rect = generateBoundingRectFromTwoPoints(mouseStart, mouseCurrent);
                     const pointA = world.getWorldPointByViewportPoint(rect.x, rect.y);
                     const pointB = world.getWorldPointByViewportPoint(rect.right, rect.bottom);
@@ -129,7 +129,7 @@ const selector = {
             */
             case 'dragging':
                 {
-                    container.setPointerCapture(e.pointerId);
+                    // container.setPointerCapture(e.pointerId)
                     const x = (e.movementX * world.dpr) / world.scale;
                     const y = (e.movementY * world.dpr) / world.scale;
                     // force update
@@ -141,7 +141,7 @@ const selector = {
                 break;
             case 'resizing':
                 {
-                    container.setPointerCapture(e.pointerId);
+                    // container.setPointerCapture(e.pointerId)
                     console.log(this.editor.interaction._ele);
                     // const {altKey, shiftKey} = e
                     // const {x, y} = interaction._rotatingOperator!.elementOrigin
@@ -157,7 +157,7 @@ const selector = {
                 break;
             case 'rotating':
                 {
-                    container.setPointerCapture(e.pointerId);
+                    // container.setPointerCapture(e.pointerId)
                     const { shiftKey } = e;
                     const { x, y } = interaction._rotatingOperator.elementOrigin;
                     const centerPoint = world.getViewPointByWorldPoint(x, y);
@@ -213,13 +213,13 @@ const selector = {
                         // updateCursor.call(this, 'default')
                         cursor.set('selector');
                     }
-                    container.releasePointerCapture(e.pointerId);
+                    // container.releasePointerCapture(e.pointerId)
                     // viewport.drawCrossLine = viewport.drawCrossLineDefault
                 }
                 break;
         }
     },
-    finish(e) {
+    mouseUp(e) {
         const leftMouseClick = e.button === 0;
         if (leftMouseClick) {
             const { interaction, 

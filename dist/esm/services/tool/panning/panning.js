@@ -1,17 +1,17 @@
 const panning = {
     cursor: 'grab',
-    start() {
+    mouseDown() {
         this.editor.cursor.set('grabbing');
         // updateCursor.call(this, 'grabbing')
     },
-    move(e) {
-        this.editor.container.setPointerCapture(e.pointerId);
+    mouseMove(e) {
+        // this.editor.container.setPointerCapture(e.pointerId)
         this.editor.action.dispatch('world-shift', {
             x: e.movementX,
             y: e.movementY,
         });
     },
-    finish() {
+    mouseUp() {
         this.editor.cursor.set('grab');
     },
 };

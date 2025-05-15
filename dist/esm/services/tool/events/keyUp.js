@@ -6,7 +6,7 @@ function handleKeyUp(e) {
         if (interaction._lastTool) {
             toolManager.set(interaction._lastTool);
         }
-        cursor.set('selector');
+        // cursor.set('selector')
         interaction._lastTool = toolManager.currentToolName;
         e.preventDefault();
         return;

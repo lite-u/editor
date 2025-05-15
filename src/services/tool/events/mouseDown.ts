@@ -1,7 +1,7 @@
 import ToolManager from '~/services/tool/toolManager'
 import snapTool from '~/services/tool/snap/snap'
 
-function handleMouseDown(this: ToolManager, e: MouseEvent) {
+function handleMouseDown(this: ToolManager, e: PointerEvent) {
   const {clientY, target, button, clientX} = e
   if (target !== this.editor.container) return
 
@@ -15,6 +15,7 @@ function handleMouseDown(this: ToolManager, e: MouseEvent) {
   interaction.mouseWorldCurrent = world.getWorldPointByViewportPoint(x, y)
 
   // console.log(operator)
+  this.editor.container.setPointerCapture(e.pointerId)
   e.preventDefault()
   if (button !== 0) return
   /*
@@ -24,8 +25,8 @@ function handleMouseDown(this: ToolManager, e: MouseEvent) {
     }
   */
 
-  snapTool.start.call(this, e)
-  this.tool.start.call(this, e)
+  snapTool.mouseDown.call(this, e)
+  this.tool.mouseDown.call(this, e)
 }
 
 export default handleMouseDown

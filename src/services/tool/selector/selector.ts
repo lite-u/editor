@@ -9,7 +9,7 @@ import {applyRotating} from '~/services/tool/helper'
 
 const selector: ToolType = {
   cursor: 'default',
-  start(this: ToolManager, e: MouseEvent) {
+  mouseDown(this: ToolManager, e: MouseEvent) {
     const {interaction, action, selection, cursor} = this.editor
     const {shiftKey, metaKey, ctrlKey} = e
     const modifyKey = ctrlKey || metaKey || shiftKey
@@ -71,7 +71,7 @@ const selector: ToolType = {
       interaction._ele = new Set(realSelected)
     }
   },
-  move(this: ToolManager, e: PointerEvent) {
+  mouseMove(this: ToolManager, e: PointerEvent) {
     const {
       action,
       container,
@@ -90,7 +90,7 @@ const selector: ToolType = {
 
     switch (interaction.state) {
       case 'selecting': {
-        container.setPointerCapture(e.pointerId)
+        // container.setPointerCapture(e.pointerId)
         const rect = generateBoundingRectFromTwoPoints(
           mouseStart,
           mouseCurrent,
@@ -161,7 +161,7 @@ const selector: ToolType = {
       */
 
       case 'dragging': {
-        container.setPointerCapture(e.pointerId)
+        // container.setPointerCapture(e.pointerId)
         const x = (e.movementX * world.dpr) / world.scale
         const y = (e.movementY * world.dpr) / world.scale
 
@@ -174,7 +174,7 @@ const selector: ToolType = {
         break
 
       case 'resizing': {
-        container.setPointerCapture(e.pointerId)
+        // container.setPointerCapture(e.pointerId)
         console.log(this.editor.interaction._ele)
         // const {altKey, shiftKey} = e
         // const {x, y} = interaction._rotatingOperator!.elementOrigin
@@ -191,7 +191,7 @@ const selector: ToolType = {
         break
 
       case 'rotating': {
-        container.setPointerCapture(e.pointerId)
+        // container.setPointerCapture(e.pointerId)
         const {shiftKey} = e
         const {x, y} = interaction._rotatingOperator!.elementOrigin
         const centerPoint = world.getViewPointByWorldPoint(x, y)
@@ -252,14 +252,14 @@ const selector: ToolType = {
           cursor.set('selector')
         }
 
-        container.releasePointerCapture(e.pointerId)
+        // container.releasePointerCapture(e.pointerId)
         // viewport.drawCrossLine = viewport.drawCrossLineDefault
       }
 
         break
     }
   },
-  finish(this: ToolManager, e: MouseEvent) {
+  mouseUp(this: ToolManager, e: MouseEvent) {
     const leftMouseClick = e.button === 0
 
     if (leftMouseClick) {

@@ -13,9 +13,11 @@ import panning from '~/services/tool/panning/panning'
 
 export type ToolType = {
   cursor: CursorName
-  start: (this: ToolManager, e: MouseEvent) => void
-  move: (this: ToolManager, e: PointerEvent) => void
-  finish: (this: ToolManager, e: MouseEvent) => void
+  mouseDown: (this: ToolManager, e: MouseEvent) => void
+  mouseMove: (this: ToolManager, e: PointerEvent) => void
+  mouseUp: (this: ToolManager, e: MouseEvent) => void
+  keyDown: (this: ToolManager, e: KeyboardEvent) => void
+  keyUp: (this: ToolManager, e: KeyboardEvent) => void
 }
 export type ToolName = 'selector' | 'rectangle' | 'text' | 'ellipse' | 'panning'
 
@@ -35,8 +37,8 @@ class ToolManager {
     window.addEventListener('keydown', handleKeyDown.bind(this), {signal})
     window.addEventListener('keyup', handleKeyUp.bind(this), {signal})
     window.addEventListener('wheel', handleWheel.bind(this), {signal, passive: false})
-    container.addEventListener('mousedown', handleMouseDown.bind(this), {signal, passive: false})
-    container.addEventListener('mouseup', handleMouseUp.bind(this), {signal})
+    container.addEventListener('pointerdown', handleMouseDown.bind(this), {signal, passive: false})
+    container.addEventListener('pointerup', handleMouseUp.bind(this), {signal})
     container.addEventListener('pointermove', handlePointerMove.bind(this), {signal})
     container.addEventListener('contextmenu', handleContextMenu.bind(this), {signal})
 

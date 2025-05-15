@@ -1,5 +1,6 @@
 import { isNegativeZero } from '../../../core/utils.js';
 function handleWheel(event) {
+    console.log('wheel');
     // Prevent page zoom
     if (event.target !== this.editor.container)
         return;

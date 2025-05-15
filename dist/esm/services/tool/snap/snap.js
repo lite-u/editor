@@ -1,11 +1,11 @@
 const snapTool = {
     cursor: 'rectangle',
-    start(e) {
+    mouseDown(e) {
     },
-    move(e) {
+    mouseMove(e) {
         // this.editor.interaction._snapped = true
     },
-    finish(e) {
+    mouseUp(e) {
     },
 };
 export default snapTool;
