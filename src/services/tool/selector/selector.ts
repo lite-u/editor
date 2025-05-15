@@ -1,11 +1,11 @@
 import {generateBoundingRectFromTwoPoints} from '~/core/utils'
 import {areSetsEqual, getSymmetricDifference} from '~/lib/lib'
-import {detectHoveredElement, getResizeCursor, getRotateAngle} from '~/services/tool/events/helper'
+import {getResizeCursor, getRotateAngle} from '~/services/tool/selector/helper'
 import {BoundingRect, UID} from '~/type'
 import {ElementModifyData} from '~/services/actions/type'
 import {ElementProps} from '~/elements/type'
 import ToolManager, {ToolType} from '~/services/tool/toolManager'
-import {applyRotating} from '~/services/tool/helper'
+import {applyRotating, detectHoveredElement} from '~/services/tool/helper'
 
 const selector: ToolType = {
   cursor: 'default',

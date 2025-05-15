@@ -1,4 +1,4 @@
-import {applyResize} from './helper'
+import {applyResize} from '../selector/helper'
 import ToolManager from '~/services/tool/toolManager'
 
 // import {updateSelectionBox} from "../domManipulations.ts"
