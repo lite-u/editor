@@ -1,4 +1,4 @@
-import { ResizeHandleName } from '~/services/selection/type';
+import { ResizeDirectionName } from '~/services/selection/type';
 import { RequiredRectangleProps } from '~/elements/rectangle/rectangle';
 import { Rect } from '~/type';
 export interface TransformProps {
@@ -12,7 +12,7 @@ export interface TransformProps {
     };
     elementOrigin: RequiredRectangleProps;
     rotation: number;
-    handleName: ResizeHandleName;
+    handleName: ResizeDirectionName;
     scale: number;
     dpr: number;
     altKey?: boolean;

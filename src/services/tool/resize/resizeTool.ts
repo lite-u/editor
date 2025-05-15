@@ -1,8 +1,8 @@
 import ToolManager from '~/services/tool/toolManager'
 import {ElementInstance} from '~/elements/type'
-import {ResizeHandleName} from '~/services/selection/type'
+import {ResizeDirectionName} from '~/services/selection/type'
 
-function resizeTool(this: ToolManager, elements: ElementInstance[], direction: ResizeHandleName = 'br') {
+function resizeTool(this: ToolManager, elements: ElementInstance[], direction: ResizeDirectionName = 'br') {
   const {interaction, action} = this.editor
   const {mouseWorldCurrent, _modifier, mouseWorldStart} = interaction
   const {altKey, shiftKey} = _modifier
@@ -27,6 +27,29 @@ function resizeTool(this: ToolManager, elements: ElementInstance[], direction: R
 
   centerX = (maxX - minX) / 2
   centerY = (maxY - minY) / 2
+
+  switch (direction) {
+    case "tl":
+      centerX = (maxX - minX) / 2
+      centerY = (maxY - minY) / 2
+      break;
+    case "t":
+      break;
+    case "tr":
+      break;
+    case "r":
+      break;
+    case "br":
+      break;
+    case "b":
+      break;
+    case "bl":
+      break;
+    case "l":
+      break;
+
+  }
+
   anchor.x = minX
   anchor.y = minY
 

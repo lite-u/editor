@@ -1,7 +1,7 @@
 import {generateBoundingRectFromRotatedRect} from '~/core/utils'
 import Shape, {ShapeProps} from '../shape/shape'
 import ElementRectangle from '../rectangle/rectangle'
-import {ResizeHandleName} from '~/services/selection/type'
+import {ResizeDirectionName} from '~/services/selection/type'
 import {Point} from '~/type'
 import render from './render'
 import transform from './transform'
@@ -68,7 +68,7 @@ class ElementEllipse extends Shape {
     movePoint: { x: number; y: number };
     elementOrigin: RequiredEllipseProps
     rotation: number;
-    handleName: ResizeHandleName;
+    handleName: ResizeDirectionName;
     scale: number;
     dpr: number;
     altKey?: boolean;

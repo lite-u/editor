@@ -1,4 +1,4 @@
-import {ResizeHandleName, ResizeTransform} from '../services/selection/type'
+import {ResizeDirectionName, ResizeTransform} from '../services/selection/type'
 import {BoundingRect, DPR, Point} from '../type'
 
 interface DrawCrossLineProps {
@@ -121,7 +121,7 @@ export const getSymmetricDifference = <T>(
 }
 
 export function getResizeTransform(
-  name: ResizeHandleName,
+  name: ResizeDirectionName,
   symmetric = false,
 ): ResizeTransform {
   const base = (() => {

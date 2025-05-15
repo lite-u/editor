@@ -21,6 +21,26 @@ function resizeTool(elements, direction = 'br') {
     });
     centerX = (maxX - minX) / 2;
     centerY = (maxY - minY) / 2;
+    switch (direction) {
+        case "tl":
+            centerX = (maxX - minX) / 2;
+            centerY = (maxY - minY) / 2;
+            break;
+        case "t":
+            break;
+        case "tr":
+            break;
+        case "r":
+            break;
+        case "br":
+            break;
+        case "b":
+            break;
+        case "bl":
+            break;
+        case "l":
+            break;
+    }
     anchor.x = minX;
     anchor.y = minY;
     const startVec = {

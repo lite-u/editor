@@ -1,4 +1,4 @@
-import { ResizeHandleName } from '~/services/selection/type';
+import { ResizeDirectionName } from '~/services/selection/type';
 import { Point } from '~/type';
 import { RequiredEllipseProps } from '~/elements/ellipse/ellipse';
 declare const transform: ({ downPoint, movePoint, elementOrigin, rotation, handleName, scale, dpr, altKey, shiftKey, }: {
@@ -12,7 +12,7 @@ declare const transform: ({ downPoint, movePoint, elementOrigin, rotation, handl
     };
     elementOrigin: RequiredEllipseProps;
     rotation: number;
-    handleName: ResizeHandleName;
+    handleName: ResizeDirectionName;
     scale: number;
     dpr: number;
     altKey?: boolean;

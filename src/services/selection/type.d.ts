@@ -15,7 +15,7 @@ export enum ResizeDirection {
   SW = 'sw',
 }
 
-export type ResizeHandleName =
+export type ResizeDirectionName =
   | 'tl'
   | 't'
   | 'tr'
@@ -50,7 +50,7 @@ export interface OperationHandle {
 
 interface ResizeHandle extends OperationHandle {
   type: 'resize';
-  name: ResizeHandleName
+  name: ResizeDirectionName
 }
 
 export interface RotateHandle extends OperationHandle {

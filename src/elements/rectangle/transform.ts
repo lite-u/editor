@@ -1,4 +1,4 @@
-import {ResizeHandleName} from '~/services/selection/type'
+import {ResizeDirectionName} from '~/services/selection/type'
 import {RequiredRectangleProps} from '~/elements/rectangle/rectangle'
 import {getResizeTransform} from '~/lib/lib'
 import {Rect} from '~/type'
@@ -8,7 +8,7 @@ export interface TransformProps {
   movePoint: { x: number; y: number };
   elementOrigin: RequiredRectangleProps
   rotation: number;
-  handleName: ResizeHandleName;
+  handleName: ResizeDirectionName;
   scale: number;
   dpr: number;
   altKey?: boolean;

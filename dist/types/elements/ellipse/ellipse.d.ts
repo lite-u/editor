@@ -1,6 +1,6 @@
 import Shape, { ShapeProps } from '../shape/shape';
 import ElementRectangle from '../rectangle/rectangle';
-import { ResizeHandleName } from '~/services/selection/type';
+import { ResizeDirectionName } from '~/services/selection/type';
 import { Point } from '~/type';
 export interface EllipseProps extends ShapeProps {
     id: string;
@@ -31,7 +31,7 @@ declare class ElementEllipse extends Shape {
         };
         elementOrigin: RequiredEllipseProps;
         rotation: number;
-        handleName: ResizeHandleName;
+        handleName: ResizeDirectionName;
         scale: number;
         dpr: number;
         altKey?: boolean;
