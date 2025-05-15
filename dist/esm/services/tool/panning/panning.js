@@ -6,10 +6,13 @@ const panning = {
     },
     mouseMove() {
         // this.editor.container.setPointerCapture(e.pointerId)
-        const { _modifier, mouseDelta, mouseStart, mouseCurrent } = this.editor.interaction;
+        const { _modifier, _pointDown, mouseDelta, mouseStart, mouseCurrent } = this.editor.interaction;
+        const { movementX, movementY } = _modifier;
+        if (!_pointDown)
+            return;
         this.editor.action.dispatch('world-shift', {
-            x: mouseDelta.x,
-            y: mouseDelta.y,
+            x: movementX,
+            y: movementY,
         });
     },
     mouseUp() {
