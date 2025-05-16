@@ -1,5 +1,5 @@
 import ElementShape, { ShapeProps } from '../shape/shape';
-import { CenterBasedRect, Point, Rect } from '~/type';
+import { Point, Rect } from '~/type';
 import { SnapPointData } from '~/main/type';
 import { TransformProps } from '~/elements/rectangle/transform';
 import ElementRectangle from '~/elements/rectangle/rectangle';
@@ -18,8 +18,10 @@ declare class RectangleLike extends ElementShape {
     width: number;
     height: number;
     borderRadius: BorderRadius;
+    path2D: Path2D;
     private original;
     constructor({ id, layer, width, height, borderRadius, ...rest }: RectangleLikeProps);
+    protected updatePath2D(): void;
     protected get corners(): Point[];
     scale(sx: number, sy: number): void;
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
@@ -27,7 +29,6 @@ declare class RectangleLike extends ElementShape {
     hitTest(point: Point, borderPadding?: number): 'inside' | 'border' | null;
     toJSON(): RequiredRectangleLikeProps;
     toMinimalJSON(): RectangleLikeProps;
-    getRect(): CenterBasedRect;
     getBoundingRect(): import("~/type").BoundingRect;
     getBoundingRectFromOriginal(): import("~/type").BoundingRect;
     getSelectedBoxElement(lineWidth: number, lineColor: string): ElementRectangle;

@@ -1,8 +1,7 @@
 import ElementShape, {ShapeProps} from '../shape/shape'
-import {CenterBasedRect, Point, Rect} from '~/type'
+import {Point, Rect} from '~/type'
 import {SnapPointData} from '~/main/type'
 import {generateBoundingRectFromRect, generateBoundingRectFromRotatedRect} from '~/core/utils'
-import render from './render'
 import transform, {TransformProps} from '~/elements/rectangle/transform'
 import ElementRectangle from '~/elements/rectangle/rectangle'
 import {BorderRadius} from '~/elements/props'
@@ -25,6 +24,7 @@ class RectangleLike extends ElementShape {
   width: number
   height: number
   borderRadius: BorderRadius
+  path2D: Path2D = new Path2D()
   private original: { cx: number, cy: number, width: number, height: number, rotation: number }
 
   constructor({
@@ -48,6 +48,25 @@ class RectangleLike extends ElementShape {
       width,
       height,
       rotation: this.rotation,
+    }
+    this.updatePath2D()
+  }
+
+  protected updatePath2D() {
+    const {cx, cy, width, height, borderRadius} = this
+    const w = width / 2
+    const h = height / 2
+
+    this.path2D = new Path2D()
+
+    if (borderRadius.every(r => r > 0)) {
+      this.path2D.moveTo(cx - w + borderRadius[0], cy - h)
+      this.path2D.arcTo(cx + w, cy - h, cx + w, cy + h, borderRadius[1])
+      this.path2D.arcTo(cx + w, cy + h, cx - w, cy + h, borderRadius[2])
+      this.path2D.arcTo(cx - w, cy + h, cx - w, cy - h, borderRadius[3])
+      this.path2D.arcTo(cx - w, cy - h, cx + w, cy - h, borderRadius[0])
+    } else {
+      this.path2D.rect(cx - w, cy - h, width, height)
     }
   }
 
@@ -197,17 +216,6 @@ class RectangleLike extends ElementShape {
     return result
   }
 
-  public getRect(): CenterBasedRect {
-    const {cx, cy, width, height} = this
-
-    return {
-      cx,
-      cy,
-      width,
-      height,
-    }
-  }
-
   public getBoundingRect() {
     const {cx, cy, width, height, rotation} = this
 
@@ -285,7 +293,48 @@ class RectangleLike extends ElementShape {
   }
 
   render(ctx: CanvasRenderingContext2D): void {
-    render(this, ctx)
+    // render(this, ctx)
+    console.log(this.path2D)
+    let {cx, cy, show, rotation, opacity, fill, stroke} = this.toJSON()
+    const {enabled: enabledFill, color: fillColor} = fill
+    const {enabled: enabledStroke, color: strokeColor, weight, join, dashed} = stroke
+    // x = Math.round(x)
+    // y = Math.round(y)
+    // width = Math.round(width)
+    // height = Math.round(height)
+    // console.log(x, y, width, height)
+
+    ctx.restore()
+
+    /////////////////////////////////////////////
+    if (!show || opacity <= 0) return
+
+    ctx.save()
+
+    if (this.rotation) {
+      ctx.translate(cx, cy)
+      ctx.rotate((rotation * Math.PI) / 180)
+      ctx.translate(-cx, -cy)
+    }
+
+    if (opacity > 0) {
+      ctx.fillStyle = fillColor as string
+      ctx.globalAlpha = opacity / 100
+    }
+
+    if (enabledFill) {
+      ctx.fillStyle = fillColor
+      ctx.fill(this.path2D)
+    }
+
+    if (enabledStroke && weight > 0) {
+      ctx.lineWidth = weight
+      ctx.strokeStyle = strokeColor
+      ctx.lineJoin = join
+      ctx.stroke(this.path2D)
+    }
+
+    ctx.restore()
   }
 }
 

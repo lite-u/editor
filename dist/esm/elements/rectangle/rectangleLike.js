@@ -1,16 +1,16 @@
-import ElementShape from '../shape/shape.js';
-import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '../../core/utils.js';
-import render from './render.js';
-import transform from './transform.js';
-import ElementRectangle from './rectangle.js';
-import { DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../defaultProps.js';
-import { isEqual } from '../../lib/lib.js';
+import ElementShape from '../shape/shape';
+import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '~/core/utils';
+import transform from '~/elements/rectangle/transform';
+import ElementRectangle from '~/elements/rectangle/rectangle';
+import { DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '~/elements/defaultProps';
+import { isEqual } from '~/lib/lib';
 class RectangleLike extends ElementShape {
     id;
     layer;
     width;
     height;
     borderRadius;
+    path2D = new Path2D();
     original;
     constructor({ id, layer, width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, borderRadius = DEFAULT_BORDER_RADIUS, ...rest }) {
         super(rest);
@@ -26,6 +26,23 @@ class RectangleLike extends ElementShape {
             height,
             rotation: this.rotation,
         };
+        this.updatePath2D();
+    }
+    updatePath2D() {
+        const { cx, cy, width, height, borderRadius } = this;
+        const w = width / 2;
+        const h = height / 2;
+        this.path2D = new Path2D();
+        if (borderRadius.every(r => r > 0)) {
+            this.path2D.moveTo(cx - w + borderRadius[0], cy - h);
+            this.path2D.arcTo(cx + w, cy - h, cx + w, cy + h, borderRadius[1]);
+            this.path2D.arcTo(cx + w, cy + h, cx - w, cy + h, borderRadius[2]);
+            this.path2D.arcTo(cx - w, cy + h, cx - w, cy - h, borderRadius[3]);
+            this.path2D.arcTo(cx - w, cy - h, cx + w, cy - h, borderRadius[0]);
+        }
+        else {
+            this.path2D.rect(cx - w, cy - h, width, height);
+        }
     }
     get corners() {
         const w = this.width / 2;
@@ -141,15 +158,6 @@ class RectangleLike extends ElementShape {
         }
         return result;
     }
-    getRect() {
-        const { cx, cy, width, height } = this;
-        return {
-            cx,
-            cy,
-            width,
-            height,
-        };
-    }
     getBoundingRect() {
         const { cx, cy, width, height, rotation } = this;
         const x = cx - width / 2;
@@ -208,7 +216,41 @@ class RectangleLike extends ElementShape {
         return points;
     }
     render(ctx) {
-        render(this, ctx);
+        // render(this, ctx)
+        console.log(this.path2D);
+        let { cx, cy, show, rotation, opacity, fill, stroke } = this.toJSON();
+        const { enabled: enabledFill, color: fillColor } = fill;
+        const { enabled: enabledStroke, color: strokeColor, weight, join, dashed } = stroke;
+        // x = Math.round(x)
+        // y = Math.round(y)
+        // width = Math.round(width)
+        // height = Math.round(height)
+        // console.log(x, y, width, height)
+        ctx.restore();
+        /////////////////////////////////////////////
+        if (!show || opacity <= 0)
+            return;
+        ctx.save();
+        if (this.rotation) {
+            ctx.translate(cx, cy);
+            ctx.rotate((rotation * Math.PI) / 180);
+            ctx.translate(-cx, -cy);
+        }
+        if (opacity > 0) {
+            ctx.fillStyle = fillColor;
+            ctx.globalAlpha = opacity / 100;
+        }
+        if (enabledFill) {
+            ctx.fillStyle = fillColor;
+            ctx.fill(this.path2D);
+        }
+        if (enabledStroke && weight > 0) {
+            ctx.lineWidth = weight;
+            ctx.strokeStyle = strokeColor;
+            ctx.lineJoin = join;
+            ctx.stroke(this.path2D);
+        }
+        ctx.restore();
     }
 }
 export default RectangleLike;
