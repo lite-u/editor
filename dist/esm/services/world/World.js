@@ -72,7 +72,7 @@ class World {
                 cy: this.editor.config.page.height / 2,
                 width: this.editor.config.page.width,
                 height: this.editor.config.page.height,
-                borderRadius: [10, 10, 10, 10],
+                // borderRadius: [10, 10, 10, 10],
                 stroke: {
                     ...DEFAULT_STROKE,
                     weight: 1 / scale * dpr,
