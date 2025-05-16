@@ -26,8 +26,9 @@ class ElementPath extends ElementBase implements BasePath {
   readonly layer: number
   readonly type = 'path'
   private points: BezierPoint[] = []
+  closed: boolean
 
-  constructor({id, layer, points = [], ...rest}: PathProps) {
+  constructor({id, layer, points = [], closed = false, ...rest}: PathProps) {
     super(rest)
     this.points = deepClone(points)
     this.id = id

@@ -331,7 +331,7 @@ export function initEvents(this: Editor) {
       dispatch('render-elements')
     })
     const savedSelected = new Set(newElements.keys())
-
+    console.log(newElements)
     /*  this.elementManager.batchAdd(newElements,()=>{
         dispatch('render-elements')
       })*/
