@@ -51,7 +51,7 @@ class World {
     this.dpr = 2
 
     // this.selectionBox.style.pointerEvents = 'none'
-    this.editor.container.append(this.baseCanvas, this.overlayCanvas)
+    this.editor.container.append(this.baseCanvas, this.overlayCanvas, this.creationCanvas)
   }
 
   updateWorldRect() {

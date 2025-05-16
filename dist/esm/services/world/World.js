@@ -42,7 +42,7 @@ class World {
         this.worldRect = generateBoundingRectFromTwoPoints(this.offset, this.offset);
         this.dpr = 2;
         // this.selectionBox.style.pointerEvents = 'none'
-        this.editor.container.append(this.baseCanvas, this.overlayCanvas);
+        this.editor.container.append(this.baseCanvas, this.overlayCanvas, this.creationCanvas);
     }
     updateWorldRect() {
         const { width, height } = this.editor.viewportRect;

@@ -114,7 +114,7 @@ export function initEvents(this: Editor) {
 
   on('visible-selection-updated', () => {
     this.visible.updateVisibleSelected()
-    dispatch('render-selection')
+    dispatch('render-overlay')
   })
 
   on('selection-all', () => {
@@ -412,7 +412,7 @@ export function initEvents(this: Editor) {
     this.world.renderElements()
   })
 
-  on('render-selection', () => {
+  on('render-overlay', () => {
     resetCanvas(
       this.world.overlayCanvasContext,
       this.world.scale,
@@ -420,6 +420,16 @@ export function initEvents(this: Editor) {
       this.world.dpr,
     )
     this.world.renderOverlay()
+  })
+
+  on('render-creation', () => {
+    resetCanvas(
+      this.world.creationCanvasContext,
+      this.world.scale,
+      this.world.offset,
+      this.world.dpr,
+    )
+    // this.world.renderOverlay()
   })
 
   on('element-hover-enter', (id) => {
@@ -466,4 +476,5 @@ export function initEvents(this: Editor) {
     this.events.onSwitchTool?.(toolName)
     console.log(toolName)
   })
+
 }

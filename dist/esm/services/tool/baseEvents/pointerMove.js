@@ -65,6 +65,6 @@ export default function handlePointerMove(e) {
     // snap
     if (interaction._pointDown) {
     }
-    action.dispatch('render-selection');
+    action.dispatch('render-overlay');
     this.tool.mouseMove.call(this);
 }

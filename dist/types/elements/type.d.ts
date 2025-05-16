@@ -14,7 +14,7 @@ export type ElementPropsMap = {
     'path': PathProps;
 };
 export type ElementProps = RectangleProps | EllipseProps | TextProps | ImageProps | LineSegmentProps | PathProps;
-export type OptionalIdentifiersProps = ElementProps & {
+export type OptionalIdentifiersProps = Omit<ElementProps, 'id' | 'layer'> & {
     id?: UID;
     layer?: number;
 };

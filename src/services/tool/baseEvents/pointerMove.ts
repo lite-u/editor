@@ -75,7 +75,7 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
   if (interaction._pointDown) {
 
   }
-  action.dispatch('render-selection')
+  action.dispatch('render-overlay')
 
   this.tool.mouseMove.call(this)
 }

@@ -64,7 +64,8 @@ export type VisionEventMap = {
   };
   'world-shift': Point;
   'render-elements': boolean;
-  'render-selection': never;
+  'render-overlay': never;
+  'render-creation': never;
   'selection-updated': never
   'selection-modify': SelectionModifyData;
   'selection-clear': never;
@@ -109,8 +110,8 @@ const forwardEventDependencyMap: Record<VisionEventType, VisionEventType[]> = {
   'selection-clear': ['selection-updated'],
   'selection-modify': ['selection-updated'],
   'selection-updated': ['visible-selection-updated'],
-  'visible-selection-updated': ['render-selection'],
-  'render-selection': [],
+  'visible-selection-updated': ['render-overlay'],
+  'render-overlay': [],
   'element-hover-enter': ['visible-selection-updated'],
   'element-hover-leave': ['visible-selection-updated'],
   /* elements */

@@ -97,7 +97,7 @@ export function initEvents() {
     });
     on('visible-selection-updated', () => {
         this.visible.updateVisibleSelected();
-        dispatch('render-selection');
+        dispatch('render-overlay');
     });
     on('selection-all', () => {
         this.selection.selectAll();
@@ -337,9 +337,13 @@ export function initEvents() {
         resetCanvas(this.world.baseCanvasContext, this.world.scale, this.world.offset, this.world.dpr);
         this.world.renderElements();
     });
-    on('render-selection', () => {
+    on('render-overlay', () => {
         resetCanvas(this.world.overlayCanvasContext, this.world.scale, this.world.offset, this.world.dpr);
         this.world.renderOverlay();
+    });
+    on('render-creation', () => {
+        resetCanvas(this.world.creationCanvasContext, this.world.scale, this.world.offset, this.world.dpr);
+        // this.world.renderOverlay()
     });
     on('element-hover-enter', (id) => {
         if (this.interaction._hoveredElement && id && this.interaction._hoveredElement === id) {
