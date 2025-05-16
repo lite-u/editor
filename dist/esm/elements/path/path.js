@@ -3,11 +3,13 @@ import { HANDLER_OFFSETS } from '../handleBasics.js';
 import ElementRectangle from '../rectangle/rectangle.js';
 import { rotatePointAroundPoint } from '../../core/geometry.js';
 import { BasePath } from '../basePath/basePath.js';
+import deepClone from '../../core/deepClone.js';
 class Path extends ElementBase {
     type = 'path';
     points = [];
     constructor({ points = [], ...rest }) {
         super(rest);
+        this.points = deepClone(points);
     }
     toJSON() {
         return {

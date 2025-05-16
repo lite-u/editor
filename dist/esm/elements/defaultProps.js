@@ -89,7 +89,7 @@ export const DEFAULT_VERTICAL_ALIGN = 'top';
 export const DEFAULT_HORIZONTAL_ALIGN = 'left';
 export const DEFAULT_BEZIER_POINT = {
     anchor: { x: 0, y: 0 },
-    handleIn: { x: 0, y: 0 },
-    handleOut: { x: 0, y: 0 },
+    cp1: { x: 0, y: 0 },
+    cp2: { x: 0, y: 0 },
     type: 'corner',
 };
