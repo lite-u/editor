@@ -99,8 +99,6 @@ class ElementBase {
             ctx.fillStyle = fillColor;
             ctx.fill(this.path2D);
         }
-        ctx.fillStyle = 'blue';
-        ctx.fill(this.path2D);
         if (enabledStroke && weight > 0) {
             ctx.lineWidth = weight;
             ctx.strokeStyle = strokeColor;
