@@ -33,16 +33,34 @@ class RectangleLike extends ElementShape {
         const w = width / 2;
         const h = height / 2;
         this.path2D = new Path2D();
-        if (borderRadius.every(r => r > 0)) {
-            this.path2D.moveTo(cx - w + borderRadius[0], cy - h);
-            this.path2D.arcTo(cx + w, cy - h, cx + w, cy + h, borderRadius[1]);
-            this.path2D.arcTo(cx + w, cy + h, cx - w, cy + h, borderRadius[2]);
-            this.path2D.arcTo(cx - w, cy + h, cx - w, cy - h, borderRadius[3]);
-            this.path2D.arcTo(cx - w, cy - h, cx + w, cy - h, borderRadius[0]);
+        const [tl, tr, br, bl] = borderRadius;
+        // If any corner radius is 0, skip rounding for that corner
+        this.path2D.moveTo(cx - w + tl, cy - h);
+        if (tr > 0) {
+            this.path2D.arcTo(cx + w, cy - h, cx + w, cy + h, tr);
         }
         else {
-            this.path2D.rect(cx - w, cy - h, width, height);
+            this.path2D.lineTo(cx + w, cy - h);
         }
+        if (br > 0) {
+            this.path2D.arcTo(cx + w, cy + h, cx - w, cy + h, br);
+        }
+        else {
+            this.path2D.lineTo(cx + w, cy + h);
+        }
+        if (bl > 0) {
+            this.path2D.arcTo(cx - w, cy + h, cx - w, cy - h, bl);
+        }
+        else {
+            this.path2D.lineTo(cx - w, cy + h);
+        }
+        if (tl > 0) {
+            this.path2D.arcTo(cx - w, cy - h, cx + w, cy - h, tl);
+        }
+        else {
+            this.path2D.lineTo(cx - w, cy - h);
+        }
+        this.path2D.closePath();
     }
     get getPoints() {
         const w = this.width / 2;

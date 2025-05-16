@@ -1,8 +1,8 @@
-import ElementBase from '../base/elementBase';
-import { HANDLER_OFFSETS } from '../handleBasics';
-import ElementRectangle from '../rectangle/rectangle';
-import { rotatePointAroundPoint } from '~/core/geometry';
-import deepClone from '~/core/deepClone';
+import ElementBase from '../base/elementBase.js';
+import { HANDLER_OFFSETS } from '../handleBasics.js';
+import ElementRectangle from '../rectangle/rectangle.js';
+import { rotatePointAroundPoint } from '../../core/geometry.js';
+import deepClone from '../../core/deepClone.js';
 class ElementPath extends ElementBase {
     id;
     layer;

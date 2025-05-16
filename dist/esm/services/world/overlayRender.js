@@ -17,7 +17,13 @@ function overlayRender() {
     }
     if (_hoveredElement) {
         const pointProps = _hoveredElement.center;
-        const ele = this.editor.elementManager.create(_hoveredElement.toJSON());
+        const ele = this.editor.elementManager.create({
+            ..._hoveredElement.toJSON(), stroke: {
+                ...DEFAULT_STROKE,
+                color: lineColor,
+                weight: 1 / ratio,
+            },
+        });
         const point = this.editor.elementManager.create({
             type: 'ellipse',
             r1: 2 / ratio,
@@ -27,8 +33,8 @@ function overlayRender() {
         });
         // console.log(lineWidth)
         console.log(ele);
-        ele.stroke.weight = 3 / ratio;
-        ele.stroke.color = lineColor;
+        // ele.stroke.weight = 3 / ratio
+        // ele.stroke.color = lineColor
         point.stroke.color = lineColor;
         point.render(ctx);
         ele.render(ctx);
