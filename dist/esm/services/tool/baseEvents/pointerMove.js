@@ -1,4 +1,4 @@
-import { isPointNear } from '../../../core/geometry.js';
+import { isPointNear } from '~/core/geometry';
 export default function handlePointerMove(e) {
     const { action, rect, cursor, interaction, world, visible } = this.editor;
     const { baseCanvasContext: ctx, dpr } = world;
@@ -26,8 +26,25 @@ export default function handlePointerMove(e) {
         const points = ele.getPoints;
         const border = ctx.isPointInStroke(path, viewPoint.x, viewPoint.y);
         const inside = ctx.isPointInPath(path, viewPoint.x, viewPoint.y);
-        const point = points.some(p => isPointNear(p, viewPoint));
-        console.log(border, inside);
+        const point = points.find(p => isPointNear(p, viewPoint));
+        if (point) {
+            interaction._pointHit = {
+                type: 'anchor',
+                ...point,
+            };
+        }
+        else if (border) {
+            interaction._pointHit = {
+                type: 'path',
+                ...viewPoint,
+            };
+        }
+        else if (inside) {
+            /* interaction._pointHit = {
+               type: 'anchor',
+               ...viewPoint,
+             }*/
+        }
     }
     // snap
     if (interaction._pointDown) {

@@ -35,10 +35,24 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
     const points: Point[] = ele.getPoints
     const border = ctx.isPointInStroke(path, viewPoint.x, viewPoint.y)
     const inside = ctx.isPointInPath(path, viewPoint.x, viewPoint.y)
-    const point = points.some(p => isPointNear(p, viewPoint))
+    const point = points.find(p => isPointNear(p, viewPoint))
 
-    console.log(border, inside)
-
+    if (point) {
+      interaction._pointHit = {
+        type: 'anchor',
+        ...point,
+      }
+    } else if (border) {
+      interaction._pointHit = {
+        type: 'path',
+        ...viewPoint,
+      }
+    } else if (inside) {
+      /* interaction._pointHit = {
+         type: 'anchor',
+         ...viewPoint,
+       }*/
+    }
   }
 
   // snap
