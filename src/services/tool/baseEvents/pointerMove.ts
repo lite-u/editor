@@ -44,15 +44,20 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
         ...point,
       }
     } else if (border) {
+      interaction._hoveredElement = ele
       interaction._pointHit = {
         type: 'path',
         ...viewPoint,
       }
     } else if (inside) {
+      interaction._hoveredElement = ele
       /* interaction._pointHit = {
          type: 'anchor',
          ...viewPoint,
        }*/
+    } else {
+      interaction._hoveredElement = null
+      interaction._pointHit = null
     }
   }
 

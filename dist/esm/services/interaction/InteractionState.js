@@ -8,7 +8,7 @@ class InteractionState {
     mouseWorldStart = { x: 0, y: 0 };
     mouseWorldCurrent = { x: 0, y: 0 };
     mouseWorldDelta = { x: 0, y: 0 };
-    hoveredElement = '';
+    _hoveredElement = null;
     operationHandlers = [];
     _pointDown = false;
     _snapped = false;

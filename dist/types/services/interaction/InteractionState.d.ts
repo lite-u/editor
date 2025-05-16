@@ -27,7 +27,7 @@ declare class InteractionState {
     mouseWorldStart: Point;
     mouseWorldCurrent: Point;
     mouseWorldDelta: Point;
-    hoveredElement: UID;
+    _hoveredElement: ElementInstance | null;
     readonly operationHandlers: OperationHandler[];
     _pointDown: boolean;
     _snapped: boolean;

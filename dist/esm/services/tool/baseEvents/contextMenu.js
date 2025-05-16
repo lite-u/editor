@@ -10,7 +10,7 @@ function handleContextMenu(e) {
     */
     const { action, clipboard, interaction, selection } = this.editor;
     detectHoveredElement.call(this);
-    const lastId = interaction.hoveredElement;
+    const lastId = interaction._hoveredElement;
     const selectedIdSet = selection.values;
     const position = { ...interaction.mouseCurrent };
     let idSet = new Set();

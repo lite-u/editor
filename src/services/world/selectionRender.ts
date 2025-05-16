@@ -9,8 +9,8 @@ function selectionRender(this: World) {
   if (this.editor.elementManager.size === 0) return
   const PH = this.editor.interaction._pointHit
 
+    console.log(PH)
   if (PH) {
-
   }
   return
   const {overlayCanvasContext: ctx} = this
