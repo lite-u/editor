@@ -28,6 +28,9 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
   for (let i = arr.length - 1; i >= 0; i--) {
     const ele = arr[i]
     const path = ele.path2D
+
+    if (!ele.show || ele.opacity <= 0) continue
+
     const border = ctx.isPointInStroke(path, point.x, point.y)
     const inside = ctx.isPointInPath(path, point.x, point.y)
     console.log(inside, border)
