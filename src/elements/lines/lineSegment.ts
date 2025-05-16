@@ -127,7 +127,7 @@ class ElementLineSegment extends ElementBase implements BasePath {
     }
   }
 
-  render(ctx: CanvasRenderingContext2D) {
+ /* render(ctx: CanvasRenderingContext2D) {
     const [start, end] = this.points
 
     ctx.save()
@@ -137,7 +137,7 @@ class ElementLineSegment extends ElementBase implements BasePath {
     ctx.stroke()
     ctx.restore()
 
-  }
+  }*/
 }
 
 export default ElementLineSegment

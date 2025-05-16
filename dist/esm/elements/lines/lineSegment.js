@@ -92,14 +92,5 @@ class ElementLineSegment extends ElementBase {
             points: deepClone(this.points),
         };
     }
-    render(ctx) {
-        const [start, end] = this.points;
-        ctx.save();
-        ctx.beginPath();
-        ctx.moveTo(start.x, start.y);
-        ctx.lineTo(end.x, end.y);
-        ctx.stroke();
-        ctx.restore();
-    }
 }
 export default ElementLineSegment;
