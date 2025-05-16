@@ -54,6 +54,8 @@ class ElementPath extends ElementBase {
         const cy = y + height / 2;
         return { x, y, width, height, left, right, top, bottom, cx, cy };
     }
+    hitTest(point, borderPadding = 5) {
+    }
     toJSON() {
         return {
             ...super.toJSON(),
