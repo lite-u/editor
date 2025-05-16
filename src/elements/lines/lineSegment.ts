@@ -1,6 +1,6 @@
 import ElementBase, {ElementBaseProps} from '~/elements/base/elementBase'
 import {BasePath} from '~/elements/basePath/basePath'
-import {Point, UID} from '~/type'
+import {BoundingRect, Point, UID} from '~/type'
 import deepClone from '~/core/deepClone'
 import {generateBoundingRectFromRect, generateBoundingRectFromRotatedRect} from '~/core/utils'
 
@@ -20,7 +20,7 @@ class ElementLineSegment extends ElementBase implements BasePath {
   readonly layer: number
   readonly type = 'lineSegment'
   private points: [{ id: 'start' } & Point, { id: 'end' } & Point]
-  private original: { points: [{ id: 'start' } & Point, { id: 'end' } & Point] }
+  private original: { points: [{ id: 'start' } & Point, { id: 'end' } & Point], rotation: number }
 
   constructor({
                 id,
@@ -32,37 +32,37 @@ class ElementLineSegment extends ElementBase implements BasePath {
     this.id = id
     this.layer = layer
     this.points = points
-    this.original = {points: deepClone(points)}
+    this.original = {
+      points: deepClone(points),
+      rotation: this.rotation,
+    }
   }
 
   protected getPoints(): Point[] {
     return Object.values(this.points).map(p => p)
   }
 
-  public getBoundingRect() {
-    const [start, end] = this.points
-    /*
-        const x = cx - width / 2
-        const y = cy - height / 2
-
-        if (rotation === 0) {
-          return generateBoundingRectFromRect({x, y, width, height})
-        }
-
-        return generateBoundingRectFromRotatedRect({x, y, width, height}, rotation)*/
-  }
-
-  public getBoundingRectFromOriginal() {
-    const {cx, cy, width, height, rotation} = this.original
-
-    const x = cx - width / 2
-    const y = cy - height / 2
+  static _getBoundingRect(start, end, rotation): BoundingRect {
+    const x = Math.min(start.x, end.x)
+    const y = Math.min(start.y, end.y)
+    const width = Math.abs(end.x - start.x)
+    const height = Math.abs(end.y - start.y)
 
     if (rotation === 0) {
       return generateBoundingRectFromRect({x, y, width, height})
     }
 
     return generateBoundingRectFromRotatedRect({x, y, width, height}, rotation)
+  }
+
+  public getBoundingRect(): BoundingRect {
+    const [start, end] = this.points
+    return ElementLineSegment._getBoundingRect(start, end, this.rotation)
+  }
+
+  public getBoundingRectFromOriginal() {
+    const [start, end] = this.original.points
+    return ElementLineSegment._getBoundingRect(start, end, this.original.rotation)
   }
 
   translate(dx: number, dy: number) {
@@ -110,7 +110,7 @@ class ElementLineSegment extends ElementBase implements BasePath {
   }
 
   render(ctx: CanvasRenderingContext2D) {
-    const {start, end} = this.points
+    const [start, end] = this.points
     ctx.save()
     ctx.beginPath() // Start a new path
 
