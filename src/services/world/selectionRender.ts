@@ -12,7 +12,7 @@ function selectionRender(this: World) {
   const {_pointHit, _hoveredElement} = this.editor.interaction
   const {scale, dpr} = this.editor.world
   const ratio = scale * dpr
-  const size = 30 / ratio
+  const size = 80 / ratio
   const lineWidth = 1 / ratio
   const fontSize = 40 / ratio
 
