@@ -45,11 +45,11 @@ class ElementManager {
         return this.elementMap.get(id);
     }
     getElementsByIdSet(idSet) {
-        const result = new Map();
-        idSet.forEach(id => {
+        const result = [];
+        [...idSet.values()].map(id => {
             const mod = this.elementMap.get(id);
             if (mod) {
-                result.set(id, mod);
+                result.push(mod);
             }
         });
         return result;

@@ -10,6 +10,7 @@ import {HistoryOperation} from '~/services/history/type'
 import {fitRectToViewport} from '~/services/world/helper'
 import {Point} from '~/type'
 import {ElementMap, ElementProps} from '~/elements/type'
+import {getAnchorsByBoundingRect} from '~/services/tool/resize/helper'
 
 export function initEvents(this: Editor) {
   const {action} = this
@@ -148,8 +149,9 @@ export function initEvents(this: Editor) {
 
   on('selection-updated', () => {
     this.interaction._hoveredElement = null!
-    // console.log(this.selectedElements)
-    // updateSelectionCanvasRenderData.call(this)
+    this.interaction.updateControlPoints()
+
+    // getAnchorsByBoundingRect()
     this.events.onSelectionUpdated?.(this.selection.values, this.selection.pickIfUnique)
 
     dispatch('visible-selection-updated')

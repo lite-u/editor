@@ -36,6 +36,27 @@ export const getBoundingRectFromBoundingRects = (list) => {
         cy: minY + (maxY - minY) / 2,
     };
 };
+export const getAnchorsByBoundingRect = (rect) => {
+    const { top, bottom, left, right, cx, cy } = rect;
+    return [
+        { x: left, y: top, type: 'resize' },
+        { x: cx, y: top, type: 'resize' },
+        { x: right, y: top, type: 'resize' },
+        { x: right, y: cy, type: 'resize' },
+        { x: right, y: bottom, type: 'resize' },
+        { x: cx, y: bottom, type: 'resize' },
+        { x: left, y: bottom, type: 'resize' },
+        { x: left, y: cy, type: 'resize' },
+        { x: left, y: top, type: 'rotate' },
+        { x: cx, y: top, type: 'rotate' },
+        { x: right, y: top, type: 'rotate' },
+        { x: right, y: cy, type: 'rotate' },
+        { x: right, y: bottom, type: 'rotate' },
+        { x: cx, y: bottom, type: 'rotate' },
+        { x: left, y: bottom, type: 'rotate' },
+        { x: left, y: cy, type: 'rotate' },
+    ];
+};
 export const getAnchorsByResizeDirection = (r, d) => {
     const map = {
         tl: [{ x: r.left, y: r.top }, { x: r.right, y: r.bottom }],

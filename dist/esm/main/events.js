@@ -123,8 +123,8 @@ export function initEvents() {
     });
     on('selection-updated', () => {
         this.interaction._hoveredElement = null;
-        // console.log(this.selectedElements)
-        // updateSelectionCanvasRenderData.call(this)
+        this.interaction.updateControlPoints();
+        // getAnchorsByBoundingRect()
         this.events.onSelectionUpdated?.(this.selection.values, this.selection.pickIfUnique);
         dispatch('visible-selection-updated');
     });

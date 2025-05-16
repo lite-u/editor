@@ -61,14 +61,14 @@ class ElementManager {
     return this.elementMap.get(id)
   }
 
-  public getElementsByIdSet(idSet: Set<UID>): ElementMap {
-    const result = new Map()
+  public getElementsByIdSet(idSet: Set<UID>): ElementInstance[] {
+    const result: ElementInstance[] = []
 
-    idSet.forEach(id => {
+    ;[...idSet.values()].map(id => {
       const mod = this.elementMap.get(id)
 
       if (mod) {
-        result.set(id, mod)
+        result.push(mod)
       }
     })
 

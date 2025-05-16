@@ -85,6 +85,8 @@ class ElementShape extends ElementBase {
     this.cy += y
   }
 
+
+
   public getOperators(
     id: string,
     resizeConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },

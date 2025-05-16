@@ -31,7 +31,7 @@ export default function handlePointerMove(e) {
         const points = ele.getPoints;
         // const border = ctx.isPointInStroke(path, viewPoint.x, viewPoint.y)
         // const onBorder = isPointNearStroke(ctx, path, viewPoint, 2, .1)
-        const isNear = isPointNearStroke2(ctx, path, viewPoint, 2, 1);
+        const isNearStroke = isPointNearStroke2(ctx, path, viewPoint, 2, 1);
         const isOn = isPointNearStroke(ctx, path, viewPoint, 2, 1);
         const inside = ctx.isPointInPath(path, viewPoint.x, viewPoint.y);
         const point = points.find(p => isPointNear(p, viewPoint));
@@ -41,8 +41,8 @@ export default function handlePointerMove(e) {
             _snappedPoint = { type: 'anchor', ...point };
             break;
         }
-        else if (isNear) {
-            console.log(isNear);
+        else if (isNearStroke) {
+            console.log(isNearStroke);
             // const {dpr} = world
             /*      const p = {
                     x:Math.round(interaction.mouseWorldCurrent.x),

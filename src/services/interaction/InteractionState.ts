@@ -4,6 +4,7 @@ import {createWith} from '~/lib/lib'
 import Editor from '~/main/editor'
 import {ElementInstance} from '~/elements/type'
 import {ToolName} from '~/services/tool/toolManager'
+import {getAnchorsByBoundingRect, getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
 
 export type EditorManipulationType =
   | 'static'
@@ -93,6 +94,17 @@ class InteractionState {
     this.selectionBox!.style.width = width + 'px'
     this.selectionBox!.style.height = height + 'px'
     this.selectionBox!.style.display = show ? 'block' : 'none'
+  }
+
+  updateControlPoints() {
+    const idSet = this.editor.selection.values
+    const elements = this.editor.elementManager.getElementsByIdSet(idSet)
+    const rects = elements.map((ele: ElementInstance) => ele.getBoundingRect())
+    const rect = getBoundingRectFromBoundingRects(rects)
+    // console.log(rect)
+
+    const anchors = getAnchorsByBoundingRect(rect)
+    console.log(anchors)
   }
 
   destroy() {

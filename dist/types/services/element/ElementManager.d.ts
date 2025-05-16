@@ -13,7 +13,7 @@ declare class ElementManager {
     get all(): ElementMap;
     get getMaxLayerIndex(): number;
     getElementById(id: string): ElementInstance | undefined;
-    getElementsByIdSet(idSet: Set<UID>): ElementMap;
+    getElementsByIdSet(idSet: Set<UID>): ElementInstance[];
     getElementMapByIdSet(idSet: Set<UID>): ElementMap;
     create(data: OptionalIdentifiersProps): ElementInstance | false;
     batchCreate(elementDataList: ElementProps[]): ElementMap;
