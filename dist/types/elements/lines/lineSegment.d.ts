@@ -5,10 +5,11 @@ export interface LineSegmentProps extends ElementBaseProps {
     id: string;
     layer: number;
     type: 'lineSegment';
-    points: {
-        start: Point;
-        end: Point;
-    };
+    points: [{
+        id: 'start';
+    } & Point, {
+        id: 'end';
+    } & Point];
 }
 export type RequiredLineSegmentProps = Required<LineSegmentProps>;
 declare class ElementLineSegment extends ElementBase implements BasePath {
@@ -19,6 +20,8 @@ declare class ElementLineSegment extends ElementBase implements BasePath {
     private original;
     constructor({ id, layer, points, ...rest }: LineSegmentProps);
     protected getPoints(): Point[];
+    getBoundingRect(): void;
+    getBoundingRectFromOriginal(): import("~/type").BoundingRect;
     translate(dx: number, dy: number): void;
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
     protected toJSON(): RequiredLineSegmentProps;

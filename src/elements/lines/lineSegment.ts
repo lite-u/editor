@@ -40,16 +40,16 @@ class ElementLineSegment extends ElementBase implements BasePath {
   }
 
   public getBoundingRect() {
-    const {points} = this
+    const [start, end] = this.points
+    /*
+        const x = cx - width / 2
+        const y = cy - height / 2
 
-    const x = cx - width / 2
-    const y = cy - height / 2
+        if (rotation === 0) {
+          return generateBoundingRectFromRect({x, y, width, height})
+        }
 
-    if (rotation === 0) {
-      return generateBoundingRectFromRect({x, y, width, height})
-    }
-
-    return generateBoundingRectFromRotatedRect({x, y, width, height}, rotation)
+        return generateBoundingRectFromRotatedRect({x, y, width, height}, rotation)*/
   }
 
   public getBoundingRectFromOriginal() {
@@ -66,23 +66,27 @@ class ElementLineSegment extends ElementBase implements BasePath {
   }
 
   translate(dx: number, dy: number) {
-    Object.values(this.points).forEach((point: Point) => {
+    this.points.forEach((point: Point) => {
       point.x += dx
       point.y += dy
     })
   }
 
   scaleFrom(scaleX: number, scaleY: number, anchor: Point) {
+    const [start, end] = this.points
+    const [oStart, oEnd] = this.original.points
     const matrix = new DOMMatrix()
       .translate(anchor.x, anchor.y)
       .scale(scaleX, scaleY)
       .translate(-anchor.x, -anchor.y)
 
-    const newStart = this.transformPoint(this.original.points.start.x, this.original.points.start.y, matrix)
-    const newEnd = this.transformPoint(this.original.points.end.x, this.original.points.end.y, matrix)
+    const newStart = this.transformPoint(oStart.x, oStart.y, matrix)
+    const newEnd = this.transformPoint(oEnd.x, oEnd.y, matrix)
 
-    this.points.start = newStart
-    this.points.end = newEnd
+    start.x = newStart.x
+    start.y = newStart.y
+    end.x = newEnd.x
+    end.y = newEnd.y
   }
 
   protected toJSON(): RequiredLineSegmentProps {
