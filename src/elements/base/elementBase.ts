@@ -142,8 +142,32 @@ class ElementBase {
     return this.matrix
   }
 
-  protected render(_: CanvasRenderingContext2D): void {
-    return undefined
+  protected render(ctx: CanvasRenderingContext2D): void {
+    let {show, opacity, fill, stroke} = this
+    const {enabled: enabledFill, color: fillColor} = fill
+    const {enabled: enabledStroke, color: strokeColor, weight, join, dashed} = stroke
+
+    if (!show || opacity <= 0) return
+
+    ctx.save()
+
+    if (opacity < 100) {
+      ctx.globalAlpha = opacity / 100
+    }
+
+    if (enabledFill) {
+      ctx.fillStyle = fillColor
+      ctx.fill(this.path2D)
+    }
+
+    if (enabledStroke && weight > 0) {
+      ctx.lineWidth = weight
+      ctx.strokeStyle = strokeColor
+      ctx.lineJoin = join
+      ctx.stroke(this.path2D)
+    }
+
+    ctx.restore()
   }
 }
 
