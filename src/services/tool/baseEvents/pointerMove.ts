@@ -26,6 +26,8 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
   this.editor.interaction._modifier = {button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY}
 
   const arr = visible.values
+  interaction._hoveredElement = null
+  interaction._pointHit = null
 
   for (let i = arr.length - 1; i >= 0; i--) {
     const ele = arr[i]
@@ -35,7 +37,7 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
 
     const points: Point[] = ele.getPoints
     // const border = ctx.isPointInStroke(path, viewPoint.x, viewPoint.y)
-    const border = isPointNearStroke(ctx, path, viewPoint)
+    const border = isPointNearStroke(ctx, path, viewPoint, 4)
     const inside = ctx.isPointInPath(path, viewPoint.x, viewPoint.y)
     const point = points.find(p => isPointNear(p, viewPoint))
 
@@ -55,11 +57,15 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
       }
       break
     } else if (inside) {
-      interaction._hoveredElement = ele
-      interaction._pointHit = null
+      if (ele.fill.enabled) {
+        interaction._hoveredElement = ele
+        // interaction._pointHit = null
+      } else {
+
+      }
     } else {
-      interaction._hoveredElement = null
-      interaction._pointHit = null
+      // interaction._hoveredElement = null
+      // interaction._pointHit = null
     }
   }
 
