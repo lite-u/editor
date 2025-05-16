@@ -2,11 +2,10 @@ import resizeTool from '../resize/resizeTool.js';
 const rectangleTool = {
     cursor: 'crosshair',
     mouseDown() {
-        const { elementManager, interaction, action, selection, world } = this.editor;
+        const { elementManager, interaction, world } = this.editor;
         const { x, y } = this.editor.interaction.mouseWorldCurrent;
         const width = 1;
         const height = 1;
-        // const id = 'rectangle-' + nid()
         const rectProps = {
             type: 'rectangle',
             cx: x - width / 2,

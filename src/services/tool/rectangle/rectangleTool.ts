@@ -6,11 +6,10 @@ import {PropsWithoutIdentifiers} from '~/elements/type'
 const rectangleTool: ToolType = {
   cursor: 'crosshair',
   mouseDown(this: ToolManager) {
-    const {elementManager, interaction, action, selection, world} = this.editor
+    const {elementManager, interaction, world} = this.editor
     const {x, y} = this.editor.interaction.mouseWorldCurrent
     const width = 1
     const height = 1
-    // const id = 'rectangle-' + nid()
     const rectProps: PropsWithoutIdentifiers<'rectangle'> = {
       type: 'rectangle',
       cx: x - width / 2,
