@@ -310,7 +310,6 @@ class RectangleLike extends ElementShape {
     }
 
     if (opacity < 100) {
-      ctx.fillStyle = fillColor as string
       ctx.globalAlpha = opacity / 100
     }
 
