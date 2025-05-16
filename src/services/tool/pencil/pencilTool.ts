@@ -2,8 +2,9 @@ import ToolManager, {ToolType} from '~/services/tool/toolManager'
 import nid from '~/core/nid'
 import {convertPointsToBezierPoints, drawLine} from '~/services/tool/pencil/helper'
 import {PathProps} from '~/elements/path/path'
+import {Point} from '~/type'
 
-const points = []
+const points: Point[] = []
 let _lastPoint = null
 const pencilTool: ToolType = {
   cursor: 'crosshair',

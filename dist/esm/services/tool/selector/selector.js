@@ -78,7 +78,7 @@ const selector = {
                     const pointB = world.getWorldPointByViewportPoint(rect.right, rect.bottom);
                     const virtualSelectionRect = generateBoundingRectFromTwoPoints(pointA, pointB);
                     const _selecting = new Set();
-                    const modifyKey = e.ctrlKey || e.metaKey || e.shiftKey;
+                    const modifyKey = ctrlKey || metaKey || shiftKey;
                     elementManager.all.forEach((ele) => {
                         if (ele.isInsideRect(virtualSelectionRect)) {
                             _selecting.add(ele.id);
@@ -149,17 +149,18 @@ const selector = {
             case 'rotating':
                 {
                     // container.setPointerCapture(e.pointerId)
-                    const { shiftKey } = e;
-                    const { x, y } = interaction._rotatingOperator.elementOrigin;
-                    const centerPoint = world.getViewPointByWorldPoint(x, y);
-                    const rotation = applyRotating.call(this, shiftKey);
-                    const cursorAngle = getRotateAngle(centerPoint, mouseCurrent);
-                    cursor.move(mouseCurrent, cursorAngle);
+                    // const {shiftKey} = e
+                    // const {x, y} = interaction._rotatingOperator!.elementOrigin
+                    // const centerPoint = world.getViewPointByWorldPoint(x, y)
+                    // const rotation = applyRotating.call(this, shiftKey)
+                    // const cursorAngle = getRotateAngle(centerPoint, mouseCurrent)
+                    // cursor.move(mouseCurrent, cursorAngle)
                     // updateCursor.call(this, 'rotate', mouseMovePoint, cursorAngle)
-                    action.dispatch('element-modifying', {
-                        type: 'rotate',
-                        data: { rotation },
-                    });
+                    /*
+                            action.dispatch('element-modifying', {
+                              type: 'rotate',
+                              data: {rotation},
+                            })*/
                 }
                 break;
             case 'waiting':
