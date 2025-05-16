@@ -27,17 +27,12 @@ const pencilTool = {
         const { x, y } = this.editor.interaction.mouseWorldCurrent;
         const id = 'rectangle-' + nid();
         interaction._ele = null;
-        // console.log(points)
         const b = convertPointsToBezierPoints(points);
-        console.log(b);
         const eleProps = {
             id,
             layer: 0,
             type: 'lineSegment',
-            points: [
-                { id: 'start', x, y },
-                { id: 'end', x: x + 1, y: y + 1 },
-            ],
+            points: convertPointsToBezierPoints(points),
         };
         const ele = elementManager.add(elementManager.create(eleProps));
         // interaction._ele = ele

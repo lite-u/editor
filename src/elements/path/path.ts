@@ -2,7 +2,7 @@ import ElementBase, {ElementBaseProps} from '../base/elementBase'
 import {HANDLER_OFFSETS} from '../handleBasics'
 import {OperationHandler} from '~/services/selection/type'
 import ElementRectangle, {RectangleProps} from '../rectangle/rectangle'
-import {BoundingRect} from '~/type'
+import {BoundingRect, UID} from '~/type'
 import {ElementProps} from '../type'
 import {rotatePointAroundPoint} from '~/core/geometry'
 import {AnchorPoint, Appearance, Fill, Stroke, Transform} from '~/elements/defaultProps'
@@ -11,22 +11,27 @@ import {BezierPoint} from '~/elements/props'
 import deepClone from '~/core/deepClone'
 
 export interface PathProps extends ElementBaseProps {
+  id: UID,
+  layer: number
   type: 'path'
   points: BezierPoint[];
   closed: boolean;
-  layer: string;
   group: string | null;
 }
 
 export type RequiredShapeProps = Required<PathProps>
 
-class Path extends ElementBase implements BasePath {
+class ElementPath extends ElementBase implements BasePath {
+  readonly id: UID
+  readonly layer: number
   readonly type = 'path'
   private points: BezierPoint[] = []
 
-  constructor({points = [], ...rest}: PathProps) {
+  constructor({id, layer, points = [], ...rest}: PathProps) {
     super(rest)
     this.points = deepClone(points)
+    this.id = id
+    this.layer = layer
   }
 
   protected toJSON(): RequiredShapeProps {
