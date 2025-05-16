@@ -46,6 +46,7 @@ class InteractionState {
   readonly operationHandlers: OperationHandler[] = []
   _pointDown = false
   _snapped = false
+  _snappedPoint: PointHit | null = null
   _pointHit: PointHit | null = null
   // spaceKeyDown = false
   // _creatingElementId: UID

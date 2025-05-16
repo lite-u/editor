@@ -2,7 +2,6 @@
 import ToolManager from '~/services/tool/toolManager'
 import {Point} from '~/type'
 import {isPointNear} from '~/core/geometry'
-import {isPointNearStroke} from '~/services/tool/helper'
 
 export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
   const {action, rect, cursor, interaction, world, visible} = this.editor
@@ -26,8 +25,12 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
   this.editor.interaction._modifier = {button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY}
 
   const arr = visible.values
-  interaction._hoveredElement = null
-  interaction._pointHit = null
+  let _ele = null
+  let _snapped = null
+  let _snappedPoint = null
+
+  // interaction._hoveredElement = null
+  // interaction._pointHit = null
 
   for (let i = arr.length - 1; i >= 0; i--) {
     const ele = arr[i]
@@ -43,27 +46,18 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
     const point = points.find(p => isPointNear(p, viewPoint))
 
     if (point) {
-      interaction._hoveredElement = ele
-      interaction._pointHit = {
-        type: 'anchor',
-        ...point,
-      }
+      _snapped = true
+      _ele = ele
+      _snappedPoint = {type: 'anchor', ...point}
       break
     } else if (border) {
-      // console.log(border)
-      interaction._hoveredElement = ele
-      interaction._pointHit = {
-        type: 'path',
-        ...interaction.mouseWorldCurrent,
-      }
+      _snapped = true
+      _ele = ele
+      _snappedPoint = {type: 'path', ...interaction.mouseWorldCurrent}
       break
     } else if (inside) {
-      console.log('inside',ele.fill.enabled)
       if (ele.fill.enabled) {
-        interaction._hoveredElement = ele
-        // interaction._pointHit = null
-      } else {
-
+        _ele = ele
       }
     } else {
       // interaction._hoveredElement = null
