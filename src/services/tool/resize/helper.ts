@@ -43,7 +43,7 @@ export const getBoundingRectFromBoundingRects = (list: BoundingRect[]): Bounding
   }
 }
 
-export const getAnchorsByBoundingRect = (rect: BoundingRect): { x, y, type: 'resize' | 'rotate' }[] => {
+export const getAnchorsByBoundingRect = (rect: BoundingRect): { x: number, y: number, type: 'resize' | 'rotate' }[] => {
   const {top, bottom, left, right, cx, cy} = rect
 
   return [
