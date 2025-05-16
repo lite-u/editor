@@ -64,7 +64,7 @@ const selector = {
             interaction._ele = new Set(realSelected);
         }
     },
-    mouseMove(e) {
+    mouseMove({ movementX, movementY, shiftKey, metaKey, ctrlKey }) {
         const { action, 
         // container,
         world, interaction, elementManager, cursor, } = this.editor;
@@ -131,8 +131,8 @@ const selector = {
             case 'dragging':
                 {
                     // container.setPointerCapture(e.pointerId)
-                    const x = (e.movementX * world.dpr) / world.scale;
-                    const y = (e.movementY * world.dpr) / world.scale;
+                    const x = (movementX * world.dpr) / world.scale;
+                    const y = (movementY * world.dpr) / world.scale;
                     // force update
                     action.dispatch('element-modifying', {
                         type: 'move',
@@ -144,16 +144,6 @@ const selector = {
                 {
                     // container.setPointerCapture(e.pointerId)
                     console.log(this.editor.interaction._ele);
-                    // const {altKey, shiftKey} = e
-                    // const {x, y} = interaction._rotatingOperator!.elementOrigin
-                    // const centerPoint = world.getViewPointByWorldPoint(x, y)
-                    // const cursorDirection = getResizeDirection(centerPoint, interaction.mouseMovePoint)
-                    /*const r = applyResize.call(this, altKey, shiftKey)
-                    // console.log(r)
-                    action.dispatch('element-modifying', {
-                      type: 'resize',
-                      data: r,
-                    })*/
                 }
                 break;
             case 'rotating':
