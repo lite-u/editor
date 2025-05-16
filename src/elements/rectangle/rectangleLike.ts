@@ -293,8 +293,6 @@ class RectangleLike extends ElementShape {
   }
 
   render(ctx: CanvasRenderingContext2D): void {
-    // render(this, ctx)
-    // console.log(this.path2D)
     let {cx, cy, show, rotation, opacity, fill, stroke} = this.toJSON()
     const {enabled: enabledFill, color: fillColor} = fill
     const {enabled: enabledStroke, color: strokeColor, weight, join, dashed} = stroke
