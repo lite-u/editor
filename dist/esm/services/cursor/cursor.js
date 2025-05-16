@@ -29,7 +29,7 @@ class Cursor {
     }
     set(name) {
         this.domRef.setAttribute('date-current-cursor', name);
-        console.log(name);
+        // console.log(name)
         if (name === 'rotate') {
             this.domRef.style.display = 'block';
             this.editor.container.style.cursor = 'none';

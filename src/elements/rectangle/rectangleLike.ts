@@ -142,6 +142,7 @@ class RectangleLike extends ElementShape {
     console.log(9)
     // this.path2D.
   }
+
   public hitTest1(point: Point, borderPadding = 5): 'inside' | 'border' | null {
     const {cx: cx, cy: cy, width, height, rotation = 0} = this
     const rad = rotation * (Math.PI / 180)
