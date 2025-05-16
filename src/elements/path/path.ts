@@ -2,7 +2,7 @@ import ElementBase, {ElementBaseProps} from '../base/elementBase'
 import {HANDLER_OFFSETS} from '../handleBasics'
 import {OperationHandler} from '~/services/selection/type'
 import ElementRectangle, {RectangleProps} from '../rectangle/rectangle'
-import {BoundingRect, UID} from '~/type'
+import {BoundingRect, Point, UID} from '~/type'
 import {ElementProps} from '../type'
 import {rotatePointAroundPoint} from '~/core/geometry'
 import {AnchorPoint, Appearance, Fill, Stroke, Transform} from '~/elements/defaultProps'
@@ -32,6 +32,55 @@ class ElementPath extends ElementBase implements BasePath {
     this.points = deepClone(points)
     this.id = id
     this.layer = layer
+  }
+
+  static cubicBezier(t: number, p0: Point, p1: Point, p2: Point, p3: Point): Point {
+    const mt = 1 - t
+    const mt2 = mt * mt
+    const t2 = t * t
+
+    return {
+      x: mt2 * mt * p0.x + 3 * mt2 * t * p1.x + 3 * mt * t2 * p2.x + t2 * t * p3.x,
+      y: mt2 * mt * p0.y + 3 * mt2 * t * p1.y + 3 * mt * t2 * p2.y + t2 * t * p3.y,
+    }
+  }
+
+  public getBoundingRect(): BoundingRect {
+    const samplePoints: Point[] = []
+
+    for (let i = 1; i < this.points.length; i++) {
+      const prev = this.points[i - 1]
+      const curr = this.points[i]
+
+      const p0 = prev.anchor
+      const p1 = prev.cp2 ?? prev.anchor
+      const p2 = curr.cp1 ?? curr.anchor
+      const p3 = curr.anchor
+
+      for (let t = 0; t <= 1; t += 0.05) {
+        samplePoints.push(ElementPath.cubicBezier(t, p0, p1, p2, p3))
+      }
+    }
+
+    if (this.points.length === 1) {
+      samplePoints.push(this.points[0].anchor)
+    }
+
+    const xs = samplePoints.map(p => p.x)
+    const ys = samplePoints.map(p => p.y)
+
+    const left = Math.min(...xs)
+    const right = Math.max(...xs)
+    const top = Math.min(...ys)
+    const bottom = Math.max(...ys)
+    const width = right - left
+    const height = bottom - top
+    const x = left
+    const y = top
+    const cx = x + width / 2
+    const cy = y + height / 2
+
+    return {x, y, width, height, left, right, top, bottom, cx, cy}
   }
 
   protected toJSON(): RequiredShapeProps {
@@ -131,6 +180,10 @@ class ElementPath extends ElementBase implements BasePath {
       inner.top >= outer.top &&
       inner.bottom <= outer.bottom
     )
+  }
+
+  render(ctx: CanvasRenderingContext2D) {
+    console.log(this.points)
   }
 }
 

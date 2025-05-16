@@ -32,7 +32,7 @@ const pencilTool: ToolType = {
     const id = 'rectangle-' + nid()
     interaction._ele = null
 
-    const b = convertPointsToBezierPoints(points)
+    // const b = convertPointsToBezierPoints(points)
 
     const eleProps: PathProps = {
       id,
@@ -41,8 +41,10 @@ const pencilTool: ToolType = {
       points: convertPointsToBezierPoints(points),
     }
 
-    const ele: ElementPath = elementManager.add(elementManager.create(eleProps))
-
+    // const ele: ElementPath = elementManager.add(elementManager.create(eleProps))
+    console.log(eleProps)
+    action.dispatch('element-add',[eleProps])
+    action.dispatch('visible-element-updated')
     // interaction._ele = ele
     action.dispatch('selection-clear')
   },

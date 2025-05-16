@@ -27,14 +27,17 @@ const pencilTool = {
         const { x, y } = this.editor.interaction.mouseWorldCurrent;
         const id = 'rectangle-' + nid();
         interaction._ele = null;
-        const b = convertPointsToBezierPoints(points);
+        // const b = convertPointsToBezierPoints(points)
         const eleProps = {
             id,
             layer: 0,
             type: 'path',
             points: convertPointsToBezierPoints(points),
         };
-        const ele = elementManager.add(elementManager.create(eleProps));
+        // const ele: ElementPath = elementManager.add(elementManager.create(eleProps))
+        console.log(eleProps);
+        action.dispatch('element-add', [eleProps]);
+        action.dispatch('visible-element-updated');
         // interaction._ele = ele
         action.dispatch('selection-clear');
     },

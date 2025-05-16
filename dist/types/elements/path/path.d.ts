@@ -1,6 +1,6 @@
 import ElementBase, { ElementBaseProps } from '../base/elementBase';
 import { OperationHandler } from '~/services/selection/type';
-import { BoundingRect, UID } from '~/type';
+import { BoundingRect, Point, UID } from '~/type';
 import { ElementProps } from '../type';
 import { BasePath } from '~/elements/basePath/basePath';
 import { BezierPoint } from '~/elements/props';
@@ -19,6 +19,8 @@ declare class ElementPath extends ElementBase implements BasePath {
     readonly type = "path";
     private points;
     constructor({ id, layer, points, ...rest }: PathProps);
+    static cubicBezier(t: number, p0: Point, p1: Point, p2: Point, p3: Point): Point;
+    getBoundingRect(): BoundingRect;
     protected toJSON(): RequiredShapeProps;
     toMinimalJSON(): PathProps;
     getOperators(id: string, resizeConfig: {
@@ -33,5 +35,6 @@ declare class ElementPath extends ElementBase implements BasePath {
         fillColor: string;
     }, boundingRect: BoundingRect, elementOrigin: ElementProps): OperationHandler[];
     isInsideRect(outer: BoundingRect): boolean;
+    render(ctx: CanvasRenderingContext2D): void;
 }
 export default ElementPath;
