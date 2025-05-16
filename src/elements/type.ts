@@ -13,14 +13,15 @@ import ElementPath, {PathProps} from '~/elements/path/path'
 export type ElementPropsMap = {
   'rectangle': RectangleProps
   'ellipse': EllipseProps
-  'image': ElementImage
-  'text': ElementText
-  'lineSegment': ElementLineSegment
-  'path': ElementPath
+  'image': ImageProps
+  'text': TextProps
+  'lineSegment': LineSegmentProps
+  'path': PathProps
 }
 export type ElementProps = RectangleProps | EllipseProps | TextProps | ImageProps | LineSegmentProps | PathProps
+export type OptionalIdentifiersProps = ElementProps & { id?: UID, layer?: number }
 // type ElementPropsType<T extends keyof ElementPropsMap> = ElementPropsMap[T]
-export type PropsWithoutIdentifiers<T extends keyof ElementPropsMap> = Omit<ElementPropsMap[T], 'id' & 'layer'>
+export type PropsWithoutIdentifiers<T extends keyof ElementPropsMap> = Omit<ElementPropsMap[T], 'id' | 'layer'>
 // export type ElementNames = keyof ElementTypeMap
 export type ElementInstance =
   InstanceType<ElementRectangle>

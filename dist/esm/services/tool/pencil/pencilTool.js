@@ -1,4 +1,3 @@
-import nid from '../../../core/nid.js';
 import { convertPointsToBezierPoints, drawLine } from './helper.js';
 const points = [];
 let _lastPoint = null;
@@ -8,6 +7,16 @@ const pencilTool = {
         const { overlayCanvasContext: ctx } = this.editor.world;
         const { x, y } = this.editor.interaction.mouseWorldCurrent;
         const point = { x, y };
+        // const id = 'rectangle-' + nid()
+        const eleProps = {
+            // id,
+            // layer: 0,
+            type: 'path',
+            points: convertPointsToBezierPoints(points),
+            closed: false,
+        };
+        const ele = this.editor.elementManager.create(eleProps);
+        this.editor.interaction._ele = ele;
         points.push(point);
         _lastPoint = { ...point };
         drawLine(ctx, _lastPoint, point);
@@ -25,7 +34,6 @@ const pencilTool = {
     mouseUp() {
         const { elementManager, interaction, action, selection } = this.editor;
         const { x, y } = this.editor.interaction.mouseWorldCurrent;
-        const id = 'rectangle-' + nid();
         interaction._ele = null;
         // const b = convertPointsToBezierPoints(points)
         const eleProps = {

@@ -1,5 +1,5 @@
 import Editor from '~/main/editor';
-import { ElementInstance, ElementMap, ElementProps } from '~/elements/type';
+import { ElementInstance, ElementMap, ElementProps, OptionalIdentifiersProps } from '~/elements/type';
 import { UID } from '~/core/core';
 import { Point } from '~/type';
 declare class ElementManager {
@@ -15,7 +15,7 @@ declare class ElementManager {
     getElementById(id: string): ElementInstance | undefined;
     getElementsByIdSet(idSet: Set<UID>): ElementMap;
     getElementMapByIdSet(idSet: Set<UID>): ElementMap;
-    create(data: ElementProps): ElementInstance | false;
+    create(data: OptionalIdentifiersProps): ElementInstance | false;
     batchCreate(elementDataList: ElementProps[]): ElementMap;
     add(element: ElementInstance): ElementInstance;
     batchAdd(elements: ElementMap, callback?: VoidFunction): ElementMap;

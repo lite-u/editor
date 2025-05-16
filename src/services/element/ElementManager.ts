@@ -1,5 +1,5 @@
 import Editor from '~/main/editor'
-import {ElementInstance, ElementMap, ElementProps} from '~/elements/type'
+import {ElementInstance, ElementMap, ElementProps, OptionalIdentifiersProps} from '~/elements/type'
 import deepClone from '~/core/deepClone'
 import nid from '~/core/nid'
 import ElementRectangle from '~/elements/rectangle/rectangle'
@@ -88,7 +88,7 @@ class ElementManager {
     return result
   }
 
-  create(data: ElementProps): ElementInstance | false {
+  create(data: OptionalIdentifiersProps): ElementInstance | false {
     if (!data || !data.type) {
       console.error('Data or Type missed')
       return false

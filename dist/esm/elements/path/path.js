@@ -91,7 +91,7 @@ class ElementPath extends ElementBase {
         };
     }
     toMinimalJSON() {
-        const result = {
+        return {
             id: this.id,
             layer: this.layer,
             type: this.type,
@@ -99,7 +99,6 @@ class ElementPath extends ElementBase {
             closed: this.closed,
             ...super.toMinimalJSON(),
         };
-        return result;
     }
     getOperators(id, resizeConfig, rotateConfig, boundingRect, elementOrigin) {
         const { x: cx, y: cy, width, height } = boundingRect;
