@@ -26,6 +26,7 @@ export default function handlePointerMove(e) {
         if (!ele.show || ele.opacity <= 0)
             continue;
         const points = ele.getPoints;
+        console.log(ele);
         const border = ctx.isPointInStroke(path, viewPoint.x, viewPoint.y);
         // const border = isPointNearStroke(ctx, path, viewPoint, 10)
         const inside = ctx.isPointInPath(path, viewPoint.x, viewPoint.y);

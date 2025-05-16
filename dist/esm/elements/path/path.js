@@ -14,6 +14,8 @@ class ElementPath extends ElementBase {
         this.points = deepClone(points);
         this.id = id;
         this.layer = layer;
+        this.closed = closed;
+        this.updatePath2D();
     }
     static cubicBezier(t, p0, p1, p2, p3) {
         const mt = 1 - t;
@@ -23,6 +25,30 @@ class ElementPath extends ElementBase {
             x: mt2 * mt * p0.x + 3 * mt2 * t * p1.x + 3 * mt * t2 * p2.x + t2 * t * p3.x,
             y: mt2 * mt * p0.y + 3 * mt2 * t * p1.y + 3 * mt * t2 * p2.y + t2 * t * p3.y,
         };
+    }
+    get getPoints() {
+        return this.points.map(p => ({ ...p.anchor }));
+    }
+    updatePath2D() {
+        this.path2D = new Path2D();
+        if (this.points.length === 0)
+            return;
+        this.path2D.moveTo(this.points[0].anchor.x, this.points[0].anchor.y);
+        for (let i = 1; i < this.points.length; i++) {
+            const prev = this.points[i - 1];
+            const curr = this.points[i];
+            const cp1 = prev.cp2 ?? prev.anchor;
+            const cp2 = curr.cp1 ?? curr.anchor;
+            this.path2D.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, curr.anchor.x, curr.anchor.y);
+        }
+        if (this.closed && this.points.length > 1) {
+            const last = this.points[this.points.length - 1];
+            const first = this.points[0];
+            const cp1 = last.cp2 ?? last.anchor;
+            const cp2 = first.cp1 ?? first.anchor;
+            this.path2D.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, first.anchor.x, first.anchor.y);
+            this.path2D.closePath();
+        }
     }
     getBoundingRect() {
         const samplePoints = [];
@@ -56,11 +82,21 @@ class ElementPath extends ElementBase {
     }
     toJSON() {
         return {
+            id: this.id,
+            layer: this.layer,
+            type: this.type,
+            points: this.points,
+            closed: this.closed,
             ...super.toJSON(),
         };
     }
     toMinimalJSON() {
         const result = {
+            id: this.id,
+            layer: this.layer,
+            type: this.type,
+            points: this.points,
+            closed: this.closed,
             ...super.toMinimalJSON(),
         };
         return result;
@@ -129,29 +165,27 @@ class ElementPath extends ElementBase {
             inner.bottom <= outer.bottom);
     }
     render(ctx) {
-        if (this.points.length === 0)
+        if (!this.path2D)
+            return;
+        let { show, opacity, fill, stroke } = this.toJSON();
+        const { enabled: enabledFill, color: fillColor } = fill;
+        const { enabled: enabledStroke, color: strokeColor, weight, join, dashed } = stroke;
+        if (!show || opacity <= 0)
             return;
         ctx.save();
-        ctx.strokeStyle = '#000000';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(this.points[0].anchor.x, this.points[0].anchor.y);
-        for (let i = 1; i < this.points.length; i++) {
-            const prev = this.points[i - 1];
-            const curr = this.points[i];
-            const cp1 = prev.cp2 ?? prev.anchor;
-            const cp2 = curr.cp1 ?? curr.anchor;
-            ctx.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, curr.anchor.x, curr.anchor.y);
+        if (opacity < 100) {
+            ctx.globalAlpha = opacity / 100;
         }
-        if (this.closed && this.points.length > 1) {
-            const last = this.points[this.points.length - 1];
-            const first = this.points[0];
-            const cp1 = last.cp2 ?? last.anchor;
-            const cp2 = first.cp1 ?? first.anchor;
-            ctx.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, first.anchor.x, first.anchor.y);
-            ctx.closePath();
+        if (enabledFill) {
+            ctx.fillStyle = fillColor;
+            ctx.fill(this.path2D);
         }
-        ctx.stroke();
+        if (enabledStroke && weight > 0) {
+            ctx.lineWidth = weight;
+            ctx.strokeStyle = strokeColor;
+            ctx.lineJoin = join;
+            ctx.stroke(this.path2D);
+        }
         ctx.restore();
     }
 }

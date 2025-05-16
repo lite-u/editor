@@ -9,7 +9,7 @@ let _lastPoint = null
 const pencilTool: ToolType = {
   cursor: 'crosshair',
   mouseDown(this: ToolManager) {
-    const {creationCanvasContext: ctx} = this.editor.world
+    const {overlayCanvasContext: ctx} = this.editor.world
     const {x, y} = this.editor.interaction.mouseWorldCurrent
     const point = {x, y}
 
@@ -19,7 +19,7 @@ const pencilTool: ToolType = {
   },
   mouseMove(this: ToolManager) {
     if (!this.editor.interaction._pointDown) return
-    const {creationCanvasContext: ctx} = this.editor.world
+    const {overlayCanvasContext: ctx} = this.editor.world
     const {x, y} = this.editor.interaction.mouseWorldCurrent
     const point = {x, y}
 
@@ -40,6 +40,7 @@ const pencilTool: ToolType = {
       layer: 0,
       type: 'path',
       points: convertPointsToBezierPoints(points),
+      closed: false,
     }
 
     // const ele: ElementPath = elementManager.add(elementManager.create(eleProps))

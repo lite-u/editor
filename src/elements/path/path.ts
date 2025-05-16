@@ -15,7 +15,7 @@ export interface PathProps extends ElementBaseProps {
   type: 'path'
   points: BezierPoint[];
   closed: boolean;
-  group: string | null;
+  // group: string | null;
 }
 
 export type RequiredShapeProps = Required<PathProps>
@@ -32,6 +32,8 @@ class ElementPath extends ElementBase {
     this.points = deepClone(points)
     this.id = id
     this.layer = layer
+    this.closed = closed
+    this.updatePath2D()
   }
 
   static cubicBezier(t: number, p0: Point, p1: Point, p2: Point, p3: Point): Point {
@@ -42,6 +44,35 @@ class ElementPath extends ElementBase {
     return {
       x: mt2 * mt * p0.x + 3 * mt2 * t * p1.x + 3 * mt * t2 * p2.x + t2 * t * p3.x,
       y: mt2 * mt * p0.y + 3 * mt2 * t * p1.y + 3 * mt * t2 * p2.y + t2 * t * p3.y,
+    }
+  }
+
+  get getPoints(): Point[] {
+    return this.points.map(p => ({...p.anchor}))
+  }
+
+  protected updatePath2D() {
+    this.path2D = new Path2D()
+
+    if (this.points.length === 0) return
+
+    this.path2D.moveTo(this.points[0].anchor.x, this.points[0].anchor.y)
+
+    for (let i = 1; i < this.points.length; i++) {
+      const prev = this.points[i - 1]
+      const curr = this.points[i]
+      const cp1 = prev.cp2 ?? prev.anchor
+      const cp2 = curr.cp1 ?? curr.anchor
+      this.path2D.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, curr.anchor.x, curr.anchor.y)
+    }
+
+    if (this.closed && this.points.length > 1) {
+      const last = this.points[this.points.length - 1]
+      const first = this.points[0]
+      const cp1 = last.cp2 ?? last.anchor
+      const cp2 = first.cp1 ?? first.anchor
+      this.path2D.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, first.anchor.x, first.anchor.y)
+      this.path2D.closePath()
     }
   }
 
@@ -83,15 +114,24 @@ class ElementPath extends ElementBase {
     return {x, y, width, height, left, right, top, bottom, cx, cy}
   }
 
-
   protected toJSON(): RequiredShapeProps {
     return {
+      id: this.id,
+      layer: this.layer,
+      type: this.type,
+      points: this.points,
+      closed: this.closed,
       ...super.toJSON(),
     }
   }
 
   public toMinimalJSON(): PathProps {
     const result: PathProps = {
+      id: this.id,
+      layer: this.layer,
+      type: this.type,
+      points: this.points,
+      closed: this.closed,
       ...super.toMinimalJSON(),
     }
 
@@ -184,35 +224,32 @@ class ElementPath extends ElementBase {
   }
 
   render(ctx: CanvasRenderingContext2D) {
-    if (this.points.length === 0) return
+    if (!this.path2D) return
+
+    let {show, opacity, fill, stroke} = this.toJSON()
+    const {enabled: enabledFill, color: fillColor} = fill
+    const {enabled: enabledStroke, color: strokeColor, weight, join, dashed} = stroke
+
+    if (!show || opacity <= 0) return
 
     ctx.save()
-    ctx.strokeStyle = '#000000'
-    ctx.lineWidth = 1
-    ctx.beginPath()
-    ctx.moveTo(this.points[0].anchor.x, this.points[0].anchor.y)
 
-    for (let i = 1; i < this.points.length; i++) {
-      const prev = this.points[i - 1]
-      const curr = this.points[i]
-
-      const cp1 = prev.cp2 ?? prev.anchor
-      const cp2 = curr.cp1 ?? curr.anchor
-
-      ctx.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, curr.anchor.x, curr.anchor.y)
+    if (opacity < 100) {
+      ctx.globalAlpha = opacity / 100
     }
 
-    if (this.closed && this.points.length > 1) {
-      const last = this.points[this.points.length - 1]
-      const first = this.points[0]
-      const cp1 = last.cp2 ?? last.anchor
-      const cp2 = first.cp1 ?? first.anchor
-
-      ctx.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, first.anchor.x, first.anchor.y)
-      ctx.closePath()
+    if (enabledFill) {
+      ctx.fillStyle = fillColor
+      ctx.fill(this.path2D)
     }
 
-    ctx.stroke()
+    if (enabledStroke && weight > 0) {
+      ctx.lineWidth = weight
+      ctx.strokeStyle = strokeColor
+      ctx.lineJoin = join
+      ctx.stroke(this.path2D)
+    }
+
     ctx.restore()
   }
 }

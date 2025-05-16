@@ -130,6 +130,7 @@ class ElementManager {
     if (data.type === 'lineSegment') {
       return new ElementLineSegment(data)
     }
+
     if (data.type === 'path') {
       return new ElementPath(data)
     }

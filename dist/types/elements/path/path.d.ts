@@ -9,7 +9,6 @@ export interface PathProps extends ElementBaseProps {
     type: 'path';
     points: BezierPoint[];
     closed: boolean;
-    group: string | null;
 }
 export type RequiredShapeProps = Required<PathProps>;
 declare class ElementPath extends ElementBase {
@@ -20,6 +19,8 @@ declare class ElementPath extends ElementBase {
     closed: boolean;
     constructor({ id, layer, points, closed, ...rest }: PathProps);
     static cubicBezier(t: number, p0: Point, p1: Point, p2: Point, p3: Point): Point;
+    get getPoints(): Point[];
+    protected updatePath2D(): void;
     getBoundingRect(): BoundingRect;
     protected toJSON(): RequiredShapeProps;
     toMinimalJSON(): PathProps;
