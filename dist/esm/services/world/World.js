@@ -70,12 +70,13 @@ class World {
         // console.log('renderElements')
         const animate = () => {
             const { scale, dpr, baseCanvasContext: ctx } = this;
+            const { width, height } = this.editor.config.page;
             const frameBorder = {
                 id: nid() + '-frame',
-                cx: this.editor.config.page.width / 2,
-                cy: this.editor.config.page.height / 2,
-                width: this.editor.config.page.width,
-                height: this.editor.config.page.height,
+                cx: width / 2,
+                cy: height / 2,
+                width,
+                height,
                 borderRadius: [0, 10, 0, 10],
                 stroke: {
                     ...DEFAULT_STROKE,

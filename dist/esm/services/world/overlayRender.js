@@ -10,18 +10,22 @@ function overlayRender() {
     const size = 80 / ratio;
     const lineWidth = 1 / ratio;
     const fontSize = 40 / ratio;
-    const lineColor = '#5491f8';
+    // const lineColor = '#5491f8'
+    const lineColor = '#ff0000';
     if (_snappedPoint) {
-        // console.log(PH)
         drawCrossWithLabel(ctx, _snappedPoint, size, '#ff0000', lineWidth, fontSize);
     }
     if (_hoveredElement) {
         const pointProps = _hoveredElement.center;
-        const ele = this.editor.elementManager.create({
-            ..._hoveredElement.toJSON(), stroke: {
+        const eleStroke = this.editor.elementManager.create({
+            ..._hoveredElement.toJSON(),
+            stroke: {
                 ...DEFAULT_STROKE,
                 color: lineColor,
                 weight: 1 / ratio,
+            },
+            fill: {
+                enabled: false,
             },
         });
         const point = this.editor.elementManager.create({
@@ -32,12 +36,12 @@ function overlayRender() {
             cy: pointProps.y,
         });
         // console.log(lineWidth)
-        console.log(ele);
+        console.log(eleStroke);
         // ele.stroke.weight = 3 / ratio
         // ele.stroke.color = lineColor
         point.stroke.color = lineColor;
         point.render(ctx);
-        ele.render(ctx);
+        eleStroke.render(ctx);
     }
     return;
     const fillColor = '#5491f8';
