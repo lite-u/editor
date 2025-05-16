@@ -1,5 +1,6 @@
 import { createWith } from '../../lib/lib.js';
 import { getAnchorsByBoundingRect, getBoundingRectFromBoundingRects } from '../tool/resize/helper.js';
+import { DEFAULT_FILL, DEFAULT_STROKE } from '../../elements/defaultProps.js';
 class InteractionState {
     editor;
     state = 'static';
@@ -15,6 +16,7 @@ class InteractionState {
     _snapped = false;
     _snappedPoint = null;
     _pointHit = null;
+    _outlineElement = null;
     // spaceKeyDown = false
     // _creatingElementId: UID
     // _ele: Set<UID> = new Set()
@@ -61,13 +63,32 @@ class InteractionState {
         this.selectionBox.style.display = show ? 'block' : 'none';
     }
     updateControlPoints() {
+        const { scale, dpr } = this.editor.world;
+        const ratio = scale * dpr;
         const idSet = this.editor.selection.values;
         const elements = this.editor.elementManager.getElementsByIdSet(idSet);
         const rects = elements.map((ele) => ele.getBoundingRect());
         const rect = getBoundingRectFromBoundingRects(rects);
-        // console.log(rect)
         const anchors = getAnchorsByBoundingRect(rect);
-        console.log(anchors);
+        const controlElements = anchors.map(a => {
+            console.log(a);
+        });
+        const outlineElementProps = {
+            type: 'rectangle',
+            ...rect,
+            stroke: {
+                ...DEFAULT_STROKE,
+                weight: 1 / ratio,
+                color: 'blue',
+            },
+            fill: {
+                ...DEFAULT_FILL,
+                color: 'green',
+            },
+        };
+        this._outlineElement = this.editor.elementManager.create(outlineElementProps);
+        // console.log(outlineElement)
+        // console.log(controlElements)
     }
     destroy() {
         this.selectionBox?.remove();

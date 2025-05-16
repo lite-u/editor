@@ -4,7 +4,7 @@ function overlayRender() {
     if (this.editor.elementManager.size === 0)
         return;
     const { overlayCanvasContext: ctx } = this;
-    const { _snappedPoint, _hoveredElement } = this.editor.interaction;
+    const { _snappedPoint, _hoveredElement, _outlineElement } = this.editor.interaction;
     const { scale, dpr } = this.editor.world;
     const ratio = scale * dpr;
     const size = 80 / ratio;
@@ -42,6 +42,9 @@ function overlayRender() {
         point.stroke.color = lineColor;
         point.render(ctx);
         eleStroke.render(ctx);
+    }
+    if (_outlineElement) {
+        _outlineElement.render(ctx);
     }
     return;
     const fillColor = '#5491f8';

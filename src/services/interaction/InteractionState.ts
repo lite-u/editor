@@ -2,9 +2,10 @@ import {OperationHandler, ResizeHandle} from '~/services/selection/type'
 import {Point, Rect, UID} from '~/type'
 import {createWith} from '~/lib/lib'
 import Editor from '~/main/editor'
-import {ElementInstance} from '~/elements/type'
+import {ElementInstance, OptionalIdentifiersProps} from '~/elements/type'
 import {ToolName} from '~/services/tool/toolManager'
 import {getAnchorsByBoundingRect, getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
+import {DEFAULT_FILL, DEFAULT_STROKE} from '~/elements/defaultProps'
 
 export type EditorManipulationType =
   | 'static'
@@ -49,6 +50,7 @@ class InteractionState {
   _snapped = false
   _snappedPoint: PointHit | null = null
   _pointHit: PointHit | null = null
+  _outlineElement: ElementInstance | null = null
   // spaceKeyDown = false
   // _creatingElementId: UID
   // _ele: Set<UID> = new Set()
@@ -97,14 +99,33 @@ class InteractionState {
   }
 
   updateControlPoints() {
+    const {scale, dpr} = this.editor.world
+    const ratio = scale * dpr
     const idSet = this.editor.selection.values
     const elements = this.editor.elementManager.getElementsByIdSet(idSet)
     const rects = elements.map((ele: ElementInstance) => ele.getBoundingRect())
     const rect = getBoundingRectFromBoundingRects(rects)
-    // console.log(rect)
-
     const anchors = getAnchorsByBoundingRect(rect)
-    console.log(anchors)
+    const controlElements = anchors.map(a => {
+      console.log(a)
+    })
+    const outlineElementProps: OptionalIdentifiersProps = {
+      type: 'rectangle',
+      ...rect,
+      stroke: {
+        ...DEFAULT_STROKE,
+        weight: 1 / ratio,
+        color: 'blue',
+      },
+      fill: {
+        ...DEFAULT_FILL,
+        color: 'green',
+      },
+    }
+
+    this._outlineElement = this.editor.elementManager.create(outlineElementProps)
+    // console.log(outlineElement)
+    // console.log(controlElements)
   }
 
   destroy() {
