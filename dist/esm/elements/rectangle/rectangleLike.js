@@ -1,9 +1,9 @@
-import ElementShape from '../shape/shape';
-import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '~/core/utils';
-import transform from '~/elements/rectangle/transform';
-import ElementRectangle from '~/elements/rectangle/rectangle';
-import { DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '~/elements/defaultProps';
-import { isEqual } from '~/lib/lib';
+import ElementShape from '../shape/shape.js';
+import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '../../core/utils.js';
+import transform from './transform.js';
+import ElementRectangle from './rectangle.js';
+import { DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../defaultProps.js';
+import { isEqual } from '../../lib/lib.js';
 class RectangleLike extends ElementShape {
     id;
     layer;
@@ -217,17 +217,10 @@ class RectangleLike extends ElementShape {
     }
     render(ctx) {
         // render(this, ctx)
-        console.log(this.path2D);
+        // console.log(this.path2D)
         let { cx, cy, show, rotation, opacity, fill, stroke } = this.toJSON();
         const { enabled: enabledFill, color: fillColor } = fill;
         const { enabled: enabledStroke, color: strokeColor, weight, join, dashed } = stroke;
-        // x = Math.round(x)
-        // y = Math.round(y)
-        // width = Math.round(width)
-        // height = Math.round(height)
-        // console.log(x, y, width, height)
-        ctx.restore();
-        /////////////////////////////////////////////
         if (!show || opacity <= 0)
             return;
         ctx.save();
@@ -236,7 +229,7 @@ class RectangleLike extends ElementShape {
             ctx.rotate((rotation * Math.PI) / 180);
             ctx.translate(-cx, -cy);
         }
-        if (opacity > 0) {
+        if (opacity < 100) {
             ctx.fillStyle = fillColor;
             ctx.globalAlpha = opacity / 100;
         }

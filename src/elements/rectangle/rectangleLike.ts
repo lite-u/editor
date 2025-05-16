@@ -294,19 +294,11 @@ class RectangleLike extends ElementShape {
 
   render(ctx: CanvasRenderingContext2D): void {
     // render(this, ctx)
-    console.log(this.path2D)
+    // console.log(this.path2D)
     let {cx, cy, show, rotation, opacity, fill, stroke} = this.toJSON()
     const {enabled: enabledFill, color: fillColor} = fill
     const {enabled: enabledStroke, color: strokeColor, weight, join, dashed} = stroke
-    // x = Math.round(x)
-    // y = Math.round(y)
-    // width = Math.round(width)
-    // height = Math.round(height)
-    // console.log(x, y, width, height)
 
-    ctx.restore()
-
-    /////////////////////////////////////////////
     if (!show || opacity <= 0) return
 
     ctx.save()
@@ -317,7 +309,7 @@ class RectangleLike extends ElementShape {
       ctx.translate(-cx, -cy)
     }
 
-    if (opacity > 0) {
+    if (opacity < 100) {
       ctx.fillStyle = fillColor as string
       ctx.globalAlpha = opacity / 100
     }
