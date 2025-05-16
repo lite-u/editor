@@ -33,6 +33,7 @@ class ElementBase {
   transform: Transform
   show: boolean
   protected matrix = new DOMMatrix()
+  protected path2D = new DOMMatrix()
 
   constructor({
                 stroke = deepClone(DEFAULT_STROKE),

@@ -19,6 +19,7 @@ declare class ElementBase {
     transform: Transform;
     show: boolean;
     protected matrix: DOMMatrix;
+    protected path2D: DOMMatrix;
     constructor({ stroke, fill, opacity, shadow, rotation, transform, show, }: ElementBaseProps);
     protected rotate(angle: number): void;
     protected transformPoint(x: number, y: number, matrix: DOMMatrix): Point;

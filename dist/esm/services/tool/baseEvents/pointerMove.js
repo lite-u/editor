@@ -1,4 +1,5 @@
 import { isPointNear } from '../../../core/geometry.js';
+import { isPointNearStroke } from '../helper.js';
 export default function handlePointerMove(e) {
     const { action, rect, cursor, interaction, world, visible } = this.editor;
     const { baseCanvasContext: ctx, dpr } = world;
@@ -24,15 +25,18 @@ export default function handlePointerMove(e) {
         if (!ele.show || ele.opacity <= 0)
             continue;
         const points = ele.getPoints;
-        const border = ctx.isPointInStroke(path, viewPoint.x, viewPoint.y);
+        // const border = ctx.isPointInStroke(path, viewPoint.x, viewPoint.y)
+        const border = isPointNearStroke(ctx, path, viewPoint);
         const inside = ctx.isPointInPath(path, viewPoint.x, viewPoint.y);
         const point = points.find(p => isPointNear(p, viewPoint));
+        console.log(border);
         if (point) {
             interaction._hoveredElement = ele;
             interaction._pointHit = {
                 type: 'anchor',
                 ...point,
             };
+            break;
         }
         else if (border) {
             interaction._hoveredElement = ele;
@@ -40,6 +44,7 @@ export default function handlePointerMove(e) {
                 type: 'path',
                 ...interaction.mouseWorldCurrent,
             };
+            break;
         }
         else if (inside) {
             interaction._hoveredElement = ele;

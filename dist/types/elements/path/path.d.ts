@@ -2,7 +2,6 @@ import ElementBase, { ElementBaseProps } from '../base/elementBase';
 import { OperationHandler } from '~/services/selection/type';
 import { BoundingRect, Point, UID } from '~/type';
 import { ElementProps } from '../type';
-import { BasePath } from '~/elements/basePath/basePath';
 import { BezierPoint } from '~/elements/props';
 export interface PathProps extends ElementBaseProps {
     id: UID;
@@ -13,7 +12,7 @@ export interface PathProps extends ElementBaseProps {
     group: string | null;
 }
 export type RequiredShapeProps = Required<PathProps>;
-declare class ElementPath extends ElementBase implements BasePath {
+declare class ElementPath extends ElementBase {
     readonly id: UID;
     readonly layer: number;
     readonly type = "path";

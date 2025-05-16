@@ -6,7 +6,6 @@ import {BoundingRect, Point, UID} from '~/type'
 import {ElementProps} from '../type'
 import {rotatePointAroundPoint} from '~/core/geometry'
 import {AnchorPoint, Appearance, Fill, Stroke, Transform} from '~/elements/defaultProps'
-import {BasePath} from '~/elements/basePath/basePath'
 import {BezierPoint} from '~/elements/props'
 import deepClone from '~/core/deepClone'
 
@@ -21,7 +20,7 @@ export interface PathProps extends ElementBaseProps {
 
 export type RequiredShapeProps = Required<PathProps>
 
-class ElementPath extends ElementBase implements BasePath {
+class ElementPath extends ElementBase {
   readonly id: UID
   readonly layer: number
   readonly type = 'path'

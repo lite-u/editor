@@ -1,13 +1,16 @@
 type Point = { x: number; y: number };
 
 export class BasePath {
+  protected matrix = new DOMMatrix()
+  // protected path2D = new Path2D()
+
   protected get getPoints(): Point[] {return []}
 
-/*
-  protected setPoints(_: Point[]): void {
-    return undefined
-  }
-*/
+  /*
+    protected setPoints(_: Point[]): void {
+      return undefined
+    }
+  */
 
   getCenter(): Point {
     const points = this.getPoints
@@ -17,32 +20,33 @@ export class BasePath {
     const cy = (Math.min(...ys) + Math.max(...ys)) / 2
     return {x: cx, y: cy}
   }
-/*
-  applyMatrix(matrix: DOMMatrix) {
-    const transformed = this.getPoints().map(p => matrix.transformPoint(p))
-    this.setPoints(transformed)
-  }
 
-  translate(dx: number, dy: number) {
-    const matrix = new DOMMatrix().translate(dx, dy)
-    this.applyMatrix(matrix)
-  }
+  /*
+    applyMatrix(matrix: DOMMatrix) {
+      const transformed = this.getPoints().map(p => matrix.transformPoint(p))
+      this.setPoints(transformed)
+    }
 
-  rotate(angle: number, center?: Point) {
-    const pivot = center ?? this.getCenter()
-    const matrix = new DOMMatrix()
-      .translate(pivot.x, pivot.y)
-      .rotate(angle)
-      .translate(-pivot.x, -pivot.y)
-    this.applyMatrix(matrix)
-  }
+    translate(dx: number, dy: number) {
+      const matrix = new DOMMatrix().translate(dx, dy)
+      this.applyMatrix(matrix)
+    }
 
-  scale(sx: number, sy: number, center?: Point) {
-    const pivot = center ?? this.getCenter()
-    const matrix = new DOMMatrix()
-      .translate(pivot.x, pivot.y)
-      .scale(sx, sy)
-      .translate(-pivot.x, -pivot.y)
-    this.applyMatrix(matrix)
-  }*/
+    rotate(angle: number, center?: Point) {
+      const pivot = center ?? this.getCenter()
+      const matrix = new DOMMatrix()
+        .translate(pivot.x, pivot.y)
+        .rotate(angle)
+        .translate(-pivot.x, -pivot.y)
+      this.applyMatrix(matrix)
+    }
+
+    scale(sx: number, sy: number, center?: Point) {
+      const pivot = center ?? this.getCenter()
+      const matrix = new DOMMatrix()
+        .translate(pivot.x, pivot.y)
+        .scale(sx, sy)
+        .translate(-pivot.x, -pivot.y)
+      this.applyMatrix(matrix)
+    }*/
 }

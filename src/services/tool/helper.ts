@@ -1,6 +1,6 @@
 import ToolManager from '~/services/tool/toolManager'
 import {RotateHandle} from '~/services/selection/type'
-import {UID} from '~/type'
+import {Point, UID} from '~/type'
 
 export function applyRotating(this: ToolManager, shiftKey: boolean) {
   const {interaction, world} = this.editor
@@ -96,4 +96,18 @@ export function detectHoveredElement(this: ToolManager) {
       action.dispatch('element-hover-enter', elementId)
     }
   }
+}
+
+export function isPointNearStroke(
+  ctx: CanvasRenderingContext2D,
+  path: Path2D,
+  point: Point,
+  tolerance = 1,
+  baseLineWidth = 1
+): boolean {
+  ctx.save()
+  ctx.lineWidth = baseLineWidth + tolerance * 2
+  const result = ctx.isPointInStroke(path, point.x, point.y)
+  ctx.restore()
+  return result
 }

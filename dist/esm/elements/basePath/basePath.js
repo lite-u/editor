@@ -1,4 +1,6 @@
 export class BasePath {
+    matrix = new DOMMatrix();
+    // protected path2D = new Path2D()
     get getPoints() { return []; }
     /*
       protected setPoints(_: Point[]): void {
