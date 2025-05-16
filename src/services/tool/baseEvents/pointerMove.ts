@@ -37,7 +37,7 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
 
     const points: Point[] = ele.getPoints
     // const border = ctx.isPointInStroke(path, viewPoint.x, viewPoint.y)
-    const border = isPointNearStroke(ctx, path, viewPoint, 4)
+    const border = isPointNearStroke(ctx, path, viewPoint, 5)
     const inside = ctx.isPointInPath(path, viewPoint.x, viewPoint.y)
     const point = points.find(p => isPointNear(p, viewPoint))
 
@@ -50,6 +50,7 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
       }
       break
     } else if (border) {
+      console.log(border)
       interaction._hoveredElement = ele
       interaction._pointHit = {
         type: 'path',

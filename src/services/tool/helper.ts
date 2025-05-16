@@ -103,11 +103,17 @@ export function isPointNearStroke(
   path: Path2D,
   point: Point,
   tolerance = 2,
-  baseLineWidth = 1
-): boolean {
-  ctx.save()
-  ctx.lineWidth = baseLineWidth + tolerance * 2
-  const result = ctx.isPointInStroke(path, point.x, point.y)
-  ctx.restore()
-  return result
+  step = 1,
+): Point | null {
+  for (let dx = -tolerance; dx <= tolerance; dx += step) {
+    for (let dy = -tolerance; dy <= tolerance; dy += step) {
+      console.log(9)
+      const px = point.x + dx
+      const py = point.y + dy
+      if (ctx.isPointInStroke(path, px, py)) {
+        return {x: px, y: py}
+      }
+    }
+  }
+  return null
 }
