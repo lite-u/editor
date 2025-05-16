@@ -44,6 +44,16 @@ class RectangleLike extends ElementShape {
             this.path2D.rect(cx - w, cy - h, width, height);
         }
     }
+    get getPoints() {
+        const w = this.width / 2;
+        const h = this.height / 2;
+        return [
+            { x: this.cx - w, y: this.cy - h }, // top-left
+            { x: this.cx + w, y: this.cy - h }, // top-right
+            { x: this.cx + w, y: this.cy + h }, // bottom-right
+            { x: this.cx - w, y: this.cy + h }, // bottom-left
+        ];
+    }
     get corners() {
         const w = this.width / 2;
         const h = this.height / 2;
