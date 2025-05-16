@@ -5,8 +5,7 @@ const pencilTool = {
     cursor: 'crosshair',
     mouseDown() {
         const { creationCanvasContext: ctx } = this.editor.world;
-        const { x, y } = this.editor.interaction.mouseWorldCurrent;
-        const point = { x, y };
+        const point = { ...this.editor.interaction.mouseWorldCurrent };
         this.editor.action.dispatch('clear-creation');
         points.push(point);
         _lastPoint = { ...point };
@@ -15,12 +14,10 @@ const pencilTool = {
     mouseMove() {
         if (!this.editor.interaction._pointDown)
             return;
-        const { creationCanvasContext: ctx } = this.editor.world;
-        const { x, y } = this.editor.interaction.mouseWorldCurrent;
-        const point = { x, y };
+        const point = { ...this.editor.interaction.mouseWorldCurrent };
         points.push(point);
-        drawLine(ctx, _lastPoint, point);
-        _lastPoint = { ...point };
+        drawLine(this.editor.world.creationCanvasContext, _lastPoint, point);
+        _lastPoint = point;
     },
     mouseUp() {
         const { interaction, action } = this.editor;
@@ -34,9 +31,6 @@ const pencilTool = {
         _lastPoint = null;
         interaction._ele = null;
         action.dispatch('clear-creation');
-        // action.dispatch('visible-element-updated')
-        // interaction._ele = ele
-        // action.dispatch('selection-clear')
     },
 };
 export default pencilTool;

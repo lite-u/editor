@@ -9,8 +9,7 @@ const pencilTool: ToolType = {
   cursor: 'crosshair',
   mouseDown(this: ToolManager) {
     const {creationCanvasContext: ctx} = this.editor.world
-    const {x, y} = this.editor.interaction.mouseWorldCurrent
-    const point = {x, y}
+    const point = {...this.editor.interaction.mouseWorldCurrent}
 
     this.editor.action.dispatch('clear-creation')
     points.push(point)
@@ -19,13 +18,11 @@ const pencilTool: ToolType = {
   },
   mouseMove(this: ToolManager) {
     if (!this.editor.interaction._pointDown) return
-    const {creationCanvasContext: ctx} = this.editor.world
-    const {x, y} = this.editor.interaction.mouseWorldCurrent
-    const point = {x, y}
+    const point = {...this.editor.interaction.mouseWorldCurrent}
 
     points.push(point)
-    drawLine(ctx, _lastPoint!, point)
-    _lastPoint = {...point}
+    drawLine(this.editor.world.creationCanvasContext, _lastPoint!, point)
+    _lastPoint = point
   },
   mouseUp(this: ToolManager) {
     const {interaction, action} = this.editor
@@ -39,11 +36,7 @@ const pencilTool: ToolType = {
     points.length = 0
     _lastPoint = null
     interaction._ele = null
-
     action.dispatch('clear-creation')
-    // action.dispatch('visible-element-updated')
-    // interaction._ele = ele
-    // action.dispatch('selection-clear')
   },
 }
 
