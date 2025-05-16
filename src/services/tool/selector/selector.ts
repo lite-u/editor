@@ -240,7 +240,7 @@ const selector: ToolType = {
           }
         } else {
           // updateCursor.call(this, 'default')
-          cursor.set('default')
+          // cursor.set('default')
         }
 
         // container.releasePointerCapture(e.pointerId)

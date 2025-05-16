@@ -27,6 +27,7 @@ declare class RectangleLike extends ElementShape {
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
     static applyResizeTransform: (arg: TransformProps) => Rect;
     hitTest(point: Point, borderPadding?: number): 'inside' | 'border' | null;
+    hitTest1(point: Point, borderPadding?: number): 'inside' | 'border' | null;
     toJSON(): RequiredRectangleLikeProps;
     toMinimalJSON(): RectangleLikeProps;
     getBoundingRect(): import("~/type").BoundingRect;

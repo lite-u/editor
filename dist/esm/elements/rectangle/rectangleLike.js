@@ -102,6 +102,10 @@ class RectangleLike extends ElementShape {
         return transform(arg);
     };
     hitTest(point, borderPadding = 5) {
+        console.log(9);
+        // this.path2D.
+    }
+    hitTest1(point, borderPadding = 5) {
         const { cx: cx, cy: cy, width, height, rotation = 0 } = this;
         const rad = rotation * (Math.PI / 180);
         const cos = Math.cos(-rad);

@@ -23,7 +23,6 @@ const rectangleTool: ToolType = {
 
     const ele: ElementRectangle = elementManager.add(elementManager.create(rectProps))
 
-    interaction.state = 'resizing'
     interaction._ele = ele
     action.dispatch('selection-clear')
     selection.replace(new Set([ele.id]))

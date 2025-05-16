@@ -21,32 +21,51 @@ export function applyRotating(shiftKey) {
 }
 export function detectHoveredElement() {
     const { interaction, action, world, visible } = this.editor;
-    const worldPoint = world.getWorldPointByViewportPoint(interaction.mouseCurrent.x, interaction.mouseCurrent.y);
+    const { baseCanvasContext: ctx } = world;
+    const WP = world.getWorldPointByViewportPoint(interaction.mouseCurrent.x, interaction.mouseCurrent.y);
     // const maxLayer = Number.MIN_SAFE_INTEGER
     let elementId = null;
     let hitOn = null;
-    const arr = [...interaction.operationHandlers];
+    // const arr = [...interaction.operationHandlers]
     // console.log(worldPoint)
+    const arr = visible.values;
     for (let i = arr.length - 1; i >= 0; i--) {
+        const ele = arr[i];
+        const path = ele.path2D;
+        const inside = ctx.isPointInPath(path, WP.x, WP.y);
+        const border = ctx.isPointInStroke(path, WP.x, WP.y);
+        console.log(inside, border);
+        /*  if (arr[i].element.hitTest(worldPoint)) {
+            hitOn = arr[i]
+            console.log(hitOn)
+            break
+          }*/
+    }
+    /*
+  
+      for (let i = arr.length - 1; i >= 0; i--) {
         if (arr[i].element.hitTest(worldPoint)) {
-            hitOn = arr[i];
-            break;
+          hitOn = arr[i]
+          break
         }
-    }
-    if (hitOn) {
-        action.dispatch('element-hover-enter', hitOn.id);
+      }
+    */
+    /*  if (hitOn) {
+        action.dispatch('element-hover-enter', hitOn.id)
         // console.log(hitOn)
-        return hitOn;
-    }
-    const arr2 = visible.values;
-    for (let i = arr2.length - 1; i >= 0; i--) {
-        const element = arr2[i];
-        const hitTest = element.hitTest(worldPoint);
+        return hitOn
+      }
+  
+      const arr2 = visible.values
+  
+      for (let i = arr2.length - 1; i >= 0; i--) {
+        const element = arr2[i]
+        const hitTest = element.hitTest(worldPoint)
         if (hitTest) {
-            elementId = element.id;
-            break;
+          elementId = element.id
+          break
         }
-    }
+      }*/
     if (interaction.hoveredElement !== elementId) {
         if (interaction.hoveredElement) {
             action.dispatch('element-hover-leave', interaction.hoveredElement);
