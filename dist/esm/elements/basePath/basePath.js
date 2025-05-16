@@ -1,5 +1,5 @@
 export class BasePath {
-    getPoints() { return []; }
+    get getPoints() { return []; }
     /*
       protected setPoints(_: Point[]): void {
         return undefined

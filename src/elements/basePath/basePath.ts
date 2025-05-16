@@ -1,7 +1,7 @@
 type Point = { x: number; y: number };
 
 export class BasePath {
-  protected getPoints(): Point[] {return []}
+  protected get getPoints(): Point[] {return []}
 
 /*
   protected setPoints(_: Point[]): void {

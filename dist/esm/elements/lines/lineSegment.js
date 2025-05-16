@@ -17,7 +17,7 @@ class ElementLineSegment extends ElementBase {
             rotation: this.rotation,
         };
     }
-    getPoints() {
+    get getPoints() {
         return this.points.map(p => ({ x: p.x, y: p.y }));
     }
     static _getBoundingRect(start, end, rotation = 0) {

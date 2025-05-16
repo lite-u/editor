@@ -38,7 +38,7 @@ class ElementLineSegment extends ElementBase implements BasePath {
     }
   }
 
-  public getPoints(): Point[] {
+  public get getPoints(): Point[] {
     return this.points.map(p => ({x: p.x, y: p.y}))
   }
 

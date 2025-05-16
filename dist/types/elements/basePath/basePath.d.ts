@@ -3,7 +3,7 @@ type Point = {
     y: number;
 };
 export declare class BasePath {
-    protected getPoints(): Point[];
+    protected get getPoints(): Point[];
     getCenter(): Point;
 }
 export {};
