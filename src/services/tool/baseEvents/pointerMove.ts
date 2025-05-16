@@ -3,6 +3,7 @@ import ToolManager from '~/services/tool/toolManager'
 import {Point} from '~/type'
 import {isPointNear} from '~/core/geometry'
 import {PointHit} from '~/services/interaction/InteractionState'
+import {isPointNearStroke} from '~/services/tool/helper'
 
 export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
   const {action, rect, cursor, interaction, world, visible} = this.editor
@@ -39,20 +40,26 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
     if (!ele.show || ele.opacity <= 0) continue
 
     const points: Point[] = ele.getPoints
-    const border = ctx.isPointInStroke(path, viewPoint.x, viewPoint.y)
-    // const border = isPointNearStroke(ctx, path, viewPoint, 10)
+    // const border = ctx.isPointInStroke(path, viewPoint.x, viewPoint.y)
+    const onBorder = isPointNearStroke(ctx, path, viewPoint, 1)
     const inside = ctx.isPointInPath(path, viewPoint.x, viewPoint.y)
     const point = points.find(p => isPointNear(p, viewPoint))
-
     if (point) {
       // _snapped = true
       _ele = ele
       _snappedPoint = {type: 'anchor', ...point}
       break
-    } else if (border) {
-      // _snapped = true
+    } else if (onBorder) {
+      console.log(onBorder)
+      const {dpr} = world
       _ele = ele
-      _snappedPoint = {type: 'path', ...interaction.mouseWorldCurrent}
+      _snappedPoint = {
+        type: 'path',
+        ...world.getWorldPointByViewportPoint(
+          onBorder.x / dpr,
+          onBorder.y / dpr,
+        ),
+      }
       break
     } else if (inside) {
       if (ele.fill.enabled) {
