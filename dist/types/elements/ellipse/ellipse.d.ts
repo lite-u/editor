@@ -18,6 +18,7 @@ declare class ElementEllipse extends ElementShape {
     r2: number;
     private original;
     constructor({ r1, r2, id, layer, ...rest }: EllipseProps);
+    get getPoints(): Point[];
     protected updatePath2D(): void;
     scale(sx: number, sy: number): void;
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;

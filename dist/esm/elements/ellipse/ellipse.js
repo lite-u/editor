@@ -3,6 +3,7 @@ import ElementShape from '../shape/shape.js';
 import ElementRectangle from '../rectangle/rectangle.js';
 import render from './render.js';
 import transform from './transform.js';
+import { rotatePointAroundPoint } from '../../core/geometry.js';
 class ElementEllipse extends ElementShape {
     type = 'ellipse';
     id;
@@ -26,6 +27,18 @@ class ElementEllipse extends ElementShape {
             rotation: this.rotation,
         };
         this.updatePath2D();
+    }
+    get getPoints() {
+        const { cx, cy, r1, r2, rotation } = this;
+        // Points before rotation
+        const top = rotatePointAroundPoint(cx, cy - r2, cx, cy, rotation);
+        const bottom = rotatePointAroundPoint(cx, cy + r2, cx, cy, rotation);
+        const left = rotatePointAroundPoint(cx - r1, cy, cx, cy, rotation);
+        const right = rotatePointAroundPoint(cx + r1, cy, cx, cy, rotation);
+        // const bottom = this.transformPoint(cx, cy + r2)
+        // const left = this.transformPoint(cx - r1, cy)
+        // const right = this.transformPoint(cx + r1, cy)
+        return [top, right, bottom, left];
     }
     updatePath2D() {
         this.path2D = new Path2D();

@@ -21,7 +21,6 @@ declare class ElementPath extends ElementBase {
     constructor({ id, layer, points, closed, ...rest }: PathProps);
     static cubicBezier(t: number, p0: Point, p1: Point, p2: Point, p3: Point): Point;
     getBoundingRect(): BoundingRect;
-    hitTest(point: Point, borderPadding?: number): 'inside' | 'border' | null;
     protected toJSON(): RequiredShapeProps;
     toMinimalJSON(): PathProps;
     getOperators(id: string, resizeConfig: {

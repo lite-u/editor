@@ -5,6 +5,7 @@ import {ResizeDirectionName} from '~/services/selection/type'
 import {Point} from '~/type'
 import render from './render'
 import transform from './transform'
+import {rotatePointAroundPoint} from '~/core/geometry'
 
 export interface EllipseProps extends ShapeProps {
   id: string
@@ -47,6 +48,21 @@ class ElementEllipse extends ElementShape {
       rotation: this.rotation,
     }
     this.updatePath2D()
+  }
+
+  get getPoints(): Point[] {
+    const {cx, cy, r1, r2, rotation} = this
+
+    // Points before rotation
+    const top = rotatePointAroundPoint(cx, cy - r2, cx, cy, rotation)
+    const bottom = rotatePointAroundPoint(cx, cy + r2, cx, cy, rotation)
+    const left = rotatePointAroundPoint(cx - r1, cy, cx, cy, rotation)
+    const right = rotatePointAroundPoint(cx + r1, cy, cx, cy, rotation)
+    // const bottom = this.transformPoint(cx, cy + r2)
+    // const left = this.transformPoint(cx - r1, cy)
+    // const right = this.transformPoint(cx + r1, cy)
+
+    return [top, right, bottom, left]
   }
 
   protected updatePath2D() {

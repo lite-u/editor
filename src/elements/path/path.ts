@@ -83,9 +83,6 @@ class ElementPath extends ElementBase {
     return {x, y, width, height, left, right, top, bottom, cx, cy}
   }
 
-  public hitTest(point: Point, borderPadding = 5): 'inside' | 'border' | null {
-
-  }
 
   protected toJSON(): RequiredShapeProps {
     return {

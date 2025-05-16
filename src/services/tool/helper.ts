@@ -102,7 +102,7 @@ export function isPointNearStroke(
   ctx: CanvasRenderingContext2D,
   path: Path2D,
   point: Point,
-  tolerance = 1,
+  tolerance = 2,
   baseLineWidth = 1
 ): boolean {
   ctx.save()

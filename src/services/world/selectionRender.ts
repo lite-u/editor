@@ -17,7 +17,7 @@ function selectionRender(this: World) {
   const fontSize = 40 / ratio
 
   if (PH) {
-    console.log(PH)
+    // console.log(PH)
     drawCrossWithLabel(ctx, PH, size, '#ff0000', lineWidth, fontSize)
   }
 
