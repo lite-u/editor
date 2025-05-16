@@ -114,11 +114,13 @@ class InteractionState {
       ...rect,
       stroke: {
         ...DEFAULT_STROKE,
+        // weight: 1 / ratio,
         weight: 1 / ratio,
-        color: 'blue',
+        color: 'red',
       },
       fill: {
         ...DEFAULT_FILL,
+        // enabled: true,
         color: 'green',
       },
     }
