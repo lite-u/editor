@@ -6,8 +6,8 @@ export default function handlePointerMove(e) {
     const y = e.clientY - rect.y;
     const { button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY } = e;
     const viewPoint = {
-        x: interaction.mouseCurrent.x * dpr,
-        y: interaction.mouseCurrent.y * dpr,
+        x: x * dpr,
+        y: y * dpr,
     };
     interaction.mouseCurrent = { x, y };
     interaction.mouseDelta.x = x - interaction.mouseStart.x;
@@ -38,15 +38,11 @@ export default function handlePointerMove(e) {
             interaction._hoveredElement = ele;
             interaction._pointHit = {
                 type: 'path',
-                ...viewPoint,
+                ...interaction.mouseWorldCurrent,
             };
         }
         else if (inside) {
             interaction._hoveredElement = ele;
-            /* interaction._pointHit = {
-               type: 'anchor',
-               ...viewPoint,
-             }*/
         }
         else {
             interaction._hoveredElement = null;

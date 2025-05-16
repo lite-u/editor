@@ -3,17 +3,20 @@ import {ElementInstance} from '~/elements/type'
 import World from '~/services/world/World'
 import {BorderRadius} from '~/elements/props'
 import {DEFAULT_FILL, DEFAULT_STROKE} from '~/elements/defaultProps'
-import {UID} from '~/type'
+import {Point, UID} from '~/type'
 
 function selectionRender(this: World) {
   if (this.editor.elementManager.size === 0) return
+  const {overlayCanvasContext: ctx} = this
   const PH = this.editor.interaction._pointHit
 
-    console.log(PH)
   if (PH) {
+    console.log(PH)
+    drawCross(ctx, PH, 10, '#000000')
+    // new
   }
+
   return
-  const {overlayCanvasContext: ctx} = this
   const fillColor = '#5491f8'
   const lineColor = '#5491f8'
   const selected = this.editor.visible.getVisibleSelected
@@ -81,6 +84,25 @@ function selectionRender(this: World) {
       worldRect: worldRect,
     })
   }*/
+}
+
+function drawCross(ctx: CanvasRenderingContext2D, point: Point, size = 6, color = 'red', lineWidth = 1) {
+  const {x, y} = point
+  const half = size / 2
+
+  ctx.save()
+  ctx.strokeStyle = color
+  ctx.lineWidth = lineWidth
+
+  ctx.beginPath()
+  ctx.moveTo(x - half, y - half)
+  ctx.lineTo(x + half, y + half)
+
+  ctx.moveTo(x + half, y - half)
+  ctx.lineTo(x - half, y + half)
+
+  ctx.stroke()
+  ctx.restore()
 }
 
 export default selectionRender

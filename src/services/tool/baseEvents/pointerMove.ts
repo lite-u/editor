@@ -10,8 +10,8 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
   const y = e.clientY - rect!.y
   const {button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY} = e
   const viewPoint = {
-    x: interaction.mouseCurrent.x * dpr,
-    y: interaction.mouseCurrent.y * dpr,
+    x: x * dpr,
+    y: y * dpr,
   }
 
   interaction.mouseCurrent = {x, y}
@@ -47,14 +47,10 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
       interaction._hoveredElement = ele
       interaction._pointHit = {
         type: 'path',
-        ...viewPoint,
+        ...interaction.mouseWorldCurrent,
       }
     } else if (inside) {
       interaction._hoveredElement = ele
-      /* interaction._pointHit = {
-         type: 'anchor',
-         ...viewPoint,
-       }*/
     } else {
       interaction._hoveredElement = null
       interaction._pointHit = null
