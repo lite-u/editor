@@ -128,7 +128,30 @@ class ElementPath extends ElementBase {
             inner.bottom <= outer.bottom);
     }
     render(ctx) {
-        console.log(this.points);
+        if (this.points.length === 0)
+            return;
+        ctx.save();
+        ctx.strokeStyle = '#000000';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(this.points[0].anchor.x, this.points[0].anchor.y);
+        for (let i = 1; i < this.points.length; i++) {
+            const prev = this.points[i - 1];
+            const curr = this.points[i];
+            const cp1 = prev.cp2 ?? prev.anchor;
+            const cp2 = curr.cp1 ?? curr.anchor;
+            ctx.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, curr.anchor.x, curr.anchor.y);
+        }
+        if (this.closed && this.points.length > 1) {
+            const last = this.points[this.points.length - 1];
+            const first = this.points[0];
+            const cp1 = last.cp2 ?? last.anchor;
+            const cp2 = first.cp1 ?? first.anchor;
+            ctx.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, first.anchor.x, first.anchor.y);
+            ctx.closePath();
+        }
+        ctx.stroke();
+        ctx.restore();
     }
 }
 export default ElementPath;
