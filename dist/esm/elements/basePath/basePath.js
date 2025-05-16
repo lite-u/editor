@@ -1,8 +1,10 @@
 export class BasePath {
     getPoints() { return []; }
-    setPoints(_) {
-        return undefined;
-    }
+    /*
+      protected setPoints(_: Point[]): void {
+        return undefined
+      }
+    */
     getCenter() {
         const points = this.getPoints();
         const xs = points.map(p => p.x);

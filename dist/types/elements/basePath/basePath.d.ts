@@ -4,7 +4,6 @@ type Point = {
 };
 export declare class BasePath {
     protected getPoints(): Point[];
-    protected setPoints(_: Point[]): void;
     getCenter(): Point;
 }
 export {};

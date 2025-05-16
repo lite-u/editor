@@ -3,9 +3,11 @@ type Point = { x: number; y: number };
 export class BasePath {
   protected getPoints(): Point[] {return []}
 
+/*
   protected setPoints(_: Point[]): void {
     return undefined
   }
+*/
 
   getCenter(): Point {
     const points = this.getPoints()

@@ -18,9 +18,9 @@ class ElementLineSegment extends ElementBase {
         };
     }
     getPoints() {
-        return Object.values(this.points).map(p => p);
+        return this.points.map(p => ({ ...p }));
     }
-    static _getBoundingRect(start, end, rotation) {
+    static _getBoundingRect(start, end, rotation = 0) {
         const x = Math.min(start.x, end.x);
         const y = Math.min(start.y, end.y);
         const width = Math.abs(end.x - start.x);
@@ -79,7 +79,7 @@ class ElementLineSegment extends ElementBase {
     render(ctx) {
         const [start, end] = this.points;
         ctx.save();
-        ctx.beginPath(); // Start a new path
+        ctx.beginPath();
         ctx.moveTo(start.x, start.y);
         ctx.lineTo(end.x, end.y);
         ctx.stroke();

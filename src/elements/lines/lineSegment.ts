@@ -38,11 +38,11 @@ class ElementLineSegment extends ElementBase implements BasePath {
     }
   }
 
-  protected getPoints(): Point[] {
-    return Object.values(this.points).map(p => p)
+  public getPoints(): Point[] {
+    return this.points.map(p => ({...p}))
   }
 
-  static _getBoundingRect(start, end, rotation): BoundingRect {
+  static _getBoundingRect(start: Point, end: Point, rotation: number = 0): BoundingRect {
     const x = Math.min(start.x, end.x)
     const y = Math.min(start.y, end.y)
     const width = Math.abs(end.x - start.x)
