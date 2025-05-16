@@ -31,6 +31,7 @@ const rectangleTool = {
     },
     mouseUp() {
         this.editor.interaction._ele = null;
+        this.editor.action.dispatch('element-add', []);
     },
 };
 export default rectangleTool;

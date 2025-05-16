@@ -35,6 +35,7 @@ const rectangleTool: ToolType = {
   },
   mouseUp(this: ToolManager) {
     this.editor.interaction._ele = null
+    this.editor.action.dispatch('element-add',[])
   },
 }
 
