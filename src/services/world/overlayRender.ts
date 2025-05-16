@@ -6,19 +6,19 @@ import {DEFAULT_FILL, DEFAULT_STROKE} from '~/elements/defaultProps'
 import {UID} from '~/type'
 import {PointHit} from '~/services/interaction/InteractionState'
 
-function selectionRender(this: World) {
+function overlayRender(this: World) {
   if (this.editor.elementManager.size === 0) return
   const {overlayCanvasContext: ctx} = this
-  const {_pointHit, _hoveredElement} = this.editor.interaction
+  const {_pointHit,_snappedPoint, _hoveredElement} = this.editor.interaction
   const {scale, dpr} = this.editor.world
   const ratio = scale * dpr
   const size = 80 / ratio
   const lineWidth = 1 / ratio
   const fontSize = 40 / ratio
 
-  if (_pointHit) {
+  if (_snappedPoint) {
     // console.log(PH)
-    drawCrossWithLabel(ctx, _pointHit, size, '#ff0000', lineWidth, fontSize)
+    drawCrossWithLabel(ctx, _snappedPoint, size, '#ff0000', lineWidth, fontSize)
   }
 
   if (_hoveredElement) {
@@ -135,4 +135,4 @@ function drawCrossWithLabel(
   ctx.restore()
 }
 
-export default selectionRender
+export default overlayRender

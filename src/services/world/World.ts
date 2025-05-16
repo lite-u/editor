@@ -5,7 +5,7 @@ import {BoundingRect, Point} from '~/type'
 import {generateBoundingRectFromTwoPoints} from '~/core/utils'
 import {createWith, screenToWorld, worldToScreen} from '~/lib/lib'
 import {zoomAtPoint} from '~/services/world/helper'
-import selectionRender from '~/services/world/selectionRender'
+import overlayRender from '~/services/world/overlayRender'
 import {DEFAULT_STROKE} from '~/elements/defaultProps'
 
 const STYLE = {
@@ -145,7 +145,7 @@ class World {
     // console.log('renderSelections')
 
     const animate = () => {
-      selectionRender.call(this)
+      overlayRender.call(this)
     }
 
     requestAnimationFrame(animate)

@@ -3,7 +3,7 @@ import ElementRectangle from '../../elements/rectangle/rectangle.js';
 import { generateBoundingRectFromTwoPoints } from '../../core/utils.js';
 import { createWith, screenToWorld, worldToScreen } from '../../lib/lib.js';
 import { zoomAtPoint } from './helper.js';
-import selectionRender from './selectionRender.js';
+import overlayRender from './overlayRender.js';
 import { DEFAULT_STROKE } from '../../elements/defaultProps.js';
 const STYLE = {
     position: 'absolute',
@@ -108,7 +108,7 @@ class World {
     renderOverlay() {
         // console.log('renderSelections')
         const animate = () => {
-            selectionRender.call(this);
+            overlayRender.call(this);
         };
         requestAnimationFrame(animate);
     }

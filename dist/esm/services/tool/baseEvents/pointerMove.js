@@ -18,53 +18,51 @@ export default function handlePointerMove(e) {
     action.dispatch('world-mouse-move');
     this.editor.interaction._modifier = { button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY };
     const arr = visible.values;
-    interaction._hoveredElement = null;
-    interaction._pointHit = null;
+    let _ele = null;
+    let _snappedPoint = null;
+    // interaction._hoveredElement = null
+    // interaction._pointHit = null
     for (let i = arr.length - 1; i >= 0; i--) {
         const ele = arr[i];
         const path = ele.path2D;
         if (!ele.show || ele.opacity <= 0)
             continue;
         const points = ele.getPoints;
-        // console.log(ele)
         const border = ctx.isPointInStroke(path, viewPoint.x, viewPoint.y);
         // const border = isPointNearStroke(ctx, path, viewPoint, 10)
         const inside = ctx.isPointInPath(path, viewPoint.x, viewPoint.y);
         const point = points.find(p => isPointNear(p, viewPoint));
         if (point) {
-            interaction._hoveredElement = ele;
-            interaction._pointHit = {
-                type: 'anchor',
-                ...point,
-            };
+            // _snapped = true
+            _ele = ele;
+            _snappedPoint = { type: 'anchor', ...point };
             break;
         }
         else if (border) {
-            // console.log(border)
-            interaction._hoveredElement = ele;
-            interaction._pointHit = {
-                type: 'path',
-                ...interaction.mouseWorldCurrent,
-            };
+            // _snapped = true
+            _ele = ele;
+            _snappedPoint = { type: 'path', ...interaction.mouseWorldCurrent };
             break;
         }
         else if (inside) {
-            console.log('inside', ele.fill.enabled);
             if (ele.fill.enabled) {
-                interaction._hoveredElement = ele;
-                // interaction._pointHit = null
-            }
-            else {
+                _ele = ele;
             }
         }
-        else {
-            // interaction._hoveredElement = null
-            // interaction._pointHit = null
+    }
+    // update
+    if (_snappedPoint) {
+        interaction._snappedPoint = _snappedPoint;
+    }
+    else if (interaction._snappedPoint) {
+        // try to detach from snap point
+        const dx = Math.abs(interaction.mouseWorldCurrent.x - interaction._snappedPoint.x);
+        const dy = Math.abs(interaction.mouseWorldCurrent.y - interaction._snappedPoint.y);
+        if (dx > 5 || dy > 5) {
+            interaction._snappedPoint = null;
         }
     }
-    // snap
-    if (interaction._pointDown) {
-    }
+    interaction._hoveredElement = _ele;
     action.dispatch('render-overlay');
     this.tool.mouseMove.call(this);
 }

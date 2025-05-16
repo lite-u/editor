@@ -2,6 +2,7 @@
 import ToolManager from '~/services/tool/toolManager'
 import {Point} from '~/type'
 import {isPointNear} from '~/core/geometry'
+import {PointHit} from '~/services/interaction/InteractionState'
 
 export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
   const {action, rect, cursor, interaction, world, visible} = this.editor
@@ -26,7 +27,6 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
 
   const arr = visible.values
   let _ele = null
-  let _snapped = null
   let _snappedPoint = null
 
   // interaction._hoveredElement = null
@@ -39,19 +39,18 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
     if (!ele.show || ele.opacity <= 0) continue
 
     const points: Point[] = ele.getPoints
-    // console.log(ele)
     const border = ctx.isPointInStroke(path, viewPoint.x, viewPoint.y)
     // const border = isPointNearStroke(ctx, path, viewPoint, 10)
     const inside = ctx.isPointInPath(path, viewPoint.x, viewPoint.y)
     const point = points.find(p => isPointNear(p, viewPoint))
 
     if (point) {
-      _snapped = true
+      // _snapped = true
       _ele = ele
       _snappedPoint = {type: 'anchor', ...point}
       break
     } else if (border) {
-      _snapped = true
+      // _snapped = true
       _ele = ele
       _snappedPoint = {type: 'path', ...interaction.mouseWorldCurrent}
       break
@@ -59,16 +58,24 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
       if (ele.fill.enabled) {
         _ele = ele
       }
-    } else {
-      // interaction._hoveredElement = null
-      // interaction._pointHit = null
     }
   }
 
-  // snap
-  if (interaction._pointDown) {
+  // update
+  if (_snappedPoint) {
+    interaction._snappedPoint = _snappedPoint as PointHit
+  } else if (interaction._snappedPoint) {
+    // try to detach from snap point
+    const dx = Math.abs(interaction.mouseWorldCurrent.x - interaction._snappedPoint.x)
+    const dy = Math.abs(interaction.mouseWorldCurrent.y - interaction._snappedPoint.y)
 
+    if (dx > 5 || dy > 5) {
+      interaction._snappedPoint = null
+    }
   }
+
+  interaction._hoveredElement = _ele
+
   action.dispatch('render-overlay')
 
   this.tool.mouseMove.call(this)

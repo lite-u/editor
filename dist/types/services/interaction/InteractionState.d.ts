@@ -31,6 +31,7 @@ declare class InteractionState {
     readonly operationHandlers: OperationHandler[];
     _pointDown: boolean;
     _snapped: boolean;
+    _snappedPoint: PointHit | null;
     _pointHit: PointHit | null;
     _selectingElements: Set<UID>;
     _deselection: UID | null;

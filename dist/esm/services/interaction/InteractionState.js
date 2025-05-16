@@ -12,6 +12,7 @@ class InteractionState {
     operationHandlers = [];
     _pointDown = false;
     _snapped = false;
+    _snappedPoint = null;
     _pointHit = null;
     // spaceKeyDown = false
     // _creatingElementId: UID
