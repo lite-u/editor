@@ -19,8 +19,8 @@ class World {
     baseCanvasContext;
     overlayCanvas;
     overlayCanvasContext;
-    creationCanvas;
-    creationCanvasContext;
+    // creationCanvas: HTMLCanvasElement
+    // creationCanvasContext: CanvasRenderingContext2D
     scale;
     offset;
     worldRect;
@@ -31,10 +31,10 @@ class World {
         this.editor = editor;
         this.baseCanvas = createWith('canvas', 'main-canvas', editor.id, { ...STYLE });
         this.overlayCanvas = createWith('canvas', 'overlay-canvas', editor.id, { ...STYLE });
-        this.creationCanvas = createWith('canvas', 'creation-canvas', editor.id, { ...STYLE });
+        // this.creationCanvas = createWith('canvas', 'creation-canvas', editor.id, {...STYLE})
         this.baseCanvasContext = this.baseCanvas.getContext('2d');
         this.overlayCanvasContext = this.overlayCanvas.getContext('2d');
-        this.creationCanvasContext = this.overlayCanvas.getContext('2d');
+        // this.creationCanvasContext = this.overlayCanvas.getContext('2d') as CanvasRenderingContext2D
         // this.selectionBox = createWith('div', 'editor-selection-box', editor.id)
         this.baseCanvas.setAttribute('id', 'main-canvas');
         this.scale = 1;
@@ -105,7 +105,7 @@ class World {
         };
         requestAnimationFrame(animate);
     }
-    renderSelections() {
+    renderOverlay() {
         // console.log('renderSelections')
         const animate = () => {
             selectionRender.call(this);
@@ -116,10 +116,10 @@ class World {
         // console.log('destroy')
         this.baseCanvas.remove();
         this.overlayCanvas.remove();
-        this.creationCanvas.remove();
+        // this.creationCanvas.remove()
         this.baseCanvas = null;
         this.overlayCanvas = null;
-        this.creationCanvas = null;
+        // this.creationCanvas = null!
         this.baseCanvasContext = null;
         this.overlayCanvasContext = null;
         this.creationCanvasContext = null;

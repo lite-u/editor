@@ -87,9 +87,9 @@ export function detectHoveredElement(this: ToolManager) {
       }
     }*/
 
-  if (interaction.hoveredElement !== elementId) {
-    if (interaction.hoveredElement) {
-      action.dispatch('element-hover-leave', interaction.hoveredElement)
+  if (interaction._hoveredElement !== elementId) {
+    if (interaction._hoveredElement) {
+      action.dispatch('element-hover-leave', interaction._hoveredElement)
     }
 
     if (elementId) {

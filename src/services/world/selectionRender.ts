@@ -7,7 +7,12 @@ import {UID} from '~/type'
 
 function selectionRender(this: World) {
   if (this.editor.elementManager.size === 0) return
-return
+  const PH = this.editor.interaction._pointHit
+
+  if (PH) {
+
+  }
+  return
   const {overlayCanvasContext: ctx} = this
   const fillColor = '#5491f8'
   const lineColor = '#5491f8'
@@ -16,8 +21,8 @@ return
   const lineWidth = 1 / this.scale * this.dpr
   const centerPoints = new Set<UID>(selected)
 
-  if (this.editor.interaction.hoveredElement) {
-    centerPoints.add(this.editor.interaction.hoveredElement)
+  if (this.editor.interaction._hoveredElement) {
+    centerPoints.add(this.editor.interaction._hoveredElement)
   }
 
   // render selection box for elements
@@ -36,7 +41,7 @@ return
     const {cx, cy, rotation, layer} = (element as ElementRectangle).toMinimalJSON()
     const lineWidth = 1 / this.scale * this.dpr
     const highlightElement = element!.getHighlightElement(lineWidth, fillColor) as ElementInstance
-    const BRN = id === this.editor.interaction.hoveredElement ? centerPointWidth : 0
+    const BRN = id === this.editor.interaction._hoveredElement ? centerPointWidth : 0
     const borderRadius: BorderRadius = [BRN, BRN, BRN, BRN]
     const centerDotRect = new ElementRectangle({
       cx: cx,
@@ -45,14 +50,14 @@ return
       id: id + 'hover-center',
       width: centerPointWidth * 2,
       height: centerPointWidth * 2,
-      fill:{
+      fill: {
         ...DEFAULT_FILL,
-        color:fillColor,
+        color: fillColor,
       },
-      stroke:{
+      stroke: {
         ...DEFAULT_STROKE,
-        weight:lineWidth,
-        color:'transparent',
+        weight: lineWidth,
+        color: 'transparent',
       },
       rotation,
       borderRadius,

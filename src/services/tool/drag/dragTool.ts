@@ -24,7 +24,7 @@ const dragTool: ToolType = {
       }
     }
 
-    const hoveredElement = interaction.hoveredElement
+    const hoveredElement = interaction._hoveredElement
     // console.log(hoveredElement)
     // Click on blank area and not doing multi-selection
     if (!hoveredElement) {
@@ -325,7 +325,7 @@ const dragTool: ToolType = {
 
             action.dispatch('element-modify', changes)
           } else {
-            const closestId = interaction.hoveredElement
+            const closestId = interaction._hoveredElement
 
             if (closestId && modifyKey && closestId === interaction._deselection) {
               action.dispatch('selection-modify', {

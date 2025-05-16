@@ -3,6 +3,9 @@ import { DEFAULT_FILL, DEFAULT_STROKE } from '../../elements/defaultProps.js';
 function selectionRender() {
     if (this.editor.elementManager.size === 0)
         return;
+    const PH = this.editor.interaction._pointHit;
+    if (PH) {
+    }
     return;
     const { overlayCanvasContext: ctx } = this;
     const fillColor = '#5491f8';
@@ -11,8 +14,8 @@ function selectionRender() {
     const centerPointWidth = 2 / this.scale * this.dpr;
     const lineWidth = 1 / this.scale * this.dpr;
     const centerPoints = new Set(selected);
-    if (this.editor.interaction.hoveredElement) {
-        centerPoints.add(this.editor.interaction.hoveredElement);
+    if (this.editor.interaction._hoveredElement) {
+        centerPoints.add(this.editor.interaction._hoveredElement);
     }
     // render selection box for elements
     selected.forEach((id) => {
@@ -28,7 +31,7 @@ function selectionRender() {
         const { cx, cy, rotation, layer } = element.toMinimalJSON();
         const lineWidth = 1 / this.scale * this.dpr;
         const highlightElement = element.getHighlightElement(lineWidth, fillColor);
-        const BRN = id === this.editor.interaction.hoveredElement ? centerPointWidth : 0;
+        const BRN = id === this.editor.interaction._hoveredElement ? centerPointWidth : 0;
         const borderRadius = [BRN, BRN, BRN, BRN];
         const centerDotRect = new ElementRectangle({
             cx: cx,

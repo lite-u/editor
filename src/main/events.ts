@@ -147,7 +147,7 @@ export function initEvents(this: Editor) {
   })
 
   on('selection-updated', () => {
-    this.interaction.hoveredElement = null!
+    this.interaction._hoveredElement = null!
     // console.log(this.selectedElements)
     // updateSelectionCanvasRenderData.call(this)
     this.events.onSelectionUpdated?.(this.selection.values, this.selection.pickIfUnique)
@@ -419,22 +419,22 @@ export function initEvents(this: Editor) {
       this.world.offset,
       this.world.dpr,
     )
-    this.world.renderSelections()
+    this.world.renderOverlay()
   })
 
   on('element-hover-enter', (id) => {
-    if (this.interaction.hoveredElement && id && this.interaction.hoveredElement === id) {
+    if (this.interaction._hoveredElement && id && this.interaction._hoveredElement === id) {
       return
     }
 
     // console.log(this.hoveredElement, id)
 
-    this.interaction.hoveredElement = id
+    this.interaction._hoveredElement = id
     dispatch('visible-selection-updated')
   })
 
   on('element-hover-leave', () => {
-    this.interaction.hoveredElement = null!
+    this.interaction._hoveredElement = null!
     dispatch('visible-selection-updated')
   })
 

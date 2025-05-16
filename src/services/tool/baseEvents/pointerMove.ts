@@ -38,6 +38,7 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
     const point = points.find(p => isPointNear(p, viewPoint))
 
     if (point) {
+      interaction._hoveredElement = ele
       interaction._pointHit = {
         type: 'anchor',
         ...point,

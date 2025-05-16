@@ -42,7 +42,7 @@ class InteractionState {
   mouseWorldCurrent: Point = {x: 0, y: 0}
   mouseWorldDelta: Point = {x: 0, y: 0}
 
-  hoveredElement: UID = ''
+  _hoveredElement: UID = ''
   readonly operationHandlers: OperationHandler[] = []
   _pointDown = false
   _snapped = false

@@ -1,4 +1,4 @@
-import { isPointNear } from '~/core/geometry';
+import { isPointNear } from '../../../core/geometry.js';
 export default function handlePointerMove(e) {
     const { action, rect, cursor, interaction, world, visible } = this.editor;
     const { baseCanvasContext: ctx, dpr } = world;
@@ -28,6 +28,7 @@ export default function handlePointerMove(e) {
         const inside = ctx.isPointInPath(path, viewPoint.x, viewPoint.y);
         const point = points.find(p => isPointNear(p, viewPoint));
         if (point) {
+            interaction._hoveredElement = ele;
             interaction._pointHit = {
                 type: 'anchor',
                 ...point,
