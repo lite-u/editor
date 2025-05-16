@@ -9,16 +9,24 @@ import {PointHit} from '~/services/interaction/InteractionState'
 function selectionRender(this: World) {
   if (this.editor.elementManager.size === 0) return
   const {overlayCanvasContext: ctx} = this
-  const PH = this.editor.interaction._pointHit
+  const {_pointHit, _hoveredElement} = this.editor.interaction
   const {scale, dpr} = this.editor.world
   const ratio = scale * dpr
   const size = 6 / ratio
   const lineWidth = 1 / ratio
   const fontSize = 40 / ratio
 
-  if (PH) {
+  if (_pointHit) {
     // console.log(PH)
-    drawCrossWithLabel(ctx, PH, size, '#ff0000', lineWidth, fontSize)
+    drawCrossWithLabel(ctx, _pointHit, size, '#ff0000', lineWidth, fontSize)
+  }
+
+  if (_hoveredElement) {
+
+    const ele = this.editor.elementManager.create(_hoveredElement.toJSON())
+    ele.stroke.color = 'blue'
+    ele.render(ctx)
+    // console.log(ele)
   }
 
   return

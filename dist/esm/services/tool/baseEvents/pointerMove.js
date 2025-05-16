@@ -29,7 +29,7 @@ export default function handlePointerMove(e) {
         const border = isPointNearStroke(ctx, path, viewPoint);
         const inside = ctx.isPointInPath(path, viewPoint.x, viewPoint.y);
         const point = points.find(p => isPointNear(p, viewPoint));
-        console.log(border);
+        // console.log(border)
         if (point) {
             interaction._hoveredElement = ele;
             interaction._pointHit = {
