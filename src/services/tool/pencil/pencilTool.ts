@@ -42,8 +42,10 @@ const pencilTool: ToolType = {
     }
 
     // const ele: ElementPath = elementManager.add(elementManager.create(eleProps))
-    console.log(eleProps)
+    // console.log(eleProps)
     action.dispatch('element-add', [eleProps])
+    points.length = 0
+    _lastPoint = null
     // action.dispatch('visible-element-updated')
     // interaction._ele = ele
     // action.dispatch('selection-clear')
