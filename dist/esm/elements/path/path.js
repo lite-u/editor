@@ -2,7 +2,6 @@ import ElementBase from '../base/elementBase.js';
 import { HANDLER_OFFSETS } from '../handleBasics.js';
 import ElementRectangle from '../rectangle/rectangle.js';
 import { rotatePointAroundPoint } from '../../core/geometry.js';
-import { BasePath } from '../basePath/basePath.js';
 import deepClone from '../../core/deepClone.js';
 class ElementPath extends ElementBase {
     id;
@@ -90,4 +89,4 @@ class ElementPath extends ElementBase {
             inner.bottom <= outer.bottom);
     }
 }
-export default BasePath;
+export default ElementPath;

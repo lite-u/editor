@@ -1,5 +1,7 @@
-import { ElementBaseProps } from '../base/elementBase';
-import { UID } from '~/type';
+import ElementBase, { ElementBaseProps } from '../base/elementBase';
+import { OperationHandler } from '~/services/selection/type';
+import { BoundingRect, UID } from '~/type';
+import { ElementProps } from '../type';
 import { BasePath } from '~/elements/basePath/basePath';
 import { BezierPoint } from '~/elements/props';
 export interface PathProps extends ElementBaseProps {
@@ -11,4 +13,25 @@ export interface PathProps extends ElementBaseProps {
     group: string | null;
 }
 export type RequiredShapeProps = Required<PathProps>;
-export default BasePath;
+declare class ElementPath extends ElementBase implements BasePath {
+    readonly id: UID;
+    readonly layer: number;
+    readonly type = "path";
+    private points;
+    constructor({ id, layer, points, ...rest }: PathProps);
+    protected toJSON(): RequiredShapeProps;
+    toMinimalJSON(): PathProps;
+    getOperators(id: string, resizeConfig: {
+        lineWidth: number;
+        lineColor: string;
+        size: number;
+        fillColor: string;
+    }, rotateConfig: {
+        lineWidth: number;
+        lineColor: string;
+        size: number;
+        fillColor: string;
+    }, boundingRect: BoundingRect, elementOrigin: ElementProps): OperationHandler[];
+    isInsideRect(outer: BoundingRect): boolean;
+}
+export default ElementPath;

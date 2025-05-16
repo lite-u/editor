@@ -1,9 +1,7 @@
 import ToolManager, {ToolType} from '~/services/tool/toolManager'
 import nid from '~/core/nid'
-import ElementRectangle from '~/elements/rectangle/rectangle'
-import {LineSegmentProps} from '~/elements/lines/lineSegment'
 import {convertPointsToBezierPoints, drawLine} from '~/services/tool/pencil/helper'
-import {PathProps} from '~/elements/path/path'
+import ElementPath, {PathProps} from '~/elements/path/path'
 
 const points = []
 let _lastPoint = null
@@ -39,11 +37,11 @@ const pencilTool: ToolType = {
     const eleProps: PathProps = {
       id,
       layer: 0,
-      type: 'lineSegment',
+      type: 'path',
       points: convertPointsToBezierPoints(points),
     }
 
-    const ele: ElementRectangle = elementManager.add(elementManager.create(eleProps))
+    const ele: ElementPath = elementManager.add(elementManager.create(eleProps))
 
     // interaction._ele = ele
     action.dispatch('selection-clear')

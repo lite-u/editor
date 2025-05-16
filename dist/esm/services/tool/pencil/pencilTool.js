@@ -31,7 +31,7 @@ const pencilTool = {
         const eleProps = {
             id,
             layer: 0,
-            type: 'lineSegment',
+            type: 'path',
             points: convertPointsToBezierPoints(points),
         };
         const ele = elementManager.add(elementManager.create(eleProps));

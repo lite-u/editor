@@ -2,8 +2,9 @@ import ElementRectangle, {RectangleProps} from './rectangle/rectangle'
 import ElementEllipse, {EllipseProps} from './ellipse/ellipse'
 import ElementImage, {ImageProps} from './image/image'
 import ElementText, {TextProps} from '~/elements/text/text'
-import LineSegment, {LineSegmentProps} from '~/elements/lines/lineSegment'
+import ElementLineSegment, {LineSegmentProps} from '~/elements/lines/lineSegment'
 import {UID} from '~/type'
+import ElementPath, {PathProps} from '~/elements/path/path'
 
 export type ElementTypeMap = {
   'rectangle': ElementRectangle
@@ -13,7 +14,7 @@ export type ElementPropsMap = {
   'rectangle': RectangleProps
   'ellipse': EllipseProps
 }
-export type ElementProps = RectangleProps | EllipseProps | TextProps | ImageProps | LineSegmentProps
+export type ElementProps = RectangleProps | EllipseProps | TextProps | ImageProps | LineSegmentProps | PathProps
 // type ElementPropsType<T extends keyof ElementPropsMap> = ElementPropsMap[T]
 export type PropsWithoutIdentifiers<T extends keyof ElementPropsMap> = Omit<ElementPropsMap[T], 'id' & 'layer'>
 export type ElementNames = keyof ElementTypeMap
@@ -22,5 +23,6 @@ export type ElementInstance =
   | InstanceType<ElementEllipse>
   | InstanceType<ElementImage>
   | InstanceType<ElementText>
-  | InstanceType<LineSegment>
+  | InstanceType<ElementLineSegment>
+  | InstanceType<ElementPath>
 export type ElementMap = Map<UID, ElementInstance>

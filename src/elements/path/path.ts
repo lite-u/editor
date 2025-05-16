@@ -134,4 +134,4 @@ class ElementPath extends ElementBase implements BasePath {
   }
 }
 
-export default BasePath
+export default ElementPath
