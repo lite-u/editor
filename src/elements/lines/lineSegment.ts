@@ -36,6 +36,7 @@ class ElementLineSegment extends ElementBase implements BasePath {
       points: deepClone(points),
       rotation: this.rotation,
     }
+    this.updatePath2D()
   }
 
   public get getPoints(): Point[] {
@@ -102,6 +103,8 @@ class ElementLineSegment extends ElementBase implements BasePath {
     start.y = newStart.y
     end.x = newEnd.x
     end.y = newEnd.y
+
+    this.updatePath2D()
   }
 
   protected toJSON(): RequiredLineSegmentProps {

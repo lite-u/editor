@@ -1,6 +1,6 @@
-import ElementBase from '../base/elementBase.js';
-import deepClone from '../../core/deepClone.js';
-import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '../../core/utils.js';
+import ElementBase from '~/elements/base/elementBase';
+import deepClone from '~/core/deepClone';
+import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '~/core/utils';
 class ElementLineSegment extends ElementBase {
     id;
     layer;
@@ -16,6 +16,7 @@ class ElementLineSegment extends ElementBase {
             points: deepClone(points),
             rotation: this.rotation,
         };
+        this.updatePath2D();
     }
     get getPoints() {
         return this.points.map(p => ({ x: p.x, y: p.y }));
@@ -71,6 +72,7 @@ class ElementLineSegment extends ElementBase {
         start.y = newStart.y;
         end.x = newEnd.x;
         end.y = newEnd.y;
+        this.updatePath2D();
     }
     toJSON() {
         return {
