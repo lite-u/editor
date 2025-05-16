@@ -46,6 +46,5 @@ declare class RectangleLike extends ElementShape {
         fillColor: string;
     }): import("../../services/selection/type").OperationHandler[];
     getSnapPoints(): SnapPointData[];
-    render(ctx: CanvasRenderingContext2D): void;
 }
 export default RectangleLike;

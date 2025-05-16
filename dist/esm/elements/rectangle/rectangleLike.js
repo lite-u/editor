@@ -230,32 +230,5 @@ class RectangleLike extends ElementShape {
         ];
         return points;
     }
-    render(ctx) {
-        let { cx, cy, show, rotation, opacity, fill, stroke } = this.toJSON();
-        const { enabled: enabledFill, color: fillColor } = fill;
-        const { enabled: enabledStroke, color: strokeColor, weight, join, dashed } = stroke;
-        if (!show || opacity <= 0)
-            return;
-        ctx.save();
-        if (this.rotation) {
-            ctx.translate(cx, cy);
-            ctx.rotate((rotation * Math.PI) / 180);
-            ctx.translate(-cx, -cy);
-        }
-        if (opacity < 100) {
-            ctx.globalAlpha = opacity / 100;
-        }
-        if (enabledFill) {
-            ctx.fillStyle = fillColor;
-            ctx.fill(this.path2D);
-        }
-        if (enabledStroke && weight > 0) {
-            ctx.lineWidth = weight;
-            ctx.strokeStyle = strokeColor;
-            ctx.lineJoin = join;
-            ctx.stroke(this.path2D);
-        }
-        ctx.restore();
-    }
 }
 export default RectangleLike;
