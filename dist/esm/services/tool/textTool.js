@@ -1,14 +1,12 @@
-import nid from '../../core/nid.js';
 import resizeTool from './resize/resizeTool.js';
 import { DEFAULT_FONT, DEFAULT_STROKE, DEFAULT_TEXT_FILL } from '../../elements/defaultProps.js';
 const textTool = {
     cursor: 'text',
     mouseDown() {
-        const { elementManager, interaction, action, selection } = this.editor;
+        const { elementManager, interaction, world } = this.editor;
         const { x, y } = this.editor.interaction.mouseWorldCurrent;
         const width = 1;
         const height = 1;
-        const id = 'rectangle-' + nid();
         const eleProps = {
             type: 'text',
             content: [{
@@ -21,21 +19,21 @@ const textTool = {
             cy: y - height / 2,
             width,
             height,
-            id,
-            layer: 0,
         };
-        const ele = elementManager.add(elementManager.create(eleProps));
+        const ele = elementManager.create(eleProps);
+        ele.render(world.creationCanvasContext);
         interaction._ele = ele;
-        action.dispatch('selection-clear');
-        selection.replace(new Set([ele.id]));
     },
     mouseMove() {
         if (!this.editor.interaction._ele)
             return;
-        this.editor.action.dispatch('visible-element-updated');
+        this.editor.action.dispatch('clear-creation');
         resizeTool.call(this, [this.editor.interaction._ele], 'br');
+        this.editor.interaction._ele.render(this.editor.world.creationCanvasContext);
     },
     mouseUp() {
+        const eleProps = this.editor.interaction._ele.toMinimalJSON();
+        this.editor.action.dispatch('element-add', [eleProps]);
         this.editor.interaction._ele = null;
     },
 };
