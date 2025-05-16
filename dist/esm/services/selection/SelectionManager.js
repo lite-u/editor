@@ -68,7 +68,7 @@ class SelectionManager {
     }
     replace(idSet) {
         this.clear();
-        console.log('replace', idSet);
+        // console.log('replace',idSet)
         if (typeof idSet === 'string') {
             debugger;
         }
