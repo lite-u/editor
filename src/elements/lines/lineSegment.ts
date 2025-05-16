@@ -42,6 +42,13 @@ class ElementLineSegment extends ElementBase implements BasePath {
     return this.points.map(p => ({x: p.x, y: p.y}))
   }
 
+  protected updatePath2D() {
+    const [start, end] = this.points
+    this.path2D = new Path2D()
+    this.path2D.moveTo(start.x, start.y)
+    this.path2D.lineTo(end.x, end.y)
+  }
+
   static _getBoundingRect(start: Point, end: Point, rotation: number = 0): BoundingRect {
     const x = Math.min(start.x, end.x)
     const y = Math.min(start.y, end.y)

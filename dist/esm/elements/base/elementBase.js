@@ -11,7 +11,7 @@ class ElementBase {
     transform;
     show;
     matrix = new DOMMatrix();
-    path2D = new DOMMatrix();
+    path2D = new Path2D();
     constructor({ stroke = deepClone(DEFAULT_STROKE), fill = deepClone(DEFAULT_FILL), opacity = deepClone(DEFAULT_OPACITY), shadow = deepClone(DEFAULT_SHADOW), rotation = deepClone(DEFAULT_ROTATION), transform = deepClone(DEFAULT_TRANSFORM), show = true, }) {
         this.stroke = stroke;
         this.fill = fill;

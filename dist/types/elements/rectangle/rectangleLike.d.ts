@@ -18,7 +18,6 @@ declare class RectangleLike extends ElementShape {
     width: number;
     height: number;
     borderRadius: BorderRadius;
-    path2D: Path2D;
     private original;
     constructor({ id, layer, width, height, borderRadius, ...rest }: RectangleLikeProps);
     protected updatePath2D(): void;

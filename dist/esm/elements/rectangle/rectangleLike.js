@@ -10,7 +10,7 @@ class RectangleLike extends ElementShape {
     width;
     height;
     borderRadius;
-    path2D = new Path2D();
+    // path2D: Path2D = new Path2D()
     original;
     constructor({ id, layer, width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, borderRadius = DEFAULT_BORDER_RADIUS, ...rest }) {
         super(rest);

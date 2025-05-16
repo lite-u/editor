@@ -24,7 +24,7 @@ class RectangleLike extends ElementShape {
   width: number
   height: number
   borderRadius: BorderRadius
-  path2D: Path2D = new Path2D()
+  // path2D: Path2D = new Path2D()
   private original: { cx: number, cy: number, width: number, height: number, rotation: number }
 
   constructor({

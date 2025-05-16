@@ -20,6 +20,7 @@ declare class ElementLineSegment extends ElementBase implements BasePath {
     private original;
     constructor({ id, layer, points, ...rest }: LineSegmentProps);
     get getPoints(): Point[];
+    protected updatePath2D(): void;
     static _getBoundingRect(start: Point, end: Point, rotation?: number): BoundingRect;
     getBoundingRect(): BoundingRect;
     getBoundingRectFromOriginal(): BoundingRect;
