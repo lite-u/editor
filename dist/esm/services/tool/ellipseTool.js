@@ -1,4 +1,4 @@
-import resizeTool from '~/services/tool/resize/resizeTool';
+import resizeTool from './resize/resizeTool.js';
 const ellipseTool = {
     cursor: 'crosshair',
     mouseDown() {

@@ -1,48 +1,37 @@
 import ToolManager, {ToolType} from '~/services/tool/toolManager'
-import nid from '~/core/nid'
 import ElementRectangle from '~/elements/rectangle/rectangle'
-import {LineSegmentProps} from '~/elements/lines/lineSegment'
 import resizeTool from '~/services/tool/resize/resizeTool'
+import {PropsWithoutIdentifiers} from '~/elements/type'
 
 const lineSegmentTool: ToolType = {
   cursor: 'crosshair',
   mouseDown(this: ToolManager) {
-    const {elementManager, interaction, action, selection} = this.editor
+    const {elementManager, interaction, world} = this.editor
     const {x, y} = this.editor.interaction.mouseWorldCurrent
-    const id = 'rectangle-' + nid()
-    const eleProps: LineSegmentProps = {
-      id,
-      layer: 0,
+    const eleProps: PropsWithoutIdentifiers<'lineSegment'> = {
       type: 'lineSegment',
       points: [
         {id: 'start', x, y},
-        {id: 'end', x:x+1, y:y+1},
+        {id: 'end', x: x + 1, y: y + 1},
       ],
     }
 
-    const ele: ElementRectangle = elementManager.add(elementManager.create(eleProps))
+    const ele: ElementRectangle = elementManager.create(eleProps)
 
+    ele.render(world.creationCanvasContext)
     interaction._ele = ele
-    action.dispatch('selection-clear')
-    selection.replace(new Set([ele.id]))
   },
   mouseMove(this: ToolManager) {
-    /*if (!this.editor.interaction._ele) return
-    const {interaction} = this.editor
-    const {points: {start, end}} = this.editor.interaction._ele as InstanceType<ElementLineSegment>
-
-
-    end.x = interaction.mouseWorldDelta.x
-    end.y = interaction.mouseWorldDelta.y
-
-    console.log(getRotateAngle(start, end))
-
-    this.editor.action.dispatch('visible-element-updated')*/
-
     if (!this.editor.interaction._ele) return
+    this.editor.action.dispatch('clear-creation')
+
     resizeTool.call(this, [this.editor.interaction._ele], 'br')
+    this.editor.interaction._ele.render(this.editor.world.creationCanvasContext)
   },
   mouseUp(this: ToolManager) {
+    const eleProps = this.editor.interaction._ele.toMinimalJSON()
+
+    this.editor.action.dispatch('element-add', [eleProps])
     this.editor.interaction._ele = null
   },
 }
