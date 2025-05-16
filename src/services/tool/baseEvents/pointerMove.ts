@@ -7,7 +7,7 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
   const x = e.clientX - rect!.x
   const y = e.clientY - rect!.y
   const {button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY} = e
-  const modifiers = {button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY}
+  // const modifiers = {button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY}
   const point = {
     x: interaction.mouseCurrent.x * dpr,
     y: interaction.mouseCurrent.y * dpr,
@@ -21,7 +21,7 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
 
   cursor.move({x: e.clientX, y: e.clientY})
   action.dispatch('world-mouse-move')
-  this.editor.interaction._modifier = modifiers
+  this.editor.interaction._modifier = {button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY}
 
   const arr = visible.values
 
