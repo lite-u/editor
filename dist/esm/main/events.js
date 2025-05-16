@@ -333,11 +333,11 @@ export function initEvents() {
         dispatch('element-updated');
     });
     on('render-elements', () => {
-        resetCanvas(this.world.mainCanvasContext, this.world.scale, this.world.offset, this.world.dpr);
+        resetCanvas(this.world.baseCanvasContext, this.world.scale, this.world.offset, this.world.dpr);
         this.world.renderElements();
     });
     on('render-selection', () => {
-        resetCanvas(this.world.selectionCanvasContext, this.world.scale, this.world.offset, this.world.dpr);
+        resetCanvas(this.world.overlayCanvasContext, this.world.scale, this.world.offset, this.world.dpr);
         this.world.renderSelections();
     });
     on('element-hover-enter', (id) => {

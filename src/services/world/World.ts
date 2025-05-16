@@ -19,10 +19,12 @@ const STYLE = {
 
 class World {
   editor: Editor
-  mainCanvas: HTMLCanvasElement
-  mainCanvasContext: CanvasRenderingContext2D
-  selectionCanvas: HTMLCanvasElement
-  selectionCanvasContext: CanvasRenderingContext2D
+  baseCanvas: HTMLCanvasElement
+  baseCanvasContext: CanvasRenderingContext2D
+  overlayCanvas: HTMLCanvasElement
+  overlayCanvasContext: CanvasRenderingContext2D
+  creationCanvas: HTMLCanvasElement
+  creationCanvasContext: CanvasRenderingContext2D
   scale: number
   offset: { x: number, y: number }
   worldRect: BoundingRect
@@ -32,12 +34,14 @@ class World {
 
   constructor(editor: Editor) {
     this.editor = editor
-    this.mainCanvas = createWith('canvas', 'main-canvas', editor.id, {...STYLE})
-    this.selectionCanvas = createWith('canvas', 'selection-canvas', editor.id, {...STYLE})
-    this.mainCanvasContext = this.mainCanvas.getContext('2d') as CanvasRenderingContext2D
-    this.selectionCanvasContext = this.selectionCanvas.getContext('2d') as CanvasRenderingContext2D
+    this.baseCanvas = createWith('canvas', 'main-canvas', editor.id, {...STYLE})
+    this.overlayCanvas = createWith('canvas', 'overlay-canvas', editor.id, {...STYLE})
+    this.creationCanvas = createWith('canvas', 'creation-canvas', editor.id, {...STYLE})
+    this.baseCanvasContext = this.baseCanvas.getContext('2d') as CanvasRenderingContext2D
+    this.overlayCanvasContext = this.overlayCanvas.getContext('2d') as CanvasRenderingContext2D
+    this.creationCanvasContext = this.overlayCanvas.getContext('2d') as CanvasRenderingContext2D
     // this.selectionBox = createWith('div', 'editor-selection-box', editor.id)
-    this.mainCanvas.setAttribute('id', 'main-canvas')
+    this.baseCanvas.setAttribute('id', 'main-canvas')
     this.scale = 1
     this.offset = {x: 0, y: 0}
     this.worldRect = generateBoundingRectFromTwoPoints(
@@ -47,7 +51,7 @@ class World {
     this.dpr = 2
 
     // this.selectionBox.style.pointerEvents = 'none'
-    this.editor.container.append(this.mainCanvas, this.selectionCanvas)
+    this.editor.container.append(this.baseCanvas, this.overlayCanvas)
   }
 
   updateWorldRect() {
@@ -94,7 +98,7 @@ class World {
   renderElements() {
     // console.log('renderElements')
     const animate = () => {
-      const {scale, dpr, mainCanvasContext: ctx} = this
+      const {scale, dpr, baseCanvasContext: ctx} = this
       const frameBorder: RectangleProps = {
         id: nid() + '-frame',
         cx: this.editor.config.page.width / 2,
@@ -148,13 +152,16 @@ class World {
   }
 
   destroy() {
-    console.log('destroy')
-    this.mainCanvas.remove()
-    this.selectionCanvas.remove()
-    this.mainCanvas = null!
-    this.selectionCanvas = null!
-    this.mainCanvasContext = null!
-    this.selectionCanvasContext = null!
+    // console.log('destroy')
+    this.baseCanvas.remove()
+    this.overlayCanvas.remove()
+    this.creationCanvas.remove()
+    this.baseCanvas = null!
+    this.overlayCanvas = null!
+    this.creationCanvas = null!
+    this.baseCanvasContext = null!
+    this.overlayCanvasContext = null!
+    this.creationCanvasContext = null!
   }
 }
 

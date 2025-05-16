@@ -10,7 +10,7 @@ declare class SelectionManager {
     get size(): number;
     get values(): Set<UID>;
     clear(): void;
-    get pickIfUnique(): ElementProps | null;
+    get pickIfUnique(): ElementProps | undefined;
     selectAll(): void;
     modify(idSet: Set<UID>, action: SelectionActionMode): void;
     add(idSet: Set<UID>): void;

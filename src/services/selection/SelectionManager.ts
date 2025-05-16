@@ -28,7 +28,7 @@ class SelectionManager {
     this.selected.clear()
   }
 
-  public get pickIfUnique(): ElementProps | null {
+  public get pickIfUnique(): ElementProps | undefined {
     if (this.selected.size === 1) {
       const unique = [...this.selected.values()][0]
       const element = this.editor.elementManager.all.get(unique)
@@ -36,10 +36,7 @@ class SelectionManager {
       if (element) {
         return element.toMinimalJSON()
       }
-
-      return null
     }
-    return null
   }
 
   public selectAll(): void {

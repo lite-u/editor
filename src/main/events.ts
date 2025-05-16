@@ -403,7 +403,7 @@ export function initEvents(this: Editor) {
 
   on('render-elements', () => {
     resetCanvas(
-      this.world.mainCanvasContext,
+      this.world.baseCanvasContext,
       this.world.scale,
       this.world.offset,
       this.world.dpr,
@@ -414,7 +414,7 @@ export function initEvents(this: Editor) {
 
   on('render-selection', () => {
     resetCanvas(
-      this.world.selectionCanvasContext,
+      this.world.overlayCanvasContext,
       this.world.scale,
       this.world.offset,
       this.world.dpr,

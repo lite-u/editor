@@ -102,15 +102,15 @@ class Editor {
         return result;
     }
     updateViewport() {
-        const { dpr, mainCanvas, selectionCanvas } = this.world;
+        const { dpr, baseCanvas, overlayCanvas } = this.world;
         const rect = this.container.getBoundingClientRect().toJSON();
         const { x, y, width, height } = rect;
         const viewportWidth = width * dpr;
         const viewportHeight = height * dpr;
         this.rect = { ...rect, cx: x + width / 2, cy: y + height / 2 };
         this.viewportRect = generateBoundingRectFromTwoPoints({ x: 0, y: 0 }, { x: viewportWidth, y: viewportHeight });
-        mainCanvas.width = selectionCanvas.width = viewportWidth;
-        mainCanvas.height = selectionCanvas.height = viewportHeight;
+        baseCanvas.width = overlayCanvas.width = viewportWidth;
+        baseCanvas.height = overlayCanvas.height = viewportHeight;
     }
     destroy() {
         // this.destroy()

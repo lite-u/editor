@@ -23,9 +23,7 @@ class SelectionManager {
             if (element) {
                 return element.toMinimalJSON();
             }
-            return null;
         }
-        return null;
     }
     selectAll() {
         console.log('all');

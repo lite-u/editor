@@ -15,10 +15,12 @@ const STYLE = {
 };
 class World {
     editor;
-    mainCanvas;
-    mainCanvasContext;
-    selectionCanvas;
-    selectionCanvasContext;
+    baseCanvas;
+    baseCanvasContext;
+    overlayCanvas;
+    overlayCanvasContext;
+    creationCanvas;
+    creationCanvasContext;
     scale;
     offset;
     worldRect;
@@ -27,18 +29,20 @@ class World {
     dpr;
     constructor(editor) {
         this.editor = editor;
-        this.mainCanvas = createWith('canvas', 'main-canvas', editor.id, { ...STYLE });
-        this.selectionCanvas = createWith('canvas', 'selection-canvas', editor.id, { ...STYLE });
-        this.mainCanvasContext = this.mainCanvas.getContext('2d');
-        this.selectionCanvasContext = this.selectionCanvas.getContext('2d');
+        this.baseCanvas = createWith('canvas', 'main-canvas', editor.id, { ...STYLE });
+        this.overlayCanvas = createWith('canvas', 'overlay-canvas', editor.id, { ...STYLE });
+        this.creationCanvas = createWith('canvas', 'creation-canvas', editor.id, { ...STYLE });
+        this.baseCanvasContext = this.baseCanvas.getContext('2d');
+        this.overlayCanvasContext = this.overlayCanvas.getContext('2d');
+        this.creationCanvasContext = this.overlayCanvas.getContext('2d');
         // this.selectionBox = createWith('div', 'editor-selection-box', editor.id)
-        this.mainCanvas.setAttribute('id', 'main-canvas');
+        this.baseCanvas.setAttribute('id', 'main-canvas');
         this.scale = 1;
         this.offset = { x: 0, y: 0 };
         this.worldRect = generateBoundingRectFromTwoPoints(this.offset, this.offset);
         this.dpr = 2;
         // this.selectionBox.style.pointerEvents = 'none'
-        this.editor.container.append(this.mainCanvas, this.selectionCanvas);
+        this.editor.container.append(this.baseCanvas, this.overlayCanvas);
     }
     updateWorldRect() {
         const { width, height } = this.editor.viewportRect;
@@ -65,7 +69,7 @@ class World {
     renderElements() {
         // console.log('renderElements')
         const animate = () => {
-            const { scale, dpr, mainCanvasContext: ctx } = this;
+            const { scale, dpr, baseCanvasContext: ctx } = this;
             const frameBorder = {
                 id: nid() + '-frame',
                 cx: this.editor.config.page.width / 2,
@@ -109,13 +113,16 @@ class World {
         requestAnimationFrame(animate);
     }
     destroy() {
-        console.log('destroy');
-        this.mainCanvas.remove();
-        this.selectionCanvas.remove();
-        this.mainCanvas = null;
-        this.selectionCanvas = null;
-        this.mainCanvasContext = null;
-        this.selectionCanvasContext = null;
+        // console.log('destroy')
+        this.baseCanvas.remove();
+        this.overlayCanvas.remove();
+        this.creationCanvas.remove();
+        this.baseCanvas = null;
+        this.overlayCanvas = null;
+        this.creationCanvas = null;
+        this.baseCanvasContext = null;
+        this.overlayCanvasContext = null;
+        this.creationCanvasContext = null;
     }
 }
 export default World;

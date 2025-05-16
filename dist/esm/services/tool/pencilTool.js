@@ -1,11 +1,39 @@
-import nid from '../../core/nid.js';
-import resizeTool from './resize/resizeTool.js';
+import nid from '~/core/nid';
+const points = [];
 const pencilTool = {
     cursor: 'crosshair',
     mouseDown() {
+        const { creationCanvasContext: ctx } = this.editor.world;
+        const { x, y } = this.editor.interaction.mouseWorldCurrent;
+        this.editor.action.dispatch('selection-clear');
+        ctx.save();
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = 100;
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + 100, y + 100);
+        ctx.stroke();
+        ctx.restore();
+    },
+    mouseMove() {
+        const { overlayCanvasContext: ctx } = this.editor.world;
+        const { x, y } = this.editor.interaction.mouseWorldCurrent;
+        this.editor.action.dispatch('selection-clear');
+        ctx.save();
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = 100;
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + 100, y + 100);
+        ctx.stroke();
+        ctx.restore();
+    },
+    mouseUp() {
         const { elementManager, interaction, action, selection } = this.editor;
         const { x, y } = this.editor.interaction.mouseWorldCurrent;
         const id = 'rectangle-' + nid();
+        interaction._ele = null;
         const eleProps = {
             id,
             layer: 0,
@@ -16,17 +44,8 @@ const pencilTool = {
             ],
         };
         const ele = elementManager.add(elementManager.create(eleProps));
-        interaction._ele = ele;
+        // interaction._ele = ele
         action.dispatch('selection-clear');
-        // selection.replace(new Set([ele.id]))
-    },
-    mouseMove() {
-        if (!this.editor.interaction._ele)
-            return;
-        resizeTool.call(this, [this.editor.interaction._ele], 'br');
-    },
-    mouseUp() {
-        this.editor.interaction._ele = null;
     },
 };
 export default pencilTool;
