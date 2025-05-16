@@ -16,7 +16,7 @@ const lineSegmentTool: ToolType = {
       type: 'lineSegment',
       points: [
         {id: 'start', x, y},
-        {id: 'end', x, y},
+        {id: 'end', x:x+1, y:y+1},
       ],
     }
 

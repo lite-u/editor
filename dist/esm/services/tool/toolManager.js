@@ -10,7 +10,7 @@ import rectangleTool from './rectangle/rectangleTool.js';
 import panning from './panning/panning.js';
 import ellipseTool from './ellipseTool.js';
 import textTool from './textTool.js';
-import lineSegmentTool from './lineSegment.js';
+import lineSegmentTool from './lineSegmentTool.js';
 class ToolManager {
     editor;
     eventsController = new AbortController();

@@ -17,7 +17,7 @@ function resizeTool(this: ToolManager, elements: ElementInstance[], direction: R
     x: opposite.x - anchor.x,
     y: opposite.y - anchor.y,
   }
-
+  // console.log(rect)
   const currentVec = {
     x: mouseWorldCurrent.x - anchor.x,
     y: mouseWorldCurrent.y - anchor.y,
@@ -35,6 +35,7 @@ function resizeTool(this: ToolManager, elements: ElementInstance[], direction: R
   const scalingAnchor = altKey
     ? {x: centerX, y: centerY}
     : anchor
+  // console.log(scaleX, scaleY,scalingAnchor)
 
   elements.forEach((el: ElementInstance) => {
     el.scaleFrom(scaleX, scaleY, scalingAnchor)

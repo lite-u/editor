@@ -12,7 +12,7 @@ import rectangleTool from '~/services/tool/rectangle/rectangleTool'
 import panning from '~/services/tool/panning/panning'
 import ellipseTool from '~/services/tool/ellipseTool'
 import textTool from '~/services/tool/textTool'
-import lineSegmentTool from '~/services/tool/lineSegment'
+import lineSegmentTool from '~/services/tool/lineSegmentTool'
 
 export type ToolType = {
   cursor: CursorName

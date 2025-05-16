@@ -39,15 +39,22 @@ class ElementLineSegment extends ElementBase implements BasePath {
   }
 
   public getPoints(): Point[] {
-    return this.points.map(p => ({...p}))
+    return this.points.map(p => ({x: p.x, y: p.y}))
   }
 
   static _getBoundingRect(start: Point, end: Point, rotation: number = 0): BoundingRect {
     const x = Math.min(start.x, end.x)
     const y = Math.min(start.y, end.y)
-    const width = Math.abs(end.x - start.x)
-    const height = Math.abs(end.y - start.y)
+    let width = Math.abs(end.x - start.x)
+    let height = Math.abs(end.y - start.y)
 
+    if (width <= 0) {
+      width = 1
+    }
+    if (height <= 0) {
+      height = 1
+    }
+    // console.log(width, height)
     if (rotation === 0) {
       return generateBoundingRectFromRect({x, y, width, height})
     }
@@ -83,6 +90,7 @@ class ElementLineSegment extends ElementBase implements BasePath {
     const newStart = this.transformPoint(oStart.x, oStart.y, matrix)
     const newEnd = this.transformPoint(oEnd.x, oEnd.y, matrix)
 
+    // console.log(scaleX, scaleY, newStart, newEnd)
     start.x = newStart.x
     start.y = newStart.y
     end.x = newEnd.x
