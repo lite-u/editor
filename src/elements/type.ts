@@ -19,10 +19,8 @@ export type ElementPropsMap = {
   'path': PathProps
 }
 export type ElementProps = RectangleProps | EllipseProps | TextProps | ImageProps | LineSegmentProps | PathProps
-export type OptionalIdentifiersProps = ElementProps & { id?: UID, layer?: number }
-// type ElementPropsType<T extends keyof ElementPropsMap> = ElementPropsMap[T]
+export type OptionalIdentifiersProps = Omit<ElementProps, 'id' | 'layer'> & { id?: UID, layer?: number }
 export type PropsWithoutIdentifiers<T extends keyof ElementPropsMap> = Omit<ElementPropsMap[T], 'id' | 'layer'>
-// export type ElementNames = keyof ElementTypeMap
 export type ElementInstance =
   InstanceType<ElementRectangle>
   | InstanceType<ElementEllipse>

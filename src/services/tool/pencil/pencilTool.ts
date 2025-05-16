@@ -2,7 +2,7 @@ import ToolManager, {ToolType} from '~/services/tool/toolManager'
 import {convertPointsToBezierPoints, drawLine} from '~/services/tool/pencil/helper'
 import {PathProps} from '~/elements/path/path'
 import {Point} from '~/type'
-import {OptionalIdentifiersProps, PropsWithoutIdentifiers} from '~/elements/type'
+import {PropsWithoutIdentifiers} from '~/elements/type'
 
 const points: Point[] = []
 let _lastPoint = null
@@ -14,8 +14,6 @@ const pencilTool: ToolType = {
     const point = {x, y}
     // const id = 'rectangle-' + nid()
     const eleProps: PropsWithoutIdentifiers<'path'> = {
-      // id,
-      // layer: 0,
       type: 'path',
       points: convertPointsToBezierPoints(points),
       closed: false,
@@ -38,14 +36,14 @@ const pencilTool: ToolType = {
   },
   mouseUp(this: ToolManager) {
     const {elementManager, interaction, action, selection} = this.editor
-    const {x, y} = this.editor.interaction.mouseWorldCurrent
+    // const {x, y} = this.editor.interaction.mouseWorldCurrent
     interaction._ele = null
 
     // const b = convertPointsToBezierPoints(points)
 
     const eleProps: PathProps = {
-      id,
-      layer: 0,
+      // id,
+      // layer: 0,
       type: 'path',
       points: convertPointsToBezierPoints(points),
       closed: false,
