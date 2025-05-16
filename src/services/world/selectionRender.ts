@@ -13,7 +13,7 @@ function selectionRender(this: World) {
 
   if (PH) {
     console.log(PH)
-    drawCrossWithLabel(ctx, PH, 2, '#000000')
+    drawCrossWithLabel(ctx, PH, 2, '#ff0000')
 
   }
 

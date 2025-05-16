@@ -7,7 +7,7 @@ function selectionRender() {
     const PH = this.editor.interaction._pointHit;
     if (PH) {
         console.log(PH);
-        drawCrossWithLabel(ctx, PH, 2, '#000000');
+        drawCrossWithLabel(ctx, PH, 2, '#ff0000');
     }
     return;
     const fillColor = '#5491f8';
