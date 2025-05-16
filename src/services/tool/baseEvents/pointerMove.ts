@@ -9,7 +9,6 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
   const x = e.clientX - rect!.x
   const y = e.clientY - rect!.y
   const {button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY} = e
-  // const modifiers = {button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY}
   const viewPoint = {
     x: interaction.mouseCurrent.x * dpr,
     y: interaction.mouseCurrent.y * dpr,
@@ -40,8 +39,7 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
     console.log(border, inside)
 
     points.some(p => isPointNear(p, viewPoint))
-
-
   }
+
   this.tool.mouseMove.call(this)
 }
