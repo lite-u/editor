@@ -1,5 +1,5 @@
 import nid from '../../../core/nid.js';
-import { convertPointsToBezierPoints } from './helper.js';
+import { convertPointsToBezierPoints, drawLine } from './helper.js';
 const points = [];
 let _lastPoint = null;
 const pencilTool = {
@@ -7,36 +7,20 @@ const pencilTool = {
     mouseDown() {
         const { creationCanvasContext: ctx } = this.editor.world;
         const { x, y } = this.editor.interaction.mouseWorldCurrent;
-        // this.editor.action.dispatch('selection-clear')
-        points.push({ x, y });
-        _lastPoint = { x, y };
-        ctx.save();
-        ctx.strokeStyle = '#000';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(x, y);
-        ctx.lineTo(x + 1, y + 1);
-        ctx.stroke();
-        ctx.restore();
+        const point = { x, y };
+        points.push(point);
+        _lastPoint = { ...point };
+        drawLine(ctx, _lastPoint, point);
     },
     mouseMove() {
         if (!this.editor.interaction._pointDown)
             return;
         const { creationCanvasContext: ctx } = this.editor.world;
         const { x, y } = this.editor.interaction.mouseWorldCurrent;
-        // this.editor.action.dispatch('selection-clear')
-        points.push({ x, y });
-        ctx.save();
-        ctx.strokeStyle = '#000';
-        ctx.lineWidth = 1;
-        ctx.save();
-        ctx.beginPath();
-        ctx.moveTo(_lastPoint.x, _lastPoint.y);
-        ctx.lineTo(x, y);
-        ctx.stroke();
-        ctx.restore();
-        _lastPoint.x = x;
-        _lastPoint.y = y;
+        const point = { x, y };
+        points.push(point);
+        drawLine(ctx, _lastPoint, point);
+        _lastPoint = { ...point };
     },
     mouseUp() {
         const { elementManager, interaction, action, selection } = this.editor;

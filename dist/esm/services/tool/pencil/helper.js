@@ -22,3 +22,13 @@ export function convertPointsToBezierPoints(points, tension = 0.3) {
     }
     return bezierPoints;
 }
+export function drawLine(ctx, p1, p2) {
+    ctx.save();
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(p1.x, p1.y);
+    ctx.lineTo(p2.x, p2.y);
+    ctx.stroke();
+    ctx.restore();
+}

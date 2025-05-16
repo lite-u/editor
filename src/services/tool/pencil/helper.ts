@@ -31,3 +31,14 @@ export function convertPointsToBezierPoints(points: Point[], tension = 0.3): Bez
 
   return bezierPoints
 }
+
+export function drawLine(ctx: CanvasRenderingContext2D, p1: Point, p2: Point) {
+  ctx.save()
+  ctx.strokeStyle = '#000'
+  ctx.lineWidth = 1
+  ctx.beginPath()
+  ctx.moveTo(p1.x, p1.y)
+  ctx.lineTo(p2.x, p2.y)
+  ctx.stroke()
+  ctx.restore()
+}
