@@ -83,8 +83,29 @@ class ElementBase {
     getTransformMatrix() {
         return this.matrix;
     }
-    render(_) {
-        return undefined;
+    render(ctx) {
+        if (!this.path2D)
+            return;
+        let { show, opacity, fill, stroke } = this;
+        const { enabled: enabledFill, color: fillColor } = fill;
+        const { enabled: enabledStroke, color: strokeColor, weight, join, /*dashed*/ } = stroke;
+        if (!show || opacity <= 0)
+            return;
+        ctx.save();
+        if (opacity < 100) {
+            ctx.globalAlpha = opacity / 100;
+        }
+        if (enabledFill) {
+            ctx.fillStyle = fillColor;
+            ctx.fill(this.path2D);
+        }
+        if (enabledStroke && weight > 0) {
+            ctx.lineWidth = weight;
+            ctx.strokeStyle = strokeColor;
+            ctx.lineJoin = join;
+            ctx.stroke(this.path2D);
+        }
+        ctx.restore();
     }
 }
 export default ElementBase;

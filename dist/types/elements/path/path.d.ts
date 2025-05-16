@@ -36,6 +36,5 @@ declare class ElementPath extends ElementBase {
         fillColor: string;
     }, boundingRect: BoundingRect, elementOrigin: ElementProps): OperationHandler[];
     isInsideRect(outer: BoundingRect): boolean;
-    render(ctx: CanvasRenderingContext2D): void;
 }
 export default ElementPath;

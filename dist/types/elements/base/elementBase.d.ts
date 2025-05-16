@@ -31,6 +31,6 @@ declare class ElementBase {
     protected resetTransform(): void;
     protected applyTransform(matrix: DOMMatrix): void;
     protected getTransformMatrix(): DOMMatrix;
-    protected render(_: CanvasRenderingContext2D): void;
+    protected render(ctx: CanvasRenderingContext2D): void;
 }
 export default ElementBase;

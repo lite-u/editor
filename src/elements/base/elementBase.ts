@@ -143,9 +143,11 @@ class ElementBase {
   }
 
   protected render(ctx: CanvasRenderingContext2D): void {
+    if (!this.path2D) return
+
     let {show, opacity, fill, stroke} = this
     const {enabled: enabledFill, color: fillColor} = fill
-    const {enabled: enabledStroke, color: strokeColor, weight, join, dashed} = stroke
+    const {enabled: enabledStroke, color: strokeColor, weight, join, /*dashed*/} = stroke
 
     if (!show || opacity <= 0) return
 
