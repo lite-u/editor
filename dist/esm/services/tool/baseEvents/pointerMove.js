@@ -26,7 +26,7 @@ export default function handlePointerMove(e) {
         if (!ele.show || ele.opacity <= 0)
             continue;
         const points = ele.getPoints;
-        console.log(ele);
+        // console.log(ele)
         const border = ctx.isPointInStroke(path, viewPoint.x, viewPoint.y);
         // const border = isPointNearStroke(ctx, path, viewPoint, 10)
         const inside = ctx.isPointInPath(path, viewPoint.x, viewPoint.y);
@@ -40,7 +40,7 @@ export default function handlePointerMove(e) {
             break;
         }
         else if (border) {
-            console.log(border);
+            // console.log(border)
             interaction._hoveredElement = ele;
             interaction._pointHit = {
                 type: 'path',
@@ -49,6 +49,7 @@ export default function handlePointerMove(e) {
             break;
         }
         else if (inside) {
+            console.log('inside', ele.fill.enabled);
             if (ele.fill.enabled) {
                 interaction._hoveredElement = ele;
                 // interaction._pointHit = null
