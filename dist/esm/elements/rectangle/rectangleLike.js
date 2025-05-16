@@ -90,6 +90,7 @@ class RectangleLike extends ElementShape {
         this.cy = (topLeft.y + bottomRight.y) / 2;
         this.width = Math.abs(bottomRight.x - topLeft.x);
         this.height = Math.abs(bottomRight.y - topLeft.y);
+        this.updatePath2D();
         // console.log(this.cx, this.cy, this.width, this.height)
     }
     /*  getTransformedPoints(): Point[] {
@@ -216,8 +217,6 @@ class RectangleLike extends ElementShape {
         return points;
     }
     render(ctx) {
-        // render(this, ctx)
-        // console.log(this.path2D)
         let { cx, cy, show, rotation, opacity, fill, stroke } = this.toJSON();
         const { enabled: enabledFill, color: fillColor } = fill;
         const { enabled: enabledStroke, color: strokeColor, weight, join, dashed } = stroke;
@@ -230,7 +229,6 @@ class RectangleLike extends ElementShape {
             ctx.translate(-cx, -cy);
         }
         if (opacity < 100) {
-            ctx.fillStyle = fillColor;
             ctx.globalAlpha = opacity / 100;
         }
         if (enabledFill) {

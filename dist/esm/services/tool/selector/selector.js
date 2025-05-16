@@ -64,11 +64,12 @@ const selector = {
             interaction._ele = new Set(realSelected);
         }
     },
-    mouseMove({ movementX, movementY, shiftKey, metaKey, ctrlKey }) {
+    mouseMove() {
         const { action, 
         // container,
         world, interaction, elementManager, cursor, } = this.editor;
-        const { _ele, selectedShadow, _selectingElements, mouseStart, mouseCurrent, } = interaction;
+        const { _ele, _modifier, selectedShadow, _selectingElements, mouseStart, mouseCurrent, } = interaction;
+        const { movementX, movementY, shiftKey, metaKey, ctrlKey } = _modifier;
         switch (interaction.state) {
             case 'selecting':
                 {

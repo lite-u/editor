@@ -70,7 +70,7 @@ const selector: ToolType = {
       interaction._ele = new Set(realSelected)
     }
   },
-  mouseMove(this: ToolManager, {movementX, movementY, shiftKey, metaKey, ctrlKey}) {
+  mouseMove(this: ToolManager,) {
     const {
       action,
       // container,
@@ -81,11 +81,13 @@ const selector: ToolType = {
     } = this.editor
     const {
       _ele,
+      _modifier,
       selectedShadow,
       _selectingElements,
       mouseStart,
       mouseCurrent,
     } = interaction
+    const {movementX, movementY, shiftKey, metaKey, ctrlKey} = _modifier
 
     switch (interaction.state) {
       case 'selecting': {
@@ -102,7 +104,7 @@ const selector: ToolType = {
         const virtualSelectionRect: BoundingRect =
           generateBoundingRectFromTwoPoints(pointA, pointB)
         const _selecting: Set<UID> = new Set()
-        const modifyKey =  ctrlKey ||  metaKey ||  shiftKey
+        const modifyKey = ctrlKey || metaKey || shiftKey
 
         elementManager.all.forEach((ele) => {
           if (ele.isInsideRect(virtualSelectionRect)) {
@@ -189,11 +191,11 @@ const selector: ToolType = {
 
         // cursor.move(mouseCurrent, cursorAngle)
         // updateCursor.call(this, 'rotate', mouseMovePoint, cursorAngle)
-/*
-        action.dispatch('element-modifying', {
-          type: 'rotate',
-          data: {rotation},
-        })*/
+        /*
+                action.dispatch('element-modifying', {
+                  type: 'rotate',
+                  data: {rotation},
+                })*/
       }
         break
 
