@@ -3,7 +3,8 @@ import {ElementInstance} from '~/elements/type'
 import World from '~/services/world/World'
 import {BorderRadius} from '~/elements/props'
 import {DEFAULT_FILL, DEFAULT_STROKE} from '~/elements/defaultProps'
-import {Point, UID} from '~/type'
+import {UID} from '~/type'
+import {PointHit} from '~/services/interaction/InteractionState'
 
 function selectionRender(this: World) {
   if (this.editor.elementManager.size === 0) return
@@ -12,8 +13,8 @@ function selectionRender(this: World) {
 
   if (PH) {
     console.log(PH)
-    drawCross(ctx, PH, 2, '#000000')
-    // new
+    drawCrossWithLabel(ctx, PH, 2, '#000000')
+
   }
 
   return
@@ -86,11 +87,20 @@ function selectionRender(this: World) {
   }*/
 }
 
-function drawCross(ctx: CanvasRenderingContext2D, point: Point, size = 6, color = 'red', lineWidth = 1) {
-  const {x, y} = point
+function drawCrossWithLabel(
+  ctx: CanvasRenderingContext2D,
+  {x, y, type}: PointHit,
+  size = 6,
+  color = 'red',
+  lineWidth = 1,
+  font = '12px sans-serif',
+) {
+  // const {x, y} = point
   const half = size / 2
 
   ctx.save()
+
+  // Draw the cross
   ctx.strokeStyle = color
   ctx.lineWidth = lineWidth
 
@@ -102,6 +112,13 @@ function drawCross(ctx: CanvasRenderingContext2D, point: Point, size = 6, color 
   ctx.lineTo(x - half, y + half)
 
   ctx.stroke()
+
+  // Draw the label
+  ctx.fillStyle = color
+  ctx.font = font
+  ctx.textBaseline = 'top'
+  ctx.fillText(type, x + half + 10, y - half)
+
   ctx.restore()
 }
 

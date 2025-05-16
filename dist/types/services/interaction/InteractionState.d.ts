@@ -13,7 +13,7 @@ export type Modifier = {
     movementX: number;
     movementY: number;
 };
-type PointHit = {
+export type PointHit = {
     x: number;
     y: number;
     type: 'center' | 'anchor' | 'path';

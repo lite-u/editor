@@ -7,8 +7,7 @@ function selectionRender() {
     const PH = this.editor.interaction._pointHit;
     if (PH) {
         console.log(PH);
-        drawCross(ctx, PH, 2, '#000000');
-        // new
+        drawCrossWithLabel(ctx, PH, 2, '#000000');
     }
     return;
     const fillColor = '#5491f8';
@@ -72,10 +71,11 @@ function selectionRender() {
       })
     }*/
 }
-function drawCross(ctx, point, size = 6, color = 'red', lineWidth = 1) {
-    const { x, y } = point;
+function drawCrossWithLabel(ctx, { x, y, type }, size = 6, color = 'red', lineWidth = 1, font = '12px sans-serif') {
+    // const {x, y} = point
     const half = size / 2;
     ctx.save();
+    // Draw the cross
     ctx.strokeStyle = color;
     ctx.lineWidth = lineWidth;
     ctx.beginPath();
@@ -84,6 +84,11 @@ function drawCross(ctx, point, size = 6, color = 'red', lineWidth = 1) {
     ctx.moveTo(x + half, y - half);
     ctx.lineTo(x - half, y + half);
     ctx.stroke();
+    // Draw the label
+    ctx.fillStyle = color;
+    ctx.font = font;
+    ctx.textBaseline = 'top';
+    ctx.fillText(type, x + half + 10, y - half);
     ctx.restore();
 }
 export default selectionRender;
