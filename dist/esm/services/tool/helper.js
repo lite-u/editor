@@ -39,8 +39,8 @@ export function detectHoveredElement() {
     for (let i = arr.length - 1; i >= 0; i--) {
         const ele = arr[i];
         const path = ele.path2D;
-        const inside = ctx.isPointInPath(path, WP.x, WP.y);
         const border = ctx.isPointInStroke(path, WP.x, WP.y);
+        const inside = ctx.isPointInPath(path, WP.x, WP.y);
         console.log(inside, border);
         /*  if (arr[i].element.hitTest(worldPoint)) {
             hitOn = arr[i]
