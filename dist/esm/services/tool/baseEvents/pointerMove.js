@@ -5,7 +5,6 @@ export default function handlePointerMove(e) {
     const x = e.clientX - rect.x;
     const y = e.clientY - rect.y;
     const { button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY } = e;
-    // const modifiers = {button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY}
     const viewPoint = {
         x: interaction.mouseCurrent.x * dpr,
         y: interaction.mouseCurrent.y * dpr,
@@ -27,8 +26,11 @@ export default function handlePointerMove(e) {
         const points = ele.getPoints;
         const border = ctx.isPointInStroke(path, viewPoint.x, viewPoint.y);
         const inside = ctx.isPointInPath(path, viewPoint.x, viewPoint.y);
+        const point = points.some(p => isPointNear(p, viewPoint));
         console.log(border, inside);
-        points.some(p => isPointNear(p, viewPoint));
+    }
+    // snap
+    if (interaction._pointDown) {
     }
     this.tool.mouseMove.call(this);
 }

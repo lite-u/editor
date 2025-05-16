@@ -35,10 +35,15 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
     const points: Point[] = ele.getPoints
     const border = ctx.isPointInStroke(path, viewPoint.x, viewPoint.y)
     const inside = ctx.isPointInPath(path, viewPoint.x, viewPoint.y)
+    const point = points.some(p => isPointNear(p, viewPoint))
 
     console.log(border, inside)
 
-    points.some(p => isPointNear(p, viewPoint))
+  }
+
+  // snap
+  if (interaction._pointDown) {
+
   }
 
   this.tool.mouseMove.call(this)

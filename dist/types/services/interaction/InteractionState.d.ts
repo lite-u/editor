@@ -13,6 +13,11 @@ export type Modifier = {
     movementX: number;
     movementY: number;
 };
+type PointHit = {
+    x: number;
+    y: number;
+    type: 'center' | 'anchor' | 'path';
+};
 declare class InteractionState {
     editor: Editor;
     state: EditorManipulationType;
@@ -26,6 +31,7 @@ declare class InteractionState {
     readonly operationHandlers: OperationHandler[];
     _pointDown: boolean;
     _snapped: boolean;
+    _pointHit: PointHit | null;
     _selectingElements: Set<UID>;
     _deselection: UID | null;
     _resizingOperator: ResizeHandle | null;

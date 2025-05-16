@@ -24,6 +24,11 @@ export type Modifier = {
   movementX: number
   movementY: number
 }
+type PointHit = {
+  x: number
+  y: number
+  type: 'center' | 'anchor' | 'path'
+}
 
 class InteractionState {
   editor: Editor
@@ -40,8 +45,9 @@ class InteractionState {
   hoveredElement: UID = ''
   readonly operationHandlers: OperationHandler[] = []
   _pointDown = false
-  // spaceKeyDown = false
   _snapped = false
+  _pointHit: PointHit | null = null
+  // spaceKeyDown = false
   // _creatingElementId: UID
   // _ele: Set<UID> = new Set()
   _selectingElements: Set<UID> = new Set()
