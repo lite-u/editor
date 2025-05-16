@@ -1,5 +1,5 @@
 export type PointProps = {
-  type: 'point'
+  type?: 'point'
   id: string
   x: number
   y: number

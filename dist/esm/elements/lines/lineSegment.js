@@ -1,5 +1,6 @@
 import ElementBase from '../base/elementBase.js';
 import deepClone from '../../core/deepClone.js';
+import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '../../core/utils.js';
 class ElementLineSegment extends ElementBase {
     id;
     layer;
@@ -16,6 +17,24 @@ class ElementLineSegment extends ElementBase {
     getPoints() {
         return Object.values(this.points).map(p => p);
     }
+    getBoundingRect() {
+        const { points } = this;
+        const x = cx - width / 2;
+        const y = cy - height / 2;
+        if (rotation === 0) {
+            return generateBoundingRectFromRect({ x, y, width, height });
+        }
+        return generateBoundingRectFromRotatedRect({ x, y, width, height }, rotation);
+    }
+    getBoundingRectFromOriginal() {
+        const { cx, cy, width, height, rotation } = this.original;
+        const x = cx - width / 2;
+        const y = cy - height / 2;
+        if (rotation === 0) {
+            return generateBoundingRectFromRect({ x, y, width, height });
+        }
+        return generateBoundingRectFromRotatedRect({ x, y, width, height }, rotation);
+    }
     translate(dx, dy) {
         Object.values(this.points).forEach((point) => {
             point.x += dx;
@@ -23,21 +42,14 @@ class ElementLineSegment extends ElementBase {
         });
     }
     scaleFrom(scaleX, scaleY, anchor) {
-        // console.log(scaleX, scaleY, anchor)
         const matrix = new DOMMatrix()
             .translate(anchor.x, anchor.y)
             .scale(scaleX, scaleY)
             .translate(-anchor.x, -anchor.y);
-        /*
-            const {cx, cy, width, height} = this.original
-            const topLeft = this.transformPoint(cx - width / 2, cy - height / 2, matrix)
-            const bottomRight = this.transformPoint(cx + width / 2, cy + height / 2, matrix)
-    
-            this.cx = (topLeft.x + bottomRight.x) / 2
-            this.cy = (topLeft.y + bottomRight.y) / 2
-            this.width = Math.abs(bottomRight.x - topLeft.x)
-            this.height = Math.abs(bottomRight.y - topLeft.y)*/
-        // console.log(this.cx, this.cy, this.width, this.height)
+        const newStart = this.transformPoint(this.original.points.start.x, this.original.points.start.y, matrix);
+        const newEnd = this.transformPoint(this.original.points.end.x, this.original.points.end.y, matrix);
+        this.points.start = newStart;
+        this.points.end = newEnd;
     }
     toJSON() {
         return {
