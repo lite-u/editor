@@ -46,13 +46,13 @@ class ElementEllipse extends ElementShape {
       r2: this.r1,
       rotation: this.rotation,
     }
+    this.updatePath2D()
   }
 
   protected updatePath2D() {
     this.path2D = new Path2D()
     this.path2D.ellipse(this.cx, this.cy, this.r1, this.r2, this.rotation, 0, Math.PI * 2)
   }
-
 
   scale(sx: number, sy: number) {
     this.r1 *= sx
@@ -65,7 +65,7 @@ class ElementEllipse extends ElementShape {
       .scale(scaleX, scaleY)
       .translate(-anchor.x, -anchor.y)
 
-    const { cx, cy, r1, r2 } = this.original
+    const {cx, cy, r1, r2} = this.original
 
     const center = this.transformPoint(cx, cy, matrix)
     const rx = this.transformPoint(cx + r1, cy, matrix)

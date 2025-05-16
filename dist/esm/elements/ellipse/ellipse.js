@@ -25,6 +25,7 @@ class ElementEllipse extends ElementShape {
             r2: this.r1,
             rotation: this.rotation,
         };
+        this.updatePath2D();
     }
     updatePath2D() {
         this.path2D = new Path2D();
