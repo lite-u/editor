@@ -21,8 +21,15 @@ export function applyRotating(shiftKey) {
 }
 export function detectHoveredElement() {
     const { interaction, action, world, visible } = this.editor;
-    const { baseCanvasContext: ctx } = world;
-    const WP = world.getWorldPointByViewportPoint(interaction.mouseCurrent.x, interaction.mouseCurrent.y);
+    const { baseCanvasContext: ctx, dpr } = world;
+    /*const WP = world.getWorldPointByViewportPoint(
+      interaction.mouseCurrent.x,
+      interaction.mouseCurrent.y,
+    )*/
+    const WP = {
+        x: interaction.mouseCurrent.x * dpr,
+        y: interaction.mouseCurrent.y * dpr,
+    };
     // const maxLayer = Number.MIN_SAFE_INTEGER
     let elementId = null;
     let hitOn = null;
