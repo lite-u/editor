@@ -5,16 +5,20 @@ function selectionRender() {
         return;
     const { overlayCanvasContext: ctx } = this;
     const PH = this.editor.interaction._pointHit;
+    const { scale, dpr } = this.editor.world;
+    const ratio = scale * dpr;
+    const size = 6 / ratio;
+    const lineWidth = 1 / ratio;
     if (PH) {
         console.log(PH);
-        drawCrossWithLabel(ctx, PH, 2, '#ff0000');
+        drawCrossWithLabel(ctx, PH, size, '#ff0000', lineWidth);
     }
     return;
     const fillColor = '#5491f8';
     const lineColor = '#5491f8';
     const selected = this.editor.visible.getVisibleSelected;
     const centerPointWidth = 2 / this.scale * this.dpr;
-    const lineWidth = 1 / this.scale * this.dpr;
+    // const lineWidth = 1 / this.scale * this.dpr
     const centerPoints = new Set(selected);
     if (this.editor.interaction._hoveredElement) {
         centerPoints.add(this.editor.interaction._hoveredElement);
