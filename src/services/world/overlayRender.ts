@@ -1,5 +1,5 @@
 import ElementRectangle from '~/elements/rectangle/rectangle'
-import {ElementInstance} from '~/elements/type'
+import {ElementInstance, OptionalIdentifiersProps} from '~/elements/type'
 import World from '~/services/world/World'
 import {BorderRadius} from '~/elements/props'
 import {DEFAULT_FILL, DEFAULT_STROKE} from '~/elements/defaultProps'
@@ -9,7 +9,7 @@ import {PointHit} from '~/services/interaction/InteractionState'
 function overlayRender(this: World) {
   if (this.editor.elementManager.size === 0) return
   const {overlayCanvasContext: ctx} = this
-  const {_pointHit,_snappedPoint, _hoveredElement} = this.editor.interaction
+  const {_snappedPoint, _hoveredElement} = this.editor.interaction
   const {scale, dpr} = this.editor.world
   const ratio = scale * dpr
   const size = 80 / ratio
@@ -22,11 +22,20 @@ function overlayRender(this: World) {
   }
 
   if (_hoveredElement) {
-
+    const pointProps = _hoveredElement.getCenter()
     const ele = this.editor.elementManager.create(_hoveredElement.toJSON())
+    const point = this.editor.elementManager.create({
+      type: 'ellipse',
+      r1: 2,
+      r2: 2,
+      cx: pointProps.x,
+      cy: pointProps.y,
+    } as OptionalIdentifiersProps)
+
     ele.stroke.color = 'blue'
+    point.stroke.color = 'blue'
+    point.render(ctx)
     ele.render(ctx)
-    // console.log(ele)
   }
 
   return

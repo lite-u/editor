@@ -30,7 +30,7 @@ export default function handlePointerMove(e) {
             continue;
         const points = ele.getPoints;
         // const border = ctx.isPointInStroke(path, viewPoint.x, viewPoint.y)
-        const onBorder = isPointNearStroke(ctx, path, viewPoint, 1);
+        const onBorder = isPointNearStroke(ctx, path, viewPoint, .1);
         const inside = ctx.isPointInPath(path, viewPoint.x, viewPoint.y);
         const point = points.find(p => isPointNear(p, viewPoint));
         if (point) {
@@ -41,7 +41,11 @@ export default function handlePointerMove(e) {
         }
         else if (onBorder) {
             console.log(onBorder);
-            const { dpr } = world;
+            // const {dpr} = world
+            /*      const p = {
+                    x:Math.round(interaction.mouseWorldCurrent.x),
+                    y:Math.round(interaction.mouseWorldCurrent.y),
+                  }*/
             _ele = ele;
             _snappedPoint = {
                 type: 'path',
@@ -63,7 +67,7 @@ export default function handlePointerMove(e) {
         // try to detach from snap point
         const dx = Math.abs(interaction.mouseWorldCurrent.x - interaction._snappedPoint.x);
         const dy = Math.abs(interaction.mouseWorldCurrent.y - interaction._snappedPoint.y);
-        if (dx > 5 || dy > 5) {
+        if (dx > .5 || dy > .5) {
             interaction._snappedPoint = null;
         }
     }

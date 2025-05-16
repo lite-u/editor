@@ -4,7 +4,7 @@ function overlayRender() {
     if (this.editor.elementManager.size === 0)
         return;
     const { overlayCanvasContext: ctx } = this;
-    const { _pointHit, _snappedPoint, _hoveredElement } = this.editor.interaction;
+    const { _snappedPoint, _hoveredElement } = this.editor.interaction;
     const { scale, dpr } = this.editor.world;
     const ratio = scale * dpr;
     const size = 80 / ratio;
@@ -15,10 +15,19 @@ function overlayRender() {
         drawCrossWithLabel(ctx, _snappedPoint, size, '#ff0000', lineWidth, fontSize);
     }
     if (_hoveredElement) {
+        const pointProps = _hoveredElement.getCenter();
         const ele = this.editor.elementManager.create(_hoveredElement.toJSON());
+        const point = this.editor.elementManager.create({
+            type: 'ellipse',
+            r1: 2,
+            r2: 2,
+            cx: pointProps.x,
+            cy: pointProps.y,
+        });
         ele.stroke.color = 'blue';
+        point.stroke.color = 'blue';
+        point.render(ctx);
         ele.render(ctx);
-        // console.log(ele)
     }
     return;
     const fillColor = '#5491f8';
