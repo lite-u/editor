@@ -7,7 +7,7 @@ const pencilTool = {
         const { creationCanvasContext: ctx } = this.editor.world;
         const { x, y } = this.editor.interaction.mouseWorldCurrent;
         const point = { x, y };
-        this.editor.action.dispatch('render-creation');
+        this.editor.action.dispatch('clear-creation');
         points.push(point);
         _lastPoint = { ...point };
         drawLine(ctx, _lastPoint, point);
@@ -33,6 +33,7 @@ const pencilTool = {
         points.length = 0;
         _lastPoint = null;
         interaction._ele = null;
+        action.dispatch('clear-creation');
         // action.dispatch('visible-element-updated')
         // interaction._ele = ele
         // action.dispatch('selection-clear')

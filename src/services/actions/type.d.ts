@@ -65,7 +65,7 @@ export type VisionEventMap = {
   'world-shift': Point;
   'render-elements': boolean;
   'render-overlay': never;
-  'render-creation': never;
+  'clear-creation': never;
   'selection-updated': never
   'selection-modify': SelectionModifyData;
   'selection-clear': never;

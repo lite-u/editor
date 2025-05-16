@@ -341,7 +341,7 @@ export function initEvents() {
         resetCanvas(this.world.overlayCanvasContext, this.world.scale, this.world.offset, this.world.dpr);
         this.world.renderOverlay();
     });
-    on('render-creation', () => {
+    on('clear-creation', () => {
         resetCanvas(this.world.creationCanvasContext, this.world.scale, this.world.offset, this.world.dpr);
         // this.world.renderOverlay()
     });
