@@ -10,8 +10,6 @@ const selector: ToolType = {
     const {shiftKey, metaKey, ctrlKey} = this.editor.interaction._modifier
     const {interaction, action, selection, cursor} = this.editor
 
-    action.dispatch('render-selection')
-
   },
   mouseUp(this: ToolManager) {
     const {shiftKey, metaKey, ctrlKey} = this.editor.interaction._modifier

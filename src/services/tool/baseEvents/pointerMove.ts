@@ -51,6 +51,7 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
       }
     } else if (inside) {
       interaction._hoveredElement = ele
+      interaction._pointHit = null
     } else {
       interaction._hoveredElement = null
       interaction._pointHit = null
@@ -61,6 +62,7 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
   if (interaction._pointDown) {
 
   }
+  action.dispatch('render-selection')
 
   this.tool.mouseMove.call(this)
 }

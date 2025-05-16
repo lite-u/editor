@@ -12,7 +12,7 @@ function selectionRender(this: World) {
 
   if (PH) {
     console.log(PH)
-    drawCross(ctx, PH, 10, '#000000')
+    drawCross(ctx, PH, 2, '#000000')
     // new
   }
 

@@ -43,6 +43,7 @@ export default function handlePointerMove(e) {
         }
         else if (inside) {
             interaction._hoveredElement = ele;
+            interaction._pointHit = null;
         }
         else {
             interaction._hoveredElement = null;
@@ -52,5 +53,6 @@ export default function handlePointerMove(e) {
     // snap
     if (interaction._pointDown) {
     }
+    action.dispatch('render-selection');
     this.tool.mouseMove.call(this);
 }
