@@ -14,10 +14,11 @@ function selectionRender(this: World) {
   const ratio = scale * dpr
   const size = 6 / ratio
   const lineWidth = 1 / ratio
+  const fontSize = 2 / ratio
 
   if (PH) {
     console.log(PH)
-    drawCrossWithLabel(ctx, PH, size, '#ff0000', lineWidth)
+    drawCrossWithLabel(ctx, PH, size, '#ff0000', lineWidth, fontSize)
   }
 
   return
@@ -96,7 +97,8 @@ function drawCrossWithLabel(
   size = 6,
   color = 'red',
   lineWidth = 1,
-  font = '12px sans-serif',
+  fontSize: number,
+  // font = '12px sans-serif',
 ) {
   // const {x, y} = point
   const half = size / 2
@@ -118,9 +120,9 @@ function drawCrossWithLabel(
 
   // Draw the label
   ctx.fillStyle = color
-  ctx.font = font
+  ctx.font = fontSize + ' sans-serif'
   ctx.textBaseline = 'top'
-  ctx.fillText(type, x + half + 10, y - half)
+  ctx.fillText(type, x + 10, y - 10)
 
   ctx.restore()
 }

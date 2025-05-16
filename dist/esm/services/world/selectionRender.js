@@ -1,5 +1,5 @@
-import ElementRectangle from '../../elements/rectangle/rectangle.js';
-import { DEFAULT_FILL, DEFAULT_STROKE } from '../../elements/defaultProps.js';
+import ElementRectangle from '~/elements/rectangle/rectangle';
+import { DEFAULT_FILL, DEFAULT_STROKE } from '~/elements/defaultProps';
 function selectionRender() {
     if (this.editor.elementManager.size === 0)
         return;
@@ -9,9 +9,10 @@ function selectionRender() {
     const ratio = scale * dpr;
     const size = 6 / ratio;
     const lineWidth = 1 / ratio;
+    const fontSize = 2 / ratio;
     if (PH) {
         console.log(PH);
-        drawCrossWithLabel(ctx, PH, size, '#ff0000', lineWidth);
+        drawCrossWithLabel(ctx, PH, size, '#ff0000', lineWidth, fontSize);
     }
     return;
     const fillColor = '#5491f8';
@@ -75,7 +76,7 @@ function selectionRender() {
       })
     }*/
 }
-function drawCrossWithLabel(ctx, { x, y, type }, size = 6, color = 'red', lineWidth = 1, font = '12px sans-serif') {
+function drawCrossWithLabel(ctx, { x, y, type }, size = 6, color = 'red', lineWidth = 1, fontSize) {
     // const {x, y} = point
     const half = size / 2;
     ctx.save();
@@ -90,9 +91,9 @@ function drawCrossWithLabel(ctx, { x, y, type }, size = 6, color = 'red', lineWi
     ctx.stroke();
     // Draw the label
     ctx.fillStyle = color;
-    ctx.font = font;
+    ctx.font = fontSize + ' sans-serif';
     ctx.textBaseline = 'top';
-    ctx.fillText(type, x + half + 10, y - half);
+    ctx.fillText(type, x + 10, y - 10);
     ctx.restore();
 }
 export default selectionRender;
