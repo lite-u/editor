@@ -18,7 +18,8 @@ declare class ElementPath extends ElementBase implements BasePath {
     readonly layer: number;
     readonly type = "path";
     private points;
-    constructor({ id, layer, points, ...rest }: PathProps);
+    closed: boolean;
+    constructor({ id, layer, points, closed, ...rest }: PathProps);
     static cubicBezier(t: number, p0: Point, p1: Point, p2: Point, p3: Point): Point;
     getBoundingRect(): BoundingRect;
     protected toJSON(): RequiredShapeProps;

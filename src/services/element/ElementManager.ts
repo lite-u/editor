@@ -9,6 +9,7 @@ import ElementImage from '~/elements/image/image'
 import {UID} from '~/core/core'
 import {Point} from '~/type'
 import ElementLineSegment from '~/elements/lines/lineSegment'
+import ElementPath from '~/elements/path/path'
 
 class ElementManager {
   protected elementMap: ElementMap = new Map()
@@ -128,6 +129,9 @@ class ElementManager {
 
     if (data.type === 'lineSegment') {
       return new ElementLineSegment(data)
+    }
+    if (data.type === 'path') {
+      return new ElementPath(data)
     }
 
     return false

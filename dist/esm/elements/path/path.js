@@ -8,7 +8,8 @@ class ElementPath extends ElementBase {
     layer;
     type = 'path';
     points = [];
-    constructor({ id, layer, points = [], ...rest }) {
+    closed;
+    constructor({ id, layer, points = [], closed = false, ...rest }) {
         super(rest);
         this.points = deepClone(points);
         this.id = id;

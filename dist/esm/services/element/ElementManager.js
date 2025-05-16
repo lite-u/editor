@@ -5,6 +5,7 @@ import ElementEllipse from '../../elements/ellipse/ellipse.js';
 import ElementText from '../../elements/text/text.js';
 import ElementImage from '../../elements/image/image.js';
 import ElementLineSegment from '../../elements/lines/lineSegment.js';
+import ElementPath from '../../elements/path/path.js';
 class ElementManager {
     elementMap = new Map();
     editor;
@@ -94,6 +95,9 @@ class ElementManager {
         }
         if (data.type === 'lineSegment') {
             return new ElementLineSegment(data);
+        }
+        if (data.type === 'path') {
+            return new ElementPath(data);
         }
         return false;
     }

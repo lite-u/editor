@@ -1,7 +1,7 @@
 import ToolManager, {ToolType} from '~/services/tool/toolManager'
 import nid from '~/core/nid'
 import {convertPointsToBezierPoints, drawLine} from '~/services/tool/pencil/helper'
-import ElementPath, {PathProps} from '~/elements/path/path'
+import {PathProps} from '~/elements/path/path'
 
 const points = []
 let _lastPoint = null
@@ -43,7 +43,7 @@ const pencilTool: ToolType = {
 
     // const ele: ElementPath = elementManager.add(elementManager.create(eleProps))
     console.log(eleProps)
-    action.dispatch('element-add',[eleProps])
+    action.dispatch('element-add', [eleProps])
     // action.dispatch('visible-element-updated')
     // interaction._ele = ele
     // action.dispatch('selection-clear')

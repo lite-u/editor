@@ -63,6 +63,7 @@ class VisibleManager {
       const {scale, dpr} = this.editor.world
       const ratio = scale * dpr
 
+      return
       const operators = generateHandles(element, ratio)
       /* const operators = element.getOperators(
          element!.id,
