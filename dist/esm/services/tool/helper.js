@@ -95,3 +95,10 @@ export function isPointNearStroke(ctx, path, point, tolerance = 2, step = 1) {
     }
     return null;
 }
+export function isPointNearStroke2(ctx, path, point, tolerance = 5, baseLineWidth = 1) {
+    ctx.save();
+    ctx.lineWidth = baseLineWidth + tolerance * 2;
+    const result = ctx.isPointInStroke(path, point.x, point.y);
+    ctx.restore();
+    return result;
+}

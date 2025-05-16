@@ -19,6 +19,7 @@ declare class ElementPath extends ElementBase {
     closed: boolean;
     constructor({ id, layer, points, closed, ...rest }: PathProps);
     static cubicBezier(t: number, p0: Point, p1: Point, p2: Point, p3: Point): Point;
+    get center(): Point;
     get getPoints(): Point[];
     protected updatePath2D(): void;
     getBoundingRect(): BoundingRect;

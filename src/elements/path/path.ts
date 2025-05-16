@@ -47,6 +47,15 @@ class ElementPath extends ElementBase {
     }
   }
 
+  get center(): Point {
+    const rect = this.getBoundingRect()
+
+    return {
+      x: rect.cx,
+      y: rect.cy,
+    }
+  }
+
   get getPoints(): Point[] {
     return this.points.map(p => ({...p.anchor}))
   }

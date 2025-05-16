@@ -101,6 +101,7 @@ class ElementBase {
         }
         if (enabledStroke && weight > 0) {
             ctx.lineWidth = weight;
+            console.log(weight, strokeColor);
             ctx.strokeStyle = strokeColor;
             ctx.lineJoin = join;
             ctx.stroke(this.path2D);

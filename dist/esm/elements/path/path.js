@@ -1,8 +1,8 @@
-import ElementBase from '../base/elementBase.js';
-import { HANDLER_OFFSETS } from '../handleBasics.js';
-import ElementRectangle from '../rectangle/rectangle.js';
-import { rotatePointAroundPoint } from '../../core/geometry.js';
-import deepClone from '../../core/deepClone.js';
+import ElementBase from '../base/elementBase';
+import { HANDLER_OFFSETS } from '../handleBasics';
+import ElementRectangle from '../rectangle/rectangle';
+import { rotatePointAroundPoint } from '~/core/geometry';
+import deepClone from '~/core/deepClone';
 class ElementPath extends ElementBase {
     id;
     layer;
@@ -24,6 +24,13 @@ class ElementPath extends ElementBase {
         return {
             x: mt2 * mt * p0.x + 3 * mt2 * t * p1.x + 3 * mt * t2 * p2.x + t2 * t * p3.x,
             y: mt2 * mt * p0.y + 3 * mt2 * t * p1.y + 3 * mt * t2 * p2.y + t2 * t * p3.y,
+        };
+    }
+    get center() {
+        const rect = this.getBoundingRect();
+        return {
+            x: rect.cx,
+            y: rect.cy,
         };
     }
     get getPoints() {

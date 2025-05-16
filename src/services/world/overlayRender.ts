@@ -15,6 +15,7 @@ function overlayRender(this: World) {
   const size = 80 / ratio
   const lineWidth = 1 / ratio
   const fontSize = 40 / ratio
+  const lineColor = '#5491f8'
 
   if (_snappedPoint) {
     // console.log(PH)
@@ -22,25 +23,28 @@ function overlayRender(this: World) {
   }
 
   if (_hoveredElement) {
-    const pointProps = _hoveredElement.getCenter()
+    const pointProps = _hoveredElement.center
     const ele = this.editor.elementManager.create(_hoveredElement.toJSON())
     const point = this.editor.elementManager.create({
       type: 'ellipse',
-      r1: 2,
-      r2: 2,
+      r1: 2 / ratio,
+      r2: 2 / ratio,
       cx: pointProps.x,
       cy: pointProps.y,
     } as OptionalIdentifiersProps)
 
-    ele.stroke.color = 'blue'
-    point.stroke.color = 'blue'
+    // console.log(lineWidth)
+    console.log(ele)
+
+    ele.stroke.weight = 3 / ratio
+    ele.stroke.color = lineColor
+    point.stroke.color = lineColor
     point.render(ctx)
     ele.render(ctx)
   }
 
   return
   const fillColor = '#5491f8'
-  const lineColor = '#5491f8'
   const selected = this.editor.visible.getVisibleSelected
   const centerPointWidth = 2 / this.scale * this.dpr
   // const lineWidth = 1 / this.scale * this.dpr

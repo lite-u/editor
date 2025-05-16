@@ -1,5 +1,5 @@
 import { isPointNear } from '../../../core/geometry.js';
-import { isPointNearStroke } from '../helper.js';
+import { isPointNearStroke, isPointNearStroke2 } from '../helper.js';
 export default function handlePointerMove(e) {
     const { action, rect, cursor, interaction, world, visible } = this.editor;
     const { baseCanvasContext: ctx, dpr } = world;
@@ -30,7 +30,9 @@ export default function handlePointerMove(e) {
             continue;
         const points = ele.getPoints;
         // const border = ctx.isPointInStroke(path, viewPoint.x, viewPoint.y)
-        const onBorder = isPointNearStroke(ctx, path, viewPoint, .1);
+        // const onBorder = isPointNearStroke(ctx, path, viewPoint, 2, .1)
+        const isNear = isPointNearStroke2(ctx, path, viewPoint, 2, 1);
+        const isOn = isPointNearStroke(ctx, path, viewPoint, 2, 1);
         const inside = ctx.isPointInPath(path, viewPoint.x, viewPoint.y);
         const point = points.find(p => isPointNear(p, viewPoint));
         if (point) {
@@ -39,17 +41,24 @@ export default function handlePointerMove(e) {
             _snappedPoint = { type: 'anchor', ...point };
             break;
         }
-        else if (onBorder) {
-            console.log(onBorder);
+        else if (isNear) {
+            console.log(isNear);
             // const {dpr} = world
             /*      const p = {
                     x:Math.round(interaction.mouseWorldCurrent.x),
                     y:Math.round(interaction.mouseWorldCurrent.y),
                   }*/
             _ele = ele;
+            /* _snappedPoint = {
+               type: 'path',
+               ...world.getWorldPointByViewportPoint(
+                 onBorder.x / dpr,
+                 onBorder.y / dpr,
+               ),
+             }*/
             _snappedPoint = {
                 type: 'path',
-                ...world.getWorldPointByViewportPoint(onBorder.x / dpr, onBorder.y / dpr),
+                ...world.getWorldPointByViewportPoint(viewPoint.x / dpr, viewPoint.y / dpr),
             };
             break;
         }
@@ -70,6 +79,7 @@ export default function handlePointerMove(e) {
         if (dx > .5 || dy > .5) {
             interaction._snappedPoint = null;
         }
+        interaction._snappedPoint = null;
     }
     interaction._hoveredElement = _ele;
     action.dispatch('render-overlay');

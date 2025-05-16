@@ -3,7 +3,7 @@ import ToolManager from '~/services/tool/toolManager'
 import {Point} from '~/type'
 import {isPointNear} from '~/core/geometry'
 import {PointHit} from '~/services/interaction/InteractionState'
-import {isPointNearStroke} from '~/services/tool/helper'
+import {isPointNearStroke, isPointNearStroke2} from '~/services/tool/helper'
 
 export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
   const {action, rect, cursor, interaction, world, visible} = this.editor
@@ -41,7 +41,9 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
 
     const points: Point[] = ele.getPoints
     // const border = ctx.isPointInStroke(path, viewPoint.x, viewPoint.y)
-    const onBorder = isPointNearStroke(ctx, path, viewPoint, .1)
+    // const onBorder = isPointNearStroke(ctx, path, viewPoint, 2, .1)
+    const isNear = isPointNearStroke2(ctx, path, viewPoint, 2, 1)
+    const isOn = isPointNearStroke(ctx, path, viewPoint, 2, 1)
     const inside = ctx.isPointInPath(path, viewPoint.x, viewPoint.y)
     const point = points.find(p => isPointNear(p, viewPoint))
     if (point) {
@@ -49,19 +51,26 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
       _ele = ele
       _snappedPoint = {type: 'anchor', ...point}
       break
-    } else if (onBorder) {
-      console.log(onBorder)
+    } else if (isNear) {
+      console.log(isNear)
       // const {dpr} = world
-/*      const p = {
-        x:Math.round(interaction.mouseWorldCurrent.x),
-        y:Math.round(interaction.mouseWorldCurrent.y),
-      }*/
+      /*      const p = {
+              x:Math.round(interaction.mouseWorldCurrent.x),
+              y:Math.round(interaction.mouseWorldCurrent.y),
+            }*/
       _ele = ele
-      _snappedPoint = {
+     /* _snappedPoint = {
         type: 'path',
         ...world.getWorldPointByViewportPoint(
           onBorder.x / dpr,
           onBorder.y / dpr,
+        ),
+      }*/
+      _snappedPoint = {
+        type: 'path',
+        ...world.getWorldPointByViewportPoint(
+          viewPoint.x / dpr,
+          viewPoint.y / dpr,
         ),
       }
       break
@@ -83,6 +92,8 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
     if (dx > .5 || dy > .5) {
       interaction._snappedPoint = null
     }
+    interaction._snappedPoint = null
+
   }
 
   interaction._hoveredElement = _ele

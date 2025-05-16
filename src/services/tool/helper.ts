@@ -117,3 +117,17 @@ export function isPointNearStroke(
   }
   return null
 }
+
+export function isPointNearStroke2(
+  ctx: CanvasRenderingContext2D,
+  path: Path2D,
+  point: Point,
+  tolerance = 5,
+  baseLineWidth = 1
+): boolean {
+  ctx.save()
+  ctx.lineWidth = baseLineWidth + tolerance * 2
+  const result = ctx.isPointInStroke(path, point.x, point.y)
+  ctx.restore()
+  return result
+}
