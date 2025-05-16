@@ -6,6 +6,8 @@ declare class World {
     baseCanvasContext: CanvasRenderingContext2D;
     overlayCanvas: HTMLCanvasElement;
     overlayCanvasContext: CanvasRenderingContext2D;
+    creationCanvas: HTMLCanvasElement;
+    creationCanvasContext: CanvasRenderingContext2D;
     scale: number;
     offset: {
         x: number;

@@ -142,7 +142,7 @@ class ElementBase {
     return this.matrix
   }
 
-  protected render(ctx: CanvasRenderingContext2D): void {
+  public render(ctx: CanvasRenderingContext2D): void {
     if (!this.path2D) return
 
     let {show, opacity, fill, stroke} = this

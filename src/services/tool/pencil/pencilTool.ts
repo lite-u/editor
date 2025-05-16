@@ -3,6 +3,7 @@ import nid from '~/core/nid'
 import {convertPointsToBezierPoints, drawLine} from '~/services/tool/pencil/helper'
 import {PathProps} from '~/elements/path/path'
 import {Point} from '~/type'
+import {PropsWithoutIdentifiers} from '~/elements/type'
 
 const points: Point[] = []
 let _lastPoint = null
@@ -12,7 +13,16 @@ const pencilTool: ToolType = {
     const {overlayCanvasContext: ctx} = this.editor.world
     const {x, y} = this.editor.interaction.mouseWorldCurrent
     const point = {x, y}
-
+    const id = 'rectangle-' + nid()
+    const eleProps: PropsWithoutIdentifiers<'path'> = {
+      id,
+      // layer: 0,
+      type: 'path',
+      points: convertPointsToBezierPoints(points),
+      closed: false,
+    }
+    const ele = this.editor.elementManager.create(eleProps)
+    this.editor.interaction._ele = ele
     points.push(point)
     _lastPoint = {...point}
     drawLine(ctx, _lastPoint, point)
@@ -30,7 +40,6 @@ const pencilTool: ToolType = {
   mouseUp(this: ToolManager) {
     const {elementManager, interaction, action, selection} = this.editor
     const {x, y} = this.editor.interaction.mouseWorldCurrent
-    const id = 'rectangle-' + nid()
     interaction._ele = null
 
     // const b = convertPointsToBezierPoints(points)

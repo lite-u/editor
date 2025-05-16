@@ -126,7 +126,7 @@ class ElementPath extends ElementBase {
   }
 
   public toMinimalJSON(): PathProps {
-    const result: PathProps = {
+    return {
       id: this.id,
       layer: this.layer,
       type: this.type,
@@ -134,8 +134,6 @@ class ElementPath extends ElementBase {
       closed: this.closed,
       ...super.toMinimalJSON(),
     }
-
-    return result
   }
 
   public getOperators(
