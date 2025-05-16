@@ -41,7 +41,7 @@ function resizeTool(this: ToolManager, elements: ElementInstance[], direction: R
     el.scaleFrom(scaleX, scaleY, scalingAnchor)
   })
 
-  action.dispatch('visible-element-updated')
+  // action.dispatch('visible-element-updated')
 }
 
 export default resizeTool

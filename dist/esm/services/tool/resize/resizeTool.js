@@ -33,6 +33,6 @@ function resizeTool(elements, direction = 'br') {
     elements.forEach((el) => {
         el.scaleFrom(scaleX, scaleY, scalingAnchor);
     });
-    action.dispatch('visible-element-updated');
+    // action.dispatch('visible-element-updated')
 }
 export default resizeTool;
