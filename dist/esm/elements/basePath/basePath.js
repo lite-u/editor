@@ -6,7 +6,7 @@ export class BasePath {
       }
     */
     getCenter() {
-        const points = this.getPoints();
+        const points = this.getPoints;
         const xs = points.map(p => p.x);
         const ys = points.map(p => p.y);
         const cx = (Math.min(...xs) + Math.max(...xs)) / 2;

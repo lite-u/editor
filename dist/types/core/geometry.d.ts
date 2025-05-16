@@ -4,4 +4,4 @@ export declare function rotatePointAroundPoint(px: number, py: number, cx: numbe
     y: number;
 };
 export declare function transformPoints(points: Point[], matrix: DOMMatrix): Point[];
-export declare function getCornerByRect(rect: any): void;
+export declare function isPointNear(p1: Point, p2: Point, tolerance?: number): boolean;

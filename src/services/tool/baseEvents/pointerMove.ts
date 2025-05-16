@@ -1,5 +1,7 @@
 // import Editor from '../../../main/editor'
 import ToolManager from '~/services/tool/toolManager'
+import {Point} from '~/type'
+import {isPointNear} from '~/core/geometry'
 
 export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
   const {action, rect, cursor, interaction, world, visible} = this.editor
@@ -8,7 +10,7 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
   const y = e.clientY - rect!.y
   const {button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY} = e
   // const modifiers = {button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY}
-  const point = {
+  const viewPoint = {
     x: interaction.mouseCurrent.x * dpr,
     y: interaction.mouseCurrent.y * dpr,
   }
@@ -30,11 +32,15 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
     const path = ele.path2D
 
     if (!ele.show || ele.opacity <= 0) continue
-    // console.log(ele)
-    const points = ele.getPoints
-    const border = ctx.isPointInStroke(path, point.x, point.y)
-    const inside = ctx.isPointInPath(path, point.x, point.y)
+
+    const points: Point[] = ele.getPoints
+    const border = ctx.isPointInStroke(path, viewPoint.x, viewPoint.y)
+    const inside = ctx.isPointInPath(path, viewPoint.x, viewPoint.y)
+
     console.log(border, inside)
+
+    points.some(p => isPointNear(p, viewPoint))
+
 
   }
   this.tool.mouseMove.call(this)

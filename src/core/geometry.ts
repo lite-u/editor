@@ -1,4 +1,3 @@
-
 /*
 const rotatePointAroundPoint = (p1: Point, p2: Point, rotation: number) => {
 
@@ -29,9 +28,12 @@ export function rotatePointAroundPoint(
 }
 
 export function transformPoints(points: Point[], matrix: DOMMatrix): Point[] {
-  return points.map(p => matrix.transformPoint(p));
+  return points.map(p => matrix.transformPoint(p))
 }
 
-export function getCornerByRect(rect) {
-
+export function isPointNear(p1: Point, p2: Point, tolerance: number = 3): boolean {
+  const dx = p1.x - p2.x
+  const dy = p1.y - p2.y
+  const distanceSquared = dx * dx + dy * dy
+  return distanceSquared <= tolerance * tolerance
 }
