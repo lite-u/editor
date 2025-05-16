@@ -118,7 +118,9 @@ export type HorizontalAlign = 'left' | 'center' | 'right'
 export type BezierPointType = 'corner' | 'smooth' | 'directional'
 export type BezierPoint = {
   anchor: Point;
-  handleIn: Point | null;
-  handleOut: Point | null;
+  // Control point 1
+  cp1: Point | null;
+  // Control point 2
+  cp2: Point | null;
   type?: BezierPointType
 };

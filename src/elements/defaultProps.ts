@@ -120,7 +120,7 @@ export const DEFAULT_HORIZONTAL_ALIGN: HorizontalAlign = 'left'
 
 export const DEFAULT_BEZIER_POINT: BezierPoint = {
   anchor: {x: 0, y: 0},
-  handleIn: {x: 0, y: 0},
-  handleOut: {x: 0, y: 0},
+  cp1: {x: 0, y: 0},
+  cp2: {x: 0, y: 0},
   type: 'corner',
 }

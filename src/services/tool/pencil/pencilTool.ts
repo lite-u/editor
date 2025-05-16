@@ -2,6 +2,7 @@ import ToolManager, {ToolType} from '~/services/tool/toolManager'
 import nid from '~/core/nid'
 import ElementRectangle from '~/elements/rectangle/rectangle'
 import {LineSegmentProps} from '~/elements/lines/lineSegment'
+import {convertPointsToBezierPoints} from '~/services/tool/pencil/helper'
 
 const points = []
 let _lastPoint = null
@@ -49,7 +50,9 @@ const pencilTool: ToolType = {
     const {x, y} = this.editor.interaction.mouseWorldCurrent
     const id = 'rectangle-' + nid()
     interaction._ele = null
-    console.log(points)
+    // console.log(points)
+    const b = convertPointsToBezierPoints(points)
+    console.log(b)
     const eleProps: LineSegmentProps = {
       id,
       layer: 0,

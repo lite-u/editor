@@ -8,6 +8,7 @@ import {rotatePointAroundPoint} from '~/core/geometry'
 import {AnchorPoint, Appearance, Fill, Stroke, Transform} from '~/elements/defaultProps'
 import {BasePath} from '~/elements/basePath/basePath'
 import {BezierPoint} from '~/elements/props'
+import deepClone from '~/core/deepClone'
 
 export interface PathProps extends ElementBaseProps {
   type: 'path'
@@ -23,18 +24,14 @@ class Path extends ElementBase implements BasePath {
   readonly type = 'path'
   private points: BezierPoint[] = []
 
-  constructor({
-                points = [],
-                ...rest
-              }: PathProps) {
+  constructor({points = [], ...rest}: PathProps) {
     super(rest)
+    this.points = deepClone(points)
   }
 
   protected toJSON(): RequiredShapeProps {
-
     return {
       ...super.toJSON(),
-
     }
   }
 

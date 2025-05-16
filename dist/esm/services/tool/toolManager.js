@@ -11,7 +11,7 @@ import panning from './panning/panning.js';
 import ellipseTool from './ellipseTool.js';
 import textTool from './textTool.js';
 import lineSegmentTool from './lineSegmentTool.js';
-import pencilTool from './pencilTool.js';
+import pencilTool from './pencil/pencilTool.js';
 class ToolManager {
     editor;
     eventsController = new AbortController();
