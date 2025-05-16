@@ -33,7 +33,7 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
 
     const border = ctx.isPointInStroke(path, point.x, point.y)
     const inside = ctx.isPointInPath(path, point.x, point.y)
-    console.log(inside, border)
+    console.log(border, inside)
 
   }
   this.tool.mouseMove.call(this)
