@@ -48,6 +48,12 @@ class ElementEllipse extends ElementShape {
     }
   }
 
+  protected updatePath2D() {
+    this.path2D = new Path2D()
+    this.path2D.ellipse(this.cx, this.cy, this.r1, this.r2, this.rotation, 0, Math.PI * 2)
+  }
+
+
   scale(sx: number, sy: number) {
     this.r1 *= sx
     this.r2 *= sy
@@ -69,6 +75,7 @@ class ElementEllipse extends ElementShape {
     this.cy = center.y
     this.r1 = Math.abs(rx.x - center.x)
     this.r2 = Math.abs(ry.y - center.y)
+    this.updatePath2D()
   }
 
   static applyResizeTransform = (props: {
