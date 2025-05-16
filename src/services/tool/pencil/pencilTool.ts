@@ -28,13 +28,8 @@ const pencilTool: ToolType = {
     _lastPoint = {...point}
   },
   mouseUp(this: ToolManager) {
-    const {elementManager, interaction, action, selection} = this.editor
-    // const {x, y} = this.editor.interaction.mouseWorldCurrent
-
-    // const b = convertPointsToBezierPoints(points)
+    const {interaction, action} = this.editor
     const eleProps: PropsWithoutIdentifiers<'path'> = {
-      // id,
-      // layer: 0,
       type: 'path',
       points: convertPointsToBezierPoints(points),
       closed: false,
