@@ -93,7 +93,7 @@ function drawCrossWithLabel(ctx, { x, y, type }, size = 6, color = 'red', lineWi
     ctx.fillStyle = color;
     ctx.font = fontSize + 'px sans-serif';
     ctx.textBaseline = 'top';
-    ctx.fillText(type, x + 10, y - 10);
+    ctx.fillText(type, x + 5, y - 5);
     ctx.restore();
 }
 export default selectionRender;

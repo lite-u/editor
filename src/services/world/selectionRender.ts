@@ -122,7 +122,7 @@ function drawCrossWithLabel(
   ctx.fillStyle = color
   ctx.font = fontSize + 'px sans-serif'
   ctx.textBaseline = 'top'
-  ctx.fillText(type, x + 10, y - 10)
+  ctx.fillText(type, x + 5, y - 5)
 
   ctx.restore()
 }
