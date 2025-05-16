@@ -1,5 +1,5 @@
-import ElementRectangle from '~/elements/rectangle/rectangle';
-import { DEFAULT_FILL, DEFAULT_STROKE } from '~/elements/defaultProps';
+import ElementRectangle from '../../elements/rectangle/rectangle.js';
+import { DEFAULT_FILL, DEFAULT_STROKE } from '../../elements/defaultProps.js';
 function selectionRender() {
     if (this.editor.elementManager.size === 0)
         return;
@@ -9,7 +9,7 @@ function selectionRender() {
     const ratio = scale * dpr;
     const size = 6 / ratio;
     const lineWidth = 1 / ratio;
-    const fontSize = 2 / ratio;
+    const fontSize = 40 / ratio;
     if (PH) {
         console.log(PH);
         drawCrossWithLabel(ctx, PH, size, '#ff0000', lineWidth, fontSize);
@@ -91,7 +91,7 @@ function drawCrossWithLabel(ctx, { x, y, type }, size = 6, color = 'red', lineWi
     ctx.stroke();
     // Draw the label
     ctx.fillStyle = color;
-    ctx.font = fontSize + ' sans-serif';
+    ctx.font = fontSize + 'px sans-serif';
     ctx.textBaseline = 'top';
     ctx.fillText(type, x + 10, y - 10);
     ctx.restore();

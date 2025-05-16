@@ -14,7 +14,7 @@ function selectionRender(this: World) {
   const ratio = scale * dpr
   const size = 6 / ratio
   const lineWidth = 1 / ratio
-  const fontSize = 2 / ratio
+  const fontSize = 40 / ratio
 
   if (PH) {
     console.log(PH)
@@ -120,7 +120,7 @@ function drawCrossWithLabel(
 
   // Draw the label
   ctx.fillStyle = color
-  ctx.font = fontSize + ' sans-serif'
+  ctx.font = fontSize + 'px sans-serif'
   ctx.textBaseline = 'top'
   ctx.fillText(type, x + 10, y - 10)
 
