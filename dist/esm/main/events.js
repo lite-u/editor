@@ -31,14 +31,14 @@ export function initEvents() {
     on('world-updated', () => {
         this.world.updateWorldRect();
         // console.log(this.viewport.scale, this.viewport.offset, this.viewport.worldRect)
-        this.events.onViewportUpdated?.({
-            // width: this.viewport.viewportRect.width,
-            // height: this.viewport.viewportRect.height,
-            scale: this.world.scale,
-            offsetX: this.world.offset.x,
-            offsetY: this.world.offset.y,
-            // status: this.state,
-        });
+        /*    this.events.onViewportUpdated?.({
+              // width: this.viewport.viewportRect.width,
+              // height: this.viewport.viewportRect.height,
+              scale: this.world.scale,
+              offsetX: this.world.offset.x,
+              offsetY: this.world.offset.y,
+              // status: this.state,
+            })*/
         dispatch('visible-element-updated');
     });
     on('world-zoom', (arg) => {

@@ -1,4 +1,7 @@
 function handleMouseUp(e) {
+    const { button, target } = e;
+    if (button !== 0 || target !== this.editor.container)
+        return;
     this.tool.mouseUp.call(this);
     this.editor.container.releasePointerCapture(e.pointerId);
     this.editor.interaction._pointDown = false;
