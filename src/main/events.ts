@@ -80,7 +80,6 @@ export function initEvents(this: Editor) {
     // newScale = Math.max(minScale, Math.min(newScale, maxScale))
     result = this.world.zoom(newScale, point)
 
-
     this.world.scale = newScale
     this.world.offset.x = result.x!
     this.world.offset.y = result.y!

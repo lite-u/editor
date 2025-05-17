@@ -106,7 +106,7 @@ class World {
         cy: height / 2,
         width,
         height,
-        borderRadius: [0, 10, 0, 10],
+        // borderRadius: [0, 10, 0, 10],
         stroke: {
           ...DEFAULT_STROKE,
           weight: 1 / scale * dpr,
