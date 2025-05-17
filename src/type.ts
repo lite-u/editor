@@ -53,3 +53,4 @@ export type  {
 } from './main/type'
 
 export type {ElementInstance} from './elements/type'
+export type {ToolName} from './services/tool/toolManager'
