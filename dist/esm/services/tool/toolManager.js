@@ -1,6 +1,7 @@
 import handleMouseUp from './baseEvents/pointerUp.js';
 import handleKeyDown from './baseEvents/keyDown.js';
 import handleKeyUp from './baseEvents/keyUp.js';
+// import handleWheel from './baseEvents/wheel.js'
 import handlePointerMove from './baseEvents/pointerMove.js';
 import handleContextMenu from './baseEvents/contextMenu.js';
 import handleMouseDown from './baseEvents/pointerDown.js';
@@ -11,8 +12,7 @@ import ellipseTool from './ellipseTool.js';
 import textTool from './textTool.js';
 import lineSegmentTool from './lineSegmentTool.js';
 import pencilTool from './pencil/pencilTool.js';
-import ZoomInTool from './zoomInTool.js';
-import ZoomOutTool from './zoomOutTool.js';
+import { zoomInTool, zoomOutTool } from './zoomTool.js';
 class ToolManager {
     editor;
     eventsController = new AbortController();
@@ -37,8 +37,8 @@ class ToolManager {
         this.toolMap.set('text', textTool);
         this.toolMap.set('lineSegment', lineSegmentTool);
         this.toolMap.set('pencil', pencilTool);
-        this.toolMap.set('zoomIn', ZoomInTool);
-        this.toolMap.set('zoomOut', ZoomOutTool);
+        this.toolMap.set('zoomIn', zoomInTool);
+        this.toolMap.set('zoomOut', zoomOutTool);
         this.currentToolName = 'selector';
         this.tool = selector;
     }

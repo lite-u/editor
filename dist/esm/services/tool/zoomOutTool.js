@@ -1,12 +1,7 @@
 const zoomOutTool = {
     cursor: 'zoom-out',
-    mouseDown() {
-        this.editor.cursor.set('grabbing');
-        // updateCursor.call(this, 'grabbing')
-    },
+    mouseDown() { },
     mouseMove() { },
-    mouseUp() {
-        this.editor.cursor.set('grab');
-    },
+    mouseUp() { },
 };
 export default zoomOutTool;

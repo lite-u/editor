@@ -2,7 +2,7 @@ import Editor from '~/main/editor'
 import handleMouseUp from '~/services/tool/baseEvents/pointerUp'
 import handleKeyDown from '~/services/tool/baseEvents/keyDown'
 import handleKeyUp from '~/services/tool/baseEvents/keyUp'
-import handleWheel from '~/services/tool/baseEvents/wheel'
+// import handleWheel from '~/services/tool/baseEvents/wheel'
 import handlePointerMove from '~/services/tool/baseEvents/pointerMove'
 import handleContextMenu from '~/services/tool/baseEvents/contextMenu'
 import handleMouseDown from '~/services/tool/baseEvents/pointerDown'
@@ -14,8 +14,7 @@ import ellipseTool from '~/services/tool/ellipseTool'
 import textTool from '~/services/tool/textTool'
 import lineSegmentTool from '~/services/tool/lineSegmentTool'
 import pencilTool from '~/services/tool/pencil/pencilTool'
-import ZoomInTool from '~/services/tool/zoomInTool'
-import ZoomOutTool from '~/services/tool/zoomOutTool'
+import {zoomInTool, zoomOutTool} from '~/services/tool/zoomTool'
 
 export type ToolType = {
   cursor: CursorName
@@ -65,8 +64,8 @@ class ToolManager {
     this.toolMap.set('text', textTool)
     this.toolMap.set('lineSegment', lineSegmentTool)
     this.toolMap.set('pencil', pencilTool)
-    this.toolMap.set('zoomIn', ZoomInTool)
-    this.toolMap.set('zoomOut', ZoomOutTool)
+    this.toolMap.set('zoomIn', zoomInTool)
+    this.toolMap.set('zoomOut', zoomOutTool)
 
     this.currentToolName = 'selector'
     this.tool = selector

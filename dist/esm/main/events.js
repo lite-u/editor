@@ -265,7 +265,7 @@ export function initEvents() {
             dispatch('render-elements');
         });
         const savedSelected = new Set(newElements.keys());
-        console.log(newElements);
+        // console.log(newElements)
         /*  this.elementManager.batchAdd(newElements,()=>{
             dispatch('render-elements')
           })*/

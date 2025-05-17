@@ -2,14 +2,9 @@ import ToolManager, {ToolType} from '~/services/tool/toolManager'
 
 const zoomOutTool: ToolType = {
   cursor: 'zoom-out',
-  mouseDown(this: ToolManager) {
-    this.editor.cursor.set('grabbing')
-    // updateCursor.call(this, 'grabbing')
-  },
+  mouseDown(this: ToolManager) {},
   mouseMove(this: ToolManager) {},
-  mouseUp(this: ToolManager) {
-    this.editor.cursor.set('grab')
-  },
+  mouseUp(this: ToolManager) { },
 }
 
 export default zoomOutTool

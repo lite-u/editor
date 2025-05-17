@@ -1,3 +1,3 @@
 import { ToolType } from '~/services/tool/toolManager';
-declare const panning: ToolType;
-export default panning;
+export declare const zoomInTool: ToolType;
+export declare const zoomOutTool: ToolType;

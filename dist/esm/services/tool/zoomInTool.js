@@ -1,11 +1,7 @@
-let _timer = null;
 const zoomInTool = {
     cursor: 'zoom-in',
-    mouseDown() {
-    },
+    mouseDown() { },
     mouseMove() { },
-    mouseUp() {
-        this.editor.action.dispatch('world-zoom', {});
-    },
+    mouseUp() { },
 };
 export default zoomInTool;
