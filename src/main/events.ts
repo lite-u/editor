@@ -10,7 +10,6 @@ import {HistoryOperation} from '~/services/history/type'
 import {fitRectToViewport} from '~/services/world/helper'
 import {Point} from '~/type'
 import {ElementMap, ElementProps} from '~/elements/type'
-import {getAnchorsByBoundingRect} from '~/services/tool/resize/helper'
 
 export function initEvents(this: Editor) {
   const {action} = this
@@ -41,18 +40,9 @@ export function initEvents(this: Editor) {
 
   on('world-updated', () => {
     this.world.updateWorldRect()
-    // console.log(this.viewport.scale, this.viewport.offset, this.viewport.worldRect)
-/*    this.events.onViewportUpdated?.({
-      // width: this.viewport.viewportRect.width,
-      // height: this.viewport.viewportRect.height,
-      scale: this.world.scale,
-      offsetX: this.world.offset.x,
-      offsetY: this.world.offset.y,
-      // status: this.state,
-    })*/
     dispatch('visible-element-updated')
   })
-  
+
   on('world-zoom', (arg) => {
     if (arg === 'fit') {
       const {width, height} = this.config.page
@@ -68,7 +58,7 @@ export function initEvents(this: Editor) {
       this.world.scale = scale
       this.world.offset.x = offsetX
       this.world.offset.y = offsetY
-
+      this.events.onZoomed?.(scale)
       dispatch('world-updated')
     } else {
       const {scale, dpr} = this.world
@@ -93,6 +83,7 @@ export function initEvents(this: Editor) {
       this.world.scale = newScale
       this.world.offset.x = result.x!
       this.world.offset.y = result.y!
+      this.events.onZoomed?.(scale)
       dispatch('world-updated')
     }
   })

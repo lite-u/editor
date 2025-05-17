@@ -30,15 +30,6 @@ export function initEvents() {
     });
     on('world-updated', () => {
         this.world.updateWorldRect();
-        // console.log(this.viewport.scale, this.viewport.offset, this.viewport.worldRect)
-        /*    this.events.onViewportUpdated?.({
-              // width: this.viewport.viewportRect.width,
-              // height: this.viewport.viewportRect.height,
-              scale: this.world.scale,
-              offsetX: this.world.offset.x,
-              offsetY: this.world.offset.y,
-              // status: this.state,
-            })*/
         dispatch('visible-element-updated');
     });
     on('world-zoom', (arg) => {
@@ -55,6 +46,7 @@ export function initEvents() {
             this.world.scale = scale;
             this.world.offset.x = offsetX;
             this.world.offset.y = offsetY;
+            this.events.onZoomed?.(scale);
             dispatch('world-updated');
         }
         else {
@@ -78,6 +70,7 @@ export function initEvents() {
             this.world.scale = newScale;
             this.world.offset.x = result.x;
             this.world.offset.y = result.y;
+            this.events.onZoomed?.(scale);
             dispatch('world-updated');
         }
     });
