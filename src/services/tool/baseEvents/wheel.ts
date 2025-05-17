@@ -19,6 +19,8 @@ function handleWheel(this: ToolManager, event: WheelEvent) {
 
   if (zooming) {
     // console.log(zoomFactor)
+    // console.log(zooming)
+    console.log(zoomFactor)
     this.editor.action.dispatch('world-zoom', {
       zoomBy: true,
       zoomFactor,
