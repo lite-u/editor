@@ -12,6 +12,8 @@ import ellipseTool from './ellipseTool.js';
 import textTool from './textTool.js';
 import lineSegmentTool from './lineSegmentTool.js';
 import pencilTool from './pencil/pencilTool.js';
+import ZoomInTool from './zoomInTool.js';
+import ZoomOutTool from './zoomOutTool.js';
 class ToolManager {
     editor;
     eventsController = new AbortController();
@@ -36,6 +38,8 @@ class ToolManager {
         this.toolMap.set('text', textTool);
         this.toolMap.set('lineSegment', lineSegmentTool);
         this.toolMap.set('pencil', pencilTool);
+        this.toolMap.set('zoomIn', ZoomInTool);
+        this.toolMap.set('zoomOut', ZoomOutTool);
         this.currentToolName = 'selector';
         this.tool = selector;
     }

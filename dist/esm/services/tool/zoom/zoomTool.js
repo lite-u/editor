@@ -1,5 +1,5 @@
 const panning = {
-    cursor: 'grab',
+    cursor: 'zoom-in',
     mouseDown() {
         this.editor.cursor.set('grabbing');
         // updateCursor.call(this, 'grabbing')
