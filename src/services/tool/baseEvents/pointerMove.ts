@@ -52,7 +52,7 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
       _snappedPoint = {type: 'anchor', ...point}
       break
     } else if (isNearStroke) {
-      console.log(isNearStroke)
+      // console.log(isNearStroke)
       // const {dpr} = world
       /*      const p = {
               x:Math.round(interaction.mouseWorldCurrent.x),

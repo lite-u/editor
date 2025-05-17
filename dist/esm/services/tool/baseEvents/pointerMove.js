@@ -42,7 +42,7 @@ export default function handlePointerMove(e) {
             break;
         }
         else if (isNearStroke) {
-            console.log(isNearStroke);
+            // console.log(isNearStroke)
             // const {dpr} = world
             /*      const p = {
                     x:Math.round(interaction.mouseWorldCurrent.x),

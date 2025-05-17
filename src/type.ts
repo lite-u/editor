@@ -51,3 +51,5 @@ export type  {
   ElementCopiedHandler,
   SwitchToolHandler,
 } from './main/type'
+
+export type {ElementInstance} from './elements/type'
