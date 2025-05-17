@@ -17,7 +17,7 @@ export function undo(quiet = false) {
         case 'history-modify':
             payload.changes.map(({ id, props }) => {
                 const undoProps = {};
-                Object.keys(props).forEach(propName => {
+                Object.keys(props).forEach((propName) => {
                     // console.log(props[propName]!['from'])
                     undoProps[propName] = props[propName]['from'];
                     this.elementManager.batchModify(new Set([id]), undoProps);

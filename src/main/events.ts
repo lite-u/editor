@@ -444,7 +444,7 @@ export function initEvents(this: Editor) {
   on('history-undo', () => {
     undo.call(this)
     dispatch('element-updated')
-    this.events.onHistoryUpdated?.(this.history)
+     this.events.onHistoryUpdated?.(this.history)
   })
 
   on('history-redo', () => {
