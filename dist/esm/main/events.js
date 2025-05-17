@@ -48,31 +48,28 @@ export function initEvents() {
             this.world.offset.y = offsetY;
             this.events.onZoomed?.(scale);
             dispatch('world-updated');
+            return;
         }
-        else {
-            const { scale, dpr } = this.world;
-            let result = null;
-            let newScale = 1;
-            const minScale = 0.01 * dpr;
-            const maxScale = 500 * dpr;
-            let point = arg.physicalPoint;
-            if (arg.zoomTo) {
-                newScale = arg.zoomFactor;
-            }
-            else if (arg.zoomBy) {
-                newScale = scale + arg.zoomFactor;
-            }
-            // clamp
-            newScale = Math.max(minScale, Math.min(newScale, maxScale));
-            result = this.world.zoom(newScale, point);
-            // return
-            // console.log(newScale)
-            this.world.scale = newScale;
-            this.world.offset.x = result.x;
-            this.world.offset.y = result.y;
-            this.events.onZoomed?.(scale);
-            dispatch('world-updated');
+        const { scale, dpr } = this.world;
+        let result = null;
+        let newScale = 1;
+        // const minScale = 0.01 * dpr
+        // const maxScale = 500 * dpr
+        let point = arg.physicalPoint;
+        if (arg.zoomTo) {
+            newScale = arg.zoomFactor;
         }
+        else if (arg.zoomBy) {
+            newScale = scale + arg.zoomFactor;
+        }
+        // clamp
+        // newScale = Math.max(minScale, Math.min(newScale, maxScale))
+        result = this.world.zoom(newScale, point);
+        this.world.scale = newScale;
+        this.world.offset.x = result.x;
+        this.world.offset.y = result.y;
+        this.events.onZoomed?.(newScale);
+        dispatch('world-updated');
     });
     on('world-shift', (data) => {
         const { x, y } = data;
