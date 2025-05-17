@@ -81,9 +81,7 @@ const detectGestures = (() => {
 
     if (EVENT_BUFFER.length >= ACTION_THRESHOLD) {
       // detect zooming
-      const allXAreMinusZero = EVENT_BUFFER.every((e) =>
-        isNegativeZero(e.deltaX),
-      )
+      const allXAreMinusZero = EVENT_BUFFER.every((e) => isNegativeZero(e.deltaX))
       const allYAreFloat = EVENT_BUFFER.every((e) => isFloat(e.deltaY))
       const absBiggerThan4 = EVENT_BUFFER.every((e) => Math.abs(e.deltaY) > 4)
 

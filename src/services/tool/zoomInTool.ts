@@ -8,7 +8,9 @@ const zoomInTool: ToolType = {
 
   },
   mouseMove(this: ToolManager) {},
-  mouseUp(this: ToolManager) {},
+  mouseUp(this: ToolManager) {
+    this.editor.action.dispatch('world-zoom', {})
+  },
 }
 
 export default zoomInTool

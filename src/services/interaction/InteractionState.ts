@@ -107,7 +107,7 @@ class InteractionState {
     const rect = getBoundingRectFromBoundingRects(rects)
     const anchors = getAnchorsByBoundingRect(rect)
     const controlElements = anchors.map(a => {
-      console.log(a)
+      // console.log(a)
     })
     const outlineElementProps: OptionalIdentifiersProps = {
       type: 'rectangle',

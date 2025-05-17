@@ -36,7 +36,7 @@ function overlayRender() {
             cy: pointProps.y,
         });
         // console.log(lineWidth)
-        console.log(eleStroke);
+        // console.log(eleStroke)
         // ele.stroke.weight = 3 / ratio
         // ele.stroke.color = lineColor
         point.stroke.color = lineColor;

@@ -52,7 +52,7 @@ class ToolManager {
 
     window.addEventListener('keydown', handleKeyDown.bind(this), {signal})
     window.addEventListener('keyup', handleKeyUp.bind(this), {signal})
-    window.addEventListener('wheel', handleWheel.bind(this), {signal, passive: false})
+    // window.addEventListener('wheel', handleWheel.bind(this), {signal, passive: false})
     container.addEventListener('pointerdown', handleMouseDown.bind(this), {signal, passive: false})
     container.addEventListener('pointerup', handleMouseUp.bind(this), {signal})
     container.addEventListener('pointermove', handlePointerMove.bind(this), {signal})

@@ -52,7 +52,7 @@ export function initEvents(this: Editor) {
     })
     dispatch('visible-element-updated')
   })
-
+  
   on('world-zoom', (arg) => {
     if (arg === 'fit') {
       const {width, height} = this.config.page
