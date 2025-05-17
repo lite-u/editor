@@ -28,3 +28,4 @@ export type ZoomRatio = number;
 export type UnitType = Unit.MM | Unit.INCHES | Unit.PX | Unit.CM;
 export type { VisionEventData, VisionEventType };
 export type { ElementProps } from './elements/type';
+export type { InitializedHandler, HistoryUpdatedHandler, ElementsUpdatedHandler, SelectionUpdatedHandler, ViewportUpdatedHandler, WorldUpdatedHandler, WorldMouseMoveUpdatedHandler, ContextMenuHandler, ElementCopiedHandler, SwitchToolHandler, } from './main/type';

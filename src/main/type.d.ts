@@ -46,6 +46,7 @@ export type HistoryUpdatedHandler = (history: History) => void;
 export type ElementsUpdatedHandler = (elementMap: elementMap) => void;
 export type SelectionUpdatedHandler = (selected: Set<UID>, selectedProps?: ElementProps) => void;
 export type ViewportUpdatedHandler = (viewportInfo: ViewportData) => void;
+export type ZoomHandler = (scale: number) => void;
 export type WorldUpdatedHandler = (worldInfo: WorldInfo) => void;
 export type WorldMouseMoveUpdatedHandler = (point: Point) => void;
 export type ContextMenuHandler = (position: Point) => void;
@@ -58,6 +59,7 @@ export declare type EventHandlers = {
   onElementsUpdated?: ElementsUpdatedHandler
   onSelectionUpdated?: SelectionUpdatedHandler
   onViewportUpdated?: ViewportUpdatedHandler
+  onZoomed?: ZoomHandler
   onWorldUpdated?: WorldUpdatedHandler
   onWorldMouseMove?: WorldMouseMoveUpdatedHandler
   onContextMenu?: ContextMenuHandler

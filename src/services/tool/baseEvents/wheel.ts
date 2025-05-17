@@ -19,8 +19,6 @@ function handleWheel(this: ToolManager, event: WheelEvent) {
 
   if (zooming) {
     // console.log(zoomFactor)
-    // console.log(zooming)
-    console.log(zoomFactor)
     this.editor.action.dispatch('world-zoom', {
       zoomBy: true,
       zoomFactor,
@@ -81,7 +79,9 @@ const detectGestures = (() => {
 
     if (EVENT_BUFFER.length >= ACTION_THRESHOLD) {
       // detect zooming
-      const allXAreMinusZero = EVENT_BUFFER.every((e) => isNegativeZero(e.deltaX))
+      const allXAreMinusZero = EVENT_BUFFER.every((e) =>
+        isNegativeZero(e.deltaX),
+      )
       const allYAreFloat = EVENT_BUFFER.every((e) => isFloat(e.deltaY))
       const absBiggerThan4 = EVENT_BUFFER.every((e) => Math.abs(e.deltaY) > 4)
 
@@ -90,7 +90,7 @@ const detectGestures = (() => {
       if (allXAreMinusZero && allYAreFloat && !absBiggerThan4) {
         gestureLock = true
         trackpad = true
-        console.log('touchpadZoomingLock')
+        // console.log('touchpadZoomingLock')
         // console.log([...EVENT_BUFFER])
         // zoomFactor = deltaY > 0 ? -.1 : .1
         // zooming = true

@@ -15,8 +15,6 @@ function handleWheel(event) {
     // this.editor.interaction.zooming = zooming
     if (zooming) {
         // console.log(zoomFactor)
-        // console.log(zooming)
-        console.log(zoomFactor);
         this.editor.action.dispatch('world-zoom', {
             zoomBy: true,
             zoomFactor,
@@ -79,7 +77,7 @@ const detectGestures = (() => {
             if (allXAreMinusZero && allYAreFloat && !absBiggerThan4) {
                 gestureLock = true;
                 trackpad = true;
-                console.log('touchpadZoomingLock');
+                // console.log('touchpadZoomingLock')
                 // console.log([...EVENT_BUFFER])
                 // zoomFactor = deltaY > 0 ? -.1 : .1
                 // zooming = true

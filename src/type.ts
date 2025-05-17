@@ -39,3 +39,15 @@ export type {VisionEventData, VisionEventType}
 // export type {ElementProps}
 export type {ElementProps} from './elements/type'
 
+export type  {
+  InitializedHandler,
+  HistoryUpdatedHandler,
+  ElementsUpdatedHandler,
+  SelectionUpdatedHandler,
+  ViewportUpdatedHandler,
+  WorldUpdatedHandler,
+  WorldMouseMoveUpdatedHandler,
+  ContextMenuHandler,
+  ElementCopiedHandler,
+  SwitchToolHandler,
+} from './main/type'
