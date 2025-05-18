@@ -1,6 +1,6 @@
-import selecting from '~/services/tool/selector/selecting/selecting';
-import dragTool from '~/services/tool/drag/dragTool';
-import resizing from '~/services/tool/selector/resizing/resizing';
+import selecting from './selecting/selecting.js';
+import dragTool from '../drag/dragTool.js';
+import resizing from './resizing/resizing.js';
 const selector = {
     cursor: 'default',
     mouseDown: function () {
