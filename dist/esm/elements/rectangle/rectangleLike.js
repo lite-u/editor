@@ -1,6 +1,5 @@
 import ElementShape from '../shape/shape.js';
 import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '../../core/utils.js';
-import transform from './transform.js';
 import ElementRectangle from './rectangle.js';
 import { DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../defaultProps.js';
 import { isEqual } from '../../lib/lib.js';
@@ -110,7 +109,6 @@ class RectangleLike extends ElementShape {
         this.rotation = angle
       }*/
     translate(dx, dy) {
-        console.log(this.original, dx, dy);
         this.cx = this.original.cx + dx;
         this.cy = this.original.cy + dy;
         this.updatePath2D();
@@ -128,17 +126,6 @@ class RectangleLike extends ElementShape {
             },
         };
     }
-    /*  restore(props: Partial<RectangleLikeProps>) {
-        Object.assign(this,props)
-        this.updatePath2D()
-      }*/
-    /*
-      scale(sx: number, sy: number) {
-        console.log(9)
-        this.width *= sx
-        this.height *= sy
-      }
-    */
     scaleFrom(scaleX, scaleY, anchor) {
         // console.log(scaleX, scaleY, anchor)
         const matrix = new DOMMatrix()
@@ -160,9 +147,6 @@ class RectangleLike extends ElementShape {
         const corners: Point[] = this.corners
         return transformPoints(corners, this.matrix)
       }*/
-    static applyResizeTransform = (arg) => {
-        return transform(arg);
-    };
     hitTest(point, borderPadding = 5) {
         console.log(9);
         // this.path2D.

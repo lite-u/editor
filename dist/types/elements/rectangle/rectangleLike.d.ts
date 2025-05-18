@@ -1,7 +1,6 @@
 import ElementShape, { ShapeProps } from '../shape/shape';
-import { Point, Rect } from '~/type';
+import { Point } from '~/type';
 import { SnapPointData } from '~/main/type';
-import { TransformProps } from '~/elements/rectangle/transform';
 import ElementRectangle from '~/elements/rectangle/rectangle';
 import { BorderRadius } from '~/elements/props';
 import { HistoryChangeItem } from '~/services/actions/type';
@@ -27,7 +26,6 @@ declare class RectangleLike extends ElementShape {
     protected get corners(): Point[];
     translate(dx: number, dy: number): HistoryChangeItem;
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
-    static applyResizeTransform: (arg: TransformProps) => Rect;
     hitTest(point: Point, borderPadding?: number): 'inside' | 'border' | null;
     hitTest1(point: Point, borderPadding?: number): 'inside' | 'border' | null;
     toJSON(): RequiredRectangleLikeProps;
