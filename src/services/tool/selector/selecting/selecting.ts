@@ -15,14 +15,14 @@ const selecting: SubToolType = {
       mouseWorldCurrent,
       _modifier: {shiftKey, metaKey, ctrlKey},
     } = interaction
-    // if (!_pointDown) return
-    _mouseMoved = true
     const rect = generateBoundingRectFromTwoPoints(mouseStart, mouseCurrent)
     interaction.updateSelectionBox(rect)
 
     const outer: BoundingRect = generateBoundingRectFromTwoPoints(mouseWorldStart, mouseWorldCurrent)
     const _selecting: Set<UID> = new Set()
     const modifyKey = ctrlKey || metaKey || shiftKey
+
+    _mouseMoved = true
 
     elementManager.all.forEach((ele) => {
       const inner = ele.getBoundingRect()
