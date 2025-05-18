@@ -78,6 +78,10 @@ export type VisionEventMap = {
   'element-delete': never;
   'element-duplicate': never;
   'element-layer': { method: 'up' | 'down' | 'top' | 'bottom', idSet: Set<UID> };
+  'element-move-up': never;
+  'element-move-right': never;
+  'element-move-down': never;
+  'element-move-left': never;
   'element-move': ElementMoveData;
   'element-modify': ElementModifyData[]
   'element-modifying': {

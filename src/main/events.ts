@@ -8,7 +8,7 @@ import {HistoryOperation} from '~/services/history/type'
 // import {updateSelectionCanvasRenderData} from '../services/selection/helper'
 // import zoom from '../../components/statusBar/zoom'
 import {fitRectToViewport} from '~/services/world/helper'
-import {Point} from '~/type'
+import {Point, ToolName} from '~/type'
 import {ElementMap, ElementProps} from '~/elements/type'
 import snapTool from '~/services/tool/snap/snap'
 
@@ -294,6 +294,11 @@ export function initEvents(this: Editor) {
     // dispatch('element-modify', changes)
   })
 
+  on('element-move-up', () => dispatch('element-move', {delta: {x: 0, y: -10}}))
+  on('element-move-right', () => dispatch('element-move', {delta: {x: 10, y: 0}}))
+  on('element-move-down', () => dispatch('element-move', {delta: {x: 0, y: 10}}))
+  on('element-move-left', () => dispatch('element-move', {delta: {x: -10, y: 0}}))
+
   on('element-move', ({delta = {x: 0, y: 0}}) => {
     const s = this.selection.values
 
@@ -366,13 +371,15 @@ export function initEvents(this: Editor) {
       const element = this.elementManager.getElementById(id)
 
       if (!element) return
+      const eleProps = element.toJSON()
       const keys = Object.keys(kv) as (keyof ElementProps)[]
 
       keys.map((propName: keyof ElementProps) => {
-        const fromValue = element[propName]
+        const fromValue = eleProps[propName]
         const toValue = kv[propName]
 
-        props[propName as ElementProps] = {
+        // @ts-ignore
+        props[propName as unknown as ElementProps] = {
           from: fromValue,
           to: toValue,
         }
@@ -464,13 +471,13 @@ export function initEvents(this: Editor) {
     this.events.onContextMenu?.(position)
   })
 
-  on('switch-tool', (toolName) => {
+  on('switch-tool', (toolName: ToolName) => {
     let noSnap = toolName === 'zoomIn' || toolName === 'zoomOut' || toolName === 'panning'
 
     if (noSnap) {
       this.interaction._snappedPoint = null
       this.interaction._hoveredElement = null
-    }else{
+    } else {
       snapTool.call(this.toolManager)
     }
 

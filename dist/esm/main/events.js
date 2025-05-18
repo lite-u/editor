@@ -1,11 +1,11 @@
-import resetCanvas from '../services/world/resetCanvas.js';
-import { redo } from '../services/history/redo.js';
-import { undo } from '../services/history/undo.js';
-import { pick } from '../services/history/pick.js';
+import resetCanvas from '~/services/world/resetCanvas';
+import { redo } from '~/services/history/redo';
+import { undo } from '~/services/history/undo';
+import { pick } from '~/services/history/pick';
 // import {updateSelectionCanvasRenderData} from '../services/selection/helper'
 // import zoom from '../../components/statusBar/zoom'
-import { fitRectToViewport } from '../services/world/helper.js';
-import snapTool from '../services/tool/snap/snap.js';
+import { fitRectToViewport } from '~/services/world/helper';
+import snapTool from '~/services/tool/snap/snap';
 export function initEvents() {
     const { action } = this;
     const dispatch = action.dispatch.bind(action);
@@ -238,6 +238,10 @@ export function initEvents() {
         // this.batchMove(s, delta)
         // dispatch('element-modify', changes)
     });
+    on('element-move-up', () => dispatch('element-move', { delta: { x: 0, y: -10 } }));
+    on('element-move-right', () => dispatch('element-move', { delta: { x: 10, y: 0 } }));
+    on('element-move-down', () => dispatch('element-move', { delta: { x: 0, y: 10 } }));
+    on('element-move-left', () => dispatch('element-move', { delta: { x: -10, y: 0 } }));
     on('element-move', ({ delta = { x: 0, y: 0 } }) => {
         const s = this.selection.values;
         if (s.size === 0)
@@ -301,10 +305,12 @@ export function initEvents() {
             const element = this.elementManager.getElementById(id);
             if (!element)
                 return;
+            const eleProps = element.toJSON();
             const keys = Object.keys(kv);
             keys.map((propName) => {
-                const fromValue = element[propName];
+                const fromValue = eleProps[propName];
                 const toValue = kv[propName];
+                // @ts-ignore
                 props[propName] = {
                     from: fromValue,
                     to: toValue,
