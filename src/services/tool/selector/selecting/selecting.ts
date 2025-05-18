@@ -8,6 +8,7 @@ const selecting: SubToolType = {
   cursor: 'default',
   mouseMove(this: ToolManager,) {
     const {interaction, action, elementManager, selection, cursor} = this.editor
+    const selectedCopy = new Set(selection.values)
     const {
       mouseStart,
       mouseCurrent,
@@ -16,6 +17,7 @@ const selecting: SubToolType = {
       _modifier: {shiftKey, metaKey, ctrlKey},
     } = interaction
     const rect = generateBoundingRectFromTwoPoints(mouseStart, mouseCurrent)
+
     interaction.updateSelectionBox(rect)
 
     const outer: BoundingRect = generateBoundingRectFromTwoPoints(mouseWorldStart, mouseWorldCurrent)
@@ -37,7 +39,7 @@ const selecting: SubToolType = {
       }
     })
 
-    const selectingChanged = !areSetsEqual(_selectingElements, _selecting)
+    const selectingChanged = !areSetsEqual(selectedCopy, _selecting)
 
     /**
      * Simple logic
