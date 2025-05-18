@@ -18,14 +18,19 @@ class ElementLineSegment extends ElementBase {
         };
         this.updatePath2D();
     }
-    get getPoints() {
-        return this.points.map(p => ({ x: p.x, y: p.y }));
-    }
     updatePath2D() {
         const [start, end] = this.points;
         this.path2D = new Path2D();
         this.path2D.moveTo(start.x, start.y);
         this.path2D.lineTo(end.x, end.y);
+    }
+    updateOriginal() {
+        this.original.points = deepClone(this.points);
+        this.original.rotation = this.rotation;
+        this.updatePath2D();
+    }
+    get getPoints() {
+        return this.points.map(p => ({ x: p.x, y: p.y }));
     }
     static _getBoundingRect(start, end, rotation = 0) {
         const x = Math.min(start.x, end.x);
@@ -57,6 +62,15 @@ class ElementLineSegment extends ElementBase {
             point.x += dx;
             point.y += dy;
         });
+        return {
+            id: this.id,
+            from: {
+                points: deepClone(this.original.points),
+            },
+            to: {
+                points: deepClone(this.points),
+            },
+        };
     }
     scaleFrom(scaleX, scaleY, anchor) {
         const [start, end] = this.points;

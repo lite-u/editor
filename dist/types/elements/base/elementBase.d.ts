@@ -1,6 +1,5 @@
-import { BoundingRect, Point } from '~/type';
+import { BoundingRect, ElementProps, Point } from '~/type';
 import { Fill, Shadow, Stroke, Transform } from '~/elements/props';
-import { RectangleLikeProps } from '~/elements/rectangle/rectangleLike';
 export interface ElementBaseProps {
     stroke?: Stroke;
     fill?: Fill;
@@ -28,7 +27,7 @@ declare class ElementBase {
     protected toMinimalJSON(): ElementBaseProps;
     protected getBoundingRect(): BoundingRect;
     protected updatePath2D(): void;
-    protected restore(props: Partial<RectangleLikeProps>): void;
+    protected restore(props: Partial<ElementProps>): void;
     protected getTransformedPoints(): Point[];
     protected getCenter(): Point;
     protected resetTransform(): void;

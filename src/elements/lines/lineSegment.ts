@@ -2,6 +2,7 @@ import ElementBase, {ElementBaseProps} from '~/elements/base/elementBase'
 import {BoundingRect, Point, UID} from '~/type'
 import deepClone from '~/core/deepClone'
 import {generateBoundingRectFromRect, generateBoundingRectFromRotatedRect} from '~/core/utils'
+import {HistoryChangeItem} from '~/services/actions/type'
 
 type NamedPoint = { id: UID } & Point
 
@@ -38,15 +39,21 @@ class ElementLineSegment extends ElementBase {
     this.updatePath2D()
   }
 
-  public get getPoints(): Point[] {
-    return this.points.map(p => ({x: p.x, y: p.y}))
-  }
-
   protected updatePath2D() {
     const [start, end] = this.points
     this.path2D = new Path2D()
     this.path2D.moveTo(start.x, start.y)
     this.path2D.lineTo(end.x, end.y)
+  }
+
+  protected updateOriginal() {
+    this.original.points = deepClone(this.points)
+    this.original.rotation = this.rotation
+    this.updatePath2D()
+  }
+
+  public get getPoints(): Point[] {
+    return this.points.map(p => ({x: p.x, y: p.y}))
   }
 
   static _getBoundingRect(start: Point, end: Point, rotation: number = 0): BoundingRect {
@@ -79,11 +86,22 @@ class ElementLineSegment extends ElementBase {
     return ElementLineSegment._getBoundingRect(start, end, this.original.rotation)
   }
 
-  translate(dx: number, dy: number) {
+  translate(dx: number, dy: number): HistoryChangeItem {
     this.points.forEach((point: Point) => {
       point.x += dx
       point.y += dy
     })
+
+    return {
+      id: this.id,
+      from: {
+        points: deepClone(this.original.points),
+      },
+      to: {
+        points: deepClone(this.points),
+      },
+    }
+
   }
 
   scaleFrom(scaleX: number, scaleY: number, anchor: Point) {
@@ -126,17 +144,17 @@ class ElementLineSegment extends ElementBase {
     }
   }
 
- /* render(ctx: CanvasRenderingContext2D) {
-    const [start, end] = this.points
+  /* render(ctx: CanvasRenderingContext2D) {
+     const [start, end] = this.points
 
-    ctx.save()
-    ctx.beginPath()
-    ctx.moveTo(start.x, start.y)
-    ctx.lineTo(end.x, end.y)
-    ctx.stroke()
-    ctx.restore()
+     ctx.save()
+     ctx.beginPath()
+     ctx.moveTo(start.x, start.y)
+     ctx.lineTo(end.x, end.y)
+     ctx.stroke()
+     ctx.restore()
 
-  }*/
+   }*/
 }
 
 export default ElementLineSegment

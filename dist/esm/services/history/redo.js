@@ -38,7 +38,6 @@ export function redo(quiet = false) {
             this.elementManager.batchDelete(extractIdSetFromArray(payload.elements));
             break;
     }
-    // this.editor.updateVisibleelementMap(this.editor.viewport.worldRect)
     if (!quiet) {
         this.selection.replace(selectedElements);
         // console.log(selectedElements)
