@@ -8,7 +8,6 @@ function snapTool(this: ToolManager) {
   const {interaction, world, visible} = this.editor
   const {baseCanvasContext: ctx, dpr} = world
   const {x, y} = interaction.mouseCurrent
-  // const {button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY} = e
   const viewPoint = {
     x: x * dpr,
     y: y * dpr,

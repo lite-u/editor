@@ -12,7 +12,6 @@ export default function handlePointerMove(e) {
     interaction.mouseWorldDelta = world.getWorldPointByViewportPoint(x, y);
     interaction._modifier = { button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY };
     cursor.move({ x: e.clientX, y: e.clientY });
-    action.dispatch('world-mouse-move');
     if (noSnap) {
         interaction._snappedPoint = null;
         interaction._hoveredElement = null;
@@ -20,6 +19,7 @@ export default function handlePointerMove(e) {
     else {
         snapTool.call(this);
     }
+    action.dispatch('world-mouse-move');
     action.dispatch('render-overlay');
     this.tool.mouseMove.call(this);
 }

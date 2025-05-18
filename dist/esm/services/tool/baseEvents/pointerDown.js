@@ -19,7 +19,7 @@ function handleMouseDown(e) {
     if (button !== 0)
         return;
     this.editor.action.dispatch('clear-creation');
-    snapTool.mouseDown.call(this);
+    snapTool.call(this);
     this.tool.mouseDown.call(this);
 }
 export default handleMouseDown;
