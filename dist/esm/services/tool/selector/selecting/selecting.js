@@ -17,6 +17,7 @@ const selecting = {
         const outer = generateBoundingRectFromTwoPoints(mouseWorldStart, mouseWorldCurrent);
         const modifyKey = ctrlKey || metaKey || shiftKey;
         _mouseMoved = true;
+        _selecting.clear();
         elementManager.all.forEach((ele) => {
             const inner = ele.getBoundingRect();
             if (inner.left >= outer.left &&
@@ -43,7 +44,7 @@ const selecting = {
             }
             else {
                 action.dispatch('selection-modify', {
-                    mode: 'add',
+                    mode: 'replace',
                     idSet: _selecting,
                 });
             }

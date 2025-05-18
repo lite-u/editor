@@ -29,7 +29,7 @@ const selecting: SubToolType = {
     const modifyKey = ctrlKey || metaKey || shiftKey
 
     _mouseMoved = true
-
+    _selecting.clear()
     elementManager.all.forEach((ele) => {
       const inner = ele.getBoundingRect()
 
@@ -58,7 +58,7 @@ const selecting: SubToolType = {
         action.dispatch('selection-clear')
       } else {
         action.dispatch('selection-modify', {
-          mode: 'add',
+          mode: 'replace',
           idSet: _selecting,
         })
       }
