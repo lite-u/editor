@@ -359,32 +359,6 @@ export function initEvents(this: Editor) {
   })
 
   on('element-modify', (changes) => {
-    /*    const changes: HistoryChangeItem[] = []
-        // console.log(data)
-
-        data.map(({id, props: kv}) => {
-          const props: HistoryChangeProps = {}
-          const change = {id, props}
-          const element = this.elementManager.getElementById(id)
-
-          if (!element) return
-          const eleProps = element.toJSON()
-          const keys = Object.keys(kv) as (keyof ElementProps)[]
-
-          keys.map((propName: keyof ElementProps) => {
-            const fromValue = eleProps[propName]
-            const toValue = kv[propName]
-
-            // @ts-ignore
-            props[propName as unknown as ElementProps] = {
-              from: fromValue,
-              to: toValue,
-            }
-          })
-          this.elementManager.batchModify(new Set([id]), kv)
-          changes.push(change)
-        })*/
-
     this.history.add({
       type: 'history-modify',
       payload: {
