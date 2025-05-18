@@ -46,7 +46,8 @@ declare class InteractionState {
     boxColor: string;
     boxBgColor: string;
     constructor(editor: Editor);
-    updateSelectionBox({ x, y, height, width }: Rect, show?: boolean): void;
+    hideSelectionBox(): void;
+    updateSelectionBox({ x, y, height, width }: Rect): void;
     updateControlPoints(): void;
     destroy(): void;
 }

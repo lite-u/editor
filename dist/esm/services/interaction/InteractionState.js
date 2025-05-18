@@ -37,7 +37,7 @@ class InteractionState {
     };
     selectionBox = null;
     _lastTool = null;
-    boxColor = '#1FB3FF';
+    boxColor = '#006bfa';
     boxBgColor = 'rgba(31,180,255,0.1)';
     // toolMap: Map<string, ToolManager> = new Map()
     // CopyDeltaX = 50
@@ -50,17 +50,21 @@ class InteractionState {
             display: 'none',
             pointerEvents: 'none',
             position: 'absolute',
-            border: `1px solid ${this.boxColor}`,
-            backgroundColor: `${this.boxBgColor}`,
+            border: `1px dashed ${this.boxColor}`,
+            // backgroundColor: `${this.boxBgColor}`,
+            backgroundColor: 'transparent',
             zIndex: '10',
         });
         editor.container.appendChild(this.selectionBox);
     }
-    updateSelectionBox({ x, y, height, width }, show = true) {
+    hideSelectionBox() {
+        this.selectionBox.style.display = 'none';
+    }
+    updateSelectionBox({ x, y, height, width }) {
         this.selectionBox.style.transform = `translate(${x}px, ${y}px)`;
         this.selectionBox.style.width = width + 'px';
         this.selectionBox.style.height = height + 'px';
-        this.selectionBox.style.display = show ? 'block' : 'none';
+        this.selectionBox.style.display = 'block';
     }
     updateControlPoints() {
         const { scale, dpr } = this.editor.world;
