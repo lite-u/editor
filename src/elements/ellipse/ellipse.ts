@@ -1,11 +1,10 @@
 import {generateBoundingRectFromRotatedRect} from '~/core/utils'
 import ElementShape, {ShapeProps} from '../shape/shape'
 import ElementRectangle from '../rectangle/rectangle'
-import {ResizeDirectionName} from '~/services/selection/type'
 import {Point} from '~/type'
 import render from './render'
-import transform from './transform'
 import {rotatePointAroundPoint} from '~/core/geometry'
+import {HistoryChangeItem} from '~/services/actions/type'
 
 export interface EllipseProps extends ShapeProps {
   id: string
@@ -58,9 +57,6 @@ class ElementEllipse extends ElementShape {
     const bottom = rotatePointAroundPoint(cx, cy + r2, cx, cy, rotation)
     const left = rotatePointAroundPoint(cx - r1, cy, cx, cy, rotation)
     const right = rotatePointAroundPoint(cx + r1, cy, cx, cy, rotation)
-    // const bottom = this.transformPoint(cx, cy + r2)
-    // const left = this.transformPoint(cx - r1, cy)
-    // const right = this.transformPoint(cx + r1, cy)
 
     return [top, right, bottom, left]
   }
@@ -68,6 +64,27 @@ class ElementEllipse extends ElementShape {
   protected updatePath2D() {
     this.path2D = new Path2D()
     this.path2D.ellipse(this.cx, this.cy, this.r1, this.r2, this.rotation, 0, Math.PI * 2)
+  }
+
+  translate(dx: number, dy: number): HistoryChangeItem {
+    console.log(this.original, dx, dy)
+    this.cx = this.original.cx + dx
+    this.cy = this.original.cy + dy
+    this.updatePath2D()
+
+    return {
+      id: this.id,
+      props: {
+        cx: {
+          from: this.original.cx,
+          to: this.cx,
+        },
+        cy: {
+          from: this.original.cy,
+          to: this.cy,
+        },
+      },
+    }
   }
 
   scale(sx: number, sy: number) {
@@ -92,47 +109,6 @@ class ElementEllipse extends ElementShape {
     this.r1 = Math.abs(rx.x - center.x)
     this.r2 = Math.abs(ry.y - center.y)
     this.updatePath2D()
-  }
-
-  static applyResizeTransform = (props: {
-    downPoint: { x: number; y: number };
-    movePoint: { x: number; y: number };
-    elementOrigin: RequiredEllipseProps
-    rotation: number;
-    handleName: ResizeDirectionName;
-    scale: number;
-    dpr: number;
-    altKey?: boolean;
-    shiftKey?: boolean;
-  }): Point & { r1: number, r2: number } => {
-    return transform(props)
-  }
-
-  public hitTest(point: Point, borderPadding = 5): 'inside' | 'border' | null {
-    const {cx: cx, cy: cy, r1, r2, rotation = 0} = this
-
-    const cos = Math.cos(-rotation)
-    const sin = Math.sin(-rotation)
-
-    const dx = point.x - cx
-    const dy = point.y - cy
-
-    const localX = dx * cos - dy * sin
-    const localY = dx * sin + dy * cos
-
-    // Ellipse equation: (x^2 / a^2) + (y^2 / b^2)
-    const norm = (localX * localX) / (r1 * r1) + (localY * localY) / (r2 * r2)
-
-    const borderRange = borderPadding / Math.min(r1, r2) // normalized padding
-
-    if (norm <= 1 + borderRange) {
-      if (norm >= 1 - borderRange) {
-        return 'border'
-      }
-      return 'inside'
-    }
-
-    return null
   }
 
   public toMinimalJSON(): EllipseProps {
