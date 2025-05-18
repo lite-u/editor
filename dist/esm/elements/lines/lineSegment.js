@@ -29,6 +29,10 @@ class ElementLineSegment extends ElementBase {
         this.original.rotation = this.rotation;
         this.updatePath2D();
     }
+    get center() {
+        const rect = this.getBoundingRect();
+        return { x: rect.cx, y: rect.cy };
+    }
     get getPoints() {
         return this.points.map(p => ({ x: p.x, y: p.y }));
     }

@@ -50,6 +50,12 @@ class ElementLineSegment extends ElementBase {
     this.updatePath2D()
   }
 
+  protected get center(): Point {
+    const rect = this.getBoundingRect()
+
+    return {x: rect.cx, y: rect.cy}
+  }
+
   public get getPoints(): Point[] {
     return this.points.map(p => ({x: p.x, y: p.y}))
   }
