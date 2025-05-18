@@ -366,7 +366,10 @@ export function initEvents() {
         this.events.onContextMenu?.(position);
     });
     on('switch-tool', (toolName) => {
+        this.interaction._snappedPoint = null;
+        this.interaction._hoveredElement = null;
         this.toolManager.set(toolName);
+        action.dispatch('render-overlay');
         // this.toolManager.currentToolName = toolName
         this.events.onSwitchTool?.(toolName);
         console.log(toolName);
