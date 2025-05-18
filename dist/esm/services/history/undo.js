@@ -24,12 +24,13 @@ export function undo(quiet = false) {
                 });
             });
             break;
-        case 'history-move':
-            this.elementManager.batchMove(payload.selectedElements, {
-                x: -payload.delta.x,
-                y: -payload.delta.y,
-            });
-            break;
+        /*case 'history-move':
+          console.log('move')
+          this.elementManager.batchMove(payload.selectedElements, {
+            x: -payload.delta.x,
+            y: -payload.delta.y,
+          })
+          break*/
         case 'history-reorder':
             break;
         case 'history-group':

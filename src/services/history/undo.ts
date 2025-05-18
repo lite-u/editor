@@ -36,12 +36,13 @@ export function undo(this: Editor, quiet: boolean = false): HistoryNode | false 
       })
       break
 
-    case 'history-move':
+    /*case 'history-move':
+      console.log('move')
       this.elementManager.batchMove(payload.selectedElements, {
         x: -payload.delta.x,
         y: -payload.delta.y,
       })
-      break
+      break*/
 
     case 'history-reorder':
       break

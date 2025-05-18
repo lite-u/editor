@@ -26,6 +26,7 @@ declare class RectangleLike extends ElementShape {
     protected get getPoints(): Point[];
     protected get corners(): Point[];
     translate(dx: number, dy: number): HistoryChangeItem;
+    restore(props: Partial<RectangleLikeProps>): void;
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
     static applyResizeTransform: (arg: TransformProps) => Rect;
     hitTest(point: Point, borderPadding?: number): 'inside' | 'border' | null;
