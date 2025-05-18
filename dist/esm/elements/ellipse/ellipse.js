@@ -2,7 +2,6 @@ import { generateBoundingRectFromRotatedRect } from '../../core/utils.js';
 import ElementShape from '../shape/shape.js';
 import ElementRectangle from '../rectangle/rectangle.js';
 import render from './render.js';
-import transform from './transform.js';
 import { rotatePointAroundPoint } from '../../core/geometry.js';
 class ElementEllipse extends ElementShape {
     type = 'ellipse';
@@ -35,14 +34,30 @@ class ElementEllipse extends ElementShape {
         const bottom = rotatePointAroundPoint(cx, cy + r2, cx, cy, rotation);
         const left = rotatePointAroundPoint(cx - r1, cy, cx, cy, rotation);
         const right = rotatePointAroundPoint(cx + r1, cy, cx, cy, rotation);
-        // const bottom = this.transformPoint(cx, cy + r2)
-        // const left = this.transformPoint(cx - r1, cy)
-        // const right = this.transformPoint(cx + r1, cy)
         return [top, right, bottom, left];
     }
     updatePath2D() {
         this.path2D = new Path2D();
         this.path2D.ellipse(this.cx, this.cy, this.r1, this.r2, this.rotation, 0, Math.PI * 2);
+    }
+    translate(dx, dy) {
+        console.log(this.original, dx, dy);
+        this.cx = this.original.cx + dx;
+        this.cy = this.original.cy + dy;
+        this.updatePath2D();
+        return {
+            id: this.id,
+            props: {
+                cx: {
+                    from: this.original.cx,
+                    to: this.cx,
+                },
+                cy: {
+                    from: this.original.cy,
+                    to: this.cy,
+                },
+            },
+        };
     }
     scale(sx, sy) {
         this.r1 *= sx;
@@ -62,28 +77,6 @@ class ElementEllipse extends ElementShape {
         this.r1 = Math.abs(rx.x - center.x);
         this.r2 = Math.abs(ry.y - center.y);
         this.updatePath2D();
-    }
-    static applyResizeTransform = (props) => {
-        return transform(props);
-    };
-    hitTest(point, borderPadding = 5) {
-        const { cx: cx, cy: cy, r1, r2, rotation = 0 } = this;
-        const cos = Math.cos(-rotation);
-        const sin = Math.sin(-rotation);
-        const dx = point.x - cx;
-        const dy = point.y - cy;
-        const localX = dx * cos - dy * sin;
-        const localY = dx * sin + dy * cos;
-        // Ellipse equation: (x^2 / a^2) + (y^2 / b^2)
-        const norm = (localX * localX) / (r1 * r1) + (localY * localY) / (r2 * r2);
-        const borderRange = borderPadding / Math.min(r1, r2); // normalized padding
-        if (norm <= 1 + borderRange) {
-            if (norm >= 1 - borderRange) {
-                return 'border';
-            }
-            return 'inside';
-        }
-        return null;
     }
     toMinimalJSON() {
         return {

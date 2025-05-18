@@ -87,11 +87,6 @@ class ElementEllipse extends ElementShape {
     }
   }
 
-  scale(sx: number, sy: number) {
-    this.r1 *= sx
-    this.r2 *= sy
-  }
-
   scaleFrom(scaleX: number, scaleY: number, anchor: Point) {
     const matrix = new DOMMatrix()
       .translate(anchor.x, anchor.y)

@@ -1,7 +1,7 @@
 import ElementShape, { ShapeProps } from '../shape/shape';
 import ElementRectangle from '../rectangle/rectangle';
-import { ResizeDirectionName } from '~/services/selection/type';
 import { Point } from '~/type';
+import { HistoryChangeItem } from '~/services/actions/type';
 export interface EllipseProps extends ShapeProps {
     id: string;
     layer: number;
@@ -20,29 +20,9 @@ declare class ElementEllipse extends ElementShape {
     constructor({ r1, r2, id, layer, ...rest }: EllipseProps);
     get getPoints(): Point[];
     protected updatePath2D(): void;
+    translate(dx: number, dy: number): HistoryChangeItem;
     scale(sx: number, sy: number): void;
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
-    static applyResizeTransform: (props: {
-        downPoint: {
-            x: number;
-            y: number;
-        };
-        movePoint: {
-            x: number;
-            y: number;
-        };
-        elementOrigin: RequiredEllipseProps;
-        rotation: number;
-        handleName: ResizeDirectionName;
-        scale: number;
-        dpr: number;
-        altKey?: boolean;
-        shiftKey?: boolean;
-    }) => Point & {
-        r1: number;
-        r2: number;
-    };
-    hitTest(point: Point, borderPadding?: number): 'inside' | 'border' | null;
     toMinimalJSON(): EllipseProps;
     toJSON(): RequiredEllipseProps;
     getBoundingRect(): import("~/type").BoundingRect;
@@ -59,7 +39,7 @@ declare class ElementEllipse extends ElementShape {
         lineColor: string;
         size: number;
         fillColor: string;
-    }): import("~/services/selection/type").OperationHandler[];
+    }): import("../../services/selection/type").OperationHandler[];
     render(ctx: CanvasRenderingContext2D): void;
 }
 export default ElementEllipse;
