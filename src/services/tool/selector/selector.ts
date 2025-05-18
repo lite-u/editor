@@ -1,12 +1,19 @@
 import ToolManager, {ToolType} from '~/services/tool/toolManager'
 import {generateBoundingRectFromTwoPoints} from '~/core/utils'
+import selecting from '~/services/tool/selecting/selecting'
 
 const selector: ToolType = {
   cursor: 'default',
   mouseDown: function () {
     const {interaction, action, selection, cursor} = this.editor
-    const {mouseStart, mouseCurrent, _modifier: {shiftKey, metaKey, ctrlKey}} = interaction
+    const {_hoveredElement, mouseStart, mouseCurrent, _modifier: {shiftKey, metaKey, ctrlKey}} = interaction
 
+    if (!_hoveredElement) {
+      // selecting.call(this)
+      this.tool = selecting
+      return
+    }
+    console.log(_hoveredElement)
     const rect = generateBoundingRectFromTwoPoints(
       mouseStart,
       mouseCurrent,

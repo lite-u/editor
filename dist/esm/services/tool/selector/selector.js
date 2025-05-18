@@ -1,9 +1,16 @@
 import { generateBoundingRectFromTwoPoints } from '../../../core/utils.js';
+import selecting from '../selecting/selecting.js';
 const selector = {
     cursor: 'default',
     mouseDown: function () {
         const { interaction, action, selection, cursor } = this.editor;
-        const { mouseStart, mouseCurrent, _modifier: { shiftKey, metaKey, ctrlKey } } = interaction;
+        const { _hoveredElement, mouseStart, mouseCurrent, _modifier: { shiftKey, metaKey, ctrlKey } } = interaction;
+        if (!_hoveredElement) {
+            // selecting.call(this)
+            this.tool = selecting;
+            return;
+        }
+        console.log(_hoveredElement);
         const rect = generateBoundingRectFromTwoPoints(mouseStart, mouseCurrent);
         interaction.updateSelectionBox(rect);
         if (interaction._hoveredElement) {
