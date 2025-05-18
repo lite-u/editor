@@ -64,7 +64,10 @@ class RectangleLike extends ElementShape {
     }
     updateOriginal() {
         this.original.cx = this.cx;
-        this.original.cx = this.cy;
+        this.original.cy = this.cy;
+        this.original.width = this.width;
+        this.original.height = this.height;
+        this.original.rotation = this.rotation;
         this.updatePath2D();
     }
     get getPoints() {
@@ -107,6 +110,7 @@ class RectangleLike extends ElementShape {
         this.rotation = angle
       }*/
     translate(dx, dy) {
+        console.log(this.original, dx, dy);
         this.cx = this.original.cx + dx;
         this.cy = this.original.cx + dy;
         this.updatePath2D();

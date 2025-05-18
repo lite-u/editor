@@ -94,9 +94,11 @@ class RectangleLike extends ElementShape {
 
   protected updateOriginal() {
     this.original.cx = this.cx
-    this.original.cx = this.cy
+    this.original.cy = this.cy
+    this.original.width = this.width
+    this.original.height = this.height
+    this.original.rotation = this.rotation
     this.updatePath2D()
-
   }
 
   protected get getPoints(): Point[] {
@@ -145,6 +147,7 @@ class RectangleLike extends ElementShape {
     }*/
 
   translate(dx: number, dy: number): HistoryChangeItem {
+    console.log(this.original, dx, dy)
     this.cx = this.original.cx + dx
     this.cy = this.original.cx + dy
     this.updatePath2D()
