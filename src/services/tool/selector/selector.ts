@@ -15,7 +15,7 @@ const selector: ToolType = {
     if (dragMode) {
       this.tool = dragTool
     } else if (rotateMode) {
-      // this.tool = resize
+      // this.tool = resizeTool
 
     } else if (resizeMode) {
       // this.tool = resize
