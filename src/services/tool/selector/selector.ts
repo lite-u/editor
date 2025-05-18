@@ -7,11 +7,21 @@ const selector: ToolType = {
   mouseDown: function () {
     const {interaction, action, selection, cursor} = this.editor
     const {_hoveredElement, mouseStart, mouseCurrent, _modifier: {shiftKey, metaKey, ctrlKey}} = interaction
+    const dragMode = false
+    const rotateMode = false
+    const resizeMode = false
 
-    if (!_hoveredElement) {
+    if (dragMode) {
+
+    } else if (rotateMode) {
+
+    } else if (resizeMode) {
+
+    } else {
       this.tool = selecting
       return
     }
+
     console.log(_hoveredElement)
     const rect = generateBoundingRectFromTwoPoints(
       mouseStart,
