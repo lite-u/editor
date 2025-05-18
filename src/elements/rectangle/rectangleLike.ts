@@ -7,6 +7,7 @@ import ElementRectangle from '~/elements/rectangle/rectangle'
 import {BorderRadius} from '~/elements/props'
 import {DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH} from '~/elements/defaultProps'
 import {isEqual} from '~/lib/lib'
+import {HistoryChangeItem} from '~/services/actions/type'
 
 export interface RectangleLikeProps extends ShapeProps {
   id: string
@@ -91,6 +92,10 @@ class RectangleLike extends ElementShape {
     this.path2D.closePath()
   }
 
+  protected updateOriginal() {
+
+  }
+
   protected get getPoints(): Point[] {
     const w = this.width / 2
     const h = this.height / 2
@@ -136,10 +141,33 @@ class RectangleLike extends ElementShape {
       this.rotation = angle
     }*/
 
-  scale(sx: number, sy: number) {
-    this.width *= sx
-    this.height *= sy
+  translate(dx: number, dy: number): HistoryChangeItem {
+    this.cx = this.original.cx + dx
+    this.cy = this.original.cx + dy
+    this.updatePath2D()
+
+    return {
+      id: this.id,
+      props: {
+        cx: {
+          from: this.original.cx,
+          to: this.cx,
+        },
+        cy: {
+          from: this.original.cy,
+          to: this.cy,
+        },
+      },
+    }
   }
+
+  /*
+    scale(sx: number, sy: number) {
+      console.log(9)
+      this.width *= sx
+      this.height *= sy
+    }
+  */
 
   scaleFrom(scaleX: number, scaleY: number, anchor: Point) {
     // console.log(scaleX, scaleY, anchor)

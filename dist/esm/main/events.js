@@ -1,11 +1,11 @@
-import resetCanvas from '~/services/world/resetCanvas';
-import { redo } from '~/services/history/redo';
-import { undo } from '~/services/history/undo';
-import { pick } from '~/services/history/pick';
+import resetCanvas from '../services/world/resetCanvas.js';
+import { redo } from '../services/history/redo.js';
+import { undo } from '../services/history/undo.js';
+import { pick } from '../services/history/pick.js';
 // import {updateSelectionCanvasRenderData} from '../services/selection/helper'
 // import zoom from '../../components/statusBar/zoom'
-import { fitRectToViewport } from '~/services/world/helper';
-import snapTool from '~/services/tool/snap/snap';
+import { fitRectToViewport } from '../services/world/helper.js';
+import snapTool from '../services/tool/snap/snap.js';
 export function initEvents() {
     const { action } = this;
     const dispatch = action.dispatch.bind(action);
@@ -250,6 +250,7 @@ export function initEvents() {
         s.forEach((id) => {
             const ele = this.elementManager.all.get(id);
             if (ele) {
+                ele.translate(delta.x, delta.y);
                 changes.push({
                     id,
                     props: {

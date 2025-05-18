@@ -15,7 +15,6 @@ declare class ElementShape extends ElementBase {
     gradient: Gradient;
     constructor({ cx, cy, gradient, ...rest }: ShapeProps);
     protected get center(): Point;
-    translate(dx: number, dy: number): void;
     protected toJSON(): RequiredShapeProps;
     toMinimalJSON(): ShapeProps;
     move(x: number, y: number): void;

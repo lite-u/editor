@@ -40,11 +40,6 @@ class ElementShape extends ElementBase {
     return {x: this.cx, y: this.cy}
   }
 
-  translate(dx: number, dy: number) {
-    this.cx = this.original.cx + dx
-    this.cy = this.original.cx + dy
-  }
-
   protected toJSON(): RequiredShapeProps {
     const {
       cx,
@@ -84,8 +79,6 @@ class ElementShape extends ElementBase {
     this.cx += x
     this.cy += y
   }
-
-
 
   public getOperators(
     id: string,

@@ -308,6 +308,7 @@ export function initEvents(this: Editor) {
     s.forEach((id) => {
       const ele = this.elementManager.all.get(id)
       if (ele) {
+        ele.translate(delta.x, delta.y)
         changes.push({
           id,
           props: {

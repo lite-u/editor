@@ -4,6 +4,7 @@ import { SnapPointData } from '~/main/type';
 import { TransformProps } from '~/elements/rectangle/transform';
 import ElementRectangle from '~/elements/rectangle/rectangle';
 import { BorderRadius } from '~/elements/props';
+import { HistoryChangeItem } from '~/services/actions/type';
 export interface RectangleLikeProps extends ShapeProps {
     id: string;
     layer: number;
@@ -21,9 +22,10 @@ declare class RectangleLike extends ElementShape {
     private original;
     constructor({ id, layer, width, height, borderRadius, ...rest }: RectangleLikeProps);
     protected updatePath2D(): void;
+    protected updateOriginal(): void;
     protected get getPoints(): Point[];
     protected get corners(): Point[];
-    scale(sx: number, sy: number): void;
+    translate(dx: number, dy: number): HistoryChangeItem;
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
     static applyResizeTransform: (arg: TransformProps) => Rect;
     hitTest(point: Point, borderPadding?: number): 'inside' | 'border' | null;
