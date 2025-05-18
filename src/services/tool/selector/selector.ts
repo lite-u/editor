@@ -1,6 +1,7 @@
 import ToolManager, {ToolType} from '~/services/tool/toolManager'
 import {generateBoundingRectFromTwoPoints} from '~/core/utils'
 import selecting from '~/services/tool/selecting/selecting'
+import dragTool from '~/services/tool/drag/dragTool'
 
 const selector: ToolType = {
   cursor: 'default',
@@ -12,10 +13,12 @@ const selector: ToolType = {
     const resizeMode = false
 
     if (dragMode) {
-
+      this.tool = dragTool
     } else if (rotateMode) {
+      // this.tool = resize
 
     } else if (resizeMode) {
+      // this.tool = resize
 
     } else {
       this.tool = selecting
