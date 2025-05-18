@@ -6,7 +6,7 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
   const x = e.clientX - rect!.x
   const y = e.clientY - rect!.y
   const {button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY} = e
-  let noSnap = this.currentToolName === 'zoomIn' || this.currentToolName === 'zoomOut' || this.currentToolName === 'panning'
+  const noSnap = this.currentToolName === 'zoomIn' || this.currentToolName === 'zoomOut' || this.currentToolName === 'panning'
 
   interaction.mouseCurrent = {x, y}
   interaction.mouseDelta.x = x - interaction.mouseStart.x
