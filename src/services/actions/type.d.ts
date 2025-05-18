@@ -21,29 +21,13 @@ export type ElementMoveData = {
   delta: Point;
 };
 
-export type PropMoveOffset = {
-  offset: number
-}
-export type PropChange<T> = {
-  from: T
-  to: T
-}
-
 /*export type ElementChangeProps = {
   [K in keyof ElementProps]?: PropChange<ElementProps[K]> | PropMoveOffset
 }*/
 export type HistoryChangeItem = {
   id: UID
-
-  props: HistoryChangeProps
-}
-
-export type HistoryChangeProps = {
-  // [K in keyof ElementProps]?: PropChange<ElementProps[K]>
-  [K in keyof ElementProps]?: {
-    from: ElementProps[K]
-    to: ElementProps[K]
-  }
+  from: Partial<ElementProps>
+  to: Partial<ElementProps>
 }
 
 export interface ElementModifyData {
