@@ -95,6 +95,8 @@ class RectangleLike extends ElementShape {
   protected updateOriginal() {
     this.original.cx = this.cx
     this.original.cx = this.cy
+    this.updatePath2D()
+
   }
 
   protected get getPoints(): Point[] {
@@ -147,7 +149,6 @@ class RectangleLike extends ElementShape {
     this.cy = this.original.cx + dy
     this.updatePath2D()
 
-    console.log(dx,dy)
     return {
       id: this.id,
       props: {
