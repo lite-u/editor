@@ -2,7 +2,6 @@ import ElementShape, {ShapeProps} from '../shape/shape'
 import {Point, Rect} from '~/type'
 import {SnapPointData} from '~/main/type'
 import {generateBoundingRectFromRect, generateBoundingRectFromRotatedRect} from '~/core/utils'
-import transform, {TransformProps} from '~/elements/rectangle/transform'
 import ElementRectangle from '~/elements/rectangle/rectangle'
 import {BorderRadius} from '~/elements/props'
 import {DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH} from '~/elements/defaultProps'
@@ -147,7 +146,6 @@ class RectangleLike extends ElementShape {
     }*/
 
   translate(dx: number, dy: number): HistoryChangeItem {
-    console.log(this.original, dx, dy)
     this.cx = this.original.cx + dx
     this.cy = this.original.cy + dy
     this.updatePath2D()
@@ -166,19 +164,6 @@ class RectangleLike extends ElementShape {
       },
     }
   }
-
-/*  restore(props: Partial<RectangleLikeProps>) {
-    Object.assign(this,props)
-    this.updatePath2D()
-  }*/
-
-  /*
-    scale(sx: number, sy: number) {
-      console.log(9)
-      this.width *= sx
-      this.height *= sy
-    }
-  */
 
   scaleFrom(scaleX: number, scaleY: number, anchor: Point) {
     // console.log(scaleX, scaleY, anchor)
@@ -206,9 +191,7 @@ class RectangleLike extends ElementShape {
       return transformPoints(corners, this.matrix)
     }*/
 
-  static applyResizeTransform = (arg: TransformProps): Rect => {
-    return transform(arg)
-  }
+
 
   public hitTest(point: Point, borderPadding = 5): 'inside' | 'border' | null {
     console.log(9)

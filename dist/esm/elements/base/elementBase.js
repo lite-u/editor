@@ -68,8 +68,7 @@ class ElementBase {
     getBoundingRect() {
         return generateBoundingRectFromTwoPoints({ x: 0, y: 0 }, { x: 0, y: 0 });
     }
-    updatePath2D() {
-    }
+    updatePath2D() { }
     restore(props) {
         Object.assign(this, props);
         this.updatePath2D();
@@ -94,7 +93,7 @@ class ElementBase {
             return;
         let { show, opacity, fill, stroke } = this;
         const { enabled: enabledFill, color: fillColor } = fill;
-        const { enabled: enabledStroke, color: strokeColor, weight, join, /*dashed*/ } = stroke;
+        const { enabled: enabledStroke, color: strokeColor, weight, join /*dashed*/ } = stroke;
         if (!show || opacity <= 0)
             return;
         ctx.save();
