@@ -1,4 +1,4 @@
-import {BoundingRect, Point} from '~/type'
+import {BoundingRect, ElementProps, Point} from '~/type'
 import {generateBoundingRectFromTwoPoints} from '~/core/utils'
 import {
   DEFAULT_FILL,
@@ -11,7 +11,6 @@ import {
 import deepClone from '~/core/deepClone'
 import {isEqual} from '~/lib/lib'
 import {Fill, Shadow, Stroke, Transform} from '~/elements/props'
-import {RectangleLikeProps} from '~/elements/rectangle/rectangleLike'
 
 export interface ElementBaseProps {
   stroke?: Stroke;
@@ -125,7 +124,7 @@ class ElementBase {
 
   protected updatePath2D() { }
 
-  protected restore(props: Partial<RectangleLikeProps>) {
+  protected restore(props: Partial<ElementProps>) {
     Object.assign(this, props)
     this.updatePath2D()
   }
