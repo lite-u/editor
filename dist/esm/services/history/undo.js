@@ -16,12 +16,14 @@ export function undo(quiet = false) {
             break;
         case 'history-modify':
             payload.changes.map(({ id, props }) => {
+                const ele = this.elementManager.getElementById(id);
+                if (!ele)
+                    return;
                 const undoProps = {};
                 Object.keys(props).forEach((propName) => {
-                    // console.log(props[propName]!['from'])
                     undoProps[propName] = props[propName]['from'];
-                    this.elementManager.batchModify(new Set([id]), undoProps);
                 });
+                ele.restore(undoProps);
             });
             break;
         /*case 'history-move':

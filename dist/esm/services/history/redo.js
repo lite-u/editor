@@ -16,11 +16,15 @@ export function redo(quiet = false) {
             break;
         case 'history-modify':
             payload.changes.map(({ id, props }) => {
+                const ele = this.elementManager.getElementById(id);
+                if (!ele)
+                    return;
                 const redoProps = {};
                 Object.keys(props).forEach(propName => {
                     redoProps[propName] = props[propName]['to'];
-                    this.elementManager.batchModify(new Set([id]), redoProps);
+                    // this.elementManager.batchModify(new Set([id]), redoProps)
                 });
+                ele.restore(redoProps);
             });
             break;
         case 'history-move':

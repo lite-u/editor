@@ -168,6 +168,7 @@ class RectangleLike extends ElementShape {
   }
 
   restore(props: Partial<RectangleLikeProps>) {
+    console.log(9,props)
     Object.assign(this,props)
     this.updatePath2D()
     /*Object.keys(props).forEach((propName: keyof RectangleLike) => {
