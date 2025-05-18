@@ -9,7 +9,6 @@ const selector: ToolType = {
     const {_hoveredElement, mouseStart, mouseCurrent, _modifier: {shiftKey, metaKey, ctrlKey}} = interaction
 
     if (!_hoveredElement) {
-      // selecting.call(this)
       this.tool = selecting
       return
     }
