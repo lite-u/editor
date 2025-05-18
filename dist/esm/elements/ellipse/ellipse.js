@@ -54,15 +54,13 @@ class ElementEllipse extends ElementShape {
         this.updatePath2D();
         return {
             id: this.id,
-            props: {
-                cx: {
-                    from: this.original.cx,
-                    to: this.cx,
-                },
-                cy: {
-                    from: this.original.cy,
-                    to: this.cy,
-                },
+            from: {
+                cx: this.original.cx,
+                cy: this.original.cy,
+            },
+            to: {
+                cx: this.cx,
+                cy: this.cy,
             },
         };
     }

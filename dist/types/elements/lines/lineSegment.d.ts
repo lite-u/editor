@@ -1,5 +1,4 @@
 import ElementBase, { ElementBaseProps } from '~/elements/base/elementBase';
-import { BasePath } from '~/elements/basePath/basePath';
 import { BoundingRect, Point } from '~/type';
 export interface LineSegmentProps extends ElementBaseProps {
     id: string;
@@ -12,7 +11,7 @@ export interface LineSegmentProps extends ElementBaseProps {
     } & Point];
 }
 export type RequiredLineSegmentProps = Required<LineSegmentProps>;
-declare class ElementLineSegment extends ElementBase implements BasePath {
+declare class ElementLineSegment extends ElementBase {
     readonly id: string;
     readonly layer: number;
     readonly type = "lineSegment";

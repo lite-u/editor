@@ -1,7 +1,6 @@
 import {extractIdSetFromArray} from './helpers'
 import {HistoryNode} from './DoublyLinkedList'
 import Editor from '../../main/editor'
-import {ElementProps} from '~/elements/type'
 
 export function redo(this: Editor, quiet: boolean = false): HistoryNode | false {
   if (this.history.current === this.history.tail) return false
@@ -24,17 +23,10 @@ export function redo(this: Editor, quiet: boolean = false): HistoryNode | false 
       break
 
     case 'history-modify':
-      payload.changes.map(({id, props}) => {
+      payload.changes.map(({id, to}) => {
         const ele = this.elementManager.getElementById(id)
-        if (!ele) return
-        const redoProps: Partial<ElementProps> = {}
 
-        Object.keys(props).forEach(propName => {
-          redoProps[propName] = props[propName]!['to']
-          // this.elementManager.batchModify(new Set([id]), redoProps)
-        })
-
-        ele.restore(redoProps)
+        ele?.restore(to)
       })
       break
 
