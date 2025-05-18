@@ -128,14 +128,10 @@ class RectangleLike extends ElementShape {
             },
         };
     }
-    restore(props) {
-        console.log(9, props);
-        Object.assign(this, props);
-        this.updatePath2D();
-        /*Object.keys(props).forEach((propName: keyof RectangleLike) => {
-          this[propName] = props[propName]
-        })*/
-    }
+    /*  restore(props: Partial<RectangleLikeProps>) {
+        Object.assign(this,props)
+        this.updatePath2D()
+      }*/
     /*
       scale(sx: number, sy: number) {
         console.log(9)

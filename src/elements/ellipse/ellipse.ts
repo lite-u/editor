@@ -66,8 +66,16 @@ class ElementEllipse extends ElementShape {
     this.path2D.ellipse(this.cx, this.cy, this.r1, this.r2, this.rotation, 0, Math.PI * 2)
   }
 
+  protected updateOriginal() {
+    this.original.cx = this.cx
+    this.original.cy = this.cy
+    this.original.r1 = this.r1
+    this.original.r2 = this.r2
+    this.original.rotation = this.rotation
+    this.updatePath2D()
+  }
+
   translate(dx: number, dy: number): HistoryChangeItem {
-    console.log(this.original, dx, dy)
     this.cx = this.original.cx + dx
     this.cy = this.original.cy + dy
     this.updatePath2D()

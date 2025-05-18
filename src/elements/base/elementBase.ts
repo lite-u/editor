@@ -12,6 +12,7 @@ import deepClone from '~/core/deepClone'
 import {isEqual} from '~/lib/lib'
 import {Fill, Shadow, Stroke, Transform} from '~/elements/props'
 import {OperationHandler} from '~/services/selection/type'
+import {RectangleLikeProps} from '~/elements/rectangle/rectangleLike'
 
 export interface ElementBaseProps {
   stroke?: Stroke;
@@ -121,6 +122,15 @@ class ElementBase {
 
   protected getBoundingRect(): BoundingRect {
     return generateBoundingRectFromTwoPoints({x: 0, y: 0}, {x: 0, y: 0})
+  }
+
+  updatePath2D(){
+
+  }
+
+  restore(props: Partial<RectangleLikeProps>) {
+    Object.assign(this,props)
+    this.updatePath2D()
   }
 
   protected getTransformedPoints(): Point[] {

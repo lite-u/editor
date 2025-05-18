@@ -68,6 +68,12 @@ class ElementBase {
     getBoundingRect() {
         return generateBoundingRectFromTwoPoints({ x: 0, y: 0 }, { x: 0, y: 0 });
     }
+    updatePath2D() {
+    }
+    restore(props) {
+        Object.assign(this, props);
+        this.updatePath2D();
+    }
     getTransformedPoints() {
         return [];
     }
