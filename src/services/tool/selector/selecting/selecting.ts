@@ -1,6 +1,7 @@
 import ToolManager, {SubToolType} from '~/services/tool/toolManager'
 import {generateBoundingRectFromTwoPoints} from '~/core/utils'
 import {BoundingRect, UID} from '~/type'
+import {areSetsEqual} from '~/lib/lib'
 
 let _mouseMoved = false
 const selecting: SubToolType = {
@@ -12,7 +13,6 @@ const selecting: SubToolType = {
       mouseCurrent,
       mouseWorldStart,
       mouseWorldCurrent,
-      _pointDown,
       _modifier: {shiftKey, metaKey, ctrlKey},
     } = interaction
     // if (!_pointDown) return
@@ -37,9 +37,16 @@ const selecting: SubToolType = {
       }
     })
 
-    // console.log(_selecting)
-    // const selectingChanged = !areSetsEqual(_selectingElements, _selecting)
+    const selectingChanged = !areSetsEqual(_selectingElements, _selecting)
 
+    /**
+     * Simple logic
+     * If with modifyKey
+     *    original-selected Symmetric Difference selecting
+     * else
+     *    original-selected merge selecting
+     */
+    if (!selectingChanged) return
   },
   mouseUp(this: ToolManager) {
     /*const {shiftKey, metaKey, ctrlKey} = this.editor.interaction._modifier
