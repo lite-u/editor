@@ -1,5 +1,5 @@
 import ElementShape, {ShapeProps} from '../shape/shape'
-import {Point, Rect} from '~/type'
+import {Point} from '~/type'
 import {SnapPointData} from '~/main/type'
 import {generateBoundingRectFromRect, generateBoundingRectFromRotatedRect} from '~/core/utils'
 import ElementRectangle from '~/elements/rectangle/rectangle'
@@ -190,8 +190,6 @@ class RectangleLike extends ElementShape {
       const corners: Point[] = this.corners
       return transformPoints(corners, this.matrix)
     }*/
-
-
 
   public hitTest(point: Point, borderPadding = 5): 'inside' | 'border' | null {
     console.log(9)
