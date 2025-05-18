@@ -1,4 +1,3 @@
-// import Editor from '../../../main/editor'
 import ToolManager from '~/services/tool/toolManager'
 import snapTool from '~/services/tool/snap/snap'
 
@@ -14,10 +13,10 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
   interaction.mouseDelta.y = y - interaction.mouseStart.y
   interaction.mouseWorldCurrent = world.getWorldPointByViewportPoint(x, y)
   interaction.mouseWorldDelta = world.getWorldPointByViewportPoint(x, y)
+  interaction._modifier = {button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY}
 
   cursor.move({x: e.clientX, y: e.clientY})
   action.dispatch('world-mouse-move')
-  this.editor.interaction._modifier = {button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY}
 
   if (noSnap) {
     interaction._snappedPoint = null
