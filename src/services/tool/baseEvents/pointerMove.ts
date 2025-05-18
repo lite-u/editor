@@ -16,7 +16,6 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
   interaction._modifier = {button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY}
 
   cursor.move({x: e.clientX, y: e.clientY})
-  action.dispatch('world-mouse-move')
 
   if (noSnap) {
     interaction._snappedPoint = null
@@ -25,6 +24,7 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
     snapTool.call(this)
   }
 
+  action.dispatch('world-mouse-move')
   action.dispatch('render-overlay')
 
   this.tool.mouseMove.call(this)
