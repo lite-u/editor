@@ -1,14 +1,15 @@
 import ToolManager, {SubToolType} from '~/services/tool/toolManager'
 import {generateBoundingRectFromTwoPoints} from '~/core/utils'
-import {BoundingRect, UID} from '~/type'
-import {areSetsEqual} from '~/lib/lib'
+import {BoundingRect} from '~/type'
+import {areSetsEqual, getSymmetricDifference} from '~/lib/lib'
 
 let _mouseMoved = false
+let _selecting = new Set()
+let _selectedCopy: Set<string> | null = null
 const selecting: SubToolType = {
   cursor: 'default',
   mouseMove(this: ToolManager,) {
     const {interaction, action, elementManager, selection, cursor} = this.editor
-    const selectedCopy = new Set(selection.values)
     const {
       mouseStart,
       mouseCurrent,
@@ -17,11 +18,12 @@ const selecting: SubToolType = {
       _modifier: {shiftKey, metaKey, ctrlKey},
     } = interaction
     const rect = generateBoundingRectFromTwoPoints(mouseStart, mouseCurrent)
-
+    if (!_selectedCopy) {
+      _selectedCopy = new Set(selection.values)
+    }
     interaction.updateSelectionBox(rect)
 
     const outer: BoundingRect = generateBoundingRectFromTwoPoints(mouseWorldStart, mouseWorldCurrent)
-    const _selecting: Set<UID> = new Set()
     const modifyKey = ctrlKey || metaKey || shiftKey
 
     _mouseMoved = true
@@ -39,16 +41,51 @@ const selecting: SubToolType = {
       }
     })
 
-    const selectingChanged = !areSetsEqual(selectedCopy, _selecting)
+    if (modifyKey) {
+      if (_selecting.size === 0) return
+      const SD = getSymmetricDifference(_selectedCopy, _selecting)
+      action.dispatch('selection-modify', {
+        mode: 'toggle',
+        idSet: _selecting,
+      })
 
-    /**
-     * Simple logic
-     * If with modifyKey
-     *    original-selected Symmetric Difference selecting
-     * else
-     *    original-selected merge selecting
-     */
-    if (!selectingChanged) return
+      console.log(_selectedCopy, _selecting, SD)
+    } else {
+      if (areSetsEqual(_selectedCopy, _selecting)) return
+
+    }
+
+    return
+
+    // if ((modifyKey && _selecting.size === 0) || areSetsEqual(selectedCopy, _selecting)) return
+
+    const SD = getSymmetricDifference(_selectedCopy, _selecting)
+    console.log(SD)
+
+    if (modifyKey) {
+      console.log(SD)
+      action.dispatch('selection-modify', {
+        mode: 'toggle',
+        idSet: SD,
+      })
+    } else {
+      action.dispatch('selection-modify', {
+        mode: 'replace',
+        idSet: _selecting,
+      })
+
+      /*
+      if (_selecting.size === 0 && selectedCopy.size === 0) {
+        return action.dispatch('selection-clear')
+      }
+      const newSet = new Set([...selectedCopy, ..._selecting])
+
+      action.dispatch('selection-modify', {
+        mode: 'replace',
+        idSet: newSet,
+      })*/
+    }
+
   },
   mouseUp(this: ToolManager) {
     /*const {shiftKey, metaKey, ctrlKey} = this.editor.interaction._modifier
@@ -62,6 +99,9 @@ const selecting: SubToolType = {
     }
 
     _mouseMoved = false
+    _selecting.clear()
+    _selectedCopy?.clear()
+    _selectedCopy = null
   },
 }
 
