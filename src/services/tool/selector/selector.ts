@@ -1,6 +1,5 @@
 import ToolManager, {ToolType} from '~/services/tool/toolManager'
-import {generateBoundingRectFromTwoPoints} from '~/core/utils'
-import selecting from '~/services/tool/selecting/selecting'
+import selecting from '~/services/tool/selector/selecting/selecting'
 import dragTool from '~/services/tool/drag/dragTool'
 
 const selector: ToolType = {
@@ -8,52 +7,45 @@ const selector: ToolType = {
   mouseDown: function () {
     const {interaction, action, selection, cursor} = this.editor
     const {_hoveredElement, mouseStart, mouseCurrent, _modifier: {shiftKey, metaKey, ctrlKey}} = interaction
-    const dragMode = false
+    const dragMode = !_hoveredElement
     const rotateMode = false
     const resizeMode = false
 
     if (dragMode) {
-      this.tool = dragTool
+      this.subTool = dragTool
     } else if (rotateMode) {
       // this.tool = resizeTool
 
     } else if (resizeMode) {
       // this.tool = resize
+      this.subTool = resizing
 
     } else {
-      this.tool = selecting
+      this.subTool = selecting
       return
     }
 
     console.log(_hoveredElement)
-    const rect = generateBoundingRectFromTwoPoints(
-      mouseStart,
-      mouseCurrent,
-    )
+    /* const rect = generateBoundingRectFromTwoPoints(
+       mouseStart,
+       mouseCurrent,
+     )
 
-    interaction.updateSelectionBox(rect)
+     interaction.updateSelectionBox(rect)
 
-    if (interaction._hoveredElement) {
-      action.dispatch('selection-modify', {mode: 'replace', idSet: new Set([interaction._hoveredElement.id])})
-    }
+     if (interaction._hoveredElement) {
+       action.dispatch('selection-modify', {mode: 'replace', idSet: new Set([interaction._hoveredElement.id])})
+     }*/
   },
   mouseMove(this: ToolManager,) {
-    const {interaction, action, selection, cursor} = this.editor
-    const {mouseStart, mouseCurrent, _pointDown, _modifier: {shiftKey, metaKey, ctrlKey}} = interaction
-    if (!_pointDown) return
-
-    const rect = generateBoundingRectFromTwoPoints(
-      mouseStart,
-      mouseCurrent,
-    )
-
-    interaction.updateSelectionBox(rect)
+    if (!this.subTool) return
+    this.subTool.mouseMove.call(this)
   },
   mouseUp(this: ToolManager) {
-    const {shiftKey, metaKey, ctrlKey} = this.editor.interaction._modifier
-    const {interaction, action, selection, cursor} = this.editor
-    interaction.hideSelectionBox()
+    if (!this.subTool) return
 
+    this.subTool.mouseUp.call(this)
+    this.subTool = null
   },
 }
 

@@ -24,6 +24,7 @@ export type ToolType = {
   // keyDown: (this: ToolManager) => void
   // keyUp: (this: ToolManager) => void
 }
+export type SubToolType = Omit<ToolType, 'mouseDown'>
 export type ToolName =
   'selector'
   | 'rectangle'
@@ -41,6 +42,7 @@ class ToolManager {
   eventsController = new AbortController()
   toolMap: Map<ToolName, ToolType> = new Map()
   tool: ToolType
+  subTool: SubToolType | null = null
   currentToolName: ToolName
 
   constructor(editor: Editor) {

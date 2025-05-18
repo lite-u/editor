@@ -1,10 +1,9 @@
-import ToolManager, {ToolType} from '~/services/tool/toolManager'
+import ToolManager, {SubToolType} from '~/services/tool/toolManager'
 import {generateBoundingRectFromTwoPoints} from '~/core/utils'
 import selector from '~/services/tool/selector/selector'
 
-const selecting: ToolType = {
+const selecting: SubToolType = {
   cursor: 'default',
-  mouseDown: function () { },
   mouseMove(this: ToolManager,) {
     const {interaction, action, selection, cursor} = this.editor
     const {mouseStart, mouseCurrent, _pointDown, _modifier: {shiftKey, metaKey, ctrlKey}} = interaction
@@ -22,8 +21,7 @@ const selecting: ToolType = {
     const {interaction, action, selection, cursor} = this.editor
     interaction.hideSelectionBox()*/
     this.editor.interaction.hideSelectionBox()
-    this.tool = selector
-
+    // this.tool = selector
   },
 }
 

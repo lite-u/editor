@@ -6,12 +6,14 @@ export type ToolType = {
     mouseMove: (this: ToolManager) => void;
     mouseUp: (this: ToolManager) => void;
 };
+export type SubToolType = Omit<ToolType, 'mouseDown'>;
 export type ToolName = 'selector' | 'rectangle' | 'text' | 'ellipse' | 'panning' | 'lineSegment' | 'path' | 'pencil' | 'zoomIn' | 'zoomOut';
 declare class ToolManager {
     editor: Editor;
     eventsController: AbortController;
     toolMap: Map<ToolName, ToolType>;
     tool: ToolType;
+    subTool: SubToolType | null;
     currentToolName: ToolName;
     constructor(editor: Editor);
     set(name: ToolName): void;

@@ -18,6 +18,7 @@ class ToolManager {
     eventsController = new AbortController();
     toolMap = new Map();
     tool;
+    subTool = null;
     currentToolName;
     constructor(editor) {
         const { signal } = this.eventsController;
