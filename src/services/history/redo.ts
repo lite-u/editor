@@ -27,7 +27,7 @@ export function redo(this: Editor, quiet: boolean = false): HistoryNode | false 
       payload.changes.map(({id, props}) => {
         const ele = this.elementManager.getElementById(id)
         if (!ele) return
-        const redoProps: ElementProps = {}
+        const redoProps: Partial<ElementProps> = {}
 
         Object.keys(props).forEach(propName => {
           redoProps[propName] = props[propName]!['to']
