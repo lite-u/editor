@@ -149,7 +149,7 @@ class RectangleLike extends ElementShape {
   translate(dx: number, dy: number): HistoryChangeItem {
     console.log(this.original, dx, dy)
     this.cx = this.original.cx + dx
-    this.cy = this.original.cx + dy
+    this.cy = this.original.cy + dy
     this.updatePath2D()
 
     return {

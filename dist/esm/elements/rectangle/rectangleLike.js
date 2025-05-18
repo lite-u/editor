@@ -112,7 +112,7 @@ class RectangleLike extends ElementShape {
     translate(dx, dy) {
         console.log(this.original, dx, dy);
         this.cx = this.original.cx + dx;
-        this.cy = this.original.cx + dy;
+        this.cy = this.original.cy + dy;
         this.updatePath2D();
         return {
             id: this.id,
