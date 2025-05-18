@@ -51,12 +51,14 @@ const selecting: SubToolType = {
       if (areSetsEqual(_selectedCopy, merged)) return
 
       console.log(merged)
+
       action.dispatch('selection-modify', {
         mode: 'replace',
         idSet: merged,
       })
     } else {
       if (areSetsEqual(_selected, _selecting)) return
+
       if (_selecting.size === 0) {
         action.dispatch('selection-clear')
       } else {

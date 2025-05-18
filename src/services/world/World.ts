@@ -96,7 +96,7 @@ class World {
   }
 
   renderElements() {
-    // console.log('renderElements')
+
     const animate = () => {
       const {scale, dpr, baseCanvasContext: ctx} = this
       const {width, height} = this.editor.config.page
@@ -143,7 +143,7 @@ class World {
   }
 
   renderOverlay() {
-    // console.log('renderSelections')
+    console.log('renderOverlay')
 
     const animate = () => {
       overlayRender.call(this)
