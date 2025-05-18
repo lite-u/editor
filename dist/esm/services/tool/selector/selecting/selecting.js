@@ -1,5 +1,5 @@
 import { generateBoundingRectFromTwoPoints } from '../../../../core/utils.js';
-import { areSetsEqual, getSymmetricDifference } from '../../../../lib/lib.js';
+import { areSetsEqual, getSymmetricDifference, removeIntersectionAndMerge } from '../../../../lib/lib.js';
 let _mouseMoved = false;
 let _selecting = new Set();
 let _selectedCopy = null;
@@ -28,14 +28,16 @@ const selecting = {
             }
         });
         if (modifyKey) {
-            if (_selecting.size === 0)
+            // if (_selecting.size === 0) return
+            // const SD = getSymmetricDifference(_selectedCopy, _selecting)
+            const merged = removeIntersectionAndMerge(_selectedCopy, _selecting);
+            if (areSetsEqual(_selectedCopy, merged))
                 return;
-            const SD = getSymmetricDifference(_selectedCopy, _selecting);
+            console.log(merged);
             action.dispatch('selection-modify', {
-                mode: 'toggle',
-                idSet: _selecting,
+                mode: 'replace',
+                idSet: merged,
             });
-            console.log(_selectedCopy, _selecting, SD);
         }
         else {
             if (areSetsEqual(_selected, _selecting))
@@ -49,7 +51,6 @@ const selecting = {
                     idSet: _selecting,
                 });
             }
-            // console.log(_selecting)
         }
         return;
         // if ((modifyKey && _selecting.size === 0) || areSetsEqual(selectedCopy, _selecting)) return

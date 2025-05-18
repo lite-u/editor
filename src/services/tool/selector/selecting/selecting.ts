@@ -1,7 +1,7 @@
 import ToolManager, {SubToolType} from '~/services/tool/toolManager'
 import {generateBoundingRectFromTwoPoints} from '~/core/utils'
 import {BoundingRect} from '~/type'
-import {areSetsEqual, getSymmetricDifference} from '~/lib/lib'
+import {areSetsEqual, getSymmetricDifference, removeIntersectionAndMerge} from '~/lib/lib'
 
 let _mouseMoved = false
 let _selecting = new Set()
@@ -44,14 +44,17 @@ const selecting: SubToolType = {
     })
 
     if (modifyKey) {
-      if (_selecting.size === 0) return
-      const SD = getSymmetricDifference(_selectedCopy, _selecting)
-      action.dispatch('selection-modify', {
-        mode: 'toggle',
-        idSet: _selecting,
-      })
+      // if (_selecting.size === 0) return
+      // const SD = getSymmetricDifference(_selectedCopy, _selecting)
+      const merged = removeIntersectionAndMerge(_selectedCopy, _selecting)
 
-      console.log(_selectedCopy, _selecting, SD)
+      if (areSetsEqual(_selectedCopy, merged)) return
+
+      console.log(merged)
+      action.dispatch('selection-modify', {
+        mode: 'replace',
+        idSet: merged,
+      })
     } else {
       if (areSetsEqual(_selected, _selecting)) return
       if (_selecting.size === 0) {
@@ -62,9 +65,6 @@ const selecting: SubToolType = {
           idSet: _selecting,
         })
       }
-
-      // console.log(_selecting)
-
     }
 
     return

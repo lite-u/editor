@@ -59,8 +59,6 @@ class SelectionManager {
         this.replace(idSet)
         break
     }
-
-    console.log(this.selected, idSet)
   }
 
   public add(idSet: Set<UID>) {

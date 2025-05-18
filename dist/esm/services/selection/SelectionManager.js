@@ -45,7 +45,6 @@ class SelectionManager {
                 this.replace(idSet);
                 break;
         }
-        console.log(this.selected, idSet);
     }
     add(idSet) {
         idSet.forEach(id => {

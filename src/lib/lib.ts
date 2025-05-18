@@ -120,6 +120,14 @@ export const getSymmetricDifference = <T>(
   return result
 }
 
+export function removeIntersectionAndMerge(setA:Set<unknown>, setB:Set<unknown>) {
+  const intersection = new Set([...setA].filter(x => setB.has(x)));
+
+  const uniqueA = new Set([...setA].filter(x => !intersection.has(x)));
+  const uniqueB = new Set([...setB].filter(x => !intersection.has(x)));
+
+  return new Set([...uniqueA, ...uniqueB]);
+}
 export function getResizeTransform(
   name: ResizeDirectionName,
   symmetric = false,
