@@ -15,15 +15,9 @@ export function undo(quiet = false) {
             this.elementManager.batchDelete(extractIdSetFromArray(payload.elements));
             break;
         case 'history-modify':
-            payload.changes.map(({ id, props }) => {
+            payload.changes.map(({ id, from }) => {
                 const ele = this.elementManager.getElementById(id);
-                if (!ele)
-                    return;
-                const undoProps = {};
-                Object.keys(props).forEach((propName) => {
-                    undoProps[propName] = props[propName]['from'];
-                });
-                ele.restore(undoProps);
+                ele?.restore(from);
             });
             break;
         /*case 'history-move':
