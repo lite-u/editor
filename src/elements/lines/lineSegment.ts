@@ -1,10 +1,8 @@
 import ElementBase, {ElementBaseProps} from '~/elements/base/elementBase'
-import {BoundingRect, Point, UID} from '~/type'
+import {BoundingRect, Point} from '~/type'
 import deepClone from '~/core/deepClone'
 import {generateBoundingRectFromRect, generateBoundingRectFromRotatedRect} from '~/core/utils'
 import {HistoryChangeItem} from '~/services/actions/type'
-
-type NamedPoint = { id: UID } & Point
 
 export interface LineSegmentProps extends ElementBaseProps {
   id: string
@@ -101,7 +99,6 @@ class ElementLineSegment extends ElementBase {
         points: deepClone(this.points),
       },
     }
-
   }
 
   scaleFrom(scaleX: number, scaleY: number, anchor: Point) {
@@ -143,18 +140,6 @@ class ElementLineSegment extends ElementBase {
       points: deepClone(this.points),
     }
   }
-
-  /* render(ctx: CanvasRenderingContext2D) {
-     const [start, end] = this.points
-
-     ctx.save()
-     ctx.beginPath()
-     ctx.moveTo(start.x, start.y)
-     ctx.lineTo(end.x, end.y)
-     ctx.stroke()
-     ctx.restore()
-
-   }*/
 }
 
 export default ElementLineSegment
