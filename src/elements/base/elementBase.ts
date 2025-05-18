@@ -11,7 +11,6 @@ import {
 import deepClone from '~/core/deepClone'
 import {isEqual} from '~/lib/lib'
 import {Fill, Shadow, Stroke, Transform} from '~/elements/props'
-import {OperationHandler} from '~/services/selection/type'
 import {RectangleLikeProps} from '~/elements/rectangle/rectangleLike'
 
 export interface ElementBaseProps {
@@ -124,12 +123,10 @@ class ElementBase {
     return generateBoundingRectFromTwoPoints({x: 0, y: 0}, {x: 0, y: 0})
   }
 
-  updatePath2D(){
-
-  }
+  updatePath2D() { }
 
   restore(props: Partial<RectangleLikeProps>) {
-    Object.assign(this,props)
+    Object.assign(this, props)
     this.updatePath2D()
   }
 
@@ -158,7 +155,7 @@ class ElementBase {
 
     let {show, opacity, fill, stroke} = this
     const {enabled: enabledFill, color: fillColor} = fill
-    const {enabled: enabledStroke, color: strokeColor, weight, join, /*dashed*/} = stroke
+    const {enabled: enabledStroke, color: strokeColor, weight, join /*dashed*/} = stroke
 
     if (!show || opacity <= 0) return
 
