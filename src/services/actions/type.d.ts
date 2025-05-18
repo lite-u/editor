@@ -34,6 +34,7 @@ export type PropChange<T> = {
 }*/
 export type HistoryChangeItem = {
   id: UID
+
   props: HistoryChangeProps
 }
 
