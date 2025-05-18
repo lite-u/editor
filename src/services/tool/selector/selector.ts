@@ -1,6 +1,6 @@
 import ToolManager, {ToolType} from '~/services/tool/toolManager'
 import selecting from '~/services/tool/selector/selecting/selecting'
-import dragTool from '~/services/tool/drag/dragTool'
+import dragging from '~/services/tool/selector/dragging/dragging'
 import resizing from '~/services/tool/selector/resizing/resizing'
 
 const selector: ToolType = {
@@ -13,7 +13,7 @@ const selector: ToolType = {
     const resizeMode = false
 
     if (dragMode) {
-      this.subTool = dragTool
+      this.subTool = dragging
     } else if (rotateMode) {
       // this.tool = resizeTool
 

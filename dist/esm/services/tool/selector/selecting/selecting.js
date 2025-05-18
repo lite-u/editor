@@ -21,7 +21,7 @@ const selecting = {
                 _selecting.add(ele.id);
             }
         });
-        console.log(_selecting);
+        // console.log(_selecting)
         // const selectingChanged = !areSetsEqual(_selectingElements, _selecting)
     },
     mouseUp() {

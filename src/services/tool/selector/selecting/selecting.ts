@@ -37,7 +37,7 @@ const selecting: SubToolType = {
       }
     })
 
-    console.log(_selecting)
+    // console.log(_selecting)
     // const selectingChanged = !areSetsEqual(_selectingElements, _selecting)
 
   },

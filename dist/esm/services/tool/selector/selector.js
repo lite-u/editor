@@ -1,5 +1,5 @@
 import selecting from './selecting/selecting.js';
-import dragTool from '../drag/dragTool.js';
+import dragging from './dragging/dragging.js';
 import resizing from './resizing/resizing.js';
 const selector = {
     cursor: 'default',
@@ -10,7 +10,7 @@ const selector = {
         const rotateMode = false;
         const resizeMode = false;
         if (dragMode) {
-            this.subTool = dragTool;
+            this.subTool = dragging;
         }
         else if (rotateMode) {
             // this.tool = resizeTool
