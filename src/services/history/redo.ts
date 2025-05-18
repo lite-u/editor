@@ -52,8 +52,6 @@ export function redo(this: Editor, quiet: boolean = false): HistoryNode | false 
       break
   }
 
-  // this.editor.updateVisibleelementMap(this.editor.viewport.worldRect)
-
   if (!quiet) {
     this.selection.replace(selectedElements)
     // console.log(selectedElements)
