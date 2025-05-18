@@ -10,6 +10,7 @@ import {HistoryOperation} from '~/services/history/type'
 import {fitRectToViewport} from '~/services/world/helper'
 import {Point} from '~/type'
 import {ElementMap, ElementProps} from '~/elements/type'
+import snapTool from '~/services/tool/snap/snap'
 
 export function initEvents(this: Editor) {
   const {action} = this
@@ -444,7 +445,7 @@ export function initEvents(this: Editor) {
   on('history-undo', () => {
     undo.call(this)
     dispatch('element-updated')
-     this.events.onHistoryUpdated?.(this.history)
+    this.events.onHistoryUpdated?.(this.history)
   })
 
   on('history-redo', () => {
@@ -464,8 +465,15 @@ export function initEvents(this: Editor) {
   })
 
   on('switch-tool', (toolName) => {
-    this.interaction._snappedPoint = null
-    this.interaction._hoveredElement = null
+    let noSnap = toolName === 'zoomIn' || toolName === 'zoomOut' || toolName === 'panning'
+
+    if (noSnap) {
+      this.interaction._snappedPoint = null
+      this.interaction._hoveredElement = null
+    }else{
+      snapTool.call(this)
+    }
+
     this.toolManager.set(toolName)
     action.dispatch('render-overlay')
 
