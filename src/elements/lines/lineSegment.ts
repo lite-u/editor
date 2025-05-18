@@ -1,5 +1,4 @@
 import ElementBase, {ElementBaseProps} from '~/elements/base/elementBase'
-import {BasePath} from '~/elements/basePath/basePath'
 import {BoundingRect, Point, UID} from '~/type'
 import deepClone from '~/core/deepClone'
 import {generateBoundingRectFromRect, generateBoundingRectFromRotatedRect} from '~/core/utils'
@@ -15,7 +14,7 @@ export interface LineSegmentProps extends ElementBaseProps {
 
 export type RequiredLineSegmentProps = Required<LineSegmentProps>
 
-class ElementLineSegment extends ElementBase implements BasePath {
+class ElementLineSegment extends ElementBase {
   readonly id: string
   readonly layer: number
   readonly type = 'lineSegment'
