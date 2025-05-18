@@ -123,7 +123,6 @@ export function initEvents(this: Editor) {
   on('selection-modify', (data) => {
     const {mode, idSet} = data as SelectionModifyData
 
-    console.log(mode,idSet)
     this.selection.modify(idSet, mode)
     dispatch('selection-updated')
   })
@@ -199,14 +198,14 @@ export function initEvents(this: Editor) {
 
   on('element-copy', () => {
     this.clipboard.copiedItems = this.elementManager.batchCopy(this.selection.values, false)
-    this.clipboard.updateCopiedItemsDelta()
+    // this.clipboard.updateCopiedItemsDelta()
     this.events.onElementCopied?.(this.clipboard.copiedItems)
   })
 
   on('element-paste', (position?) => {
     if (this.clipboard.copiedItems.length === 0) return
 
-    let newElements: ElementMap
+    let newElements: ElementMap = this.elementManager.batchCreate(this.clipboard.copiedItems)
 
     if (position) {
       const {x, y} = this.world.getWorldPointByViewportPoint(position.x, position.y)
@@ -233,7 +232,7 @@ export function initEvents(this: Editor) {
 
     this.elementManager.batchAdd(newElements)
     this.selection.replace(savedSelected)
-    this.clipboard.updateCopiedItemsDelta()
+    // this.clipboard.updateCopiedItemsDelta()
 
     dispatch('element-updated', {
       type: 'history-paste',

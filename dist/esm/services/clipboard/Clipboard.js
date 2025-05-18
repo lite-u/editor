@@ -1,14 +1,14 @@
 class ClipboardManager {
     copiedItems = [];
-    CopyDeltaX = 50;
-    CopyDeltaY = 100;
+    CopyDeltaX = 10;
+    CopyDeltaY = 10;
     copy() { }
     paste() { }
     updateCopiedItemsDelta() {
-        this.copiedItems.forEach((copiedItem) => {
-            copiedItem.x += this.CopyDeltaX;
-            copiedItem.y += this.CopyDeltaY;
-        });
+        /*    this.copiedItems.forEach((copiedItem) => {
+              copiedItem!.x += this.CopyDeltaX
+              copiedItem!.y += this.CopyDeltaY
+            })*/
     }
     destroy() {
     }
