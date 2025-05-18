@@ -123,9 +123,9 @@ class ElementBase {
     return generateBoundingRectFromTwoPoints({x: 0, y: 0}, {x: 0, y: 0})
   }
 
-  updatePath2D() { }
+  protected updatePath2D() { }
 
-  restore(props: Partial<RectangleLikeProps>) {
+  protected restore(props: Partial<RectangleLikeProps>) {
     Object.assign(this, props)
     this.updatePath2D()
   }
