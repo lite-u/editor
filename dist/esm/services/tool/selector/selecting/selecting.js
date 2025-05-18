@@ -1,5 +1,5 @@
 import { generateBoundingRectFromTwoPoints } from '../../../../core/utils.js';
-import { getSymmetricDifference } from '../../../../lib/lib.js';
+import { areSetsEqual, getSymmetricDifference } from '../../../../lib/lib.js';
 let _mouseMoved = false;
 let _selecting = new Set();
 let _selectedCopy = null;
@@ -38,7 +38,8 @@ const selecting = {
             console.log(_selectedCopy, _selecting, SD);
         }
         else {
-            // if (areSetsEqual(_selected, _selecting)) return
+            if (areSetsEqual(_selected, _selecting))
+                return;
             if (_selecting.size === 0) {
                 action.dispatch('selection-clear');
             }

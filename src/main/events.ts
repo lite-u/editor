@@ -123,7 +123,7 @@ export function initEvents(this: Editor) {
   on('selection-modify', (data) => {
     const {mode, idSet} = data as SelectionModifyData
 
-    console.log(idSet)
+    console.log(mode,idSet)
     this.selection.modify(idSet, mode)
     dispatch('selection-updated')
   })

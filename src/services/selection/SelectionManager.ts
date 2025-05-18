@@ -1,7 +1,6 @@
 import {UID} from '~/core/core'
 import Editor from '~/main/editor'
 import {SelectionActionMode} from '~/services/selection/type'
-import {selectionHelper} from './selectionHelper'
 import {ElementProps} from '~/elements/type'
 
 class SelectionManager {
@@ -61,7 +60,7 @@ class SelectionManager {
         break
     }
 
-    console.log(this.selected,idSet)
+    console.log(this.selected, idSet)
   }
 
   public add(idSet: Set<UID>) {
@@ -88,11 +87,9 @@ class SelectionManager {
 
   public replace(idSet: Set<UID>) {
     this.clear()
-    // console.log('replace',idSet)
-    if(typeof idSet === 'string') {
-      debugger
-    }
-    this.selected = idSet
+    console.log('replace', idSet)
+
+    this.selected = new Set(idSet)
   }
 
   destroy() {

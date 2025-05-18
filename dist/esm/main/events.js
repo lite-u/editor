@@ -100,7 +100,7 @@ export function initEvents() {
     });
     on('selection-modify', (data) => {
         const { mode, idSet } = data;
-        console.log(idSet);
+        console.log(mode, idSet);
         this.selection.modify(idSet, mode);
         dispatch('selection-updated');
     });

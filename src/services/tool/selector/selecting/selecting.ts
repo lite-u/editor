@@ -1,7 +1,7 @@
 import ToolManager, {SubToolType} from '~/services/tool/toolManager'
 import {generateBoundingRectFromTwoPoints} from '~/core/utils'
 import {BoundingRect} from '~/type'
-import {getSymmetricDifference} from '~/lib/lib'
+import {areSetsEqual, getSymmetricDifference} from '~/lib/lib'
 
 let _mouseMoved = false
 let _selecting = new Set()
@@ -53,7 +53,7 @@ const selecting: SubToolType = {
 
       console.log(_selectedCopy, _selecting, SD)
     } else {
-      // if (areSetsEqual(_selected, _selecting)) return
+      if (areSetsEqual(_selected, _selecting)) return
       if (_selecting.size === 0) {
         action.dispatch('selection-clear')
       } else {
