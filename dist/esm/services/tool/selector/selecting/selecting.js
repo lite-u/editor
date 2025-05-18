@@ -1,5 +1,5 @@
 import { generateBoundingRectFromTwoPoints } from '../../../../core/utils.js';
-import { areSetsEqual, getSymmetricDifference } from '../../../../lib/lib.js';
+import { getSymmetricDifference } from '../../../../lib/lib.js';
 let _mouseMoved = false;
 let _selecting = new Set();
 let _selectedCopy = null;
@@ -9,6 +9,7 @@ const selecting = {
         const { interaction, action, elementManager, selection, cursor } = this.editor;
         const { mouseStart, mouseCurrent, mouseWorldStart, mouseWorldCurrent, _modifier: { shiftKey, metaKey, ctrlKey }, } = interaction;
         const rect = generateBoundingRectFromTwoPoints(mouseStart, mouseCurrent);
+        const _selected = selection.values;
         if (!_selectedCopy) {
             _selectedCopy = new Set(selection.values);
         }
@@ -36,8 +37,17 @@ const selecting = {
             console.log(_selectedCopy, _selecting, SD);
         }
         else {
-            if (areSetsEqual(_selectedCopy, _selecting))
-                return;
+            // if (areSetsEqual(_selected, _selecting)) return
+            if (_selecting.size === 0) {
+                action.dispatch('selection-clear');
+            }
+            else {
+                action.dispatch('selection-modify', {
+                    mode: 'add',
+                    idSet: _selecting,
+                });
+            }
+            // console.log(_selecting)
         }
         return;
         // if ((modifyKey && _selecting.size === 0) || areSetsEqual(selectedCopy, _selecting)) return
