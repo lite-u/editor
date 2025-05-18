@@ -11,6 +11,7 @@ import {fitRectToViewport} from '~/services/world/helper'
 import {Point, ToolName} from '~/type'
 import {ElementMap, ElementProps} from '~/elements/type'
 import snapTool from '~/services/tool/snap/snap'
+import {getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
 
 export function initEvents(this: Editor) {
   const {action} = this
@@ -209,21 +210,32 @@ export function initEvents(this: Editor) {
 
     if (position) {
       const {x, y} = this.world.getWorldPointByViewportPoint(position.x, position.y)
-      const topLeftItem = this.clipboard.copiedItems.reduce((prev, current) => {
-        return (current.x < prev.x && current.y < prev.y) ? current : prev
-      })
-      const offsetX = x - topLeftItem.x
-      const offsetY = y - topLeftItem.y
+      const rect = [...newElements.values()].map(ele => ele.getBoundingRect())
+      const {cx, cy} = getBoundingRectFromBoundingRects(rect)
+      const offsetX = x - cx
+      const offsetY = y - cy
 
-      const offsetItems = this.clipboard.copiedItems.map((item) => {
-        return {
-          ...item,
-          x: item.x + offsetX,
-          y: item.y + offsetY,
-        }
-      })
+      ;[...newElements.values()].map(ele => ele.translate(offsetX, offsetY))
+      console.log(cx, cy)
+      console.log(newElements)
+      // get group center and calculate target to center distance
+      /*
+       const {x, y} = this.world.getWorldPointByViewportPoint(position.x, position.y)
+       const topLeftItem = this.clipboard.copiedItems.reduce((prev, current) => {
+         return (current.x < prev.x && current.y < prev.y) ? current : prev
+       })
+       const offsetX = x - topLeftItem.x
+       const offsetY = y - topLeftItem.y
 
-      newElements = this.elementManager.batchCreate(offsetItems)
+       const offsetItems = this.clipboard.copiedItems.map((item) => {
+         return {
+           ...item,
+           x: item.x + offsetX,
+           y: item.y + offsetY,
+         }
+       })
+
+       newElements = this.elementManager.batchCreate(offsetItems)*/
     } else {
       newElements = this.elementManager.batchCreate(this.clipboard.copiedItems)
     }

@@ -143,7 +143,7 @@ class World {
   }
 
   renderOverlay() {
-    console.log('renderOverlay')
+    // console.log('renderOverlay')
 
     const animate = () => {
       overlayRender.call(this)

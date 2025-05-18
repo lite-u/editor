@@ -19,7 +19,7 @@ export default function handlePointerMove(e) {
     else {
         snapTool.call(this);
     }
-    console.log(interaction._snappedPoint);
+    // console.log(interaction._snappedPoint)
     action.dispatch('world-mouse-move');
     action.dispatch('render-overlay');
     this.tool.mouseMove.call(this);

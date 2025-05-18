@@ -6,6 +6,7 @@ import { pick } from '../services/history/pick.js';
 // import zoom from '../../components/statusBar/zoom'
 import { fitRectToViewport } from '../services/world/helper.js';
 import snapTool from '../services/tool/snap/snap.js';
+import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
 export function initEvents() {
     const { action } = this;
     const dispatch = action.dispatch.bind(action);
@@ -166,19 +167,31 @@ export function initEvents() {
         let newElements = this.elementManager.batchCreate(this.clipboard.copiedItems);
         if (position) {
             const { x, y } = this.world.getWorldPointByViewportPoint(position.x, position.y);
-            const topLeftItem = this.clipboard.copiedItems.reduce((prev, current) => {
-                return (current.x < prev.x && current.y < prev.y) ? current : prev;
-            });
-            const offsetX = x - topLeftItem.x;
-            const offsetY = y - topLeftItem.y;
-            const offsetItems = this.clipboard.copiedItems.map((item) => {
-                return {
-                    ...item,
-                    x: item.x + offsetX,
-                    y: item.y + offsetY,
-                };
-            });
-            newElements = this.elementManager.batchCreate(offsetItems);
+            const rect = [...newElements.values()].map(ele => ele.getBoundingRect());
+            const { cx, cy } = getBoundingRectFromBoundingRects(rect);
+            const offsetX = x - cx;
+            const offsetY = y - cy;
+            [...newElements.values()].map(ele => ele.translate(offsetX, offsetY));
+            console.log(cx, cy);
+            console.log(newElements);
+            // get group center and calculate target to center distance
+            /*
+             const {x, y} = this.world.getWorldPointByViewportPoint(position.x, position.y)
+             const topLeftItem = this.clipboard.copiedItems.reduce((prev, current) => {
+               return (current.x < prev.x && current.y < prev.y) ? current : prev
+             })
+             const offsetX = x - topLeftItem.x
+             const offsetY = y - topLeftItem.y
+      
+             const offsetItems = this.clipboard.copiedItems.map((item) => {
+               return {
+                 ...item,
+                 x: item.x + offsetX,
+                 y: item.y + offsetY,
+               }
+             })
+      
+             newElements = this.elementManager.batchCreate(offsetItems)*/
         }
         else {
             newElements = this.elementManager.batchCreate(this.clipboard.copiedItems);
