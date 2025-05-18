@@ -63,6 +63,8 @@ class RectangleLike extends ElementShape {
         this.path2D.closePath();
     }
     updateOriginal() {
+        this.original.cx = this.cx;
+        this.original.cx = this.cy;
     }
     get getPoints() {
         const w = this.width / 2;
@@ -107,6 +109,7 @@ class RectangleLike extends ElementShape {
         this.cx = this.original.cx + dx;
         this.cy = this.original.cx + dy;
         this.updatePath2D();
+        console.log(dx, dy);
         return {
             id: this.id,
             props: {

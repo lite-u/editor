@@ -250,14 +250,9 @@ export function initEvents() {
         s.forEach((id) => {
             const ele = this.elementManager.all.get(id);
             if (ele) {
-                ele.translate(delta.x, delta.y);
-                changes.push({
-                    id,
-                    props: {
-                        x: ele.cx + delta.x,
-                        y: ele.cy + delta.y,
-                    },
-                });
+                const change = ele.translate(delta.x, delta.y);
+                ele.updateOriginal();
+                changes.push(change);
             }
         });
         // this.batchMove(s, delta)
@@ -297,29 +292,32 @@ export function initEvents() {
         }
         dispatch('element-updated');
     });
-    on('element-modify', (data) => {
-        const changes = [];
-        // console.log(data)
-        data.map(({ id, props: kv }) => {
-            const props = {};
-            const change = { id, props };
-            const element = this.elementManager.getElementById(id);
-            if (!element)
-                return;
-            const eleProps = element.toJSON();
-            const keys = Object.keys(kv);
-            keys.map((propName) => {
-                const fromValue = eleProps[propName];
-                const toValue = kv[propName];
+    on('element-modify', (changes) => {
+        /*    const changes: HistoryChangeItem[] = []
+            // console.log(data)
+    
+            data.map(({id, props: kv}) => {
+              const props: HistoryChangeProps = {}
+              const change = {id, props}
+              const element = this.elementManager.getElementById(id)
+    
+              if (!element) return
+              const eleProps = element.toJSON()
+              const keys = Object.keys(kv) as (keyof ElementProps)[]
+    
+              keys.map((propName: keyof ElementProps) => {
+                const fromValue = eleProps[propName]
+                const toValue = kv[propName]
+    
                 // @ts-ignore
-                props[propName] = {
-                    from: fromValue,
-                    to: toValue,
-                };
-            });
-            this.elementManager.batchModify(new Set([id]), kv);
-            changes.push(change);
-        });
+                props[propName as unknown as ElementProps] = {
+                  from: fromValue,
+                  to: toValue,
+                }
+              })
+              this.elementManager.batchModify(new Set([id]), kv)
+              changes.push(change)
+            })*/
         this.history.add({
             type: 'history-modify',
             payload: {
