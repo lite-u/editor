@@ -1,6 +1,4 @@
 import handleMouseUp from './baseEvents/pointerUp.js';
-import handleKeyDown from './baseEvents/keyDown.js';
-import handleKeyUp from './baseEvents/keyUp.js';
 // import handleWheel from './baseEvents/wheel.js'
 import handlePointerMove from './baseEvents/pointerMove.js';
 import handleContextMenu from './baseEvents/contextMenu.js';
@@ -23,8 +21,8 @@ class ToolManager {
         const { signal } = this.eventsController;
         const { container } = editor;
         this.editor = editor;
-        window.addEventListener('keydown', handleKeyDown.bind(this), { signal });
-        window.addEventListener('keyup', handleKeyUp.bind(this), { signal });
+        // window.addEventListener('keydown', handleKeyDown.bind(this), {signal})
+        // window.addEventListener('keyup', handleKeyUp.bind(this), {signal})
         // window.addEventListener('wheel', handleWheel.bind(this), {signal, passive: false})
         container.addEventListener('pointerdown', handleMouseDown.bind(this), { signal, passive: false });
         container.addEventListener('pointerup', handleMouseUp.bind(this), { signal });
