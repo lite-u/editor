@@ -471,7 +471,7 @@ export function initEvents(this: Editor) {
       this.interaction._snappedPoint = null
       this.interaction._hoveredElement = null
     }else{
-      snapTool.call(this)
+      snapTool.call(this.toolManager)
     }
 
     this.toolManager.set(toolName)

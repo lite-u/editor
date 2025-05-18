@@ -5,6 +5,7 @@ import { pick } from '../services/history/pick.js';
 // import {updateSelectionCanvasRenderData} from '../services/selection/helper'
 // import zoom from '../../components/statusBar/zoom'
 import { fitRectToViewport } from '../services/world/helper.js';
+import snapTool from '../services/tool/snap/snap.js';
 export function initEvents() {
     const { action } = this;
     const dispatch = action.dispatch.bind(action);
@@ -366,8 +367,14 @@ export function initEvents() {
         this.events.onContextMenu?.(position);
     });
     on('switch-tool', (toolName) => {
-        this.interaction._snappedPoint = null;
-        this.interaction._hoveredElement = null;
+        let noSnap = toolName === 'zoomIn' || toolName === 'zoomOut' || toolName === 'panning';
+        if (noSnap) {
+            this.interaction._snappedPoint = null;
+            this.interaction._hoveredElement = null;
+        }
+        else {
+            snapTool.call(this.toolManager);
+        }
         this.toolManager.set(toolName);
         action.dispatch('render-overlay');
         // this.toolManager.currentToolName = toolName
