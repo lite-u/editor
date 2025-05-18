@@ -1,6 +1,6 @@
-import {UID} from '~/core/core'
 import ToolManager from '~/services/tool/toolManager'
 import {detectHoveredElement} from '~/services/tool/helper'
+import {UID} from '~/type'
 
 function handleContextMenu(this: ToolManager, e: MouseEvent) {
   // const modifyKey = e.ctrlKey || e.metaKey || e.shiftKey
