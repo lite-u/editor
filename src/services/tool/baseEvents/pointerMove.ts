@@ -6,7 +6,7 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
   const x = e.clientX - rect!.x
   const y = e.clientY - rect!.y
   const {button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY} = e
-  const noSnap = this.currentToolName === 'zoomIn' || this.currentToolName === 'zoomOut' || this.currentToolName === 'panning'
+  const stopSnap = this.currentToolName === 'zoomIn' || this.currentToolName === 'zoomOut' || this.currentToolName === 'panning'
 
   interaction.mouseCurrent = {x, y}
   interaction.mouseDelta.x = x - interaction.mouseStart.x
@@ -17,13 +17,14 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
 
   cursor.move({x: e.clientX, y: e.clientY})
 
-  if (noSnap) {
+  if (stopSnap) {
     interaction._snappedPoint = null
     interaction._hoveredElement = null
   } else {
     snapTool.call(this)
   }
 
+  console.log(interaction._snappedPoint)
   action.dispatch('world-mouse-move')
   action.dispatch('render-overlay')
 
