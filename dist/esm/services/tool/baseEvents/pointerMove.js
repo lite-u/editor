@@ -1,15 +1,10 @@
-import snapTool from '~/services/tool/snap/snap';
+import snapTool from '../snap/snap.js';
 export default function handlePointerMove(e) {
-    const { action, rect, cursor, interaction, world, visible } = this.editor;
-    const { baseCanvasContext: ctx, dpr } = world;
+    const { action, rect, cursor, interaction, world } = this.editor;
     const x = e.clientX - rect.x;
     const y = e.clientY - rect.y;
     const { button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY } = e;
-    const viewPoint = {
-        x: x * dpr,
-        y: y * dpr,
-    };
-    let doSnap = true;
+    let noSnap = this.currentToolName === 'zoomIn' || this.currentToolName === 'zoomOut' || this.currentToolName === 'panning';
     interaction.mouseCurrent = { x, y };
     interaction.mouseDelta.x = x - interaction.mouseStart.x;
     interaction.mouseDelta.y = y - interaction.mouseStart.y;
@@ -18,8 +13,7 @@ export default function handlePointerMove(e) {
     cursor.move({ x: e.clientX, y: e.clientY });
     action.dispatch('world-mouse-move');
     this.editor.interaction._modifier = { button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY };
-    if (this.currentToolName === 'zoomIn' || this.currentToolName === 'zoomOut' || this.currentToolName === 'panning') {
-        doSnap = false;
+    if (noSnap) {
         interaction._snappedPoint = null;
         interaction._hoveredElement = null;
     }
