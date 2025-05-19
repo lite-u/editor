@@ -164,7 +164,6 @@ class RectangleLike extends ElementShape {
   }
 
   scaleFrom(scaleX: number, scaleY: number, anchor: Point) {
-    // console.log(scaleX, scaleY, anchor)
     const matrix = new DOMMatrix()
       .translate(anchor.x, anchor.y)
       .scale(scaleX, scaleY)
@@ -180,53 +179,6 @@ class RectangleLike extends ElementShape {
     this.height = Math.abs(bottomRight.y - topLeft.y)
 
     this.updatePath2D()
-    // console.log(this.cx, this.cy, this.width, this.height)
-  }
-
-  /*  getTransformedPoints(): Point[] {
-      // const {cx, cy, width, height} = this.original
-      const corners: Point[] = this.corners
-      return transformPoints(corners, this.matrix)
-    }*/
-
-  public hitTest(point: Point, borderPadding = 5): 'inside' | 'border' | null {
-    console.log(9)
-    // this.path2D.
-  }
-
-  public hitTest1(point: Point, borderPadding = 5): 'inside' | 'border' | null {
-    const {cx: cx, cy: cy, width, height, rotation = 0} = this
-    const rad = rotation * (Math.PI / 180)
-    const cos = Math.cos(-rad)
-    const sin = Math.sin(-rad)
-
-    const dx = point.x - cx
-    const dy = point.y - cy
-
-    // Rotate the point into the rectangle's local coordinate system
-    const localX = dx * cos - dy * sin
-    const localY = dx * sin + dy * cos
-
-    const halfWidth = width / 2
-    const halfHeight = height / 2
-
-    const withinX = localX >= -halfWidth && localX <= halfWidth
-    const withinY = localY >= -halfHeight && localY <= halfHeight
-    // console.log('hit')
-
-    if (withinX && withinY) {
-      const nearLeft = Math.abs(localX + halfWidth) <= borderPadding
-      const nearRight = Math.abs(localX - halfWidth) <= borderPadding
-      const nearTop = Math.abs(localY + halfHeight) <= borderPadding
-      const nearBottom = Math.abs(localY - halfHeight) <= borderPadding
-
-      if (nearLeft || nearRight || nearTop || nearBottom) {
-        return 'border'
-      }
-      return 'inside'
-    }
-
-    return null
   }
 
   override toJSON(): RequiredRectangleLikeProps {

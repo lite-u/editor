@@ -8,6 +8,7 @@ import {rotatePointAroundPoint} from '~/core/geometry'
 import {AnchorPoint, Appearance, Fill, Stroke, Transform} from '~/elements/defaultProps'
 import {BezierPoint} from '~/elements/props'
 import deepClone from '~/core/deepClone'
+import {HistoryChangeItem} from '~/services/actions/type'
 
 export interface PathProps extends ElementBaseProps {
   id: UID,
@@ -85,6 +86,43 @@ class ElementPath extends ElementBase {
     }
   }
 
+  translate(dx: number, dy: number): HistoryChangeItem {
+    this.cx = this.original.cx + dx
+    this.cy = this.original.cy + dy
+    this.updatePath2D()
+
+    return {
+      id: this.id,
+      from: {
+        cx: this.original.cx,
+        cy: this.original.cy,
+      },
+      to: {
+        cx: this.cx,
+        cy: this.cy,
+      },
+    }
+  }
+
+  scaleFrom(scaleX: number, scaleY: number, anchor: Point) {
+    /*// console.log(scaleX, scaleY, anchor)
+    const matrix = new DOMMatrix()
+      .translate(anchor.x, anchor.y)
+      .scale(scaleX, scaleY)
+      .translate(-anchor.x, -anchor.y)
+
+    const {cx, cy, width, height} = this.original
+    const topLeft = this.transformPoint(cx - width / 2, cy - height / 2, matrix)
+    const bottomRight = this.transformPoint(cx + width / 2, cy + height / 2, matrix)
+
+    this.cx = (topLeft.x + bottomRight.x) / 2
+    this.cy = (topLeft.y + bottomRight.y) / 2
+    this.width = Math.abs(bottomRight.x - topLeft.x)
+    this.height = Math.abs(bottomRight.y - topLeft.y)
+
+    this.updatePath2D()*/
+    // console.log(this.cx, this.cy, this.width, this.height)
+  }
   public getBoundingRect(): BoundingRect {
     const samplePoints: Point[] = []
 
