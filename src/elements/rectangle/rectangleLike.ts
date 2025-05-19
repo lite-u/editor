@@ -19,7 +19,7 @@ export type RequiredRectangleLikeProps = Required<RectangleLikeProps>
 
 class RectangleLike extends ElementShape {
   // id: string
-  layer: number
+  // layer: number
   width: number
   height: number
   borderRadius: BorderRadius
@@ -28,7 +28,7 @@ class RectangleLike extends ElementShape {
 
   constructor({
                 // id,
-                layer,
+                // layer,
                 width = DEFAULT_WIDTH,
                 height = DEFAULT_HEIGHT,
                 borderRadius = DEFAULT_BORDER_RADIUS,
@@ -37,7 +37,7 @@ class RectangleLike extends ElementShape {
     super(rest)
 
     // this.id = id
-    this.layer = layer
+    // this.layer = layer
     this.width = width
     this.height = height
     this.borderRadius = borderRadius
@@ -186,7 +186,7 @@ class RectangleLike extends ElementShape {
       width,
       height,
       // id,
-      layer,
+      // layer,
     } = this
     if (!borderRadius) {
       debugger
@@ -206,7 +206,7 @@ class RectangleLike extends ElementShape {
     const result: RectangleLikeProps = {
       ...super.toMinimalJSON(),
       // id: this.id,
-      layer: this.layer,
+      // layer: this.layer,
     }
 
     if (!isEqual(this.borderRadius, DEFAULT_BORDER_RADIUS)) {

@@ -1,11 +1,11 @@
-import ElementShape from '../shape/shape';
-import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '~/core/utils';
-import ElementRectangle from '~/elements/rectangle/rectangle';
-import { DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '~/elements/defaultProps';
-import { isEqual } from '~/lib/lib';
+import ElementShape from '../shape/shape.js';
+import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '../../core/utils.js';
+import ElementRectangle from './rectangle.js';
+import { DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../defaultProps.js';
+import { isEqual } from '../../lib/lib.js';
 class RectangleLike extends ElementShape {
     // id: string
-    layer;
+    // layer: number
     width;
     height;
     borderRadius;
@@ -13,10 +13,11 @@ class RectangleLike extends ElementShape {
     original;
     constructor({ 
     // id,
-    layer, width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, borderRadius = DEFAULT_BORDER_RADIUS, ...rest }) {
+    // layer,
+    width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, borderRadius = DEFAULT_BORDER_RADIUS, ...rest }) {
         super(rest);
         // this.id = id
-        this.layer = layer;
+        // this.layer = layer
         this.width = width;
         this.height = height;
         this.borderRadius = borderRadius;
@@ -142,9 +143,10 @@ class RectangleLike extends ElementShape {
         this.updatePath2D();
     }
     toJSON() {
-        const { borderRadius, width, height, 
+        const { borderRadius, width, height,
         // id,
-        layer, } = this;
+        // layer,
+         } = this;
         if (!borderRadius) {
             debugger;
         }
@@ -161,7 +163,7 @@ class RectangleLike extends ElementShape {
         const result = {
             ...super.toMinimalJSON(),
             // id: this.id,
-            layer: this.layer,
+            // layer: this.layer,
         };
         if (!isEqual(this.borderRadius, DEFAULT_BORDER_RADIUS)) {
             result.borderRadius = [...this.borderRadius];

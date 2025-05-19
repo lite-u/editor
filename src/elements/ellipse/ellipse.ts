@@ -76,24 +76,7 @@ class ElementEllipse extends ElementShape {
     this.original.rotation = this.rotation
     this.updatePath2D()
   }
-/*
-  translate(dx: number, dy: number): HistoryChangeItem {
-    this.cx = this.original.cx + dx
-    this.cy = this.original.cy + dy
-    this.updatePath2D()
 
-    return {
-      id: this.id,
-      from: {
-        cx: this.original.cx,
-        cy: this.original.cy,
-      },
-      to: {
-        cx: this.cx,
-        cy: this.cy,
-      },
-    }
-  }*/
 
   scaleFrom(scaleX: number, scaleY: number, anchor: Point) {
     const matrix = new DOMMatrix()
@@ -117,9 +100,7 @@ class ElementEllipse extends ElementShape {
   public toMinimalJSON(): EllipseProps {
     return {
       ...super.toMinimalJSON(),
-      id: this.id,
       type: this.type,
-      layer: this.layer,
       r1: this.r1,
       r2: this.r2,
     }
@@ -128,9 +109,7 @@ class ElementEllipse extends ElementShape {
   public toJSON(): RequiredEllipseProps {
     return {
       ...super.toJSON(),
-      id: this.id,
       type: this.type,
-      layer: this.layer,
       r1: this.r1,
       r2: this.r2,
     }

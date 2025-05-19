@@ -14,6 +14,7 @@ import {Fill, Shadow, Stroke, Transform} from '~/elements/props'
 
 export interface ElementBaseProps {
   id: UID,
+  layer: number
   stroke?: Stroke;
   fill?: Fill;
   opacity?: number;
@@ -27,6 +28,7 @@ export type RequiredBaseProps = Required<ElementBaseProps>
 
 class ElementBase {
   id: UID
+  layer: number
   stroke: Stroke
   fill: Fill
   opacity: number
@@ -39,6 +41,7 @@ class ElementBase {
 
   constructor({
                 id,
+                layer,
                 stroke = deepClone(DEFAULT_STROKE),
                 fill = deepClone(DEFAULT_FILL),
                 opacity = deepClone(DEFAULT_OPACITY),
@@ -48,6 +51,7 @@ class ElementBase {
                 show = true,
               }: ElementBaseProps) {
     this.id = id
+    this.layer = layer
     this.stroke = stroke
     this.fill = fill
     this.opacity = opacity
@@ -69,6 +73,7 @@ class ElementBase {
   protected toJSON(): RequiredBaseProps {
     const {
       id,
+      layer,
       show,
       stroke,
       fill,
@@ -80,6 +85,7 @@ class ElementBase {
 
     return {
       id,
+      layer,
       show,
       stroke: deepClone(stroke),
       fill: deepClone(fill),
@@ -91,7 +97,7 @@ class ElementBase {
   }
 
   protected toMinimalJSON(): ElementBaseProps {
-    const result: ElementBaseProps = {id: this.id}
+    const result: ElementBaseProps = {id: this.id, layer: this.layer}
 
     if (!this.show) {
       result.show = false
