@@ -3,6 +3,7 @@ import { DEFAULT_FILL, DEFAULT_OPACITY, DEFAULT_ROTATION, DEFAULT_SHADOW, DEFAUL
 import deepClone from '../../core/deepClone.js';
 import { isEqual } from '../../lib/lib.js';
 class ElementBase {
+    id;
     stroke;
     fill;
     opacity;
@@ -12,7 +13,8 @@ class ElementBase {
     show;
     matrix = new DOMMatrix();
     path2D = new Path2D();
-    constructor({ stroke = deepClone(DEFAULT_STROKE), fill = deepClone(DEFAULT_FILL), opacity = deepClone(DEFAULT_OPACITY), shadow = deepClone(DEFAULT_SHADOW), rotation = deepClone(DEFAULT_ROTATION), transform = deepClone(DEFAULT_TRANSFORM), show = true, }) {
+    constructor({ id, stroke = deepClone(DEFAULT_STROKE), fill = deepClone(DEFAULT_FILL), opacity = deepClone(DEFAULT_OPACITY), shadow = deepClone(DEFAULT_SHADOW), rotation = deepClone(DEFAULT_ROTATION), transform = deepClone(DEFAULT_TRANSFORM), show = true, }) {
+        this.id = id;
         this.stroke = stroke;
         this.fill = fill;
         this.opacity = opacity;
@@ -29,8 +31,9 @@ class ElementBase {
         return { x: p.x, y: p.y };
     }
     toJSON() {
-        const { show, stroke, fill, opacity, shadow, rotation, transform, } = this;
+        const { id, show, stroke, fill, opacity, shadow, rotation, transform, } = this;
         return {
+            id,
             show,
             stroke: deepClone(stroke),
             fill: deepClone(fill),
@@ -41,7 +44,7 @@ class ElementBase {
         };
     }
     toMinimalJSON() {
-        const result = {};
+        const result = { id: this.id };
         if (!this.show) {
             result.show = false;
         }

@@ -1,19 +1,21 @@
-import ElementShape from '../shape/shape.js';
-import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '../../core/utils.js';
-import ElementRectangle from './rectangle.js';
-import { DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../defaultProps.js';
-import { isEqual } from '../../lib/lib.js';
+import ElementShape from '../shape/shape';
+import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '~/core/utils';
+import ElementRectangle from '~/elements/rectangle/rectangle';
+import { DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '~/elements/defaultProps';
+import { isEqual } from '~/lib/lib';
 class RectangleLike extends ElementShape {
-    id;
+    // id: string
     layer;
     width;
     height;
     borderRadius;
     // path2D: Path2D = new Path2D()
     original;
-    constructor({ id, layer, width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, borderRadius = DEFAULT_BORDER_RADIUS, ...rest }) {
+    constructor({ 
+    // id,
+    layer, width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, borderRadius = DEFAULT_BORDER_RADIUS, ...rest }) {
         super(rest);
-        this.id = id;
+        // this.id = id
         this.layer = layer;
         this.width = width;
         this.height = height;
@@ -108,22 +110,23 @@ class RectangleLike extends ElementShape {
     /*  rotate(angle: number, center?: Point) {
         this.rotation = angle
       }*/
-    translate(dx, dy) {
-        this.cx = this.original.cx + dx;
-        this.cy = this.original.cy + dy;
-        this.updatePath2D();
+    /*  translate(dx: number, dy: number): HistoryChangeItem {
+        this.cx = this.original.cx + dx
+        this.cy = this.original.cy + dy
+        this.updatePath2D()
+  
         return {
-            id: this.id,
-            from: {
-                cx: this.original.cx,
-                cy: this.original.cy,
-            },
-            to: {
-                cx: this.cx,
-                cy: this.cy,
-            },
-        };
-    }
+          id: this.id,
+          from: {
+            cx: this.original.cx,
+            cy: this.original.cy,
+          },
+          to: {
+            cx: this.cx,
+            cy: this.cy,
+          },
+        }
+      }*/
     scaleFrom(scaleX, scaleY, anchor) {
         const matrix = new DOMMatrix()
             .translate(anchor.x, anchor.y)
@@ -139,13 +142,15 @@ class RectangleLike extends ElementShape {
         this.updatePath2D();
     }
     toJSON() {
-        const { borderRadius, width, height, id, layer, } = this;
+        const { borderRadius, width, height, 
+        // id,
+        layer, } = this;
         if (!borderRadius) {
             debugger;
         }
         return {
             ...super.toJSON(),
-            id,
+            // id,
             layer,
             borderRadius: [...borderRadius],
             width,
@@ -155,7 +160,7 @@ class RectangleLike extends ElementShape {
     toMinimalJSON() {
         const result = {
             ...super.toMinimalJSON(),
-            id: this.id,
+            // id: this.id,
             layer: this.layer,
         };
         if (!isEqual(this.borderRadius, DEFAULT_BORDER_RADIUS)) {

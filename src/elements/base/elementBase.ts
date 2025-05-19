@@ -1,4 +1,4 @@
-import {BoundingRect, ElementProps, Point} from '~/type'
+import {BoundingRect, ElementProps, Point, UID} from '~/type'
 import {generateBoundingRectFromTwoPoints} from '~/core/utils'
 import {
   DEFAULT_FILL,
@@ -13,6 +13,7 @@ import {isEqual} from '~/lib/lib'
 import {Fill, Shadow, Stroke, Transform} from '~/elements/props'
 
 export interface ElementBaseProps {
+  id: UID,
   stroke?: Stroke;
   fill?: Fill;
   opacity?: number;
@@ -25,6 +26,7 @@ export interface ElementBaseProps {
 export type RequiredBaseProps = Required<ElementBaseProps>
 
 class ElementBase {
+  id: UID
   stroke: Stroke
   fill: Fill
   opacity: number
@@ -36,6 +38,7 @@ class ElementBase {
   path2D = new Path2D()
 
   constructor({
+                id,
                 stroke = deepClone(DEFAULT_STROKE),
                 fill = deepClone(DEFAULT_FILL),
                 opacity = deepClone(DEFAULT_OPACITY),
@@ -44,6 +47,7 @@ class ElementBase {
                 transform = deepClone(DEFAULT_TRANSFORM),
                 show = true,
               }: ElementBaseProps) {
+    this.id = id
     this.stroke = stroke
     this.fill = fill
     this.opacity = opacity
@@ -64,6 +68,7 @@ class ElementBase {
 
   protected toJSON(): RequiredBaseProps {
     const {
+      id,
       show,
       stroke,
       fill,
@@ -74,6 +79,7 @@ class ElementBase {
     } = this
 
     return {
+      id,
       show,
       stroke: deepClone(stroke),
       fill: deepClone(fill),
@@ -85,7 +91,7 @@ class ElementBase {
   }
 
   protected toMinimalJSON(): ElementBaseProps {
-    const result: ElementBaseProps = {}
+    const result: ElementBaseProps = {id: this.id}
 
     if (!this.show) {
       result.show = false

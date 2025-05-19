@@ -1,7 +1,6 @@
 import ElementShape, { ShapeProps } from '../shape/shape';
 import ElementRectangle from '../rectangle/rectangle';
 import { Point } from '~/type';
-import { HistoryChangeItem } from '~/services/actions/type';
 export interface EllipseProps extends ShapeProps {
     id: string;
     layer: number;
@@ -21,7 +20,6 @@ declare class ElementEllipse extends ElementShape {
     get getPoints(): Point[];
     protected updatePath2D(): void;
     protected updateOriginal(): void;
-    translate(dx: number, dy: number): HistoryChangeItem;
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
     toMinimalJSON(): EllipseProps;
     toJSON(): RequiredEllipseProps;

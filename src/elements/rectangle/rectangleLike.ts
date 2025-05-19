@@ -6,7 +6,6 @@ import ElementRectangle from '~/elements/rectangle/rectangle'
 import {BorderRadius} from '~/elements/props'
 import {DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH} from '~/elements/defaultProps'
 import {isEqual} from '~/lib/lib'
-import {HistoryChangeItem} from '~/services/actions/type'
 
 export interface RectangleLikeProps extends ShapeProps {
   id: string
@@ -19,7 +18,7 @@ export interface RectangleLikeProps extends ShapeProps {
 export type RequiredRectangleLikeProps = Required<RectangleLikeProps>
 
 class RectangleLike extends ElementShape {
-  id: string
+  // id: string
   layer: number
   width: number
   height: number
@@ -28,7 +27,7 @@ class RectangleLike extends ElementShape {
   private original: { cx: number, cy: number, width: number, height: number, rotation: number }
 
   constructor({
-                id,
+                // id,
                 layer,
                 width = DEFAULT_WIDTH,
                 height = DEFAULT_HEIGHT,
@@ -37,7 +36,7 @@ class RectangleLike extends ElementShape {
               }: RectangleLikeProps) {
     super(rest)
 
-    this.id = id
+    // this.id = id
     this.layer = layer
     this.width = width
     this.height = height
@@ -145,23 +144,23 @@ class RectangleLike extends ElementShape {
       this.rotation = angle
     }*/
 
-  translate(dx: number, dy: number): HistoryChangeItem {
-    this.cx = this.original.cx + dx
-    this.cy = this.original.cy + dy
-    this.updatePath2D()
+  /*  translate(dx: number, dy: number): HistoryChangeItem {
+      this.cx = this.original.cx + dx
+      this.cy = this.original.cy + dy
+      this.updatePath2D()
 
-    return {
-      id: this.id,
-      from: {
-        cx: this.original.cx,
-        cy: this.original.cy,
-      },
-      to: {
-        cx: this.cx,
-        cy: this.cy,
-      },
-    }
-  }
+      return {
+        id: this.id,
+        from: {
+          cx: this.original.cx,
+          cy: this.original.cy,
+        },
+        to: {
+          cx: this.cx,
+          cy: this.cy,
+        },
+      }
+    }*/
 
   scaleFrom(scaleX: number, scaleY: number, anchor: Point) {
     const matrix = new DOMMatrix()
@@ -186,7 +185,7 @@ class RectangleLike extends ElementShape {
       borderRadius,
       width,
       height,
-      id,
+      // id,
       layer,
     } = this
     if (!borderRadius) {
@@ -195,7 +194,7 @@ class RectangleLike extends ElementShape {
     }
     return {
       ...super.toJSON(),
-      id,
+      // id,
       layer,
       borderRadius: [...borderRadius],
       width,
@@ -206,7 +205,7 @@ class RectangleLike extends ElementShape {
   override toMinimalJSON(): RectangleLikeProps {
     const result: RectangleLikeProps = {
       ...super.toMinimalJSON(),
-      id: this.id,
+      // id: this.id,
       layer: this.layer,
     }
 

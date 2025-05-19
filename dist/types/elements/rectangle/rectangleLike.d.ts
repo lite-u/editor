@@ -3,7 +3,6 @@ import { Point } from '~/type';
 import { SnapPointData } from '~/main/type';
 import ElementRectangle from '~/elements/rectangle/rectangle';
 import { BorderRadius } from '~/elements/props';
-import { HistoryChangeItem } from '~/services/actions/type';
 export interface RectangleLikeProps extends ShapeProps {
     id: string;
     layer: number;
@@ -13,18 +12,16 @@ export interface RectangleLikeProps extends ShapeProps {
 }
 export type RequiredRectangleLikeProps = Required<RectangleLikeProps>;
 declare class RectangleLike extends ElementShape {
-    id: string;
     layer: number;
     width: number;
     height: number;
     borderRadius: BorderRadius;
     private original;
-    constructor({ id, layer, width, height, borderRadius, ...rest }: RectangleLikeProps);
+    constructor({ layer, width, height, borderRadius, ...rest }: RectangleLikeProps);
     protected updatePath2D(): void;
     protected updateOriginal(): void;
     protected get getPoints(): Point[];
     protected get corners(): Point[];
-    translate(dx: number, dy: number): HistoryChangeItem;
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
     toJSON(): RequiredRectangleLikeProps;
     toMinimalJSON(): RectangleLikeProps;

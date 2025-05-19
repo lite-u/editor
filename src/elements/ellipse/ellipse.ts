@@ -76,7 +76,7 @@ class ElementEllipse extends ElementShape {
     this.original.rotation = this.rotation
     this.updatePath2D()
   }
-
+/*
   translate(dx: number, dy: number): HistoryChangeItem {
     this.cx = this.original.cx + dx
     this.cy = this.original.cy + dy
@@ -93,7 +93,7 @@ class ElementEllipse extends ElementShape {
         cy: this.cy,
       },
     }
-  }
+  }*/
 
   scaleFrom(scaleX: number, scaleY: number, anchor: Point) {
     const matrix = new DOMMatrix()

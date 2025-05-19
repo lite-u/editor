@@ -50,22 +50,24 @@ class ElementEllipse extends ElementShape {
         this.original.rotation = this.rotation;
         this.updatePath2D();
     }
-    translate(dx, dy) {
-        this.cx = this.original.cx + dx;
-        this.cy = this.original.cy + dy;
-        this.updatePath2D();
+    /*
+      translate(dx: number, dy: number): HistoryChangeItem {
+        this.cx = this.original.cx + dx
+        this.cy = this.original.cy + dy
+        this.updatePath2D()
+    
         return {
-            id: this.id,
-            from: {
-                cx: this.original.cx,
-                cy: this.original.cy,
-            },
-            to: {
-                cx: this.cx,
-                cy: this.cy,
-            },
-        };
-    }
+          id: this.id,
+          from: {
+            cx: this.original.cx,
+            cy: this.original.cy,
+          },
+          to: {
+            cx: this.cx,
+            cy: this.cy,
+          },
+        }
+      }*/
     scaleFrom(scaleX, scaleY, anchor) {
         const matrix = new DOMMatrix()
             .translate(anchor.x, anchor.y)
