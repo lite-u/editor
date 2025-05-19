@@ -26,8 +26,6 @@ declare class RectangleLike extends ElementShape {
     protected get corners(): Point[];
     translate(dx: number, dy: number): HistoryChangeItem;
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
-    hitTest(point: Point, borderPadding?: number): 'inside' | 'border' | null;
-    hitTest1(point: Point, borderPadding?: number): 'inside' | 'border' | null;
     toJSON(): RequiredRectangleLikeProps;
     toMinimalJSON(): RectangleLikeProps;
     getBoundingRect(): import("~/type").BoundingRect;

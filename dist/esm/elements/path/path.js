@@ -57,6 +57,47 @@ class ElementPath extends ElementBase {
             this.path2D.closePath();
         }
     }
+    translate(dx, dy) {
+        this.points.forEach(p => {
+            p.anchor.x += dx;
+            p.anchor.y += dy;
+            p.cp1.x += dx;
+            p.cp1.y += dy;
+            p.cp2.x += dx;
+            p.cp2.y += dy;
+        });
+        this.updatePath2D();
+        return {
+            id: this.id,
+            from: {
+                cx: this.original.cx,
+                cy: this.original.cy,
+            },
+            to: {
+                cx: this.cx,
+                cy: this.cy,
+            },
+        };
+    }
+    scaleFrom(scaleX, scaleY, anchor) {
+        /*// console.log(scaleX, scaleY, anchor)
+        const matrix = new DOMMatrix()
+          .translate(anchor.x, anchor.y)
+          .scale(scaleX, scaleY)
+          .translate(-anchor.x, -anchor.y)
+    
+        const {cx, cy, width, height} = this.original
+        const topLeft = this.transformPoint(cx - width / 2, cy - height / 2, matrix)
+        const bottomRight = this.transformPoint(cx + width / 2, cy + height / 2, matrix)
+    
+        this.cx = (topLeft.x + bottomRight.x) / 2
+        this.cy = (topLeft.y + bottomRight.y) / 2
+        this.width = Math.abs(bottomRight.x - topLeft.x)
+        this.height = Math.abs(bottomRight.y - topLeft.y)
+    
+        this.updatePath2D()*/
+        // console.log(this.cx, this.cy, this.width, this.height)
+    }
     getBoundingRect() {
         const samplePoints = [];
         for (let i = 1; i < this.points.length; i++) {

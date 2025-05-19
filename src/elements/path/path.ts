@@ -87,8 +87,14 @@ class ElementPath extends ElementBase {
   }
 
   translate(dx: number, dy: number): HistoryChangeItem {
-    this.cx = this.original.cx + dx
-    this.cy = this.original.cy + dy
+    this.points.forEach(p => {
+      p.anchor.x += dx
+      p.anchor.y += dy
+      p.cp1.x += dx
+      p.cp1.y += dy
+      p.cp2.x += dx
+      p.cp2.y += dy
+    })
     this.updatePath2D()
 
     return {
@@ -123,6 +129,7 @@ class ElementPath extends ElementBase {
     this.updatePath2D()*/
     // console.log(this.cx, this.cy, this.width, this.height)
   }
+
   public getBoundingRect(): BoundingRect {
     const samplePoints: Point[] = []
 

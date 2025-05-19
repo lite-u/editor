@@ -119,8 +119,8 @@ export type BezierPointType = 'corner' | 'smooth' | 'directional'
 export type BezierPoint = {
   anchor: Point;
   // Control point 1
-  cp1: Point | null;
+  cp1: Point;
   // Control point 2
-  cp2: Point | null;
+  cp2: Point;
   type?: BezierPointType
 };

@@ -3,6 +3,7 @@ import { OperationHandler } from '~/services/selection/type';
 import { BoundingRect, Point, UID } from '~/type';
 import { ElementProps } from '../type';
 import { BezierPoint } from '~/elements/props';
+import { HistoryChangeItem } from '~/services/actions/type';
 export interface PathProps extends ElementBaseProps {
     id: UID;
     layer: number;
@@ -22,6 +23,8 @@ declare class ElementPath extends ElementBase {
     get center(): Point;
     get getPoints(): Point[];
     protected updatePath2D(): void;
+    translate(dx: number, dy: number): HistoryChangeItem;
+    scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
     getBoundingRect(): BoundingRect;
     protected toJSON(): RequiredShapeProps;
     toMinimalJSON(): PathProps;
