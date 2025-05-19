@@ -3,6 +3,7 @@ import { OperationHandler } from '~/services/selection/type';
 import { BoundingRect, Point } from '~/type';
 import { ElementProps } from '../type';
 import { Gradient } from '~/elements/props';
+import { HistoryChangeItem } from '~/services/actions/type';
 export interface ShapeProps extends ElementBaseProps {
     cx?: number;
     cy?: number;
@@ -13,7 +14,9 @@ declare class ElementShape extends ElementBase {
     cx: number;
     cy: number;
     gradient: Gradient;
+    private original;
     constructor({ cx, cy, gradient, ...rest }: ShapeProps);
+    translate(dx: number, dy: number): HistoryChangeItem;
     protected get center(): Point;
     protected toJSON(): RequiredShapeProps;
     toMinimalJSON(): ShapeProps;

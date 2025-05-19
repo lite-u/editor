@@ -9,11 +9,33 @@ class ElementShape extends ElementBase {
     cx;
     cy;
     gradient;
+    original;
     constructor({ cx = DEFAULT_CX, cy = DEFAULT_CY, gradient = DEFAULT_GRADIENT, ...rest }) {
         super(rest);
         this.cx = cx;
         this.cy = cy;
+        this.original = {
+            cx: this.cx,
+            cy: this.cy,
+            rotation: this.rotation,
+        };
         this.gradient = gradient;
+    }
+    translate(dx, dy) {
+        this.cx = this.original.cx + dx;
+        this.cy = this.original.cy + dy;
+        this.updatePath2D();
+        return {
+            id: this.id,
+            from: {
+                cx: this.original.cx,
+                cy: this.original.cy,
+            },
+            to: {
+                cx: this.cx,
+                cy: this.cy,
+            },
+        };
     }
     get center() {
         return { x: this.cx, y: this.cy };

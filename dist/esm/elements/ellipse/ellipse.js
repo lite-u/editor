@@ -18,13 +18,15 @@ class ElementEllipse extends ElementShape {
         this.layer = layer;
         this.r1 = r1;
         this.r2 = r2;
-        this.original = {
-            cx: this.cx,
-            cy: this.cy,
-            r1: this.r1,
-            r2: this.r1,
-            rotation: this.rotation,
-        };
+        console.log(super.original);
+        /*    this.original = {
+              ...this.original,
+              cx: this.cx,
+              cy: this.cy,
+              r1: this.r1,
+              r2: this.r1,
+              rotation: this.rotation,
+            }*/
         this.updatePath2D();
     }
     get getPoints() {

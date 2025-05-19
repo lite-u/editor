@@ -9,6 +9,7 @@ import {Gradient} from '~/elements/props'
 import {DEFAULT_CX, DEFAULT_CY, DEFAULT_GRADIENT, DEFAULT_STROKE} from '~/elements/defaultProps'
 import {isEqual} from '~/lib/lib'
 import deepClone from '~/core/deepClone'
+import {HistoryChangeItem} from '~/services/actions/type'
 
 export interface ShapeProps extends ElementBaseProps {
   cx?: number
@@ -22,6 +23,7 @@ class ElementShape extends ElementBase {
   public cx: number
   public cy: number
   gradient: Gradient
+  private original: { cx: number; cy: number; [key: string]: number }
 
   constructor({
                 cx = DEFAULT_CX,
@@ -33,7 +35,30 @@ class ElementShape extends ElementBase {
 
     this.cx = cx
     this.cy = cy
+    this.original = {
+      cx: this.cx,
+      cy: this.cy,
+      rotation: this.rotation,
+    }
     this.gradient = gradient
+  }
+
+  translate(dx: number, dy: number): HistoryChangeItem {
+    this.cx = this.original.cx + dx
+    this.cy = this.original.cy + dy
+    this.updatePath2D()
+
+    return {
+      id: this.id,
+      from: {
+        cx: this.original.cx,
+        cy: this.original.cy,
+      },
+      to: {
+        cx: this.cx,
+        cy: this.cy,
+      },
+    }
   }
 
   protected get center(): Point {

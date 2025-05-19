@@ -9,12 +9,17 @@ class ElementPath extends ElementBase {
     type = 'path';
     points = [];
     closed;
+    original;
     constructor({ id, layer, points = [], closed = false, ...rest }) {
         super(rest);
         this.points = deepClone(points);
         this.id = id;
         this.layer = layer;
         this.closed = closed;
+        this.original = {
+            closed,
+            points: deepClone(points),
+        };
         this.updatePath2D();
     }
     static cubicBezier(t, p0, p1, p2, p3) {
@@ -70,12 +75,10 @@ class ElementPath extends ElementBase {
         return {
             id: this.id,
             from: {
-                cx: this.original.cx,
-                cy: this.original.cy,
+                points: deepClone(this.original.points),
             },
             to: {
-                cx: this.cx,
-                cy: this.cy,
+                points: deepClone(this.points),
             },
         };
     }
