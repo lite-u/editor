@@ -27,6 +27,7 @@ class ElementPath extends ElementBase {
   readonly type = 'path'
   private points: BezierPoint[] = []
   closed: boolean
+  private original: { points: BezierPoint[], closed: boolean }
 
   constructor({id, layer, points = [], closed = false, ...rest}: PathProps) {
     super(rest)
@@ -34,6 +35,10 @@ class ElementPath extends ElementBase {
     this.id = id
     this.layer = layer
     this.closed = closed
+    this.original = {
+      closed,
+      points: deepClone(points),
+    }
     this.updatePath2D()
   }
 
@@ -100,12 +105,10 @@ class ElementPath extends ElementBase {
     return {
       id: this.id,
       from: {
-        cx: this.original.cx,
-        cy: this.original.cy,
+        points: deepClone(this.original.points),
       },
       to: {
-        cx: this.cx,
-        cy: this.cy,
+        points: deepClone(this.points),
       },
     }
   }
