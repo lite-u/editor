@@ -75,12 +75,17 @@ class InteractionState {
             this._outlineElement = null;
             return;
         }
-        // create outline rectangle for multiple selection
+        let rotations = [];
         const elements = this.editor.elementManager.getElementsByIdSet(idSet);
-        const rects = elements.map((ele) => ele.getBoundingRect());
+        const rects = elements.map((ele) => {
+            rotations.push(ele.rotation);
+            return ele.getBoundingRect();
+        });
         const rect = getBoundingRectFromBoundingRects(rects);
         const anchors = getAnchorsByBoundingRect(rect);
-        const controlElements = getManipulationBox(rect);
+        const sameRotation = rotations.every(val => val === rotations[0]);
+        // create outline rectangle for multiple selection
+        const controlElements = getManipulationBox(rect, sameRotation ? rotations[0] : 0, ratio);
         const outlineElementProps = {
             type: 'rectangle',
             ...rect,
