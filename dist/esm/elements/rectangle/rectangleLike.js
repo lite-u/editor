@@ -126,6 +126,8 @@ class RectangleLike extends ElementShape {
           },
         }
       }*/
+    rotateFrom(ratation, anchor) {
+    }
     scaleFrom(scaleX, scaleY, anchor) {
         const matrix = new DOMMatrix()
             .translate(anchor.x, anchor.y)
