@@ -6,7 +6,7 @@ const rotating: SubToolType = {
   mouseMove(this: ToolManager) {
     const {interaction, elementManager, action, selection, cursor} = this.editor
     const elements = elementManager.getElementsByIdSet(selection.values)
-    const {_rotateData, mouseWorldCurrent,mouseWorldStart} = interaction
+    const {_rotateData, mouseWorldCurrent, mouseWorldStart} = interaction
 
     console.log(_rotateData)
     if (!_rotateData) return
@@ -18,7 +18,7 @@ const rotating: SubToolType = {
       )*/
     const rotationDiff = mouseCurrentRotation - mouseStartRotation
 
-    console.log(rotationDiff)
+    // console.log(rotationDiff)
     // const center = {x: rect.cx, y: rect.cy}
     interaction._outlineElement?.rotateFrom(rotationDiff, targetPoint)
     interaction._manipulationElements.forEach(ele => {
@@ -37,7 +37,17 @@ const rotating: SubToolType = {
     // this.subTool.mouseMove.call(this)
   },
   mouseUp(this: ToolManager) {
-    if (!this.subTool) return
+    const {interaction, elementManager, action, selection} = this.editor
+    const elements = elementManager.getElementsByIdSet(selection.values)
+
+    const changes = []
+    elements.forEach(ele => {
+      const change = ele.rotateFrom(0, interaction._rotateData?.targetPoint)
+
+      changes.push(change)
+    })
+
+    action.dispatch('element-updated')
 
     // this.subTool.mouseUp.call(this)
     this.subTool = null

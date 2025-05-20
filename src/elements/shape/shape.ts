@@ -58,7 +58,7 @@ class ElementShape extends ElementBase {
     }
   }
 
-  rotateFrom(rotation: number, anchor: Point) {
+  rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined {
     const matrix = new DOMMatrix()
       .translate(anchor.x, anchor.y)
       .rotate(rotation)
@@ -73,7 +73,21 @@ class ElementShape extends ElementBase {
 
     this.updatePath2D()
 
-    // return this
+    if (f) {
+      return {
+        id: this.id,
+        from: {
+          cx: this.original.cx,
+          cy: this.original.cy,
+          rotation: this.original.rotation,
+        },
+        to: {
+          cx: this.cx,
+          cy: this.cy,
+          rotation: this.rotation,
+        },
+      }
+    }
   }
 
   protected get center(): Point {
@@ -114,7 +128,6 @@ class ElementShape extends ElementBase {
 
     return result
   }
-
 
   /*
     public getOperators(

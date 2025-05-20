@@ -127,6 +127,23 @@ class ElementLineSegment extends ElementBase {
     this.updatePath2D()
   }
 
+  rotateFrom(rotation: number, anchor: Point) {
+    const matrix = new DOMMatrix()
+      .translate(anchor.x, anchor.y)
+      .rotate(rotation)
+      .translate(-anchor.x, -anchor.y)
+
+    const {cx, cy} = this.original
+    const transformed = matrix.transformPoint({x: cx, y: cy})
+
+    this.cx = transformed.x
+    this.cy = transformed.y
+    this.rotation = this.original.rotation + rotation
+
+    this.updatePath2D()
+
+  }
+
   protected toJSON(): RequiredLineSegmentProps {
     return {
       ...super.toJSON(),
