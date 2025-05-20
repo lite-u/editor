@@ -93,6 +93,7 @@ class InteractionState {
         elements.forEach((ele) => {
             const clone = elementManager.create(ele.toMinimalJSON());
             clone.fill.enabled = false;
+            clone.stroke.enabled = true;
             clone.stroke.weight = 1 / ratio;
             clone.stroke.color = '#ff0000';
             this._manipulationElements.push(clone);
