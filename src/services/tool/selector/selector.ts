@@ -16,18 +16,21 @@ const selector: ToolType = {
 
     if (resizeMode) {
       const placement = interaction._hoveredResizeManipulator.id.replace('handle-resize-', '')
+      cursor.set('resize')
+      this.subTool = resizing
+
+      interaction._resizingData = {placement}
+
+      cursor.set('resize')
+      this.subTool = resizing
+    } else if (rotateMode) {
       const rects = elementManager.getElementsByIdSet(selection.values).map(ele => {
         return ele.getBoundingRect()
       })
       const center = getBoundingRectFromBoundingRects(rects)
       const {cx: x, cy: y} = center
-      console.log(9)
-      cursor.set('resize')
-      this.subTool = resizing
 
-      interaction._resizingData = {center: {x, y}}
-    } else if (rotateMode) {
-      interaction._rotateData = {startRotation: 0}
+      interaction._rotateData = {center: {x, y}}
       this.subTool = rotating
     } else if (dragMode) {
       this.subTool = dragging

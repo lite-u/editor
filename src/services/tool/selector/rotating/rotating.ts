@@ -4,11 +4,11 @@ import {getRotateAngle} from '~/services/tool/selector/helper'
 const rotating: SubToolType = {
   // cursor: 'default',
   mouseMove(this: ToolManager) {
-    console.log(222)
     const {interaction, elementManager, action, selection, cursor} = this.editor
     const elements = elementManager.getElementsByIdSet(selection.values)
     const {_resizingData, mouseWorldCurrent} = interaction
 
+    console.log(_resizingData)
     if (!_resizingData) return
     const {center} = _resizingData
 
