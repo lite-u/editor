@@ -32,6 +32,7 @@ class ElementPath extends ElementBase {
     }
     updateOriginal() {
         this.original.points = deepClone(this.points);
+        this.original.closed = this.closed;
         this.updatePath2D();
     }
     get center() {

@@ -54,6 +54,7 @@ class ElementPath extends ElementBase {
 
   protected updateOriginal() {
     this.original.points = deepClone(this.points)
+    this.original.closed = this.closed
     this.updatePath2D()
   }
 
@@ -99,11 +100,11 @@ class ElementPath extends ElementBase {
     this.points.forEach(p => {
       p.anchor.x += dx
       p.anchor.y += dy
-      if(p.cp1) {
+      if (p.cp1) {
         p.cp1.x += dx
         p.cp1.y += dy
       }
-      if(p.cp2) {
+      if (p.cp2) {
         p.cp2.x += dx
         p.cp2.y += dy
       }

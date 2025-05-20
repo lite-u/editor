@@ -108,33 +108,36 @@ class InteractionState {
     const ratio = scale * dpr
     const idSet = this.editor.selection.values
 
-    // create outline rectangle for multiple selection
-    if (idSet.size > 1) {
-      const elements = this.editor.elementManager.getElementsByIdSet(idSet)
-      const rects = elements.map((ele: ElementInstance) => ele.getBoundingRect())
-      const rect = getBoundingRectFromBoundingRects(rects)
-      const anchors = getAnchorsByBoundingRect(rect)
-      const controlElements = anchors.map(a => {
-        // console.log(a)
-      })
-      const outlineElementProps: OptionalIdentifiersProps = {
-        type: 'rectangle',
-        ...rect,
-        stroke: {
-          ...DEFAULT_STROKE,
-          // weight: 1 / ratio,
-          weight: 1 / ratio,
-          color: 'red',
-        },
-        fill: {
-          ...DEFAULT_FILL,
-          // enabled: true,
-          color: 'green',
-        },
-      }
-
-      this._outlineElement = this.editor.elementManager.create(outlineElementProps)
+    if (idSet.size <= 0) {
+      this._outlineElement = null
+      return
     }
+
+    // create outline rectangle for multiple selection
+    const elements = this.editor.elementManager.getElementsByIdSet(idSet)
+    const rects = elements.map((ele: ElementInstance) => ele.getBoundingRect())
+    const rect = getBoundingRectFromBoundingRects(rects)
+    const anchors = getAnchorsByBoundingRect(rect)
+    const controlElements = anchors.map(a => {
+      // console.log(a)
+    })
+    const outlineElementProps: OptionalIdentifiersProps = {
+      type: 'rectangle',
+      ...rect,
+      stroke: {
+        ...DEFAULT_STROKE,
+        // weight: 1 / ratio,
+        weight: 1 / ratio,
+        color: 'red',
+      },
+      fill: {
+        ...DEFAULT_FILL,
+        // enabled: true,
+        color: 'green',
+      },
+    }
+
+    this._outlineElement = this.editor.elementManager.create(outlineElementProps)
   }
 
   destroy() {
