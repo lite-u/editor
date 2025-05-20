@@ -1,6 +1,6 @@
-import ElementBase from '../base/elementBase.js';
-import deepClone from '../../core/deepClone.js';
-import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '../../core/utils.js';
+import ElementBase from '~/elements/base/elementBase';
+import deepClone from '~/core/deepClone';
+import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '~/core/utils';
 class ElementLineSegment extends ElementBase {
     // readonly id: string
     // readonly layer: number
@@ -23,22 +23,25 @@ class ElementLineSegment extends ElementBase {
     }
     updatePath2D() {
         const [start, end] = this.points;
-        const cx = (start.x + end.x) / 2;
-        const cy = (start.y + end.y) / 2;
-        console.log(cx, cy);
-        let s = { ...start };
-        let e = { ...end };
-        if (this.rotation !== 0) {
-            const matrix = new DOMMatrix()
-                .translate(cx, cy)
-                .rotate(this.rotation)
-                .translate(-cx, -cy);
-            s = this.transformPoint(start.x, start.y, matrix);
-            e = this.transformPoint(end.x, end.y, matrix);
-        }
+        /* const cx = (start.x + end.x) / 2
+         const cy = (start.y + end.y) / 2
+         console.log(cx, cy)
+         let s = {...start}
+         let e = {...end}
+    
+         if (this.rotation !== 0) {
+           const matrix = new DOMMatrix()
+             .translate(cx, cy)
+             .rotate(this.rotation)
+             .translate(-cx, -cy)
+    
+           s = this.transformPoint(start.x, start.y, matrix)
+           e = this.transformPoint(end.x, end.y, matrix)
+         }
+     */
         this.path2D = new Path2D();
-        this.path2D.moveTo(s.x, s.y);
-        this.path2D.lineTo(e.x, e.y);
+        this.path2D.moveTo(start.x, start.y);
+        this.path2D.lineTo(end.x, end.y);
     }
     updateOriginal() {
         this.original.points = deepClone(this.points);
@@ -110,21 +113,17 @@ class ElementLineSegment extends ElementBase {
     }
     rotateFrom(rotation, anchor, f) {
         if (rotation !== 0) {
-            /*
-      
             const matrix = new DOMMatrix()
-              .translate(anchor.x, anchor.y)
-              .rotate(rotation)
-              .translate(-anchor.x, -anchor.y)
-      
-            const [oStart, oEnd] = this.original.points
-            const newStart = this.transformPoint(oStart.x, oStart.y, matrix)
-            const newEnd = this.transformPoint(oEnd.x, oEnd.y, matrix)
-      
-            this.points[0].x = newStart.x
-                  this.points[0].y = newStart.y
-                  this.points[1].x = newEnd.x
-                  this.points[1].y = newEnd.y*/
+                .translate(anchor.x, anchor.y)
+                .rotate(rotation)
+                .translate(-anchor.x, -anchor.y);
+            const [oStart, oEnd] = this.original.points;
+            const newStart = this.transformPoint(oStart.x, oStart.y, matrix);
+            const newEnd = this.transformPoint(oEnd.x, oEnd.y, matrix);
+            this.points[0].x = newStart.x;
+            this.points[0].y = newStart.y;
+            this.points[1].x = newEnd.x;
+            this.points[1].y = newEnd.y;
             let newRotation = (this.original.rotation + rotation) % 360;
             if (newRotation < 0)
                 newRotation += 360;
