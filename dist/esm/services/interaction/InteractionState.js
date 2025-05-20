@@ -1,7 +1,7 @@
-import { createWith, getManipulationBox } from '../../lib/lib.js';
-import { getBoundingRectFromBoundingRects } from '../tool/resize/helper.js';
-import { DEFAULT_FILL, DEFAULT_STROKE } from '../../elements/defaultProps.js';
-import { getMinimalBoundingRect } from '../../core/utils.js';
+import { createWith, getManipulationBox } from '~/lib/lib';
+import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
+import { DEFAULT_FILL, DEFAULT_STROKE } from '~/elements/defaultProps';
+import { getMinimalBoundingRect } from '~/core/utils';
 class InteractionState {
     editor;
     state = 'static';
@@ -111,7 +111,6 @@ class InteractionState {
             rotation: applyRotation,
             stroke: {
                 ...DEFAULT_STROKE,
-                // weight: 1 / ratio,
                 weight: 1 / ratio,
                 color: 'red',
             },

@@ -153,7 +153,6 @@ class InteractionState {
       rotation: applyRotation,
       stroke: {
         ...DEFAULT_STROKE,
-        // weight: 1 / ratio,
         weight: 1 / ratio,
         color: 'red',
       },
