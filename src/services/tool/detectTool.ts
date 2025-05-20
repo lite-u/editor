@@ -9,11 +9,19 @@ function detectTool(this: ToolManager) {
     x: x * dpr,
     y: y * dpr,
   }
-  const arr = visible.values
-  interaction._hoveredElement = null
+  const elements = visible.values
+  const mElements = interaction._manipulationElements
 
-  for (let i = arr.length - 1; i >= 0; i--) {
-    const ele = arr[i]
+  interaction._hoveredElement = null
+  interaction._resizeManipulator = null
+  interaction._rotateManipulator = null
+
+  for (let i = 0; i < mElements.length; i++) {
+
+  }
+
+  for (let i = elements.length - 1; i >= 0; i--) {
+    const ele = elements[i]
     const path = ele.path2D
     if (!ele.show || ele.opacity <= 0 || interaction._draggingElements.includes(ele)) continue
 

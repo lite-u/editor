@@ -45,6 +45,8 @@ class InteractionState {
   mouseWorldDelta: Point = {x: 0, y: 0}
 
   _hoveredElement: ElementInstance | null = null
+  _resizeManipulator: ElementInstance | null = null
+  _rotateManipulator: ElementInstance | null = null
   readonly operationHandlers: OperationHandler[] = []
   _pointDown = false
   _snapped = false
