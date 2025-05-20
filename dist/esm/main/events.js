@@ -257,10 +257,10 @@ export function initEvents() {
         // this.batchMove(s, delta)
         // dispatch('element-modify', changes)
     });
-    on('element-move-up', () => dispatch('element-move', { delta: { x: 0, y: -10 } }));
-    on('element-move-right', () => dispatch('element-move', { delta: { x: 10, y: 0 } }));
-    on('element-move-down', () => dispatch('element-move', { delta: { x: 0, y: 10 } }));
-    on('element-move-left', () => dispatch('element-move', { delta: { x: -10, y: 0 } }));
+    on('element-move-up', () => dispatch('element-move', { delta: { x: 0, y: -1 } }));
+    on('element-move-right', () => dispatch('element-move', { delta: { x: 1, y: 0 } }));
+    on('element-move-down', () => dispatch('element-move', { delta: { x: 0, y: 1 } }));
+    on('element-move-left', () => dispatch('element-move', { delta: { x: -1, y: 0 } }));
     on('element-move', ({ delta = { x: 0, y: 0 } }) => {
         const s = this.selection.values;
         if (s.size === 0)
