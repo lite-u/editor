@@ -20,7 +20,7 @@ function snapTool(this: ToolManager) {
     const ele = arr[i]
     const path = ele.path2D
     // console.log(interaction._hoveredElement)
-    if (!ele.show || ele.opacity <= 0 || interaction._hoveredElement === ele) continue
+    if (!ele.show || ele.opacity <= 0 || interaction._draggingElements.includes(ele)) continue
 
     const points: Point[] = ele.getPoints
     // const border = ctx.isPointInStroke(path, viewPoint.x, viewPoint.y)

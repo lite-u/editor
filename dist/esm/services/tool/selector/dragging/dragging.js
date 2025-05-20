@@ -6,7 +6,7 @@ const dragging = {
         const { movementX, movementY } = this.editor.interaction._modifier;
         const { dpr, scale } = this.editor.world;
         const dp = { x: movementX * dpr / scale, y: movementY * dpr / scale };
-        this.editor.action.dispatch('element-moving', { delta: { ...dp } });
+        this.editor.action.dispatch('element-moving', { delta: dp });
     },
     mouseUp() {
         this.editor.interaction._draggingElements = [];
