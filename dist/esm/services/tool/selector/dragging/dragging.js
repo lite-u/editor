@@ -12,6 +12,7 @@ const dragging = {
         this.editor.action.dispatch('element-moving', { delta: { ...dp3 } });
     },
     mouseUp() {
+        this.editor.action.dispatch('element-move', { delta: { x: 0, y: 0 } });
     },
 };
 export default dragging;

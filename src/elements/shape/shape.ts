@@ -43,21 +43,23 @@ class ElementShape extends ElementBase {
     this.gradient = gradient
   }
 
-  translate(dx: number, dy: number): HistoryChangeItem {
-    this.cx = this.original.cx + dx
-    this.cy = this.original.cy + dy
+  translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined {
+    this.cx = this.cx + dx
+    this.cy = this.cy + dy
     this.updatePath2D()
 
-    return {
-      id: this.id,
-      from: {
-        cx: this.original.cx,
-        cy: this.original.cy,
-      },
-      to: {
-        cx: this.cx,
-        cy: this.cy,
-      },
+    if (f) {
+      return {
+        id: this.id,
+        from: {
+          cx: this.original.cx,
+          cy: this.original.cy,
+        },
+        to: {
+          cx: this.cx,
+          cy: this.cy,
+        },
+      }
     }
   }
 

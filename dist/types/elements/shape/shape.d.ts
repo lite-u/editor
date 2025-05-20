@@ -20,7 +20,7 @@ declare class ElementShape extends ElementBase {
         [key: string]: number;
     };
     constructor({ cx, cy, gradient, ...rest }: ShapeProps);
-    translate(dx: number, dy: number): HistoryChangeItem;
+    translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined;
     protected get center(): Point;
     protected toJSON(): RequiredShapeProps;
     toMinimalJSON(): ShapeProps;

@@ -320,7 +320,7 @@ export function initEvents(this: Editor) {
     s.forEach((id) => {
       const ele = this.elementManager.all.get(id)
       if (ele) {
-        const change = ele.translate(delta.x, delta.y)
+        const change = ele.translate(delta.x, delta.y, true)
 
         ele.updateOriginal()
         changes.push(change)
