@@ -102,7 +102,7 @@ class ElementEllipse extends ElementShape {
   }
 
   public getBoundingRect(withoutRotation: boolean = false) {
-    const {cx: cx, cy: cy, r1, r2, rotation} = this
+    const {cx, cy, r1, r2, rotation} = this
     const rect: Rect = {
       x: cx - r1,
       y: cy - r2,
