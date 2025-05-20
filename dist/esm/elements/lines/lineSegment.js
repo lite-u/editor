@@ -1,6 +1,6 @@
-import ElementBase from '~/elements/base/elementBase';
-import deepClone from '~/core/deepClone';
-import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '~/core/utils';
+import ElementBase from '../base/elementBase.js';
+import deepClone from '../../core/deepClone.js';
+import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '../../core/utils.js';
 class ElementLineSegment extends ElementBase {
     // readonly id: string
     // readonly layer: number
@@ -23,22 +23,6 @@ class ElementLineSegment extends ElementBase {
     }
     updatePath2D() {
         const [start, end] = this.points;
-        /* const cx = (start.x + end.x) / 2
-         const cy = (start.y + end.y) / 2
-         console.log(cx, cy)
-         let s = {...start}
-         let e = {...end}
-    
-         if (this.rotation !== 0) {
-           const matrix = new DOMMatrix()
-             .translate(cx, cy)
-             .rotate(this.rotation)
-             .translate(-cx, -cy)
-    
-           s = this.transformPoint(start.x, start.y, matrix)
-           e = this.transformPoint(end.x, end.y, matrix)
-         }
-     */
         this.path2D = new Path2D();
         this.path2D.moveTo(start.x, start.y);
         this.path2D.lineTo(end.x, end.y);
@@ -74,11 +58,11 @@ class ElementLineSegment extends ElementBase {
     }
     getBoundingRect() {
         const [start, end] = this.points;
-        return ElementLineSegment._getBoundingRect(start, end, this.rotation);
+        return ElementLineSegment._getBoundingRect(start, end);
     }
     getBoundingRectFromOriginal() {
         const [start, end] = this.original.points;
-        return ElementLineSegment._getBoundingRect(start, end, this.original.rotation);
+        return ElementLineSegment._getBoundingRect(start, end);
     }
     translate(dx, dy) {
         this.points.forEach((point) => {

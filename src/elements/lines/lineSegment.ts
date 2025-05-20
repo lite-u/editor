@@ -39,22 +39,6 @@ class ElementLineSegment extends ElementBase {
 
   protected updatePath2D() {
     const [start, end] = this.points
-    /* const cx = (start.x + end.x) / 2
-     const cy = (start.y + end.y) / 2
-     console.log(cx, cy)
-     let s = {...start}
-     let e = {...end}
-
-     if (this.rotation !== 0) {
-       const matrix = new DOMMatrix()
-         .translate(cx, cy)
-         .rotate(this.rotation)
-         .translate(-cx, -cy)
-
-       s = this.transformPoint(start.x, start.y, matrix)
-       e = this.transformPoint(end.x, end.y, matrix)
-     }
- */
     this.path2D = new Path2D()
     this.path2D.moveTo(start.x, start.y)
     this.path2D.lineTo(end.x, end.y)
@@ -98,12 +82,13 @@ class ElementLineSegment extends ElementBase {
 
   public getBoundingRect(): BoundingRect {
     const [start, end] = this.points
-    return ElementLineSegment._getBoundingRect(start, end, this.rotation)
+
+    return ElementLineSegment._getBoundingRect(start, end)
   }
 
   public getBoundingRectFromOriginal() {
     const [start, end] = this.original.points
-    return ElementLineSegment._getBoundingRect(start, end, this.original.rotation)
+    return ElementLineSegment._getBoundingRect(start, end)
   }
 
   translate(dx: number, dy: number): HistoryChangeItem {
@@ -145,7 +130,6 @@ class ElementLineSegment extends ElementBase {
 
   rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined {
     if (rotation !== 0) {
-
       const matrix = new DOMMatrix()
         .translate(anchor.x, anchor.y)
         .rotate(rotation)
