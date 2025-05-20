@@ -1,5 +1,6 @@
 import ToolManager from '~/services/tool/toolManager'
 import snapTool from '~/services/tool/snap/snap'
+import detectTool from '~/services/tool/detectTool'
 
 export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
   const {action, rect, cursor, interaction, world} = this.editor
@@ -21,6 +22,7 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
     interaction._snappedPoint = null
     interaction._hoveredElement = null
   } else {
+    detectTool.call(this)
     snapTool.call(this)
   }
 
