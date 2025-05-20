@@ -1,8 +1,6 @@
 import {generateBoundingRectFromRotatedRect} from '~/core/utils'
 import ElementShape, {ShapeProps} from '../shape/shape'
-import ElementRectangle from '../rectangle/rectangle'
 import {Point} from '~/type'
-import render from './render'
 import {rotatePointAroundPoint} from '~/core/geometry'
 
 export interface EllipseProps extends ShapeProps {
@@ -125,42 +123,6 @@ class ElementEllipse extends ElementShape {
     }, rotation)
   }
 
-  public getSelectedBoxElement(lineWidth: number, lineColor: string): ElementRectangle {
-    // const {id, rotation, layer} = this.toJSON()
-    const rect = this.getBoundingRect()
-    const rectProp = {
-      cx: rect.cx,
-      cy: rect.cy,
-      width: rect.width,
-      height: rect.height,
-      lineColor,
-      lineWidth,
-      rotation: this.rotation,
-      layer: this.layer,
-      id: this.id + '-selected-box',
-      opacity: 0,
-    }
-
-    return new ElementRectangle(rectProp)
-  }
-
-  public getHighlightElement(lineWidth: number, lineColor: string) {
-    const {cx, cy, r1, r2, rotation, layer, id} = this
-
-    return new ElementEllipse({
-      cx: cx,
-      cy: cy,
-      r1,
-      r2,
-      lineColor,
-      lineWidth,
-      rotation,
-      layer,
-      id: id + 'highlight',
-      opacity: 0,
-    })
-  }
-
   public getOperators(
     id: string,
     resizeConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
@@ -186,9 +148,9 @@ class ElementEllipse extends ElementShape {
       return points
     }*/
 
-/*  render(ctx: CanvasRenderingContext2D) {
-    render.call(this, ctx)
-  }*/
+  /*  render(ctx: CanvasRenderingContext2D) {
+      render.call(this, ctx)
+    }*/
 }
 
 export default ElementEllipse

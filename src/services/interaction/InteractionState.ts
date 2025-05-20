@@ -134,9 +134,12 @@ class InteractionState {
     const rectsWithoutRotation: BoundingRect[] = []
 
     elements.forEach((ele: ElementInstance) => {
-      this._manipulationElements.push(
-        elementManager.create(ele.toMinimalJSON()),
-      )
+      const clone = elementManager.create(ele.toMinimalJSON())
+
+      clone.stroke.weight = 1 / ratio
+      clone.stroke.color = '#ff0000'
+
+      this._manipulationElements.push(clone)
 
       rotations.push(ele.rotation)
       rectsWithRotation.push(ele.getBoundingRect())
