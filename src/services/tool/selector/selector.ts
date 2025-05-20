@@ -34,7 +34,7 @@ const selector: ToolType = {
       return
     }
   },
-  mouseMove(this: ToolManager,) {
+  mouseMove(this: ToolManager) {
     if (!this.subTool) return
 
     this.subTool.mouseMove.call(this)
