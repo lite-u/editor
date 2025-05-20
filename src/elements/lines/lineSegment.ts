@@ -151,7 +151,15 @@ class ElementLineSegment extends ElementBase {
     }
 
     if (f) {
-
+      return {
+        id: this.id,
+        from: {
+          points: deepClone(this.original.points),
+        },
+        to: {
+          points: deepClone(this.points),
+        },
+      }
     }
   }
 
