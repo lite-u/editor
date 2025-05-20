@@ -2,6 +2,7 @@ import {BoundingRect, DPR, ElementInstance, Point} from '../type'
 import Rectangle, {RectangleProps} from '~/elements/rectangle/rectangle'
 import {DEFAULT_STROKE} from '~/elements/defaultProps'
 import Ellipse, {EllipseProps} from '~/elements/ellipse/ellipse'
+import rotating from '~/services/tool/selector/rotating/rotating'
 
 interface DrawCrossLineProps {
   ctx: CanvasRenderingContext2D;
@@ -253,6 +254,7 @@ export const getManipulationBox = (
     const lx = cx + dx * width
     const ly = cy + dy * height
 
+    console.log(rotation)
     const resizeHandleEleProp: RectangleProps = {
       id: 'handle-resize-' + name,
       layer: 1,

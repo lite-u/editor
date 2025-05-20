@@ -51,39 +51,46 @@ class RectangleLike extends ElementShape {
   }
 
   protected updatePath2D() {
-    const {cx, cy, width, height, borderRadius} = this
-    const w = width / 2
-    const h = height / 2
+    const {cx, cy, width, height, borderRadius, rotation} = this
+    // const w = width / 2
+    // const h = height / 2
+    const [tl, tr, br, bl] = borderRadius
+    const {top, right, bottom, left} = this.getBoundingRect()
+    const matrix = new DOMMatrix()
+      .translate(cx, cy)
+      .rotate(rotation)
+      .translate(-cx, -cy)
+
+    const topLeft = matrix.transformPoint({x: left, y: top})
+    const topRight = matrix.transformPoint({x: right, y: top})
+    const bottomRight = matrix.transformPoint({x: right, y: bottom})
+    const bottomLeft = matrix.transformPoint({x: left, y: bottom})
 
     this.path2D = new Path2D()
-
-    const [tl, tr, br, bl] = borderRadius
-
-    // If any corner radius is 0, skip rounding for that corner
-    this.path2D.moveTo(cx - w + tl, cy - h)
+    this.path2D.moveTo(topLeft.x + tl, topLeft.y)
 
     if (tr > 0) {
-      this.path2D.arcTo(cx + w, cy - h, cx + w, cy + h, tr)
+      this.path2D.arcTo(topRight.x, topRight.y, bottomRight.x, bottomRight.y, tr)
     } else {
-      this.path2D.lineTo(cx + w, cy - h)
+      this.path2D.lineTo(topRight.x, topRight.y)
     }
 
     if (br > 0) {
-      this.path2D.arcTo(cx + w, cy + h, cx - w, cy + h, br)
+      this.path2D.arcTo(bottomRight.x, bottomRight.y, bottomLeft.x, bottomLeft.y, br)
     } else {
-      this.path2D.lineTo(cx + w, cy + h)
+      this.path2D.lineTo(bottomRight.x, bottomRight.y)
     }
 
     if (bl > 0) {
-      this.path2D.arcTo(cx - w, cy + h, cx - w, cy - h, bl)
+      this.path2D.arcTo(bottomLeft.x, bottomLeft.y, topLeft.x, topLeft.y, bl)
     } else {
-      this.path2D.lineTo(cx - w, cy + h)
+      this.path2D.lineTo(bottomLeft.x, bottomLeft.y)
     }
 
     if (tl > 0) {
-      this.path2D.arcTo(cx - w, cy - h, cx + w, cy - h, tl)
+      this.path2D.arcTo(topLeft.x, topLeft.y, topRight.x, topRight.y, tl)
     } else {
-      this.path2D.lineTo(cx - w, cy - h)
+      this.path2D.lineTo(topLeft.x, topLeft.y)
     }
 
     this.path2D.closePath()
@@ -319,7 +326,5 @@ class RectangleLike extends ElementShape {
 }
 
 export default RectangleLike
-
-
 
 

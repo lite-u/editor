@@ -177,6 +177,7 @@ export const getManipulationBox = (rect, rotation, ratio) => {
     arr.map(({ dx, dy, name }) => {
         const lx = cx + dx * width;
         const ly = cy + dy * height;
+        console.log(rotation);
         const resizeHandleEleProp = {
             id: 'handle-resize-' + name,
             layer: 1,
