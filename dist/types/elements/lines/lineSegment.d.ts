@@ -2,8 +2,6 @@ import ElementBase, { ElementBaseProps } from '~/elements/base/elementBase';
 import { BoundingRect, Point } from '~/type';
 import { HistoryChangeItem } from '~/services/actions/type';
 export interface LineSegmentProps extends ElementBaseProps {
-    id: string;
-    layer: number;
     type: 'lineSegment';
     points: [{
         id: 'start';
@@ -13,12 +11,10 @@ export interface LineSegmentProps extends ElementBaseProps {
 }
 export type RequiredLineSegmentProps = Required<LineSegmentProps>;
 declare class ElementLineSegment extends ElementBase {
-    readonly id: string;
-    readonly layer: number;
     readonly type = "lineSegment";
     private points;
     private original;
-    constructor({ id, layer, points, ...rest }: LineSegmentProps);
+    constructor({ points, ...rest }: LineSegmentProps);
     protected updatePath2D(): void;
     protected updateOriginal(): void;
     protected get center(): Point;

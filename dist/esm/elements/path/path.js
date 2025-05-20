@@ -13,9 +13,8 @@ class ElementPath extends ElementBase {
     constructor({ points = [], closed = false, ...rest }) {
         super(rest);
         this.points = deepClone(points);
-        // this.id = id
-        // this.layer = layer
         this.closed = closed;
+        console.log(this.points);
         this.original = {
             closed,
             points: deepClone(points),
@@ -66,10 +65,14 @@ class ElementPath extends ElementBase {
         this.points.forEach(p => {
             p.anchor.x += dx;
             p.anchor.y += dy;
-            p.cp1.x += dx;
-            p.cp1.y += dy;
-            p.cp2.x += dx;
-            p.cp2.y += dy;
+            if (p.cp1) {
+                p.cp1.x += dx;
+                p.cp1.y += dy;
+            }
+            if (p.cp2) {
+                p.cp2.x += dx;
+                p.cp2.y += dy;
+            }
         });
         this.updatePath2D();
         return {

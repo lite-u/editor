@@ -195,7 +195,7 @@ class RectangleLike extends ElementShape {
     return {
       ...super.toJSON(),
       // id,
-      layer,
+      // layer,
       borderRadius: [...borderRadius],
       width,
       height,

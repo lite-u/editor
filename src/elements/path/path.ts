@@ -2,7 +2,7 @@ import ElementBase, {ElementBaseProps} from '../base/elementBase'
 import {HANDLER_OFFSETS} from '../handleBasics'
 import {OperationHandler} from '~/services/selection/type'
 import ElementRectangle, {RectangleProps} from '../rectangle/rectangle'
-import {BoundingRect, Point, UID} from '~/type'
+import {BoundingRect, Point} from '~/type'
 import {ElementProps} from '../type'
 import {rotatePointAroundPoint} from '~/core/geometry'
 import {AnchorPoint, Appearance, Fill, Stroke, Transform} from '~/elements/defaultProps'
@@ -29,12 +29,11 @@ class ElementPath extends ElementBase {
   closed: boolean
   private original: { points: BezierPoint[], closed: boolean }
 
-  constructor({ points = [], closed = false, ...rest}: PathProps) {
+  constructor({points = [], closed = false, ...rest}: PathProps) {
     super(rest)
     this.points = deepClone(points)
-    // this.id = id
-    // this.layer = layer
     this.closed = closed
+    console.log(this.points)
     this.original = {
       closed,
       points: deepClone(points),
@@ -95,10 +94,14 @@ class ElementPath extends ElementBase {
     this.points.forEach(p => {
       p.anchor.x += dx
       p.anchor.y += dy
-      p.cp1.x += dx
-      p.cp1.y += dy
-      p.cp2.x += dx
-      p.cp2.y += dy
+      if(p.cp1) {
+        p.cp1.x += dx
+        p.cp1.y += dy
+      }
+      if(p.cp2) {
+        p.cp2.x += dx
+        p.cp2.y += dy
+      }
     })
     this.updatePath2D()
 

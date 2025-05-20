@@ -2,15 +2,18 @@ import ElementBase from '../base/elementBase.js';
 import deepClone from '../../core/deepClone.js';
 import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '../../core/utils.js';
 class ElementLineSegment extends ElementBase {
-    id;
-    layer;
+    // readonly id: string
+    // readonly layer: number
     type = 'lineSegment';
     points;
     original;
-    constructor({ id, layer, points, ...rest }) {
+    constructor({ 
+    // id,
+    // layer,
+    points, ...rest }) {
         super(rest);
-        this.id = id;
-        this.layer = layer;
+        // this.id = id
+        // this.layer = layer
         this.points = points;
         this.original = {
             points: deepClone(points),
@@ -95,8 +98,8 @@ class ElementLineSegment extends ElementBase {
     toJSON() {
         return {
             ...super.toJSON(),
-            id: this.id,
-            layer: this.layer,
+            // id: this.id,
+            // layer: this.layer,
             type: this.type,
             points: deepClone(this.points),
         };
@@ -104,8 +107,8 @@ class ElementLineSegment extends ElementBase {
     toMinimalJSON() {
         return {
             ...super.toMinimalJSON(),
-            id: this.id,
-            layer: this.layer,
+            // id: this.id,
+            // layer: this.layer,
             type: this.type,
             points: deepClone(this.points),
         };
