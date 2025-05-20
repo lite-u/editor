@@ -54,7 +54,7 @@ class ElementEllipse extends ElementShape {
     const rotationRad = (this.rotation * Math.PI) / 180
 
     this.path2D.ellipse(this.cx, this.cy, this.r1, this.r2, rotationRad, 0, Math.PI * 2)
-    this.path2D.closePath()
+    // this.path2D.closePath()
   }
 
   protected updateOriginal() {

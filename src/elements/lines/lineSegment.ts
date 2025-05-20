@@ -39,9 +39,25 @@ class ElementLineSegment extends ElementBase {
 
   protected updatePath2D() {
     const [start, end] = this.points
+    const cx = (start.x + end.x) / 2
+    const cy = (start.y + end.y) / 2
+    console.log(cx, cy)
+    let s = {...start}
+    let e = {...end}
+
+    if (this.rotation !== 0) {
+      const matrix = new DOMMatrix()
+        .translate(cx, cy)
+        .rotate(this.rotation)
+        .translate(-cx, -cy)
+
+      s = this.transformPoint(start.x, start.y, matrix)
+      e = this.transformPoint(end.x, end.y, matrix)
+    }
+
     this.path2D = new Path2D()
-    this.path2D.moveTo(start.x, start.y)
-    this.path2D.lineTo(end.x, end.y)
+    this.path2D.moveTo(s.x, s.y)
+    this.path2D.lineTo(e.x, e.y)
   }
 
   protected updateOriginal() {
@@ -129,6 +145,8 @@ class ElementLineSegment extends ElementBase {
 
   rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined {
     if (rotation !== 0) {
+      /*
+
       const matrix = new DOMMatrix()
         .translate(anchor.x, anchor.y)
         .rotate(rotation)
@@ -139,9 +157,9 @@ class ElementLineSegment extends ElementBase {
       const newEnd = this.transformPoint(oEnd.x, oEnd.y, matrix)
 
       this.points[0].x = newStart.x
-      this.points[0].y = newStart.y
-      this.points[1].x = newEnd.x
-      this.points[1].y = newEnd.y
+            this.points[0].y = newStart.y
+            this.points[1].x = newEnd.x
+            this.points[1].y = newEnd.y*/
 
       let newRotation = (this.original.rotation + rotation) % 360
       if (newRotation < 0) newRotation += 360
@@ -155,9 +173,11 @@ class ElementLineSegment extends ElementBase {
         id: this.id,
         from: {
           points: deepClone(this.original.points),
+          rotation: this.original.rotation,
         },
         to: {
           points: deepClone(this.points),
+          rotation: this.rotation,
         },
       }
     }
