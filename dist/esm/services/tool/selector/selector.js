@@ -1,6 +1,7 @@
 import selecting from './selecting/selecting.js';
 import dragging from './dragging/dragging.js';
 import resizing from './resizing/resizing.js';
+import rotating from './rotating/rotating.js';
 const selector = {
     cursor: 'default',
     mouseDown: function () {
@@ -19,8 +20,7 @@ const selector = {
         }
         else if (rotateMode) {
             interaction._rotateData = { startRotation: 0 };
-            // this.tool = resizeTool
-            //     this.subTool = rotateTool
+            this.subTool = rotating;
         }
         else if (dragMode) {
             this.subTool = dragging;

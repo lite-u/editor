@@ -2,6 +2,7 @@ import ToolManager, {ToolType} from '~/services/tool/toolManager'
 import selecting from '~/services/tool/selector/selecting/selecting'
 import dragging from '~/services/tool/selector/dragging/dragging'
 import resizing from '~/services/tool/selector/resizing/resizing'
+import rotating from '~/services/tool/selector/rotating/rotating'
 
 const selector: ToolType = {
   cursor: 'default',
@@ -22,9 +23,7 @@ const selector: ToolType = {
       return
     } else if (rotateMode) {
       interaction._rotateData = {startRotation: 0}
-
-      // this.tool = resizeTool
-      //     this.subTool = rotateTool
+      this.subTool = rotating
     } else if (dragMode) {
       this.subTool = dragging
       const id = _hoveredElement.id

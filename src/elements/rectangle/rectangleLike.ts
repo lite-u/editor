@@ -161,6 +161,10 @@ class RectangleLike extends ElementShape {
       }
     }*/
 
+  rotateFrom(ratation: number,anchor: Point): RectangleLike {
+
+  }
+
   scaleFrom(scaleX: number, scaleY: number, anchor: Point): HistoryChangeItem | undefined {
     const matrix = new DOMMatrix()
       .translate(anchor.x, anchor.y)
