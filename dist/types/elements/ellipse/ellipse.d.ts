@@ -1,5 +1,4 @@
 import ElementShape, { ShapeProps } from '../shape/shape';
-import ElementRectangle from '../rectangle/rectangle';
 import { Point } from '~/type';
 export interface EllipseProps extends ShapeProps {
     type?: 'ellipse';
@@ -20,18 +19,5 @@ declare class ElementEllipse extends ElementShape {
     toJSON(): RequiredEllipseProps;
     getBoundingRect(): import("~/type").BoundingRect;
     getBoundingRectFromOriginal(): import("~/type").BoundingRect;
-    getSelectedBoxElement(lineWidth: number, lineColor: string): ElementRectangle;
-    getHighlightElement(lineWidth: number, lineColor: string): ElementEllipse;
-    getOperators(id: string, resizeConfig: {
-        lineWidth: number;
-        lineColor: string;
-        size: number;
-        fillColor: string;
-    }, rotateConfig: {
-        lineWidth: number;
-        lineColor: string;
-        size: number;
-        fillColor: string;
-    }): import("../../services/selection/type").OperationHandler[];
 }
 export default ElementEllipse;

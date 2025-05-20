@@ -1,6 +1,5 @@
 import { generateBoundingRectFromRotatedRect } from '../../core/utils.js';
 import ElementShape from '../shape/shape.js';
-import ElementRectangle from '../rectangle/rectangle.js';
 import { rotatePointAroundPoint } from '../../core/geometry.js';
 class ElementEllipse extends ElementShape {
     type = 'ellipse';
@@ -89,41 +88,6 @@ class ElementEllipse extends ElementShape {
             width: r1 * 2,
             height: r2 * 2,
         }, rotation);
-    }
-    getSelectedBoxElement(lineWidth, lineColor) {
-        // const {id, rotation, layer} = this.toJSON()
-        const rect = this.getBoundingRect();
-        const rectProp = {
-            cx: rect.cx,
-            cy: rect.cy,
-            width: rect.width,
-            height: rect.height,
-            lineColor,
-            lineWidth,
-            rotation: this.rotation,
-            layer: this.layer,
-            id: this.id + '-selected-box',
-            opacity: 0,
-        };
-        return new ElementRectangle(rectProp);
-    }
-    getHighlightElement(lineWidth, lineColor) {
-        const { cx, cy, r1, r2, rotation, layer, id } = this;
-        return new ElementEllipse({
-            cx: cx,
-            cy: cy,
-            r1,
-            r2,
-            lineColor,
-            lineWidth,
-            rotation,
-            layer,
-            id: id + 'highlight',
-            opacity: 0,
-        });
-    }
-    getOperators(id, resizeConfig, rotateConfig) {
-        return super.getOperators(id, resizeConfig, rotateConfig, this.getBoundingRect(), this.toMinimalJSON());
     }
 }
 export default ElementEllipse;

@@ -1,7 +1,5 @@
 import ElementBase, { ElementBaseProps } from '../base/elementBase';
-import { OperationHandler } from '~/services/selection/type';
-import { BoundingRect, Point } from '~/type';
-import { ElementProps } from '../type';
+import { Point } from '~/type';
 import { Gradient } from '~/elements/props';
 import { HistoryChangeItem } from '~/services/actions/type';
 export interface ShapeProps extends ElementBaseProps {
@@ -25,17 +23,5 @@ declare class ElementShape extends ElementBase {
     protected toJSON(): RequiredShapeProps;
     toMinimalJSON(): ShapeProps;
     move(x: number, y: number): void;
-    getOperators(id: string, resizeConfig: {
-        lineWidth: number;
-        lineColor: string;
-        size: number;
-        fillColor: string;
-    }, rotateConfig: {
-        lineWidth: number;
-        lineColor: string;
-        size: number;
-        fillColor: string;
-    }, elementOrigin: ElementProps): OperationHandler[];
-    isInsideRect(outer: BoundingRect): boolean;
 }
 export default ElementShape;

@@ -29,17 +29,6 @@ declare class RectangleLike extends ElementShape {
     getBoundingRectFromOriginal(): import("~/type").BoundingRect;
     getSelectedBoxElement(lineWidth: number, lineColor: string): ElementRectangle;
     getHighlightElement(lineWidth: number, lineColor: string): ElementRectangle;
-    getOperators(id: string, resizeConfig: {
-        lineWidth: number;
-        lineColor: string;
-        size: number;
-        fillColor: string;
-    }, rotateConfig: {
-        lineWidth: number;
-        lineColor: string;
-        size: number;
-        fillColor: string;
-    }): import("../../services/selection/type").OperationHandler[];
     getSnapPoints(): SnapPointData[];
 }
 export default RectangleLike;

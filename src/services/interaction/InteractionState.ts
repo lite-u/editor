@@ -136,6 +136,7 @@ class InteractionState {
     elements.forEach((ele: ElementInstance) => {
       const clone = elementManager.create(ele.toMinimalJSON())
 
+      clone.fill.enabled = false
       clone.stroke.weight = 1 / ratio
       clone.stroke.color = '#ff0000'
 

@@ -123,6 +123,7 @@ class ElementEllipse extends ElementShape {
     }, rotation)
   }
 
+/*
   public getOperators(
     id: string,
     resizeConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
@@ -131,6 +132,7 @@ class ElementEllipse extends ElementShape {
     return super.getOperators(id, resizeConfig, rotateConfig, this.getBoundingRect(), this.toMinimalJSON(),
     )
   }
+*/
 
   /*
     public getSnapPoints(): SnapPointData[] {

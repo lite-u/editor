@@ -292,14 +292,14 @@ class RectangleLike extends ElementShape {
     })
   }
 
-  public getOperators(
+/*  public getOperators(
     id: string,
     resizeConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
     rotateConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
   ) {
 
     return super.getOperators(id, resizeConfig, rotateConfig, this.getBoundingRect(), this.toJSON())
-  }
+  }*/
 
   public getSnapPoints(): SnapPointData[] {
     const {cx: cx, cy: cy, width, height, id} = this

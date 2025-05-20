@@ -74,15 +74,6 @@ function overlayRender(this: World) {
     centerPoints.add(this.editor.interaction._hoveredElement)
   }
 
-  // render selection box for elements
-  selected.forEach((id) => {
-    const ele = this.editor.elementManager.all.get(id)
-
-    if (ele) {
-      const elementSelectionBoundary = ele.getSelectedBoxElement(lineWidth, lineColor)
-      elementSelectionBoundary.render(ctx)
-    }
-  })
 
   // render center points
   centerPoints.forEach((id) => {
