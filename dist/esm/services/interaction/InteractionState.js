@@ -40,8 +40,8 @@ class InteractionState {
     boxColor = '#006bfa';
     boxBgColor = 'rgba(31,180,255,0.1)';
     // toolMap: Map<string, ToolManager> = new Map()
-    // CopyDeltaX = 50
-    // CopyDeltaY = 100
+    copyDeltaX = 10;
+    copyDeltaY = 10;
     // initialized: boolean = false
     // currentToolName: string = 'selector'
     constructor(editor) {

@@ -194,7 +194,13 @@ export function initEvents() {
              newElements = this.elementManager.batchCreate(offsetItems)*/
         }
         else {
+            const { copyDeltaX, copyDeltaY } = this.interaction;
             newElements = this.elementManager.batchCreate(this.clipboard.copiedItems);
+            newElements.forEach((el) => {
+                el.translate(copyDeltaX, copyDeltaY);
+            });
+            this.interaction.copyDeltaX += 10;
+            this.interaction.copyDeltaY += 10;
         }
         const savedSelected = new Set(newElements.keys());
         this.elementManager.batchAdd(newElements);

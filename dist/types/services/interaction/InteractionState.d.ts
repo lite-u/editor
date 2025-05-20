@@ -45,6 +45,8 @@ declare class InteractionState {
     _lastTool: ToolName | null;
     boxColor: string;
     boxBgColor: string;
+    copyDeltaX: number;
+    copyDeltaY: number;
     constructor(editor: Editor);
     hideSelectionBox(): void;
     updateSelectionBox({ x, y, height, width }: Rect): void;

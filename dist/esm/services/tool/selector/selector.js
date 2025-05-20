@@ -11,7 +11,10 @@ const selector = {
         const resizeMode = false;
         if (dragMode) {
             this.subTool = dragging;
-            action.dispatch('selection-modify', { mode: 'replace', idSet: new Set([_hoveredElement.id]) });
+            const id = _hoveredElement.id;
+            if (!this.editor.selection.has(id)) {
+                action.dispatch('selection-modify', { mode: 'replace', idSet: new Set([_hoveredElement.id]) });
+            }
         }
         else if (rotateMode) {
             // this.tool = resizeTool
