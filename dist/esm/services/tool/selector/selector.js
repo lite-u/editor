@@ -1,6 +1,6 @@
-import selecting from './selecting/selecting.js';
-import dragging from './dragging/dragging.js';
-import resizing from './resizing/resizing.js';
+import selecting from '~/services/tool/selector/selecting/selecting';
+import dragging from '~/services/tool/selector/dragging/dragging';
+import resizing from '~/services/tool/selector/resizing/resizing';
 const selector = {
     cursor: 'default',
     mouseDown: function () {
@@ -11,13 +11,12 @@ const selector = {
         const resizeMode = !!interaction._hoveredResizeManipulator;
         if (resizeMode) {
             const placement = interaction._hoveredResizeManipulator.id.replace('handle-resize-', '');
-            interaction._resizingData = { direction: placement };
-        }
-        // interaction._snappedPoint = null
-        if (interaction._resizingData) {
-            // interaction._resizingElements = elementManager.getElementsByIdSet(selection.values)
+            console.log(9);
+            cursor.set('resize');
+            interaction._resizingData = { placement };
             return;
         }
+        // interaction._snappedPoint = null
         if (dragMode) {
             this.subTool = dragging;
             const id = _hoveredElement.id;
@@ -39,9 +38,16 @@ const selector = {
         }
     },
     mouseMove() {
-        if (!this.subTool)
+        const { interaction, cursor } = this.editor;
+        if (interaction._hoveredResizeManipulator) {
+            // const placement = interaction._hoveredResizeManipulator.id.replace('handle-resize-', '')
+            cursor.set('nw-resize');
+            console.log(10);
+            // interaction._resizingElements = elementManager.getElementsByIdSet(selection.values)
             return;
-        this.subTool.mouseMove.call(this);
+        }
+        // if (!this.subTool) return
+        this.subTool?.mouseMove.call(this);
     },
     mouseUp() {
         if (!this.subTool)

@@ -2,7 +2,6 @@ import ToolManager, {ToolType} from '~/services/tool/toolManager'
 import selecting from '~/services/tool/selector/selecting/selecting'
 import dragging from '~/services/tool/selector/dragging/dragging'
 import resizing from '~/services/tool/selector/resizing/resizing'
-import resizeFunc from '~/services/tool/resize/resizeFunc'
 
 const selector: ToolType = {
   cursor: 'default',
@@ -15,14 +14,14 @@ const selector: ToolType = {
 
     if (resizeMode) {
       const placement = interaction._hoveredResizeManipulator.id.replace('handle-resize-', '')
-      interaction._resizingData = {direction: placement}
+      console.log(9)
+      cursor.set('resize')
+
+      interaction._resizingData = {placement}
+      return
     }
     // interaction._snappedPoint = null
 
-    if (interaction._resizingData) {
-      // interaction._resizingElements = elementManager.getElementsByIdSet(selection.values)
-      return
-    }
     if (dragMode) {
       this.subTool = dragging
       const id = _hoveredElement.id
@@ -45,9 +44,19 @@ const selector: ToolType = {
     }
   },
   mouseMove(this: ToolManager) {
-    if (!this.subTool) return
+    const {interaction, cursor} = this.editor
 
-    this.subTool.mouseMove.call(this)
+    if (interaction._hoveredResizeManipulator) {
+      // const placement = interaction._hoveredResizeManipulator.id.replace('handle-resize-', '')
+      cursor.set('nw-resize')
+      console.log(10)
+      // interaction._resizingElements = elementManager.getElementsByIdSet(selection.values)
+      return
+    }
+
+    // if (!this.subTool) return
+
+    this.subTool?.mouseMove.call(this)
   },
   mouseUp(this: ToolManager) {
     if (!this.subTool) return
