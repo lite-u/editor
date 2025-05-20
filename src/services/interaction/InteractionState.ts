@@ -135,8 +135,6 @@ class InteractionState {
 
       this._outlineElement = this.editor.elementManager.create(outlineElementProps)
     }
-    // console.log(outlineElement)
-    // console.log(controlElements)
   }
 
   destroy() {
