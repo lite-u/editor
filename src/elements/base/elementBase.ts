@@ -50,6 +50,7 @@ class ElementBase {
                 transform = deepClone(DEFAULT_TRANSFORM),
                 show = true,
               }: ElementBaseProps) {
+    console.log(this)
     this.id = id
     this.layer = layer
     this.stroke = stroke
@@ -164,6 +165,7 @@ class ElementBase {
   public render(ctx: CanvasRenderingContext2D): void {
     if (!this.path2D) return
 
+    // if(this.id ==='hello3')debugger
     let {show, opacity, fill, stroke} = this
     const {enabled: enabledFill, color: fillColor} = fill
     const {enabled: enabledStroke, color: strokeColor, weight, join /*dashed*/} = stroke
