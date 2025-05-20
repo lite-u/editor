@@ -140,6 +140,7 @@ export function throttle<T extends (...args: unknown[]) => void>(func: T, delay:
     }
   }
 }
+
 /*
 
 export const setFloatOnProps = <T extends RenderPropsList, K extends keyof RenderPropsList>(obj: T, keys: K[]): void => {
@@ -148,8 +149,7 @@ export const setFloatOnProps = <T extends RenderPropsList, K extends keyof Rende
   })
 }*/
 
-
-export function getDirectedBoundingBox(rects: BoundingRect[],rotation:number): BoundingRect {
+export function getDirectedBoundingBox(rects: BoundingRect[], rotation: number): BoundingRect {
   const allPoints: Point[] = []
 
   for (const r of rects) {
@@ -157,10 +157,10 @@ export function getDirectedBoundingBox(rects: BoundingRect[],rotation:number): B
     const h = r.height / 2
 
     const localCorners = [
-      { x: -w, y: -h },
-      { x:  w, y: -h },
-      { x:  w, y:  h },
-      { x: -w, y:  h },
+      {x: -w, y: -h},
+      {x: w, y: -h},
+      {x: w, y: h},
+      {x: -w, y: h},
     ]
 
     const matrix = new DOMMatrix()
@@ -169,7 +169,7 @@ export function getDirectedBoundingBox(rects: BoundingRect[],rotation:number): B
 
     for (const pt of localCorners) {
       const transformed = matrix.transformPoint(pt)
-      allPoints.push({ x: transformed.x, y: transformed.y })
+      allPoints.push({x: transformed.x, y: transformed.y})
     }
   }
 
@@ -185,73 +185,72 @@ export function getDirectedBoundingBox(rects: BoundingRect[],rotation:number): B
     x: minX,
     y: minY,
     width: maxX - minX,
-    height: maxY - minY
-  },rotation)
+    height: maxY - minY,
+  }, rotation)
 }
 
-
-
-export function getMinimalBoundingRect(rects: Rect[], angle: number): RotatedRect {
+export function getMinimalBoundingRect(rects: BoundingRect[], angle: number): {
+  cx: number, cy: number, width: number, height: number,
+} {
   if (rects.length === 0) {
-    throw new Error("No rectangles provided");
+    throw new Error('No rectangles provided')
   }
 
-  const normalizeAngle = (angle: number): number => ((angle % 360) + 360) % 360;
-  const degToRad = (deg: number): number => (deg * Math.PI) / 180;
+  const normalizeAngle = (angle: number): number => ((angle % 360) + 360) % 360
+  const degToRad = (deg: number): number => (deg * Math.PI) / 180
 
   const rotatePoint = ([x, y]: [number, number], angleDeg: number): [number, number] => {
-    const rad = degToRad(angleDeg);
-    const cos = Math.cos(rad);
-    const sin = Math.sin(rad);
+    const rad = degToRad(angleDeg)
+    const cos = Math.cos(rad)
+    const sin = Math.sin(rad)
     return [
       x * cos - y * sin,
       x * sin + y * cos,
-    ];
-  };
+    ]
+  }
 
   const unrotatePoint = ([x, y]: [number, number], angleDeg: number): [number, number] => {
-    return rotatePoint([x, y], -angleDeg);
-  };
+    return rotatePoint([x, y], -angleDeg)
+  }
 
-  const allPoints: [number, number][] = [];
-  const normalizedAngle = normalizeAngle(angle);
+  const allPoints: [number, number][] = []
+  const normalizedAngle = normalizeAngle(angle)
 
   for (const rect of rects) {
-    const rad = degToRad(normalizedAngle);
-    const cos = Math.cos(rad);
-    const sin = Math.sin(rad);
-    const hw = rect.width / 2;
-    const hh = rect.height / 2;
+    const rad = degToRad(normalizedAngle)
+    const cos = Math.cos(rad)
+    const sin = Math.sin(rad)
+    const hw = rect.width / 2
+    const hh = rect.height / 2
 
     const corners: [number, number][] = [
       [-hw, -hh],
-      [ hw, -hh],
-      [ hw,  hh],
-      [-hw,  hh],
-    ];
+      [hw, -hh],
+      [hw, hh],
+      [-hw, hh],
+    ]
 
     for (const [x, y] of corners) {
-      const worldX = rect.cx + x * cos - y * sin;
-      const worldY = rect.cy + x * sin + y * cos;
-      const [ux, uy] = unrotatePoint([worldX, worldY], normalizedAngle);
-      allPoints.push([ux, uy]);
+      const worldX = rect.cx + x * cos - y * sin
+      const worldY = rect.cy + x * sin + y * cos
+      const [ux, uy] = unrotatePoint([worldX, worldY], normalizedAngle)
+      allPoints.push([ux, uy])
     }
   }
 
-  const xs = allPoints.map(p => p[0]);
-  const ys = allPoints.map(p => p[1]);
-  const minX = Math.min(...xs);
-  const maxX = Math.max(...xs);
-  const minY = Math.min(...ys);
-  const maxY = Math.max(...ys);
+  const xs = allPoints.map(p => p[0])
+  const ys = allPoints.map(p => p[1])
+  const minX = Math.min(...xs)
+  const maxX = Math.max(...xs)
+  const minY = Math.min(...ys)
+  const maxY = Math.max(...ys)
 
-  const [centerX, centerY] = rotatePoint([(minX + maxX) / 2, (minY + maxY) / 2], normalizedAngle);
+  const [centerX, centerY] = rotatePoint([(minX + maxX) / 2, (minY + maxY) / 2], normalizedAngle)
 
   return {
     cx: centerX,
     cy: centerY,
     width: maxX - minX,
     height: maxY - minY,
-    angle: normalizedAngle,
-  };
+  }
 }
