@@ -1,4 +1,4 @@
-import { createWith } from '../../lib/lib.js';
+import { createWith, getManipulationBox } from '../../lib/lib.js';
 import { getAnchorsByBoundingRect, getBoundingRectFromBoundingRects } from '../tool/resize/helper.js';
 import { DEFAULT_FILL, DEFAULT_STROKE } from '../../elements/defaultProps.js';
 class InteractionState {
@@ -80,9 +80,7 @@ class InteractionState {
         const rects = elements.map((ele) => ele.getBoundingRect());
         const rect = getBoundingRectFromBoundingRects(rects);
         const anchors = getAnchorsByBoundingRect(rect);
-        const controlElements = anchors.map(a => {
-            // console.log(a)
-        });
+        const controlElements = getManipulationBox(rect);
         const outlineElementProps = {
             type: 'rectangle',
             ...rect,

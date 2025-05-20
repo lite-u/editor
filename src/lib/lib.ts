@@ -1,5 +1,9 @@
-import {ResizeDirectionName, ResizeTransform} from '../services/selection/type'
-import {BoundingRect, DPR, Point} from '../type'
+import {BoundingRect, DPR, ElementInstance, Point} from '../type'
+import {HANDLER_OFFSETS} from '~/elements/handleBasics'
+import {RectangleProps} from '~/elements/rectangle/rectangle'
+import {rotatePointAroundPoint} from '~/core/geometry'
+import {DEFAULT_STROKE} from '~/elements/defaultProps'
+import {EllipseProps} from '~/elements/ellipse/ellipse'
 
 interface DrawCrossLineProps {
   ctx: CanvasRenderingContext2D;
@@ -120,14 +124,16 @@ export const getSymmetricDifference = <T>(
   return result
 }
 
-export function removeIntersectionAndMerge(setA:Set<unknown>, setB:Set<unknown>) {
-  const intersection = new Set([...setA].filter(x => setB.has(x)));
+export function removeIntersectionAndMerge(setA: Set<unknown>, setB: Set<unknown>) {
+  const intersection = new Set([...setA].filter(x => setB.has(x)))
 
-  const uniqueA = new Set([...setA].filter(x => !intersection.has(x)));
-  const uniqueB = new Set([...setB].filter(x => !intersection.has(x)));
+  const uniqueA = new Set([...setA].filter(x => !intersection.has(x)))
+  const uniqueB = new Set([...setB].filter(x => !intersection.has(x)))
 
-  return new Set([...uniqueA, ...uniqueB]);
+  return new Set([...uniqueA, ...uniqueB])
 }
+
+/*
 export function getResizeTransform(
   name: ResizeDirectionName,
   symmetric = false,
@@ -162,6 +168,7 @@ export function getResizeTransform(
 
   return base
 }
+*/
 
 export const deduplicateObjectsByKeyValue = <T>(objects: T[]): T[] => {
   if (!Array.isArray(objects)) return []
@@ -202,24 +209,123 @@ export const setStyle = (
 }
 
 export const isEqual = (o1: string | number | object, o2: string | number | object) => {
-  if (o1 === o2) return true;
+  if (o1 === o2) return true
 
-  if (typeof o1 !== typeof o2) return false;
+  if (typeof o1 !== typeof o2) return false
 
   if (typeof o1 === 'object' && o1 !== null && o2 !== null) {
-    const keys1 = Object.keys(o1 as object);
-    const keys2 = Object.keys(o2 as object);
+    const keys1 = Object.keys(o1 as object)
+    const keys2 = Object.keys(o2 as object)
 
-    if (keys1.length !== keys2.length) return false;
+    if (keys1.length !== keys2.length) return false
 
     for (const key of keys1) {
-      if (!(key in (o2 as object))) return false;
-      if (!isEqual((o1 as any)[key], (o2 as any)[key])) return false;
+      if (!(key in (o2 as object))) return false
+      if (!isEqual((o1 as any)[key], (o2 as any)[key])) return false
     }
 
-    return true;
+    return true
   }
 
-  return false;
+  return false
 }
 
+export const getManipulationBox = (
+  rect: BoundingRect,
+  resizeConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
+  rotateConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
+  // boundingRect: BoundingRect,
+  // elementOrigin: ElementProps,
+  rotation: number,
+): ElementInstance[] => {
+  const {cx, cy, width, height} = rect
+  const arr = [
+    {name: 'tl', dx: -0.5, dy: -0.5},
+    {name: 't', dx: 0.0, dy: 0.5},
+    {name: 'tr', dx: -0.5, dy: 0.5},
+    {name: 'r', dx: -0.5, dy: 0.0},
+    {name: 'br', dx: -0.5, dy: -0.5},
+    {name: 'b', dx: 0.0, dy: -0.5},
+    {name: 'bl', dx: 0.5, dy: -0.5},
+    {name: 'l', dx: 0.5, dy: 0.0},
+  ]
+  const result = []
+
+  return arr.map(item => {
+    const lx = cx + item.dx * width
+    const ly = cy + item.dy * height
+
+    const resizeHandleEleProp: RectangleProps = {
+      id: 'handle-resize-' + item.name,
+      cx: lx,
+      cy: ly,
+
+    }
+    const rotateHandleEleProp: EllipseProps = {
+      id: 'handle-rotate-' + item.name,
+      cx: lx,
+      cy: ly,
+    }
+    result.push(new)
+    return
+  })
+
+  return HANDLER_OFFSETS.map((OFFSET, index): ElementInstance => {
+    console.log(OFFSET, index)
+    // Calculate the handle position in local coordinates
+    const currentCenterX = cx - width / 2 + OFFSET.x * width
+    const currentCenterY = cy - height / 2 + OFFSET.y * height
+
+    const handleElementProps: RectangleProps = {
+      // id: `${id}-${OFFSET.type}-${index}`,
+      layer: 0,
+      rotation,
+    }
+
+    // let cursor: ResizeCursor = OFFSET.cursor as ResizeCursor
+
+    if (OFFSET.type === 'resize') {
+      const rotated = rotatePointAroundPoint(currentCenterX, currentCenterY, cx, cy, rotation)
+
+      handleElementProps.cx = rotated.x
+      handleElementProps.cy = rotated.y
+      handleElementProps.width = resizeConfig.size
+      handleElementProps.height = resizeConfig.size
+      handleElementProps.stroke = {
+        ...DEFAULT_STROKE,
+        weight: resizeConfig.lineWidth,
+      }
+      // currentElementProps.stroke.weight = resizeConfig.stroke?.weight
+      // currentElementProps.lineColor = resizeConfig.lineColor
+      // currentElementProps.fillColor = resizeConfig.fillColor
+    } else if (OFFSET.type === 'rotate') {
+      const currentRotateHandlerCX = currentCenterX + OFFSET.offsetX * resizeConfig.lineWidth
+      const currentRotateHandlerCY = currentCenterY + OFFSET.offsetY * resizeConfig.lineWidth
+      const rotated = rotatePointAroundPoint(
+        currentRotateHandlerCX,
+        currentRotateHandlerCY,
+        cx,
+        cy,
+        rotation,
+      )
+
+      // handleElementProps.id = index + '-rotate'
+      handleElementProps.cx = rotated.x
+      handleElementProps.cy = rotated.y
+      handleElementProps.width = rotateConfig.size
+      handleElementProps.height = rotateConfig.size
+      handleElementProps.lineWidth = rotateConfig.lineWidth
+      handleElementProps.lineColor = rotateConfig.lineColor
+      handleElementProps.fillColor = rotateConfig.fillColor
+    }
+
+    /*    return {
+          id: `${id}`,
+          type: OFFSET.type,
+          name: OFFSET.name,
+          // cursor,
+          elementOrigin,
+          element: new ElementRectangle(handleElementProps),
+        }*/
+  })
+}

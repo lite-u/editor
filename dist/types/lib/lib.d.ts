@@ -1,5 +1,4 @@
-import { ResizeDirectionName, ResizeTransform } from '../services/selection/type';
-import { BoundingRect, DPR, Point } from '../type';
+import { BoundingRect, DPR, ElementInstance, Point } from '../type';
 interface DrawCrossLineProps {
     ctx: CanvasRenderingContext2D;
     mousePoint: Point;
@@ -22,9 +21,19 @@ export declare const drawCrossLine: ({ ctx, mousePoint, scale, dpr, offset, virt
 export declare const areSetsEqual: <T>(setA: Set<T>, setB: Set<T>) => boolean;
 export declare const getSymmetricDifference: <T>(setA: Set<T>, setB: Set<T>) => Set<T>;
 export declare function removeIntersectionAndMerge(setA: Set<unknown>, setB: Set<unknown>): Set<unknown>;
-export declare function getResizeTransform(name: ResizeDirectionName, symmetric?: boolean): ResizeTransform;
 export declare const deduplicateObjectsByKeyValue: <T>(objects: T[]) => T[];
 export declare const createWith: <T extends keyof HTMLElementTagNameMap>(tagName: T, role: string, id: string, style?: Partial<CSSStyleDeclaration>) => HTMLElementTagNameMap[T];
 export declare const setStyle: (dom: HTMLElement, styles: Partial<CSSStyleDeclaration>) => void;
 export declare const isEqual: (o1: string | number | object, o2: string | number | object) => boolean;
+export declare const getManipulationBox: (rect: BoundingRect, resizeConfig: {
+    lineWidth: number;
+    lineColor: string;
+    size: number;
+    fillColor: string;
+}, rotateConfig: {
+    lineWidth: number;
+    lineColor: string;
+    size: number;
+    fillColor: string;
+}, rotation: number) => ElementInstance[];
 export {};

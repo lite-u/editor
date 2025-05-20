@@ -1,6 +1,6 @@
 import {OperationHandler, ResizeHandle} from '~/services/selection/type'
 import {Point, Rect, UID} from '~/type'
-import {createWith} from '~/lib/lib'
+import {createWith, getManipulationBox} from '~/lib/lib'
 import Editor from '~/main/editor'
 import {ElementInstance, OptionalIdentifiersProps} from '~/elements/type'
 import {ToolName} from '~/services/tool/toolManager'
@@ -119,9 +119,7 @@ class InteractionState {
     const rects = elements.map((ele: ElementInstance) => ele.getBoundingRect())
     const rect = getBoundingRectFromBoundingRects(rects)
     const anchors = getAnchorsByBoundingRect(rect)
-    const controlElements = anchors.map(a => {
-      // console.log(a)
-    })
+    const controlElements = getManipulationBox(rect)
     const outlineElementProps: OptionalIdentifiersProps = {
       type: 'rectangle',
       ...rect,

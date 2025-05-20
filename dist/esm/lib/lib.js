@@ -1,3 +1,6 @@
+import { HANDLER_OFFSETS } from '../elements/handleBasics.js';
+import { rotatePointAroundPoint } from '../core/geometry.js';
+import { DEFAULT_STROKE } from '../elements/defaultProps.js';
 /** Convert screen (mouse) coordinates to canvas coordinates */
 export function screenToWorld(point, offset, scale, dpr) {
     return {
@@ -71,35 +74,42 @@ export function removeIntersectionAndMerge(setA, setB) {
     const uniqueB = new Set([...setB].filter(x => !intersection.has(x)));
     return new Set([...uniqueA, ...uniqueB]);
 }
-export function getResizeTransform(name, symmetric = false) {
-    const base = (() => {
-        switch (name) {
-            case 'tl':
-                return { dx: -1, dy: -1, cx: 0.5, cy: 0.5 };
-            case 't':
-                return { dx: 0, dy: -1, cx: 0.0, cy: 0.5 };
-            case 'tr':
-                return { dx: 1, dy: -1, cx: -0.5, cy: 0.5 };
-            case 'r':
-                return { dx: 1, dy: 0, cx: -0.5, cy: 0.0 };
-            case 'br':
-                return { dx: 1, dy: 1, cx: -0.5, cy: -0.5 };
-            case 'b':
-                return { dx: 0, dy: 1, cx: 0.0, cy: -0.5 };
-            case 'bl':
-                return { dx: -1, dy: 1, cx: 0.5, cy: -0.5 };
-            case 'l':
-                return { dx: -1, dy: 0, cx: 0.5, cy: 0.0 };
-            default:
-                throw new Error(`Unsupported resize handle: ${name}`);
-        }
-    })();
-    if (symmetric) {
-        // When resizing symmetrically, center should not move.
-        return { ...base, cx: 0, cy: 0 };
+/*
+export function getResizeTransform(
+  name: ResizeDirectionName,
+  symmetric = false,
+): ResizeTransform {
+  const base = (() => {
+    switch (name) {
+      case 'tl':
+        return {dx: -1, dy: -1, cx: 0.5, cy: 0.5}
+      case 't':
+        return {dx: 0, dy: -1, cx: 0.0, cy: 0.5}
+      case 'tr':
+        return {dx: 1, dy: -1, cx: -0.5, cy: 0.5}
+      case 'r':
+        return {dx: 1, dy: 0, cx: -0.5, cy: 0.0}
+      case 'br':
+        return {dx: 1, dy: 1, cx: -0.5, cy: -0.5}
+      case 'b':
+        return {dx: 0, dy: 1, cx: 0.0, cy: -0.5}
+      case 'bl':
+        return {dx: -1, dy: 1, cx: 0.5, cy: -0.5}
+      case 'l':
+        return {dx: -1, dy: 0, cx: 0.5, cy: 0.0}
+      default:
+        throw new Error(`Unsupported resize handle: ${name}`)
     }
-    return base;
+  })()
+
+  if (symmetric) {
+    // When resizing symmetrically, center should not move.
+    return {...base, cx: 0, cy: 0}
+  }
+
+  return base
 }
+*/
 export const deduplicateObjectsByKeyValue = (objects) => {
     if (!Array.isArray(objects))
         return [];
@@ -147,4 +157,84 @@ export const isEqual = (o1, o2) => {
         return true;
     }
     return false;
+};
+export const getManipulationBox = (rect, resizeConfig, rotateConfig, 
+// boundingRect: BoundingRect,
+// elementOrigin: ElementProps,
+rotation) => {
+    const { cx, cy, width, height } = rect;
+    const arr = [
+        { name: 'tl', dx: -0.5, dy: -0.5 },
+        { name: 't', dx: 0.0, dy: 0.5 },
+        { name: 'tr', dx: -0.5, dy: 0.5 },
+        { name: 'r', dx: -0.5, dy: 0.0 },
+        { name: 'br', dx: -0.5, dy: -0.5 },
+        { name: 'b', dx: 0.0, dy: -0.5 },
+        { name: 'bl', dx: 0.5, dy: -0.5 },
+        { name: 'l', dx: 0.5, dy: 0.0 },
+    ];
+    const result = [];
+    return arr.map(item => {
+        const lx = cx + item.dx * width;
+        const ly = cy + item.dy * height;
+        const resizeHandleEleProp = {
+            id: 'handle-resize-' + item.name,
+            cx: lx,
+            cy: ly,
+        };
+        const rotateHandleEleProp = {
+            id: 'handle-rotate-' + item.name,
+            cx: lx,
+            cy: ly,
+        };
+        result.push(new );
+        return;
+    });
+    return HANDLER_OFFSETS.map((OFFSET, index) => {
+        console.log(OFFSET, index);
+        // Calculate the handle position in local coordinates
+        const currentCenterX = cx - width / 2 + OFFSET.x * width;
+        const currentCenterY = cy - height / 2 + OFFSET.y * height;
+        const handleElementProps = {
+            // id: `${id}-${OFFSET.type}-${index}`,
+            layer: 0,
+            rotation,
+        };
+        // let cursor: ResizeCursor = OFFSET.cursor as ResizeCursor
+        if (OFFSET.type === 'resize') {
+            const rotated = rotatePointAroundPoint(currentCenterX, currentCenterY, cx, cy, rotation);
+            handleElementProps.cx = rotated.x;
+            handleElementProps.cy = rotated.y;
+            handleElementProps.width = resizeConfig.size;
+            handleElementProps.height = resizeConfig.size;
+            handleElementProps.stroke = {
+                ...DEFAULT_STROKE,
+                weight: resizeConfig.lineWidth,
+            };
+            // currentElementProps.stroke.weight = resizeConfig.stroke?.weight
+            // currentElementProps.lineColor = resizeConfig.lineColor
+            // currentElementProps.fillColor = resizeConfig.fillColor
+        }
+        else if (OFFSET.type === 'rotate') {
+            const currentRotateHandlerCX = currentCenterX + OFFSET.offsetX * resizeConfig.lineWidth;
+            const currentRotateHandlerCY = currentCenterY + OFFSET.offsetY * resizeConfig.lineWidth;
+            const rotated = rotatePointAroundPoint(currentRotateHandlerCX, currentRotateHandlerCY, cx, cy, rotation);
+            // handleElementProps.id = index + '-rotate'
+            handleElementProps.cx = rotated.x;
+            handleElementProps.cy = rotated.y;
+            handleElementProps.width = rotateConfig.size;
+            handleElementProps.height = rotateConfig.size;
+            handleElementProps.lineWidth = rotateConfig.lineWidth;
+            handleElementProps.lineColor = rotateConfig.lineColor;
+            handleElementProps.fillColor = rotateConfig.fillColor;
+        }
+        /*    return {
+              id: `${id}`,
+              type: OFFSET.type,
+              name: OFFSET.name,
+              // cursor,
+              elementOrigin,
+              element: new ElementRectangle(handleElementProps),
+            }*/
+    });
 };
