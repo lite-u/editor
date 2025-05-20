@@ -50,7 +50,7 @@ class InteractionState {
 
   _draggingElements: ElementInstance[] = []
   _resizingElements: ElementInstance[] = []
-  _resizingData: { targetPoint: { x: number, y: number } } | null = {targetPoint: {x: 0, y: 0}}
+  _resizingData: { targetPoint: { x: number, y: number } } | null = null
 
   readonly operationHandlers: OperationHandler[] = []
   _pointDown = false

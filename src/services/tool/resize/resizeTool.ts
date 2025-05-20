@@ -1,16 +1,21 @@
 import ToolManager, {SubToolType} from '~/services/tool/toolManager'
+import resizeFunc from '~/services/tool/resize/resizeFunc'
 
 const resizeTool: SubToolType = {
   cursor: 'default',
   mouseMove(this: ToolManager) {
-    if (!this.subTool) return
+    console.log(9)
+    // interaction._resizingElements = elementManager.getElementsByIdSet(selection.values)
+    const {interaction, elementManager, action, selection, cursor} = this.editor
 
-    this.subTool.mouseMove.call(this)
+    resizeFunc.call(this, elementManager.getElementsByIdSet(selection.values), interaction._resizingData.placement)
+
+    // this.subTool.mouseMove.call(this)
   },
   mouseUp(this: ToolManager) {
     if (!this.subTool) return
 
-    this.subTool.mouseUp.call(this)
+    // this.subTool.mouseUp.call(this)
     this.subTool = null
   },
 }

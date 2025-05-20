@@ -15,7 +15,7 @@ class InteractionState {
     _hoveredRotateManipulator = null;
     _draggingElements = [];
     _resizingElements = [];
-    _resizingData = { targetPoint: { x: 0, y: 0 } };
+    _resizingData = null;
     operationHandlers = [];
     _pointDown = false;
     _snapped = false;

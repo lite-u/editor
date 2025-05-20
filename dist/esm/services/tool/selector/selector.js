@@ -1,7 +1,6 @@
 import selecting from './selecting/selecting.js';
 import dragging from './dragging/dragging.js';
 import resizing from './resizing/resizing.js';
-import resizeFunc from '../resize/resizeFunc.js';
 const selector = {
     cursor: 'default',
     mouseDown: function () {
@@ -11,14 +10,12 @@ const selector = {
         const rotateMode = !!interaction._hoveredRotateManipulator;
         const resizeMode = !!interaction._hoveredResizeManipulator;
         if (resizeMode) {
+            const placement = interaction._hoveredResizeManipulator.id.replace('handle-resize-', '');
+            interaction._resizingData = { direction: placement };
         }
-        interaction._resizingData;
         // interaction._snappedPoint = null
         if (interaction._resizingData) {
-            console.log(interaction._hoveredResizeManipulator);
-            const placement = interaction._hoveredResizeManipulator.id.replace('handle-resize-', '');
-            interaction._resizingElements = elementManager.getElementsByIdSet(selection.values);
-            resizeFunc.call(this, interaction._resizingElements, placement);
+            // interaction._resizingElements = elementManager.getElementsByIdSet(selection.values)
             return;
         }
         if (dragMode) {

@@ -14,16 +14,13 @@ const selector: ToolType = {
     const resizeMode = !!interaction._hoveredResizeManipulator
 
     if (resizeMode) {
-
+      const placement = interaction._hoveredResizeManipulator.id.replace('handle-resize-', '')
+      interaction._resizingData = {direction: placement}
     }
-    interaction._resizingData
     // interaction._snappedPoint = null
 
     if (interaction._resizingData) {
-      console.log(interaction._hoveredResizeManipulator)
-      const placement = interaction._hoveredResizeManipulator.id.replace('handle-resize-', '')
-      interaction._resizingElements = elementManager.getElementsByIdSet(selection.values)
-      resizeFunc.call(this, interaction._resizingElements, placement)
+      // interaction._resizingElements = elementManager.getElementsByIdSet(selection.values)
       return
     }
     if (dragMode) {
