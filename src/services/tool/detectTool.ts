@@ -17,12 +17,18 @@ function detectTool(this: ToolManager) {
   interaction._hoveredRotateManipulator = null
 
   for (let i = 0; i < mElements.length; i++) {
-    const path = mElements[i].path2D
-    const f1 = ctx.isPointInStroke(path, viewPoint.x, viewPoint.y)
-    const f2 = ctx.isPointInPath(path, viewPoint.x, viewPoint.y)
+    const {path2D, id} = mElements[i]
+    const f1 = ctx.isPointInStroke(path2D, viewPoint.x, viewPoint.y)
+    const f2 = ctx.isPointInPath(path2D, viewPoint.x, viewPoint.y)
 
     if (f1 || f2) {
-
+      console.log(id)
+      if (id.includes('rotate')) {
+        interaction._hoveredRotateManipulator = mElements[i]
+      }
+      if (id.includes('resize')) {
+        interaction._hoveredResizeManipulator = mElements[i]
+      }
       break
     }
   }

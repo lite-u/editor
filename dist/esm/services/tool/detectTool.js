@@ -1,4 +1,4 @@
-import { isPointNearStroke2 } from './helper.js';
+import { isPointNearStroke2 } from '~/services/tool/helper';
 function detectTool() {
     const { interaction, world, visible } = this.editor;
     const { baseCanvasContext: ctx, scale, dpr } = world;
@@ -13,9 +13,19 @@ function detectTool() {
     interaction._hoveredResizeManipulator = null;
     interaction._hoveredRotateManipulator = null;
     for (let i = 0; i < mElements.length; i++) {
-        const path = ele.path2D;
-        const f1 = ctx.isPointInStroke(path, viewPoint.x, viewPoint.y);
-        const f2 = ctx.isPointInPath(path, viewPoint.x, viewPoint.y);
+        const { path2D, id } = mElements[i];
+        const f1 = ctx.isPointInStroke(path2D, viewPoint.x, viewPoint.y);
+        const f2 = ctx.isPointInPath(path2D, viewPoint.x, viewPoint.y);
+        if (f1 || f2) {
+            console.log(id);
+            if (id.includes('rotate')) {
+                interaction._hoveredRotateManipulator = mElements[i];
+            }
+            if (id.includes('resize')) {
+                interaction._hoveredResizeManipulator = mElements[i];
+            }
+            break;
+        }
     }
     for (let i = elements.length - 1; i >= 0; i--) {
         const ele = elements[i];
