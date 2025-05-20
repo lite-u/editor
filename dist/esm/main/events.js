@@ -218,12 +218,12 @@ export function initEvents() {
         if (this.selection.size === 0)
             return;
         const temp = this.elementManager.batchCopy(this.selection.values, false);
-        temp.forEach((copiedItem) => {
-            copiedItem.x += this.clipboard.CopyDeltaX;
-            copiedItem.y += this.clipboard.CopyDeltaY;
-        });
+        const { copyDeltaX, copyDeltaY } = this.interaction;
         const newElements = this.elementManager.batchCreate(temp);
         const savedSelected = new Set(newElements.keys());
+        newElements.forEach((el) => {
+            el.translate(copyDeltaX, copyDeltaY);
+        });
         this.elementManager.batchAdd(newElements);
         this.selection.replace(savedSelected);
         const elementProps = [...newElements.values()].map((mod) => mod.toMinimalJSON());
