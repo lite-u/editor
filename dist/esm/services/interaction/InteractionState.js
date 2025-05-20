@@ -1,6 +1,6 @@
-import { createWith } from '~/lib/lib';
-import { getAnchorsByBoundingRect, getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
-import { DEFAULT_FILL, DEFAULT_STROKE } from '~/elements/defaultProps';
+import { createWith } from '../../lib/lib.js';
+import { getAnchorsByBoundingRect, getBoundingRectFromBoundingRects } from '../tool/resize/helper.js';
+import { DEFAULT_FILL, DEFAULT_STROKE } from '../../elements/defaultProps.js';
 class InteractionState {
     editor;
     state = 'static';
