@@ -1,5 +1,6 @@
 import selecting from './selecting/selecting.js';
 import dragging from './dragging/dragging.js';
+import resizeTool from '../resize/resizeTool.js';
 const selector = {
     cursor: 'default',
     mouseDown: function () {
@@ -12,6 +13,7 @@ const selector = {
             const placement = interaction._hoveredResizeManipulator.id.replace('handle-resize-', '');
             console.log(9);
             cursor.set('resize');
+            this.subTool = resizeTool;
             interaction._resizingData = { placement };
             return;
         }

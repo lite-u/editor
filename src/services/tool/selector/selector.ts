@@ -1,6 +1,7 @@
 import ToolManager, {ToolType} from '~/services/tool/toolManager'
 import selecting from '~/services/tool/selector/selecting/selecting'
 import dragging from '~/services/tool/selector/dragging/dragging'
+import resizeTool from '~/services/tool/resize/resizeTool'
 
 const selector: ToolType = {
   cursor: 'default',
@@ -15,6 +16,7 @@ const selector: ToolType = {
       const placement = interaction._hoveredResizeManipulator.id.replace('handle-resize-', '')
       console.log(9)
       cursor.set('resize')
+      this.subTool = resizeTool
 
       interaction._resizingData = {placement}
       return

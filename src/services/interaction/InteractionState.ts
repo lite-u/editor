@@ -145,7 +145,6 @@ class InteractionState {
         color: 'green',
       },
     }
-
     // create outline rectangle for multiple selection
     this._manipulationElements = getManipulationBox(rect, sameRotation ? rotations[0] : 0, ratio)
     this._outlineElement = this.editor.elementManager.create(outlineElementProps)

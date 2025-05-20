@@ -274,6 +274,10 @@ export const getManipulationBox = (
       r1: rotateRadius,
       r2: rotateRadius,
       rotation,
+      stroke: {
+        ...DEFAULT_STROKE,
+        weight: resizeStrokeWidth,
+      },
     }
 
     result.push(new Rectangle(resizeHandleEleProp), new Ellipse(rotateHandleEleProp))

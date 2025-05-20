@@ -72,6 +72,7 @@ export function initEvents() {
         this.world.offset.y = result.y;
         this.events.onZoomed?.(newScale);
         dispatch('world-updated');
+        this.interaction.updateControlPoints();
     });
     on('world-shift', (data) => {
         const { x, y } = data;
