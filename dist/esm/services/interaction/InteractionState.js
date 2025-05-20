@@ -70,29 +70,32 @@ class InteractionState {
         const { scale, dpr } = this.editor.world;
         const ratio = scale * dpr;
         const idSet = this.editor.selection.values;
-        const elements = this.editor.elementManager.getElementsByIdSet(idSet);
-        const rects = elements.map((ele) => ele.getBoundingRect());
-        const rect = getBoundingRectFromBoundingRects(rects);
-        const anchors = getAnchorsByBoundingRect(rect);
-        const controlElements = anchors.map(a => {
-            // console.log(a)
-        });
-        const outlineElementProps = {
-            type: 'rectangle',
-            ...rect,
-            stroke: {
-                ...DEFAULT_STROKE,
-                // weight: 1 / ratio,
-                weight: 1 / ratio,
-                color: 'red',
-            },
-            fill: {
-                ...DEFAULT_FILL,
-                // enabled: true,
-                color: 'green',
-            },
-        };
-        this._outlineElement = this.editor.elementManager.create(outlineElementProps);
+        // create outline rectangle for multiple selection
+        if (idSet.size > 1) {
+            const elements = this.editor.elementManager.getElementsByIdSet(idSet);
+            const rects = elements.map((ele) => ele.getBoundingRect());
+            const rect = getBoundingRectFromBoundingRects(rects);
+            const anchors = getAnchorsByBoundingRect(rect);
+            const controlElements = anchors.map(a => {
+                // console.log(a)
+            });
+            const outlineElementProps = {
+                type: 'rectangle',
+                ...rect,
+                stroke: {
+                    ...DEFAULT_STROKE,
+                    // weight: 1 / ratio,
+                    weight: 1 / ratio,
+                    color: 'red',
+                },
+                fill: {
+                    ...DEFAULT_FILL,
+                    // enabled: true,
+                    color: 'green',
+                },
+            };
+            this._outlineElement = this.editor.elementManager.create(outlineElementProps);
+        }
         // console.log(outlineElement)
         // console.log(controlElements)
     }

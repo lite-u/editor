@@ -30,6 +30,10 @@ class ElementPath extends ElementBase {
             y: mt2 * mt * p0.y + 3 * mt2 * t * p1.y + 3 * mt * t2 * p2.y + t2 * t * p3.y,
         };
     }
+    updateOriginal() {
+        this.original.points = deepClone(this.points);
+        this.updatePath2D();
+    }
     get center() {
         const rect = this.getBoundingRect();
         return {

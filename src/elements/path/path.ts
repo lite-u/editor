@@ -52,6 +52,11 @@ class ElementPath extends ElementBase {
     }
   }
 
+  protected updateOriginal() {
+    this.original.points = deepClone(this.points)
+    this.updatePath2D()
+  }
+
   get center(): Point {
     const rect = this.getBoundingRect()
 
