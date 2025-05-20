@@ -1,4 +1,4 @@
-import { getRotateAngle } from '~/services/tool/selector/helper';
+import { getRotateAngle } from '../helper.js';
 const rotating = {
     // cursor: 'default',
     mouseMove() {
@@ -35,7 +35,7 @@ const rotating = {
         const elements = elementManager.getElementsByIdSet(selection.values);
         const changes = [];
         elements.forEach(ele => {
-            const change = ele.rotateFrom(0, interaction._rotateData?.targetPoint);
+            const change = ele.rotateFrom(0, interaction._rotateData?.targetPoint, true);
             ele.updateOriginal();
             changes.push(change);
         });

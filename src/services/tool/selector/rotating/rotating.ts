@@ -43,7 +43,7 @@ const rotating: SubToolType = {
 
     const changes: HistoryChangeItem[] = []
     elements.forEach(ele => {
-      const change = ele.rotateFrom(0, interaction._rotateData?.targetPoint)
+      const change = ele.rotateFrom(0, interaction._rotateData?.targetPoint, true)
 
       ele.updateOriginal()
       changes.push(change)

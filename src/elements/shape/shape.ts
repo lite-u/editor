@@ -59,19 +59,21 @@ class ElementShape extends ElementBase {
   }
 
   rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined {
-    const matrix = new DOMMatrix()
-      .translate(anchor.x, anchor.y)
-      .rotate(rotation)
-      .translate(-anchor.x, -anchor.y)
+    if (rotation !== 0) {
+      const matrix = new DOMMatrix()
+        .translate(anchor.x, anchor.y)
+        .rotate(rotation)
+        .translate(-anchor.x, -anchor.y)
 
-    const {cx, cy} = this.original
-    const transformed = matrix.transformPoint({x: cx, y: cy})
+      const {cx, cy} = this.original
+      const transformed = matrix.transformPoint({x: cx, y: cy})
 
-    this.cx = transformed.x
-    this.cy = transformed.y
-    this.rotation = this.original.rotation + rotation
+      this.cx = transformed.x
+      this.cy = transformed.y
+      this.rotation = this.original.rotation + rotation
 
-    this.updatePath2D()
+      this.updatePath2D()
+    }
 
     if (f) {
       return {
