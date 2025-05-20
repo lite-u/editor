@@ -10,6 +10,8 @@ const resizeTool: SubToolType = {
 
     resizeFunc.call(this, elementManager.getElementsByIdSet(selection.values), interaction._resizingData.placement)
 
+    this.editor.action.dispatch('element-updated')
+
     // this.subTool.mouseMove.call(this)
   },
   mouseUp(this: ToolManager) {
