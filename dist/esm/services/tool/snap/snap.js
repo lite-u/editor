@@ -1,12 +1,7 @@
 function snapTool() {
     const { interaction } = this.editor;
-    let _ele = null;
-    let _snappedPoint = null;
     // update
-    if (_snappedPoint) {
-        interaction._snappedPoint = _snappedPoint;
-    }
-    else if (interaction._snappedPoint) {
+    if (interaction._snappedPoint) {
         // try to detach from snap point
         const dx = Math.abs(interaction.mouseWorldCurrent.x - interaction._snappedPoint.x);
         const dy = Math.abs(interaction.mouseWorldCurrent.y - interaction._snappedPoint.y);
