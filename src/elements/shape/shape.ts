@@ -67,10 +67,13 @@ class ElementShape extends ElementBase {
 
       const {cx, cy} = this.original
       const transformed = matrix.transformPoint({x: cx, y: cy})
+      let newRotation = (this.original.rotation + rotation) % 360
+      if (newRotation < 0) newRotation += 360
 
       this.cx = transformed.x
       this.cy = transformed.y
-      this.rotation = this.original.rotation + rotation
+
+      this.rotation = newRotation
 
       this.updatePath2D()
     }
