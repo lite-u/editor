@@ -127,21 +127,32 @@ class ElementLineSegment extends ElementBase {
     this.updatePath2D()
   }
 
-  rotateFrom(rotation: number, anchor: Point) {
-    const matrix = new DOMMatrix()
-      .translate(anchor.x, anchor.y)
-      .rotate(rotation)
-      .translate(-anchor.x, -anchor.y)
+  rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined {
+    if (rotation !== 0) {
+      const matrix = new DOMMatrix()
+        .translate(anchor.x, anchor.y)
+        .rotate(rotation)
+        .translate(-anchor.x, -anchor.y)
 
-    const {cx, cy} = this.original
-    const transformed = matrix.transformPoint({x: cx, y: cy})
+      const [oStart, oEnd] = this.original.points
+      const newStart = this.transformPoint(oStart.x, oStart.y, matrix)
+      const newEnd = this.transformPoint(oEnd.x, oEnd.y, matrix)
 
-    this.cx = transformed.x
-    this.cy = transformed.y
-    this.rotation = this.original.rotation + rotation
+      this.points[0].x = newStart.x
+      this.points[0].y = newStart.y
+      this.points[1].x = newEnd.x
+      this.points[1].y = newEnd.y
 
-    this.updatePath2D()
+      let newRotation = (this.original.rotation + rotation) % 360
+      if (newRotation < 0) newRotation += 360
+      this.rotation = newRotation
 
+      this.updatePath2D()
+    }
+
+    if (f) {
+
+    }
   }
 
   protected toJSON(): RequiredLineSegmentProps {
