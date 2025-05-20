@@ -17,10 +17,14 @@ function detectTool(this: ToolManager) {
   interaction._hoveredRotateManipulator = null
 
   for (let i = 0; i < mElements.length; i++) {
-    const path = ele.path2D
+    const path = mElements[i].path2D
     const f1 = ctx.isPointInStroke(path, viewPoint.x, viewPoint.y)
     const f2 = ctx.isPointInPath(path, viewPoint.x, viewPoint.y)
 
+    if (f1 || f2) {
+
+      break
+    }
   }
 
   for (let i = elements.length - 1; i >= 0; i--) {
