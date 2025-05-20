@@ -1,6 +1,6 @@
-import {generateBoundingRectFromRotatedRect} from '~/core/utils'
+import {generateBoundingRectFromRect, generateBoundingRectFromRotatedRect} from '~/core/utils'
 import ElementShape, {ShapeProps} from '../shape/shape'
-import {Point} from '~/type'
+import {Point, Rect} from '~/type'
 import {rotatePointAroundPoint} from '~/core/geometry'
 
 export interface EllipseProps extends ShapeProps {
@@ -101,15 +101,20 @@ class ElementEllipse extends ElementShape {
     }
   }
 
-  public getBoundingRect() {
+  public getBoundingRect(withoutRotation: boolean = false) {
     const {cx: cx, cy: cy, r1, r2, rotation} = this
-
-    return generateBoundingRectFromRotatedRect({
+    const rect: Rect = {
       x: cx - r1,
       y: cy - r2,
       width: r1 * 2,
       height: r2 * 2,
-    }, rotation)
+    }
+
+    if (rotation === 0 || withoutRotation) {
+      return generateBoundingRectFromRect(rect)
+    }
+
+    return generateBoundingRectFromRotatedRect(rect, rotation)
   }
 
   public getBoundingRectFromOriginal() {
@@ -123,16 +128,16 @@ class ElementEllipse extends ElementShape {
     }, rotation)
   }
 
-/*
-  public getOperators(
-    id: string,
-    resizeConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
-    rotateConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
-  ) {
-    return super.getOperators(id, resizeConfig, rotateConfig, this.getBoundingRect(), this.toMinimalJSON(),
-    )
-  }
-*/
+  /*
+    public getOperators(
+      id: string,
+      resizeConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
+      rotateConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
+    ) {
+      return super.getOperators(id, resizeConfig, rotateConfig, this.getBoundingRect(), this.toMinimalJSON(),
+      )
+    }
+  */
 
   /*
     public getSnapPoints(): SnapPointData[] {
