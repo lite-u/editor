@@ -88,7 +88,7 @@ class InteractionState {
         }
         const rects = elements.map((ele) => {
             rotations.push(ele.rotation);
-            return ele.getBoundingRect(true);
+            return ele.getBoundingRect(elements.length === 1);
         });
         const rect = getBoundingRectFromBoundingRects(rects);
         // const anchors = getAnchorsByBoundingRect(rect)
