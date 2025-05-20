@@ -122,6 +122,11 @@ class InteractionState {
 
     let rotations: number[] = []
     const elements = this.editor.elementManager.getElementsByIdSet(idSet)
+    if (elements.length === 0) {
+      this._outlineElement = null
+      this._manipulationElements = []
+      return
+    }
     const rects = elements.map((ele: ElementInstance) => {
       rotations.push(ele.rotation)
       return ele.getBoundingRect()
