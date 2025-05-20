@@ -17,7 +17,7 @@ declare class ElementEllipse extends ElementShape {
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
     toMinimalJSON(): EllipseProps;
     toJSON(): RequiredEllipseProps;
-    getBoundingRect(): import("~/type").BoundingRect;
+    getBoundingRect(withoutRotation?: boolean): import("~/type").BoundingRect;
     getBoundingRectFromOriginal(): import("~/type").BoundingRect;
 }
 export default ElementEllipse;

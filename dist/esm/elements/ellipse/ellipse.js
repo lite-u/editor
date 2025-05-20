@@ -1,4 +1,4 @@
-import { generateBoundingRectFromRotatedRect } from '../../core/utils.js';
+import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '../../core/utils.js';
 import ElementShape from '../shape/shape.js';
 import { rotatePointAroundPoint } from '../../core/geometry.js';
 class ElementEllipse extends ElementShape {
@@ -71,14 +71,18 @@ class ElementEllipse extends ElementShape {
             r2: this.r2,
         };
     }
-    getBoundingRect() {
+    getBoundingRect(withoutRotation = false) {
         const { cx: cx, cy: cy, r1, r2, rotation } = this;
-        return generateBoundingRectFromRotatedRect({
+        const rect = {
             x: cx - r1,
             y: cy - r2,
             width: r1 * 2,
             height: r2 * 2,
-        }, rotation);
+        };
+        if (rotation === 0 || withoutRotation) {
+            return generateBoundingRectFromRect(rect);
+        }
+        return generateBoundingRectFromRotatedRect(rect, rotation);
     }
     getBoundingRectFromOriginal() {
         const { cx: cx, cy: cy, r1, r2, rotation } = this.original;
