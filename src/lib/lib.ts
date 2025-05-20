@@ -249,12 +249,10 @@ export const getManipulationBox = (
     {name: 'l', dx: -0.5, dy: 0},
   ]
   const result: ElementInstance[] = []
-  const centerPoint = {x: cx, y: cy}
-  arr.map(({dx, dy, name}) => {
-    // const lx = cx + dx * width
-    // const ly = cy + dy * height
 
-    const {x, y} = rotatePointAroundPoint({x: cx + dx * width, y: cy + dy * height}, centerPoint)
+  arr.map(({dx, dy, name}) => {
+
+    const {x, y} = rotatePointAroundPoint(cx + dx * width, cy + dy * height, cx, cy, rotation)
 
     const resizeHandleEleProp: RectangleProps = {
       id: 'handle-resize-' + name,

@@ -1,7 +1,7 @@
-import Rectangle from '../elements/rectangle/rectangle.js';
-import { DEFAULT_STROKE } from '../elements/defaultProps.js';
-import Ellipse from '../elements/ellipse/ellipse.js';
-import { rotatePointAroundPoint } from '../core/geometry.js';
+import Rectangle from '~/elements/rectangle/rectangle';
+import { DEFAULT_STROKE } from '~/elements/defaultProps';
+import Ellipse from '~/elements/ellipse/ellipse';
+import { rotatePointAroundPoint } from '~/core/geometry';
 /** Convert screen (mouse) coordinates to canvas coordinates */
 export function screenToWorld(point, offset, scale, dpr) {
     return {
@@ -175,11 +175,8 @@ export const getManipulationBox = (rect, rotation, ratio) => {
         { name: 'l', dx: -0.5, dy: 0 },
     ];
     const result = [];
-    const centerPoint = { x: cx, y: cy };
     arr.map(({ dx, dy, name }) => {
-        // const lx = cx + dx * width
-        // const ly = cy + dy * height
-        const { x, y } = rotatePointAroundPoint({ x: cx + dx * width, y: cy + dy * height }, centerPoint);
+        const { x, y } = rotatePointAroundPoint(cx + dx * width, cy + dy * height, cx, cy, rotation);
         const resizeHandleEleProp = {
             id: 'handle-resize-' + name,
             layer: 1,
