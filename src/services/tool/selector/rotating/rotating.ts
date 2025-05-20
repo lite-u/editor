@@ -9,8 +9,8 @@ const rotating: SubToolType = {
     const elements = elementManager.getElementsByIdSet(selection.values)
     const {_rotateData, mouseWorldCurrent, mouseWorldStart} = interaction
 
-    console.log(_rotateData)
     if (!_rotateData) return
+
     const {startRotation, targetPoint} = _rotateData
     const mouseStartRotation = getRotateAngle(targetPoint, mouseWorldStart)
     const mouseCurrentRotation = getRotateAngle(targetPoint, mouseWorldCurrent)
