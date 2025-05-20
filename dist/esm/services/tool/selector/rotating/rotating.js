@@ -4,19 +4,17 @@ const rotating = {
     mouseMove() {
         const { interaction, elementManager, action, selection, cursor } = this.editor;
         const elements = elementManager.getElementsByIdSet(selection.values);
-        const { _rotateData, mouseWorldCurrent, mouseWorldStart } = interaction;
-        console.log(_rotateData);
+        const { _rotateData, _modifier, mouseWorldCurrent, mouseWorldStart } = interaction;
+        const { shiftKey } = _modifier;
         if (!_rotateData)
             return;
         const { startRotation, targetPoint } = _rotateData;
         const mouseStartRotation = getRotateAngle(targetPoint, mouseWorldStart);
         const mouseCurrentRotation = getRotateAngle(targetPoint, mouseWorldCurrent);
-        /*  console.log(
-            center, mouseWorldCurrent,
-          )*/
-        const rotationDiff = mouseCurrentRotation - mouseStartRotation;
-        // console.log(rotationDiff)
-        // const center = {x: rect.cx, y: rect.cy}
+        let rotationDiff = mouseCurrentRotation - mouseStartRotation;
+        if (shiftKey) {
+            rotationDiff = Math.round(rotationDiff / 15) * 15;
+        }
         interaction._outlineElement?.rotateFrom(rotationDiff, targetPoint);
         interaction._manipulationElements.forEach(ele => {
             ele.rotateFrom(rotationDiff, targetPoint);
@@ -24,11 +22,8 @@ const rotating = {
         elements.forEach(ele => {
             ele.rotateFrom(rotationDiff, targetPoint);
         });
-        // resizeFunc.call(this, elementManager.getElementsByIdSet(selection.values), interaction.startRotation)
-        // dispatch('render-overlay')
         this.editor.action.dispatch('render-overlay');
         this.editor.action.dispatch('render-elements');
-        // this.subTool.mouseMove.call(this)
     },
     mouseUp() {
         const { interaction, elementManager, action, selection } = this.editor;
@@ -40,22 +35,14 @@ const rotating = {
             changes.push(change);
         });
         action.dispatch('element-modified', changes);
-        /*on('element-modified', (changes) => {
-          this.history.add({
-            type: 'history-modify',
-            payload: {
-              selectedElements: this.selection.values,
-              changes,
-            },
-          })
-          console.log(changes)
-          this.events.onHistoryUpdated?.(this.history)
-          this.events.onElementsUpdated?.(this.elementManager.all)
-    
-          dispatch('element-updated')
-        })*/
-        // this.subTool.mouseUp.call(this)
         this.subTool = null;
     },
 };
 export default rotating;
+/*
+
+const rotating: SubToolType = {
+  data:{},
+  start:()=>{},
+  end:()=>{}
+}*/

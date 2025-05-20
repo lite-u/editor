@@ -30,7 +30,7 @@ class InteractionState {
     // _ele: Set<UID> = new Set()
     _selectingElements = new Set();
     _deselection = null;
-    _resizingOperator = null;
+    // _resizingOperator: ResizeHandle | null = null
     _rotatingOperator = null;
     selectedShadow = new Set();
     _ele;

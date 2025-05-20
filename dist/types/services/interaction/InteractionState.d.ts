@@ -1,4 +1,4 @@
-import { OperationHandler, ResizeHandle } from '~/services/selection/type';
+import { OperationHandler } from '~/services/selection/type';
 import { Point, Rect, UID } from '~/type';
 import Editor from '~/main/editor';
 import { ElementInstance } from '~/elements/type';
@@ -40,6 +40,7 @@ declare class InteractionState {
     } | null;
     _rotateData: {
         startRotation: number;
+        snappedRotation: number;
         targetPoint: {
             x: number;
             y: number;
@@ -54,7 +55,6 @@ declare class InteractionState {
     _manipulationElements: ElementInstance[];
     _selectingElements: Set<UID>;
     _deselection: UID | null;
-    _resizingOperator: ResizeHandle | null;
     _rotatingOperator: OperationHandler | null;
     selectedShadow: Set<UID>;
     _ele: ElementInstance;

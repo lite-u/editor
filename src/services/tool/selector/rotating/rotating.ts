@@ -4,17 +4,23 @@ import {HistoryChangeItem} from '~/services/actions/type'
 
 const rotating: SubToolType = {
   // cursor: 'default',
+
   mouseMove(this: ToolManager) {
     const {interaction, elementManager, action, selection, cursor} = this.editor
     const elements = elementManager.getElementsByIdSet(selection.values)
-    const {_rotateData, mouseWorldCurrent, mouseWorldStart} = interaction
+    const {_rotateData, _modifier, mouseWorldCurrent, mouseWorldStart} = interaction
+    const {shiftKey} = _modifier
 
     if (!_rotateData) return
 
     const {startRotation, targetPoint} = _rotateData
     const mouseStartRotation = getRotateAngle(targetPoint, mouseWorldStart)
     const mouseCurrentRotation = getRotateAngle(targetPoint, mouseWorldCurrent)
-    const rotationDiff = mouseCurrentRotation - mouseStartRotation
+    let rotationDiff = mouseCurrentRotation - mouseStartRotation
+
+    if (shiftKey) {
+      rotationDiff = Math.round(rotationDiff / 15) * 15
+    }
 
     interaction._outlineElement?.rotateFrom(rotationDiff, targetPoint)
     interaction._manipulationElements.forEach(ele => {
@@ -41,23 +47,16 @@ const rotating: SubToolType = {
 
     action.dispatch('element-modified', changes)
 
-    /*on('element-modified', (changes) => {
-      this.history.add({
-        type: 'history-modify',
-        payload: {
-          selectedElements: this.selection.values,
-          changes,
-        },
-      })
-      console.log(changes)
-      this.events.onHistoryUpdated?.(this.history)
-      this.events.onElementsUpdated?.(this.elementManager.all)
-
-      dispatch('element-updated')
-    })*/
-    // this.subTool.mouseUp.call(this)
     this.subTool = null
   },
 }
 
 export default rotating
+
+/*
+
+const rotating: SubToolType = {
+  data:{},
+  start:()=>{},
+  end:()=>{}
+}*/

@@ -52,7 +52,7 @@ class InteractionState {
   _draggingElements: ElementInstance[] = []
   _resizingElements: ElementInstance[] = []
   _resizingData: { targetPoint: { x: number, y: number } } | null = null
-  _rotateData: { startRotation: number, targetPoint: { x: number, y: number } } | null = null
+  _rotateData: { startRotation: number, snappedRotation: number, targetPoint: { x: number, y: number } } | null = null
 
   readonly operationHandlers: OperationHandler[] = []
   _pointDown = false
@@ -66,7 +66,7 @@ class InteractionState {
   // _ele: Set<UID> = new Set()
   _selectingElements: Set<UID> = new Set()
   _deselection: UID | null = null
-  _resizingOperator: ResizeHandle | null = null
+  // _resizingOperator: ResizeHandle | null = null
   _rotatingOperator: OperationHandler | null = null
   selectedShadow: Set<UID> = new Set()
   _ele: ElementInstance
