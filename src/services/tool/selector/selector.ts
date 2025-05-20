@@ -47,11 +47,10 @@ const selector: ToolType = {
     const {interaction, cursor} = this.editor
 
     if (interaction._hoveredResizeManipulator) {
-      // const placement = interaction._hoveredResizeManipulator.id.replace('handle-resize-', '')
       cursor.set('nw-resize')
       console.log(10)
-      // interaction._resizingElements = elementManager.getElementsByIdSet(selection.values)
-      return
+    } else {
+      cursor.set(selector.cursor)
     }
 
     // if (!this.subTool) return

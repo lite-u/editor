@@ -1,6 +1,6 @@
-import selecting from '~/services/tool/selector/selecting/selecting';
-import dragging from '~/services/tool/selector/dragging/dragging';
-import resizing from '~/services/tool/selector/resizing/resizing';
+import selecting from './selecting/selecting.js';
+import dragging from './dragging/dragging.js';
+import resizing from './resizing/resizing.js';
 const selector = {
     cursor: 'default',
     mouseDown: function () {
@@ -40,11 +40,11 @@ const selector = {
     mouseMove() {
         const { interaction, cursor } = this.editor;
         if (interaction._hoveredResizeManipulator) {
-            // const placement = interaction._hoveredResizeManipulator.id.replace('handle-resize-', '')
             cursor.set('nw-resize');
             console.log(10);
-            // interaction._resizingElements = elementManager.getElementsByIdSet(selection.values)
-            return;
+        }
+        else {
+            cursor.set(selector.cursor);
         }
         // if (!this.subTool) return
         this.subTool?.mouseMove.call(this);
