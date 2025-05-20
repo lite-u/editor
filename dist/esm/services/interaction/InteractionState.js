@@ -1,6 +1,6 @@
 import { createWith, getManipulationBox } from '../../lib/lib.js';
 import { getBoundingRectFromBoundingRects } from '../tool/resize/helper.js';
-import { DEFAULT_FILL, DEFAULT_STROKE } from '../../elements/defaultProps.js';
+import { DEFAULT_STROKE } from '../../elements/defaultProps.js';
 import { getMinimalBoundingRect } from '../../core/utils.js';
 class InteractionState {
     editor;
@@ -94,8 +94,8 @@ class InteractionState {
             const clone = elementManager.create(ele.toMinimalJSON());
             clone.fill.enabled = false;
             clone.stroke.enabled = true;
-            clone.stroke.weight = 1 / ratio;
-            clone.stroke.color = '#ff0000';
+            clone.stroke.weight = 2 / scale;
+            clone.stroke.color = '#5491f8';
             this._manipulationElements.push(clone);
             rotations.push(ele.rotation);
             rectsWithRotation.push(ele.getBoundingRect());
@@ -118,13 +118,8 @@ class InteractionState {
             rotation: applyRotation,
             stroke: {
                 ...DEFAULT_STROKE,
-                weight: 1 / ratio,
-                color: 'red',
-            },
-            fill: {
-                ...DEFAULT_FILL,
-                // enabled: true,
-                color: 'green',
+                weight: 2 / scale,
+                color: '#5491f8',
             },
         });
     }

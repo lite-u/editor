@@ -5,7 +5,7 @@ import Editor from '~/main/editor'
 import {ElementInstance} from '~/elements/type'
 import {ToolName} from '~/services/tool/toolManager'
 import {getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
-import {DEFAULT_FILL, DEFAULT_STROKE} from '~/elements/defaultProps'
+import {DEFAULT_STROKE} from '~/elements/defaultProps'
 import {getMinimalBoundingRect} from '~/core/utils'
 
 export type EditorManipulationType =
@@ -138,8 +138,8 @@ class InteractionState {
 
       clone.fill.enabled = false
       clone.stroke.enabled = true
-      clone.stroke.weight = 1 / ratio
-      clone.stroke.color = '#ff0000'
+      clone.stroke.weight = 2 / scale
+      clone.stroke.color = '#5491f8'
 
       this._manipulationElements.push(clone)
 
@@ -165,13 +165,8 @@ class InteractionState {
       rotation: applyRotation,
       stroke: {
         ...DEFAULT_STROKE,
-        weight: 1 / ratio,
-        color: 'red',
-      },
-      fill: {
-        ...DEFAULT_FILL,
-        // enabled: true,
-        color: 'green',
+        weight: 2 / scale,
+        color: '#5491f8',
       },
     })
   }
