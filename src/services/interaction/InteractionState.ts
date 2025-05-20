@@ -113,6 +113,7 @@ class InteractionState {
   }
 
   updateControlPoints() {
+    const {elementManager} = this.editor
     const {scale, dpr} = this.editor.world
     const ratio = scale * dpr
     const idSet = this.editor.selection.values
@@ -123,14 +124,20 @@ class InteractionState {
 
     let rotations: number[] = []
     const elements = this.editor.elementManager.getElementsByIdSet(idSet)
+    this._manipulationElements = []
+
     if (elements.length === 0) {
       this._outlineElement = null
-      this._manipulationElements = []
       return
     }
     const rectsWithRotation: BoundingRect[] = []
     const rectsWithoutRotation: BoundingRect[] = []
-    elements.map((ele: ElementInstance) => {
+
+    elements.forEach((ele: ElementInstance) => {
+      this._manipulationElements.push(
+        elementManager.create(ele.toMinimalJSON()),
+      )
+
       rotations.push(ele.rotation)
       rectsWithRotation.push(ele.getBoundingRect())
       rectsWithoutRotation.push(ele.getBoundingRect(true))
@@ -141,10 +148,10 @@ class InteractionState {
 
     if (sameRotation) {
       rect = getMinimalBoundingRect(rectsWithoutRotation, applyRotation)
-      this._manipulationElements = getManipulationBox(rect, applyRotation, ratio)
+      this._manipulationElements.push(...getManipulationBox(rect, applyRotation, ratio))
     } else {
       rect = getBoundingRectFromBoundingRects(rectsWithRotation)
-      this._manipulationElements = getManipulationBox(rect, 0, ratio)
+      this._manipulationElements.push(...getManipulationBox(rect, 0, ratio))
     }
 
     this._outlineElement = this.editor.elementManager.create({

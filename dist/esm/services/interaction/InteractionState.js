@@ -1,7 +1,7 @@
-import { createWith, getManipulationBox } from '~/lib/lib';
-import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
-import { DEFAULT_FILL, DEFAULT_STROKE } from '~/elements/defaultProps';
-import { getMinimalBoundingRect } from '~/core/utils';
+import { createWith, getManipulationBox } from '../../lib/lib.js';
+import { getBoundingRectFromBoundingRects } from '../tool/resize/helper.js';
+import { DEFAULT_FILL, DEFAULT_STROKE } from '../../elements/defaultProps.js';
+import { getMinimalBoundingRect } from '../../core/utils.js';
 class InteractionState {
     editor;
     state = 'static';
@@ -74,6 +74,7 @@ class InteractionState {
         this.selectionBox.style.display = 'block';
     }
     updateControlPoints() {
+        const { elementManager } = this.editor;
         const { scale, dpr } = this.editor.world;
         const ratio = scale * dpr;
         const idSet = this.editor.selection.values;
@@ -82,14 +83,15 @@ class InteractionState {
         }
         let rotations = [];
         const elements = this.editor.elementManager.getElementsByIdSet(idSet);
+        this._manipulationElements = [];
         if (elements.length === 0) {
             this._outlineElement = null;
-            this._manipulationElements = [];
             return;
         }
         const rectsWithRotation = [];
         const rectsWithoutRotation = [];
-        elements.map((ele) => {
+        elements.forEach((ele) => {
+            this._manipulationElements.push(elementManager.create(ele.toMinimalJSON()));
             rotations.push(ele.rotation);
             rectsWithRotation.push(ele.getBoundingRect());
             rectsWithoutRotation.push(ele.getBoundingRect(true));
@@ -99,11 +101,11 @@ class InteractionState {
         let rect;
         if (sameRotation) {
             rect = getMinimalBoundingRect(rectsWithoutRotation, applyRotation);
-            this._manipulationElements = getManipulationBox(rect, applyRotation, ratio);
+            this._manipulationElements.push(...getManipulationBox(rect, applyRotation, ratio));
         }
         else {
             rect = getBoundingRectFromBoundingRects(rectsWithRotation);
-            this._manipulationElements = getManipulationBox(rect, 0, ratio);
+            this._manipulationElements.push(...getManipulationBox(rect, 0, ratio));
         }
         this._outlineElement = this.editor.elementManager.create({
             type: 'rectangle',
