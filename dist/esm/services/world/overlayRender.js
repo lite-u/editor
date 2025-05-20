@@ -47,6 +47,10 @@ function overlayRender() {
         // console.log(_outlineElement)
         _outlineElement.render(ctx);
     }
+    this.editor.interaction._manipulationElements.forEach((ele) => {
+        // console.log(ele)
+        ele.render(ctx);
+    });
     return;
     const fillColor = '#5491f8';
     const selected = this.editor.visible.getVisibleSelected;

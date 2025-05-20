@@ -39,32 +39,3 @@ export declare const HANDLER_OFFSETS: readonly [{
     readonly x: 0;
     readonly y: 0.5;
 }];
-export declare const HANDLER_OFFSETS: readonly [{
-    readonly type: "rotate";
-    readonly name: "rotate-tl";
-    readonly x: 0;
-    readonly y: 0;
-    readonly offsetX: -5;
-    readonly offsetY: -5;
-}, {
-    readonly type: "rotate";
-    readonly name: "rotate-tr";
-    readonly x: 1;
-    readonly y: 0;
-    readonly offsetX: 5;
-    readonly offsetY: -5;
-}, {
-    readonly type: "rotate";
-    readonly name: "rotate-br";
-    readonly x: 1;
-    readonly y: 1;
-    readonly offsetX: 5;
-    readonly offsetY: 5;
-}, {
-    readonly type: "rotate";
-    readonly name: "rotate-bl";
-    readonly x: 0;
-    readonly y: 1;
-    readonly offsetX: -5;
-    readonly offsetY: 5;
-}];

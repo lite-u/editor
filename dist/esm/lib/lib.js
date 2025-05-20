@@ -174,7 +174,7 @@ export const getManipulationBox = (rect, rotation, ratio) => {
         { name: 'l', dx: 0.5, dy: 0.0 },
     ];
     const result = [];
-    return arr.map(({ dx, dy, name }) => {
+    arr.map(({ dx, dy, name }) => {
         const lx = cx + dx * width;
         const ly = cy + dy * height;
         const resizeHandleEleProp = {
@@ -200,8 +200,8 @@ export const getManipulationBox = (rect, rotation, ratio) => {
             rotation,
         };
         result.push(new Rectangle(resizeHandleEleProp), new Ellipse(rotateHandleEleProp));
-        return;
     });
+    return result;
     /*
       return HANDLER_OFFSETS.map((OFFSET, index): ElementInstance => {
         console.log(OFFSET, index)

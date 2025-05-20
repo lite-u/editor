@@ -35,6 +35,7 @@ declare class InteractionState {
     _pointHit: PointHit | null;
     _outlineElement: ElementInstance | null;
     _draggingElements: ElementInstance[];
+    _manipulationElements: ElementInstance[];
     _selectingElements: Set<UID>;
     _deselection: UID | null;
     _resizingOperator: ResizeHandle | null;

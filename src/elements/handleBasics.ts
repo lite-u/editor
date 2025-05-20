@@ -49,39 +49,3 @@ export const HANDLER_OFFSETS = [
   },
   // left-center
 ] as const
-export const HANDLER_OFFSETS = [
-  {
-    type: 'rotate',
-    name: 'rotate-tl',
-    x: 0,
-    y: 0,
-    offsetX: -5,
-    offsetY: -5,
-  },
-  {
-    type: 'rotate',
-    name: 'rotate-tr',
-    x: 1,
-    y: 0,
-    offsetX: 5,
-    offsetY: -5,
-  },
-  {
-    type: 'rotate',
-    name: 'rotate-br',
-    x: 1,
-    y: 1,
-    offsetX: 5,
-    offsetY: 5,
-  },
-  {
-    type: 'rotate',
-    name: 'rotate-bl',
-    x: 0,
-    y: 1,
-    offsetX: -5,
-    offsetY: 5,
-  },
-  // left-center
-] as const
-

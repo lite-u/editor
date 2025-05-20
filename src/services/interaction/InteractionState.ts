@@ -52,6 +52,7 @@ class InteractionState {
   _pointHit: PointHit | null = null
   _outlineElement: ElementInstance | null = null
   _draggingElements: ElementInstance[] = []
+  _manipulationElements: ElementInstance[] = []
   // spaceKeyDown = false
   // _creatingElementId: UID
   // _ele: Set<UID> = new Set()
@@ -111,6 +112,7 @@ class InteractionState {
 
     if (idSet.size <= 1) {
       this._outlineElement = null
+      this._manipulationElements = []
       return
     }
 
@@ -123,8 +125,6 @@ class InteractionState {
     const rect = getBoundingRectFromBoundingRects(rects)
     const anchors = getAnchorsByBoundingRect(rect)
     const sameRotation = rotations.every(val => val === rotations[0])
-    // create outline rectangle for multiple selection
-    const controlElements = getManipulationBox(rect, sameRotation ? rotations[0] : 0, ratio)
     // const manipulationBox =
     const outlineElementProps: OptionalIdentifiersProps = {
       type: 'rectangle',
@@ -142,6 +142,8 @@ class InteractionState {
       },
     }
 
+    // create outline rectangle for multiple selection
+    this._manipulationElements = getManipulationBox(rect, sameRotation ? rotations[0] : 0, ratio)
     this._outlineElement = this.editor.elementManager.create(outlineElementProps)
   }
 
