@@ -127,45 +127,6 @@ class RectangleLike extends ElementShape {
     ]
   }
 
-  /*
-    applyMatrix(matrix: DOMMatrix) {
-      const points = this.corners.map(p => {
-        const r = matrix.transformPoint(p)
-        return {x: r.x, y: r.y}
-      })
-
-      // Recalculate x, y, width, height from transformed corners
-      const xs = points.map(p => p.x)
-      const ys = points.map(p => p.y)
-      this.x = Math.min(...xs)
-      this.y = Math.min(...ys)
-      this.width = Math.max(...xs) - this.x
-      this.height = Math.max(...ys) - this.y
-    }
-  */
-
-  /*  rotate(angle: number, center?: Point) {
-      this.rotation = angle
-    }*/
-
-  /*  translate(dx: number, dy: number): HistoryChangeItem {
-      this.cx = this.original.cx + dx
-      this.cy = this.original.cy + dy
-      this.updatePath2D()
-
-      return {
-        id: this.id,
-        from: {
-          cx: this.original.cx,
-          cy: this.original.cy,
-        },
-        to: {
-          cx: this.cx,
-          cy: this.cy,
-        },
-      }
-    }*/
-
   scaleFrom(scaleX: number, scaleY: number, anchor: Point): HistoryChangeItem | undefined {
     const matrix = new DOMMatrix()
       .translate(anchor.x, anchor.y)
