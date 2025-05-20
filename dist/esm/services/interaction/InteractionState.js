@@ -17,6 +17,7 @@ class InteractionState {
     _snappedPoint = null;
     _pointHit = null;
     _outlineElement = null;
+    _draggingElements = [];
     // spaceKeyDown = false
     // _creatingElementId: UID
     // _ele: Set<UID> = new Set()

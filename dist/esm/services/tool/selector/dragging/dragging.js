@@ -5,13 +5,11 @@ const dragging = {
         _mouseMoved = true;
         const { movementX, movementY } = this.editor.interaction._modifier;
         const { dpr, scale } = this.editor.world;
-        const ratio = dpr * scale;
-        const dp2 = { x: movementX / scale, y: movementY / scale };
-        const dp3 = { x: movementX * dpr / scale, y: movementY * dpr / scale };
-        console.log(ratio, dp2);
-        this.editor.action.dispatch('element-moving', { delta: { ...dp3 } });
+        const dp = { x: movementX * dpr / scale, y: movementY * dpr / scale };
+        this.editor.action.dispatch('element-moving', { delta: { ...dp } });
     },
     mouseUp() {
+        this.editor.interaction._draggingElements = [];
         this.editor.action.dispatch('element-move', { delta: { x: 0, y: 0 } });
     },
 };

@@ -12,7 +12,7 @@ function overlayRender(this: World) {
   const {_snappedPoint, _hoveredElement, _outlineElement} = this.editor.interaction
   const {scale, dpr} = this.editor.world
   const ratio = scale * dpr
-  const size = 80 / ratio
+  const size = 20 / ratio
   const lineWidth = 3 / ratio
   const fontSize = 40 / ratio
   // const lineColor = '#5491f8'

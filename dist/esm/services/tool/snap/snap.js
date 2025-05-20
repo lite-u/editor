@@ -14,7 +14,8 @@ function snapTool() {
     for (let i = arr.length - 1; i >= 0; i--) {
         const ele = arr[i];
         const path = ele.path2D;
-        if (!ele.show || ele.opacity <= 0)
+        // console.log(interaction._hoveredElement)
+        if (!ele.show || ele.opacity <= 0 || interaction._hoveredElement === ele)
             continue;
         const points = ele.getPoints;
         // const border = ctx.isPointInStroke(path, viewPoint.x, viewPoint.y)

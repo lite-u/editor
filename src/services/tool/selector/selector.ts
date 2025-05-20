@@ -6,12 +6,13 @@ import resizing from '~/services/tool/selector/resizing/resizing'
 const selector: ToolType = {
   cursor: 'default',
   mouseDown: function () {
-    const {interaction, action, selection, cursor} = this.editor
+    const {interaction, elementManager, action, selection, cursor} = this.editor
     const {_hoveredElement, mouseStart, mouseCurrent, _modifier: {shiftKey, metaKey, ctrlKey}} = interaction
     const dragMode = !!_hoveredElement
     const rotateMode = false
     const resizeMode = false
 
+    interaction._snappedPoint = null
     if (dragMode) {
       this.subTool = dragging
       const id = _hoveredElement.id
@@ -19,6 +20,8 @@ const selector: ToolType = {
       if (!this.editor.selection.has(id)) {
         action.dispatch('selection-modify', {mode: 'replace', idSet: new Set([_hoveredElement.id])})
       }
+
+      interaction._draggingElements = elementManager.getElementsByIdSet(selection.values)
     } else if (rotateMode) {
       // this.tool = resizeTool
 
