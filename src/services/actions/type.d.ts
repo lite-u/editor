@@ -70,7 +70,7 @@ export type VisionEventMap = {
   'element-move': ElementMoveData;
   'element-moving': ElementMoveData;
   'element-modified': HistoryChangeItem[]
-  'element-modify': Partial<ElementProps>
+  'element-modify': Partial<ElementProps>[]
   'element-modifying': {
     type: 'move' | 'resize' | 'rotate',
     data: Partial<ElementProps>[]

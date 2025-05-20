@@ -397,7 +397,7 @@ export function initEvents(this: Editor) {
         Object.assign(ele, props)
       }
     })
-    console.log(data)
+    // console.log(data)
     // this.events.onHistoryUpdated?.(this.history)
     // this.events.onElementsUpdated?.(this.elementManager.all)
 
@@ -412,7 +412,7 @@ export function initEvents(this: Editor) {
         changes,
       },
     })
-    console.log(changes)
+    // console.log(changes)
     this.events.onHistoryUpdated?.(this.history)
     this.events.onElementsUpdated?.(this.elementManager.all)
 

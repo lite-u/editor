@@ -36,7 +36,7 @@ class ElementShape extends ElementBase {
             };
         }
     }
-    rotateFrom(rotation, anchor) {
+    rotateFrom(rotation, anchor, f) {
         const matrix = new DOMMatrix()
             .translate(anchor.x, anchor.y)
             .rotate(rotation)
@@ -47,7 +47,21 @@ class ElementShape extends ElementBase {
         this.cy = transformed.y;
         this.rotation = this.original.rotation + rotation;
         this.updatePath2D();
-        // return this
+        if (f) {
+            return {
+                id: this.id,
+                from: {
+                    cx: this.original.cx,
+                    cy: this.original.cy,
+                    rotation: this.original.rotation,
+                },
+                to: {
+                    cx: this.cx,
+                    cy: this.cy,
+                    rotation: this.rotation,
+                },
+            };
+        }
     }
     get center() {
         return { x: this.cx, y: this.cy };

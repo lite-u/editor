@@ -1,4 +1,4 @@
-import { getRotateAngle } from '../helper.js';
+import { getRotateAngle } from '~/services/tool/selector/helper';
 const rotating = {
     // cursor: 'default',
     mouseMove() {
@@ -15,7 +15,7 @@ const rotating = {
             center, mouseWorldCurrent,
           )*/
         const rotationDiff = mouseCurrentRotation - mouseStartRotation;
-        console.log(rotationDiff);
+        // console.log(rotationDiff)
         // const center = {x: rect.cx, y: rect.cy}
         interaction._outlineElement?.rotateFrom(rotationDiff, targetPoint);
         interaction._manipulationElements.forEach(ele => {
@@ -31,8 +31,29 @@ const rotating = {
         // this.subTool.mouseMove.call(this)
     },
     mouseUp() {
-        if (!this.subTool)
-            return;
+        const { interaction, elementManager, action, selection } = this.editor;
+        const elements = elementManager.getElementsByIdSet(selection.values);
+        const changes = [];
+        elements.forEach(ele => {
+            const change = ele.rotateFrom(0, interaction._rotateData?.targetPoint);
+            ele.updateOriginal();
+            changes.push(change);
+        });
+        action.dispatch('element-modified', changes);
+        /*on('element-modified', (changes) => {
+          this.history.add({
+            type: 'history-modify',
+            payload: {
+              selectedElements: this.selection.values,
+              changes,
+            },
+          })
+          console.log(changes)
+          this.events.onHistoryUpdated?.(this.history)
+          this.events.onElementsUpdated?.(this.elementManager.all)
+    
+          dispatch('element-updated')
+        })*/
         // this.subTool.mouseUp.call(this)
         this.subTool = null;
     },

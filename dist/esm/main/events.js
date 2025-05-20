@@ -330,7 +330,7 @@ export function initEvents() {
                 Object.assign(ele, props);
             }
         });
-        console.log(data);
+        // console.log(data)
         // this.events.onHistoryUpdated?.(this.history)
         // this.events.onElementsUpdated?.(this.elementManager.all)
         dispatch('element-updated');
@@ -343,7 +343,7 @@ export function initEvents() {
                 changes,
             },
         });
-        console.log(changes);
+        // console.log(changes)
         this.events.onHistoryUpdated?.(this.history);
         this.events.onElementsUpdated?.(this.elementManager.all);
         dispatch('element-updated');
