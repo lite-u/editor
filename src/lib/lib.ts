@@ -1,9 +1,9 @@
 import {BoundingRect, DPR, ElementInstance, Point} from '../type'
 import {HANDLER_OFFSETS} from '~/elements/handleBasics'
-import {RectangleProps} from '~/elements/rectangle/rectangle'
+import Rectangle, {RectangleProps} from '~/elements/rectangle/rectangle'
 import {rotatePointAroundPoint} from '~/core/geometry'
 import {DEFAULT_STROKE} from '~/elements/defaultProps'
-import {EllipseProps} from '~/elements/ellipse/ellipse'
+import Ellipse, {EllipseProps} from '~/elements/ellipse/ellipse'
 
 interface DrawCrossLineProps {
   ctx: CanvasRenderingContext2D;
@@ -251,22 +251,23 @@ export const getManipulationBox = (
   ]
   const result = []
 
-  return arr.map(item => {
-    const lx = cx + item.dx * width
-    const ly = cy + item.dy * height
+  return arr.map(({dx, dy, name}) => {
+    const lx = cx + dx * width
+    const ly = cy + dy * height
 
     const resizeHandleEleProp: RectangleProps = {
-      id: 'handle-resize-' + item.name,
+      id: 'handle-resize-' + name,
       cx: lx,
       cy: ly,
 
     }
     const rotateHandleEleProp: EllipseProps = {
-      id: 'handle-rotate-' + item.name,
+      id: 'handle-rotate-' + name,
       cx: lx,
       cy: ly,
     }
-    result.push(new)
+
+    result.push(new Rectangle(resizeHandleEleProp), new Ellipse(rotateHandleEleProp))
     return
   })
 
