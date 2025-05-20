@@ -115,6 +115,15 @@ class ElementLineSegment extends ElementBase {
             this.updatePath2D();
         }
         if (f) {
+            return {
+                id: this.id,
+                from: {
+                    points: deepClone(this.original.points),
+                },
+                to: {
+                    points: deepClone(this.points),
+                },
+            };
         }
     }
     toJSON() {
