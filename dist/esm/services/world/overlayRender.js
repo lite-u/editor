@@ -8,10 +8,10 @@ function overlayRender() {
     const { scale, dpr } = this.editor.world;
     const ratio = scale * dpr;
     const size = 80 / ratio;
-    const lineWidth = 1 / ratio;
+    const lineWidth = 3 / ratio;
     const fontSize = 40 / ratio;
     // const lineColor = '#5491f8'
-    const lineColor = '#ff0000';
+    const lineColor = '#435fb9';
     if (_snappedPoint) {
         drawCrossWithLabel(ctx, _snappedPoint, size, '#ff0000', lineWidth, fontSize);
     }
@@ -22,10 +22,10 @@ function overlayRender() {
             stroke: {
                 ...DEFAULT_STROKE,
                 color: lineColor,
-                weight: 1 / ratio,
+                weight: 2 / ratio,
             },
             fill: {
-                enabled: false,
+                ...DEFAULT_FILL,
             },
         });
         const point = this.editor.elementManager.create({
