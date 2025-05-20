@@ -1,4 +1,5 @@
 import snapTool from '../snap/snap.js';
+import detectTool from '../detectTool.js';
 export default function handlePointerMove(e) {
     const { action, rect, cursor, interaction, world } = this.editor;
     const x = e.clientX - rect.x;
@@ -18,6 +19,7 @@ export default function handlePointerMove(e) {
         interaction._hoveredElement = null;
     }
     else {
+        detectTool.call(this);
         snapTool.call(this);
     }
     // console.log(interaction._snappedPoint)
