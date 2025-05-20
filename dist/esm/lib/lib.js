@@ -1,7 +1,7 @@
-import Rectangle from '~/elements/rectangle/rectangle';
-import { DEFAULT_STROKE } from '~/elements/defaultProps';
-import Ellipse from '~/elements/ellipse/ellipse';
-import { rotatePointAroundPoint } from '~/core/geometry';
+import Rectangle from '../elements/rectangle/rectangle.js';
+import { DEFAULT_STROKE } from '../elements/defaultProps.js';
+import Ellipse from '../elements/ellipse/ellipse.js';
+import { rotatePointAroundPoint } from '../core/geometry.js';
 /** Convert screen (mouse) coordinates to canvas coordinates */
 export function screenToWorld(point, offset, scale, dpr) {
     return {
