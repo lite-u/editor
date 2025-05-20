@@ -38,6 +38,13 @@ declare class InteractionState {
             y: number;
         };
     } | null;
+    _rotateData: {
+        startRotation: number;
+        targetPoint: {
+            x: number;
+            y: number;
+        };
+    } | null;
     readonly operationHandlers: OperationHandler[];
     _pointDown: boolean;
     _snapped: boolean;

@@ -25,7 +25,8 @@ const selector = {
             });
             const center = getBoundingRectFromBoundingRects(rects);
             const { cx: x, cy: y } = center;
-            interaction._rotateData = { center: { x, y } };
+            console.log(interaction._outlineElement.rotation);
+            interaction._rotateData = { startRotation: interaction._outlineElement.rotation, targetPoint: { x, y } };
             this.subTool = rotating;
         }
         else if (dragMode) {

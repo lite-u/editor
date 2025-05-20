@@ -17,6 +17,7 @@ class InteractionState {
     _draggingElements = [];
     _resizingElements = [];
     _resizingData = null;
+    _rotateData = null;
     operationHandlers = [];
     _pointDown = false;
     _snapped = false;

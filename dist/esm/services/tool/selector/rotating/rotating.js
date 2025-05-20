@@ -8,8 +8,8 @@ const rotating = {
         console.log(_rotateData);
         if (!_rotateData)
             return;
-        const { center } = _rotateData;
-        const rotate = getRotateAngle(center, mouseWorldCurrent);
+        const { targetPoint } = _rotateData;
+        const rotate = getRotateAngle(targetPoint, mouseWorldCurrent);
         /*  console.log(
             center, mouseWorldCurrent,
           )*/
@@ -19,11 +19,17 @@ const rotating = {
          })*/
         // const rect = getBoundingRectFromBoundingRects(rects)
         // const center = {x: rect.cx, y: rect.cy}
+        interaction._outlineElement?.rotateFrom(rotate, targetPoint);
+        interaction._manipulationElements.forEach(ele => {
+            ele.rotateFrom(rotate, targetPoint);
+        });
         elements.forEach(ele => {
-            ele.rotateFrom(rotate, center);
+            ele.rotateFrom(rotate, targetPoint);
         });
         // resizeFunc.call(this, elementManager.getElementsByIdSet(selection.values), interaction.startRotation)
-        this.editor.action.dispatch('element-updated');
+        // dispatch('render-overlay')
+        this.editor.action.dispatch('render-overlay');
+        this.editor.action.dispatch('render-elements');
         // this.subTool.mouseMove.call(this)
     },
     mouseUp() {

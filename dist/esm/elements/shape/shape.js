@@ -1,7 +1,7 @@
-import ElementBase from '../base/elementBase';
-import { DEFAULT_CX, DEFAULT_CY, DEFAULT_GRADIENT } from '~/elements/defaultProps';
-import { isEqual } from '~/lib/lib';
-import deepClone from '~/core/deepClone';
+import ElementBase from '../base/elementBase.js';
+import { DEFAULT_CX, DEFAULT_CY, DEFAULT_GRADIENT } from '../defaultProps.js';
+import { isEqual } from '../../lib/lib.js';
+import deepClone from '../../core/deepClone.js';
 class ElementShape extends ElementBase {
     cx;
     cy;
