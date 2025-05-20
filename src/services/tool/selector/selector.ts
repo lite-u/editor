@@ -1,7 +1,6 @@
 import ToolManager, {ToolType} from '~/services/tool/toolManager'
 import selecting from '~/services/tool/selector/selecting/selecting'
 import dragging from '~/services/tool/selector/dragging/dragging'
-import resizing from '~/services/tool/selector/resizing/resizing'
 
 const selector: ToolType = {
   cursor: 'default',
@@ -19,9 +18,12 @@ const selector: ToolType = {
 
       interaction._resizingData = {placement}
       return
-    }
-    // interaction._snappedPoint = null
+    } else if (rotateMode) {
+      interaction._rotateData = {startRotation: 0}
 
+      // this.tool = resizeTool
+      //     this.subTool = rotateTool
+    }
     if (dragMode) {
       this.subTool = dragging
       const id = _hoveredElement.id
@@ -31,13 +33,6 @@ const selector: ToolType = {
       }
 
       interaction._draggingElements = elementManager.getElementsByIdSet(selection.values)
-    } else if (rotateMode) {
-      // this.tool = resizeTool
-
-    } else if (resizeMode) {
-      // this.tool = resize
-      this.subTool = resizing
-
     } else {
       this.subTool = selecting
       return
@@ -48,7 +43,10 @@ const selector: ToolType = {
 
     if (interaction._hoveredResizeManipulator) {
       cursor.set('nw-resize')
-      console.log(10)
+      // console.log(10)
+    } else if (interaction._hoveredRotateManipulator) {
+      cursor.set('rotate')
+      // console.log(10)
     } else {
       cursor.set(selector.cursor)
     }

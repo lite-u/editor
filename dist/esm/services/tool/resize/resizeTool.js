@@ -1,8 +1,8 @@
 import resizeFunc from './resizeFunc.js';
 const resizeTool = {
-    cursor: 'default',
+    // cursor: 'default',
     mouseMove() {
-        console.log(9);
+        console.log(111);
         // interaction._resizingElements = elementManager.getElementsByIdSet(selection.values)
         const { interaction, elementManager, action, selection, cursor } = this.editor;
         resizeFunc.call(this, elementManager.getElementsByIdSet(selection.values), interaction._resizingData.placement);

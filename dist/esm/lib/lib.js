@@ -159,9 +159,9 @@ export const isEqual = (o1, o2) => {
     return false;
 };
 export const getManipulationBox = (rect, rotation, ratio) => {
-    const resizeLen = 10 / ratio;
+    const resizeLen = 20 / ratio;
     const resizeStrokeWidth = 1 / ratio;
-    const rotateRadius = 20 / ratio;
+    const rotateRadius = 30 / ratio;
     const { cx, cy, width, height } = rect;
     const arr = [
         { name: 'tl', dx: -0.5, dy: -0.5 },

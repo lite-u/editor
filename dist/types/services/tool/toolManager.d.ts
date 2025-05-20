@@ -6,7 +6,9 @@ export type ToolType = {
     mouseMove: (this: ToolManager) => void;
     mouseUp: (this: ToolManager) => void;
 };
-export type SubToolType = Omit<ToolType, 'mouseDown'>;
+export type SubToolType = Omit<ToolType, 'mouseDown'> & {
+    cursor?: CursorName;
+};
 export type ToolName = 'selector' | 'rectangle' | 'text' | 'ellipse' | 'panning' | 'lineSegment' | 'path' | 'pencil' | 'zoomIn' | 'zoomOut';
 declare class ToolManager {
     editor: Editor;

@@ -233,9 +233,9 @@ export const getManipulationBox = (
   rotation: number,
   ratio: number,
 ): ElementInstance[] => {
-  const resizeLen = 10 / ratio
+  const resizeLen = 20 / ratio
   const resizeStrokeWidth = 1 / ratio
-  const rotateRadius = 20 / ratio
+  const rotateRadius = 30 / ratio
   const {cx, cy, width, height} = rect
   const arr = [
     {name: 'tl', dx: -0.5, dy: -0.5},
