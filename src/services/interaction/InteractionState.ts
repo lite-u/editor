@@ -112,8 +112,6 @@ class InteractionState {
 
     if (idSet.size <= 1) {
       this._outlineElement = null
-      this._manipulationElements = []
-      return
     }
 
     let rotations: number[] = []

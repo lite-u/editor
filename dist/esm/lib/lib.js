@@ -167,11 +167,11 @@ export const getManipulationBox = (rect, rotation, ratio) => {
         { name: 'tl', dx: -0.5, dy: -0.5 },
         { name: 't', dx: 0.0, dy: 0.5 },
         { name: 'tr', dx: -0.5, dy: 0.5 },
-        { name: 'r', dx: -0.5, dy: 0.0 },
-        { name: 'br', dx: -0.5, dy: -0.5 },
+        { name: 'r', dx: 0.5, dy: 0 },
+        { name: 'br', dx: 0.5, dy: 0.5 },
         { name: 'b', dx: 0.0, dy: -0.5 },
         { name: 'bl', dx: 0.5, dy: -0.5 },
-        { name: 'l', dx: 0.5, dy: 0.0 },
+        { name: 'l', dx: -0.5, dy: 0 },
     ];
     const result = [];
     arr.map(({ dx, dy, name }) => {

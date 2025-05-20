@@ -74,8 +74,6 @@ class InteractionState {
         const idSet = this.editor.selection.values;
         if (idSet.size <= 1) {
             this._outlineElement = null;
-            this._manipulationElements = [];
-            return;
         }
         let rotations = [];
         const elements = this.editor.elementManager.getElementsByIdSet(idSet);
