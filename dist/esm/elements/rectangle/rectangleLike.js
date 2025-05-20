@@ -10,7 +10,7 @@ class RectangleLike extends ElementShape {
     height;
     borderRadius;
     // path2D: Path2D = new Path2D()
-    original;
+    // private original: { cx: number, cy: number, width: number, height: number, rotation: number }
     constructor({ 
     // id,
     // layer,
@@ -22,8 +22,7 @@ class RectangleLike extends ElementShape {
         this.height = height;
         this.borderRadius = borderRadius;
         this.original = {
-            cx: this.cx,
-            cy: this.cy,
+            ...this.original,
             width,
             height,
             rotation: this.rotation,

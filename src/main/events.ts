@@ -337,7 +337,7 @@ export function initEvents(this: Editor) {
 
       if (ele) {
         ele.translate(delta.x, delta.y)
-        ele.updateOriginal()
+        ele.updatePath2D()
       }
     })
 

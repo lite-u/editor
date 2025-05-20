@@ -23,7 +23,7 @@ class ElementShape extends ElementBase {
   public cx: number
   public cy: number
   gradient: Gradient
-  private original: { cx: number; cy: number; [key: string]: number }
+  protected original: { cx: number; cy: number; [key: string]: number }
 
   constructor({
                 cx = DEFAULT_CX,

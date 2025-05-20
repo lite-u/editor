@@ -276,7 +276,7 @@ export function initEvents() {
             const ele = this.elementManager.all.get(id);
             if (ele) {
                 ele.translate(delta.x, delta.y);
-                ele.updateOriginal();
+                ele.updatePath2D();
             }
         });
         dispatch('element-updated');

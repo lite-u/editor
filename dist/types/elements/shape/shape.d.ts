@@ -14,7 +14,11 @@ declare class ElementShape extends ElementBase {
     cx: number;
     cy: number;
     gradient: Gradient;
-    private original;
+    protected original: {
+        cx: number;
+        cy: number;
+        [key: string]: number;
+    };
     constructor({ cx, cy, gradient, ...rest }: ShapeProps);
     translate(dx: number, dy: number): HistoryChangeItem;
     protected get center(): Point;
