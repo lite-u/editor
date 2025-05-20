@@ -182,8 +182,7 @@ class ElementPath extends ElementBase {
   }
 
   getBoundingRectFromOriginal() {
-    const [start, end] = this.original.points
-    return ElementLineSegment._getBoundingRect(start, end, this.original.rotation)
+    return ElementPath._getBoundingRect(this.original.points)
   }
 
   public getBoundingRect(): BoundingRect {
