@@ -54,7 +54,7 @@ function overlayRender(this: World) {
   }
 
   if (_outlineElement) {
-    console.log(_outlineElement)
+    // console.log(_outlineElement)
     _outlineElement.render(ctx)
   }
 

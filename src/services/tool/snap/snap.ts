@@ -6,7 +6,7 @@ import {PointHit} from '~/services/interaction/InteractionState'
 
 function snapTool(this: ToolManager) {
   const {interaction, world, visible} = this.editor
-  const {baseCanvasContext: ctx, dpr} = world
+  const {baseCanvasContext: ctx, scale, dpr} = world
   const {x, y} = interaction.mouseCurrent
   const viewPoint = {
     x: x * dpr,
@@ -15,7 +15,6 @@ function snapTool(this: ToolManager) {
   const arr = visible.values
   let _ele = null
   let _snappedPoint = null
-
   for (let i = arr.length - 1; i >= 0; i--) {
     const ele = arr[i]
     const path = ele.path2D
@@ -25,8 +24,9 @@ function snapTool(this: ToolManager) {
     const points: Point[] = ele.getPoints
     // const border = ctx.isPointInStroke(path, viewPoint.x, viewPoint.y)
     // const onBorder = isPointNearStroke(ctx, path, viewPoint, 2, .1)
-    const isNearStroke = isPointNearStroke2(ctx, path, viewPoint, 2, 1)
-    const isOn = isPointNearStroke(ctx, path, viewPoint, 2, 1)
+    const lineWidth = 1 * dpr / scale
+    const isNearStroke = isPointNearStroke2(ctx, path, viewPoint, 0, lineWidth)
+    // const isOn = isPointNearStroke(ctx, path, viewPoint, 2, 1)
     const inside = ctx.isPointInPath(path, viewPoint.x, viewPoint.y)
     const point = points.find(p => isPointNear(p, viewPoint))
     if (point) {

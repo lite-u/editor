@@ -82,7 +82,7 @@ export function detectHoveredElement() {
         }
     }
 }
-export function isPointNearStroke(ctx, path, point, tolerance = 2, step = 1) {
+export function isPointNearStroke(ctx, path, point, tolerance = 1, step = 1) {
     for (let dx = -tolerance; dx <= tolerance; dx += step) {
         for (let dy = -tolerance; dy <= tolerance; dy += step) {
             // console.log(9)
@@ -95,7 +95,7 @@ export function isPointNearStroke(ctx, path, point, tolerance = 2, step = 1) {
     }
     return null;
 }
-export function isPointNearStroke2(ctx, path, point, tolerance = 5, baseLineWidth = 1) {
+export function isPointNearStroke2(ctx, path, point, tolerance = 5, baseLineWidth) {
     ctx.save();
     ctx.lineWidth = baseLineWidth + tolerance * 2;
     const result = ctx.isPointInStroke(path, point.x, point.y);

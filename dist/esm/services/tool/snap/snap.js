@@ -1,8 +1,8 @@
-import { isPointNearStroke, isPointNearStroke2 } from '../helper.js';
+import { isPointNearStroke2 } from '../helper.js';
 import { isPointNear } from '../../../core/geometry.js';
 function snapTool() {
     const { interaction, world, visible } = this.editor;
-    const { baseCanvasContext: ctx, dpr } = world;
+    const { baseCanvasContext: ctx, scale, dpr } = world;
     const { x, y } = interaction.mouseCurrent;
     const viewPoint = {
         x: x * dpr,
@@ -20,8 +20,9 @@ function snapTool() {
         const points = ele.getPoints;
         // const border = ctx.isPointInStroke(path, viewPoint.x, viewPoint.y)
         // const onBorder = isPointNearStroke(ctx, path, viewPoint, 2, .1)
-        const isNearStroke = isPointNearStroke2(ctx, path, viewPoint, 2, 1);
-        const isOn = isPointNearStroke(ctx, path, viewPoint, 2, 1);
+        const lineWidth = 1 * dpr / scale;
+        const isNearStroke = isPointNearStroke2(ctx, path, viewPoint, 0, lineWidth);
+        // const isOn = isPointNearStroke(ctx, path, viewPoint, 2, 1)
         const inside = ctx.isPointInPath(path, viewPoint.x, viewPoint.y);
         const point = points.find(p => isPointNear(p, viewPoint));
         if (point) {

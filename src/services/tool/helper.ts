@@ -102,7 +102,7 @@ export function isPointNearStroke(
   ctx: CanvasRenderingContext2D,
   path: Path2D,
   point: Point,
-  tolerance = 2,
+  tolerance = 1,
   step = 1,
 ): Point | null {
   for (let dx = -tolerance; dx <= tolerance; dx += step) {
@@ -123,7 +123,7 @@ export function isPointNearStroke2(
   path: Path2D,
   point: Point,
   tolerance = 5,
-  baseLineWidth = 1
+  baseLineWidth: number,
 ): boolean {
   ctx.save()
   ctx.lineWidth = baseLineWidth + tolerance * 2
