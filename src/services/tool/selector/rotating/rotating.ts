@@ -14,9 +14,6 @@ const rotating: SubToolType = {
     const {startRotation, targetPoint} = _rotateData
     const mouseStartRotation = getRotateAngle(targetPoint, mouseWorldStart)
     const mouseCurrentRotation = getRotateAngle(targetPoint, mouseWorldCurrent)
-    /*  console.log(
-        center, mouseWorldCurrent,
-      )*/
     const rotationDiff = mouseCurrentRotation - mouseStartRotation
 
     interaction._outlineElement?.rotateFrom(rotationDiff, targetPoint)
