@@ -1,6 +1,6 @@
-import { createWith, getManipulationBox } from '~/lib/lib';
-import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
-import { DEFAULT_FILL, DEFAULT_STROKE } from '~/elements/defaultProps';
+import { createWith, getManipulationBox } from '../../lib/lib.js';
+import { getBoundingRectFromBoundingRects } from '../tool/resize/helper.js';
+import { DEFAULT_FILL, DEFAULT_STROKE } from '../../elements/defaultProps.js';
 class InteractionState {
     editor;
     state = 'static';

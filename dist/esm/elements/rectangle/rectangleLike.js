@@ -29,11 +29,9 @@ class RectangleLike extends ElementShape {
         this.updatePath2D();
     }
     updatePath2D() {
-        const { cx, cy, width, height, borderRadius, rotation } = this;
-        // const w = width / 2
-        // const h = height / 2
+        const { cx, cy, borderRadius, rotation } = this;
         const [tl, tr, br, bl] = borderRadius;
-        const { top, right, bottom, left } = this.getBoundingRect();
+        const { top, right, bottom, left } = this.getBoundingRect(true);
         const matrix = new DOMMatrix()
             .translate(cx, cy)
             .rotate(rotation)
