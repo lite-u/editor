@@ -4,7 +4,6 @@ import ElementRectangle from '../rectangle/rectangle'
 import {Point} from '~/type'
 import render from './render'
 import {rotatePointAroundPoint} from '~/core/geometry'
-import {HistoryChangeItem} from '~/services/actions/type'
 
 export interface EllipseProps extends ShapeProps {
   // id: string
@@ -18,13 +17,10 @@ export type RequiredEllipseProps = Required<EllipseProps>
 
 class ElementEllipse extends ElementShape {
   readonly type = 'ellipse'
-  // id: string
-  // layer: number
   // horizontal
   r1: number
   // vertical
   r2: number
-  // private original: { cx: number, cy: number, r1: number, r2: number, rotation: number }
 
   constructor({
                 r1,
@@ -32,20 +28,14 @@ class ElementEllipse extends ElementShape {
                 ...rest
               }: EllipseProps) {
     super(rest)
-    // this.id = id
-    // this.layer = layer
     this.r1 = r1!
     this.r2 = r2!
 
-    console.log(this.original)
-/*    this.original = {
+    this.original = {
       ...this.original,
-      cx: this.cx,
-      cy: this.cy,
       r1: this.r1,
       r2: this.r1,
-      rotation: this.rotation,
-    }*/
+    }
     this.updatePath2D()
   }
 
@@ -74,7 +64,6 @@ class ElementEllipse extends ElementShape {
     this.original.rotation = this.rotation
     this.updatePath2D()
   }
-
 
   scaleFrom(scaleX: number, scaleY: number, anchor: Point) {
     const matrix = new DOMMatrix()
