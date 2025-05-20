@@ -1,5 +1,5 @@
 import {OperationHandler, ResizeHandle} from '~/services/selection/type'
-import {Point, Rect, UID} from '~/type'
+import {BoundingRect, Point, Rect, UID} from '~/type'
 import {createWith, getManipulationBox} from '~/lib/lib'
 import Editor from '~/main/editor'
 import {ElementInstance, OptionalIdentifiersProps} from '~/elements/type'
@@ -127,15 +127,27 @@ class InteractionState {
       this._manipulationElements = []
       return
     }
-    const rects = elements.map((ele: ElementInstance) => {
+    const rectsWithRotation: BoundingRect[] = []
+    const rectsWithoutRotation: BoundingRect[] = []
+    elements.map((ele: ElementInstance) => {
       rotations.push(ele.rotation)
-      return ele.getBoundingRect(elements.length === 1)
+      rectsWithRotation.push(ele.getBoundingRect())
+      rectsWithoutRotation.push(ele.getBoundingRect(true))
     })
-    const rect = getBoundingRectFromBoundingRects(rects)
-    // const anchors = getAnchorsByBoundingRect(rect)
     const sameRotation = rotations.every(val => val === rotations[0])
     const applyRotation = sameRotation ? rotations[0] : 0
-    // const manipulationBox =
+    let rect: BoundingRect
+
+    if (sameRotation) {
+      rect = getBoundingRectFromBoundingRects(rectsWithoutRotation)
+    } else {
+      rect = getBoundingRectFromBoundingRects(rectsWithRotation)
+    }
+
+    this._manipulationElements = getManipulationBox(rect, applyRotation, ratio)
+
+    // const rect = getBoundingRectFromBoundingRects(rects)
+    // const anchors = getAnchorsByBoundingRect(rect)
     const outlineElementProps: OptionalIdentifiersProps = {
       type: 'rectangle',
       ...rect,
@@ -153,7 +165,6 @@ class InteractionState {
       },
     }
     // create outline rectangle for multiple selection
-    this._manipulationElements = getManipulationBox(rect, applyRotation, ratio)
     this._outlineElement = this.editor.elementManager.create(outlineElementProps)
   }
 

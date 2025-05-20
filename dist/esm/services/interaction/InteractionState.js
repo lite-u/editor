@@ -1,6 +1,6 @@
-import { createWith, getManipulationBox } from '../../lib/lib.js';
-import { getBoundingRectFromBoundingRects } from '../tool/resize/helper.js';
-import { DEFAULT_FILL, DEFAULT_STROKE } from '../../elements/defaultProps.js';
+import { createWith, getManipulationBox } from '~/lib/lib';
+import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
+import { DEFAULT_FILL, DEFAULT_STROKE } from '~/elements/defaultProps';
 class InteractionState {
     editor;
     state = 'static';
@@ -86,15 +86,25 @@ class InteractionState {
             this._manipulationElements = [];
             return;
         }
-        const rects = elements.map((ele) => {
+        const rectsWithRotation = [];
+        const rectsWithoutRotation = [];
+        elements.map((ele) => {
             rotations.push(ele.rotation);
-            return ele.getBoundingRect(elements.length === 1);
+            rectsWithRotation.push(ele.getBoundingRect());
+            rectsWithoutRotation.push(ele.getBoundingRect(true));
         });
-        const rect = getBoundingRectFromBoundingRects(rects);
-        // const anchors = getAnchorsByBoundingRect(rect)
         const sameRotation = rotations.every(val => val === rotations[0]);
         const applyRotation = sameRotation ? rotations[0] : 0;
-        // const manipulationBox =
+        let rect;
+        if (sameRotation) {
+            rect = getBoundingRectFromBoundingRects(rectsWithoutRotation);
+        }
+        else {
+            rect = getBoundingRectFromBoundingRects(rectsWithRotation);
+        }
+        this._manipulationElements = getManipulationBox(rect, applyRotation, ratio);
+        // const rect = getBoundingRectFromBoundingRects(rects)
+        // const anchors = getAnchorsByBoundingRect(rect)
         const outlineElementProps = {
             type: 'rectangle',
             ...rect,
@@ -112,7 +122,6 @@ class InteractionState {
             },
         };
         // create outline rectangle for multiple selection
-        this._manipulationElements = getManipulationBox(rect, applyRotation, ratio);
         this._outlineElement = this.editor.elementManager.create(outlineElementProps);
     }
     destroy() {
