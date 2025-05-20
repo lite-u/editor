@@ -2,10 +2,11 @@ import {OperationHandler, ResizeHandle} from '~/services/selection/type'
 import {BoundingRect, Point, Rect, UID} from '~/type'
 import {createWith, getManipulationBox} from '~/lib/lib'
 import Editor from '~/main/editor'
-import {ElementInstance, OptionalIdentifiersProps} from '~/elements/type'
+import {ElementInstance} from '~/elements/type'
 import {ToolName} from '~/services/tool/toolManager'
 import {getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
 import {DEFAULT_FILL, DEFAULT_STROKE} from '~/elements/defaultProps'
+import {getMinimalBoundingRect} from '~/core/utils'
 
 export type EditorManipulationType =
   | 'static'
@@ -139,16 +140,14 @@ class InteractionState {
     let rect: BoundingRect
 
     if (sameRotation) {
-      rect = getBoundingRectFromBoundingRects(rectsWithoutRotation)
+      rect = getMinimalBoundingRect(rectsWithoutRotation, applyRotation)
+      this._manipulationElements = getManipulationBox(rect, applyRotation, ratio)
     } else {
       rect = getBoundingRectFromBoundingRects(rectsWithRotation)
+      this._manipulationElements = getManipulationBox(rect, 0, ratio)
     }
 
-    this._manipulationElements = getManipulationBox(rect, applyRotation, ratio)
-
-    // const rect = getBoundingRectFromBoundingRects(rects)
-    // const anchors = getAnchorsByBoundingRect(rect)
-    const outlineElementProps: OptionalIdentifiersProps = {
+    this._outlineElement = this.editor.elementManager.create({
       type: 'rectangle',
       ...rect,
       rotation: applyRotation,
@@ -163,9 +162,7 @@ class InteractionState {
         // enabled: true,
         color: 'green',
       },
-    }
-    // create outline rectangle for multiple selection
-    this._outlineElement = this.editor.elementManager.create(outlineElementProps)
+    })
   }
 
   destroy() {

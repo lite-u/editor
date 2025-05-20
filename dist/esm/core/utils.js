@@ -113,3 +113,89 @@ export const setFloatOnProps = <T extends RenderPropsList, K extends keyof Rende
     (obj[key] as number) = Math.floor(obj[key] as number)
   })
 }*/
+export function getDirectedBoundingBox(rects, rotation) {
+    const allPoints = [];
+    for (const r of rects) {
+        const w = r.width / 2;
+        const h = r.height / 2;
+        const localCorners = [
+            { x: -w, y: -h },
+            { x: w, y: -h },
+            { x: w, y: h },
+            { x: -w, y: h },
+        ];
+        const matrix = new DOMMatrix()
+            .translate(r.cx, r.cy)
+            .rotate(rotation);
+        for (const pt of localCorners) {
+            const transformed = matrix.transformPoint(pt);
+            allPoints.push({ x: transformed.x, y: transformed.y });
+        }
+    }
+    const xs = allPoints.map(p => p.x);
+    const ys = allPoints.map(p => p.y);
+    const minX = Math.min(...xs);
+    const maxX = Math.max(...xs);
+    const minY = Math.min(...ys);
+    const maxY = Math.max(...ys);
+    return generateBoundingRectFromRotatedRect({
+        x: minX,
+        y: minY,
+        width: maxX - minX,
+        height: maxY - minY
+    }, rotation);
+}
+export function getMinimalBoundingRect(rects, angle) {
+    if (rects.length === 0) {
+        throw new Error("No rectangles provided");
+    }
+    const normalizeAngle = (angle) => ((angle % 360) + 360) % 360;
+    const degToRad = (deg) => (deg * Math.PI) / 180;
+    const rotatePoint = ([x, y], angleDeg) => {
+        const rad = degToRad(angleDeg);
+        const cos = Math.cos(rad);
+        const sin = Math.sin(rad);
+        return [
+            x * cos - y * sin,
+            x * sin + y * cos,
+        ];
+    };
+    const unrotatePoint = ([x, y], angleDeg) => {
+        return rotatePoint([x, y], -angleDeg);
+    };
+    const allPoints = [];
+    const normalizedAngle = normalizeAngle(angle);
+    for (const rect of rects) {
+        const rad = degToRad(normalizedAngle);
+        const cos = Math.cos(rad);
+        const sin = Math.sin(rad);
+        const hw = rect.width / 2;
+        const hh = rect.height / 2;
+        const corners = [
+            [-hw, -hh],
+            [hw, -hh],
+            [hw, hh],
+            [-hw, hh],
+        ];
+        for (const [x, y] of corners) {
+            const worldX = rect.cx + x * cos - y * sin;
+            const worldY = rect.cy + x * sin + y * cos;
+            const [ux, uy] = unrotatePoint([worldX, worldY], normalizedAngle);
+            allPoints.push([ux, uy]);
+        }
+    }
+    const xs = allPoints.map(p => p[0]);
+    const ys = allPoints.map(p => p[1]);
+    const minX = Math.min(...xs);
+    const maxX = Math.max(...xs);
+    const minY = Math.min(...ys);
+    const maxY = Math.max(...ys);
+    const [centerX, centerY] = rotatePoint([(minX + maxX) / 2, (minY + maxY) / 2], normalizedAngle);
+    return {
+        cx: centerX,
+        cy: centerY,
+        width: maxX - minX,
+        height: maxY - minY,
+        angle: normalizedAngle,
+    };
+}

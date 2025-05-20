@@ -33,6 +33,5 @@ declare class ElementEllipse extends ElementShape {
         size: number;
         fillColor: string;
     }): import("../../services/selection/type").OperationHandler[];
-    render(ctx: CanvasRenderingContext2D): void;
 }
 export default ElementEllipse;

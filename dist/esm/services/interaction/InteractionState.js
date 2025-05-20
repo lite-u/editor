@@ -1,6 +1,7 @@
-import { createWith, getManipulationBox } from '~/lib/lib';
-import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
-import { DEFAULT_FILL, DEFAULT_STROKE } from '~/elements/defaultProps';
+import { createWith, getManipulationBox } from '../../lib/lib.js';
+import { getBoundingRectFromBoundingRects } from '../tool/resize/helper.js';
+import { DEFAULT_FILL, DEFAULT_STROKE } from '../../elements/defaultProps.js';
+import { getMinimalBoundingRect } from '../../core/utils.js';
 class InteractionState {
     editor;
     state = 'static';
@@ -97,15 +98,14 @@ class InteractionState {
         const applyRotation = sameRotation ? rotations[0] : 0;
         let rect;
         if (sameRotation) {
-            rect = getBoundingRectFromBoundingRects(rectsWithoutRotation);
+            rect = getMinimalBoundingRect(rectsWithoutRotation, applyRotation);
+            this._manipulationElements = getManipulationBox(rect, applyRotation, ratio);
         }
         else {
             rect = getBoundingRectFromBoundingRects(rectsWithRotation);
+            this._manipulationElements = getManipulationBox(rect, 0, ratio);
         }
-        this._manipulationElements = getManipulationBox(rect, applyRotation, ratio);
-        // const rect = getBoundingRectFromBoundingRects(rects)
-        // const anchors = getAnchorsByBoundingRect(rect)
-        const outlineElementProps = {
+        this._outlineElement = this.editor.elementManager.create({
             type: 'rectangle',
             ...rect,
             rotation: applyRotation,
@@ -120,9 +120,7 @@ class InteractionState {
                 // enabled: true,
                 color: 'green',
             },
-        };
-        // create outline rectangle for multiple selection
-        this._outlineElement = this.editor.elementManager.create(outlineElementProps);
+        });
     }
     destroy() {
         this.selectionBox?.remove();

@@ -186,9 +186,9 @@ class ElementEllipse extends ElementShape {
       return points
     }*/
 
-  render(ctx: CanvasRenderingContext2D) {
+/*  render(ctx: CanvasRenderingContext2D) {
     render.call(this, ctx)
-  }
+  }*/
 }
 
 export default ElementEllipse

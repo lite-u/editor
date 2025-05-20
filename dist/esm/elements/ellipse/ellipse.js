@@ -1,7 +1,6 @@
 import { generateBoundingRectFromRotatedRect } from '../../core/utils.js';
 import ElementShape from '../shape/shape.js';
 import ElementRectangle from '../rectangle/rectangle.js';
-import render from './render.js';
 import { rotatePointAroundPoint } from '../../core/geometry.js';
 class ElementEllipse extends ElementShape {
     type = 'ellipse';
@@ -125,24 +124,6 @@ class ElementEllipse extends ElementShape {
     }
     getOperators(id, resizeConfig, rotateConfig) {
         return super.getOperators(id, resizeConfig, rotateConfig, this.getBoundingRect(), this.toMinimalJSON());
-    }
-    /*
-      public getSnapPoints(): SnapPointData[] {
-        const {cx: cx, cy: cy, r1, r2} = this
-  
-        // Define snap points: center, cardinal edge points (top, right, bottom, left)
-        const points: SnapPointData[] = [
-          {id, x: cx, y: cy, type: 'center'},
-          {id, x: cx, y: cy - r2, type: 'edge-top'},
-          {id, x: cx + r1, y: cy, type: 'edge-right'},
-          {id, x: cx, y: cy + r2, type: 'edge-bottom'},
-          {id, x: cx - r1, y: cy, type: 'edge-left'},
-        ]
-  
-        return points
-      }*/
-    render(ctx) {
-        render.call(this, ctx);
     }
 }
 export default ElementEllipse;
