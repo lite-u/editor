@@ -2,7 +2,7 @@ import {BoundingRect, DPR, ElementInstance, Point} from '../type'
 import Rectangle, {RectangleProps} from '~/elements/rectangle/rectangle'
 import {DEFAULT_STROKE} from '~/elements/defaultProps'
 import Ellipse, {EllipseProps} from '~/elements/ellipse/ellipse'
-import rotating from '~/services/tool/selector/rotating/rotating'
+import {rotatePointAroundPoint} from '~/core/geometry'
 
 interface DrawCrossLineProps {
   ctx: CanvasRenderingContext2D;
@@ -249,17 +249,18 @@ export const getManipulationBox = (
     {name: 'l', dx: -0.5, dy: 0},
   ]
   const result: ElementInstance[] = []
-
+  const centerPoint = {x: cx, y: cy}
   arr.map(({dx, dy, name}) => {
-    const lx = cx + dx * width
-    const ly = cy + dy * height
+    // const lx = cx + dx * width
+    // const ly = cy + dy * height
 
-    console.log(rotation)
+    const {x, y} = rotatePointAroundPoint({x: cx + dx * width, y: cy + dy * height}, centerPoint)
+
     const resizeHandleEleProp: RectangleProps = {
       id: 'handle-resize-' + name,
       layer: 1,
-      cx: lx,
-      cy: ly,
+      cx: x,
+      cy: y,
       width: resizeLen,
       height: resizeLen,
       rotation,
@@ -271,8 +272,8 @@ export const getManipulationBox = (
     const rotateHandleEleProp: EllipseProps = {
       id: 'handle-rotate-' + name,
       layer: 0,
-      cx: lx,
-      cy: ly,
+      cx: x,
+      cy: y,
       r1: rotateRadius,
       r2: rotateRadius,
       rotation,

@@ -134,10 +134,12 @@ class InteractionState {
     const rect = getBoundingRectFromBoundingRects(rects)
     const anchors = getAnchorsByBoundingRect(rect)
     const sameRotation = rotations.every(val => val === rotations[0])
+    const applyRotation = sameRotation ? rotations[0] : 0
     // const manipulationBox =
     const outlineElementProps: OptionalIdentifiersProps = {
       type: 'rectangle',
       ...rect,
+      rotation: applyRotation,
       stroke: {
         ...DEFAULT_STROKE,
         // weight: 1 / ratio,
@@ -151,7 +153,7 @@ class InteractionState {
       },
     }
     // create outline rectangle for multiple selection
-    this._manipulationElements = getManipulationBox(rect, sameRotation ? rotations[0] : 0, ratio)
+    this._manipulationElements = getManipulationBox(rect, applyRotation, ratio)
     this._outlineElement = this.editor.elementManager.create(outlineElementProps)
   }
 
