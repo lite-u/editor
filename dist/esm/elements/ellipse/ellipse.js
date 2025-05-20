@@ -32,6 +32,7 @@ class ElementEllipse extends ElementShape {
     updatePath2D() {
         this.path2D = new Path2D();
         this.path2D.ellipse(this.cx, this.cy, this.r1, this.r2, this.rotation, 0, Math.PI * 2);
+        this.path2D.closePath();
     }
     updateOriginal() {
         this.original.cx = this.cx;
