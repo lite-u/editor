@@ -1,21 +1,17 @@
-import {generateBoundingRectFromTwoPoints} from '~/core/utils'
-import {areSetsEqual, getSymmetricDifference} from '~/lib/lib'
-import {getResizeCursor, getRotateAngle} from '~/services/tool/selector/helper'
-import {BoundingRect, UID} from '~/type'
 import ToolManager, {SubToolType} from '~/services/tool/toolManager'
-import {detectHoveredElement} from '~/services/tool/helper'
 
 let _mouseMoved = false
 const dragging: SubToolType = {
   cursor: 'drag',
   mouseMove(this: ToolManager) {
     _mouseMoved = true
-
-    
-
+    const {movementX, movementY} = this.editor.interaction._modifier
+    const {dpr, scale} = this.editor.world
+    const ratio = dpr * scale
+    const dp3 = {x: movementX / ratio, y: movementY / ratio}
+    this.editor.action.dispatch('element-moving', {delta: {...dp3}})
   },
-  mouseUp(this: ToolManager, {button}) {
-    _mouseMoved = false
+  mouseUp(this: ToolManager) {
   },
 }
 

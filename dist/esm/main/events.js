@@ -271,6 +271,16 @@ export function initEvents() {
         // this.batchMove(s, delta)
         dispatch('element-modify', changes);
     });
+    on('element-moving', ({ delta = { x: 0, y: 0 } }) => {
+        this.selection.values.forEach((id) => {
+            const ele = this.elementManager.all.get(id);
+            if (ele) {
+                ele.translate(delta.x, delta.y);
+                ele.updateOriginal();
+            }
+        });
+        dispatch('element-updated');
+    });
     on('element-add', (data) => {
         if (!data || data.length === 0)
             return;

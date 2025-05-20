@@ -5,6 +5,7 @@ export default function handlePointerMove(e) {
     const y = e.clientY - rect.y;
     const { button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY } = e;
     const stopSnap = this.currentToolName === 'zoomIn' || this.currentToolName === 'zoomOut' || this.currentToolName === 'panning';
+    console.log(movementX, movementY);
     interaction.mouseCurrent = { x, y };
     interaction.mouseDelta.x = x - interaction.mouseStart.x;
     interaction.mouseDelta.y = y - interaction.mouseStart.y;
