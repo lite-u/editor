@@ -13,13 +13,15 @@ class InteractionState {
     _hoveredElement = null;
     _hoveredResizeManipulator = null;
     _hoveredRotateManipulator = null;
+    _draggingElements = [];
+    _resizingElements = [];
+    _resizingData = { targetPoint: { x: 0, y: 0 } };
     operationHandlers = [];
     _pointDown = false;
     _snapped = false;
     _snappedPoint = null;
     _pointHit = null;
     _outlineElement = null;
-    _draggingElements = [];
     _manipulationElements = [];
     // spaceKeyDown = false
     // _creatingElementId: UID

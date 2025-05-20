@@ -1,4 +1,4 @@
-import resizeTool from './resize/resizeTool.js';
+import resizeFunc from './resize/resizeFunc.js';
 import { DEFAULT_FONT, DEFAULT_STROKE, DEFAULT_TEXT_FILL } from '../../elements/defaultProps.js';
 const textTool = {
     cursor: 'text',
@@ -28,7 +28,7 @@ const textTool = {
         if (!this.editor.interaction._ele)
             return;
         this.editor.action.dispatch('clear-creation');
-        resizeTool.call(this, [this.editor.interaction._ele], 'br');
+        resizeFunc.call(this, [this.editor.interaction._ele], 'br');
         this.editor.interaction._ele.render(this.editor.world.creationCanvasContext);
     },
     mouseUp() {

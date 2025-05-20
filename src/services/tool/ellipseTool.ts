@@ -1,5 +1,5 @@
 import ToolManager, {ToolType} from '~/services/tool/toolManager'
-import resizeTool from '~/services/tool/resize/resizeTool'
+import resizeFunc from '~/services/tool/resize/resizeFunc'
 import {PropsWithoutIdentifiers} from '~/elements/type'
 import ElementRectangle from '~/elements/rectangle/rectangle'
 
@@ -26,7 +26,7 @@ const ellipseTool: ToolType = {
     if (!this.editor.interaction._ele) return
     this.editor.action.dispatch('clear-creation')
 
-    resizeTool.call(this, [this.editor.interaction._ele], 'br')
+    resizeFunc.call(this, [this.editor.interaction._ele], 'br')
     this.editor.interaction._ele.render(this.editor.world.creationCanvasContext)
   },
   mouseUp(this: ToolManager) {

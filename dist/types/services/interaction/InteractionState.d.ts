@@ -30,13 +30,20 @@ declare class InteractionState {
     _hoveredElement: ElementInstance | null;
     _hoveredResizeManipulator: ElementInstance | null;
     _hoveredRotateManipulator: ElementInstance | null;
+    _draggingElements: ElementInstance[];
+    _resizingElements: ElementInstance[];
+    _resizingData: {
+        targetPoint: {
+            x: number;
+            y: number;
+        };
+    } | null;
     readonly operationHandlers: OperationHandler[];
     _pointDown: boolean;
     _snapped: boolean;
     _snappedPoint: PointHit | null;
     _pointHit: PointHit | null;
     _outlineElement: ElementInstance | null;
-    _draggingElements: ElementInstance[];
     _manipulationElements: ElementInstance[];
     _selectingElements: Set<UID>;
     _deselection: UID | null;

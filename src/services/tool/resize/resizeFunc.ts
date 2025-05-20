@@ -3,7 +3,7 @@ import {ElementInstance} from '~/elements/type'
 import {ResizeDirectionName} from '~/services/selection/type'
 import {getAnchorsByResizeDirection, getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
 
-function resizeTool(this: ToolManager, elements: ElementInstance[], direction: ResizeDirectionName = 'br') {
+function resizeFunc(this: ToolManager, elements: ElementInstance[], direction: ResizeDirectionName = 'br') {
   const {interaction, /*action*/} = this.editor
   const {mouseWorldCurrent, _modifier} = interaction
   const {altKey, shiftKey} = _modifier
@@ -44,4 +44,4 @@ function resizeTool(this: ToolManager, elements: ElementInstance[], direction: R
   // action.dispatch('visible-element-updated')
 }
 
-export default resizeTool
+export default resizeFunc

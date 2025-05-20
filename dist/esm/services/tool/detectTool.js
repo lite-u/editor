@@ -1,4 +1,4 @@
-import { isPointNearStroke2 } from '~/services/tool/helper';
+import { isPointNearStroke2 } from './helper.js';
 function detectTool() {
     const { interaction, world, visible } = this.editor;
     const { baseCanvasContext: ctx, scale, dpr } = world;

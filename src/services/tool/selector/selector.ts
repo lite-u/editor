@@ -2,6 +2,7 @@ import ToolManager, {ToolType} from '~/services/tool/toolManager'
 import selecting from '~/services/tool/selector/selecting/selecting'
 import dragging from '~/services/tool/selector/dragging/dragging'
 import resizing from '~/services/tool/selector/resizing/resizing'
+import resizeFunc from '~/services/tool/resize/resizeFunc'
 
 const selector: ToolType = {
   cursor: 'default',
@@ -9,10 +10,22 @@ const selector: ToolType = {
     const {interaction, elementManager, action, selection, cursor} = this.editor
     const {_hoveredElement, mouseStart, mouseCurrent, _modifier: {shiftKey, metaKey, ctrlKey}} = interaction
     const dragMode = !!_hoveredElement
-    const rotateMode = false
-    const resizeMode = false
+    const rotateMode = !!interaction._hoveredRotateManipulator
+    const resizeMode = !!interaction._hoveredResizeManipulator
 
-    interaction._snappedPoint = null
+    if (resizeMode) {
+
+    }
+    interaction._resizingData
+    // interaction._snappedPoint = null
+
+    if (interaction._resizingData) {
+      console.log(interaction._hoveredResizeManipulator)
+      const placement = interaction._hoveredResizeManipulator.id.replace('handle-resize-', '')
+      interaction._resizingElements = elementManager.getElementsByIdSet(selection.values)
+      resizeFunc.call(this, interaction._resizingElements, placement)
+      return
+    }
     if (dragMode) {
       this.subTool = dragging
       const id = _hoveredElement.id

@@ -47,13 +47,17 @@ class InteractionState {
   _hoveredElement: ElementInstance | null = null
   _hoveredResizeManipulator: ElementInstance | null = null
   _hoveredRotateManipulator: ElementInstance | null = null
+
+  _draggingElements: ElementInstance[] = []
+  _resizingElements: ElementInstance[] = []
+  _resizingData: { targetPoint: { x: number, y: number } } | null = {targetPoint: {x: 0, y: 0}}
+
   readonly operationHandlers: OperationHandler[] = []
   _pointDown = false
   _snapped = false
   _snappedPoint: PointHit | null = null
   _pointHit: PointHit | null = null
   _outlineElement: ElementInstance | null = null
-  _draggingElements: ElementInstance[] = []
   _manipulationElements: ElementInstance[] = []
   // spaceKeyDown = false
   // _creatingElementId: UID

@@ -1,6 +1,6 @@
 import ToolManager, {ToolType} from '~/services/tool/toolManager'
 import ElementRectangle from '~/elements/rectangle/rectangle'
-import resizeTool from '~/services/tool/resize/resizeTool'
+import resizeFunc from '~/services/tool/resize/resizeFunc'
 import {DEFAULT_FONT, DEFAULT_STROKE, DEFAULT_TEXT_FILL} from '~/elements/defaultProps'
 import {PropsWithoutIdentifiers} from '~/elements/type'
 
@@ -34,7 +34,7 @@ const textTool: ToolType = {
     if (!this.editor.interaction._ele) return
     this.editor.action.dispatch('clear-creation')
 
-    resizeTool.call(this, [this.editor.interaction._ele], 'br')
+    resizeFunc.call(this, [this.editor.interaction._ele], 'br')
     this.editor.interaction._ele.render(this.editor.world.creationCanvasContext)
   },
   mouseUp(this: ToolManager) {
