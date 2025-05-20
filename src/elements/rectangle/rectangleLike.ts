@@ -45,7 +45,6 @@ class RectangleLike extends ElementShape {
       ...this.original,
       width,
       height,
-      rotation: this.rotation,
     }
     this.updatePath2D()
   }

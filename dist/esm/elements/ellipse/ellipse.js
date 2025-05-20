@@ -5,28 +5,19 @@ import render from './render.js';
 import { rotatePointAroundPoint } from '../../core/geometry.js';
 class ElementEllipse extends ElementShape {
     type = 'ellipse';
-    // id: string
-    // layer: number
     // horizontal
     r1;
     // vertical
     r2;
-    // private original: { cx: number, cy: number, r1: number, r2: number, rotation: number }
     constructor({ r1, r2, ...rest }) {
         super(rest);
-        // this.id = id
-        // this.layer = layer
         this.r1 = r1;
         this.r2 = r2;
-        console.log(this.original);
-        /*    this.original = {
-              ...this.original,
-              cx: this.cx,
-              cy: this.cy,
-              r1: this.r1,
-              r2: this.r1,
-              rotation: this.rotation,
-            }*/
+        this.original = {
+            ...this.original,
+            r1: this.r1,
+            r2: this.r1,
+        };
         this.updatePath2D();
     }
     get getPoints() {
