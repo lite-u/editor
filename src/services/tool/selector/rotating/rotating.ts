@@ -19,8 +19,6 @@ const rotating: SubToolType = {
       )*/
     const rotationDiff = mouseCurrentRotation - mouseStartRotation
 
-    // console.log(rotationDiff)
-    // const center = {x: rect.cx, y: rect.cy}
     interaction._outlineElement?.rotateFrom(rotationDiff, targetPoint)
     interaction._manipulationElements.forEach(ele => {
       ele.rotateFrom(rotationDiff, targetPoint)
@@ -29,13 +27,8 @@ const rotating: SubToolType = {
       ele.rotateFrom(rotationDiff, targetPoint)
     })
 
-    // resizeFunc.call(this, elementManager.getElementsByIdSet(selection.values), interaction.startRotation)
-    // dispatch('render-overlay')
-
     this.editor.action.dispatch('render-overlay')
     this.editor.action.dispatch('render-elements')
-
-    // this.subTool.mouseMove.call(this)
   },
   mouseUp(this: ToolManager) {
     const {interaction, elementManager, action, selection} = this.editor
