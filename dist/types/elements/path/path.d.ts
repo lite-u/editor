@@ -24,7 +24,7 @@ declare class ElementPath extends ElementBase {
     translate(dx: number, dy: number): HistoryChangeItem;
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
     static _getBoundingRect(points: BezierPoint[]): BoundingRect;
-    getBoundingRectFromOriginal(): any;
+    getBoundingRectFromOriginal(): BoundingRect;
     getBoundingRect(): BoundingRect;
     protected toJSON(): RequiredShapeProps;
     toMinimalJSON(): PathProps;
