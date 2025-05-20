@@ -1,10 +1,19 @@
-import resizeFunc from '../../resize/resizeFunc.js';
+import { getBoundingRectFromBoundingRects } from '../../resize/helper.js';
 const rotating = {
     // cursor: 'default',
     mouseMove() {
         console.log(222);
         const { interaction, elementManager, action, selection, cursor } = this.editor;
-        resizeFunc.call(this, elementManager.getElementsByIdSet(selection.values), interaction._resizingData.placement);
+        const elements = elementManager.getElementsByIdSet(selection.values);
+        const rects = elements.map((ele) => {
+            return ele.getBoundingRect();
+        });
+        const rect = getBoundingRectFromBoundingRects(rects);
+        const center = { x: rect.cx, y: rect.cy };
+        elements.forEach(ele => {
+            ele.rotateFrom(10, center);
+        });
+        // resizeFunc.call(this, elementManager.getElementsByIdSet(selection.values), interaction.startRotation)
         this.editor.action.dispatch('element-updated');
         // this.subTool.mouseMove.call(this)
     },

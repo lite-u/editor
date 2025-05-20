@@ -126,7 +126,18 @@ class RectangleLike extends ElementShape {
           },
         }
       }*/
-    rotateFrom(ratation, anchor) {
+    rotateFrom(rotation, anchor) {
+        const matrix = new DOMMatrix()
+            .translate(anchor.x, anchor.y)
+            .rotate(rotation)
+            .translate(-anchor.x, -anchor.y);
+        const { cx, cy } = this.original;
+        const transformed = matrix.transformPoint({ x: cx, y: cy });
+        this.cx = transformed.x;
+        this.cy = transformed.y;
+        this.rotation = this.original.rotation + rotation;
+        this.updatePath2D();
+        // return this
     }
     scaleFrom(scaleX, scaleY, anchor) {
         const matrix = new DOMMatrix()
