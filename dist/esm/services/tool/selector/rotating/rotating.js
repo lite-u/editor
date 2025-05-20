@@ -1,17 +1,24 @@
+import { getRotateAngle } from '~/services/tool/selector/helper';
 const rotating = {
     // cursor: 'default',
     mouseMove() {
         console.log(222);
         const { interaction, elementManager, action, selection, cursor } = this.editor;
         const elements = elementManager.getElementsByIdSet(selection.values);
-        const { _resizingData } = interaction;
+        const { _resizingData, mouseWorldCurrent } = interaction;
+        if (!_resizingData)
+            return;
+        const { center } = _resizingData;
+        const rotate = getRotateAngle(center, mouseWorldCurrent);
+        console.log(center, mouseWorldCurrent);
+        console.log(rotate);
         /* const rects = elements.map((ele: ElementInstance) => {
            return ele.getBoundingRect()
          })*/
         // const rect = getBoundingRectFromBoundingRects(rects)
         // const center = {x: rect.cx, y: rect.cy}
         elements.forEach(ele => {
-            ele.rotateFrom(10, center);
+            ele.rotateFrom(rotate, center);
         });
         // resizeFunc.call(this, elementManager.getElementsByIdSet(selection.values), interaction.startRotation)
         this.editor.action.dispatch('element-updated');

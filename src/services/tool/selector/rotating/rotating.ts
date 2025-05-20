@@ -1,6 +1,5 @@
 import ToolManager, {SubToolType} from '~/services/tool/toolManager'
-import {ElementInstance} from '~/elements/type'
-import {getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
+import {getRotateAngle} from '~/services/tool/selector/helper'
 
 const rotating: SubToolType = {
   // cursor: 'default',
@@ -8,15 +7,23 @@ const rotating: SubToolType = {
     console.log(222)
     const {interaction, elementManager, action, selection, cursor} = this.editor
     const elements = elementManager.getElementsByIdSet(selection.values)
-    const {_resizingData} = interaction
-   /* const rects = elements.map((ele: ElementInstance) => {
-      return ele.getBoundingRect()
-    })*/
+    const {_resizingData, mouseWorldCurrent} = interaction
+
+    if (!_resizingData) return
+    const {center} = _resizingData
+
+    const rotate = getRotateAngle(center, mouseWorldCurrent)
+    console.log(
+      center, mouseWorldCurrent,
+    )
+    console.log(rotate)
+    /* const rects = elements.map((ele: ElementInstance) => {
+       return ele.getBoundingRect()
+     })*/
     // const rect = getBoundingRectFromBoundingRects(rects)
     // const center = {x: rect.cx, y: rect.cy}
-
     elements.forEach(ele => {
-      ele.rotateFrom(10, center)
+      ele.rotateFrom(rotate, center)
     })
 
     // resizeFunc.call(this, elementManager.getElementsByIdSet(selection.values), interaction.startRotation)

@@ -21,7 +21,7 @@ declare class RectangleLike extends ElementShape {
     protected updateOriginal(): void;
     protected get getPoints(): Point[];
     protected get corners(): Point[];
-    rotateFrom(rotation: number, anchor: Point): RectangleLike;
+    rotateFrom(rotation: number, anchor: Point): void;
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): HistoryChangeItem | undefined;
     toJSON(): RequiredRectangleLikeProps;
     toMinimalJSON(): RectangleLikeProps;
