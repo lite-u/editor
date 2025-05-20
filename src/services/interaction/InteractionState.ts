@@ -4,7 +4,7 @@ import {createWith, getManipulationBox} from '~/lib/lib'
 import Editor from '~/main/editor'
 import {ElementInstance, OptionalIdentifiersProps} from '~/elements/type'
 import {ToolName} from '~/services/tool/toolManager'
-import {getAnchorsByBoundingRect, getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
+import {getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
 import {DEFAULT_FILL, DEFAULT_STROKE} from '~/elements/defaultProps'
 
 export type EditorManipulationType =
@@ -132,7 +132,7 @@ class InteractionState {
       return ele.getBoundingRect(true)
     })
     const rect = getBoundingRectFromBoundingRects(rects)
-    const anchors = getAnchorsByBoundingRect(rect)
+    // const anchors = getAnchorsByBoundingRect(rect)
     const sameRotation = rotations.every(val => val === rotations[0])
     const applyRotation = sameRotation ? rotations[0] : 0
     // const manipulationBox =

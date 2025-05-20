@@ -1,6 +1,6 @@
-import { createWith, getManipulationBox } from '../../lib/lib.js';
-import { getAnchorsByBoundingRect, getBoundingRectFromBoundingRects } from '../tool/resize/helper.js';
-import { DEFAULT_FILL, DEFAULT_STROKE } from '../../elements/defaultProps.js';
+import { createWith, getManipulationBox } from '~/lib/lib';
+import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
+import { DEFAULT_FILL, DEFAULT_STROKE } from '~/elements/defaultProps';
 class InteractionState {
     editor;
     state = 'static';
@@ -91,7 +91,7 @@ class InteractionState {
             return ele.getBoundingRect(true);
         });
         const rect = getBoundingRectFromBoundingRects(rects);
-        const anchors = getAnchorsByBoundingRect(rect);
+        // const anchors = getAnchorsByBoundingRect(rect)
         const sameRotation = rotations.every(val => val === rotations[0]);
         const applyRotation = sameRotation ? rotations[0] : 0;
         // const manipulationBox =
