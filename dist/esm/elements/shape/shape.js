@@ -1,7 +1,7 @@
-import ElementBase from '../base/elementBase.js';
-import { DEFAULT_CX, DEFAULT_CY, DEFAULT_GRADIENT } from '../defaultProps.js';
-import { isEqual } from '../../lib/lib.js';
-import deepClone from '../../core/deepClone.js';
+import ElementBase from '../base/elementBase';
+import { DEFAULT_CX, DEFAULT_CY, DEFAULT_GRADIENT } from '~/elements/defaultProps';
+import { isEqual } from '~/lib/lib';
+import deepClone from '~/core/deepClone';
 class ElementShape extends ElementBase {
     cx;
     cy;
@@ -36,6 +36,19 @@ class ElementShape extends ElementBase {
             };
         }
     }
+    rotateFrom(rotation, anchor) {
+        const matrix = new DOMMatrix()
+            .translate(anchor.x, anchor.y)
+            .rotate(rotation)
+            .translate(-anchor.x, -anchor.y);
+        const { cx, cy } = this.original;
+        const transformed = matrix.transformPoint({ x: cx, y: cy });
+        this.cx = transformed.x;
+        this.cy = transformed.y;
+        this.rotation = this.original.rotation + rotation;
+        this.updatePath2D();
+        // return this
+    }
     get center() {
         return { x: this.cx, y: this.cy };
     }
@@ -62,10 +75,6 @@ class ElementShape extends ElementBase {
             result.gradient = deepClone(this.gradient);
         }
         return result;
-    }
-    move(x, y) {
-        this.cx += x;
-        this.cy += y;
     }
 }
 export default ElementShape;

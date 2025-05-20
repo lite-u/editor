@@ -6,16 +6,16 @@ const rotating: SubToolType = {
   mouseMove(this: ToolManager) {
     const {interaction, elementManager, action, selection, cursor} = this.editor
     const elements = elementManager.getElementsByIdSet(selection.values)
-    const {_resizingData, mouseWorldCurrent} = interaction
+    const {_rotateData, mouseWorldCurrent} = interaction
 
-    console.log(_resizingData)
-    if (!_resizingData) return
-    const {center} = _resizingData
+    console.log(_rotateData)
+    if (!_rotateData) return
+    const {center} = _rotateData
 
     const rotate = getRotateAngle(center, mouseWorldCurrent)
-    console.log(
-      center, mouseWorldCurrent,
-    )
+    /*  console.log(
+        center, mouseWorldCurrent,
+      )*/
     console.log(rotate)
     /* const rects = elements.map((ele: ElementInstance) => {
        return ele.getBoundingRect()

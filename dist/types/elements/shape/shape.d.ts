@@ -19,9 +19,9 @@ declare class ElementShape extends ElementBase {
     };
     constructor({ cx, cy, gradient, ...rest }: ShapeProps);
     translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined;
+    rotateFrom(rotation: number, anchor: Point): void;
     protected get center(): Point;
     protected toJSON(): RequiredShapeProps;
     toMinimalJSON(): ShapeProps;
-    move(x: number, y: number): void;
 }
 export default ElementShape;

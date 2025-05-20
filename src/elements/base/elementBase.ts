@@ -66,6 +66,8 @@ class ElementBase {
     this.updatePath2D()
   }
 
+
+
   protected transformPoint(x: number, y: number, matrix: DOMMatrix): Point {
     const p = matrix.transformPoint({x, y})
     return {x: p.x, y: p.y}
