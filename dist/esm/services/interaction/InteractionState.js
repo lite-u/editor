@@ -70,7 +70,7 @@ class InteractionState {
         const { scale, dpr } = this.editor.world;
         const ratio = scale * dpr;
         const idSet = this.editor.selection.values;
-        if (idSet.size <= 0) {
+        if (idSet.size <= 1) {
             this._outlineElement = null;
             return;
         }

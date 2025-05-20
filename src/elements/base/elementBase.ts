@@ -50,7 +50,6 @@ class ElementBase {
                 transform = deepClone(DEFAULT_TRANSFORM),
                 show = true,
               }: ElementBaseProps) {
-    console.log(this)
     this.id = id
     this.layer = layer
     this.stroke = stroke

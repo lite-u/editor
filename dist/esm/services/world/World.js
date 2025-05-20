@@ -84,7 +84,12 @@ class World {
                 layer: -1,
                 opacity: 100,
             };
-            const frameFill = { ...frameBorder, fillColor: '#fff', enableLine: false };
+            const frameFill = {
+                ...frameBorder, fill: {
+                    enabled: true,
+                    color: '#fff',
+                },
+            };
             // deduplicateObjectsByKeyValue()
             // console.log(this.visibleelementMap.size)
             // deduplicateObjectsByKeyValue
