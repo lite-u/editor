@@ -332,7 +332,6 @@ export function initEvents(this: Editor) {
   })
 
   on('element-moving', ({delta = {x: 0, y: 0}}) => {
-
     this.selection.values.forEach((id) => {
       const ele = this.elementManager.all.get(id)
 
