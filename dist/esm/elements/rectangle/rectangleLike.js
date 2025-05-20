@@ -1,8 +1,8 @@
-import ElementShape from '../shape/shape';
-import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '~/core/utils';
-import ElementRectangle from '~/elements/rectangle/rectangle';
-import { DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '~/elements/defaultProps';
-import { isEqual } from '~/lib/lib';
+import ElementShape from '../shape/shape.js';
+import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '../../core/utils.js';
+import ElementRectangle from './rectangle.js';
+import { DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../defaultProps.js';
+import { isEqual } from '../../lib/lib.js';
 class RectangleLike extends ElementShape {
     // id: string
     // layer: number
