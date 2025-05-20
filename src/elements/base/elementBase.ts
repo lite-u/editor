@@ -63,6 +63,7 @@ class ElementBase {
 
   protected rotate(angle: number) {
     this.rotation = angle
+    this.updatePath2D()
   }
 
   protected transformPoint(x: number, y: number, matrix: DOMMatrix): Point {

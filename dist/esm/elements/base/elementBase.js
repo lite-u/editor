@@ -27,6 +27,7 @@ class ElementBase {
     }
     rotate(angle) {
         this.rotation = angle;
+        this.updatePath2D();
     }
     transformPoint(x, y, matrix) {
         const p = matrix.transformPoint({ x, y });
