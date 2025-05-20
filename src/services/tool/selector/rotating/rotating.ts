@@ -1,5 +1,4 @@
 import ToolManager, {SubToolType} from '~/services/tool/toolManager'
-import resizeFunc from '~/services/tool/resize/resizeFunc'
 import {ElementInstance} from '~/elements/type'
 import {getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
 
@@ -9,11 +8,12 @@ const rotating: SubToolType = {
     console.log(222)
     const {interaction, elementManager, action, selection, cursor} = this.editor
     const elements = elementManager.getElementsByIdSet(selection.values)
-    const rects = elements.map((ele: ElementInstance) => {
+    const {_resizingData} = interaction
+   /* const rects = elements.map((ele: ElementInstance) => {
       return ele.getBoundingRect()
-    })
-    const rect = getBoundingRectFromBoundingRects(rects)
-    const center = {x: rect.cx, y: rect.cy}
+    })*/
+    // const rect = getBoundingRectFromBoundingRects(rects)
+    // const center = {x: rect.cx, y: rect.cy}
 
     elements.forEach(ele => {
       ele.rotateFrom(10, center)

@@ -142,12 +142,12 @@ export function getDirectedBoundingBox(rects, rotation) {
         x: minX,
         y: minY,
         width: maxX - minX,
-        height: maxY - minY
+        height: maxY - minY,
     }, rotation);
 }
 export function getMinimalBoundingRect(rects, angle) {
     if (rects.length === 0) {
-        throw new Error("No rectangles provided");
+        throw new Error('No rectangles provided');
     }
     const normalizeAngle = (angle) => ((angle % 360) + 360) % 360;
     const degToRad = (deg) => (deg * Math.PI) / 180;
@@ -196,6 +196,5 @@ export function getMinimalBoundingRect(rects, angle) {
         cy: centerY,
         width: maxX - minX,
         height: maxY - minY,
-        angle: normalizedAngle,
     };
 }

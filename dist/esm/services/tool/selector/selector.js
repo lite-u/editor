@@ -2,6 +2,7 @@ import selecting from './selecting/selecting.js';
 import dragging from './dragging/dragging.js';
 import resizing from './resizing/resizing.js';
 import rotating from './rotating/rotating.js';
+import { getBoundingRectFromBoundingRects } from '../resize/helper.js';
 const selector = {
     cursor: 'default',
     mouseDown: function () {
@@ -12,11 +13,15 @@ const selector = {
         const resizeMode = !!interaction._hoveredResizeManipulator;
         if (resizeMode) {
             const placement = interaction._hoveredResizeManipulator.id.replace('handle-resize-', '');
+            const rects = elementManager.getElementsByIdSet(selection.values).map(ele => {
+                return ele.getBoundingRect();
+            });
+            const center = getBoundingRectFromBoundingRects(rects);
+            const { cx: x, cy: y } = center;
             console.log(9);
             cursor.set('resize');
             this.subTool = resizing;
-            interaction._resizingData = { placement };
-            return;
+            interaction._resizingData = { center: { x, y } };
         }
         else if (rotateMode) {
             interaction._rotateData = { startRotation: 0 };
@@ -32,7 +37,6 @@ const selector = {
         }
         else {
             this.subTool = selecting;
-            return;
         }
     },
     mouseMove() {

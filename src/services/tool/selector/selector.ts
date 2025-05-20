@@ -3,6 +3,7 @@ import selecting from '~/services/tool/selector/selecting/selecting'
 import dragging from '~/services/tool/selector/dragging/dragging'
 import resizing from '~/services/tool/selector/resizing/resizing'
 import rotating from '~/services/tool/selector/rotating/rotating'
+import {getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
 
 const selector: ToolType = {
   cursor: 'default',
@@ -15,12 +16,16 @@ const selector: ToolType = {
 
     if (resizeMode) {
       const placement = interaction._hoveredResizeManipulator.id.replace('handle-resize-', '')
+      const rects = elementManager.getElementsByIdSet(selection.values).map(ele => {
+        return ele.getBoundingRect()
+      })
+      const center = getBoundingRectFromBoundingRects(rects)
+      const {cx: x, cy: y} = center
       console.log(9)
       cursor.set('resize')
       this.subTool = resizing
 
-      interaction._resizingData = {placement}
-      return
+      interaction._resizingData = {center: {x, y}}
     } else if (rotateMode) {
       interaction._rotateData = {startRotation: 0}
       this.subTool = rotating
@@ -35,7 +40,6 @@ const selector: ToolType = {
       interaction._draggingElements = elementManager.getElementsByIdSet(selection.values)
     } else {
       this.subTool = selecting
-      return
     }
   },
   mouseMove(this: ToolManager) {
