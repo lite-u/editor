@@ -11,8 +11,8 @@ class InteractionState {
     mouseWorldCurrent = { x: 0, y: 0 };
     mouseWorldDelta = { x: 0, y: 0 };
     _hoveredElement = null;
-    _resizeManipulator = null;
-    _rotateManipulator = null;
+    _hoveredResizeManipulator = null;
+    _hoveredRotateManipulator = null;
     operationHandlers = [];
     _pointDown = false;
     _snapped = false;

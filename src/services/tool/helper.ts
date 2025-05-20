@@ -29,13 +29,13 @@ export function applyRotating(this: ToolManager, shiftKey: boolean) {
   return newRotation
 }
 
-export function detectHoveredElement(this: ToolManager) {
+/*export function detectHoveredElement(this: ToolManager) {
   const {interaction, action, world, visible} = this.editor
   const {baseCanvasContext: ctx, dpr} = world
-  /*const WP = world.getWorldPointByViewportPoint(
+  /!*const WP = world.getWorldPointByViewportPoint(
     interaction.mouseCurrent.x,
     interaction.mouseCurrent.y,
-  )*/
+  )*!/
   const WP = {
     x: interaction.mouseCurrent.x * dpr,
     y: interaction.mouseCurrent.y * dpr,
@@ -54,13 +54,13 @@ export function detectHoveredElement(this: ToolManager) {
     const inside = ctx.isPointInPath(path, WP.x, WP.y)
     console.log(inside, border)
 
-    /*  if (arr[i].element.hitTest(worldPoint)) {
+    /!*  if (arr[i].element.hitTest(worldPoint)) {
         hitOn = arr[i]
         console.log(hitOn)
         break
-      }*/
+      }*!/
   }
-  /*
+  /!*
 
     for (let i = arr.length - 1; i >= 0; i--) {
       if (arr[i].element.hitTest(worldPoint)) {
@@ -68,9 +68,9 @@ export function detectHoveredElement(this: ToolManager) {
         break
       }
     }
-  */
+  *!/
 
-  /*  if (hitOn) {
+  /!*  if (hitOn) {
       action.dispatch('element-hover-enter', hitOn.id)
       // console.log(hitOn)
       return hitOn
@@ -85,7 +85,7 @@ export function detectHoveredElement(this: ToolManager) {
         elementId = element.id
         break
       }
-    }*/
+    }*!/
 
   if (interaction._hoveredElement !== elementId) {
     if (interaction._hoveredElement) {
@@ -96,7 +96,7 @@ export function detectHoveredElement(this: ToolManager) {
       action.dispatch('element-hover-enter', elementId)
     }
   }
-}
+}*/
 
 export function isPointNearStroke(
   ctx: CanvasRenderingContext2D,

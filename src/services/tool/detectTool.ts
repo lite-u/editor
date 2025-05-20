@@ -13,10 +13,13 @@ function detectTool(this: ToolManager) {
   const mElements = interaction._manipulationElements
 
   interaction._hoveredElement = null
-  interaction._resizeManipulator = null
-  interaction._rotateManipulator = null
+  interaction._hoveredResizeManipulator = null
+  interaction._hoveredRotateManipulator = null
 
   for (let i = 0; i < mElements.length; i++) {
+    const path = ele.path2D
+    const f1 = ctx.isPointInStroke(path, viewPoint.x, viewPoint.y)
+    const f2 = ctx.isPointInPath(path, viewPoint.x, viewPoint.y)
 
   }
 
