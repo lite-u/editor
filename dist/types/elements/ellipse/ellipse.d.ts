@@ -2,8 +2,6 @@ import ElementShape, { ShapeProps } from '../shape/shape';
 import ElementRectangle from '../rectangle/rectangle';
 import { Point } from '~/type';
 export interface EllipseProps extends ShapeProps {
-    id: string;
-    layer: number;
     type?: 'ellipse';
     r1: number;
     r2: number;
@@ -11,12 +9,9 @@ export interface EllipseProps extends ShapeProps {
 export type RequiredEllipseProps = Required<EllipseProps>;
 declare class ElementEllipse extends ElementShape {
     readonly type = "ellipse";
-    id: string;
-    layer: number;
     r1: number;
     r2: number;
-    private original;
-    constructor({ r1, r2, id, layer, ...rest }: EllipseProps);
+    constructor({ r1, r2, ...rest }: EllipseProps);
     get getPoints(): Point[];
     protected updatePath2D(): void;
     protected updateOriginal(): void;

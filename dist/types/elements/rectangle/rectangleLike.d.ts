@@ -12,12 +12,11 @@ export interface RectangleLikeProps extends ShapeProps {
 }
 export type RequiredRectangleLikeProps = Required<RectangleLikeProps>;
 declare class RectangleLike extends ElementShape {
-    layer: number;
     width: number;
     height: number;
     borderRadius: BorderRadius;
     private original;
-    constructor({ layer, width, height, borderRadius, ...rest }: RectangleLikeProps);
+    constructor({ width, height, borderRadius, ...rest }: RectangleLikeProps);
     protected updatePath2D(): void;
     protected updateOriginal(): void;
     protected get getPoints(): Point[];

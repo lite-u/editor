@@ -2,6 +2,7 @@ import { BoundingRect, ElementProps, Point, UID } from '~/type';
 import { Fill, Shadow, Stroke, Transform } from '~/elements/props';
 export interface ElementBaseProps {
     id: UID;
+    layer: number;
     stroke?: Stroke;
     fill?: Fill;
     opacity?: number;
@@ -13,6 +14,7 @@ export interface ElementBaseProps {
 export type RequiredBaseProps = Required<ElementBaseProps>;
 declare class ElementBase {
     id: UID;
+    layer: number;
     stroke: Stroke;
     fill: Fill;
     opacity: number;
@@ -22,7 +24,7 @@ declare class ElementBase {
     show: boolean;
     protected matrix: DOMMatrix;
     path2D: Path2D;
-    constructor({ id, stroke, fill, opacity, shadow, rotation, transform, show, }: ElementBaseProps);
+    constructor({ id, layer, stroke, fill, opacity, shadow, rotation, transform, show, }: ElementBaseProps);
     protected rotate(angle: number): void;
     protected transformPoint(x: number, y: number, matrix: DOMMatrix): Point;
     protected toJSON(): RequiredBaseProps;

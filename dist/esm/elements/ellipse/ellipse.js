@@ -5,20 +5,20 @@ import render from './render.js';
 import { rotatePointAroundPoint } from '../../core/geometry.js';
 class ElementEllipse extends ElementShape {
     type = 'ellipse';
-    id;
-    layer;
+    // id: string
+    // layer: number
     // horizontal
     r1;
     // vertical
     r2;
-    original;
-    constructor({ r1, r2, id, layer, ...rest }) {
+    // private original: { cx: number, cy: number, r1: number, r2: number, rotation: number }
+    constructor({ r1, r2, ...rest }) {
         super(rest);
-        this.id = id;
-        this.layer = layer;
+        // this.id = id
+        // this.layer = layer
         this.r1 = r1;
         this.r2 = r2;
-        console.log(super.original);
+        console.log(this.original);
         /*    this.original = {
               ...this.original,
               cx: this.cx,
@@ -50,24 +50,6 @@ class ElementEllipse extends ElementShape {
         this.original.rotation = this.rotation;
         this.updatePath2D();
     }
-    /*
-      translate(dx: number, dy: number): HistoryChangeItem {
-        this.cx = this.original.cx + dx
-        this.cy = this.original.cy + dy
-        this.updatePath2D()
-    
-        return {
-          id: this.id,
-          from: {
-            cx: this.original.cx,
-            cy: this.original.cy,
-          },
-          to: {
-            cx: this.cx,
-            cy: this.cy,
-          },
-        }
-      }*/
     scaleFrom(scaleX, scaleY, anchor) {
         const matrix = new DOMMatrix()
             .translate(anchor.x, anchor.y)
@@ -86,9 +68,7 @@ class ElementEllipse extends ElementShape {
     toMinimalJSON() {
         return {
             ...super.toMinimalJSON(),
-            id: this.id,
             type: this.type,
-            layer: this.layer,
             r1: this.r1,
             r2: this.r2,
         };
@@ -96,9 +76,7 @@ class ElementEllipse extends ElementShape {
     toJSON() {
         return {
             ...super.toJSON(),
-            id: this.id,
             type: this.type,
-            layer: this.layer,
             r1: this.r1,
             r2: this.r2,
         };

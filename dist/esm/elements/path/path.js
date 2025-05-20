@@ -4,17 +4,17 @@ import ElementRectangle from '../rectangle/rectangle.js';
 import { rotatePointAroundPoint } from '../../core/geometry.js';
 import deepClone from '../../core/deepClone.js';
 class ElementPath extends ElementBase {
-    id;
-    layer;
+    // readonly id: UID
+    // readonly layer: number
     type = 'path';
     points = [];
     closed;
     original;
-    constructor({ id, layer, points = [], closed = false, ...rest }) {
+    constructor({ points = [], closed = false, ...rest }) {
         super(rest);
         this.points = deepClone(points);
-        this.id = id;
-        this.layer = layer;
+        // this.id = id
+        // this.layer = layer
         this.closed = closed;
         this.original = {
             closed,
@@ -133,8 +133,8 @@ class ElementPath extends ElementBase {
     }
     toJSON() {
         return {
-            id: this.id,
-            layer: this.layer,
+            // id: this.id,
+            // layer: this.layer,
             type: this.type,
             points: this.points,
             closed: this.closed,
@@ -143,8 +143,8 @@ class ElementPath extends ElementBase {
     }
     toMinimalJSON() {
         return {
-            id: this.id,
-            layer: this.layer,
+            // id: this.id,
+            // layer: this.layer,
             type: this.type,
             points: this.points,
             closed: this.closed,

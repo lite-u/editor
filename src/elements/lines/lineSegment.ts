@@ -5,8 +5,8 @@ import {generateBoundingRectFromRect, generateBoundingRectFromRotatedRect} from 
 import {HistoryChangeItem} from '~/services/actions/type'
 
 export interface LineSegmentProps extends ElementBaseProps {
-  id: string
-  layer: number
+  // id: string
+  // layer: number
   type: 'lineSegment'
   points: [{ id: 'start' } & Point, { id: 'end' } & Point]
 }
@@ -14,21 +14,21 @@ export interface LineSegmentProps extends ElementBaseProps {
 export type RequiredLineSegmentProps = Required<LineSegmentProps>
 
 class ElementLineSegment extends ElementBase {
-  readonly id: string
-  readonly layer: number
+  // readonly id: string
+  // readonly layer: number
   readonly type = 'lineSegment'
   private points: [{ id: 'start' } & Point, { id: 'end' } & Point]
   private original: { points: [{ id: 'start' } & Point, { id: 'end' } & Point], rotation: number }
 
   constructor({
-                id,
-                layer,
+                // id,
+                // layer,
                 points,
                 ...rest
               }: LineSegmentProps) {
     super(rest)
-    this.id = id
-    this.layer = layer
+    // this.id = id
+    // this.layer = layer
     this.points = points
     this.original = {
       points: deepClone(points),
@@ -130,8 +130,8 @@ class ElementLineSegment extends ElementBase {
   protected toJSON(): RequiredLineSegmentProps {
     return {
       ...super.toJSON(),
-      id: this.id,
-      layer: this.layer,
+      // id: this.id,
+      // layer: this.layer,
       type: this.type,
       points: deepClone(this.points),
     }
@@ -140,8 +140,8 @@ class ElementLineSegment extends ElementBase {
   public toMinimalJSON(): LineSegmentProps {
     return {
       ...super.toMinimalJSON(),
-      id: this.id,
-      layer: this.layer,
+      // id: this.id,
+      // layer: this.layer,
       type: this.type,
       points: deepClone(this.points),
     }

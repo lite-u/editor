@@ -7,8 +7,8 @@ import {rotatePointAroundPoint} from '~/core/geometry'
 import {HistoryChangeItem} from '~/services/actions/type'
 
 export interface EllipseProps extends ShapeProps {
-  id: string
-  layer: number
+  // id: string
+  // layer: number
   type?: 'ellipse'
   r1: number
   r2: number
@@ -18,28 +18,26 @@ export type RequiredEllipseProps = Required<EllipseProps>
 
 class ElementEllipse extends ElementShape {
   readonly type = 'ellipse'
-  id: string
-  layer: number
+  // id: string
+  // layer: number
   // horizontal
   r1: number
   // vertical
   r2: number
-  private original: { cx: number, cy: number, r1: number, r2: number, rotation: number }
+  // private original: { cx: number, cy: number, r1: number, r2: number, rotation: number }
 
   constructor({
                 r1,
                 r2,
-                id,
-                layer,
                 ...rest
               }: EllipseProps) {
     super(rest)
-    this.id = id
-    this.layer = layer
+    // this.id = id
+    // this.layer = layer
     this.r1 = r1!
     this.r2 = r2!
 
-    console.log(super.original)
+    console.log(this.original)
 /*    this.original = {
       ...this.original,
       cx: this.cx,

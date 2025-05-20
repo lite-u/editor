@@ -11,8 +11,8 @@ import deepClone from '~/core/deepClone'
 import {HistoryChangeItem} from '~/services/actions/type'
 
 export interface PathProps extends ElementBaseProps {
-  id: UID,
-  layer: number
+  // id: UID,
+  // layer: number
   type: 'path'
   points: BezierPoint[];
   closed: boolean;
@@ -22,18 +22,18 @@ export interface PathProps extends ElementBaseProps {
 export type RequiredShapeProps = Required<PathProps>
 
 class ElementPath extends ElementBase {
-  readonly id: UID
-  readonly layer: number
+  // readonly id: UID
+  // readonly layer: number
   readonly type = 'path'
   private points: BezierPoint[] = []
   closed: boolean
   private original: { points: BezierPoint[], closed: boolean }
 
-  constructor({id, layer, points = [], closed = false, ...rest}: PathProps) {
+  constructor({ points = [], closed = false, ...rest}: PathProps) {
     super(rest)
     this.points = deepClone(points)
-    this.id = id
-    this.layer = layer
+    // this.id = id
+    // this.layer = layer
     this.closed = closed
     this.original = {
       closed,
@@ -173,8 +173,8 @@ class ElementPath extends ElementBase {
 
   protected toJSON(): RequiredShapeProps {
     return {
-      id: this.id,
-      layer: this.layer,
+      // id: this.id,
+      // layer: this.layer,
       type: this.type,
       points: this.points,
       closed: this.closed,
@@ -184,8 +184,8 @@ class ElementPath extends ElementBase {
 
   public toMinimalJSON(): PathProps {
     return {
-      id: this.id,
-      layer: this.layer,
+      // id: this.id,
+      // layer: this.layer,
       type: this.type,
       points: this.points,
       closed: this.closed,
