@@ -248,13 +248,13 @@ class RectangleLike extends ElementShape {
     return result
   }
 
-  public getBoundingRect() {
+  public getBoundingRect(withoutRotation: boolean = false) {
     const {cx, cy, width, height, rotation} = this
 
     const x = cx - width / 2
     const y = cy - height / 2
 
-    if (rotation === 0) {
+    if (rotation === 0 || withoutRotation) {
       return generateBoundingRectFromRect({x, y, width, height})
     }
 

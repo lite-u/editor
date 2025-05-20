@@ -25,7 +25,7 @@ declare class RectangleLike extends ElementShape {
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): HistoryChangeItem | undefined;
     toJSON(): RequiredRectangleLikeProps;
     toMinimalJSON(): RectangleLikeProps;
-    getBoundingRect(): import("~/type").BoundingRect;
+    getBoundingRect(withoutRotation?: boolean): import("~/type").BoundingRect;
     getBoundingRectFromOriginal(): import("~/type").BoundingRect;
     getSelectedBoxElement(lineWidth: number, lineColor: string): ElementRectangle;
     getHighlightElement(lineWidth: number, lineColor: string): ElementRectangle;

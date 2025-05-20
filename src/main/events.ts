@@ -335,7 +335,7 @@ export function initEvents(this: Editor) {
     })
 
     // this.batchMove(s, delta)
-    dispatch('element-modify', changes)
+    dispatch('element-modified', changes)
   })
 
   on('element-moving', ({delta = {x: 0, y: 0}}) => {
@@ -376,21 +376,35 @@ export function initEvents(this: Editor) {
     })
   })
 
-  on('element-modifying', ({type, data}) => {
-    const s = this.selection.values
+  /*  on('element-modifying', ({type, data}) => {
+      const s = this.selection.values
 
-    if (s.size === 0) return
+      if (s.size === 0) return
 
-    if (type === 'move') {
-      this.elementManager.batchMove(s, data as Point)
-    } else if (type === 'resize' || type === 'rotate') {
-      this.elementManager.batchModify(s, data)
-    }
+      if (type === 'move') {
+        this.elementManager.batchMove(s, data as Point)
+      } else if (type === 'resize' || type === 'rotate') {
+        this.elementManager.batchModify(s, data)
+      }
+
+      dispatch('element-updated')
+    })*/
+
+  on('element-modify', (data) => {
+    data.map(({id, props}) => {
+      const ele = this.elementManager.getElementById(id)
+      if (ele && props) {
+        Object.assign(ele, props)
+      }
+    })
+    console.log(data)
+    // this.events.onHistoryUpdated?.(this.history)
+    // this.events.onElementsUpdated?.(this.elementManager.all)
 
     dispatch('element-updated')
   })
 
-  on('element-modify', (changes) => {
+  on('element-modified', (changes) => {
     this.history.add({
       type: 'history-modify',
       payload: {
@@ -398,7 +412,7 @@ export function initEvents(this: Editor) {
         changes,
       },
     })
-
+    console.log(changes)
     this.events.onHistoryUpdated?.(this.history)
     this.events.onElementsUpdated?.(this.elementManager.all)
 

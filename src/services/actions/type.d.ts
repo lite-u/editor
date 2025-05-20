@@ -69,10 +69,11 @@ export type VisionEventMap = {
   'element-move-left': never;
   'element-move': ElementMoveData;
   'element-moving': ElementMoveData;
-  'element-modify': HistoryChangeItem[]
+  'element-modified': HistoryChangeItem[]
+  'element-modify': Partial<ElementProps>
   'element-modifying': {
     type: 'move' | 'resize' | 'rotate',
-    data: Partial<ElementProps>
+    data: Partial<ElementProps>[]
   }
   'element-hover-enter': UID;
   'element-hover-leave': UID;
@@ -111,7 +112,7 @@ const forwardEventDependencyMap: Record<VisionEventType, VisionEventType[]> = {
   'element-paste': ['element-updated'],
   'element-duplicate': ['element-updated'],
   'element-modifying': ['element-updated'],
-  'element-modify': ['element-updated'],
+  'element-modified': ['element-updated'],
   'element-updated': ['visible-element-updated', 'selection-updated'],
   'visible-element-updated': ['render-elements', 'visible-selection-updated'],
   'render-elements': [],
