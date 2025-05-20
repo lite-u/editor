@@ -22,12 +22,10 @@ function detectTool(this: ToolManager) {
     const f2 = ctx.isPointInPath(path2D, viewPoint.x, viewPoint.y)
 
     if (f1 || f2) {
-      if (id.includes('rotate')) {
-        interaction._hoveredRotateManipulator = mElements[i]
-      }
-
       if (id.includes('resize')) {
         interaction._hoveredResizeManipulator = mElements[i]
+      } else if (id.includes('rotate')) {
+        interaction._hoveredRotateManipulator = mElements[i]
       }
       break
     }
@@ -44,8 +42,12 @@ function detectTool(this: ToolManager) {
 
     if (isNearStroke) {
       interaction._hoveredElement = ele
-    } else if (inside && ele.fill.enabled) {
-      interaction._hoveredElement = ele
+    } else if (inside) {
+      // interaction._hoveredRotateManipulator = null
+
+      if (ele.fill.enabled) {
+        interaction._hoveredElement = ele
+      }
     }
   }
 }
