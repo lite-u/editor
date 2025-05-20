@@ -125,6 +125,7 @@ class InteractionState {
     const sameRotation = rotations.every(val => val === rotations[0])
     // create outline rectangle for multiple selection
     const controlElements = getManipulationBox(rect, sameRotation ? rotations[0] : 0, ratio)
+    // const manipulationBox =
     const outlineElementProps: OptionalIdentifiersProps = {
       type: 'rectangle',
       ...rect,
