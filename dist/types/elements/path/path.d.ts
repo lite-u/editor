@@ -23,6 +23,8 @@ declare class ElementPath extends ElementBase {
     protected updatePath2D(): void;
     translate(dx: number, dy: number): HistoryChangeItem;
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
+    static _getBoundingRect(points: BezierPoint[]): BoundingRect;
+    getBoundingRectFromOriginal(): any;
     getBoundingRect(): BoundingRect;
     protected toJSON(): RequiredShapeProps;
     toMinimalJSON(): PathProps;

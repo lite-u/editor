@@ -42,7 +42,7 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], direction: R
     el.scaleFrom(scaleX, scaleY, scalingAnchor)
   })
 
-  // action.dispatch('visible-element-updated')
+  this.editor.action.dispatch('visible-element-updated')
 }
 
 export default resizeFunc

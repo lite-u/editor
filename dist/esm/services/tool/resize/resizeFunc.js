@@ -34,6 +34,6 @@ function resizeFunc(elements, direction = 'br') {
     elements.forEach((el) => {
         el.scaleFrom(scaleX, scaleY, scalingAnchor);
     });
-    // action.dispatch('visible-element-updated')
+    this.editor.action.dispatch('visible-element-updated');
 }
 export default resizeFunc;

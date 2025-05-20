@@ -3,6 +3,7 @@ import { Point } from '~/type';
 import { SnapPointData } from '~/main/type';
 import ElementRectangle from '~/elements/rectangle/rectangle';
 import { BorderRadius } from '~/elements/props';
+import { HistoryChangeItem } from '~/services/actions/type';
 export interface RectangleLikeProps extends ShapeProps {
     id: string;
     layer: number;
@@ -20,7 +21,7 @@ declare class RectangleLike extends ElementShape {
     protected updateOriginal(): void;
     protected get getPoints(): Point[];
     protected get corners(): Point[];
-    scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
+    scaleFrom(scaleX: number, scaleY: number, anchor: Point): HistoryChangeItem | undefined;
     toJSON(): RequiredRectangleLikeProps;
     toMinimalJSON(): RectangleLikeProps;
     getBoundingRect(): import("~/type").BoundingRect;

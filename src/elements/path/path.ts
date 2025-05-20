@@ -143,12 +143,12 @@ class ElementPath extends ElementBase {
     // console.log(this.cx, this.cy, this.width, this.height)
   }
 
-  public getBoundingRect(): BoundingRect {
+  static _getBoundingRect(points: BezierPoint[]): BoundingRect {
     const samplePoints: Point[] = []
 
-    for (let i = 1; i < this.points.length; i++) {
-      const prev = this.points[i - 1]
-      const curr = this.points[i]
+    for (let i = 1; i < points.length; i++) {
+      const prev = points[i - 1]
+      const curr = points[i]
 
       const p0 = prev.anchor
       const p1 = prev.cp2 ?? prev.anchor
@@ -160,8 +160,8 @@ class ElementPath extends ElementBase {
       }
     }
 
-    if (this.points.length === 1) {
-      samplePoints.push(this.points[0].anchor)
+    if (points.length === 1) {
+      samplePoints.push(points[0].anchor)
     }
 
     const xs = samplePoints.map(p => p.x)
@@ -179,6 +179,15 @@ class ElementPath extends ElementBase {
     const cy = y + height / 2
 
     return {x, y, width, height, left, right, top, bottom, cx, cy}
+  }
+
+  getBoundingRectFromOriginal() {
+    const [start, end] = this.original.points
+    return ElementLineSegment._getBoundingRect(start, end, this.original.rotation)
+  }
+
+  public getBoundingRect(): BoundingRect {
+    return ElementPath._getBoundingRect(this.points)
   }
 
   protected toJSON(): RequiredShapeProps {

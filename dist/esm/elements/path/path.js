@@ -110,11 +110,11 @@ class ElementPath extends ElementBase {
         this.updatePath2D()*/
         // console.log(this.cx, this.cy, this.width, this.height)
     }
-    getBoundingRect() {
+    static _getBoundingRect(points) {
         const samplePoints = [];
-        for (let i = 1; i < this.points.length; i++) {
-            const prev = this.points[i - 1];
-            const curr = this.points[i];
+        for (let i = 1; i < points.length; i++) {
+            const prev = points[i - 1];
+            const curr = points[i];
             const p0 = prev.anchor;
             const p1 = prev.cp2 ?? prev.anchor;
             const p2 = curr.cp1 ?? curr.anchor;
@@ -123,8 +123,8 @@ class ElementPath extends ElementBase {
                 samplePoints.push(ElementPath.cubicBezier(t, p0, p1, p2, p3));
             }
         }
-        if (this.points.length === 1) {
-            samplePoints.push(this.points[0].anchor);
+        if (points.length === 1) {
+            samplePoints.push(points[0].anchor);
         }
         const xs = samplePoints.map(p => p.x);
         const ys = samplePoints.map(p => p.y);
@@ -139,6 +139,13 @@ class ElementPath extends ElementBase {
         const cx = x + width / 2;
         const cy = y + height / 2;
         return { x, y, width, height, left, right, top, bottom, cx, cy };
+    }
+    getBoundingRectFromOriginal() {
+        const [start, end] = this.original.points;
+        return ElementLineSegment._getBoundingRect(start, end, this.original.rotation);
+    }
+    getBoundingRect() {
+        return ElementPath._getBoundingRect(this.points);
     }
     toJSON() {
         return {

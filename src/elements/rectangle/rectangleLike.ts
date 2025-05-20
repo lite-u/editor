@@ -6,6 +6,7 @@ import ElementRectangle from '~/elements/rectangle/rectangle'
 import {BorderRadius} from '~/elements/props'
 import {DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH} from '~/elements/defaultProps'
 import {isEqual} from '~/lib/lib'
+import {HistoryChangeItem} from '~/services/actions/type'
 
 export interface RectangleLikeProps extends ShapeProps {
   id: string
@@ -160,7 +161,7 @@ class RectangleLike extends ElementShape {
       }
     }*/
 
-  scaleFrom(scaleX: number, scaleY: number, anchor: Point) {
+  scaleFrom(scaleX: number, scaleY: number, anchor: Point): HistoryChangeItem | undefined {
     const matrix = new DOMMatrix()
       .translate(anchor.x, anchor.y)
       .scale(scaleX, scaleY)
