@@ -56,6 +56,7 @@ class ElementPath extends ElementBase {
   protected updateOriginal() {
     this.original.points = deepClone(this.points)
     this.original.closed = this.closed
+    this.original.rotation = this.rotation
     this.updatePath2D()
   }
 
@@ -149,7 +150,9 @@ class ElementPath extends ElementBase {
         let newRotation = (this.original.rotation + rotation) % 360
         if (newRotation < 0) newRotation += 360
         this.rotation = newRotation
+        console.log(this.rotation)
       } else {
+        console.log(999)
         const matrix = new DOMMatrix()
           .translate(anchor.x, anchor.y)
           .rotate(rotation - this.rotation)
