@@ -79,7 +79,6 @@ class InteractionState {
         const { scale, dpr } = this.editor.world;
         const ratio = scale * dpr;
         const idSet = this.editor.selection.values;
-        const lineColor = '#435fb9';
         if (idSet.size <= 1) {
             this._outlineElement = null;
         }
