@@ -97,11 +97,13 @@ class RectangleLike extends ElementBase {
         ];
     }
     scaleFrom(scaleX, scaleY, anchor) {
+        const { cx, cy, width, height, rotation } = this.original;
         const matrix = new DOMMatrix()
             .translate(anchor.x, anchor.y)
+            .rotate(-rotation)
             .scale(scaleX, scaleY)
+            .rotate(rotation)
             .translate(-anchor.x, -anchor.y);
-        const { cx, cy, width, height } = this.original;
         const halfW = width / 2;
         const halfH = height / 2;
         const topLeft = ElementBase.transformPoint(cx - halfW, cy - halfH, matrix);

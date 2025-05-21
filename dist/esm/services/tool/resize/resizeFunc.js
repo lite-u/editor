@@ -6,7 +6,6 @@ function resizeFunc(elements, direction = 'br') {
     const { altKey, shiftKey } = _modifier;
     const rect = getBoundingRectFromBoundingRects(elements.map(el => el.getBoundingRectFromOriginal()));
     const { anchor, opposite } = getAnchorsByResizeDirection(rect, direction);
-    console.log('opposite', opposite);
     // const startPoint
     const centerX = rect.cx;
     const centerY = rect.cy;
@@ -16,7 +15,6 @@ function resizeFunc(elements, direction = 'br') {
         y: opposite.y - anchor.y,
     };
     // console.log(rect)
-    console.log('startVec', startVec);
     const currentVec = {
         x: mouseWorldCurrent.x - anchor.x,
         y: mouseWorldCurrent.y - anchor.y,
