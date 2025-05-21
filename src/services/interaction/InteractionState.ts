@@ -173,24 +173,30 @@ class InteractionState {
 
     if (sameRotation) {
       rect = getMinimalBoundingRect(rectsWithoutRotation, applyRotation)
-      this._manipulationElements.push(...getManipulationBox(rect, applyRotation, ratio,specialLineSeg))
+      if (specialLineSeg) {
+        rect.width = 1
+        rect.cx = elements[0].cx
+      }
+      this._manipulationElements.push(...getManipulationBox(rect, applyRotation, ratio, specialLineSeg))
     } else {
       rect = getBoundingRectFromBoundingRects(rectsWithRotation)
-      this._manipulationElements.push(...getManipulationBox(rect, 0, ratio,specialLineSeg))
+      this._manipulationElements.push(...getManipulationBox(rect, 0, ratio, specialLineSeg))
     }
 
-    this._outlineElement = new Rectangle({
-      id: 'selected-elements-outline',
-      layer: 0,
-      type: 'rectangle',
-      ...rect,
-      rotation: applyRotation,
-      stroke: {
-        ...DEFAULT_STROKE,
-        weight: 2 / scale,
-        color: '#5491f8',
-      },
-    })
+    if (!specialLineSeg) {
+      this._outlineElement = new Rectangle({
+        id: 'selected-elements-outline',
+        layer: 0,
+        type: 'rectangle',
+        ...rect,
+        rotation: applyRotation,
+        stroke: {
+          ...DEFAULT_STROKE,
+          weight: 2 / scale,
+          color: '#5491f8',
+        },
+      })
+    }
   }
 
   destroy() {

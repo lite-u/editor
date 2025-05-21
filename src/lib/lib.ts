@@ -213,7 +213,8 @@ export const getManipulationBox = (rect: {
   const result: ElementInstance[] = []
 
   arr.map(({dx, dy, name}) => {
-    if (specialLineSeg && name !== 't' || name !== 'b') return
+    if (specialLineSeg && name !== 't' && name !== 'b') return
+
     const {x, y} = rotatePointAroundPoint(cx + dx * width, cy + dy * height, cx, cy, rotation)
 
     const resizeHandleEleProp: RectangleProps = {

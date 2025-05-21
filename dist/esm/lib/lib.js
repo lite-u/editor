@@ -162,7 +162,7 @@ export const getManipulationBox = (rect, rotation, ratio, specialLineSeg = false
     ];
     const result = [];
     arr.map(({ dx, dy, name }) => {
-        if (specialLineSeg && name !== 't' || name !== 'b')
+        if (specialLineSeg && name !== 't' && name !== 'b')
             return;
         const { x, y } = rotatePointAroundPoint(cx + dx * width, cy + dy * height, cx, cy, rotation);
         const resizeHandleEleProp = {
