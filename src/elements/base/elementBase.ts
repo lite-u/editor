@@ -122,7 +122,7 @@ class ElementBase {
     }
   }
 
-  /* Use updateOriginal when you do accept the element's current state */
+  /* Invoke updateOriginal method when you do accept the element's current state as static state */
   protected updateOriginal() {}
 
   protected rotate(angle: number) {
