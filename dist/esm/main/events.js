@@ -296,10 +296,6 @@ export function initEvents() {
             dispatch('render-elements');
         });
         const savedSelected = new Set(newElements.keys());
-        // console.log(newElements)
-        /*  this.elementManager.batchAdd(newElements,()=>{
-            dispatch('render-elements')
-          })*/
         this.selection.replace(savedSelected);
         const elementProps = [...newElements.values()].map((mod) => mod.toMinimalJSON());
         dispatch('element-updated', {

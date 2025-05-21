@@ -48,9 +48,6 @@ class ElementShape extends ElementBase {
             let newRotation = (this.original.rotation + rotation) % 360;
             if (newRotation < 0)
                 newRotation += 360;
-            console.log('anchor', anchor.x, anchor.y);
-            console.log('center', cx, cy);
-            // console.log(transformed.x, transformed.y)
             this.cx = transformed.x;
             this.cy = transformed.y;
             this.rotation = newRotation;
