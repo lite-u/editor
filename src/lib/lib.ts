@@ -202,12 +202,12 @@ export const getManipulationBox = (rect: {
   const {cx, cy, width, height} = rect
   const arr = [
     {name: 'tl', dx: -0.5, dy: -0.5},
-    {name: 't', dx: 0.0, dy: 0.5},
-    {name: 'tr', dx: -0.5, dy: 0.5},
+    {name: 't', dx: 0.0, dy: -0.5},
+    {name: 'tr', dx: 0.5, dy: -0.5},
     {name: 'r', dx: 0.5, dy: 0},
     {name: 'br', dx: 0.5, dy: 0.5},
-    {name: 'b', dx: 0.0, dy: -0.5},
-    {name: 'bl', dx: 0.5, dy: -0.5},
+    {name: 'b', dx: 0, dy: 0.5},
+    {name: 'bl', dx: -0.5, dy: 0.5},
     {name: 'l', dx: -0.5, dy: 0},
   ]
   const result: ElementInstance[] = []
