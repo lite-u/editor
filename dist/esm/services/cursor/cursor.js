@@ -55,7 +55,8 @@ class Cursor {
         // console.log('set cursor', p)
         // this.domRef.style.left = `${p.x}px`
         // this.domRef.style.top = `${p.y}px`
-        this.domRef.style.translate = `${p.x}px ${p.y}px`;
+        const len = 20;
+        this.domRef.style.translate = `${p.x - len / 2}px ${p.y - len / 2}px`;
     }
     rotate(rotation) {
         // const size = 24
