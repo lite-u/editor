@@ -289,7 +289,7 @@ export const getManipulationBox = (rect: BoundingRect, rotation: number, ratio: 
     cx,
     cy,
   })
-
+  centerPoint.stroke.color = 'red'
   result.push(centerPoint)
 
   return result

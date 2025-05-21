@@ -214,6 +214,7 @@ export const getManipulationBox = (rect, rotation, ratio) => {
         cx,
         cy,
     });
+    centerPoint.stroke.color = 'red';
     result.push(centerPoint);
     return result;
 };
