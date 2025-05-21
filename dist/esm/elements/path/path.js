@@ -1,5 +1,5 @@
-import deepClone from '../../core/deepClone.js';
-import ElementShape from '../shape/shape.js';
+import deepClone from '~/core/deepClone';
+import ElementShape from '~/elements/shape/shape';
 class ElementPath extends ElementShape {
     // readonly id: UID
     // readonly layer: number
@@ -90,7 +90,7 @@ class ElementPath extends ElementShape {
          const rect = this.getBoundingRectFromOriginal()
          const isSelfCenter = rect.cx.toFixed(2) === anchor.x.toFixed(2) && rect.cy.toFixed(2) === anchor.y.toFixed(2)
          console.log(isSelfCenter)
-   
+  
          if (isSelfCenter) {
            let newRotation = (this.original.rotation + rotation) % 360
            if (newRotation < 0) newRotation += 360
@@ -102,7 +102,7 @@ class ElementPath extends ElementShape {
              .translate(anchor.x, anchor.y)
              .rotate(rotation - this.rotation)
              .translate(-anchor.x, -anchor.y)
-   
+  
            this.points = this.original.points.map(p => {
              const anchorPt = this.transformPoint(p.anchor.x + this.cx, p.anchor.y + this.cy, matrix)
              const cp1 = p.cp1 ? this.transformPoint(p.cp1.x + this.cx, p.cp1.y + this.cy, matrix) : undefined
@@ -113,13 +113,13 @@ class ElementPath extends ElementShape {
                cp2: cp2 ? { x: cp2.x - this.cx, y: cp2.y - this.cy } : undefined,
              }
            })
-   
+  
            this.rotation = 0
          }
-   
+  
          this.updatePath2D()
        }
-   
+  
        if (f) {
          return {
            id: this.id,
@@ -185,7 +185,14 @@ class ElementPath extends ElementShape {
         return { x, y, width, height, left, right, top, bottom, cx, cy };
     }
     getBoundingRectFromOriginal() {
-        return ElementPath._getBoundingRect(this.original.points);
+        const cx = this.original.cx;
+        const cy = this.original.cy;
+        const points = this.original.points?.map(p => ({
+            anchor: { x: p.anchor.x + cx, y: p.anchor.y + cy },
+            cp1: p.cp1 ? { x: p.cp1.x + cx, y: p.cp1.y + cy } : undefined,
+            cp2: p.cp2 ? { x: p.cp2.x + cx, y: p.cp2.y + cy } : undefined,
+        }));
+        return ElementPath._getBoundingRect(points);
     }
     getBoundingRect(withoutRotation = false) {
         return ElementPath._getBoundingRect(this.points);

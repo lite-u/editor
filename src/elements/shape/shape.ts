@@ -1,6 +1,6 @@
 import ElementBase, {ElementBaseProps} from '../base/elementBase'
 import {Point} from '~/type'
-import {Gradient} from '~/elements/props'
+import {BezierPoint, Gradient} from '~/elements/props'
 import {DEFAULT_CX, DEFAULT_CY, DEFAULT_GRADIENT} from '~/elements/defaultProps'
 import {isEqual} from '~/lib/lib'
 import deepClone from '~/core/deepClone'
@@ -18,7 +18,7 @@ class ElementShape extends ElementBase {
   public cx: number
   public cy: number
   gradient: Gradient
-  protected original: { cx: number; cy: number; rotation: number, [key: string]: unknown }
+  protected original: { cx: number; cy: number; rotation: number, points?: BezierPoint[], [key: string]: unknown }
 
   constructor({
                 cx = DEFAULT_CX,

@@ -1,6 +1,6 @@
 import ElementBase, { ElementBaseProps } from '../base/elementBase';
 import { Point } from '~/type';
-import { Gradient } from '~/elements/props';
+import { BezierPoint, Gradient } from '~/elements/props';
 import { HistoryChangeItem } from '~/services/actions/type';
 export interface ShapeProps extends ElementBaseProps {
     cx?: number;
@@ -16,6 +16,7 @@ declare class ElementShape extends ElementBase {
         cx: number;
         cy: number;
         rotation: number;
+        points?: BezierPoint[];
         [key: string]: unknown;
     };
     constructor({ cx, cy, gradient, ...rest }: ShapeProps);

@@ -227,8 +227,15 @@ class ElementPath extends ElementShape {
   }
 
   getBoundingRectFromOriginal() {
+    const cx = this.original.cx
+    const cy = this.original.cy
 
-    return ElementPath._getBoundingRect(this.original.points)
+    const points = this.original.points?.map(p => ({
+      anchor: {x: p.anchor.x + cx, y: p.anchor.y + cy},
+      cp1: p.cp1 ? {x: p.cp1.x + cx, y: p.cp1.y + cy} : undefined,
+      cp2: p.cp2 ? {x: p.cp2.x + cx, y: p.cp2.y + cy} : undefined,
+    }))
+    return ElementPath._getBoundingRect(points)
   }
 
   public getBoundingRect(withoutRotation: boolean = false): BoundingRect {
