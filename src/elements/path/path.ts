@@ -56,13 +56,6 @@ class ElementPath extends ElementShape {
     this.updatePath2D()
   }
 
-  get center(): Point {
-    return {
-      x: this.cx,
-      y: this.cy,
-    }
-  }
-
   get getPoints(): Point[] {
     return this.points.map(p => ({...p.anchor}))
   }
