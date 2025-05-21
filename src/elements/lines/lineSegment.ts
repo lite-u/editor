@@ -106,6 +106,7 @@ class ElementLineSegment extends ElementBase {
       point.y += dy
     })
 
+    this.updatePath2D()
     if (f) {
       return {
         id: this.id,
