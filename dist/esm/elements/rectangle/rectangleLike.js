@@ -111,17 +111,12 @@ class RectangleLike extends ElementBase {
         this.updatePath2D();
     }
     toJSON() {
-        const { borderRadius, width, height,
-        // id,
-        // layer,
-         } = this;
+        const { borderRadius, width, height, } = this;
         if (!borderRadius) {
             debugger;
         }
         return {
             ...super.toJSON(),
-            // id,
-            // layer,
             borderRadius: [...borderRadius],
             width,
             height,
@@ -130,8 +125,6 @@ class RectangleLike extends ElementBase {
     toMinimalJSON() {
         const result = {
             ...super.toMinimalJSON(),
-            // id: this.id,
-            // layer: this.layer,
         };
         if (!isEqual(this.borderRadius, DEFAULT_BORDER_RADIUS)) {
             result.borderRadius = [...this.borderRadius];

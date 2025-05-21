@@ -272,8 +272,10 @@ export function initEvents(this: Editor) {
 
     const newElements = this.elementManager.batchCreate(temp)
     const savedSelected = new Set(newElements.keys())
+
     newElements.forEach((el) => {
       el.translate(copyDeltaX, copyDeltaY)
+      el.updateOriginal()
     })
 
     this.elementManager.batchAdd(newElements)
@@ -463,25 +465,25 @@ export function initEvents(this: Editor) {
     // this.world.renderOverlay()
   })
 
-/*
-  on('element-hover-enter', (id) => {
-    if (this.interaction._hoveredElement && id && this.interaction._hoveredElement === id) {
-      return
-    }
+  /*
+    on('element-hover-enter', (id) => {
+      if (this.interaction._hoveredElement && id && this.interaction._hoveredElement === id) {
+        return
+      }
 
-    // console.log(this.hoveredElement, id)
+      // console.log(this.hoveredElement, id)
 
-    this.interaction._hoveredElement = id
-    dispatch('visible-selection-updated')
-  })
-*/
+      this.interaction._hoveredElement = id
+      dispatch('visible-selection-updated')
+    })
+  */
 
-/*
-  on('element-hover-leave', () => {
-    this.interaction._hoveredElement = null!
-    dispatch('visible-selection-updated')
-  })
-*/
+  /*
+    on('element-hover-leave', () => {
+      this.interaction._hoveredElement = null!
+      dispatch('visible-selection-updated')
+    })
+  */
 
   on('history-undo', () => {
     undo.call(this)
