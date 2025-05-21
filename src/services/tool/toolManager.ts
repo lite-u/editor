@@ -19,7 +19,7 @@ import {zoomInTool, zoomOutTool} from '~/services/tool/zoomTool'
 export type ToolType = {
   cursor: CursorName
   mouseDown: (this: ToolManager) => void
-  mouseMove: (this: ToolManager) => void
+  mouseMove: (this: ToolManager) => unknown
   mouseUp: (this: ToolManager) => void
   // keyDown: (this: ToolManager) => void
   // keyUp: (this: ToolManager) => void
