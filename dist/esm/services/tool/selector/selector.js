@@ -21,7 +21,7 @@ const selector = {
         }
         else if (rotateMode) {
             const rects = elementManager.getElementsByIdSet(selection.values).map(ele => {
-                return ele.getBoundingRect();
+                return ele.getBoundingRect(true);
             });
             const center = getBoundingRectFromBoundingRects(rects);
             const { cx: x, cy: y } = center;
