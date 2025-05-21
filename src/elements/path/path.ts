@@ -2,7 +2,7 @@ import {BoundingRect, Point} from '~/type'
 import {AnchorPoint, Appearance, Fill, Stroke, Transform} from '~/elements/defaultProps'
 import {BezierPoint} from '~/elements/props'
 import deepClone from '~/core/deepClone'
-import ElementBase from '~/elements/base/elementBase'
+import ElementBase, {ElementBaseProps} from '~/elements/base/elementBase'
 
 export interface PathProps extends ElementBaseProps {
   // id: UID,
