@@ -142,7 +142,11 @@ class ElementPath extends ElementBase {
       const rect = this.getBoundingRectFromOriginal()
       const onSelfCenter = rect.cx.toFixed(2) === anchor.x.toFixed(2) && rect.cy.toFixed(2) === anchor.y.toFixed(2)
       console.log(onSelfCenter)
-      if (!onSelfCenter) {
+      let newRotation
+
+      if (onSelfCenter) {
+        newRotation = (this.original.rotation + rotation) % 360
+      } else {
         const matrix = new DOMMatrix()
           .translate(anchor.x, anchor.y)
           .rotate(rotation)
@@ -157,13 +161,14 @@ class ElementPath extends ElementBase {
           return {anchor: anchorPt, cp1, cp2}
         })
 
+        newRotation = rotation
       }
 
-      let newRotation = (this.original.rotation + rotation) % 360
       if (newRotation < 0) newRotation += 360
       this.rotation = newRotation
-      this.updatePath2D()
     }
+
+    this.updatePath2D()
 
     if (f) {
       return {
