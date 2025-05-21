@@ -36,14 +36,12 @@ class ElementPath extends ElementShape {
         this.original.points = deepClone(this.points);
         this.original.closed = this.closed;
         this.original.rotation = this.rotation;
-        this.center =
-            this.updatePath2D();
+        this.updatePath2D();
     }
     get center() {
-        const rect = this.getBoundingRect();
         return {
-            x: rect.cx,
-            y: rect.cy,
+            x: this.cx,
+            y: this.cy,
         };
     }
     get getPoints() {
@@ -53,9 +51,7 @@ class ElementPath extends ElementShape {
         this.path2D = new Path2D();
         if (this.points.length === 0)
             return;
-        const rect = this.getBoundingRect();
-        const cx = rect.cx;
-        const cy = rect.cy;
+        const { cx, cy } = this;
         const transform = new DOMMatrix()
             .translate(cx, cy)
             .rotate(this.rotation)
