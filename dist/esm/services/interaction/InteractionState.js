@@ -2,6 +2,7 @@ import { createWith, getManipulationBox } from '../../lib/lib.js';
 import { getBoundingRectFromBoundingRects } from '../tool/resize/helper.js';
 import { DEFAULT_STROKE } from '../../elements/defaultProps.js';
 import { getMinimalBoundingRect } from '../../core/utils.js';
+import Rectangle from '../../elements/rectangle/rectangle.js';
 class InteractionState {
     editor;
     state = 'static';
@@ -113,7 +114,9 @@ class InteractionState {
             rect = getBoundingRectFromBoundingRects(rectsWithRotation);
             this._manipulationElements.push(...getManipulationBox(rect, 0, ratio));
         }
-        this._outlineElement = this.editor.elementManager.create({
+        this._outlineElement = new Rectangle({
+            id: 'selected-elements-outline',
+            layer: 0,
             type: 'rectangle',
             ...rect,
             rotation: applyRotation,
