@@ -25,7 +25,8 @@ const selector = {
             });
             const center = getBoundingRectFromBoundingRects(rects);
             const { cx: x, cy: y } = center;
-            console.log(interaction._outlineElement.rotation);
+            // debugger
+            console.log(center);
             interaction._rotateData = { startRotation: interaction._outlineElement.rotation, targetPoint: { x, y } };
             this.subTool = rotating;
         }
@@ -60,6 +61,7 @@ const selector = {
     mouseUp() {
         if (!this.subTool)
             return;
+        this.editor.interaction._rotateData = null;
         this.subTool.mouseUp.call(this);
         this.subTool = null;
     },
