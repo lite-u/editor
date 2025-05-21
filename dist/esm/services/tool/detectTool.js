@@ -20,7 +20,7 @@ function detectTool() {
         const inside = ctx.isPointInPath(path2D, viewPoint.x, viewPoint.y);
         if (inside) {
             // interaction._hoveredElement = elementManager.getElementById(currMEle._relatedId)
-            console.log(id);
+            // console.log(id)
             if (id.includes('resize')) {
                 interaction._hoveredResizeManipulator = currMEle;
             }

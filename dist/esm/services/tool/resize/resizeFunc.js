@@ -1,11 +1,12 @@
 import { getAnchorsByResizeDirection, getBoundingRectFromBoundingRects } from './helper.js';
 function resizeFunc(elements, direction = 'br') {
     console.log(direction);
-    const { interaction, /*action*/ } = this.editor;
+    const { interaction /*action*/ } = this.editor;
     const { mouseWorldCurrent, _modifier } = interaction;
     const { altKey, shiftKey } = _modifier;
     const rect = getBoundingRectFromBoundingRects(elements.map(el => el.getBoundingRectFromOriginal()));
     const { anchor, opposite } = getAnchorsByResizeDirection(rect, direction);
+    console.log('opposite', opposite);
     // const startPoint
     const centerX = rect.cx;
     const centerY = rect.cy;
@@ -29,7 +30,7 @@ function resizeFunc(elements, direction = 'br') {
     }
     const scalingAnchor = altKey
         ? { x: centerX, y: centerY }
-        : anchor;
+        : opposite;
     // console.log(scaleX, scaleY,scalingAnchor)
     elements.forEach((el) => {
         el.scaleFrom(scaleX, scaleY, scalingAnchor);

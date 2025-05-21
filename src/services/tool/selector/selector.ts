@@ -55,7 +55,7 @@ const selector: ToolType = {
         cursor.set('nw-resize')
         // console.log(10)
       } else if (interaction._hoveredRotateManipulator) {
-        console.log(interaction._hoveredRotateManipulator.id)
+        // console.log(interaction._hoveredRotateManipulator.id)
         const centerPoint = {
           x: interaction._outlineElement.cx,
           y: interaction._outlineElement.cy,
