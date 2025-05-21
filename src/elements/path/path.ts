@@ -249,7 +249,7 @@ class ElementPath extends ElementShape {
         : undefined,
     }))
 
-    return ElementPath._getBoundingRect(points)
+    return ElementPath._getBoundingRect(transformedPoints)
   }
 
   getBoundingRectFromOriginal() {
@@ -260,8 +260,9 @@ class ElementPath extends ElementShape {
 
   public getBoundingRect(withoutRotation: boolean = false): BoundingRect {
     const {cx, cy, rotation, points} = this
+    const r = withoutRotation ? 0 : rotation
 
-    return ElementPath._getBoundingRectFromRelativePoints(cx, cy, withoutRotation ? 0 : rotation, points)
+    return ElementPath._getBoundingRectFromRelativePoints(cx, cy, r, points)
 
   }
 

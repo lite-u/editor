@@ -205,7 +205,7 @@ class ElementPath extends ElementShape {
                     : { x: p.cp2.x + cx, y: p.cp2.y + cy })
                 : undefined,
         }));
-        return ElementPath._getBoundingRect(points);
+        return ElementPath._getBoundingRect(transformedPoints);
     }
     getBoundingRectFromOriginal() {
         const { cx, cy, rotation, points } = this.original;
@@ -213,7 +213,8 @@ class ElementPath extends ElementShape {
     }
     getBoundingRect(withoutRotation = false) {
         const { cx, cy, rotation, points } = this;
-        return ElementPath._getBoundingRectFromRelativePoints(cx, cy, withoutRotation ? 0 : rotation, points);
+        const r = withoutRotation ? 0 : rotation;
+        return ElementPath._getBoundingRectFromRelativePoints(cx, cy, r, points);
     }
     toJSON() {
         return {
