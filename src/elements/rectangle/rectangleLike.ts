@@ -170,8 +170,6 @@ class RectangleLike extends ElementBase {
   override toMinimalJSON(): RectangleLikeProps {
     const result: RectangleLikeProps = {
       ...super.toMinimalJSON(),
-      // id: this.id,
-      // layer: this.layer,
     }
 
     if (!isEqual(this.borderRadius, DEFAULT_BORDER_RADIUS)) {
