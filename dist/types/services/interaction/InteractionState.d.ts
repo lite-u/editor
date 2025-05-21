@@ -37,6 +37,7 @@ declare class InteractionState {
             x: number;
             y: number;
         };
+        placement: string;
     } | null;
     _rotateData: {
         startRotation: number;
