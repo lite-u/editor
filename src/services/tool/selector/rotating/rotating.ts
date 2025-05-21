@@ -38,11 +38,12 @@ const rotating: SubToolType = {
     elements.forEach(ele => {
       const change = ele.rotateFrom(0, interaction._rotateData?.targetPoint, true)
 
+      // console.log(change)
       ele.updateOriginal()
       changes.push(change)
     })
 
-    console.log(changes)
+    // console.log(changes)
 
     action.dispatch('element-modified', changes)
 
