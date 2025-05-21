@@ -17,15 +17,9 @@ export interface PathProps extends ShapeProps {
 export type RequiredShapeProps = Required<PathProps>
 
 class ElementPath extends ElementShape {
-  // readonly id: UID
-  // readonly layer: number
   readonly type = 'path'
   private points: BezierPoint[] = []
-  // private cx: number
-  // private cy: number
   closed: boolean
-
-  // private original: { cx: number, cy: number, points: BezierPoint[], closed: boolean, rotation: number }
 
   constructor({points = [], closed = false, ...rest}: PathProps) {
     super(rest)
