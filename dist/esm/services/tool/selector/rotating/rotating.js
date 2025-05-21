@@ -14,7 +14,7 @@ const rotating = {
         const mouseCurrentRotation = getRotateAngle(targetPoint, mouseWorldCurrent);
         let rotationDiff = mouseCurrentRotation - mouseStartRotation;
         if (shiftKey) {
-            rotationDiff = Math.round(rotationDiff / 15) * 15;
+            rotationDiff = Math.round(rotationDiff / 45) * 45;
         }
         interaction._outlineElement?.rotateFrom(rotationDiff, targetPoint);
         interaction._manipulationElements.forEach(ele => ele.rotateFrom(rotationDiff, targetPoint));
