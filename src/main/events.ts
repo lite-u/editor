@@ -463,6 +463,7 @@ export function initEvents(this: Editor) {
     // this.world.renderOverlay()
   })
 
+/*
   on('element-hover-enter', (id) => {
     if (this.interaction._hoveredElement && id && this.interaction._hoveredElement === id) {
       return
@@ -473,11 +474,14 @@ export function initEvents(this: Editor) {
     this.interaction._hoveredElement = id
     dispatch('visible-selection-updated')
   })
+*/
 
+/*
   on('element-hover-leave', () => {
     this.interaction._hoveredElement = null!
     dispatch('visible-selection-updated')
   })
+*/
 
   on('history-undo', () => {
     undo.call(this)
