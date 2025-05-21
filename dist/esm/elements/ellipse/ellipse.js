@@ -1,6 +1,7 @@
 import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '../../core/utils.js';
 import ElementShape from '../shape/shape.js';
 import { rotatePointAroundPoint } from '../../core/geometry.js';
+import ElementBase from '../base/elementBase.js';
 class ElementEllipse extends ElementShape {
     type = 'ellipse';
     // horizontal
