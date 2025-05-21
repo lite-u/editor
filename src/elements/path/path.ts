@@ -2,10 +2,9 @@ import {BoundingRect, Point} from '~/type'
 import {AnchorPoint, Appearance, Fill, Stroke, Transform} from '~/elements/defaultProps'
 import {BezierPoint} from '~/elements/props'
 import deepClone from '~/core/deepClone'
-import ElementShape, {ShapeProps} from '~/elements/shape/shape'
 import ElementBase from '~/elements/base/elementBase'
 
-export interface PathProps extends ShapeProps {
+export interface PathProps extends ElementBaseProps {
   // id: UID,
   // layer: number
   type: 'path'
@@ -16,7 +15,7 @@ export interface PathProps extends ShapeProps {
 
 export type RequiredShapeProps = Required<PathProps>
 
-class ElementPath extends ElementShape {
+class ElementPath extends ElementBase {
   readonly type = 'path'
   private points: BezierPoint[] = []
   closed: boolean

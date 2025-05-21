@@ -1,10 +1,10 @@
-import ElementShape, { ShapeProps } from '../shape/shape';
 import { Point } from '~/type';
 import { SnapPointData } from '~/main/type';
 import ElementRectangle from '~/elements/rectangle/rectangle';
 import { BorderRadius } from '~/elements/props';
 import { HistoryChangeItem } from '~/services/actions/type';
-export interface RectangleLikeProps extends ShapeProps {
+import ElementBase, { ElementBaseProps } from '~/elements/base/elementBase';
+export interface RectangleLikeProps extends ElementBaseProps {
     id: string;
     layer: number;
     width?: number;
@@ -12,7 +12,7 @@ export interface RectangleLikeProps extends ShapeProps {
     borderRadius?: BorderRadius;
 }
 export type RequiredRectangleLikeProps = Required<RectangleLikeProps>;
-declare class RectangleLike extends ElementShape {
+declare class RectangleLike extends ElementBase {
     width: number;
     height: number;
     borderRadius: BorderRadius;

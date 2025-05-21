@@ -1,7 +1,6 @@
 import deepClone from '../../core/deepClone.js';
-import ElementShape from '../shape/shape.js';
 import ElementBase from '../base/elementBase.js';
-class ElementPath extends ElementShape {
+class ElementPath extends ElementBase {
     type = 'path';
     points = [];
     closed;

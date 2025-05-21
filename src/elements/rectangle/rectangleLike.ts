@@ -1,4 +1,3 @@
-import ElementShape, {ShapeProps} from '../shape/shape'
 import {Point} from '~/type'
 import {SnapPointData} from '~/main/type'
 import {generateBoundingRectFromRect, generateBoundingRectFromRotatedRect} from '~/core/utils'
@@ -7,9 +6,9 @@ import {BorderRadius} from '~/elements/props'
 import {DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH} from '~/elements/defaultProps'
 import {isEqual} from '~/lib/lib'
 import {HistoryChangeItem} from '~/services/actions/type'
-import ElementBase from '~/elements/base/elementBase'
+import ElementBase, {ElementBaseProps} from '~/elements/base/elementBase'
 
-export interface RectangleLikeProps extends ShapeProps {
+export interface RectangleLikeProps extends ElementBaseProps {
   id: string
   layer: number
   width?: number
@@ -19,7 +18,7 @@ export interface RectangleLikeProps extends ShapeProps {
 
 export type RequiredRectangleLikeProps = Required<RectangleLikeProps>
 
-class RectangleLike extends ElementShape {
+class RectangleLike extends ElementBase {
   // id: string
   // layer: number
   width: number

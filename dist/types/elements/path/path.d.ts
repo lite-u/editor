@@ -1,13 +1,13 @@
 import { BoundingRect, Point } from '~/type';
 import { BezierPoint } from '~/elements/props';
-import ElementShape, { ShapeProps } from '~/elements/shape/shape';
-export interface PathProps extends ShapeProps {
+import ElementBase from '~/elements/base/elementBase';
+export interface PathProps extends ElementBaseProps {
     type: 'path';
     points: BezierPoint[];
     closed: boolean;
 }
 export type RequiredShapeProps = Required<PathProps>;
-declare class ElementPath extends ElementShape {
+declare class ElementPath extends ElementBase {
     readonly type = "path";
     private points;
     closed: boolean;

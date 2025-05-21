@@ -1,5 +1,6 @@
 import { BoundingRect, ElementProps, Point, UID } from '~/type';
-import { Fill, Shadow, Stroke, Transform } from '~/elements/props';
+import { BezierPoint, Fill, Gradient, Shadow, Stroke, Transform } from '~/elements/props';
+import { HistoryChangeItem } from '~/services/actions/type';
 export interface ElementBaseProps {
     id: UID;
     layer: number;
@@ -10,11 +11,17 @@ export interface ElementBaseProps {
     rotation?: number;
     transform?: Transform;
     show?: boolean;
+    cx?: number;
+    cy?: number;
+    gradient?: Gradient;
 }
 export type RequiredBaseProps = Required<ElementBaseProps>;
 declare class ElementBase {
     id: UID;
     layer: number;
+    cx: number;
+    cy: number;
+    gradient: Gradient;
     stroke: Stroke;
     fill: Fill;
     opacity: number;
@@ -24,8 +31,23 @@ declare class ElementBase {
     show: boolean;
     protected matrix: DOMMatrix;
     path2D: Path2D;
-    constructor({ id, layer, stroke, fill, opacity, shadow, rotation, transform, show, }: ElementBaseProps);
+    protected original: {
+        cx: number;
+        cy: number;
+        rotation: number;
+        points?: BezierPoint[];
+        width?: number;
+        height?: number;
+        r1?: number;
+        r2?: number;
+        closed?: boolean;
+        [key: string]: unknown;
+    };
+    constructor({ id, layer, cx, cy, gradient, stroke, fill, opacity, shadow, rotation, transform, show, }: ElementBaseProps);
+    protected translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined;
     protected rotate(angle: number): void;
+    protected rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined;
+    protected get center(): Point;
     static transformPoint(x: number, y: number, matrix: DOMMatrix): Point;
     protected toJSON(): RequiredBaseProps;
     protected toMinimalJSON(): ElementBaseProps;

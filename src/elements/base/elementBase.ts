@@ -1,7 +1,8 @@
 import {BoundingRect, ElementProps, Point, UID} from '~/type'
 import {generateBoundingRectFromTwoPoints} from '~/core/utils'
 import {
-  DEFAULT_FILL,
+  DEFAULT_CX, DEFAULT_CY,
+  DEFAULT_FILL, DEFAULT_GRADIENT,
   DEFAULT_OPACITY,
   DEFAULT_ROTATION,
   DEFAULT_SHADOW,
@@ -10,7 +11,8 @@ import {
 } from '~/elements/defaultProps'
 import deepClone from '~/core/deepClone'
 import {isEqual} from '~/lib/lib'
-import {Fill, Gradient, Shadow, Stroke, Transform} from '~/elements/props'
+import {BezierPoint, Fill, Gradient, Shadow, Stroke, Transform} from '~/elements/props'
+import {HistoryChangeItem} from '~/services/actions/type'
 
 export interface ElementBaseProps {
   id: UID,
@@ -32,6 +34,9 @@ export type RequiredBaseProps = Required<ElementBaseProps>
 class ElementBase {
   id: UID
   layer: number
+   cx: number
+   cy: number
+  gradient: Gradient
   stroke: Stroke
   fill: Fill
   opacity: number
@@ -41,10 +46,25 @@ class ElementBase {
   show: boolean
   protected matrix = new DOMMatrix()
   path2D = new Path2D()
+  protected original: {
+    cx: number;
+    cy: number;
+    rotation: number,
+    points?: BezierPoint[],
+    width?: number,
+    height?: number,
+    r1?: number,
+    r2?: number,
+    closed?: boolean,
+    [key: string]: unknown
+  }
 
   constructor({
                 id,
                 layer,
+                cx = DEFAULT_CX,
+                cy = DEFAULT_CY,
+                gradient = DEFAULT_GRADIENT,
                 stroke = deepClone(DEFAULT_STROKE),
                 fill = deepClone(DEFAULT_FILL),
                 opacity = deepClone(DEFAULT_OPACITY),
@@ -55,6 +75,8 @@ class ElementBase {
               }: ElementBaseProps) {
     this.id = id
     this.layer = layer
+    this.cx = cx
+    this.cy = cy
     this.stroke = stroke
     this.fill = fill
     this.opacity = opacity
@@ -62,11 +84,79 @@ class ElementBase {
     this.rotation = rotation
     this.transform = transform
     this.show = show
+    this.gradient = gradient
+
+    this.original = {
+      cx: this.cx,
+      cy: this.cy,
+      rotation: this.rotation,
+    }
+  }
+
+  protected translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined {
+    this.cx = this.cx + dx
+    this.cy = this.cy + dy
+    this.updatePath2D()
+
+    if (f) {
+      return {
+        id: this.id,
+        from: {
+          cx: this.original.cx,
+          cy: this.original.cy,
+        },
+        to: {
+          cx: this.cx,
+          cy: this.cy,
+        },
+      }
+    }
   }
 
   protected rotate(angle: number) {
     this.rotation = angle
     this.updatePath2D()
+  }
+
+  protected rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined {
+    if (rotation !== 0) {
+      const matrix = new DOMMatrix()
+        .translate(anchor.x, anchor.y)
+        .rotate(rotation)
+        .translate(-anchor.x, -anchor.y)
+// debugger
+      const {cx, cy} = this.original
+      const transformed = matrix.transformPoint({x: cx, y: cy})
+      let newRotation = (this.original.rotation + rotation) % 360
+      if (newRotation < 0) newRotation += 360
+
+      this.cx = transformed.x
+      this.cy = transformed.y
+
+      this.rotation = newRotation
+
+      this.updatePath2D()
+    }
+
+    if (f) {
+      return {
+        id: this.id,
+        from: {
+          cx: this.original.cx,
+          cy: this.original.cy,
+          rotation: this.original.rotation,
+        },
+        to: {
+          cx: this.cx,
+          cy: this.cy,
+          rotation: this.rotation,
+        },
+      }
+    }
+  }
+
+  protected get center(): Point {
+    return {x: this.cx, y: this.cy}
   }
 
   static transformPoint(x: number, y: number, matrix: DOMMatrix): Point {
@@ -78,13 +168,16 @@ class ElementBase {
   protected toJSON(): RequiredBaseProps {
     const {
       id,
+      cx,
+      cy,
+      rotation,
       layer,
       show,
       stroke,
       fill,
       opacity,
       shadow,
-      rotation,
+      gradient,
       transform,
     } = this
 
@@ -92,6 +185,9 @@ class ElementBase {
       id,
       layer,
       show,
+      cx,
+      cy,
+      gradient: deepClone(gradient),
       stroke: deepClone(stroke),
       fill: deepClone(fill),
       opacity: opacity,
@@ -106,6 +202,18 @@ class ElementBase {
 
     if (!this.show) {
       result.show = false
+    }
+
+    if (this.cx !== DEFAULT_CX) {
+      result.cx = this.cx
+    }
+
+    if (this.cy !== DEFAULT_CY) {
+      result.cy = this.cy
+    }
+
+    if (!isEqual(this.gradient, DEFAULT_GRADIENT)) {
+      result.gradient = deepClone(this.gradient)
     }
 
     if (!isEqual(this.stroke, DEFAULT_STROKE)) {

@@ -1,12 +1,12 @@
-import ElementShape, { ShapeProps } from '../shape/shape';
 import { Point } from '~/type';
-export interface EllipseProps extends ShapeProps {
+import ElementBase from '~/elements/base/elementBase';
+export interface EllipseProps extends ElementBaseProps {
     type?: 'ellipse';
     r1: number;
     r2: number;
 }
 export type RequiredEllipseProps = Required<EllipseProps>;
-declare class ElementEllipse extends ElementShape {
+declare class ElementEllipse extends ElementBase {
     readonly type = "ellipse";
     r1: number;
     r2: number;
