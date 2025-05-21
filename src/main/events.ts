@@ -220,6 +220,7 @@ export function initEvents(this: Editor) {
         ele.translate(offsetX, offsetY)
         ele.updateOriginal()
       })
+
       console.log(cx, cy)
       console.log(newElements)
       // get group center and calculate target to center distance

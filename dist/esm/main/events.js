@@ -173,7 +173,10 @@ export function initEvents() {
             const { cx, cy } = getBoundingRectFromBoundingRects(rect);
             const offsetX = x - cx;
             const offsetY = y - cy;
-            [...newElements.values()].map(ele => ele.translate(offsetX, offsetY));
+            [...newElements.values()].forEach(ele => {
+                ele.translate(offsetX, offsetY);
+                ele.updateOriginal();
+            });
             console.log(cx, cy);
             console.log(newElements);
             // get group center and calculate target to center distance
