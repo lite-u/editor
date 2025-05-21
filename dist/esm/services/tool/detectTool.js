@@ -24,8 +24,7 @@ function detectTool() {
                 interaction._hoveredRotateManipulator = mElements[i];
             }
             else if (id.includes('move')) {
-                debugger;
-                interaction._hoveredRotateManipulator = mElements[i];
+                interaction._hoveredElement = mElements[i];
             }
             break;
         }
