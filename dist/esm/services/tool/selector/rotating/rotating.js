@@ -1,5 +1,5 @@
-import { getRotateAngle } from '~/services/tool/selector/helper';
-import selector from '~/services/tool/selector/selector';
+import { getRotateAngle } from '../helper.js';
+import selector from '../selector.js';
 const rotating = {
     // cursor: 'default',
     mouseMove: function () {
@@ -28,9 +28,11 @@ const rotating = {
         const { interaction, elementManager, action, cursor, selection } = this.editor;
         const elements = elementManager.getElementsByIdSet(selection.values);
         const changes = [];
+        const rotation = rotating.mouseMove.call(this);
+        console.log(rotation);
         elements.forEach(ele => {
             console.log(interaction._rotateData);
-            const change = ele.rotateFrom(0, interaction._rotateData?.targetPoint, true);
+            const change = ele.rotateFrom(rotation, interaction._rotateData?.targetPoint, true);
             // console.log(change)
             ele.updateOriginal();
             changes.push(change);
