@@ -21,7 +21,7 @@ class SelectionManager {
             const unique = [...this.selected.values()][0];
             const element = this.editor.elementManager.all.get(unique);
             if (element) {
-                return element.toMinimalJSON();
+                return element.toJSON();
             }
         }
     }
