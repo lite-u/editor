@@ -59,16 +59,14 @@ class ElementPath extends ElementShape {
     this.original.points = deepClone(this.points)
     this.original.closed = this.closed
     this.original.rotation = this.rotation
-    this.center =
-      this.updatePath2D()
+
+    this.updatePath2D()
   }
 
   get center(): Point {
-    const rect = this.getBoundingRect()
-
     return {
-      x: rect.cx,
-      y: rect.cy,
+      x: this.cx,
+      y: this.cy,
     }
   }
 
