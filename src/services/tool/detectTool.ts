@@ -24,7 +24,7 @@ function detectTool(this: ToolManager) {
 
     if (f1 || f2) {
       // interaction._hoveredElement = elementManager.getElementById(currMEle._relatedId)
-
+      console.log(id)
       if (id.includes('resize')) {
         interaction._hoveredResizeManipulator = currMEle
       } else if (id.includes('rotate')) {

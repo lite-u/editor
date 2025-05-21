@@ -1,6 +1,6 @@
 import {BoundingRect, DPR, ElementInstance, Point} from '../type'
 import Rectangle, {RectangleProps} from '~/elements/rectangle/rectangle'
-import {DEFAULT_STROKE} from '~/elements/defaultProps'
+import {DEFAULT_FILL, DEFAULT_STROKE} from '~/elements/defaultProps'
 import Ellipse, {EllipseProps} from '~/elements/ellipse/ellipse'
 import {rotatePointAroundPoint} from '~/core/geometry'
 
@@ -196,8 +196,8 @@ export const getManipulationBox = (rect: {
   height: number,
   specialLineSeg?: boolean,
 }, rotation: number, ratio: number, specialLineSeg = false): ElementInstance[] => {
-  const resizeLen = 20 / ratio
-  const resizeStrokeWidth = 1 / ratio
+  const resizeLen = 30 / ratio
+  const resizeStrokeWidth = 2 / ratio
   const rotateRadius = 50 / ratio
   const {cx, cy, width, height} = rect
   const arr = [
@@ -217,19 +217,6 @@ export const getManipulationBox = (rect: {
 
     const {x, y} = rotatePointAroundPoint(cx + dx * width, cy + dy * height, cx, cy, rotation)
 
-    const resizeHandleEleProp: RectangleProps = {
-      id: 'handle-resize-' + name,
-      layer: 1,
-      cx: x,
-      cy: y,
-      width: resizeLen,
-      height: resizeLen,
-      rotation,
-      stroke: {
-        ...DEFAULT_STROKE,
-        weight: resizeStrokeWidth,
-      },
-    }
     const rotateHandleEleProp: EllipseProps = {
       id: 'handle-rotate-' + name,
       layer: 0,
@@ -244,6 +231,25 @@ export const getManipulationBox = (rect: {
       },
     }
 
+    const resizeHandleEleProp: RectangleProps = {
+      id: 'handle-resize-' + name,
+      layer: 1,
+      cx: x,
+      cy: y,
+      width: resizeLen,
+      height: resizeLen,
+      rotation,
+      stroke: {
+        ...DEFAULT_STROKE,
+        weight: resizeStrokeWidth,
+        color: '#5491f8',
+      },
+      fill: {
+        ...DEFAULT_FILL,
+        enabled: true,
+        color: '#FFFFFF',
+      },
+    }
     result.push(new Rectangle(resizeHandleEleProp), new Ellipse(rotateHandleEleProp))
   })
 
