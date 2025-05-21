@@ -15,11 +15,14 @@ class ElementLineSegment extends ElementBase {
         this.updatePath2D();
     }
     updatePath2D() {
-        const { cx, cy, points } = this;
         const [start, end] = this.points;
+        const startX = start.x + this.cx;
+        const startY = start.y + this.cy;
+        const endX = end.x + this.cx;
+        const endY = end.y + this.cy;
         this.path2D = new Path2D();
-        this.path2D.moveTo(start.x + cx, start.y + cy);
-        this.path2D.lineTo(end.x + cx, end.y + cy);
+        this.path2D.moveTo(startX, startY);
+        this.path2D.lineTo(endX, endY);
     }
     updateOriginal() {
         this.original.points = deepClone(this.points);
@@ -76,19 +79,19 @@ class ElementLineSegment extends ElementBase {
         }
     }
     scaleFrom(scaleX, scaleY, anchor) {
-        const [start, end] = this.points;
-        const [oStart, oEnd] = this.original.points;
         const matrix = new DOMMatrix()
             .translate(anchor.x, anchor.y)
             .scale(scaleX, scaleY)
             .translate(-anchor.x, -anchor.y);
-        const newStart = ElementBase.transformPoint(oStart.x, oStart.y, matrix);
-        const newEnd = ElementBase.transformPoint(oEnd.x, oEnd.y, matrix);
-        // console.log(scaleX, scaleY, newStart, newEnd)
-        start.x = newStart.x;
-        start.y = newStart.y;
-        end.x = newEnd.x;
-        end.y = newEnd.y;
+        const [oStart, oEnd] = this.original.points;
+        // Adjust to absolute coordinates for transformation
+        const newStart = ElementBase.transformPoint(oStart.x + this.cx, oStart.y + this.cy, matrix);
+        const newEnd = ElementBase.transformPoint(oEnd.x + this.cx, oEnd.y + this.cy, matrix);
+        // Store back as relative to cx, cy
+        this.points[0].x = newStart.x - this.cx;
+        this.points[0].y = newStart.y - this.cy;
+        this.points[1].x = newEnd.x - this.cx;
+        this.points[1].y = newEnd.y - this.cy;
         this.updatePath2D();
     }
     rotateFrom(rotation, anchor, f) {
