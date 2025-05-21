@@ -3,13 +3,13 @@ import selector from '../selector.js';
 const rotating = {
     // cursor: 'default',
     mouseMove: function () {
-        const { interaction, elementManager, action, selection, cursor } = this.editor;
+        const { interaction, elementManager, selection, cursor } = this.editor;
         const elements = elementManager.getElementsByIdSet(selection.values);
         const { _rotateData, _modifier, mouseWorldCurrent, mouseWorldStart } = interaction;
         const { shiftKey } = _modifier;
         if (!_rotateData)
             return;
-        const { startRotation, targetPoint } = _rotateData;
+        const { targetPoint } = _rotateData;
         const mouseStartRotation = getRotateAngle(targetPoint, mouseWorldStart);
         const mouseCurrentRotation = getRotateAngle(targetPoint, mouseWorldCurrent);
         let rotationDiff = mouseCurrentRotation - mouseStartRotation;
@@ -29,25 +29,14 @@ const rotating = {
         const elements = elementManager.getElementsByIdSet(selection.values);
         const changes = [];
         const rotation = rotating.mouseMove.call(this);
-        console.log(rotation);
         elements.forEach(ele => {
-            console.log(interaction._rotateData);
             const change = ele.rotateFrom(rotation, interaction._rotateData?.targetPoint, true);
-            // console.log(change)
             ele.updateOriginal();
             changes.push(change);
         });
-        // console.log(changes)
         cursor.set(selector.cursor);
         action.dispatch('element-modified', changes);
         this.subTool = null;
     },
 };
 export default rotating;
-/*
-
-const rotating: SubToolType = {
-  data:{},
-  start:()=>{},
-  end:()=>{}
-}*/

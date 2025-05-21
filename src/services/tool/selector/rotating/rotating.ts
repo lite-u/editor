@@ -7,14 +7,14 @@ const rotating: SubToolType = {
   // cursor: 'default',
 
   mouseMove: function () {
-    const {interaction, elementManager, action, selection, cursor} = this.editor
+    const {interaction, elementManager, selection, cursor} = this.editor
     const elements = elementManager.getElementsByIdSet(selection.values)
     const {_rotateData, _modifier, mouseWorldCurrent, mouseWorldStart} = interaction
     const {shiftKey} = _modifier
 
     if (!_rotateData) return
 
-    const {startRotation, targetPoint} = _rotateData
+    const {targetPoint} = _rotateData
     const mouseStartRotation = getRotateAngle(targetPoint, mouseWorldStart)
     const mouseCurrentRotation = getRotateAngle(targetPoint, mouseWorldCurrent)
     let rotationDiff = mouseCurrentRotation - mouseStartRotation

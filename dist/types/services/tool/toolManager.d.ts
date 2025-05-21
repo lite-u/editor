@@ -3,7 +3,7 @@ import { CursorName } from '~/services/cursor/cursor';
 export type ToolType = {
     cursor: CursorName;
     mouseDown: (this: ToolManager) => void;
-    mouseMove: (this: ToolManager) => void;
+    mouseMove: (this: ToolManager) => unknown;
     mouseUp: (this: ToolManager) => void;
 };
 export type SubToolType = Omit<ToolType, 'mouseDown'> & {
