@@ -1,3 +1,4 @@
+import ElementPath from '../../../elements/path/path.js';
 export function convertPointsToBezierPoints(points, tension = 0.3) {
     const bezierPoints = [];
     for (let i = 0; i < points.length; i++) {
@@ -20,6 +21,21 @@ export function convertPointsToBezierPoints(points, tension = 0.3) {
             type: 'smooth', // optional – set based on need
         });
     }
+    const rect = ElementPath._getBoundingRect(bezierPoints);
+    const center = { x: rect.cx, y: rect.cy };
+    for (const point of bezierPoints) {
+        point.anchor.x -= center.x;
+        point.anchor.y -= center.y;
+        if (point.cp1) {
+            point.cp1.x -= center.x;
+            point.cp1.y -= center.y;
+        }
+        if (point.cp2) {
+            point.cp2.x -= center.x;
+            point.cp2.y -= center.y;
+        }
+    }
+    console.log(rect);
     return bezierPoints;
 }
 export function drawLine(ctx, p1, p2) {
