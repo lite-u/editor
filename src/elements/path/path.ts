@@ -138,10 +138,14 @@ class ElementPath extends ElementShape {
           .translate(-anchor.x, -anchor.y)
 
         this.points = this.original.points.map(p => {
-          const anchorPt = this.transformPoint(p.anchor.x, p.anchor.y, matrix)
-          const cp1 = p.cp1 ? this.transformPoint(p.cp1.x, p.cp1.y, matrix) : undefined
-          const cp2 = p.cp2 ? this.transformPoint(p.cp2.x, p.cp2.y, matrix) : undefined
-          return {anchor: anchorPt, cp1, cp2}
+          const anchorPt = this.transformPoint(p.anchor.x + this.cx, p.anchor.y + this.cy, matrix)
+          const cp1 = p.cp1 ? this.transformPoint(p.cp1.x + this.cx, p.cp1.y + this.cy, matrix) : undefined
+          const cp2 = p.cp2 ? this.transformPoint(p.cp2.x + this.cx, p.cp2.y + this.cy, matrix) : undefined
+          return {
+            anchor: { x: anchorPt.x - this.cx, y: anchorPt.y - this.cy },
+            cp1: cp1 ? { x: cp1.x - this.cx, y: cp1.y - this.cy } : undefined,
+            cp2: cp2 ? { x: cp2.x - this.cx, y: cp2.y - this.cy } : undefined,
+          }
         })
 
         this.rotation = 0
