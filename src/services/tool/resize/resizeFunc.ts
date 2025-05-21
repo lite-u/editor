@@ -39,13 +39,13 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], direction: R
     : anchor
   // console.log(scaleX, scaleY,scalingAnchor)
 
-  elements.forEach((el: ElementInstance) => {
-    scaleElementFrom(el, scaleX, scaleY, scalingAnchor)
+/*  elements.forEach((el: ElementInstance) => {
+    scaleElementFrom(el, scaleX, scaleY, opposite)
     // el.scaleFrom(scaleX, scaleY, scalingAnchor)
-  })
-  /*  elements.forEach((el: ElementInstance) => {
+  })*/
+    elements.forEach((el: ElementInstance) => {
       el.scaleFrom(scaleX, scaleY, scalingAnchor)
-    })*/
+    })
 
 }
 

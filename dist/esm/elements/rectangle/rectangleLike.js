@@ -106,12 +106,28 @@ class RectangleLike extends ElementBase {
             .translate(-anchor.x, -anchor.y);
         const halfW = width / 2;
         const halfH = height / 2;
-        const topLeft = ElementBase.transformPoint(cx - halfW, cy - halfH, matrix);
-        const bottomRight = ElementBase.transformPoint(cx + halfW, cy + halfH, matrix);
-        this.cx = (topLeft.x + bottomRight.x) / 2;
-        this.cy = (topLeft.y + bottomRight.y) / 2;
-        this.width = Math.abs(bottomRight.x - topLeft.x);
-        this.height = Math.abs(bottomRight.y - topLeft.y);
+        const topLeft = { x: cx - halfW, y: cy - halfH };
+        const topRight = { x: cx + halfW, y: cy - halfH };
+        const bottomLeft = { x: cx - halfW, y: cy + halfH };
+        const p1 = matrix.transformPoint(topLeft);
+        const p2 = matrix.transformPoint({ x: cx + halfW, y: cy + halfH });
+        const newCenter = {
+            x: (p1.x + p2.x) / 2,
+            y: (p1.y + p2.y) / 2,
+        };
+        const newWidth = Math.hypot(matrix.transformPoint(topRight).x - matrix.transformPoint(topLeft).x, matrix.transformPoint(topRight).y - matrix.transformPoint(topLeft).y);
+        const newHeight = Math.hypot(matrix.transformPoint(bottomLeft).x - matrix.transformPoint(topLeft).x, matrix.transformPoint(bottomLeft).y - matrix.transformPoint(topLeft).y);
+        /*    const before = {
+              cx: this.cx,
+              cy: this.cy,
+              width: this.width,
+              height: this.height,
+            }*/
+        this.cx = newCenter.x;
+        this.cy = newCenter.y;
+        this.width = newWidth;
+        this.height = newHeight;
+        this.updatePath2D();
         this.updatePath2D();
     }
     toJSON() {
