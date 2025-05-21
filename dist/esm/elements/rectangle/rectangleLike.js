@@ -180,14 +180,6 @@ class RectangleLike extends ElementBase {
             opacity: 0,
         });
     }
-    /*  public getOperators(
-        id: string,
-        resizeConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
-        rotateConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
-      ) {
-  
-        return super.getOperators(id, resizeConfig, rotateConfig, this.getBoundingRect(), this.toJSON())
-      }*/
     getSnapPoints() {
         const { cx: cx, cy: cy, width, height, id } = this;
         const halfWidth = width / 2;

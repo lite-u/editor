@@ -1,6 +1,6 @@
 import { BoundingRect, Point } from '~/type';
 import { BezierPoint } from '~/elements/props';
-import ElementBase from '~/elements/base/elementBase';
+import ElementBase, { ElementBaseProps } from '~/elements/base/elementBase';
 export interface PathProps extends ElementBaseProps {
     type: 'path';
     points: BezierPoint[];

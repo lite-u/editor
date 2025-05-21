@@ -37,6 +37,11 @@ class ElementBase {
             rotation: this.rotation,
         };
     }
+    static transformPoint(x, y, matrix) {
+        // if(!matrix) debugger
+        const p = matrix.transformPoint({ x, y });
+        return { x: p.x, y: p.y };
+    }
     translate(dx, dy, f) {
         this.cx = this.cx + dx;
         this.cy = this.cy + dy;
@@ -94,11 +99,6 @@ class ElementBase {
     }
     get center() {
         return { x: this.cx, y: this.cy };
-    }
-    static transformPoint(x, y, matrix) {
-        // if(!matrix) debugger
-        const p = matrix.transformPoint({ x, y });
-        return { x: p.x, y: p.y };
     }
     toJSON() {
         const { id, cx, cy, rotation, layer, show, stroke, fill, opacity, shadow, gradient, transform, } = this;
