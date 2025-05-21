@@ -2,7 +2,7 @@ import {Point} from '~/type'
 import {BezierPoint} from '~/elements/props'
 import ElementPath from '~/elements/path/path'
 
-export function convertPointsToBezierPoints(points: Point[], tension = 0.3): BezierPoint[] {
+export function convertPointsToBezierPoints(points: Point[], tension = 0.3): { center: Point, points: BezierPoint[] } {
   const bezierPoints: BezierPoint[] = []
 
   for (let i = 0; i < points.length; i++) {
@@ -48,7 +48,10 @@ export function convertPointsToBezierPoints(points: Point[], tension = 0.3): Bez
 
   console.log(rect)
 
-  return bezierPoints
+  return {
+    center,
+    points: bezierPoints,
+  }
 }
 
 export function drawLine(ctx: CanvasRenderingContext2D, p1: Point, p2: Point) {

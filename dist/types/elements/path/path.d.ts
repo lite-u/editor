@@ -1,20 +1,19 @@
-import ElementBase, { ElementBaseProps } from '../base/elementBase';
 import { OperationHandler } from '~/services/selection/type';
 import { BoundingRect, Point } from '~/type';
 import { ElementProps } from '../type';
 import { BezierPoint } from '~/elements/props';
 import { HistoryChangeItem } from '~/services/actions/type';
-export interface PathProps extends ElementBaseProps {
+import ElementShape, { ShapeProps } from '~/elements/shape/shape';
+export interface PathProps extends ShapeProps {
     type: 'path';
     points: BezierPoint[];
     closed: boolean;
 }
 export type RequiredShapeProps = Required<PathProps>;
-declare class ElementPath extends ElementBase {
+declare class ElementPath extends ElementShape {
     readonly type = "path";
     private points;
     closed: boolean;
-    private original;
     constructor({ points, closed, ...rest }: PathProps);
     static cubicBezier(t: number, p0: Point, p1: Point, p2: Point, p3: Point): Point;
     protected updateOriginal(): void;

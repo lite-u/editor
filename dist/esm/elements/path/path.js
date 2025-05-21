@@ -1,21 +1,23 @@
-import ElementBase from '../base/elementBase.js';
 import { HANDLER_OFFSETS } from '../handleBasics.js';
 import ElementRectangle from '../rectangle/rectangle.js';
 import { rotatePointAroundPoint } from '../../core/geometry.js';
 import deepClone from '../../core/deepClone.js';
-class ElementPath extends ElementBase {
+import ElementShape from '../shape/shape.js';
+class ElementPath extends ElementShape {
     // readonly id: UID
     // readonly layer: number
     type = 'path';
     points = [];
     closed;
-    original;
+    // private original: { cx: number, cy: number, points: BezierPoint[], closed: boolean, rotation: number }
     constructor({ points = [], closed = false, ...rest }) {
         super(rest);
         this.points = deepClone(points);
         this.closed = closed;
         // console.log(this.points)
+        const rect = ElementPath._getBoundingRect(points);
         this.original = {
+            ...this.original,
             closed,
             points: deepClone(points),
             rotation: this.rotation,
@@ -35,7 +37,8 @@ class ElementPath extends ElementBase {
         this.original.points = deepClone(this.points);
         this.original.closed = this.closed;
         this.original.rotation = this.rotation;
-        this.updatePath2D();
+        this.center =
+            this.updatePath2D();
     }
     get center() {
         const rect = this.getBoundingRect();

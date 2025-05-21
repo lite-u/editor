@@ -9,8 +9,9 @@ import {AnchorPoint, Appearance, Fill, Stroke, Transform} from '~/elements/defau
 import {BezierPoint} from '~/elements/props'
 import deepClone from '~/core/deepClone'
 import {HistoryChangeItem} from '~/services/actions/type'
+import ElementShape, {ShapeProps} from '~/elements/shape/shape'
 
-export interface PathProps extends ElementBaseProps {
+export interface PathProps extends ShapeProps {
   // id: UID,
   // layer: number
   type: 'path'
@@ -21,13 +22,13 @@ export interface PathProps extends ElementBaseProps {
 
 export type RequiredShapeProps = Required<PathProps>
 
-class ElementPath extends ElementBase {
+class ElementPath extends ElementShape {
   // readonly id: UID
   // readonly layer: number
   readonly type = 'path'
   private points: BezierPoint[] = []
   closed: boolean
-  private original: { cx: number, cy: number, points: BezierPoint[], closed: boolean, rotation: number }
+  // private original: { cx: number, cy: number, points: BezierPoint[], closed: boolean, rotation: number }
 
   constructor({points = [], closed = false, ...rest}: PathProps) {
     super(rest)
@@ -36,6 +37,7 @@ class ElementPath extends ElementBase {
     // console.log(this.points)
     const rect = ElementPath._getBoundingRect(points)
     this.original = {
+      ...this.original,
       closed,
       points: deepClone(points),
       rotation: this.rotation,

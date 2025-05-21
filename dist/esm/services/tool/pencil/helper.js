@@ -36,7 +36,10 @@ export function convertPointsToBezierPoints(points, tension = 0.3) {
         }
     }
     console.log(rect);
-    return bezierPoints;
+    return {
+        center,
+        points: bezierPoints,
+    };
 }
 export function drawLine(ctx, p1, p2) {
     ctx.save();

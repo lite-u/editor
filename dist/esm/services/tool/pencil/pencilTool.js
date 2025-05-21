@@ -1,5 +1,5 @@
 import { convertPointsToBezierPoints, drawLine } from './helper.js';
-const points = [];
+const _drawingPoints = [];
 let _lastPoint = null;
 const pencilTool = {
     cursor: 'crosshair',
@@ -7,7 +7,7 @@ const pencilTool = {
         const { creationCanvasContext: ctx } = this.editor.world;
         const point = { ...this.editor.interaction.mouseWorldCurrent };
         this.editor.action.dispatch('clear-creation');
-        points.push(point);
+        _drawingPoints.push(point);
         _lastPoint = { ...point };
         drawLine(ctx, _lastPoint, point);
     },
@@ -15,15 +15,18 @@ const pencilTool = {
         if (!this.editor.interaction._pointDown)
             return;
         const point = { ...this.editor.interaction.mouseWorldCurrent };
-        points.push(point);
+        _drawingPoints.push(point);
         drawLine(this.editor.world.creationCanvasContext, _lastPoint, point);
         _lastPoint = point;
     },
     mouseUp() {
         const { interaction, action } = this.editor;
+        const { center, points } = convertPointsToBezierPoints(_drawingPoints);
         const eleProps = {
             type: 'path',
-            points: convertPointsToBezierPoints(points),
+            cx: center.x,
+            cy: center.y,
+            points,
             closed: false,
         };
         action.dispatch('element-add', [eleProps]);
