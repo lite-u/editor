@@ -53,7 +53,7 @@ class InteractionState {
   _draggingElements: ElementInstance[] = []
   _resizingElements: ElementInstance[] = []
   _resizingData: { targetPoint: { x: number, y: number } } | null = null
-  _rotateData: { startRotation: number, snappedRotation: number, targetPoint: { x: number, y: number } } | null = null
+  _rotateData: { startRotation: number, snappedRotation?: number, targetPoint: { x: number, y: number } } | null = null
 
   readonly operationHandlers: OperationHandler[] = []
   _pointDown = false

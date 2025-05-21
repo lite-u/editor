@@ -4,7 +4,7 @@ import resizeFunc from '~/services/tool/resize/resizeFunc'
 const resizing: SubToolType = {
   // cursor: 'default',
   mouseMove(this: ToolManager) {
-    console.log(111)
+    // console.log(111)
     // interaction._resizingElements = elementManager.getElementsByIdSet(selection.values)
     const {interaction, elementManager, action, selection, cursor} = this.editor
 
