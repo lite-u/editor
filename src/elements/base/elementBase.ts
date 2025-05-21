@@ -252,7 +252,6 @@ class ElementBase {
   protected updatePath2D() { }
 
   protected restore(props: Partial<ElementProps>) {
-    // debugger
     Object.assign(this, props)
     Object.assign(this.original, props)
 

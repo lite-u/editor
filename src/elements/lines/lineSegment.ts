@@ -14,23 +14,19 @@ export interface LineSegmentProps extends ElementBaseProps {
 export type RequiredLineSegmentProps = Required<LineSegmentProps>
 
 class ElementLineSegment extends ElementBase {
-  // readonly id: string
-  // readonly layer: number
   readonly type = 'lineSegment'
   private points: [{ id: 'start' } & Point, { id: 'end' } & Point]
-  private original: { points: [{ id: 'start' } & Point, { id: 'end' } & Point], rotation: number }
+
+  // private original: { points: [{ id: 'start' } & Point, { id: 'end' } & Point], rotation: number }
 
   constructor({
-                // id,
-                // layer,
                 points,
                 ...rest
               }: LineSegmentProps) {
     super(rest)
-    // this.id = id
-    // this.layer = layer
     this.points = points
     this.original = {
+      ...this.original,
       points: deepClone(points),
       rotation: this.rotation,
     }

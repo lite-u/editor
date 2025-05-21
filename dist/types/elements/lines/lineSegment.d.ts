@@ -13,7 +13,6 @@ export type RequiredLineSegmentProps = Required<LineSegmentProps>;
 declare class ElementLineSegment extends ElementBase {
     readonly type = "lineSegment";
     private points;
-    private original;
     constructor({ points, ...rest }: LineSegmentProps);
     protected updatePath2D(): void;
     protected updateOriginal(): void;
