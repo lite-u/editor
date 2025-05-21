@@ -41,10 +41,8 @@ const rotating: SubToolType = {
     const rotation = rotating.mouseMove.call(this)
 
     elements.forEach(ele => {
-      console.log(interaction._rotateData)
       const change = ele.rotateFrom(rotation, interaction._rotateData?.targetPoint, true)
 
-      // console.log(change)
       ele.updateOriginal()
       changes.push(change)
     })
