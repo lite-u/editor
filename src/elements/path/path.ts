@@ -152,7 +152,7 @@ class ElementPath extends ElementBase {
       } else {
         const matrix = new DOMMatrix()
           .translate(anchor.x, anchor.y)
-          .rotate(rotation-this.rotation)
+          .rotate(rotation - this.rotation)
           .translate(-anchor.x, -anchor.y)
 
         this.points = this.original.points.map(p => {
