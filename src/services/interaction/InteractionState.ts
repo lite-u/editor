@@ -1,4 +1,4 @@
-import {OperationHandler, ResizeHandle} from '~/services/selection/type'
+import {OperationHandler} from '~/services/selection/type'
 import {BoundingRect, Point, Rect, UID} from '~/type'
 import {createWith, getManipulationBox} from '~/lib/lib'
 import Editor from '~/main/editor'
