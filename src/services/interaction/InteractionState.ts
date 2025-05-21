@@ -118,7 +118,6 @@ class InteractionState {
     const {scale, dpr} = this.editor.world
     const ratio = scale * dpr
     const idSet = this.editor.selection.values
-    const lineColor = '#435fb9'
 
     if (idSet.size <= 1) {
       this._outlineElement = null
@@ -151,7 +150,7 @@ class InteractionState {
     })
     const sameRotation = rotations.every(val => val === rotations[0])
     const applyRotation = sameRotation ? rotations[0] : 0
-    let rect: BoundingRect
+    let rect: { cx: number, cy: number, width: number, height: number }
 
     if (sameRotation) {
       rect = getMinimalBoundingRect(rectsWithoutRotation, applyRotation)
