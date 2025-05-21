@@ -159,6 +159,7 @@ class ElementPath extends ElementBase {
 
         this.rotation = (this.original.rotation + rotation + 360) % 360
       }
+
       this.updatePath2D()
     }
 
