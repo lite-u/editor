@@ -29,7 +29,8 @@ class ElementBase {
         this.rotation = angle;
         this.updatePath2D();
     }
-    transformPoint(x, y, matrix) {
+    static transformPoint(x, y, matrix) {
+        // if(!matrix) debugger
         const p = matrix.transformPoint({ x, y });
         return { x: p.x, y: p.y };
     }

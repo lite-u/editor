@@ -118,8 +118,8 @@ class ElementLineSegment extends ElementBase {
       .scale(scaleX, scaleY)
       .translate(-anchor.x, -anchor.y)
 
-    const newStart = this.transformPoint(oStart.x, oStart.y, matrix)
-    const newEnd = this.transformPoint(oEnd.x, oEnd.y, matrix)
+    const newStart = ElementBase.transformPoint(oStart.x, oStart.y, matrix)
+    const newEnd = ElementBase.transformPoint(oEnd.x, oEnd.y, matrix)
 
     // console.log(scaleX, scaleY, newStart, newEnd)
     start.x = newStart.x
@@ -138,8 +138,8 @@ class ElementLineSegment extends ElementBase {
         .translate(-anchor.x, -anchor.y)
 
       const [oStart, oEnd] = this.original.points
-      const newStart = this.transformPoint(oStart.x, oStart.y, matrix)
-      const newEnd = this.transformPoint(oEnd.x, oEnd.y, matrix)
+      const newStart = ElementBase.transformPoint(oStart.x, oStart.y, matrix)
+      const newEnd = ElementBase.transformPoint(oEnd.x, oEnd.y, matrix)
 
       this.points[0].x = newStart.x
       this.points[0].y = newStart.y

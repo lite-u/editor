@@ -47,9 +47,9 @@ class ElementEllipse extends ElementShape {
             .scale(scaleX, scaleY)
             .translate(-anchor.x, -anchor.y);
         const { cx, cy, r1, r2 } = this.original;
-        const center = this.transformPoint(cx, cy, matrix);
-        const rx = this.transformPoint(cx + r1, cy, matrix);
-        const ry = this.transformPoint(cx, cy + r2, matrix);
+        const center = ElementBase.transformPoint(cx, cy, matrix);
+        const rx = ElementBase.transformPoint(cx + r1, cy, matrix);
+        const ry = ElementBase.transformPoint(cx, cy + r2, matrix);
         this.cx = center.x;
         this.cy = center.y;
         this.r1 = Math.abs(rx.x - center.x);

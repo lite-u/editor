@@ -134,8 +134,8 @@ class RectangleLike extends ElementShape {
       .translate(-anchor.x, -anchor.y)
 
     const {cx, cy, width, height} = this.original
-    const topLeft = this.transformPoint(cx - width / 2, cy - height / 2, matrix)
-    const bottomRight = this.transformPoint(cx + width / 2, cy + height / 2, matrix)
+    const topLeft = ElementBase.transformPoint(cx - width / 2, cy - height / 2, matrix)
+    const bottomRight = ElementBase.transformPoint(cx + width / 2, cy + height / 2, matrix)
 
     this.cx = (topLeft.x + bottomRight.x) / 2
     this.cy = (topLeft.y + bottomRight.y) / 2

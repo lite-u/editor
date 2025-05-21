@@ -26,7 +26,7 @@ declare class ElementBase {
     path2D: Path2D;
     constructor({ id, layer, stroke, fill, opacity, shadow, rotation, transform, show, }: ElementBaseProps);
     protected rotate(angle: number): void;
-    protected transformPoint(x: number, y: number, matrix: DOMMatrix): Point;
+    static transformPoint(x: number, y: number, matrix: DOMMatrix): Point;
     protected toJSON(): RequiredBaseProps;
     protected toMinimalJSON(): ElementBaseProps;
     protected getBoundingRect(): BoundingRect;
