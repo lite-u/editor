@@ -205,62 +205,15 @@ export const getManipulationBox = (rect, rotation, ratio) => {
         };
         result.push(new Rectangle(resizeHandleEleProp), new Ellipse(rotateHandleEleProp));
     });
+    const centerPoint = new Ellipse({
+        id: 'handle-move-center',
+        layer: 1,
+        type: 'ellipse',
+        r1: 2 / ratio,
+        r2: 2 / ratio,
+        cx,
+        cy,
+    });
+    result.push(centerPoint);
     return result;
-    /*
-      return HANDLER_OFFSETS.map((OFFSET, index): ElementInstance => {
-        console.log(OFFSET, index)
-        // Calculate the handle position in local coordinates
-        const currentCenterX = cx - width / 2 + OFFSET.x * width
-        const currentCenterY = cy - height / 2 + OFFSET.y * height
-  
-        const handleElementProps: RectangleProps = {
-          // id: `${id}-${OFFSET.type}-${index}`,
-          layer: 0,
-          rotation,
-        }
-  
-        // let cursor: ResizeCursor = OFFSET.cursor as ResizeCursor
-  
-        if (OFFSET.type === 'resize') {
-          const rotated = rotatePointAroundPoint(currentCenterX, currentCenterY, cx, cy, rotation)
-  
-          handleElementProps.cx = rotated.x
-          handleElementProps.cy = rotated.y
-          handleElementProps.width = resizeConfig.size
-          handleElementProps.height = resizeConfig.size
-          handleElementProps.stroke = {
-            ...DEFAULT_STROKE,
-            weight: resizeConfig.lineWidth,
-          }
-          // currentElementProps.stroke.weight = resizeConfig.stroke?.weight
-          // currentElementProps.lineColor = resizeConfig.lineColor
-          // currentElementProps.fillColor = resizeConfig.fillColor
-        } else if (OFFSET.type === 'rotate') {
-          const currentRotateHandlerCX = currentCenterX + OFFSET.offsetX * resizeConfig.lineWidth
-          const currentRotateHandlerCY = currentCenterY + OFFSET.offsetY * resizeConfig.lineWidth
-          const rotated = rotatePointAroundPoint(
-            currentRotateHandlerCX,
-            currentRotateHandlerCY,
-            cx,
-            cy,
-            rotation,
-          )
-  
-          // handleElementProps.id = index + '-rotate'
-          handleElementProps.cx = rotated.x
-          handleElementProps.cy = rotated.y
-          handleElementProps.width = rotateConfig.size
-          handleElementProps.height = rotateConfig.size
-          handleElementProps.lineWidth = rotateConfig.lineWidth
-          handleElementProps.lineColor = rotateConfig.lineColor
-          handleElementProps.fillColor = rotateConfig.fillColor
-        }*/
-    /*    return {
-          id: `${id}`,
-          type: OFFSET.type,
-          name: OFFSET.name,
-          // cursor,
-          elementOrigin,
-          element: new ElementRectangle(handleElementProps),
-        }*/
 };
