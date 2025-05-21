@@ -119,6 +119,7 @@ export function initEvents() {
         this.interaction._hoveredElement = null;
         this.interaction.updateControlPoints();
         // getAnchorsByBoundingRect()
+        console.log(this.selection.pickIfUnique);
         this.events.onSelectionUpdated?.(this.selection.values, this.selection.pickIfUnique);
         dispatch('visible-selection-updated');
     });

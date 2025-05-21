@@ -26,6 +26,7 @@ const rectangleTool = {
     },
     mouseUp() {
         const eleProps = this.editor.interaction._ele.toMinimalJSON();
+        console.log(eleProps);
         this.editor.action.dispatch('element-add', [eleProps]);
         this.editor.interaction._ele = null;
     },

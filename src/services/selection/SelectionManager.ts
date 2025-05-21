@@ -33,7 +33,7 @@ class SelectionManager {
       const element = this.editor.elementManager.all.get(unique)
 
       if (element) {
-        return element.toMinimalJSON()
+        return element.toJSON()
       }
     }
   }
