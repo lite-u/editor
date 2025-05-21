@@ -262,8 +262,6 @@ class ElementPath extends ElementShape {
 
   protected toJSON(): RequiredShapeProps {
     return {
-      // id: this.id,
-      // layer: this.layer,
       type: this.type,
       points: this.points,
       closed: this.closed,
@@ -273,8 +271,6 @@ class ElementPath extends ElementShape {
 
   public toMinimalJSON(): PathProps {
     return {
-      // id: this.id,
-      // layer: this.layer,
       type: this.type,
       points: this.points,
       closed: this.closed,
