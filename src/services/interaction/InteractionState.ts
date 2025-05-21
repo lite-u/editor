@@ -120,7 +120,7 @@ class InteractionState {
     const ratio = scale * dpr
     const idSet = this.editor.selection.values
     const pointLen = 20 / ratio
-    const pointRadius =pointLen/2
+    const pointRadius = pointLen / 2
 
     if (idSet.size <= 1) {
       this._outlineElement = null

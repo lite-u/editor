@@ -12,6 +12,17 @@ const resizing: SubToolType = {
 
     this.editor.action.dispatch('element-updated')
 
+/*
+    interaction._outlineElement?.rotateFrom(rotationDiff, targetPoint)
+    interaction._manipulationElements.forEach(ele => {
+      ele.rotateFrom(rotationDiff, targetPoint)
+    })
+    elements.forEach(ele => {
+      ele.rotateFrom(rotationDiff, targetPoint)
+    })
+
+    this.editor.action.dispatch('render-overlay')
+    this.editor.action.dispatch('render-elements')*/
     // this.subTool.mouseMove.call(this)
   },
   mouseUp(this: ToolManager) {
