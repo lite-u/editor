@@ -21,14 +21,8 @@ declare class World {
         x: number;
         y: number;
     };
-    getWorldPointByViewportPoint(x: number, y: number): {
-        x: number;
-        y: number;
-    };
-    getViewPointByWorldPoint(x: number, y: number): {
-        x: number;
-        y: number;
-    };
+    getWorldPointByViewportPoint(x: number, y: number): Point;
+    getViewPointByWorldPoint(x: number, y: number): Point;
     renderElements(): void;
     renderOverlay(): void;
     destroy(): void;
