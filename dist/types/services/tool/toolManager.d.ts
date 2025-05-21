@@ -6,7 +6,7 @@ export type ToolType = {
     mouseMove: (this: ToolManager) => unknown;
     mouseUp: (this: ToolManager) => void;
 };
-export type SubToolType = Omit<ToolType, 'mouseDown'> & {
+export type SubToolType = Omit<ToolType, 'mouseDown' | 'cursor'> & {
     cursor?: CursorName;
 };
 export type ToolName = 'selector' | 'rectangle' | 'text' | 'ellipse' | 'panning' | 'lineSegment' | 'path' | 'pencil' | 'zoomIn' | 'zoomOut';
