@@ -42,7 +42,7 @@ function detectTool(this: ToolManager) {
     if (!ele.show || ele.opacity <= 0 || interaction._draggingElements.includes(ele)) continue
 
     const lineWidth = 1 * dpr / scale
-    const isNearStroke = isPointNearStroke2(ctx, path, viewPoint, 0, lineWidth)
+    const isNearStroke = isPointNearStroke2(ctx, path, viewPoint, 2, lineWidth)
     const inside = ctx.isPointInPath(path, viewPoint.x, viewPoint.y)
 
     if (isNearStroke) {

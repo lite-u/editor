@@ -1,6 +1,6 @@
-import ElementBase from '~/elements/base/elementBase';
-import deepClone from '~/core/deepClone';
-import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '~/core/utils';
+import ElementBase from '../base/elementBase.js';
+import deepClone from '../../core/deepClone.js';
+import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '../../core/utils.js';
 class ElementLineSegment extends ElementBase {
     type = 'lineSegment';
     points;
