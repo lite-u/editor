@@ -1,6 +1,6 @@
-import deepClone from '../../core/deepClone.js';
-import ElementShape from '../shape/shape.js';
-import ElementBase from '../base/elementBase.js';
+import deepClone from '~/core/deepClone';
+import ElementShape from '~/elements/shape/shape';
+import ElementBase from '~/elements/base/elementBase';
 class ElementPath extends ElementShape {
     // readonly id: UID
     // readonly layer: number
@@ -32,8 +32,8 @@ class ElementPath extends ElementShape {
         };
     }
     updateOriginal() {
-        this.original.cx = deepClone(this.cx);
-        this.original.cy = deepClone(this.cy);
+        this.original.cx = this.cx;
+        this.original.cy = this.cy;
         this.original.points = deepClone(this.points);
         this.original.closed = this.closed;
         this.original.rotation = this.rotation;
@@ -49,9 +49,9 @@ class ElementPath extends ElementShape {
         return this.points.map(p => ({ ...p.anchor }));
     }
     updatePath2D() {
-        this.path2D = new Path2D();
         if (this.points.length === 0)
             return;
+        this.path2D = new Path2D();
         const { cx, cy } = this;
         const transform = new DOMMatrix()
             .translate(cx, cy)

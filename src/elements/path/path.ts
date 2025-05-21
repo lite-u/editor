@@ -74,11 +74,11 @@ class ElementPath extends ElementShape {
   }
 
   protected updatePath2D() {
-    this.path2D = new Path2D()
     if (this.points.length === 0) return
 
-    const {cx, cy} = this
+    this.path2D = new Path2D()
 
+    const {cx, cy} = this
     const transform = new DOMMatrix()
       .translate(cx, cy)
       .rotate(this.rotation)
