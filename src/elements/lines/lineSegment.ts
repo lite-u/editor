@@ -107,6 +107,7 @@ class ElementLineSegment extends ElementBase {
     })
 
     this.updatePath2D()
+
     if (f) {
       return {
         id: this.id,
