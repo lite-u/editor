@@ -6,6 +6,7 @@ export interface RectangleProps extends RectangleLikeProps {
 }
 
 export type RequiredRectangleProps = Required<RectangleProps>
+export type I = InstanceType<ElementRectangle>
 
 class ElementRectangle extends RectangleLike {
   readonly type = 'rectangle'
