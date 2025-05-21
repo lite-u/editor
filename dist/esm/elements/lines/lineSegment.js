@@ -1,6 +1,6 @@
-import ElementBase from '../base/elementBase.js';
-import deepClone from '../../core/deepClone.js';
-import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '../../core/utils.js';
+import ElementBase from '~/elements/base/elementBase';
+import deepClone from '~/core/deepClone';
+import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '~/core/utils';
 class ElementLineSegment extends ElementBase {
     type = 'lineSegment';
     points;
@@ -98,39 +98,6 @@ class ElementLineSegment extends ElementBase {
         this.points[1].x = newEnd.x - this.cx;
         this.points[1].y = newEnd.y - this.cy;
         this.updatePath2D();
-    }
-    rotateFrom(rotation, anchor, f) {
-        if (rotation !== 0) {
-            const matrix = new DOMMatrix()
-                .translate(anchor.x, anchor.y)
-                .rotate(rotation)
-                .translate(-anchor.x, -anchor.y);
-            const [oStart, oEnd] = this.original.points;
-            const newStart = ElementBase.transformPoint(oStart.x, oStart.y, matrix);
-            const newEnd = ElementBase.transformPoint(oEnd.x, oEnd.y, matrix);
-            this.points[0].x = newStart.x;
-            this.points[0].y = newStart.y;
-            this.points[1].x = newEnd.x;
-            this.points[1].y = newEnd.y;
-            let newRotation = (this.original.rotation + rotation) % 360;
-            if (newRotation < 0)
-                newRotation += 360;
-            this.rotation = newRotation;
-            this.updatePath2D();
-        }
-        if (f) {
-            return {
-                id: this.id,
-                from: {
-                    points: deepClone(this.original.points),
-                    rotation: this.original.rotation,
-                },
-                to: {
-                    points: deepClone(this.points),
-                    rotation: this.rotation,
-                },
-            };
-        }
     }
     toJSON() {
         return {

@@ -32,11 +32,11 @@ class ElementLineSegment extends ElementBase {
   }
 
   protected updatePath2D() {
-    const { cx, cy, rotation } = this
+    const {cx, cy, rotation} = this
     const [start, end] = this.points
 
-    const absStart = { x: start.x + cx, y: start.y + cy }
-    const absEnd = { x: end.x + cx, y: end.y + cy }
+    const absStart = {x: start.x + cx, y: start.y + cy}
+    const absEnd = {x: end.x + cx, y: end.y + cy}
 
     const matrix = new DOMMatrix()
       .translate(cx, cy)
@@ -137,44 +137,6 @@ class ElementLineSegment extends ElementBase {
     this.points[1].y = newEnd.y - this.cy
 
     this.updatePath2D()
-  }
-
-  rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined {
-    if (rotation !== 0) {
-      const matrix = new DOMMatrix()
-        .translate(anchor.x, anchor.y)
-        .rotate(rotation)
-        .translate(-anchor.x, -anchor.y)
-
-      const [oStart, oEnd] = this.original.points
-      const newStart = ElementBase.transformPoint(oStart.x, oStart.y, matrix)
-      const newEnd = ElementBase.transformPoint(oEnd.x, oEnd.y, matrix)
-
-      this.points[0].x = newStart.x
-      this.points[0].y = newStart.y
-      this.points[1].x = newEnd.x
-      this.points[1].y = newEnd.y
-
-      let newRotation = (this.original.rotation + rotation) % 360
-      if (newRotation < 0) newRotation += 360
-      this.rotation = newRotation
-
-      this.updatePath2D()
-    }
-
-    if (f) {
-      return {
-        id: this.id,
-        from: {
-          points: deepClone(this.original.points),
-          rotation: this.original.rotation,
-        },
-        to: {
-          points: deepClone(this.points),
-          rotation: this.rotation,
-        },
-      }
-    }
   }
 
   protected toJSON(): RequiredLineSegmentProps {
