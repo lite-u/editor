@@ -18,7 +18,6 @@ declare class ElementPath extends ElementShape {
     get center(): Point;
     get getPoints(): Point[];
     protected updatePath2D(): void;
-    translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined;
     rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined;
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
     static _getBoundingRect(points: BezierPoint[]): BoundingRect;

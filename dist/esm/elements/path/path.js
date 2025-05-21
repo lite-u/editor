@@ -56,50 +56,33 @@ class ElementPath extends ElementShape {
             .translate(cx, cy)
             .rotate(this.rotation)
             .translate(-cx, -cy);
-        const start = this.transformPoint(this.points[0].anchor.x, this.points[0].anchor.y, transform);
+        const startAnchor = this.points[0].anchor;
+        const start = this.transformPoint(startAnchor.x + cx, startAnchor.y + cy, transform);
         this.path2D.moveTo(start.x, start.y);
         for (let i = 1; i < this.points.length; i++) {
             const prev = this.points[i - 1];
             const curr = this.points[i];
-            const cp1 = prev.cp2 ? this.transformPoint(prev.cp2.x, prev.cp2.y, transform) : this.transformPoint(prev.anchor.x, prev.anchor.y, transform);
-            const cp2 = curr.cp1 ? this.transformPoint(curr.cp1.x, curr.cp1.y, transform) : this.transformPoint(curr.anchor.x, curr.anchor.y, transform);
-            const anchor = this.transformPoint(curr.anchor.x, curr.anchor.y, transform);
+            const cp1 = prev.cp2
+                ? this.transformPoint(prev.cp2.x + cx, prev.cp2.y + cy, transform)
+                : this.transformPoint(prev.anchor.x + cx, prev.anchor.y + cy, transform);
+            const cp2 = curr.cp1
+                ? this.transformPoint(curr.cp1.x + cx, curr.cp1.y + cy, transform)
+                : this.transformPoint(curr.anchor.x + cx, curr.anchor.y + cy, transform);
+            const anchor = this.transformPoint(curr.anchor.x + cx, curr.anchor.y + cy, transform);
             this.path2D.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, anchor.x, anchor.y);
         }
         if (this.closed && this.points.length > 1) {
             const last = this.points[this.points.length - 1];
             const first = this.points[0];
-            const cp1 = last.cp2 ? this.transformPoint(last.cp2.x, last.cp2.y, transform) : this.transformPoint(last.anchor.x, last.anchor.y, transform);
-            const cp2 = first.cp1 ? this.transformPoint(first.cp1.x, first.cp1.y, transform) : this.transformPoint(first.anchor.x, first.anchor.y, transform);
-            const anchor = this.transformPoint(first.anchor.x, first.anchor.y, transform);
+            const cp1 = last.cp2
+                ? this.transformPoint(last.cp2.x + cx, last.cp2.y + cy, transform)
+                : this.transformPoint(last.anchor.x + cx, last.anchor.y + cy, transform);
+            const cp2 = first.cp1
+                ? this.transformPoint(first.cp1.x + cx, first.cp1.y + cy, transform)
+                : this.transformPoint(first.anchor.x + cx, first.anchor.y + cy, transform);
+            const anchor = this.transformPoint(first.anchor.x + cx, first.anchor.y + cy, transform);
             this.path2D.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, anchor.x, anchor.y);
             this.path2D.closePath();
-        }
-    }
-    translate(dx, dy, f) {
-        this.points.forEach(p => {
-            p.anchor.x += dx;
-            p.anchor.y += dy;
-            if (p.cp1) {
-                p.cp1.x += dx;
-                p.cp1.y += dy;
-            }
-            if (p.cp2) {
-                p.cp2.x += dx;
-                p.cp2.y += dy;
-            }
-        });
-        this.updatePath2D();
-        if (f) {
-            return {
-                id: this.id,
-                from: {
-                    points: deepClone(this.original.points),
-                },
-                to: {
-                    points: deepClone(this.points),
-                },
-            };
         }
     }
     rotateFrom(rotation, anchor, f) {
