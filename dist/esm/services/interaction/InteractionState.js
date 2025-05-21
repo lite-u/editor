@@ -100,6 +100,7 @@ class InteractionState {
             const centerPoint = new Rectangle({
                 id: 'handle-move-center',
                 layer: 1,
+                rotation: ele.rotation,
                 type: 'rectangle',
                 width: pointLen,
                 height: pointLen,
