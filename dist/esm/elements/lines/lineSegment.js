@@ -1,6 +1,6 @@
-import ElementBase from '../base/elementBase.js';
-import deepClone from '../../core/deepClone.js';
-import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '../../core/utils.js';
+import ElementBase from '~/elements/base/elementBase';
+import deepClone from '~/core/deepClone';
+import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '~/core/utils';
 class ElementLineSegment extends ElementBase {
     type = 'lineSegment';
     points;
@@ -65,24 +65,6 @@ class ElementLineSegment extends ElementBase {
         const aStart = { x: start.x + cx, y: start.y + cy };
         const aEnd = { x: end.x + cx, y: end.y + cy };
         return ElementLineSegment._getBoundingRect(aStart, aEnd, rotation);
-    }
-    translate(dx, dy, f) {
-        this.points.forEach((point) => {
-            point.x += dx;
-            point.y += dy;
-        });
-        this.updatePath2D();
-        if (f) {
-            return {
-                id: this.id,
-                from: {
-                    points: deepClone(this.original.points),
-                },
-                to: {
-                    points: deepClone(this.points),
-                },
-            };
-        }
     }
     scaleFrom(scaleX, scaleY, anchor) {
         const matrix = new DOMMatrix()

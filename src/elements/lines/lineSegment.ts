@@ -2,7 +2,6 @@ import ElementBase, {ElementBaseProps} from '~/elements/base/elementBase'
 import {BoundingRect, Point} from '~/type'
 import deepClone from '~/core/deepClone'
 import {generateBoundingRectFromRect, generateBoundingRectFromRotatedRect} from '~/core/utils'
-import {HistoryChangeItem} from '~/services/actions/type'
 
 export interface LineSegmentProps extends ElementBaseProps {
   // id: string
@@ -98,27 +97,6 @@ class ElementLineSegment extends ElementBase {
     const aStart = {x: start.x + cx, y: start.y + cy}
     const aEnd = {x: end.x + cx, y: end.y + cy}
     return ElementLineSegment._getBoundingRect(aStart, aEnd, rotation)
-  }
-
-  translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined {
-    this.points.forEach((point: Point) => {
-      point.x += dx
-      point.y += dy
-    })
-
-    this.updatePath2D()
-
-    if (f) {
-      return {
-        id: this.id,
-        from: {
-          points: deepClone(this.original.points),
-        },
-        to: {
-          points: deepClone(this.points),
-        },
-      }
-    }
   }
 
   scaleFrom(scaleX: number, scaleY: number, anchor: Point) {
