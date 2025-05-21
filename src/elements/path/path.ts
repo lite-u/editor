@@ -79,9 +79,7 @@ class ElementPath extends ElementShape {
 
     if (this.points.length === 0) return
 
-    const rect = this.getBoundingRect()
-    const cx = rect.cx
-    const cy = rect.cy
+    const {cx, cy} = this
 
     const transform = new DOMMatrix()
       .translate(cx, cy)
