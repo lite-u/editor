@@ -2,6 +2,7 @@ import ToolManager from '~/services/tool/toolManager'
 import {ElementInstance} from '~/elements/type'
 import {ResizeDirectionName} from '~/services/selection/type'
 import {getAnchorsByResizeDirection, getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
+import {scaleElementFrom} from '~/services/tool/selector/resizing/func2'
 
 function resizeFunc(this: ToolManager, elements: ElementInstance[], direction: ResizeDirectionName = 'br') {
   console.log(direction)
@@ -39,8 +40,12 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], direction: R
   // console.log(scaleX, scaleY,scalingAnchor)
 
   elements.forEach((el: ElementInstance) => {
-    el.scaleFrom(scaleX, scaleY, scalingAnchor)
+    scaleElementFrom(el, scaleX, scaleY, scalingAnchor)
+    // el.scaleFrom(scaleX, scaleY, scalingAnchor)
   })
+  /*  elements.forEach((el: ElementInstance) => {
+      el.scaleFrom(scaleX, scaleY, scalingAnchor)
+    })*/
 
 }
 

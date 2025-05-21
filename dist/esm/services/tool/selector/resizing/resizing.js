@@ -15,7 +15,7 @@ const resizing = {
             elements.forEach(ele => {
               ele.rotateFrom(rotationDiff, targetPoint)
             })
-    
+        
             this.editor.action.dispatch('render-overlay')
             this.editor.action.dispatch('render-elements')*/
         // this.subTool.mouseMove.call(this)

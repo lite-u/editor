@@ -1,4 +1,5 @@
 import { getAnchorsByResizeDirection, getBoundingRectFromBoundingRects } from './helper.js';
+import { scaleElementFrom } from '../selector/resizing/func2.js';
 function resizeFunc(elements, direction = 'br') {
     console.log(direction);
     const { interaction /*action*/ } = this.editor;
@@ -32,7 +33,11 @@ function resizeFunc(elements, direction = 'br') {
         : anchor;
     // console.log(scaleX, scaleY,scalingAnchor)
     elements.forEach((el) => {
-        el.scaleFrom(scaleX, scaleY, scalingAnchor);
+        scaleElementFrom(el, scaleX, scaleY, scalingAnchor);
+        // el.scaleFrom(scaleX, scaleY, scalingAnchor)
     });
+    /*  elements.forEach((el: ElementInstance) => {
+        el.scaleFrom(scaleX, scaleY, scalingAnchor)
+      })*/
 }
 export default resizeFunc;
