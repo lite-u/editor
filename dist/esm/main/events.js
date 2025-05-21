@@ -203,6 +203,7 @@ export function initEvents() {
             newElements = this.elementManager.batchCreate(this.clipboard.copiedItems);
             newElements.forEach((el) => {
                 el.translate(copyDeltaX, copyDeltaY);
+                el.updateOriginal();
             });
             this.interaction.copyDeltaX += 10;
             this.interaction.copyDeltaY += 10;
