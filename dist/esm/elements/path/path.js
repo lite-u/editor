@@ -3,6 +3,7 @@ import { HANDLER_OFFSETS } from '../handleBasics.js';
 import ElementRectangle from '../rectangle/rectangle.js';
 import { rotatePointAroundPoint } from '../../core/geometry.js';
 import deepClone from '../../core/deepClone.js';
+import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '../../core/utils.js';
 class ElementPath extends ElementBase {
     // readonly id: UID
     // readonly layer: number
@@ -198,7 +199,12 @@ class ElementPath extends ElementBase {
     getBoundingRectFromOriginal() {
         return ElementPath._getBoundingRect(this.original.points);
     }
-    getBoundingRect() {
+    getBoundingRect(withoutRotation = false) {
+        const { rotation } = this;
+        if (this.rotation === 0 || withoutRotation) {
+            return generateBoundingRectFromRect(rect);
+        }
+        return generateBoundingRectFromRotatedRect(rect, rotation);
         return ElementPath._getBoundingRect(this.points);
     }
     toJSON() {

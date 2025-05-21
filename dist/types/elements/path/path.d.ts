@@ -26,7 +26,7 @@ declare class ElementPath extends ElementBase {
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
     static _getBoundingRect(points: BezierPoint[]): BoundingRect;
     getBoundingRectFromOriginal(): BoundingRect;
-    getBoundingRect(): BoundingRect;
+    getBoundingRect(withoutRotation?: boolean): BoundingRect;
     protected toJSON(): RequiredShapeProps;
     toMinimalJSON(): PathProps;
     getOperators(id: string, resizeConfig: {

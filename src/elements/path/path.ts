@@ -9,6 +9,7 @@ import {AnchorPoint, Appearance, Fill, Stroke, Transform} from '~/elements/defau
 import {BezierPoint} from '~/elements/props'
 import deepClone from '~/core/deepClone'
 import {HistoryChangeItem} from '~/services/actions/type'
+import {generateBoundingRectFromRect, generateBoundingRectFromRotatedRect} from '~/core/utils'
 
 export interface PathProps extends ElementBaseProps {
   // id: UID,
@@ -248,7 +249,14 @@ class ElementPath extends ElementBase {
     return ElementPath._getBoundingRect(this.original.points)
   }
 
-  public getBoundingRect(): BoundingRect {
+  public getBoundingRect(withoutRotation: boolean = false): BoundingRect {
+    const {rotation} = this
+
+    if (this.rotation === 0 || withoutRotation) {
+      return generateBoundingRectFromRect(rect)
+    }
+
+    return generateBoundingRectFromRotatedRect(rect, rotation)
     return ElementPath._getBoundingRect(this.points)
   }
 
