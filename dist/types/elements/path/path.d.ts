@@ -1,6 +1,5 @@
 import { BoundingRect, Point } from '~/type';
 import { BezierPoint } from '~/elements/props';
-import { HistoryChangeItem } from '~/services/actions/type';
 import ElementShape, { ShapeProps } from '~/elements/shape/shape';
 export interface PathProps extends ShapeProps {
     type: 'path';
@@ -18,7 +17,6 @@ declare class ElementPath extends ElementShape {
     get center(): Point;
     get getPoints(): Point[];
     protected updatePath2D(): void;
-    rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined;
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
     static _getBoundingRect(points: BezierPoint[]): BoundingRect;
     getBoundingRectFromOriginal(): BoundingRect;

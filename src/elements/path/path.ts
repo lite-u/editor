@@ -119,7 +119,7 @@ class ElementPath extends ElementShape {
     }
   }
 
-  rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined {
+ /* rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined {
     if (rotation !== 0) {
       const rect = this.getBoundingRectFromOriginal()
       const isSelfCenter = rect.cx.toFixed(2) === anchor.x.toFixed(2) && rect.cy.toFixed(2) === anchor.y.toFixed(2)
@@ -168,7 +168,7 @@ class ElementPath extends ElementShape {
       }
     }
   }
-
+*/
   scaleFrom(scaleX: number, scaleY: number, anchor: Point) {
     /*// console.log(scaleX, scaleY, anchor)
     const matrix = new DOMMatrix()
