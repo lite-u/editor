@@ -2,6 +2,7 @@ import {generateBoundingRectFromRect, generateBoundingRectFromRotatedRect} from 
 import ElementShape, {ShapeProps} from '../shape/shape'
 import {Point, Rect} from '~/type'
 import {rotatePointAroundPoint} from '~/core/geometry'
+import ElementBase from '~/elements/base/elementBase'
 
 export interface EllipseProps extends ShapeProps {
   // id: string

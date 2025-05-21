@@ -25,6 +25,8 @@ class ElementShape extends ElementBase {
     points?: BezierPoint[],
     width?: number,
     height?: number,
+    r1?: number,
+    r2?: number,
     [key: string]: unknown
   }
 
