@@ -5,7 +5,7 @@ import {HistoryChangeItem} from '~/services/actions/type'
 const rotating: SubToolType = {
   // cursor: 'default',
 
-  mouseMove(this: ToolManager) {
+  mouseMove: function () {
     const {interaction, elementManager, action, selection, cursor} = this.editor
     const elements = elementManager.getElementsByIdSet(selection.values)
     const {_rotateData, _modifier, mouseWorldCurrent, mouseWorldStart} = interaction
@@ -23,14 +23,10 @@ const rotating: SubToolType = {
     }
 
     interaction._outlineElement?.rotateFrom(rotationDiff, targetPoint)
-    interaction._manipulationElements.forEach(ele => {
-      ele.rotateFrom(rotationDiff, targetPoint)
-    })
-    elements.forEach(ele => {
-      ele.rotateFrom(rotationDiff, targetPoint)
-    })
-
+    interaction._manipulationElements.forEach(ele => ele.rotateFrom(rotationDiff, targetPoint))
+    elements.forEach(ele => ele.rotateFrom(rotationDiff, targetPoint))
     cursor.rotate(rotationDiff)
+
     this.editor.action.dispatch('render-overlay')
     this.editor.action.dispatch('render-elements')
   },
