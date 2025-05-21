@@ -47,7 +47,6 @@ const rotating: SubToolType = {
       changes.push(change)
     })
 
-    // console.log(changes)
     cursor.set(selector.cursor)
     action.dispatch('element-modified', changes)
 
@@ -56,11 +55,3 @@ const rotating: SubToolType = {
 }
 
 export default rotating
-
-/*
-
-const rotating: SubToolType = {
-  data:{},
-  start:()=>{},
-  end:()=>{}
-}*/
