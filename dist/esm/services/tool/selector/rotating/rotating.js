@@ -22,6 +22,7 @@ const rotating = {
         elements.forEach(ele => {
             ele.rotateFrom(rotationDiff, targetPoint);
         });
+        cursor.rotate(rotationDiff);
         this.editor.action.dispatch('render-overlay');
         this.editor.action.dispatch('render-elements');
     },

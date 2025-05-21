@@ -49,16 +49,17 @@ const selector: ToolType = {
   mouseMove(this: ToolManager) {
     const {interaction, cursor} = this.editor
 
-    if (interaction._hoveredResizeManipulator) {
-      cursor.set('nw-resize')
-      // console.log(10)
-    } else if (interaction._hoveredRotateManipulator) {
-      cursor.set('rotate')
-      // console.log(10)
-    } else {
-      cursor.set(selector.cursor)
+    if (!this.subTool) {
+      if (interaction._hoveredResizeManipulator) {
+        cursor.set('nw-resize')
+        // console.log(10)
+      } else if (interaction._hoveredRotateManipulator) {
+        cursor.set('rotate')
+        // console.log(10)
+      } else {
+        cursor.set(selector.cursor)
+      }
     }
-
     // if (!this.subTool) return
 
     this.subTool?.mouseMove.call(this)

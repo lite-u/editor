@@ -1,8 +1,8 @@
-import selecting from './selecting/selecting.js';
-import dragging from './dragging/dragging.js';
-import resizing from './resizing/resizing.js';
-import rotating from './rotating/rotating.js';
-import { getBoundingRectFromBoundingRects } from '../resize/helper.js';
+import selecting from '~/services/tool/selector/selecting/selecting';
+import dragging from '~/services/tool/selector/dragging/dragging';
+import resizing from '~/services/tool/selector/resizing/resizing';
+import rotating from '~/services/tool/selector/rotating/rotating';
+import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
 const selector = {
     cursor: 'default',
     mouseDown: function () {
@@ -43,16 +43,18 @@ const selector = {
     },
     mouseMove() {
         const { interaction, cursor } = this.editor;
-        if (interaction._hoveredResizeManipulator) {
-            cursor.set('nw-resize');
-            // console.log(10)
-        }
-        else if (interaction._hoveredRotateManipulator) {
-            cursor.set('rotate');
-            // console.log(10)
-        }
-        else {
-            cursor.set(selector.cursor);
+        if (!this.subTool) {
+            if (interaction._hoveredResizeManipulator) {
+                cursor.set('nw-resize');
+                // console.log(10)
+            }
+            else if (interaction._hoveredRotateManipulator) {
+                cursor.set('rotate');
+                // console.log(10)
+            }
+            else {
+                cursor.set(selector.cursor);
+            }
         }
         // if (!this.subTool) return
         this.subTool?.mouseMove.call(this);
