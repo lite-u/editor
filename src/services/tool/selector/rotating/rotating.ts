@@ -20,7 +20,7 @@ const rotating: SubToolType = {
     let rotationDiff = mouseCurrentRotation - mouseStartRotation
 
     if (shiftKey) {
-      rotationDiff = Math.round(rotationDiff / 45) * 45
+      rotationDiff = Math.round(rotationDiff / 15) * 15
     }
 
     interaction._outlineElement?.rotateFrom(rotationDiff, targetPoint)
@@ -30,6 +30,8 @@ const rotating: SubToolType = {
 
     this.editor.action.dispatch('render-overlay')
     this.editor.action.dispatch('render-elements')
+
+    return rotationDiff
   },
   mouseUp(this: ToolManager) {
     const {interaction, elementManager, action, cursor, selection} = this.editor
@@ -37,6 +39,7 @@ const rotating: SubToolType = {
 
     const changes: HistoryChangeItem[] = []
     elements.forEach(ele => {
+      console.log(interaction._rotateData)
       const change = ele.rotateFrom(0, interaction._rotateData?.targetPoint, true)
 
       // console.log(change)

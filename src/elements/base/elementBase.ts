@@ -131,7 +131,7 @@ class ElementBase {
   }
 
   protected rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined {
-    if (rotation !== 0) {
+    // if (rotation !== 0) {
       const matrix = new DOMMatrix()
         .translate(anchor.x, anchor.y)
         .rotate(rotation)
@@ -147,7 +147,7 @@ class ElementBase {
       this.cy = transformed.y
 
       this.updatePath2D()
-    }
+    // }
 
     if (f) {
       return {

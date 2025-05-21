@@ -70,8 +70,8 @@ const selector = {
     mouseUp() {
         if (!this.subTool)
             return;
-        this.editor.interaction._rotateData = null;
         this.subTool.mouseUp.call(this);
+        this.editor.interaction._rotateData = null;
         this.subTool = null;
     },
 };

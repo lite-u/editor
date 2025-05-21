@@ -68,21 +68,21 @@ class ElementBase {
         this.updatePath2D();
     }
     rotateFrom(rotation, anchor, f) {
-        if (rotation !== 0) {
-            const matrix = new DOMMatrix()
-                .translate(anchor.x, anchor.y)
-                .rotate(rotation)
-                .translate(-anchor.x, -anchor.y);
-            const { cx, cy } = this.original;
-            const transformed = matrix.transformPoint({ x: cx, y: cy });
-            let newRotation = (this.original.rotation + rotation) % 360;
-            if (newRotation < 0)
-                newRotation += 360;
-            this.rotation = newRotation;
-            this.cx = transformed.x;
-            this.cy = transformed.y;
-            this.updatePath2D();
-        }
+        // if (rotation !== 0) {
+        const matrix = new DOMMatrix()
+            .translate(anchor.x, anchor.y)
+            .rotate(rotation)
+            .translate(-anchor.x, -anchor.y);
+        const { cx, cy } = this.original;
+        const transformed = matrix.transformPoint({ x: cx, y: cy });
+        let newRotation = (this.original.rotation + rotation) % 360;
+        if (newRotation < 0)
+            newRotation += 360;
+        this.rotation = newRotation;
+        this.cx = transformed.x;
+        this.cy = transformed.y;
+        this.updatePath2D();
+        // }
         if (f) {
             return {
                 id: this.id,
