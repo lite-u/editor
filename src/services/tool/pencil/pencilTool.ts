@@ -27,6 +27,7 @@ const pencilTool: ToolType = {
   mouseUp(this: ToolManager) {
     const {interaction, action} = this.editor
     const {center, points} = convertPointsToBezierPoints(_drawingPoints)
+
     const eleProps: PropsWithoutIdentifiers<'path'> = {
       type: 'path',
       cx: center.x,

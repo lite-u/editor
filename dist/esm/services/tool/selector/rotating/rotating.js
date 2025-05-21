@@ -34,6 +34,7 @@ const rotating = {
             ele.updateOriginal();
             changes.push(change);
         });
+        console.log(changes);
         action.dispatch('element-modified', changes);
         this.subTool = null;
     },

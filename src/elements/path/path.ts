@@ -25,7 +25,7 @@ class ElementPath extends ElementShape {
     super(rest)
     this.points = deepClone(points)
     this.closed = closed
-
+    // debugger
     this.original = {
       ...this.original,
       closed,
