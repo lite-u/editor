@@ -243,6 +243,7 @@ export const getManipulationBox = (rect: {
     // resizeEle.stroke.enabled = false
     resizeEle.stroke.weight = resizeStrokeWidth
     resizeEle.stroke.color = '#5491f8'
+    resizeEle.fill.enabled = true
     resizeEle.fill.color = '#fff'
     rotateEle.stroke.enabled = false
 
