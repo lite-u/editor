@@ -1,8 +1,9 @@
-import selecting from '~/services/tool/selector/selecting/selecting';
-import dragging from '~/services/tool/selector/dragging/dragging';
-import resizing from '~/services/tool/selector/resizing/resizing';
-import rotating from '~/services/tool/selector/rotating/rotating';
-import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
+import selecting from './selecting/selecting.js';
+import dragging from './dragging/dragging.js';
+import resizing from './resizing/resizing.js';
+import rotating from './rotating/rotating.js';
+import { getBoundingRectFromBoundingRects } from '../resize/helper.js';
+import { getRotateAngle } from './helper.js';
 const selector = {
     cursor: 'default',
     mouseDown: function () {
@@ -49,7 +50,14 @@ const selector = {
                 // console.log(10)
             }
             else if (interaction._hoveredRotateManipulator) {
+                console.log(interaction._hoveredRotateManipulator.id);
+                const centerPoint = {
+                    x: interaction._outlineElement.cx,
+                    y: interaction._outlineElement.cy,
+                };
+                const rotation = getRotateAngle(centerPoint, interaction.mouseWorldCurrent);
                 cursor.set('rotate');
+                cursor.rotate(rotation);
                 // console.log(10)
             }
             else {

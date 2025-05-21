@@ -4,6 +4,7 @@ import dragging from '~/services/tool/selector/dragging/dragging'
 import resizing from '~/services/tool/selector/resizing/resizing'
 import rotating from '~/services/tool/selector/rotating/rotating'
 import {getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
+import {getRotateAngle} from '~/services/tool/selector/helper'
 
 const selector: ToolType = {
   cursor: 'default',
@@ -54,7 +55,15 @@ const selector: ToolType = {
         cursor.set('nw-resize')
         // console.log(10)
       } else if (interaction._hoveredRotateManipulator) {
+        console.log(interaction._hoveredRotateManipulator.id)
+        const centerPoint = {
+          x: interaction._outlineElement.cx,
+          y: interaction._outlineElement.cy,
+        }
+
+        const rotation = getRotateAngle(centerPoint, interaction.mouseWorldCurrent)
         cursor.set('rotate')
+        cursor.rotate(rotation)
         // console.log(10)
       } else {
         cursor.set(selector.cursor)
