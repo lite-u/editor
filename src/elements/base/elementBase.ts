@@ -1,8 +1,10 @@
 import {BoundingRect, ElementProps, Point, UID} from '~/type'
 import {generateBoundingRectFromTwoPoints} from '~/core/utils'
 import {
-  DEFAULT_CX, DEFAULT_CY,
-  DEFAULT_FILL, DEFAULT_GRADIENT,
+  DEFAULT_CX,
+  DEFAULT_CY,
+  DEFAULT_FILL,
+  DEFAULT_GRADIENT,
   DEFAULT_OPACITY,
   DEFAULT_ROTATION,
   DEFAULT_SHADOW,
@@ -34,8 +36,8 @@ export type RequiredBaseProps = Required<ElementBaseProps>
 class ElementBase {
   id: UID
   layer: number
-   cx: number
-   cy: number
+  cx: number
+  cy: number
   gradient: Gradient
   stroke: Stroke
   fill: Fill
@@ -91,6 +93,12 @@ class ElementBase {
       cy: this.cy,
       rotation: this.rotation,
     }
+  }
+
+  static transformPoint(x: number, y: number, matrix: DOMMatrix): Point {
+    // if(!matrix) debugger
+    const p = matrix.transformPoint({x, y})
+    return {x: p.x, y: p.y}
   }
 
   protected translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined {
@@ -157,12 +165,6 @@ class ElementBase {
 
   protected get center(): Point {
     return {x: this.cx, y: this.cy}
-  }
-
-  static transformPoint(x: number, y: number, matrix: DOMMatrix): Point {
-    // if(!matrix) debugger
-    const p = matrix.transformPoint({x, y})
-    return {x: p.x, y: p.y}
   }
 
   protected toJSON(): RequiredBaseProps {
