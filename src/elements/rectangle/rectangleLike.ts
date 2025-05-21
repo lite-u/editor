@@ -128,57 +128,46 @@ class RectangleLike extends ElementBase {
   }
 
   scaleFrom(scaleX: number, scaleY: number, anchor: Point): HistoryChangeItem | undefined {
-    const { cx, cy, width, height, rotation } = this.original
+    const {cx, cy, width, height, rotation} = this.original
 
+    console.log(scaleX,scaleY)
     const matrix = new DOMMatrix()
-      .translate(anchor.x, anchor.y)
       .rotate(-rotation)
+      // .scale(scaleX, scaleY, 1, anchor.x, anchor.y)
       .scale(scaleX, scaleY)
-      .rotate(rotation)
-      .translate(-anchor.x, -anchor.y)
-
+    // .rotate(rotation)
     const halfW = width / 2
     const halfH = height / 2
 
-    const topLeft = { x: cx - halfW, y: cy - halfH }
-    const topRight = { x: cx + halfW, y: cy - halfH }
-    const bottomLeft = { x: cx - halfW, y: cy + halfH }
+    const topLeft = {x: cx - halfW, y: cy - halfH}
+    const topRight = {x: cx + halfW, y: cy - halfH}
+    const bottomRight = {x: cx + halfW, y: cy + halfH}
+    const bottomLeft = {x: cx - halfW, y: cy + halfH}
 
-    const p1 = matrix.transformPoint(topLeft)
-    const p2 = matrix.transformPoint({ x: cx + halfW, y: cy + halfH })
+    // Transform all four corners
+    const pTL = matrix.transformPoint(topLeft)
+    const pTR = matrix.transformPoint(topRight)
+    const pBR = matrix.transformPoint(bottomRight)
+    const pBL = matrix.transformPoint(bottomLeft)
+    console.log('topLeft', topLeft, pTL)
 
-    const newCenter = {
-      x: (p1.x + p2.x) / 2,
-      y: (p1.y + p2.y) / 2,
-    }
+    // New center is average of opposite corners (or all four)
+    const newCX = (pTL.x + pBR.x) / 2
+    const newCY = (pTL.y + pBR.y) / 2
 
-    const newWidth = Math.hypot(
-      matrix.transformPoint(topRight).x - matrix.transformPoint(topLeft).x,
-      matrix.transformPoint(topRight).y - matrix.transformPoint(topLeft).y,
-    )
+    const newWidth = Math.hypot(pTR.x - pTL.x, pTR.y - pTL.y)
+    const newHeight = Math.hypot(pBL.x - pTL.x, pBL.y - pTL.y)
 
-    const newHeight = Math.hypot(
-      matrix.transformPoint(bottomLeft).x - matrix.transformPoint(topLeft).x,
-      matrix.transformPoint(bottomLeft).y - matrix.transformPoint(topLeft).y,
-    )
-
-/*    const before = {
-      cx: this.cx,
-      cy: this.cy,
-      width: this.width,
-      height: this.height,
-    }*/
-
-    this.cx = newCenter.x
-    this.cy = newCenter.y
+    this.cx = newCX
+    this.cy = newCY
     this.width = newWidth
     this.height = newHeight
     this.updatePath2D()
 
-    this.updatePath2D()
+    return {}
   }
 
-  override toJSON(): RequiredRectangleLikeProps {
+  toJSON(): RequiredRectangleLikeProps {
     const {
       borderRadius,
       width,
@@ -196,7 +185,7 @@ class RectangleLike extends ElementBase {
     }
   }
 
-  override toMinimalJSON(): RectangleLikeProps {
+  toMinimalJSON(): RectangleLikeProps {
     const result: RectangleLikeProps = {
       ...super.toMinimalJSON(),
     }
@@ -285,5 +274,4 @@ class RectangleLike extends ElementBase {
 }
 
 export default RectangleLike
-
 

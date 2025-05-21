@@ -4,13 +4,12 @@ import {ResizeDirectionName} from '~/services/selection/type'
 import {getAnchorsByResizeDirection, getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
 import {scaleElementFrom} from '~/services/tool/selector/resizing/func2'
 
-function resizeFunc(this: ToolManager, elements: ElementInstance[], direction: ResizeDirectionName = 'br') {
-  console.log(direction)
+function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: ResizeDirectionName = 'br') {
   const {interaction /*action*/} = this.editor
   const {mouseWorldCurrent, _modifier} = interaction
   const {altKey, shiftKey} = _modifier
   const rect = getBoundingRectFromBoundingRects(elements.map(el => el.getBoundingRectFromOriginal()))
-  const {anchor, opposite} = getAnchorsByResizeDirection(rect, direction)
+  const {anchor, opposite} = getAnchorsByResizeDirection(rect, placement)
   // const startPoint
   const centerX = rect.cx
   const centerY = rect.cy

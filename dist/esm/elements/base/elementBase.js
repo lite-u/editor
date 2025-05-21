@@ -15,7 +15,7 @@ class ElementBase {
     rotation;
     transform;
     show;
-    matrix = new DOMMatrix();
+    // protected matrix = new DOMMatrix()
     path2D = new Path2D();
     original;
     // public _relatedId: string
@@ -168,15 +168,15 @@ class ElementBase {
     getCenter() {
         return { x: 0, y: 0 };
     }
-    resetTransform() {
-        this.matrix = new DOMMatrix();
-    }
-    applyTransform(matrix) {
-        this.matrix = matrix.multiply(this.matrix);
-    }
-    getTransformMatrix() {
-        return this.matrix;
-    }
+    /*protected resetTransform() {
+      this.matrix = new DOMMatrix()
+    }*/
+    /*  protected applyTransform(matrix: DOMMatrix): void {
+        this.matrix = matrix.multiply(this.matrix)
+      }*/
+    /*  protected getTransformMatrix(): DOMMatrix {
+        return this.matrix
+      }*/
     render(ctx) {
         if (!this.path2D)
             return;

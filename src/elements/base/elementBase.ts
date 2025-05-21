@@ -46,7 +46,7 @@ class ElementBase {
   rotation: number
   transform: Transform
   show: boolean
-  protected matrix = new DOMMatrix()
+  // protected matrix = new DOMMatrix()
   path2D = new Path2D()
   protected original: {
     cx: number;
@@ -269,17 +269,17 @@ class ElementBase {
     return {x: 0, y: 0}
   }
 
-  protected resetTransform() {
+  /*protected resetTransform() {
     this.matrix = new DOMMatrix()
-  }
+  }*/
 
-  protected applyTransform(matrix: DOMMatrix): void {
+/*  protected applyTransform(matrix: DOMMatrix): void {
     this.matrix = matrix.multiply(this.matrix)
-  }
+  }*/
 
-  protected getTransformMatrix(): DOMMatrix {
+/*  protected getTransformMatrix(): DOMMatrix {
     return this.matrix
-  }
+  }*/
 
   public render(ctx: CanvasRenderingContext2D): void {
     if (!this.path2D) return

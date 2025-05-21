@@ -29,7 +29,6 @@ declare class ElementBase {
     rotation: number;
     transform: Transform;
     show: boolean;
-    protected matrix: DOMMatrix;
     path2D: Path2D;
     protected original: {
         cx: number;
@@ -57,9 +56,6 @@ declare class ElementBase {
     protected restore(props: Partial<ElementProps>): void;
     protected getTransformedPoints(): Point[];
     protected getCenter(): Point;
-    protected resetTransform(): void;
-    protected applyTransform(matrix: DOMMatrix): void;
-    protected getTransformMatrix(): DOMMatrix;
     render(ctx: CanvasRenderingContext2D): void;
 }
 export default ElementBase;
