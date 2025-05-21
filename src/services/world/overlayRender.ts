@@ -29,7 +29,7 @@ function overlayRender(this: World) {
       stroke: {
         ...DEFAULT_STROKE,
         color: lineColor,
-        weight: 2 / ratio,
+        weight: 4 / scale,
       },
       fill: {
         ...DEFAULT_FILL,
