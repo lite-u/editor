@@ -7,6 +7,7 @@ import {BorderRadius} from '~/elements/props'
 import {DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH} from '~/elements/defaultProps'
 import {isEqual} from '~/lib/lib'
 import {HistoryChangeItem} from '~/services/actions/type'
+import ElementBase from '~/elements/base/elementBase'
 
 export interface RectangleLikeProps extends ShapeProps {
   id: string
