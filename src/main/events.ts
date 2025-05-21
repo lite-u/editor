@@ -12,6 +12,7 @@ import {Point, ToolName} from '~/type'
 import {ElementMap, ElementProps} from '~/elements/type'
 import snapTool from '~/services/tool/snap/snap'
 import {getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
+import TypeCheck from '~/core/typeCheck'
 
 export function initEvents(this: Editor) {
   const {action} = this
@@ -388,10 +389,25 @@ export function initEvents(this: Editor) {
     })*/
 
   on('element-modify', (data) => {
+    // console.log(data)
     data.map(({id, props}) => {
       const ele = this.elementManager.getElementById(id)
       if (ele && props) {
-        Object.assign(ele, props)
+        console.log(props)
+
+        Object.keys(props).forEach(propName => {
+          if (TypeCheck(props[propName]) === 'object') {
+            const propObj = props[propName]
+
+            Object.assign(ele[propName], propObj)
+          } else {
+            Object.assign(ele, props)
+          }
+        })
+
+        ele.updateOriginal()
+        // ele.updatePath2D()
+        console.log(ele)
       }
     })
     // console.log(data)

@@ -7,6 +7,7 @@ import { pick } from '../services/history/pick.js';
 import { fitRectToViewport } from '../services/world/helper.js';
 import snapTool from '../services/tool/snap/snap.js';
 import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
+import TypeCheck from '../core/typeCheck.js';
 export function initEvents() {
     const { action } = this;
     const dispatch = action.dispatch.bind(action);
@@ -320,10 +321,23 @@ export function initEvents() {
         dispatch('element-updated')
       })*/
     on('element-modify', (data) => {
+        // console.log(data)
         data.map(({ id, props }) => {
             const ele = this.elementManager.getElementById(id);
             if (ele && props) {
-                Object.assign(ele, props);
+                console.log(props);
+                Object.keys(props).forEach(propName => {
+                    if (TypeCheck(props[propName]) === 'object') {
+                        const propObj = props[propName];
+                        Object.assign(ele[propName], propObj);
+                    }
+                    else {
+                        Object.assign(ele, props);
+                    }
+                });
+                ele.updateOriginal();
+                // ele.updatePath2D()
+                console.log(ele);
             }
         });
         // console.log(data)
