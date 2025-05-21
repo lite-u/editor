@@ -61,7 +61,7 @@ class ElementBase {
             };
         }
     }
-    /* Use updateOriginal when you do accept the element's current state */
+    /* Invoke updateOriginal method when you do accept the element's current state as static state */
     updateOriginal() { }
     rotate(angle) {
         this.rotation = angle;
