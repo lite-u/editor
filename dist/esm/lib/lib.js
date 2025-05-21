@@ -145,7 +145,7 @@ export const isEqual = (o1, o2) => {
     }
     return false;
 };
-export const getManipulationBox = (rect, rotation, ratio) => {
+export const getManipulationBox = (rect, rotation, ratio, specialLineSeg = false) => {
     const resizeLen = 20 / ratio;
     const resizeStrokeWidth = 1 / ratio;
     const rotateRadius = 50 / ratio;
@@ -162,6 +162,8 @@ export const getManipulationBox = (rect, rotation, ratio) => {
     ];
     const result = [];
     arr.map(({ dx, dy, name }) => {
+        if (specialLineSeg && name !== 't' || name !== 'b')
+            return;
         const { x, y } = rotatePointAroundPoint(cx + dx * width, cy + dy * height, cx, cy, rotation);
         const resizeHandleEleProp = {
             id: 'handle-resize-' + name,

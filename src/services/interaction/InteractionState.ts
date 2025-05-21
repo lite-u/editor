@@ -169,13 +169,14 @@ class InteractionState {
     const sameRotation = rotations.every(val => val === rotations[0])
     const applyRotation = sameRotation ? rotations[0] : 0
     let rect: { cx: number, cy: number, width: number, height: number }
+    const specialLineSeg = idSet.size === 1 && elements[0].type === 'lineSegment'
 
     if (sameRotation) {
       rect = getMinimalBoundingRect(rectsWithoutRotation, applyRotation)
-      this._manipulationElements.push(...getManipulationBox(rect, applyRotation, ratio))
+      this._manipulationElements.push(...getManipulationBox(rect, applyRotation, ratio,specialLineSeg))
     } else {
       rect = getBoundingRectFromBoundingRects(rectsWithRotation)
-      this._manipulationElements.push(...getManipulationBox(rect, 0, ratio))
+      this._manipulationElements.push(...getManipulationBox(rect, 0, ratio,specialLineSeg))
     }
 
     this._outlineElement = new Rectangle({
