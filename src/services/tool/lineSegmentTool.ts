@@ -8,8 +8,15 @@ const lineSegmentTool: ToolType = {
   mouseDown(this: ToolManager) {
     const {elementManager, interaction, world} = this.editor
     const {x, y} = this.editor.interaction.mouseWorldCurrent
+    let innitialLineLen = 1
+    const startPoint = {x, y}
+    const endPoint = {x: x + innitialLineLen, y: y + innitialLineLen}
+    const cx = x + innitialLineLen / 2
+    const cy = y + innitialLineLen / 2
     const eleProps: PropsWithoutIdentifiers<'lineSegment'> = {
       type: 'lineSegment',
+      cx,
+      cy,
       points: [
         {id: 'start', x, y},
         {id: 'end', x: x + 1, y: y + 1},
