@@ -15,10 +15,11 @@ class ElementLineSegment extends ElementBase {
         this.updatePath2D();
     }
     updatePath2D() {
+        const { cx, cy, points } = this;
         const [start, end] = this.points;
         this.path2D = new Path2D();
-        this.path2D.moveTo(start.x, start.y);
-        this.path2D.lineTo(end.x, end.y);
+        this.path2D.moveTo(start.x + cx, start.y + cy);
+        this.path2D.lineTo(end.x + cx, end.y + cy);
     }
     updateOriginal() {
         this.original.points = deepClone(this.points);
