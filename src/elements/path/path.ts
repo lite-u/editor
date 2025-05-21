@@ -53,9 +53,8 @@ class ElementPath extends ElementShape {
   }
 
   protected updateOriginal() {
-
-    this.original.cx = deepClone(this.cx)
-    this.original.cy = deepClone(this.cy)
+    this.original.cx = this.cx
+    this.original.cy = this.cy
     this.original.points = deepClone(this.points)
     this.original.closed = this.closed
     this.original.rotation = this.rotation
