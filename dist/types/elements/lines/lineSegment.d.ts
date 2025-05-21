@@ -22,7 +22,7 @@ declare class ElementLineSegment extends ElementBase {
     static _getBoundingRect(start: Point, end: Point, rotation?: number): BoundingRect;
     getBoundingRect(): BoundingRect;
     getBoundingRectFromOriginal(): BoundingRect;
-    translate(dx: number, dy: number): HistoryChangeItem;
+    translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined;
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
     rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined;
     protected toJSON(): RequiredLineSegmentProps;

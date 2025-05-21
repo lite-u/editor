@@ -141,17 +141,29 @@ class ElementPath extends ElementBase {
 
   rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined {
     if (rotation !== 0) {
-      const matrix = new DOMMatrix()
-        .translate(anchor.x, anchor.y)
-        .rotate(rotation)
-        .translate(-anchor.x, -anchor.y)
+      const rect = this.getBoundingRectFromOriginal()
+      const isSelfCenter = rect.cx.toFixed(2) === anchor.x.toFixed(2) && rect.cy.toFixed(2) === anchor.y.toFixed(2)
+      console.log(isSelfCenter)
 
-      this.points = this.original.points.map(p => {
-        const anchorPt = this.transformPoint(p.anchor.x, p.anchor.y, matrix)
-        const cp1 = p.cp1 ? this.transformPoint(p.cp1.x, p.cp1.y, matrix) : undefined
-        const cp2 = p.cp2 ? this.transformPoint(p.cp2.x, p.cp2.y, matrix) : undefined
-        return {anchor: anchorPt, cp1, cp2}
-      })
+      if (isSelfCenter) {
+        let newRotation = (this.original.rotation + rotation) % 360
+        if (newRotation < 0) newRotation += 360
+        this.rotation = newRotation
+      } else {
+        const matrix = new DOMMatrix()
+          .translate(anchor.x, anchor.y)
+          .rotate(rotation-this.rotation)
+          .translate(-anchor.x, -anchor.y)
+
+        this.points = this.original.points.map(p => {
+          const anchorPt = this.transformPoint(p.anchor.x, p.anchor.y, matrix)
+          const cp1 = p.cp1 ? this.transformPoint(p.cp1.x, p.cp1.y, matrix) : undefined
+          const cp2 = p.cp2 ? this.transformPoint(p.cp2.x, p.cp2.y, matrix) : undefined
+          return {anchor: anchorPt, cp1, cp2}
+        })
+
+        this.rotation = 0
+      }
 
       this.updatePath2D()
     }
@@ -161,8 +173,10 @@ class ElementPath extends ElementBase {
         id: this.id,
         from: {
           points: deepClone(this.original.points),
+          rotation: this.original.rotation,
         },
         to: {
+          rotation: this.rotation,
           points: deepClone(this.points),
         },
       }

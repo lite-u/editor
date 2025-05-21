@@ -91,20 +91,22 @@ class ElementLineSegment extends ElementBase {
     return ElementLineSegment._getBoundingRect(start, end)
   }
 
-  translate(dx: number, dy: number): HistoryChangeItem {
+  translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined {
     this.points.forEach((point: Point) => {
       point.x += dx
       point.y += dy
     })
 
-    return {
-      id: this.id,
-      from: {
-        points: deepClone(this.original.points),
-      },
-      to: {
-        points: deepClone(this.points),
-      },
+    if (f) {
+      return {
+        id: this.id,
+        from: {
+          points: deepClone(this.original.points),
+        },
+        to: {
+          points: deepClone(this.points),
+        },
+      }
     }
   }
 

@@ -64,20 +64,22 @@ class ElementLineSegment extends ElementBase {
         const [start, end] = this.original.points;
         return ElementLineSegment._getBoundingRect(start, end);
     }
-    translate(dx, dy) {
+    translate(dx, dy, f) {
         this.points.forEach((point) => {
             point.x += dx;
             point.y += dy;
         });
-        return {
-            id: this.id,
-            from: {
-                points: deepClone(this.original.points),
-            },
-            to: {
-                points: deepClone(this.points),
-            },
-        };
+        if (f) {
+            return {
+                id: this.id,
+                from: {
+                    points: deepClone(this.original.points),
+                },
+                to: {
+                    points: deepClone(this.points),
+                },
+            };
+        }
     }
     scaleFrom(scaleX, scaleY, anchor) {
         const [start, end] = this.points;
