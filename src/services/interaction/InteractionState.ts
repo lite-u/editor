@@ -148,6 +148,7 @@ class InteractionState {
       rectsWithRotation.push(ele.getBoundingRect())
       rectsWithoutRotation.push(ele.getBoundingRect(true))
     })
+
     const sameRotation = rotations.every(val => val === rotations[0])
     const applyRotation = sameRotation ? rotations[0] : 0
     let rect: { cx: number, cy: number, width: number, height: number }
