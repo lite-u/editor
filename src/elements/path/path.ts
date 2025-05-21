@@ -232,7 +232,7 @@ class ElementPath extends ElementShape {
       .rotate(rotation)
       .translate(-cx, -cy)
 
-    const transformedPoints = points.map(p => ({
+    const transformedPoints: BezierPoint[] = points.map(p => ({
       anchor: rotation
         ? ElementBase.transformPoint(p.anchor.x + cx, p.anchor.y + cy, matrix)
         : {x: p.anchor.x + cx, y: p.anchor.y + cy},
@@ -246,7 +246,7 @@ class ElementPath extends ElementShape {
           ? ElementPath.transformPoint(p.cp2.x + cx, p.cp2.y + cy, matrix)
           : {x: p.cp2.x + cx, y: p.cp2.y + cy})
         : undefined,
-    }))
+    })) as BezierPoint[]
 
     return ElementPath._getBoundingRect(transformedPoints)
   }
