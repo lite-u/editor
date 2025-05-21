@@ -61,6 +61,8 @@ class ElementBase {
             };
         }
     }
+    /* Use updateOriginal when you do accept the element's current state */
+    updateOriginal() { }
     rotate(angle) {
         this.rotation = angle;
         this.updatePath2D();

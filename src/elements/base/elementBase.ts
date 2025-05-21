@@ -122,6 +122,9 @@ class ElementBase {
     }
   }
 
+  /* Use updateOriginal when you do accept the element's current state */
+  protected updateOriginal() {}
+
   protected rotate(angle: number) {
     this.rotation = angle
     this.updatePath2D()
