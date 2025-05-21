@@ -1,7 +1,7 @@
 import {BoundingRect, DPR, ElementInstance, Point} from '../type'
-import Rectangle, {RectangleProps} from '~/elements/rectangle/rectangle'
-import {DEFAULT_FILL, DEFAULT_STROKE} from '~/elements/defaultProps'
-import Ellipse, {EllipseProps} from '~/elements/ellipse/ellipse'
+import Rectangle from '~/elements/rectangle/rectangle'
+import {DEFAULT_STROKE} from '~/elements/defaultProps'
+import Ellipse from '~/elements/ellipse/ellipse'
 import {rotatePointAroundPoint} from '~/core/geometry'
 
 interface DrawCrossLineProps {
@@ -216,8 +216,17 @@ export const getManipulationBox = (rect: {
     if (specialLineSeg && name !== 't' && name !== 'b') return
 
     const {x, y} = rotatePointAroundPoint(cx + dx * width, cy + dy * height, cx, cy, rotation)
-
-    const rotateHandleEleProp: EllipseProps = {
+    const resizeEle = new Rectangle({
+        id: 'handle-resize-' + name,
+        layer: 1,
+        cx: x,
+        cy: y,
+        width: resizeLen,
+        height: resizeLen,
+        rotation,
+      },
+    )
+    const rotateEle = new Ellipse({
       id: 'handle-rotate-' + name,
       layer: 0,
       cx: x,
@@ -229,28 +238,15 @@ export const getManipulationBox = (rect: {
         ...DEFAULT_STROKE,
         weight: resizeStrokeWidth,
       },
-    }
+    })
 
-    const resizeHandleEleProp: RectangleProps = {
-      id: 'handle-resize-' + name,
-      layer: 1,
-      cx: x,
-      cy: y,
-      width: resizeLen,
-      height: resizeLen,
-      rotation,
-      stroke: {
-        ...DEFAULT_STROKE,
-        weight: resizeStrokeWidth,
-        color: '#5491f8',
-      },
-      fill: {
-        ...DEFAULT_FILL,
-        enabled: true,
-        color: '#FFFFFF',
-      },
-    }
-    result.push(new Rectangle(resizeHandleEleProp), new Ellipse(rotateHandleEleProp))
+    // resizeEle.stroke.enabled = false
+    resizeEle.stroke.weight = resizeStrokeWidth
+    resizeEle.stroke.color = '#5491f8'
+    resizeEle.fill.color = '#fff'
+    rotateEle.stroke.enabled = false
+
+    result.push(resizeEle, rotateEle)
   })
 
   return result

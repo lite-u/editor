@@ -1,7 +1,7 @@
-import Rectangle from '../elements/rectangle/rectangle.js';
-import { DEFAULT_FILL, DEFAULT_STROKE } from '../elements/defaultProps.js';
-import Ellipse from '../elements/ellipse/ellipse.js';
-import { rotatePointAroundPoint } from '../core/geometry.js';
+import Rectangle from '~/elements/rectangle/rectangle';
+import { DEFAULT_STROKE } from '~/elements/defaultProps';
+import Ellipse from '~/elements/ellipse/ellipse';
+import { rotatePointAroundPoint } from '~/core/geometry';
 /** Convert screen (mouse) coordinates to canvas coordinates */
 export function screenToWorld(point, offset, scale, dpr) {
     return {
@@ -165,7 +165,16 @@ export const getManipulationBox = (rect, rotation, ratio, specialLineSeg = false
         if (specialLineSeg && name !== 't' && name !== 'b')
             return;
         const { x, y } = rotatePointAroundPoint(cx + dx * width, cy + dy * height, cx, cy, rotation);
-        const rotateHandleEleProp = {
+        const resizeEle = new Rectangle({
+            id: 'handle-resize-' + name,
+            layer: 1,
+            cx: x,
+            cy: y,
+            width: resizeLen,
+            height: resizeLen,
+            rotation,
+        });
+        const rotateEle = new Ellipse({
             id: 'handle-rotate-' + name,
             layer: 0,
             cx: x,
@@ -177,27 +186,13 @@ export const getManipulationBox = (rect, rotation, ratio, specialLineSeg = false
                 ...DEFAULT_STROKE,
                 weight: resizeStrokeWidth,
             },
-        };
-        const resizeHandleEleProp = {
-            id: 'handle-resize-' + name,
-            layer: 1,
-            cx: x,
-            cy: y,
-            width: resizeLen,
-            height: resizeLen,
-            rotation,
-            stroke: {
-                ...DEFAULT_STROKE,
-                weight: resizeStrokeWidth,
-                color: '#5491f8',
-            },
-            fill: {
-                ...DEFAULT_FILL,
-                enabled: true,
-                color: '#FFFFFF',
-            },
-        };
-        result.push(new Rectangle(resizeHandleEleProp), new Ellipse(rotateHandleEleProp));
+        });
+        // resizeEle.stroke.enabled = false
+        resizeEle.stroke.weight = resizeStrokeWidth;
+        resizeEle.stroke.color = '#5491f8';
+        resizeEle.fill.color = '#fff';
+        rotateEle.stroke.enabled = false;
+        result.push(resizeEle, rotateEle);
     });
     return result;
 };
