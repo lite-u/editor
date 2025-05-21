@@ -20,6 +20,7 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], direction: R
     y: opposite.y - anchor.y,
   }
   // console.log(rect)
+  console.log('startVec', startVec)
   const currentVec = {
     x: mouseWorldCurrent.x - anchor.x,
     y: mouseWorldCurrent.y - anchor.y,
@@ -36,7 +37,7 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], direction: R
 
   const scalingAnchor = altKey
     ? {x: centerX, y: centerY}
-    : opposite
+    : anchor
   // console.log(scaleX, scaleY,scalingAnchor)
 
   elements.forEach((el: ElementInstance) => {

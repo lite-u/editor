@@ -16,6 +16,7 @@ function resizeFunc(elements, direction = 'br') {
         y: opposite.y - anchor.y,
     };
     // console.log(rect)
+    console.log('startVec', startVec);
     const currentVec = {
         x: mouseWorldCurrent.x - anchor.x,
         y: mouseWorldCurrent.y - anchor.y,
@@ -30,7 +31,7 @@ function resizeFunc(elements, direction = 'br') {
     }
     const scalingAnchor = altKey
         ? { x: centerX, y: centerY }
-        : opposite;
+        : anchor;
     // console.log(scaleX, scaleY,scalingAnchor)
     elements.forEach((el) => {
         el.scaleFrom(scaleX, scaleY, scalingAnchor);
