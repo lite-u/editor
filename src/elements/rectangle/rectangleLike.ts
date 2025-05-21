@@ -150,8 +150,6 @@ class RectangleLike extends ElementBase {
       borderRadius,
       width,
       height,
-      // id,
-      // layer,
     } = this
     if (!borderRadius) {
       debugger
@@ -159,8 +157,6 @@ class RectangleLike extends ElementBase {
     }
     return {
       ...super.toJSON(),
-      // id,
-      // layer,
       borderRadius: [...borderRadius],
       width,
       height,
