@@ -49,12 +49,6 @@ class ElementLineSegment extends ElementBase {
     this.updatePath2D()
   }
 
-  protected get center(): Point {
-    const rect = this.getBoundingRect()
-
-    return {x: rect.cx, y: rect.cy}
-  }
-
   public get getPoints(): Point[] {
     return this.points.map(p => ({x: p.x, y: p.y}))
   }
@@ -71,7 +65,7 @@ class ElementLineSegment extends ElementBase {
     if (height <= 0) {
       height = 1
     }
-    // console.log(width, height)
+
     if (rotation === 0) {
       return generateBoundingRectFromRect({x, y, width, height})
     }
@@ -79,15 +73,23 @@ class ElementLineSegment extends ElementBase {
     return generateBoundingRectFromRotatedRect({x, y, width, height}, rotation)
   }
 
-  public getBoundingRect(): BoundingRect {
-    const [start, end] = this.points
+  public getBoundingRect(withoutRotation: boolean = false): BoundingRect {
+    const {cx, cy, points: [start, end], rotation} = this
 
-    return ElementLineSegment._getBoundingRect(start, end)
+    const aStart = {x: start.x + cx, y: start.y + cy}
+    const aEnd = {x: end.x + cx, y: end.y + cy}
+
+    const r = withoutRotation ? 0 : rotation
+
+    return ElementLineSegment._getBoundingRect(aStart, aEnd, r)
   }
 
   public getBoundingRectFromOriginal() {
-    const [start, end] = this.original.points
-    return ElementLineSegment._getBoundingRect(start, end)
+    const {cx, cy, points: [start, end], rotation} = this
+
+    const aStart = {x: start.x + cx, y: start.y + cy}
+    const aEnd = {x: end.x + cx, y: end.y + cy}
+    return ElementLineSegment._getBoundingRect(aStart, aEnd, rotation)
   }
 
   translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined {

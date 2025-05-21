@@ -40,7 +40,7 @@ declare class InteractionState {
     } | null;
     _rotateData: {
         startRotation: number;
-        snappedRotation: number;
+        snappedRotation?: number;
         targetPoint: {
             x: number;
             y: number;
