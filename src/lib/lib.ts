@@ -229,11 +229,7 @@ export const isEqual = (o1: string | number | object, o2: string | number | obje
   return false
 }
 
-export const getManipulationBox = (
-  rect: BoundingRect,
-  rotation: number,
-  ratio: number,
-): ElementInstance[] => {
+export const getManipulationBox = (rect: BoundingRect, rotation: number, ratio: number): ElementInstance[] => {
   const resizeLen = 20 / ratio
   const resizeStrokeWidth = 1 / ratio
   const rotateRadius = 50 / ratio
