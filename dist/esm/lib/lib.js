@@ -150,7 +150,6 @@ export const getManipulationBox = (rect, rotation, ratio) => {
     const resizeStrokeWidth = 1 / ratio;
     const rotateRadius = 50 / ratio;
     const { cx, cy, width, height } = rect;
-    const pointRadius = 15 / ratio;
     const arr = [
         { name: 'tl', dx: -0.5, dy: -0.5 },
         { name: 't', dx: 0.0, dy: 0.5 },
@@ -192,18 +191,5 @@ export const getManipulationBox = (rect, rotation, ratio) => {
         };
         result.push(new Rectangle(resizeHandleEleProp), new Ellipse(rotateHandleEleProp));
     });
-    const centerPoint = new Ellipse({
-        id: 'handle-move-center',
-        layer: 1,
-        type: 'ellipse',
-        r1: pointRadius,
-        r2: pointRadius,
-        cx,
-        cy,
-    });
-    centerPoint.stroke.enabled = false;
-    centerPoint.fill.enabled = true;
-    centerPoint.fill.color = 'orange';
-    result.push(centerPoint);
     return result;
 };

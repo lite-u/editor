@@ -145,8 +145,8 @@ class InteractionState {
         type: 'ellipse',
         r1: pointRadius,
         r2: pointRadius,
-        cx,
-        cy,
+        cx: ele.cx,
+        cy: ele.cy,
       })
       centerPoint.stroke.enabled = false
       centerPoint.fill.enabled = true
