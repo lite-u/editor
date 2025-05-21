@@ -18,7 +18,15 @@ class ElementShape extends ElementBase {
   public cx: number
   public cy: number
   gradient: Gradient
-  protected original: { cx: number; cy: number; rotation: number, points?: BezierPoint[], [key: string]: unknown }
+  protected original: {
+    cx: number;
+    cy: number;
+    rotation: number,
+    points?: BezierPoint[],
+    width?: number,
+    height?: number,
+    [key: string]: unknown
+  }
 
   constructor({
                 cx = DEFAULT_CX,

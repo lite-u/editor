@@ -3,6 +3,7 @@ import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } fro
 import ElementRectangle from './rectangle.js';
 import { DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../defaultProps.js';
 import { isEqual } from '../../lib/lib.js';
+import ElementBase from '../base/elementBase.js';
 class RectangleLike extends ElementShape {
     // id: string
     // layer: number

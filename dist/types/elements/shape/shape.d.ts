@@ -17,6 +17,8 @@ declare class ElementShape extends ElementBase {
         cy: number;
         rotation: number;
         points?: BezierPoint[];
+        width?: number;
+        height?: number;
         [key: string]: unknown;
     };
     constructor({ cx, cy, gradient, ...rest }: ShapeProps);
