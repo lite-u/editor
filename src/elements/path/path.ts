@@ -1,4 +1,3 @@
-import ElementBase, {ElementBaseProps} from '../base/elementBase'
 import {HANDLER_OFFSETS} from '../handleBasics'
 import {OperationHandler} from '~/services/selection/type'
 import ElementRectangle, {RectangleProps} from '../rectangle/rectangle'
@@ -27,15 +26,17 @@ class ElementPath extends ElementShape {
   // readonly layer: number
   readonly type = 'path'
   private points: BezierPoint[] = []
+  // private cx: number
+  // private cy: number
   closed: boolean
+
   // private original: { cx: number, cy: number, points: BezierPoint[], closed: boolean, rotation: number }
 
   constructor({points = [], closed = false, ...rest}: PathProps) {
     super(rest)
     this.points = deepClone(points)
     this.closed = closed
-    // console.log(this.points)
-    const rect = ElementPath._getBoundingRect(points)
+
     this.original = {
       ...this.original,
       closed,
