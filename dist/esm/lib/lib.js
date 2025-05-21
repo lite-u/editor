@@ -21,33 +21,55 @@ export function worldToScreen(point, offset, scale, dpr) {
         y: ((point.y * scale) + offset.y) / dpr,
     };
 }
-export const drawCrossLine = ({ ctx, mousePoint, scale, dpr, offset, virtualRect: { left: minX, top: minY, right: maxX, bottom: maxY }, }) => {
-    const textOffsetX = 10 / (dpr * scale);
-    const textOffsetY = 10 / (dpr * scale);
-    const { x, y } = screenToWorld(mousePoint, offset, scale, dpr);
-    const crossLineColor = '#ff0000';
-    const textColor = '#ff0000';
-    const textShadowColor = '#000';
-    ctx.save();
-    ctx.textBaseline = 'alphabetic';
-    ctx.font = `${24 / scale}px sans-serif`;
-    // ctx.setLineDash([3 * dpr * scale, 5 * dpr * scale])
-    ctx.fillStyle = textColor;
-    ctx.shadowColor = crossLineColor;
-    ctx.shadowBlur = 1;
-    ctx.fillText(`${Math.floor(x)}, ${Math.floor(y)}`, x + textOffsetX, y - textOffsetY, 200 / scale);
-    ctx.lineWidth = 2 / (dpr * scale);
-    ctx.strokeStyle = crossLineColor;
-    ctx.shadowColor = textShadowColor;
-    ctx.shadowBlur = 0;
-    ctx.beginPath();
-    ctx.moveTo(minX, y);
-    ctx.lineTo(maxX, y);
-    ctx.moveTo(x, minY);
-    ctx.lineTo(x, maxY);
-    ctx.stroke();
-    ctx.restore();
-};
+/*
+
+export const drawCrossLine = ({
+                                ctx,
+                                mousePoint,
+                                scale,
+                                dpr,
+                                offset,
+                                virtualRect: {left: minX, top: minY, right: maxX, bottom: maxY},
+                              }: DrawCrossLineProps): void => {
+  const textOffsetX = 10 / (dpr * scale)
+  const textOffsetY = 10 / (dpr * scale)
+  const {x, y} = screenToWorld(
+    mousePoint,
+    offset,
+    scale,
+    dpr,
+  )
+  const crossLineColor = '#ff0000'
+  const textColor = '#ff0000'
+  const textShadowColor = '#000'
+
+  ctx.save()
+  ctx.textBaseline = 'alphabetic'
+  ctx.font = `${24 / scale}px sans-serif`
+  // ctx.setLineDash([3 * dpr * scale, 5 * dpr * scale])
+  ctx.fillStyle = textColor
+  ctx.shadowColor = crossLineColor
+  ctx.shadowBlur = 1
+
+  ctx.fillText(
+    `${Math.floor(x)}, ${Math.floor(y)}`,
+    x + textOffsetX,
+    y - textOffsetY,
+    200 / scale,
+  )
+  ctx.lineWidth = 2 / (dpr * scale)
+  ctx.strokeStyle = crossLineColor
+  ctx.shadowColor = textShadowColor
+  ctx.shadowBlur = 0
+  ctx.beginPath()
+  ctx.moveTo(minX, y)
+  ctx.lineTo(maxX, y)
+  ctx.moveTo(x, minY)
+  ctx.lineTo(x, maxY)
+  ctx.stroke()
+  ctx.restore()
+}
+*/
 export const areSetsEqual = (setA, setB) => {
     if (setA.size !== setB.size)
         return false;
@@ -75,42 +97,6 @@ export function removeIntersectionAndMerge(setA, setB) {
     const uniqueB = new Set([...setB].filter(x => !intersection.has(x)));
     return new Set([...uniqueA, ...uniqueB]);
 }
-/*
-export function getResizeTransform(
-  name: ResizeDirectionName,
-  symmetric = false,
-): ResizeTransform {
-  const base = (() => {
-    switch (name) {
-      case 'tl':
-        return {dx: -1, dy: -1, cx: 0.5, cy: 0.5}
-      case 't':
-        return {dx: 0, dy: -1, cx: 0.0, cy: 0.5}
-      case 'tr':
-        return {dx: 1, dy: -1, cx: -0.5, cy: 0.5}
-      case 'r':
-        return {dx: 1, dy: 0, cx: -0.5, cy: 0.0}
-      case 'br':
-        return {dx: 1, dy: 1, cx: -0.5, cy: -0.5}
-      case 'b':
-        return {dx: 0, dy: 1, cx: 0.0, cy: -0.5}
-      case 'bl':
-        return {dx: -1, dy: 1, cx: 0.5, cy: -0.5}
-      case 'l':
-        return {dx: -1, dy: 0, cx: 0.5, cy: 0.0}
-      default:
-        throw new Error(`Unsupported resize handle: ${name}`)
-    }
-  })()
-
-  if (symmetric) {
-    // When resizing symmetrically, center should not move.
-    return {...base, cx: 0, cy: 0}
-  }
-
-  return base
-}
-*/
 export const deduplicateObjectsByKeyValue = (objects) => {
     if (!Array.isArray(objects))
         return [];
@@ -209,12 +195,12 @@ export const getManipulationBox = (rect, rotation, ratio) => {
         id: 'handle-move-center',
         layer: 1,
         type: 'ellipse',
-        r1: 2 / ratio,
-        r2: 2 / ratio,
+        r1: 4 / ratio,
+        r2: 4 / ratio,
         cx,
         cy,
     });
-    centerPoint.stroke.color = 'red';
+    centerPoint.stroke.color = 'orange';
     result.push(centerPoint);
     return result;
 };

@@ -23,6 +23,10 @@ function detectTool() {
             else if (id.includes('rotate')) {
                 interaction._hoveredRotateManipulator = mElements[i];
             }
+            else if (id.includes('move')) {
+                debugger;
+                interaction._hoveredRotateManipulator = mElements[i];
+            }
             break;
         }
     }

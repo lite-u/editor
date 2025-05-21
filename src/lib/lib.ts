@@ -19,10 +19,7 @@ export function screenToWorld(
   offset: Point,
   scale: number,
   dpr: DPR,
-): {
-  x: number;
-  y: number;
-} {
+): Point {
 
   return {
     x: (point.x * dpr - offset.x) / scale,
@@ -36,10 +33,7 @@ export function worldToScreen(
   offset: Point,
   scale: number,
   dpr: DPR,
-): {
-  x: number;
-  y: number;
-} {
+): Point {
 
   /*
   *
@@ -51,6 +45,8 @@ export function worldToScreen(
     y: ((point.y * scale) + offset.y) / dpr,
   }
 }
+
+/*
 
 export const drawCrossLine = ({
                                 ctx,
@@ -98,6 +94,7 @@ export const drawCrossLine = ({
   ctx.stroke()
   ctx.restore()
 }
+*/
 
 export const areSetsEqual = <T>(setA: Set<T>, setB: Set<T>): boolean => {
   if (setA.size !== setB.size) return false
@@ -131,43 +128,6 @@ export function removeIntersectionAndMerge(setA: Set<unknown>, setB: Set<unknown
 
   return new Set([...uniqueA, ...uniqueB])
 }
-
-/*
-export function getResizeTransform(
-  name: ResizeDirectionName,
-  symmetric = false,
-): ResizeTransform {
-  const base = (() => {
-    switch (name) {
-      case 'tl':
-        return {dx: -1, dy: -1, cx: 0.5, cy: 0.5}
-      case 't':
-        return {dx: 0, dy: -1, cx: 0.0, cy: 0.5}
-      case 'tr':
-        return {dx: 1, dy: -1, cx: -0.5, cy: 0.5}
-      case 'r':
-        return {dx: 1, dy: 0, cx: -0.5, cy: 0.0}
-      case 'br':
-        return {dx: 1, dy: 1, cx: -0.5, cy: -0.5}
-      case 'b':
-        return {dx: 0, dy: 1, cx: 0.0, cy: -0.5}
-      case 'bl':
-        return {dx: -1, dy: 1, cx: 0.5, cy: -0.5}
-      case 'l':
-        return {dx: -1, dy: 0, cx: 0.5, cy: 0.0}
-      default:
-        throw new Error(`Unsupported resize handle: ${name}`)
-    }
-  })()
-
-  if (symmetric) {
-    // When resizing symmetrically, center should not move.
-    return {...base, cx: 0, cy: 0}
-  }
-
-  return base
-}
-*/
 
 export const deduplicateObjectsByKeyValue = <T>(objects: T[]): T[] => {
   if (!Array.isArray(objects)) return []
@@ -289,12 +249,12 @@ export const getManipulationBox = (rect: {
     id: 'handle-move-center',
     layer: 1,
     type: 'ellipse',
-    r1: 2 / ratio,
-    r2: 2 / ratio,
+    r1: 4 / ratio,
+    r2: 4 / ratio,
     cx,
     cy,
   })
-  centerPoint.stroke.color = 'red'
+  centerPoint.stroke.color = 'orange'
   result.push(centerPoint)
 
   return result

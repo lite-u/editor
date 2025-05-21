@@ -1,5 +1,5 @@
 import { Point } from '~/type';
-import ElementBase from '~/elements/base/elementBase';
+import ElementBase, { ElementBaseProps } from '~/elements/base/elementBase';
 export interface EllipseProps extends ElementBaseProps {
     type?: 'ellipse';
     r1: number;

@@ -1,11 +1,9 @@
 import {generateBoundingRectFromRect, generateBoundingRectFromRotatedRect} from '~/core/utils'
 import {Point, Rect} from '~/type'
 import {rotatePointAroundPoint} from '~/core/geometry'
-import ElementBase from '~/elements/base/elementBase'
+import ElementBase, {ElementBaseProps} from '~/elements/base/elementBase'
 
 export interface EllipseProps extends ElementBaseProps {
-  // id: string
-  // layer: number
   type?: 'ellipse'
   r1: number
   r2: number
