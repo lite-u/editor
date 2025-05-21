@@ -1,7 +1,7 @@
 let _mouseMoved = false;
 const dragging = {
     cursor: 'drag',
-    mouseMove() {
+    mouseMove: function () {
         _mouseMoved = true;
         const { interaction, elementManager, selection } = this.editor;
         const { movementX, movementY } = interaction._modifier;
@@ -9,12 +9,8 @@ const dragging = {
         const dp = { x: movementX * dpr / scale, y: movementY * dpr / scale };
         const elements = elementManager.getElementsByIdSet(selection.values);
         interaction._outlineElement?.translate(dp.x, dp.y);
-        interaction._manipulationElements.forEach(ele => {
-            ele.translate(dp.x, dp.y);
-        });
-        elements.forEach(ele => {
-            ele.translate(dp.x, dp.y);
-        });
+        interaction._manipulationElements.forEach(ele => ele.translate(dp.x, dp.y));
+        elements.forEach(ele => ele.translate(dp.x, dp.y));
         this.editor.action.dispatch('render-overlay');
         this.editor.action.dispatch('render-elements');
     },
