@@ -10,7 +10,7 @@ import {
 } from '~/elements/defaultProps'
 import deepClone from '~/core/deepClone'
 import {isEqual} from '~/lib/lib'
-import {Fill, Shadow, Stroke, Transform} from '~/elements/props'
+import {Fill, Gradient, Shadow, Stroke, Transform} from '~/elements/props'
 
 export interface ElementBaseProps {
   id: UID,
@@ -22,6 +22,9 @@ export interface ElementBaseProps {
   rotation?: number
   transform?: Transform
   show?: boolean
+  cx?: number
+  cy?: number
+  gradient?: Gradient
 }
 
 export type RequiredBaseProps = Required<ElementBaseProps>

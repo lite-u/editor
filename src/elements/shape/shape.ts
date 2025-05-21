@@ -106,7 +106,6 @@ class ElementShape extends ElementBase {
     }
   }
 
-
   protected get center(): Point {
     return {x: this.cx, y: this.cy}
   }
