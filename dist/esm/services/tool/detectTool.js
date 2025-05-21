@@ -15,9 +15,10 @@ function detectTool() {
     for (let i = 0; i < mElements.length; i++) {
         const currMEle = mElements[i];
         const { path2D, id } = currMEle;
-        const f1 = ctx.isPointInStroke(path2D, viewPoint.x, viewPoint.y);
-        const f2 = ctx.isPointInPath(path2D, viewPoint.x, viewPoint.y);
-        if (f1 || f2) {
+        // const f1 = ctx.isPointInStroke(path2D, viewPoint.x, viewPoint.y)
+        // const f2 = ctx.isPointInPath(path2D, viewPoint.x, viewPoint.y)
+        const inside = ctx.isPointInPath(path2D, viewPoint.x, viewPoint.y);
+        if (inside) {
             // interaction._hoveredElement = elementManager.getElementById(currMEle._relatedId)
             console.log(id);
             if (id.includes('resize')) {
