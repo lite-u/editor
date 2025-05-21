@@ -138,6 +138,7 @@ class InteractionState {
     const rectsWithoutRotation: BoundingRect[] = []
 
     elements.forEach((ele: ElementInstance) => {
+      // debugger
       const clone = elementManager.create(ele.toMinimalJSON())
       const centerPoint = new Rectangle({
         id: 'handle-move-center' + ele.id,
