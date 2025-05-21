@@ -24,7 +24,7 @@ export type ToolType = {
   // keyDown: (this: ToolManager) => void
   // keyUp: (this: ToolManager) => void
 }
-export type SubToolType = Omit<ToolType, 'mouseDown'> & { cursor?: CursorName }
+export type SubToolType = Omit<ToolType, 'mouseDown' | 'cursor'> & { cursor?: CursorName }
 export type ToolName =
   'selector'
   | 'rectangle'

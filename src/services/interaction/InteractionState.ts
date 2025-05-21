@@ -153,13 +153,13 @@ class InteractionState {
       centerPoint.stroke.enabled = false
       centerPoint.fill.enabled = true
       centerPoint.fill.color = 'orange'
-      centerPoint._relatedId = ele.id
+      // centerPoint._relatedId = ele.id
 
       clone.fill.enabled = false
       clone.stroke.enabled = true
       clone.stroke.weight = 2 / scale
       clone.stroke.color = '#5491f8'
-      clone._relatedId = ele.id
+      // clone._relatedId = ele.id
 
       this._manipulationElements.push(clone, centerPoint)
 
