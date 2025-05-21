@@ -27,13 +27,14 @@ class ElementPath extends ElementBase {
   readonly type = 'path'
   private points: BezierPoint[] = []
   closed: boolean
-  private original: { points: BezierPoint[], closed: boolean, rotation: number }
+  private original: { cx: number, cy: number, points: BezierPoint[], closed: boolean, rotation: number }
 
   constructor({points = [], closed = false, ...rest}: PathProps) {
     super(rest)
     this.points = deepClone(points)
     this.closed = closed
     // console.log(this.points)
+    const rect = ElementPath._getBoundingRect(points)
     this.original = {
       closed,
       points: deepClone(points),
@@ -57,7 +58,8 @@ class ElementPath extends ElementBase {
     this.original.points = deepClone(this.points)
     this.original.closed = this.closed
     this.original.rotation = this.rotation
-    this.updatePath2D()
+    this.center =
+      this.updatePath2D()
   }
 
   get center(): Point {
