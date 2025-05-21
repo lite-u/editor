@@ -15,7 +15,7 @@ declare class ElementShape extends ElementBase {
     protected original: {
         cx: number;
         cy: number;
-        [key: string]: number;
+        [key: string]: unknown;
     };
     constructor({ cx, cy, gradient, ...rest }: ShapeProps);
     translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined;

@@ -1,6 +1,4 @@
-import { OperationHandler } from '~/services/selection/type';
 import { BoundingRect, Point } from '~/type';
-import { ElementProps } from '../type';
 import { BezierPoint } from '~/elements/props';
 import { HistoryChangeItem } from '~/services/actions/type';
 import ElementShape, { ShapeProps } from '~/elements/shape/shape';
@@ -28,17 +26,5 @@ declare class ElementPath extends ElementShape {
     getBoundingRect(withoutRotation?: boolean): BoundingRect;
     protected toJSON(): RequiredShapeProps;
     toMinimalJSON(): PathProps;
-    getOperators(id: string, resizeConfig: {
-        lineWidth: number;
-        lineColor: string;
-        size: number;
-        fillColor: string;
-    }, rotateConfig: {
-        lineWidth: number;
-        lineColor: string;
-        size: number;
-        fillColor: string;
-    }, boundingRect: BoundingRect, elementOrigin: ElementProps): OperationHandler[];
-    isInsideRect(outer: BoundingRect): boolean;
 }
 export default ElementPath;

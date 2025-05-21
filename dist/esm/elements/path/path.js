@@ -1,5 +1,5 @@
-import deepClone from '~/core/deepClone';
-import ElementShape from '~/elements/shape/shape';
+import deepClone from '../../core/deepClone.js';
+import ElementShape from '../shape/shape.js';
 class ElementPath extends ElementShape {
     // readonly id: UID
     // readonly layer: number
