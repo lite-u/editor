@@ -8,6 +8,7 @@ import {getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
 import {DEFAULT_STROKE} from '~/elements/defaultProps'
 import {getMinimalBoundingRect} from '~/core/utils'
 import Rectangle from '~/elements/rectangle/rectangle'
+import Ellipse from '~/elements/ellipse/ellipse'
 
 export type EditorManipulationType =
   | 'static'
@@ -119,6 +120,7 @@ class InteractionState {
     const {scale, dpr} = this.editor.world
     const ratio = scale * dpr
     const idSet = this.editor.selection.values
+    const pointRadius = 15 / ratio
 
     if (idSet.size <= 1) {
       this._outlineElement = null
@@ -137,6 +139,19 @@ class InteractionState {
 
     elements.forEach((ele: ElementInstance) => {
       const clone = elementManager.create(ele.toMinimalJSON())
+      const centerPoint = new Ellipse({
+        id: 'handle-move-center',
+        layer: 1,
+        type: 'ellipse',
+        r1: pointRadius,
+        r2: pointRadius,
+        cx,
+        cy,
+      })
+      centerPoint.stroke.enabled = false
+      centerPoint.fill.enabled = true
+      centerPoint.fill.color = 'orange'
+      this._manipulationElements.push(centerPoint)
 
       clone.fill.enabled = false
       clone.stroke.enabled = true

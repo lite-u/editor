@@ -27,7 +27,7 @@ function detectTool(this: ToolManager) {
       } else if (id.includes('rotate')) {
         interaction._hoveredRotateManipulator = mElements[i]
       } else if (id.includes('move')) {
-        interaction._hoveredElement = mElements[i]
+        // interaction._hoveredElement = mElements[i]
       }
       break
     }
