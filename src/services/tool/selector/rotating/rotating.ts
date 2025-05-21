@@ -1,6 +1,7 @@
 import ToolManager, {SubToolType} from '~/services/tool/toolManager'
 import {getRotateAngle} from '~/services/tool/selector/helper'
 import {HistoryChangeItem} from '~/services/actions/type'
+import selector from '~/services/tool/selector/selector'
 
 const rotating: SubToolType = {
   // cursor: 'default',
@@ -25,13 +26,13 @@ const rotating: SubToolType = {
     interaction._outlineElement?.rotateFrom(rotationDiff, targetPoint)
     interaction._manipulationElements.forEach(ele => ele.rotateFrom(rotationDiff, targetPoint))
     elements.forEach(ele => ele.rotateFrom(rotationDiff, targetPoint))
-    cursor.rotate(rotationDiff)
+    cursor.rotate(mouseCurrentRotation)
 
     this.editor.action.dispatch('render-overlay')
     this.editor.action.dispatch('render-elements')
   },
   mouseUp(this: ToolManager) {
-    const {interaction, elementManager, action, selection} = this.editor
+    const {interaction, elementManager, action, cursor, selection} = this.editor
     const elements = elementManager.getElementsByIdSet(selection.values)
 
     const changes: HistoryChangeItem[] = []
@@ -44,7 +45,7 @@ const rotating: SubToolType = {
     })
 
     // console.log(changes)
-
+    cursor.set(selector.cursor)
     action.dispatch('element-modified', changes)
 
     this.subTool = null

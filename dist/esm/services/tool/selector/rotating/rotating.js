@@ -1,4 +1,5 @@
 import { getRotateAngle } from '../helper.js';
+import selector from '../selector.js';
 const rotating = {
     // cursor: 'default',
     mouseMove: function () {
@@ -18,12 +19,12 @@ const rotating = {
         interaction._outlineElement?.rotateFrom(rotationDiff, targetPoint);
         interaction._manipulationElements.forEach(ele => ele.rotateFrom(rotationDiff, targetPoint));
         elements.forEach(ele => ele.rotateFrom(rotationDiff, targetPoint));
-        cursor.rotate(rotationDiff);
+        cursor.rotate(mouseCurrentRotation);
         this.editor.action.dispatch('render-overlay');
         this.editor.action.dispatch('render-elements');
     },
     mouseUp() {
-        const { interaction, elementManager, action, selection } = this.editor;
+        const { interaction, elementManager, action, cursor, selection } = this.editor;
         const elements = elementManager.getElementsByIdSet(selection.values);
         const changes = [];
         elements.forEach(ele => {
@@ -33,6 +34,7 @@ const rotating = {
             changes.push(change);
         });
         // console.log(changes)
+        cursor.set(selector.cursor);
         action.dispatch('element-modified', changes);
         this.subTool = null;
     },
