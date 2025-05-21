@@ -93,23 +93,11 @@ class InteractionState {
         const rectsWithRotation = [];
         const rectsWithoutRotation = [];
         elements.forEach((ele) => {
-            const center = ele.getCenter();
-            const centerPoint = this.editor.elementManager.create({
-                type: 'ellipse',
-                r1: 2 / ratio,
-                r2: 2 / ratio,
-                cx: center.x,
-                cy: center.y,
-            });
-            // ele.stroke.weight = 3 / ratio
-            // ele.stroke.color = lineColor
-            centerPoint.stroke.color = lineColor;
             const clone = elementManager.create(ele.toMinimalJSON());
             clone.fill.enabled = false;
             clone.stroke.enabled = true;
             clone.stroke.weight = 2 / scale;
             clone.stroke.color = '#5491f8';
-            this._manipulationElements.push(centerPoint);
             this._manipulationElements.push(clone);
             rotations.push(ele.rotation);
             rectsWithRotation.push(ele.getBoundingRect());
