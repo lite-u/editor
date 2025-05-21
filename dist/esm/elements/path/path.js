@@ -91,6 +91,41 @@ class ElementPath extends ElementBase {
             },
         };
     }
+    rotateFrom(rotation, anchor, f) {
+        if (rotation !== 0) {
+            const matrix = new DOMMatrix()
+                .translate(anchor.x, anchor.y)
+                .rotate(rotation)
+                .translate(-anchor.x, -anchor.y);
+            // const [oStart, oEnd] = this.original.points
+            // const newStart = this.transformPoint(oStart.x, oStart.y, matrix)
+            // const newEnd = this.transformPoint(oEnd.x, oEnd.y, matrix)
+            this.points = this.original.points.map(p => {
+                const anchor = this.transformPoint(p.anchor.x, p.anchor.y, matrix);
+                const cp1 = p.cp1 ? this.transformPoint(p.cp1.x, p.cp1.y, matrix) : undefined;
+                const cp2 = p.cp2 ? this.transformPoint(p.cp2.x, p.cp2.y, matrix) : undefined;
+                return { anchor, cp1, cp2 };
+            });
+            let newRotation = (this.original.rotation + rotation) % 360;
+            if (newRotation < 0)
+                newRotation += 360;
+            this.rotation = newRotation;
+            this.updatePath2D();
+        }
+        if (f) {
+            return {
+                id: this.id,
+                from: {
+                    points: deepClone(this.original.points),
+                    rotation: this.original.rotation,
+                },
+                to: {
+                    points: deepClone(this.points),
+                    rotation: this.rotation,
+                },
+            };
+        }
+    }
     scaleFrom(scaleX, scaleY, anchor) {
         /*// console.log(scaleX, scaleY, anchor)
         const matrix = new DOMMatrix()
