@@ -1,5 +1,5 @@
-import deepClone from '~/core/deepClone';
-import ElementShape from '~/elements/shape/shape';
+import deepClone from '../../core/deepClone.js';
+import ElementShape from '../shape/shape.js';
 class ElementPath extends ElementShape {
     // readonly id: UID
     // readonly layer: number
@@ -185,17 +185,34 @@ class ElementPath extends ElementShape {
         return { x, y, width, height, left, right, top, bottom, cx, cy };
     }
     getBoundingRectFromOriginal() {
-        const cx = this.original.cx;
-        const cy = this.original.cy;
-        const points = this.original.points?.map(p => ({
-            anchor: { x: p.anchor.x + cx, y: p.anchor.y + cy },
-            cp1: p.cp1 ? { x: p.cp1.x + cx, y: p.cp1.y + cy } : undefined,
-            cp2: p.cp2 ? { x: p.cp2.x + cx, y: p.cp2.y + cy } : undefined,
+        const { cx, cy, rotation, points } = this.original;
+        if (!points)
+            return [];
+        const matrix = new DOMMatrix()
+            .translate(cx, cy)
+            .rotate(rotation)
+            .translate(-cx, -cy);
+        const absolutePoints = points.map(p => ({
+            anchor: this.transformPoint(p.anchor.x + cx, p.anchor.y + cy, matrix),
+            cp1: p.cp1 ? this.transformPoint(p.cp1.x + cx, p.cp1.y + cy, matrix) : undefined,
+            cp2: p.cp2 ? this.transformPoint(p.cp2.x + cx, p.cp2.y + cy, matrix) : undefined,
         }));
-        return ElementPath._getBoundingRect(points);
+        return ElementPath._getBoundingRect(absolutePoints);
     }
     getBoundingRect(withoutRotation = false) {
-        return ElementPath._getBoundingRect(this.points);
+        const cx = this.original.cx;
+        const cy = this.original.cy;
+        if (this.original.points) {
+            const points = this.original.points?.map(p => ({
+                anchor: { x: p.anchor.x + cx, y: p.anchor.y + cy },
+                cp1: p.cp1 ? { x: p.cp1.x + cx, y: p.cp1.y + cy } : undefined,
+                cp2: p.cp2 ? { x: p.cp2.x + cx, y: p.cp2.y + cy } : undefined,
+            }));
+            return ElementPath._getBoundingRect(points);
+        }
+        else {
+            return [];
+        }
     }
     toJSON() {
         return {

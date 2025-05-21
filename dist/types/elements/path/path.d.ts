@@ -19,7 +19,7 @@ declare class ElementPath extends ElementShape {
     protected updatePath2D(): void;
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
     static _getBoundingRect(points: BezierPoint[]): BoundingRect;
-    getBoundingRectFromOriginal(): BoundingRect;
+    getBoundingRectFromOriginal(): never[] | BoundingRect;
     getBoundingRect(withoutRotation?: boolean): BoundingRect;
     protected toJSON(): RequiredShapeProps;
     toMinimalJSON(): PathProps;
