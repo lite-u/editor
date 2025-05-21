@@ -2,14 +2,9 @@ import deepClone from '../../core/deepClone.js';
 import ElementShape from '../shape/shape.js';
 import ElementBase from '../base/elementBase.js';
 class ElementPath extends ElementShape {
-    // readonly id: UID
-    // readonly layer: number
     type = 'path';
     points = [];
-    // private cx: number
-    // private cy: number
     closed;
-    // private original: { cx: number, cy: number, points: BezierPoint[], closed: boolean, rotation: number }
     constructor({ points = [], closed = false, ...rest }) {
         super(rest);
         this.points = deepClone(points);
@@ -38,12 +33,6 @@ class ElementPath extends ElementShape {
         this.original.closed = this.closed;
         this.original.rotation = this.rotation;
         this.updatePath2D();
-    }
-    get center() {
-        return {
-            x: this.cx,
-            y: this.cy,
-        };
     }
     get getPoints() {
         return this.points.map(p => ({ ...p.anchor }));
