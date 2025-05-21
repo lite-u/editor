@@ -30,7 +30,8 @@ const pencilTool = {
             closed: false,
         };
         action.dispatch('element-add', [eleProps]);
-        points.length = 0;
+        // console.log(points,_lastPoint)
+        _drawingPoints.length = 0;
         _lastPoint = null;
         interaction._ele = null;
         action.dispatch('clear-creation');

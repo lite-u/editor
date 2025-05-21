@@ -30,6 +30,8 @@ class ElementLineSegment extends ElementBase {
         this.path2D.lineTo(rotatedEnd.x, rotatedEnd.y);
     }
     updateOriginal() {
+        this.original.cx = this.cx;
+        this.original.cy = this.cy;
         this.original.points = deepClone(this.points);
         this.original.rotation = this.rotation;
         this.updatePath2D();
