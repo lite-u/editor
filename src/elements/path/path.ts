@@ -2,7 +2,6 @@ import {BoundingRect, Point} from '~/type'
 import {AnchorPoint, Appearance, Fill, Stroke, Transform} from '~/elements/defaultProps'
 import {BezierPoint} from '~/elements/props'
 import deepClone from '~/core/deepClone'
-import {HistoryChangeItem} from '~/services/actions/type'
 import ElementShape, {ShapeProps} from '~/elements/shape/shape'
 
 export interface PathProps extends ShapeProps {
@@ -119,56 +118,56 @@ class ElementPath extends ElementShape {
     }
   }
 
- /* rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined {
-    if (rotation !== 0) {
-      const rect = this.getBoundingRectFromOriginal()
-      const isSelfCenter = rect.cx.toFixed(2) === anchor.x.toFixed(2) && rect.cy.toFixed(2) === anchor.y.toFixed(2)
-      console.log(isSelfCenter)
+  /* rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined {
+     if (rotation !== 0) {
+       const rect = this.getBoundingRectFromOriginal()
+       const isSelfCenter = rect.cx.toFixed(2) === anchor.x.toFixed(2) && rect.cy.toFixed(2) === anchor.y.toFixed(2)
+       console.log(isSelfCenter)
 
-      if (isSelfCenter) {
-        let newRotation = (this.original.rotation + rotation) % 360
-        if (newRotation < 0) newRotation += 360
-        this.rotation = newRotation
-        console.log(this.rotation)
-      } else {
-        console.log(999)
-        const matrix = new DOMMatrix()
-          .translate(anchor.x, anchor.y)
-          .rotate(rotation - this.rotation)
-          .translate(-anchor.x, -anchor.y)
+       if (isSelfCenter) {
+         let newRotation = (this.original.rotation + rotation) % 360
+         if (newRotation < 0) newRotation += 360
+         this.rotation = newRotation
+         console.log(this.rotation)
+       } else {
+         console.log(999)
+         const matrix = new DOMMatrix()
+           .translate(anchor.x, anchor.y)
+           .rotate(rotation - this.rotation)
+           .translate(-anchor.x, -anchor.y)
 
-        this.points = this.original.points.map(p => {
-          const anchorPt = this.transformPoint(p.anchor.x + this.cx, p.anchor.y + this.cy, matrix)
-          const cp1 = p.cp1 ? this.transformPoint(p.cp1.x + this.cx, p.cp1.y + this.cy, matrix) : undefined
-          const cp2 = p.cp2 ? this.transformPoint(p.cp2.x + this.cx, p.cp2.y + this.cy, matrix) : undefined
-          return {
-            anchor: { x: anchorPt.x - this.cx, y: anchorPt.y - this.cy },
-            cp1: cp1 ? { x: cp1.x - this.cx, y: cp1.y - this.cy } : undefined,
-            cp2: cp2 ? { x: cp2.x - this.cx, y: cp2.y - this.cy } : undefined,
-          }
-        })
+         this.points = this.original.points.map(p => {
+           const anchorPt = this.transformPoint(p.anchor.x + this.cx, p.anchor.y + this.cy, matrix)
+           const cp1 = p.cp1 ? this.transformPoint(p.cp1.x + this.cx, p.cp1.y + this.cy, matrix) : undefined
+           const cp2 = p.cp2 ? this.transformPoint(p.cp2.x + this.cx, p.cp2.y + this.cy, matrix) : undefined
+           return {
+             anchor: { x: anchorPt.x - this.cx, y: anchorPt.y - this.cy },
+             cp1: cp1 ? { x: cp1.x - this.cx, y: cp1.y - this.cy } : undefined,
+             cp2: cp2 ? { x: cp2.x - this.cx, y: cp2.y - this.cy } : undefined,
+           }
+         })
 
-        this.rotation = 0
-      }
+         this.rotation = 0
+       }
 
-      this.updatePath2D()
-    }
+       this.updatePath2D()
+     }
 
-    if (f) {
-      return {
-        id: this.id,
-        from: {
-          points: deepClone(this.original.points),
-          rotation: this.original.rotation,
-        },
-        to: {
-          rotation: this.rotation,
-          points: deepClone(this.points),
-        },
-      }
-    }
-  }
-*/
+     if (f) {
+       return {
+         id: this.id,
+         from: {
+           points: deepClone(this.original.points),
+           rotation: this.original.rotation,
+         },
+         to: {
+           rotation: this.rotation,
+           points: deepClone(this.points),
+         },
+       }
+     }
+   }
+ */
   scaleFrom(scaleX: number, scaleY: number, anchor: Point) {
     /*// console.log(scaleX, scaleY, anchor)
     const matrix = new DOMMatrix()
@@ -228,6 +227,7 @@ class ElementPath extends ElementShape {
   }
 
   getBoundingRectFromOriginal() {
+
     return ElementPath._getBoundingRect(this.original.points)
   }
 
