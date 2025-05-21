@@ -7,6 +7,7 @@ import {ToolName} from '~/services/tool/toolManager'
 import {getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
 import {DEFAULT_STROKE} from '~/elements/defaultProps'
 import {getMinimalBoundingRect} from '~/core/utils'
+import Rectangle from '~/elements/rectangle/rectangle'
 
 export type EditorManipulationType =
   | 'static'
@@ -161,7 +162,9 @@ class InteractionState {
       this._manipulationElements.push(...getManipulationBox(rect, 0, ratio))
     }
 
-    this._outlineElement = this.editor.elementManager.create({
+    this._outlineElement = new Rectangle({
+      id: 'selected-elements-outline',
+      layer: 0,
       type: 'rectangle',
       ...rect,
       rotation: applyRotation,
