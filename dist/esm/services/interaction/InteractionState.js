@@ -81,7 +81,7 @@ class InteractionState {
         const ratio = scale * dpr;
         const idSet = this.editor.selection.values;
         const pointLen = 20 / ratio;
-        const pointRadius = pointLen / 2;
+        // const pointRadius = pointLen / 2
         if (idSet.size <= 1) {
             this._outlineElement = null;
         }
@@ -97,7 +97,7 @@ class InteractionState {
         elements.forEach((ele) => {
             const clone = elementManager.create(ele.toMinimalJSON());
             const centerPoint = new Rectangle({
-                id: 'handle-move-center',
+                id: 'handle-move-center' + ele.id,
                 layer: 1,
                 type: 'rectangle',
                 width: pointLen,

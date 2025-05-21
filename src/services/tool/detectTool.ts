@@ -26,8 +26,11 @@ function detectTool(this: ToolManager) {
         interaction._hoveredResizeManipulator = mElements[i]
       } else if (id.includes('rotate')) {
         interaction._hoveredRotateManipulator = mElements[i]
-      } else if (id.includes('move')) {
-        // interaction._hoveredElement = mElements[i]
+      } else if (id.includes('handle-move-center')) {
+        // const eleId = id.replace('handle-move-center-', '')
+        // const ele = this.editor.elementManager.getElementById(eleId)
+
+        // interaction._hoveredElement = ele
       }
       break
     }
