@@ -1,21 +1,18 @@
-import { HANDLER_OFFSETS } from '../handleBasics.js';
-import ElementRectangle from '../rectangle/rectangle.js';
-import { rotatePointAroundPoint } from '../../core/geometry.js';
-import deepClone from '../../core/deepClone.js';
-import ElementShape from '../shape/shape.js';
+import deepClone from '~/core/deepClone';
+import ElementShape from '~/elements/shape/shape';
 class ElementPath extends ElementShape {
     // readonly id: UID
     // readonly layer: number
     type = 'path';
     points = [];
+    // private cx: number
+    // private cy: number
     closed;
     // private original: { cx: number, cy: number, points: BezierPoint[], closed: boolean, rotation: number }
     constructor({ points = [], closed = false, ...rest }) {
         super(rest);
         this.points = deepClone(points);
         this.closed = closed;
-        // console.log(this.points)
-        const rect = ElementPath._getBoundingRect(points);
         this.original = {
             ...this.original,
             closed,
@@ -34,6 +31,8 @@ class ElementPath extends ElementShape {
         };
     }
     updateOriginal() {
+        this.original.cx = deepClone(this.cx);
+        this.original.cy = deepClone(this.cy);
         this.original.points = deepClone(this.points);
         this.original.closed = this.closed;
         this.original.rotation = this.rotation;
@@ -206,8 +205,6 @@ class ElementPath extends ElementShape {
     }
     toJSON() {
         return {
-            // id: this.id,
-            // layer: this.layer,
             type: this.type,
             points: this.points,
             closed: this.closed,
@@ -216,76 +213,11 @@ class ElementPath extends ElementShape {
     }
     toMinimalJSON() {
         return {
-            // id: this.id,
-            // layer: this.layer,
             type: this.type,
             points: this.points,
             closed: this.closed,
             ...super.toMinimalJSON(),
         };
-    }
-    getOperators(id, resizeConfig, rotateConfig, boundingRect, elementOrigin) {
-        const { x: cx, y: cy, width, height } = boundingRect;
-        // const id = this.id
-        const { rotation } = this;
-        const handlers = HANDLER_OFFSETS.map((OFFSET, index) => {
-            // Calculate the handle position in local coordinates
-            const currentCenterX = cx - width / 2 + OFFSET.x * width;
-            const currentCenterY = cy - height / 2 + OFFSET.y * height;
-            const currentElementProps = {
-                id: '',
-                layer: 0,
-                // width: 0,
-                // height: 0,
-                // x: currentCenterX,
-                // y: currentCenterY,
-                // lineColor: '',
-                // lineWidth: 0,
-                rotation,
-            };
-            // let cursor: ResizeCursor = OFFSET.cursor as ResizeCursor
-            if (OFFSET.type === 'resize') {
-                const rotated = rotatePointAroundPoint(currentCenterX, currentCenterY, cx, cy, rotation);
-                // cursor = getCursor(rotated.x, rotated.y, cx, cy, rotation)
-                currentElementProps.id = index + '-resize';
-                currentElementProps.cx = rotated.x;
-                currentElementProps.cy = rotated.y;
-                currentElementProps.width = resizeConfig.size;
-                currentElementProps.height = resizeConfig.size;
-                currentElementProps.lineWidth = resizeConfig.lineWidth;
-                currentElementProps.lineColor = resizeConfig.lineColor;
-                currentElementProps.fillColor = resizeConfig.fillColor;
-            }
-            else if (OFFSET.type === 'rotate') {
-                const currentRotateHandlerCenterX = currentCenterX + OFFSET.offsetX * resizeConfig.lineWidth;
-                const currentRotateHandlerCenterY = currentCenterY + OFFSET.offsetY * resizeConfig.lineWidth;
-                const rotated = rotatePointAroundPoint(currentRotateHandlerCenterX, currentRotateHandlerCenterY, cx, cy, rotation);
-                currentElementProps.id = index + '-rotate';
-                currentElementProps.cx = rotated.x;
-                currentElementProps.cy = rotated.y;
-                currentElementProps.width = rotateConfig.size;
-                currentElementProps.height = rotateConfig.size;
-                currentElementProps.lineWidth = rotateConfig.lineWidth;
-                currentElementProps.lineColor = rotateConfig.lineColor;
-                currentElementProps.fillColor = rotateConfig.fillColor;
-            }
-            return {
-                id: `${id}`,
-                type: OFFSET.type,
-                name: OFFSET.name,
-                // cursor,
-                elementOrigin,
-                element: new ElementRectangle(currentElementProps),
-            };
-        });
-        return handlers;
-    }
-    isInsideRect(outer) {
-        const inner = this.getBoundingRect();
-        return (inner.left >= outer.left &&
-            inner.right <= outer.right &&
-            inner.top >= outer.top &&
-            inner.bottom <= outer.bottom);
     }
 }
 export default ElementPath;
