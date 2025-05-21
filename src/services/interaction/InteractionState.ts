@@ -184,20 +184,19 @@ class InteractionState {
       this._manipulationElements.push(...getManipulationBox(rect, 0, ratio, specialLineSeg))
     }
 
-    if (!specialLineSeg) {
-      this._outlineElement = new Rectangle({
-        id: 'selected-elements-outline',
-        layer: 0,
-        type: 'rectangle',
-        ...rect,
-        rotation: applyRotation,
-        stroke: {
-          ...DEFAULT_STROKE,
-          weight: 2 / scale,
-          color: '#5491f8',
-        },
-      })
-    }
+    this._outlineElement = new Rectangle({
+      id: 'selected-elements-outline',
+      layer: 0,
+      show: !specialLineSeg,
+      type: 'rectangle',
+      ...rect,
+      rotation: applyRotation,
+      stroke: {
+        ...DEFAULT_STROKE,
+        weight: 2 / scale,
+        color: '#5491f8',
+      },
+    })
   }
 
   destroy() {
