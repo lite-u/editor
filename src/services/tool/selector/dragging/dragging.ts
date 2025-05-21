@@ -11,8 +11,6 @@ const dragging: SubToolType = {
     const dp = {x: movementX * dpr / scale, y: movementY * dpr / scale}
     const elements = elementManager.getElementsByIdSet(selection.values)
 
-    // this.editor.action.dispatch('element-moving', {delta: dp})
-
     interaction._outlineElement?.translate(dp.x, dp.y)
     interaction._manipulationElements.forEach(ele => {
       ele.translate(dp.x, dp.y)
