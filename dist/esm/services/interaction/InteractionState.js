@@ -1,8 +1,8 @@
-import { createWith, getManipulationBox } from '../../lib/lib.js';
-import { getBoundingRectFromBoundingRects } from '../tool/resize/helper.js';
-import { DEFAULT_STROKE } from '../../elements/defaultProps.js';
-import { getMinimalBoundingRect } from '../../core/utils.js';
-import Rectangle from '../../elements/rectangle/rectangle.js';
+import { createWith, getManipulationBox } from '~/lib/lib';
+import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
+import { DEFAULT_STROKE } from '~/elements/defaultProps';
+import { getMinimalBoundingRect } from '~/core/utils';
+import Rectangle from '~/elements/rectangle/rectangle';
 class InteractionState {
     editor;
     state = 'static';
@@ -98,7 +98,7 @@ class InteractionState {
             // debugger
             const clone = elementManager.create(ele.toMinimalJSON());
             const centerPoint = new Rectangle({
-                id: 'handle-move-center' + ele.id,
+                id: 'handle-move-center',
                 layer: 1,
                 type: 'rectangle',
                 width: pointLen,
@@ -109,12 +109,13 @@ class InteractionState {
             centerPoint.stroke.enabled = false;
             centerPoint.fill.enabled = true;
             centerPoint.fill.color = 'orange';
-            this._manipulationElements.push(centerPoint);
+            centerPoint._relatedId = ele.id;
             clone.fill.enabled = false;
             clone.stroke.enabled = true;
             clone.stroke.weight = 2 / scale;
             clone.stroke.color = '#5491f8';
-            this._manipulationElements.push(clone);
+            clone._relatedId = ele.id;
+            this._manipulationElements.push(clone, centerPoint);
             rotations.push(ele.rotation);
             rectsWithRotation.push(ele.getBoundingRect());
             rectsWithoutRotation.push(ele.getBoundingRect(true));

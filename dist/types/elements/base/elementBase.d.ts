@@ -43,6 +43,7 @@ declare class ElementBase {
         closed?: boolean;
         [key: string]: unknown;
     };
+    _relatedId: string;
     constructor({ id, layer, cx, cy, gradient, stroke, fill, opacity, shadow, rotation, transform, show, }: ElementBaseProps);
     static transformPoint(x: number, y: number, matrix: DOMMatrix): Point;
     protected translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined;

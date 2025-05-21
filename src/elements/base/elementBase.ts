@@ -60,6 +60,7 @@ class ElementBase {
     closed?: boolean,
     [key: string]: unknown
   }
+  public _relatedId: string
 
   constructor({
                 id,

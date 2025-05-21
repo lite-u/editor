@@ -18,6 +18,7 @@ class ElementBase {
     matrix = new DOMMatrix();
     path2D = new Path2D();
     original;
+    _relatedId;
     constructor({ id, layer, cx = DEFAULT_CX, cy = DEFAULT_CY, gradient = DEFAULT_GRADIENT, stroke = deepClone(DEFAULT_STROKE), fill = deepClone(DEFAULT_FILL), opacity = deepClone(DEFAULT_OPACITY), shadow = deepClone(DEFAULT_SHADOW), rotation = deepClone(DEFAULT_ROTATION), transform = deepClone(DEFAULT_TRANSFORM), show = true, }) {
         this.id = id;
         this.layer = layer;

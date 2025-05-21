@@ -2,7 +2,7 @@ import ToolManager from '~/services/tool/toolManager'
 import {isPointNearStroke2} from '~/services/tool/helper'
 
 function detectTool(this: ToolManager) {
-  const {interaction, world, visible} = this.editor
+  const {interaction, world, visible, elementManager} = this.editor
   const {baseCanvasContext: ctx, scale, dpr} = world
   const {x, y} = interaction.mouseCurrent
   const viewPoint = {
@@ -17,20 +17,21 @@ function detectTool(this: ToolManager) {
   interaction._hoveredRotateManipulator = null
 
   for (let i = 0; i < mElements.length; i++) {
-    const {path2D, id} = mElements[i]
+    const currMEle = mElements[i]
+    const {path2D, id} = currMEle
     const f1 = ctx.isPointInStroke(path2D, viewPoint.x, viewPoint.y)
     const f2 = ctx.isPointInPath(path2D, viewPoint.x, viewPoint.y)
 
     if (f1 || f2) {
-      if (id.includes('resize')) {
-        interaction._hoveredResizeManipulator = mElements[i]
-      } else if (id.includes('rotate')) {
-        interaction._hoveredRotateManipulator = mElements[i]
-      } else if (id.includes('handle-move-center')) {
-        // const eleId = id.replace('handle-move-center-', '')
-        // const ele = this.editor.elementManager.getElementById(eleId)
+      console.log(currMEle._relatedId)
+      interaction._hoveredElement = elementManager.getElementById(currMEle._relatedId)
 
-        // interaction._hoveredElement = ele
+      if (id.includes('resize')) {
+        interaction._hoveredResizeManipulator = currMEle
+      } else if (id.includes('rotate')) {
+        interaction._hoveredRotateManipulator = currMEle
+      } else if (id.includes('handle-move-center')) {
+
       }
       break
     }

@@ -141,7 +141,7 @@ class InteractionState {
       // debugger
       const clone = elementManager.create(ele.toMinimalJSON())
       const centerPoint = new Rectangle({
-        id: 'handle-move-center' + ele.id,
+        id: 'handle-move-center',
         layer: 1,
         type: 'rectangle',
         width: pointLen,
@@ -152,14 +152,15 @@ class InteractionState {
       centerPoint.stroke.enabled = false
       centerPoint.fill.enabled = true
       centerPoint.fill.color = 'orange'
-      this._manipulationElements.push(centerPoint)
+      centerPoint._relatedId = ele.id
 
       clone.fill.enabled = false
       clone.stroke.enabled = true
       clone.stroke.weight = 2 / scale
       clone.stroke.color = '#5491f8'
+      clone._relatedId = ele.id
 
-      this._manipulationElements.push(clone)
+      this._manipulationElements.push(clone, centerPoint)
 
       rotations.push(ele.rotation)
       rectsWithRotation.push(ele.getBoundingRect())

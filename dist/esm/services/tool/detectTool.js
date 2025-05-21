@@ -1,6 +1,6 @@
 import { isPointNearStroke2 } from './helper.js';
 function detectTool() {
-    const { interaction, world, visible } = this.editor;
+    const { interaction, world, visible, elementManager } = this.editor;
     const { baseCanvasContext: ctx, scale, dpr } = world;
     const { x, y } = interaction.mouseCurrent;
     const viewPoint = {
@@ -13,20 +13,20 @@ function detectTool() {
     interaction._hoveredResizeManipulator = null;
     interaction._hoveredRotateManipulator = null;
     for (let i = 0; i < mElements.length; i++) {
-        const { path2D, id } = mElements[i];
+        const currMEle = mElements[i];
+        const { path2D, id } = currMEle;
         const f1 = ctx.isPointInStroke(path2D, viewPoint.x, viewPoint.y);
         const f2 = ctx.isPointInPath(path2D, viewPoint.x, viewPoint.y);
         if (f1 || f2) {
+            console.log(currMEle._relatedId);
+            interaction._hoveredElement = elementManager.getElementById(currMEle._relatedId);
             if (id.includes('resize')) {
-                interaction._hoveredResizeManipulator = mElements[i];
+                interaction._hoveredResizeManipulator = currMEle;
             }
             else if (id.includes('rotate')) {
-                interaction._hoveredRotateManipulator = mElements[i];
+                interaction._hoveredRotateManipulator = currMEle;
             }
             else if (id.includes('handle-move-center')) {
-                // const eleId = id.replace('handle-move-center-', '')
-                // const ele = this.editor.elementManager.getElementById(eleId)
-                // interaction._hoveredElement = ele
             }
             break;
         }
