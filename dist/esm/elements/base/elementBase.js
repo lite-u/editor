@@ -78,7 +78,9 @@ class ElementBase {
     }
     updatePath2D() { }
     restore(props) {
+        // debugger
         Object.assign(this, props);
+        Object.assign(this.original, props);
         this.updatePath2D();
     }
     getTransformedPoints() {

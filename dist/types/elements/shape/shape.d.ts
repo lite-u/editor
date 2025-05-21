@@ -21,6 +21,7 @@ declare class ElementShape extends ElementBase {
         height?: number;
         r1?: number;
         r2?: number;
+        closed?: boolean;
         [key: string]: unknown;
     };
     constructor({ cx, cy, gradient, ...rest }: ShapeProps);
