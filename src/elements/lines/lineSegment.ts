@@ -32,15 +32,23 @@ class ElementLineSegment extends ElementBase {
   }
 
   protected updatePath2D() {
+    const { cx, cy, rotation } = this
     const [start, end] = this.points
-    const startX = start.x + this.cx
-    const startY = start.y + this.cy
-    const endX = end.x + this.cx
-    const endY = end.y + this.cy
+
+    const absStart = { x: start.x + cx, y: start.y + cy }
+    const absEnd = { x: end.x + cx, y: end.y + cy }
+
+    const matrix = new DOMMatrix()
+      .translate(cx, cy)
+      .rotate(rotation)
+      .translate(-cx, -cy)
+
+    const rotatedStart = ElementBase.transformPoint(absStart.x, absStart.y, matrix)
+    const rotatedEnd = ElementBase.transformPoint(absEnd.x, absEnd.y, matrix)
 
     this.path2D = new Path2D()
-    this.path2D.moveTo(startX, startY)
-    this.path2D.lineTo(endX, endY)
+    this.path2D.moveTo(rotatedStart.x, rotatedStart.y)
+    this.path2D.lineTo(rotatedEnd.x, rotatedEnd.y)
   }
 
   protected updateOriginal() {

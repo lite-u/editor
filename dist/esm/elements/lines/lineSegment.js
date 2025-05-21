@@ -15,23 +15,24 @@ class ElementLineSegment extends ElementBase {
         this.updatePath2D();
     }
     updatePath2D() {
+        const { cx, cy, rotation } = this;
         const [start, end] = this.points;
-        const startX = start.x + this.cx;
-        const startY = start.y + this.cy;
-        const endX = end.x + this.cx;
-        const endY = end.y + this.cy;
+        const absStart = { x: start.x + cx, y: start.y + cy };
+        const absEnd = { x: end.x + cx, y: end.y + cy };
+        const matrix = new DOMMatrix()
+            .translate(cx, cy)
+            .rotate(rotation)
+            .translate(-cx, -cy);
+        const rotatedStart = ElementBase.transformPoint(absStart.x, absStart.y, matrix);
+        const rotatedEnd = ElementBase.transformPoint(absEnd.x, absEnd.y, matrix);
         this.path2D = new Path2D();
-        this.path2D.moveTo(startX, startY);
-        this.path2D.lineTo(endX, endY);
+        this.path2D.moveTo(rotatedStart.x, rotatedStart.y);
+        this.path2D.lineTo(rotatedEnd.x, rotatedEnd.y);
     }
     updateOriginal() {
         this.original.points = deepClone(this.points);
         this.original.rotation = this.rotation;
         this.updatePath2D();
-    }
-    get center() {
-        const rect = this.getBoundingRect();
-        return { x: rect.cx, y: rect.cy };
     }
     get getPoints() {
         return this.points.map(p => ({ x: p.x, y: p.y }));
@@ -47,19 +48,23 @@ class ElementLineSegment extends ElementBase {
         if (height <= 0) {
             height = 1;
         }
-        // console.log(width, height)
         if (rotation === 0) {
             return generateBoundingRectFromRect({ x, y, width, height });
         }
         return generateBoundingRectFromRotatedRect({ x, y, width, height }, rotation);
     }
-    getBoundingRect() {
-        const [start, end] = this.points;
-        return ElementLineSegment._getBoundingRect(start, end);
+    getBoundingRect(withoutRotation = false) {
+        const { cx, cy, points: [start, end], rotation } = this;
+        const aStart = { x: start.x + cx, y: start.y + cy };
+        const aEnd = { x: end.x + cx, y: end.y + cy };
+        const r = withoutRotation ? 0 : rotation;
+        return ElementLineSegment._getBoundingRect(aStart, aEnd, r);
     }
     getBoundingRectFromOriginal() {
-        const [start, end] = this.original.points;
-        return ElementLineSegment._getBoundingRect(start, end);
+        const { cx, cy, points: [start, end], rotation } = this;
+        const aStart = { x: start.x + cx, y: start.y + cy };
+        const aEnd = { x: end.x + cx, y: end.y + cy };
+        return ElementLineSegment._getBoundingRect(aStart, aEnd, rotation);
     }
     translate(dx, dy, f) {
         this.points.forEach((point) => {

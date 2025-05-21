@@ -16,10 +16,9 @@ declare class ElementLineSegment extends ElementBase {
     constructor({ points, ...rest }: LineSegmentProps);
     protected updatePath2D(): void;
     protected updateOriginal(): void;
-    protected get center(): Point;
     get getPoints(): Point[];
     static _getBoundingRect(start: Point, end: Point, rotation?: number): BoundingRect;
-    getBoundingRect(): BoundingRect;
+    getBoundingRect(withoutRotation?: boolean): BoundingRect;
     getBoundingRectFromOriginal(): BoundingRect;
     translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined;
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
