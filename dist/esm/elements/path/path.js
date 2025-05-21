@@ -185,34 +185,34 @@ class ElementPath extends ElementShape {
         return { x, y, width, height, left, right, top, bottom, cx, cy };
     }
     getBoundingRectFromOriginal() {
-        const { cx, cy, rotation, points } = this.original;
-        if (!points)
+        const { cx, cy, rotation } = this.original;
+        if (!this.original.points)
             return [];
         const matrix = new DOMMatrix()
             .translate(cx, cy)
             .rotate(rotation)
             .translate(-cx, -cy);
-        const absolutePoints = points.map(p => ({
+        const points = this.original.points.map(p => ({
             anchor: this.transformPoint(p.anchor.x + cx, p.anchor.y + cy, matrix),
             cp1: p.cp1 ? this.transformPoint(p.cp1.x + cx, p.cp1.y + cy, matrix) : undefined,
             cp2: p.cp2 ? this.transformPoint(p.cp2.x + cx, p.cp2.y + cy, matrix) : undefined,
         }));
-        return ElementPath._getBoundingRect(absolutePoints);
+        return ElementPath._getBoundingRect(points);
     }
     getBoundingRect(withoutRotation = false) {
-        const cx = this.original.cx;
-        const cy = this.original.cy;
-        if (this.original.points) {
-            const points = this.original.points?.map(p => ({
-                anchor: { x: p.anchor.x + cx, y: p.anchor.y + cy },
-                cp1: p.cp1 ? { x: p.cp1.x + cx, y: p.cp1.y + cy } : undefined,
-                cp2: p.cp2 ? { x: p.cp2.x + cx, y: p.cp2.y + cy } : undefined,
-            }));
-            return ElementPath._getBoundingRect(points);
-        }
-        else {
-            return [];
-        }
+        const cx = this.cx;
+        const cy = this.cy;
+        const rotation = withoutRotation ? 0 : this.rotation;
+        const matrix = new DOMMatrix()
+            .translate(cx, cy)
+            .rotate(rotation)
+            .translate(-cx, -cy);
+        const points = this.points.map(p => ({
+            anchor: this.transformPoint(p.anchor.x + cx, p.anchor.y + cy, matrix),
+            cp1: p.cp1 ? this.transformPoint(p.cp1.x + cx, p.cp1.y + cy, matrix) : undefined,
+            cp2: p.cp2 ? this.transformPoint(p.cp2.x + cx, p.cp2.y + cy, matrix) : undefined,
+        }));
+        return ElementPath._getBoundingRect(points);
     }
     toJSON() {
         return {
