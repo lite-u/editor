@@ -17,8 +17,6 @@ class ElementLineSegment extends ElementBase {
   readonly type = 'lineSegment'
   private points: [{ id: 'start' } & Point, { id: 'end' } & Point]
 
-  // private original: { points: [{ id: 'start' } & Point, { id: 'end' } & Point], rotation: number }
-
   constructor({
                 points,
                 ...rest

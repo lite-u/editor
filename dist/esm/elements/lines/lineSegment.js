@@ -4,7 +4,6 @@ import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } fro
 class ElementLineSegment extends ElementBase {
     type = 'lineSegment';
     points;
-    // private original: { points: [{ id: 'start' } & Point, { id: 'end' } & Point], rotation: number }
     constructor({ points, ...rest }) {
         super(rest);
         this.points = points;
