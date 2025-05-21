@@ -2,7 +2,7 @@ import {OperationHandler} from '~/services/selection/type'
 import {BoundingRect, Point, Rect, UID} from '~/type'
 import {createWith, getManipulationBox} from '~/lib/lib'
 import Editor from '~/main/editor'
-import {ElementInstance} from '~/elements/type'
+import {ElementInstance, OptionalIdentifiersProps} from '~/elements/type'
 import {ToolName} from '~/services/tool/toolManager'
 import {getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
 import {DEFAULT_STROKE} from '~/elements/defaultProps'
@@ -118,6 +118,7 @@ class InteractionState {
     const {scale, dpr} = this.editor.world
     const ratio = scale * dpr
     const idSet = this.editor.selection.values
+    const lineColor = '#435fb9'
 
     if (idSet.size <= 1) {
       this._outlineElement = null
@@ -135,6 +136,18 @@ class InteractionState {
     const rectsWithoutRotation: BoundingRect[] = []
 
     elements.forEach((ele: ElementInstance) => {
+      const center = ele.getCenter()
+      const centerPoint = this.editor.elementManager.create({
+        type: 'ellipse',
+        r1: 2 / ratio,
+        r2: 2 / ratio,
+        cx: center.x,
+        cy: center.y,
+      } as OptionalIdentifiersProps)
+
+      // ele.stroke.weight = 3 / ratio
+      // ele.stroke.color = lineColor
+      centerPoint.stroke.color = lineColor
       const clone = elementManager.create(ele.toMinimalJSON())
 
       clone.fill.enabled = false
@@ -142,6 +155,7 @@ class InteractionState {
       clone.stroke.weight = 2 / scale
       clone.stroke.color = '#5491f8'
 
+      this._manipulationElements.push(centerPoint)
       this._manipulationElements.push(clone)
 
       rotations.push(ele.rotation)
