@@ -4,8 +4,10 @@ import ElementPath from '~/elements/path/path'
 
 export function convertPointsToBezierPoints(points: Point[], tension = 0.3): { center: Point, points: BezierPoint[], closed: boolean } {
   const filtered: Point[] = []
-  const threshold = 20
+  const offsetThreshold = 2
+  const closeThreshold = 20
 
+  // filter minor movements
   for (let i = 0; i < points.length; i++) {
     if (i === 0) {
       filtered.push(points[i])
@@ -13,7 +15,7 @@ export function convertPointsToBezierPoints(points: Point[], tension = 0.3): { c
       const prev = filtered[filtered.length - 1]
       const dx = points[i].x - prev.x
       const dy = points[i].y - prev.y
-      if (Math.hypot(dx, dy) >= threshold) {
+      if (Math.hypot(dx, dy) >= offsetThreshold) {
         filtered.push(points[i])
       }
     }
@@ -66,7 +68,7 @@ export function convertPointsToBezierPoints(points: Point[], tension = 0.3): { c
   // console.log(rect)
 
   const isClosed = bezierPoints.length > 2 &&
-    Math.hypot(bezierPoints[0].anchor.x - bezierPoints[bezierPoints.length - 1].anchor.x, bezierPoints[0].anchor.y - bezierPoints[bezierPoints.length - 1].anchor.y) < threshold;
+    Math.hypot(bezierPoints[0].anchor.x - bezierPoints[bezierPoints.length - 1].anchor.x, bezierPoints[0].anchor.y - bezierPoints[bezierPoints.length - 1].anchor.y) < closeThreshold;
 
   return {
     center,
