@@ -1,5 +1,5 @@
 import {generateBoundingRectFromRect, generateBoundingRectFromRotatedRect} from '~/core/utils'
-import {Point, Rect} from '~/type'
+import {Point, Rect, UID} from '~/type'
 import {rotatePointAroundPoint} from '~/core/geometry'
 import ElementBase, {ElementBaseProps} from '~/elements/base/elementBase'
 
@@ -33,6 +33,11 @@ class ElementEllipse extends ElementBase {
       r2: this.r1,
     }
     this.updatePath2D()
+  }
+
+  static create(id: UID, cx: number, cy: number, r1: number = 1, r2?: number): ElementEllipse {
+    // const _r2 = r2 || r1
+    return new ElementEllipse({id, cx, cy, r1, r2: r2 || r1, layer: 0})
   }
 
   get getPoints(): Point[] {
