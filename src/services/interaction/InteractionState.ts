@@ -211,20 +211,12 @@ class InteractionState {
       points.forEach((point, index) => {
         const aPX = point.anchor.x
         const aPY = point.anchor.y
+        const id = ele.id + '-anchor-' + index
+        const anchorPoint = ElementRectangle.create(id, aPX, aPY, pointLen)
 
-        const anchorPoint = new ElementRectangle({
-          id: ele.id + '-anchor-' + index,
-          layer: 1,
-          cx: aPX,
-          cy: aPY,
-          width: pointLen,
-          height: pointLen,
-          fill: {
-            enabled: true,
-            color: '#fff',
-          },
-        })
-
+        anchorPoint.fill.enabled = true
+        anchorPoint.fill.color = '#fff'
+        anchorPoint.layer = 1
         anchorPoint.stroke.weight = resizeStrokeWidth
         pointElements.push(anchorPoint)
 
