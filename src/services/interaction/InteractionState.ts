@@ -122,20 +122,19 @@ class InteractionState {
     const ratio = scale * dpr
     const idSet = this.editor.selection.values
     const pointLen = 20 / ratio
-    // const pointRadius = pointLen / 2
-
-    if (idSet.size <= 1) {
-      this._outlineElement = null
-    }
-
-    let rotations: number[] = []
     const elements = this.editor.elementManager.getElementsByIdSet(idSet)
-    this._manipulationElements = []
 
     if (elements.length === 0) {
       this._outlineElement = null
       return
     }
+    if (elements.size <= 1) {
+      this._outlineElement = null
+    }
+
+    let rotations: number[] = []
+    this._manipulationElements = []
+
     const rectsWithRotation: BoundingRect[] = []
     const rectsWithoutRotation: BoundingRect[] = []
 
