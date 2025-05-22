@@ -1,10 +1,10 @@
-import { createWith, getManipulationBox } from '../../lib/lib.js';
-import { getBoundingRectFromBoundingRects } from '../tool/resize/helper.js';
-import { DEFAULT_STROKE } from '../../elements/defaultProps.js';
-import { getMinimalBoundingRect } from '../../core/utils.js';
-import Rectangle from '../../elements/rectangle/rectangle.js';
-import Ellipse from '../../elements/ellipse/ellipse.js';
-import LineSegment from '../../elements/lines/lineSegment.js';
+import { createWith, getManipulationBox } from '~/lib/lib';
+import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
+import { DEFAULT_STROKE } from '~/elements/defaultProps';
+import { getMinimalBoundingRect } from '~/core/utils';
+import Rectangle from '~/elements/rectangle/rectangle';
+import Ellipse from '~/elements/ellipse/ellipse';
+import LineSegment from '~/elements/lines/lineSegment';
 class InteractionState {
     editor;
     state = 'static';
@@ -165,8 +165,8 @@ class InteractionState {
             const points = ele.getBezierPoints();
             const { cx, cy } = ele;
             points.forEach((point, index) => {
-                const aPX = point.anchor.x + cx;
-                const aPY = point.anchor.y + cy;
+                const aPX = point.anchor.x;
+                const aPY = point.anchor.y;
                 const anchorPoint = new Rectangle({
                     id: ele.id + '-anchor-' + index,
                     layer: 1,
@@ -181,8 +181,8 @@ class InteractionState {
                 });
                 anchorPoint.stroke.weight = resizeStrokeWidth;
                 if (point.cp1) {
-                    const cPX = point.cp1.x + cx;
-                    const cPY = point.cp1.y + cy;
+                    const cPX = point.cp1.x;
+                    const cPY = point.cp1.y;
                     const cp1 = new Ellipse({
                         id: ele.id + '-cp1-' + index,
                         layer: 1,
@@ -197,10 +197,10 @@ class InteractionState {
                     });
                     const lineCX = (cPX + aPX) / 2;
                     const lineCY = (cPY + aPY) / 2;
-                    const lineStartX = 10;
-                    const lineStartY = 10;
-                    const lineEndX = lineCX - aPX;
-                    const lineEndY = lineCY - aPY;
+                    const lineStartX = lineCX - aPX;
+                    const lineStartY = lineCY - aPY;
+                    const lineEndX = 10;
+                    const lineEndY = 10;
                     const lineToAnchor = new LineSegment({
                         id: ele.id + '-cp1-' + index,
                         layer: 1,

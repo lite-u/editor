@@ -217,8 +217,8 @@ class InteractionState {
       const {cx, cy} = ele
 
       points.forEach((point, index) => {
-        const aPX = point.anchor.x + cx
-        const aPY = point.anchor.y + cy
+        const aPX = point.anchor.x
+        const aPY = point.anchor.y
         const anchorPoint = new Rectangle({
           id: ele.id + '-anchor-' + index,
           layer: 1,
@@ -235,8 +235,8 @@ class InteractionState {
         anchorPoint.stroke.weight = resizeStrokeWidth
 
         if (point.cp1) {
-          const cPX = point.cp1.x + cx
-          const cPY = point.cp1.y + cy
+          const cPX = point.cp1.x
+          const cPY = point.cp1.y
 
           const cp1 = new Ellipse({
             id: ele.id + '-cp1-' + index,
@@ -253,10 +253,10 @@ class InteractionState {
 
           const lineCX = (cPX + aPX) / 2
           const lineCY = (cPY + aPY) / 2
-          const lineStartX = 10
-          const lineStartY = 10
-          const lineEndX = lineCX - aPX
-          const lineEndY = lineCY - aPY
+          const lineStartX = lineCX - aPX
+          const lineStartY = lineCY - aPY
+          const lineEndX = 10
+          const lineEndY = 10
 
           const lineToAnchor = new LineSegment({
             id: ele.id + '-cp1-' + index,
