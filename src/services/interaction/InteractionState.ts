@@ -9,6 +9,8 @@ import {DEFAULT_STROKE} from '~/elements/defaultProps'
 import {getMinimalBoundingRect} from '~/core/utils'
 import Rectangle from '~/elements/rectangle/rectangle'
 import {BezierPoint} from '~/elements/props'
+import Ellipse from '~/elements/ellipse/ellipse'
+import LineSegment from '~/elements/lines/lineSegment'
 
 export type EditorManipulationType =
   | 'static'
@@ -215,9 +217,8 @@ class InteractionState {
       const {cx, cy} = ele
 
       points.forEach((point, index) => {
-        console.log(point)
         const anchorPoint = new Rectangle({
-          id: ele.id + '-' + index,
+          id: ele.id + '-anchor-' + index,
           layer: 1,
           cx: point.anchor.x + cx,
           cy: point.anchor.y + cy,
@@ -229,7 +230,45 @@ class InteractionState {
           },
         })
 
-        anchorPoint.stroke.weight=resizeStrokeWidth
+        anchorPoint.stroke.weight = resizeStrokeWidth
+
+        if (point.cp1) {
+          const cPX = point.cp1.x + cx
+          const cPY = point.cp1.y + cy
+
+          const cp1 = new Ellipse({
+            id: ele.id + '-cp1-' + index,
+            layer: 1,
+            cx: cPX,
+            cy: cPY,
+            r1: pointLen,
+            r2: pointLen,
+            fill: {
+              enabled: true,
+              color: this.boxColor,
+            },
+          })
+
+          const lineCX = (cPX + cx) / 2
+          const lineCY = (cPY + cy) / 2
+
+          const lineToAnchor = new LineSegment({
+            id: ele.id + '-cp1-' + index,
+            layer: 1,
+            cx: lineCX,
+            cy: lineCY,
+            points: [
+              {id: 'start', x: point.cp1.x, y: point.cp1.y},
+              {id: 'end', x: cx, y: cy},
+            ],
+          })
+          lineToAnchor.stroke.color = '#000000'
+          lineToAnchor.stroke.weight = 1 / ratio
+          cp1.stroke.enabled = false
+
+          pointElements.push(cp1, lineToAnchor)
+        }
+
         pointElements.push(anchorPoint)
 
       })

@@ -1,7 +1,7 @@
 import ElementBase, { ElementBaseProps } from '~/elements/base/elementBase';
 import { BoundingRect, Point } from '~/type';
 export interface LineSegmentProps extends ElementBaseProps {
-    type: 'lineSegment';
+    type?: 'lineSegment';
     points: [{
         id: 'start';
     } & Point, {

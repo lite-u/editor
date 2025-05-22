@@ -6,7 +6,7 @@ import {generateBoundingRectFromRect, generateBoundingRectFromRotatedRect} from 
 export interface LineSegmentProps extends ElementBaseProps {
   // id: string
   // layer: number
-  type: 'lineSegment'
+  type?: 'lineSegment'
   points: [{ id: 'start' } & Point, { id: 'end' } & Point]
 }
 
