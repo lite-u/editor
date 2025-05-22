@@ -74,7 +74,7 @@ class InteractionState {
         this.selectionBox.style.height = height + 'px';
         this.selectionBox.style.display = 'block';
     }
-    updateControlPoints() {
+    createTransformHandles() {
         const { elementManager } = this.editor;
         const { scale, dpr } = this.editor.world;
         const ratio = scale * dpr;
@@ -149,6 +149,8 @@ class InteractionState {
                 color: '#5491f8',
             },
         });
+    }
+    createPathPoints() {
     }
     destroy() {
         this.selectionBox?.remove();

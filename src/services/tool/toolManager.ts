@@ -15,6 +15,7 @@ import textTool from '~/services/tool/textTool'
 import lineSegmentTool from '~/services/tool/lineSegmentTool'
 import pencilTool from '~/services/tool/pencil/pencilTool'
 import {zoomInTool, zoomOutTool} from '~/services/tool/zoomTool'
+import dSelector from '~/services/tool/dselector/dselector'
 
 export type ToolType = {
   cursor: CursorName
@@ -27,6 +28,7 @@ export type ToolType = {
 export type SubToolType = Omit<ToolType, 'mouseDown' | 'cursor'> & { cursor?: CursorName }
 export type ToolName =
   'selector'
+  | 'dselector'
   | 'rectangle'
   | 'text'
   | 'ellipse'
@@ -60,6 +62,7 @@ class ToolManager {
     container.addEventListener('contextmenu', handleContextMenu.bind(this), {signal})
 
     this.toolMap.set('selector', selector)
+    this.toolMap.set('dselector', dSelector)
     this.toolMap.set('panning', panning)
     this.toolMap.set('rectangle', rectangleTool)
     this.toolMap.set('ellipse', ellipseTool)

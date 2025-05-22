@@ -9,7 +9,7 @@ export type ToolType = {
 export type SubToolType = Omit<ToolType, 'mouseDown' | 'cursor'> & {
     cursor?: CursorName;
 };
-export type ToolName = 'selector' | 'rectangle' | 'text' | 'ellipse' | 'panning' | 'lineSegment' | 'path' | 'pencil' | 'zoomIn' | 'zoomOut';
+export type ToolName = 'selector' | 'dselector' | 'rectangle' | 'text' | 'ellipse' | 'panning' | 'lineSegment' | 'path' | 'pencil' | 'zoomIn' | 'zoomOut';
 declare class ToolManager {
     editor: Editor;
     eventsController: AbortController;

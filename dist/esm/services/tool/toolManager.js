@@ -13,6 +13,7 @@ import textTool from './textTool.js';
 import lineSegmentTool from './lineSegmentTool.js';
 import pencilTool from './pencil/pencilTool.js';
 import { zoomInTool, zoomOutTool } from './zoomTool.js';
+import dSelector from './dselector/dselector.js';
 class ToolManager {
     editor;
     eventsController = new AbortController();
@@ -32,6 +33,7 @@ class ToolManager {
         container.addEventListener('pointermove', handlePointerMove.bind(this), { signal });
         container.addEventListener('contextmenu', handleContextMenu.bind(this), { signal });
         this.toolMap.set('selector', selector);
+        this.toolMap.set('dselector', dSelector);
         this.toolMap.set('panning', panning);
         this.toolMap.set('rectangle', rectangleTool);
         this.toolMap.set('ellipse', ellipseTool);
