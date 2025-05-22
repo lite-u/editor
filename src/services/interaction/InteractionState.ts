@@ -62,7 +62,6 @@ class InteractionState {
   _pointHit: PointHit | null = null
   _outlineElement: ElementInstance | null = null
   _manipulationElements: ElementInstance[] = []
-  // spaceKeyDown = false
   // _creatingElementId: UID
   // _ele: Set<UID> = new Set()
   _selectingElements: Set<UID> = new Set()

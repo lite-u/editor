@@ -26,7 +26,6 @@ class InteractionState {
     _pointHit = null;
     _outlineElement = null;
     _manipulationElements = [];
-    // spaceKeyDown = false
     // _creatingElementId: UID
     // _ele: Set<UID> = new Set()
     _selectingElements = new Set();
