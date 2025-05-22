@@ -3,6 +3,23 @@ import {BezierPoint} from '~/elements/props'
 import ElementPath from '~/elements/path/path'
 
 export function convertPointsToBezierPoints(points: Point[], tension = 0.3): { center: Point, points: BezierPoint[] } {
+  const filtered: Point[] = []
+  const threshold = 1
+
+  for (let i = 0; i < points.length; i++) {
+    if (i === 0) {
+      filtered.push(points[i])
+    } else {
+      const prev = filtered[filtered.length - 1]
+      const dx = points[i].x - prev.x
+      const dy = points[i].y - prev.y
+      if (Math.hypot(dx, dy) >= threshold) {
+        filtered.push(points[i])
+      }
+    }
+  }
+
+  points = filtered
   const bezierPoints: BezierPoint[] = []
 
   for (let i = 0; i < points.length; i++) {
