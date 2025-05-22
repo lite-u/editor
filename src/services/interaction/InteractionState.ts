@@ -217,11 +217,13 @@ class InteractionState {
       const {cx, cy} = ele
 
       points.forEach((point, index) => {
+        const aPX = point.anchor.x + cx
+        const aPY = point.anchor.y + cy
         const anchorPoint = new Rectangle({
           id: ele.id + '-anchor-' + index,
           layer: 1,
-          cx: point.anchor.x + cx,
-          cy: point.anchor.y + cy,
+          cx: aPX,
+          cy: aPY,
           width: pointLen,
           height: pointLen,
           fill: {
@@ -253,8 +255,8 @@ class InteractionState {
           const lineCY = (cPY + cy) / 2
           const lineStartX = point.cp1.x
           const lineStartY = point.cp1.y
-          const lineEndX = point.cp1.x
-          const lineEndY = point.cp1.y
+          const lineEndX = lineCX - aPX
+          const lineEndY = lineCY - aPY
 
           const lineToAnchor = new LineSegment({
             id: ele.id + '-cp1-' + index,
