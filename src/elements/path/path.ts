@@ -55,8 +55,8 @@ class ElementPath extends ElementBase {
     this.updatePath2D()
   }
 
-  get getPoints(): Point[] {
-    return this.points.map(p => ({...p.anchor}))
+  getBezierPoints(): BezierPoint[] {
+    return deepClone(this.points)
   }
 
   protected updatePath2D() {

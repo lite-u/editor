@@ -89,6 +89,7 @@ export function initEvents(this: Editor) {
     this.events.onZoomed?.(newScale)
     dispatch('world-updated')
     this.interaction.createTransformHandles()
+    this.interaction.createPathPoints()
   })
 
   on('world-shift', (data) => {
@@ -144,6 +145,7 @@ export function initEvents(this: Editor) {
   on('selection-updated', () => {
     this.interaction._hoveredElement = null!
     this.interaction.createTransformHandles()
+    this.interaction.createPathPoints()
 
     // getAnchorsByBoundingRect()
     console.log(this.selection.pickIfUnique)

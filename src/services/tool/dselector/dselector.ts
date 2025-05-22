@@ -1,7 +1,7 @@
 import ToolManager, {ToolType} from '~/services/tool/toolManager'
 
 const dSelector: ToolType = {
-  cursor: 'grab',
+  cursor: 'default',
   mouseDown(this: ToolManager) {
     this.editor.cursor.set('grabbing')
     // updateCursor.call(this, 'grabbing')

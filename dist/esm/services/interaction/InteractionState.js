@@ -19,13 +19,14 @@ class InteractionState {
     _resizingElements = [];
     _resizingData = null;
     _rotateData = null;
+    _manipulationElements = [];
+    _controlPoints = [];
     operationHandlers = [];
     _pointDown = false;
     _snapped = false;
     _snappedPoint = null;
     _pointHit = null;
     _outlineElement = null;
-    _manipulationElements = [];
     // _creatingElementId: UID
     // _ele: Set<UID> = new Set()
     _selectingElements = new Set();
@@ -151,10 +152,36 @@ class InteractionState {
         });
     }
     createPathPoints() {
-        const eles = this.editor.visible.values;
-        eles.forEach(ele => {
-            ele.getPoints;
+        const { elementManager } = this.editor;
+        const { scale, dpr } = this.editor.world;
+        const ratio = scale * dpr;
+        const idSet = this.editor.selection.values;
+        const pointLen = 20 / ratio;
+        // const eles = this.editor.visible.values
+        const pointElements = [];
+        const elements = this.editor.elementManager.getElementsByIdSet(idSet);
+        // console.log(eles)
+        elements.forEach(ele => {
+            const points = ele.getBezierPoints();
+            const { cx, cy } = ele;
+            points.forEach((point, index) => {
+                console.log(point);
+                const anchorPoint = new Rectangle({
+                    id: ele.id + '-' + index,
+                    layer: 1,
+                    cx: point.anchor.x + cx,
+                    cy: point.anchor.y + cy,
+                    width: pointLen,
+                    height: pointLen,
+                    fill: {
+                        enabled: true,
+                        color: '#fff',
+                    },
+                });
+                pointElements.push(anchorPoint);
+            });
         });
+        this.editor.interaction._controlPoints = pointElements;
     }
     destroy() {
         this.selectionBox?.remove();

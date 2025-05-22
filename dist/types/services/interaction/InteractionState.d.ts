@@ -47,13 +47,14 @@ declare class InteractionState {
             y: number;
         };
     } | null;
+    _manipulationElements: ElementInstance[];
+    _controlPoints: ElementInstance[];
     readonly operationHandlers: OperationHandler[];
     _pointDown: boolean;
     _snapped: boolean;
     _snappedPoint: PointHit | null;
     _pointHit: PointHit | null;
     _outlineElement: ElementInstance | null;
-    _manipulationElements: ElementInstance[];
     _selectingElements: Set<UID>;
     _deselection: UID | null;
     _rotatingOperator: OperationHandler | null;

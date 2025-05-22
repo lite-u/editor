@@ -34,8 +34,8 @@ class ElementPath extends ElementBase {
         this.original.rotation = this.rotation;
         this.updatePath2D();
     }
-    get getPoints() {
-        return this.points.map(p => ({ ...p.anchor }));
+    getBezierPoints() {
+        return deepClone(this.points);
     }
     updatePath2D() {
         if (this.points.length === 0)

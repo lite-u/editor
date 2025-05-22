@@ -74,6 +74,7 @@ export function initEvents() {
         this.events.onZoomed?.(newScale);
         dispatch('world-updated');
         this.interaction.createTransformHandles();
+        this.interaction.createPathPoints();
     });
     on('world-shift', (data) => {
         const { x, y } = data;
@@ -118,6 +119,7 @@ export function initEvents() {
     on('selection-updated', () => {
         this.interaction._hoveredElement = null;
         this.interaction.createTransformHandles();
+        this.interaction.createPathPoints();
         // getAnchorsByBoundingRect()
         console.log(this.selection.pickIfUnique);
         this.events.onSelectionUpdated?.(this.selection.values, this.selection.pickIfUnique);

@@ -1,5 +1,5 @@
 const dSelector = {
-    cursor: 'grab',
+    cursor: 'default',
     mouseDown() {
         this.editor.cursor.set('grabbing');
         // updateCursor.call(this, 'grabbing')

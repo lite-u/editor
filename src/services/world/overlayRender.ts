@@ -1,9 +1,6 @@
-import ElementRectangle from '~/elements/rectangle/rectangle'
-import {ElementInstance, OptionalIdentifiersProps} from '~/elements/type'
+import {OptionalIdentifiersProps} from '~/elements/type'
 import World from '~/services/world/World'
-import {BorderRadius} from '~/elements/props'
 import {DEFAULT_FILL, DEFAULT_STROKE} from '~/elements/defaultProps'
-import {UID} from '~/type'
 import {PointHit} from '~/services/interaction/InteractionState'
 
 function overlayRender(this: World) {
@@ -63,52 +60,8 @@ function overlayRender(this: World) {
     ele.render(ctx)
   })
 
-  return
-  const fillColor = '#5491f8'
-  const selected = this.editor.visible.getVisibleSelected
-  const centerPointWidth = 2 / this.scale * this.dpr
-  // const lineWidth = 1 / this.scale * this.dpr
-  const centerPoints = new Set<UID>(selected)
-
-  if (this.editor.interaction._hoveredElement) {
-    centerPoints.add(this.editor.interaction._hoveredElement)
-  }
-
-
-  // render center points
-  centerPoints.forEach((id) => {
-    const element = this.editor.elementManager.all.get(id)
-    const {cx, cy, rotation, layer} = (element as ElementRectangle).toMinimalJSON()
-    const lineWidth = 1 / this.scale * this.dpr
-    const highlightElement = element!.getHighlightElement(lineWidth, fillColor) as ElementInstance
-    const BRN = id === this.editor.interaction._hoveredElement ? centerPointWidth : 0
-    const borderRadius: BorderRadius = [BRN, BRN, BRN, BRN]
-    const centerDotRect = new ElementRectangle({
-      cx: cx,
-      cy: cy,
-      layer,
-      id: id + 'hover-center',
-      width: centerPointWidth * 2,
-      height: centerPointWidth * 2,
-      fill: {
-        ...DEFAULT_FILL,
-        color: fillColor,
-      },
-      stroke: {
-        ...DEFAULT_STROKE,
-        weight: lineWidth,
-        color: 'transparent',
-      },
-      rotation,
-      borderRadius,
-    })
-
-    highlightElement!.render(ctx)
-    centerDotRect.render(ctx)
-  })
-
-  this.editor.interaction.operationHandlers.forEach(operation => {
-    operation.element.render(ctx)
+  this.editor.interaction._controlPoints.forEach((ele) => {
+    ele.render(ctx)
   })
 
   /*if (this.viewport.enableCrossLine && this.viewport.drawCrossLine) {

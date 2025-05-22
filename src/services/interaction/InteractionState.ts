@@ -8,7 +8,7 @@ import {getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
 import {DEFAULT_STROKE} from '~/elements/defaultProps'
 import {getMinimalBoundingRect} from '~/core/utils'
 import Rectangle from '~/elements/rectangle/rectangle'
-import visibleManager from '~/services/visible/VisibleManager'
+import {BezierPoint} from '~/elements/props'
 
 export type EditorManipulationType =
   | 'static'
@@ -56,13 +56,15 @@ class InteractionState {
   _resizingData: { targetPoint: { x: number, y: number }, placement: string } | null = null
   _rotateData: { startRotation: number, snappedRotation?: number, targetPoint: { x: number, y: number } } | null = null
 
+  _manipulationElements: ElementInstance[] = []
+  _controlPoints: ElementInstance[] = []
+
   readonly operationHandlers: OperationHandler[] = []
   _pointDown = false
   _snapped = false
   _snappedPoint: PointHit | null = null
   _pointHit: PointHit | null = null
   _outlineElement: ElementInstance | null = null
-  _manipulationElements: ElementInstance[] = []
   // _creatingElementId: UID
   // _ele: Set<UID> = new Set()
   _selectingElements: Set<UID> = new Set()
@@ -201,11 +203,41 @@ class InteractionState {
   }
 
   createPathPoints() {
-    const eles = this.editor.visible.values
+    const {elementManager} = this.editor
+    const {scale, dpr} = this.editor.world
+    const ratio = scale * dpr
+    const idSet = this.editor.selection.values
+    const pointLen = 20 / ratio
+    // const eles = this.editor.visible.values
+    const pointElements: ElementInstance[] = []
+    const elements = this.editor.elementManager.getElementsByIdSet(idSet)
 
-    eles.forEach(ele => {
-      ele.getPoints
+    // console.log(eles)
+    elements.forEach(ele => {
+      const points: BezierPoint[] = ele.getBezierPoints()
+      const {cx, cy} = ele
+
+      points.forEach((point, index) => {
+        console.log(point)
+        const anchorPoint = new Rectangle({
+          id: ele.id + '-' + index,
+          layer: 1,
+          cx: point.anchor.x + cx,
+          cy: point.anchor.y + cy,
+          width: pointLen,
+          height: pointLen,
+          fill: {
+            enabled: true,
+            color: '#fff',
+          },
+        })
+
+        pointElements.push(anchorPoint)
+
+      })
     })
+
+    this.editor.interaction._controlPoints = pointElements
   }
 
   destroy() {
