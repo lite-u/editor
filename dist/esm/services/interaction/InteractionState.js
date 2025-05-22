@@ -195,10 +195,10 @@ class InteractionState {
                             color: this.boxColor,
                         },
                     });
-                    const lineCX = (cPX + cx) / 2;
-                    const lineCY = (cPY + cy) / 2;
-                    const lineStartX = point.cp1.x;
-                    const lineStartY = point.cp1.y;
+                    const lineCX = (cPX + aPX) / 2;
+                    const lineCY = (cPY + aPY) / 2;
+                    const lineStartX = 10;
+                    const lineStartY = 10;
                     const lineEndX = lineCX - aPX;
                     const lineEndY = lineCY - aPY;
                     const lineToAnchor = new LineSegment({

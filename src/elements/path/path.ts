@@ -56,6 +56,7 @@ class ElementPath extends ElementBase {
   }
 
   getBezierPoints(): BezierPoint[] {
+
     return deepClone(this.points)
   }
 
