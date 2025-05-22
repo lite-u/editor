@@ -14,6 +14,44 @@ class ElementLineSegment extends ElementBase {
         };
         this.updatePath2D();
     }
+    static createByPoints(start, end) {
+        const centerX = (start.x + end.x) / 2;
+        const centerY = (start.y + end.y) / 2;
+        const props = {
+            cx: centerX,
+            cy: centerY,
+            points: [
+                {
+                    id: 'start',
+                    x: centerX - start.x,
+                    y: centerY - start.y,
+                },
+                {
+                    id: 'end',
+                    x: centerX - end.x,
+                    y: centerY - end.y,
+                },
+            ],
+        };
+        return props;
+        // return new ElementLineSegment(props)
+    }
+    static _getBoundingRect(start, end, rotation = 0) {
+        const x = Math.min(start.x, end.x);
+        const y = Math.min(start.y, end.y);
+        let width = Math.abs(end.x - start.x);
+        let height = Math.abs(end.y - start.y);
+        if (width <= 0) {
+            width = 1;
+        }
+        if (height <= 0) {
+            height = 1;
+        }
+        if (rotation === 0) {
+            return generateBoundingRectFromRect({ x, y, width, height });
+        }
+        return generateBoundingRectFromRotatedRect({ x, y, width, height }, rotation);
+    }
     updatePath2D() {
         const { cx, cy, rotation } = this;
         const [start, end] = this.points;
@@ -38,22 +76,6 @@ class ElementLineSegment extends ElementBase {
     }
     get getPoints() {
         return this.points.map(p => ({ x: p.x, y: p.y }));
-    }
-    static _getBoundingRect(start, end, rotation = 0) {
-        const x = Math.min(start.x, end.x);
-        const y = Math.min(start.y, end.y);
-        let width = Math.abs(end.x - start.x);
-        let height = Math.abs(end.y - start.y);
-        if (width <= 0) {
-            width = 1;
-        }
-        if (height <= 0) {
-            height = 1;
-        }
-        if (rotation === 0) {
-            return generateBoundingRectFromRect({ x, y, width, height });
-        }
-        return generateBoundingRectFromRotatedRect({ x, y, width, height }, rotation);
     }
     getBoundingRect(withoutRotation = false) {
         const { cx, cy, points: [start, end], rotation } = this;

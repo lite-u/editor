@@ -13,14 +13,23 @@ declare class ElementLineSegment extends ElementBase {
     readonly type = "lineSegment";
     private points;
     constructor({ points, ...rest }: LineSegmentProps);
-    protected updatePath2D(): void;
-    protected updateOriginal(): void;
-    get getPoints(): Point[];
+    static createByPoints(start: Point, end: Point): {
+        cx: number;
+        cy: number;
+        points: {
+            id: string;
+            x: number;
+            y: number;
+        }[];
+    };
     static _getBoundingRect(start: Point, end: Point, rotation?: number): BoundingRect;
+    updatePath2D(): void;
+    updateOriginal(): void;
+    get getPoints(): Point[];
     getBoundingRect(withoutRotation?: boolean): BoundingRect;
     getBoundingRectFromOriginal(): BoundingRect;
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
-    protected toJSON(): RequiredLineSegmentProps;
+    toJSON(): RequiredLineSegmentProps;
     toMinimalJSON(): LineSegmentProps;
 }
 export default ElementLineSegment;

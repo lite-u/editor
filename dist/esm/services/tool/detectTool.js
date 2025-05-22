@@ -9,9 +9,18 @@ function detectTool() {
     };
     const elements = visible.values;
     const mElements = interaction._manipulationElements.sort((a, b) => b.layer - a.layer);
+    const cElements = interaction._controlPoints.sort((a, b) => b.layer - a.layer);
     interaction._hoveredElement = null;
     interaction._hoveredResizeManipulator = null;
     interaction._hoveredRotateManipulator = null;
+    for (let i = 0; i < cElements.length; i++) {
+        const currMEle = cElements[i];
+        const { path2D, id } = currMEle;
+        const inside = ctx.isPointInPath(path2D, viewPoint.x, viewPoint.y);
+        if (inside) {
+            console.log(currMEle);
+        }
+    }
     for (let i = 0; i < mElements.length; i++) {
         const currMEle = mElements[i];
         const { path2D, id } = currMEle;

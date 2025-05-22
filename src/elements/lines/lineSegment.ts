@@ -30,36 +30,28 @@ class ElementLineSegment extends ElementBase {
     this.updatePath2D()
   }
 
-  protected updatePath2D() {
-    const {cx, cy, rotation} = this
-    const [start, end] = this.points
+  static createByPoints(start: Point, end: Point) {
+    const centerX = (start.x + end.x) / 2
+    const centerY = (start.y + end.y) / 2
+    const props = {
+      cx: centerX,
+      cy: centerY,
+      points: [
+        {
+          id: 'start',
+          x: centerX - start.x,
+          y: centerY - start.y,
+        },
+        {
+          id: 'end',
+          x: centerX - end.x,
+          y: centerY - end.y,
+        },
+      ],
+    }
+    return props
 
-    const absStart = {x: start.x + cx, y: start.y + cy}
-    const absEnd = {x: end.x + cx, y: end.y + cy}
-
-    const matrix = new DOMMatrix()
-      .translate(cx, cy)
-      .rotate(rotation)
-      .translate(-cx, -cy)
-
-    const rotatedStart = ElementBase.transformPoint(absStart.x, absStart.y, matrix)
-    const rotatedEnd = ElementBase.transformPoint(absEnd.x, absEnd.y, matrix)
-
-    this.path2D = new Path2D()
-    this.path2D.moveTo(rotatedStart.x, rotatedStart.y)
-    this.path2D.lineTo(rotatedEnd.x, rotatedEnd.y)
-  }
-
-  protected updateOriginal() {
-    this.original.cx = this.cx
-    this.original.cy = this.cy
-    this.original.points = deepClone(this.points)
-    this.original.rotation = this.rotation
-    this.updatePath2D()
-  }
-
-  public get getPoints(): Point[] {
-    return this.points.map(p => ({x: p.x, y: p.y}))
+    // return new ElementLineSegment(props)
   }
 
   static _getBoundingRect(start: Point, end: Point, rotation: number = 0): BoundingRect {
@@ -82,6 +74,38 @@ class ElementLineSegment extends ElementBase {
     return generateBoundingRectFromRotatedRect({x, y, width, height}, rotation)
   }
 
+  public updatePath2D() {
+    const {cx, cy, rotation} = this
+    const [start, end] = this.points
+
+    const absStart = {x: start.x + cx, y: start.y + cy}
+    const absEnd = {x: end.x + cx, y: end.y + cy}
+
+    const matrix = new DOMMatrix()
+      .translate(cx, cy)
+      .rotate(rotation)
+      .translate(-cx, -cy)
+
+    const rotatedStart = ElementBase.transformPoint(absStart.x, absStart.y, matrix)
+    const rotatedEnd = ElementBase.transformPoint(absEnd.x, absEnd.y, matrix)
+
+    this.path2D = new Path2D()
+    this.path2D.moveTo(rotatedStart.x, rotatedStart.y)
+    this.path2D.lineTo(rotatedEnd.x, rotatedEnd.y)
+  }
+
+  public updateOriginal() {
+    this.original.cx = this.cx
+    this.original.cy = this.cy
+    this.original.points = deepClone(this.points)
+    this.original.rotation = this.rotation
+    this.updatePath2D()
+  }
+
+  public get getPoints(): Point[] {
+    return this.points.map(p => ({x: p.x, y: p.y}))
+  }
+
   public getBoundingRect(withoutRotation: boolean = false): BoundingRect {
     const {cx, cy, points: [start, end], rotation} = this
 
@@ -101,7 +125,7 @@ class ElementLineSegment extends ElementBase {
     return ElementLineSegment._getBoundingRect(aStart, aEnd, rotation)
   }
 
-  scaleFrom(scaleX: number, scaleY: number, anchor: Point) {
+  public scaleFrom(scaleX: number, scaleY: number, anchor: Point) {
     const matrix = new DOMMatrix()
       .translate(anchor.x, anchor.y)
       .scale(scaleX, scaleY)
@@ -121,7 +145,7 @@ class ElementLineSegment extends ElementBase {
     this.updatePath2D()
   }
 
-  protected toJSON(): RequiredLineSegmentProps {
+  public toJSON(): RequiredLineSegmentProps {
     return {
       ...super.toJSON(),
       // id: this.id,

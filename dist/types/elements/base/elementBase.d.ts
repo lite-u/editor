@@ -1,6 +1,25 @@
 import { BoundingRect, ElementProps, Point, UID } from '~/type';
 import { BezierPoint, Fill, Gradient, Shadow, Stroke, Transform } from '~/elements/props';
 import { HistoryChangeItem } from '~/services/actions/type';
+type ElementEventHandler<T = any> = (payload: T) => void;
+interface ElementEventMap {
+    move: {
+        dx: number;
+        dy: number;
+    };
+    translate: {
+        dx: number;
+        dy: number;
+    };
+    resize: {
+        scaleX: number;
+        scaleY: number;
+    };
+    rotate: {
+        angle: number;
+    };
+    [key: string]: any;
+}
 export interface ElementBaseProps {
     id: UID;
     layer: number;
@@ -42,8 +61,10 @@ declare class ElementBase {
         closed?: boolean;
         [key: string]: unknown;
     };
+    private eventListeners;
     constructor({ id, layer, cx, cy, gradient, stroke, fill, opacity, shadow, rotation, transform, show, }: ElementBaseProps);
     static transformPoint(x: number, y: number, matrix: DOMMatrix): Point;
+    on<K extends keyof ElementEventMap>(event: K, handler: ElementEventHandler<ElementEventMap[K]>): void;
     protected translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined;
     protected updateOriginal(): void;
     protected rotate(angle: number): void;

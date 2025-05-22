@@ -16,6 +16,16 @@ import {isEqual} from '~/lib/lib'
 import {BezierPoint, Fill, Gradient, Shadow, Stroke, Transform} from '~/elements/props'
 import {HistoryChangeItem} from '~/services/actions/type'
 
+type ElementEventHandler<T = any> = (payload: T) => void;
+
+interface ElementEventMap {
+  move: { dx: number; dy: number };
+  translate: { dx: number; dy: number };
+  resize: { scaleX: number; scaleY: number };
+  rotate: { angle: number };
+  [key: string]: any; // For extensibility
+}
+
 export interface ElementBaseProps {
   id: UID,
   layer: number
@@ -61,7 +71,9 @@ class ElementBase {
     [key: string]: unknown
   }
   // public _relatedId: string
-
+  private eventListeners: {
+    [K in keyof ElementEventMap]?: ElementEventHandler<ElementEventMap[K]>[]
+  } = {};
   constructor({
                 id,
                 layer,
@@ -100,6 +112,14 @@ class ElementBase {
     // if(!matrix) debugger
     const p = matrix.transformPoint({x, y})
     return {x: p.x, y: p.y}
+  }
+
+  on<K extends keyof ElementEventMap>(
+    event: K,
+    handler: ElementEventHandler<ElementEventMap[K]>
+  ) {
+    if (!this.eventListeners[event]) this.eventListeners[event] = [];
+    this.eventListeners[event]!.push(handler);
   }
 
   protected translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined {

@@ -19,6 +19,7 @@ class ElementBase {
     path2D = new Path2D();
     original;
     // public _relatedId: string
+    eventListeners = {};
     constructor({ id, layer, cx = DEFAULT_CX, cy = DEFAULT_CY, gradient = DEFAULT_GRADIENT, stroke = deepClone(DEFAULT_STROKE), fill = deepClone(DEFAULT_FILL), opacity = deepClone(DEFAULT_OPACITY), shadow = deepClone(DEFAULT_SHADOW), rotation = deepClone(DEFAULT_ROTATION), transform = deepClone(DEFAULT_TRANSFORM), show = true, }) {
         this.id = id;
         this.layer = layer;
@@ -42,6 +43,11 @@ class ElementBase {
         // if(!matrix) debugger
         const p = matrix.transformPoint({ x, y });
         return { x: p.x, y: p.y };
+    }
+    on(event, handler) {
+        if (!this.eventListeners[event])
+            this.eventListeners[event] = [];
+        this.eventListeners[event].push(handler);
     }
     translate(dx, dy, f) {
         this.cx = this.cx + dx;
