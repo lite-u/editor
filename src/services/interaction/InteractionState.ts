@@ -124,12 +124,9 @@ class InteractionState {
     const pointLen = 20 / ratio
     const elements = this.editor.elementManager.getElementsByIdSet(idSet)
 
-    if (elements.length === 0) {
+    if (elements.length <= 1) {
       this._outlineElement = null
-      return
-    }
-    if (elements.size <= 1) {
-      this._outlineElement = null
+      if (elements.length === 0) return
     }
 
     let rotations: number[] = []
