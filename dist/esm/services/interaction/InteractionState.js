@@ -1,10 +1,10 @@
-import { createWith, getManipulationBox } from '../../lib/lib.js';
-import { getBoundingRectFromBoundingRects } from '../tool/resize/helper.js';
-import { DEFAULT_STROKE } from '../../elements/defaultProps.js';
-import { getMinimalBoundingRect } from '../../core/utils.js';
-import Rectangle from '../../elements/rectangle/rectangle.js';
-import Ellipse from '../../elements/ellipse/ellipse.js';
-import LineSegment from '../../elements/lines/lineSegment.js';
+import { createWith, getManipulationBox } from '~/lib/lib';
+import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
+import { DEFAULT_STROKE } from '~/elements/defaultProps';
+import { getMinimalBoundingRect } from '~/core/utils';
+import Rectangle from '~/elements/rectangle/rectangle';
+import Ellipse from '~/elements/ellipse/ellipse';
+import LineSegment from '~/elements/lines/lineSegment';
 class InteractionState {
     editor;
     state = 'static';
@@ -202,13 +202,13 @@ class InteractionState {
                         cy: lineCY,
                         points: [
                             { id: 'start', x: point.cp1.x, y: point.cp1.y },
-                            { id: 'end', x: cx, y: cy },
+                            { id: 'end', x: lineCX - cx, y: lineCY - cy },
                         ],
                     });
                     lineToAnchor.stroke.color = '#000000';
                     lineToAnchor.stroke.weight = 1 / ratio;
                     cp1.stroke.enabled = false;
-                    pointElements.push(cp1, lineToAnchor);
+                    pointElements.push(lineToAnchor, cp1);
                 }
                 pointElements.push(anchorPoint);
             });

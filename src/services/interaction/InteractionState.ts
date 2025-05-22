@@ -259,14 +259,14 @@ class InteractionState {
             cy: lineCY,
             points: [
               {id: 'start', x: point.cp1.x, y: point.cp1.y},
-              {id: 'end', x: cx, y: cy},
+              {id: 'end', x: lineCX - cx, y: lineCY - cy},
             ],
           })
           lineToAnchor.stroke.color = '#000000'
           lineToAnchor.stroke.weight = 1 / ratio
           cp1.stroke.enabled = false
 
-          pointElements.push(cp1, lineToAnchor)
+          pointElements.push(lineToAnchor, cp1)
         }
 
         pointElements.push(anchorPoint)
