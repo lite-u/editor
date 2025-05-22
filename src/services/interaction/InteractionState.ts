@@ -251,6 +251,10 @@ class InteractionState {
 
           const lineCX = (cPX + cx) / 2
           const lineCY = (cPY + cy) / 2
+          const lineStartX = point.cp1.x
+          const lineStartY = point.cp1.y
+          const lineEndX = point.cp1.x
+          const lineEndY = point.cp1.y
 
           const lineToAnchor = new LineSegment({
             id: ele.id + '-cp1-' + index,
@@ -258,11 +262,11 @@ class InteractionState {
             cx: lineCX,
             cy: lineCY,
             points: [
-              {id: 'start', x: point.cp1.x, y: point.cp1.y},
-              {id: 'end', x: lineCX - cx, y: lineCY - cy},
+              {id: 'start', x: lineStartX, y: lineStartY},
+              {id: 'end', x: lineEndX, y: lineEndY},
             ],
           })
-          lineToAnchor.stroke.color = '#000000'
+          lineToAnchor.stroke.color = '#ff0000'
           lineToAnchor.stroke.weight = 1 / ratio
           cp1.stroke.enabled = false
 
