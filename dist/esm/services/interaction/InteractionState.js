@@ -81,17 +81,14 @@ class InteractionState {
         const ratio = scale * dpr;
         const idSet = this.editor.selection.values;
         const pointLen = 20 / ratio;
-        // const pointRadius = pointLen / 2
-        if (idSet.size <= 1) {
-            this._outlineElement = null;
-        }
-        let rotations = [];
         const elements = this.editor.elementManager.getElementsByIdSet(idSet);
-        this._manipulationElements = [];
-        if (elements.length === 0) {
+        let rotations = [];
+        if (elements.length <= 1) {
             this._outlineElement = null;
-            return;
+            if (elements.length === 0)
+                return;
         }
+        this._manipulationElements = [];
         const rectsWithRotation = [];
         const rectsWithoutRotation = [];
         elements.forEach((ele) => {
@@ -152,7 +149,7 @@ class InteractionState {
         });
     }
     createPathPoints() {
-        const { elementManager } = this.editor;
+        // const {elementManager} = this.editor
         const { scale, dpr } = this.editor.world;
         const ratio = scale * dpr;
         const idSet = this.editor.selection.values;
@@ -160,6 +157,7 @@ class InteractionState {
         // const eles = this.editor.visible.values
         const pointElements = [];
         const elements = this.editor.elementManager.getElementsByIdSet(idSet);
+        const resizeStrokeWidth = 2 / ratio;
         // console.log(eles)
         elements.forEach(ele => {
             const points = ele.getBezierPoints();
@@ -178,6 +176,7 @@ class InteractionState {
                         color: '#fff',
                     },
                 });
+                anchorPoint.stroke.weight = resizeStrokeWidth;
                 pointElements.push(anchorPoint);
             });
         });

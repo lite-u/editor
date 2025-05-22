@@ -123,13 +123,13 @@ class InteractionState {
     const idSet = this.editor.selection.values
     const pointLen = 20 / ratio
     const elements = this.editor.elementManager.getElementsByIdSet(idSet)
+    let rotations: number[] = []
 
     if (elements.length <= 1) {
       this._outlineElement = null
       if (elements.length === 0) return
     }
 
-    let rotations: number[] = []
     this._manipulationElements = []
 
     const rectsWithRotation: BoundingRect[] = []
@@ -199,7 +199,7 @@ class InteractionState {
   }
 
   createPathPoints() {
-    const {elementManager} = this.editor
+    // const {elementManager} = this.editor
     const {scale, dpr} = this.editor.world
     const ratio = scale * dpr
     const idSet = this.editor.selection.values
@@ -207,6 +207,7 @@ class InteractionState {
     // const eles = this.editor.visible.values
     const pointElements: ElementInstance[] = []
     const elements = this.editor.elementManager.getElementsByIdSet(idSet)
+    const resizeStrokeWidth = 2 / ratio
 
     // console.log(eles)
     elements.forEach(ele => {
@@ -228,6 +229,7 @@ class InteractionState {
           },
         })
 
+        anchorPoint.stroke.weight=resizeStrokeWidth
         pointElements.push(anchorPoint)
 
       })
