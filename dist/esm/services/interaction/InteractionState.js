@@ -1,10 +1,10 @@
-import { createWith, getManipulationBox } from '~/lib/lib';
-import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
-import { DEFAULT_STROKE } from '~/elements/defaultProps';
-import { getMinimalBoundingRect } from '~/core/utils';
-import Rectangle from '~/elements/rectangle/rectangle';
-import Ellipse from '~/elements/ellipse/ellipse';
-import LineSegment from '~/elements/lines/lineSegment';
+import { createWith, getManipulationBox } from '../../lib/lib.js';
+import { getBoundingRectFromBoundingRects } from '../tool/resize/helper.js';
+import { DEFAULT_STROKE } from '../../elements/defaultProps.js';
+import { getMinimalBoundingRect } from '../../core/utils.js';
+import Rectangle from '../../elements/rectangle/rectangle.js';
+import Ellipse from '../../elements/ellipse/ellipse.js';
+import LineSegment from '../../elements/lines/lineSegment.js';
 class InteractionState {
     editor;
     state = 'static';
@@ -199,8 +199,8 @@ class InteractionState {
                     const lineCY = (cPY + aPY) / 2;
                     const lineStartX = lineCX - aPX;
                     const lineStartY = lineCY - aPY;
-                    const lineEndX = 10;
-                    const lineEndY = 10;
+                    const lineEndX = lineCX - cPX;
+                    const lineEndY = lineCY - cPY;
                     const lineToAnchor = new LineSegment({
                         id: ele.id + '-cp1-' + index,
                         layer: 1,
@@ -211,8 +211,8 @@ class InteractionState {
                             { id: 'end', x: lineEndX, y: lineEndY },
                         ],
                     });
-                    lineToAnchor.stroke.color = '#ff0000';
-                    lineToAnchor.stroke.weight = 1 / ratio;
+                    lineToAnchor.stroke.color = this.boxColor;
+                    lineToAnchor.stroke.weight = 2 / ratio;
                     cp1.stroke.enabled = false;
                     pointElements.push(lineToAnchor, cp1);
                 }
