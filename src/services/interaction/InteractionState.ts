@@ -7,7 +7,7 @@ import {ToolName} from '~/services/tool/toolManager'
 import {getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
 import {DEFAULT_STROKE} from '~/elements/defaultProps'
 import {getMinimalBoundingRect} from '~/core/utils'
-import Rectangle from '~/elements/rectangle/rectangle'
+import ElementRectangle from '~/elements/rectangle/rectangle'
 import {BezierPoint} from '~/elements/props'
 import Ellipse from '~/elements/ellipse/ellipse'
 import LineSegment from '~/elements/lines/lineSegment'
@@ -140,16 +140,8 @@ class InteractionState {
     elements.forEach((ele: ElementInstance) => {
       // debugger
       const clone = elementManager.create(ele.toMinimalJSON())
-      const centerPoint = new Rectangle({
-        id: 'handle-move-center',
-        layer: 1,
-        rotation: ele.rotation,
-        type: 'rectangle',
-        width: pointLen,
-        height: pointLen,
-        cx: ele.cx,
-        cy: ele.cy,
-      })
+      const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen)
+
       centerPoint.stroke.enabled = false
       centerPoint.fill.enabled = true
       centerPoint.fill.color = 'orange'
@@ -185,7 +177,7 @@ class InteractionState {
       this._manipulationElements.push(...getManipulationBox(rect, 0, ratio, specialLineSeg))
     }
 
-    this._outlineElement = new Rectangle({
+    this._outlineElement = new ElementRectangle({
       id: 'selected-elements-outline',
       layer: 0,
       show: !specialLineSeg,
@@ -219,7 +211,8 @@ class InteractionState {
       points.forEach((point, index) => {
         const aPX = point.anchor.x
         const aPY = point.anchor.y
-        const anchorPoint = new Rectangle({
+
+        const anchorPoint = new ElementRectangle({
           id: ele.id + '-anchor-' + index,
           layer: 1,
           cx: aPX,
@@ -316,7 +309,6 @@ class InteractionState {
 
           pointElements.push(lineToAnchor, cp2)
         }
-
 
       })
     })

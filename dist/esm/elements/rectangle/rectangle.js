@@ -4,14 +4,17 @@ class ElementRectangle extends RectangleLike {
     constructor(props) {
         super(props);
     }
-    static create(p, width = 10, height) {
+    static create(id, cx, cy, width = 10, height) {
         const _height = height || width;
         const props = {
-            cx: p.x,
-            cy: p.y,
+            id,
             width,
+            cx,
+            cy,
             height: _height,
+            layer: 0,
         };
+        return new ElementRectangle(props);
     }
     toJSON() {
         return {

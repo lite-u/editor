@@ -1,4 +1,4 @@
-import {CenterBasedRect, Point} from '~/type'
+import {CenterBasedRect, UID} from '~/type'
 import RectangleLike, {RectangleLikeProps} from '~/elements/rectangle/rectangleLike'
 
 export interface RectangleProps extends RectangleLikeProps {
@@ -14,17 +14,19 @@ class ElementRectangle extends RectangleLike {
     super(props)
   }
 
-  static create(p: Point, width: number = 10, height?: number) {
+  static create(id: UID, cx: number, cy: number, width: number = 10, height?: number) {
     const _height = height || width
 
     const props = {
-      cx: p.x,
-      cy: p.y,
+      id,
       width,
+      cx,
+      cy,
       height: _height,
+      layer: 0,
     }
 
-
+    return new ElementRectangle(props)
   }
 
   override toJSON(): RequiredRectangleProps {

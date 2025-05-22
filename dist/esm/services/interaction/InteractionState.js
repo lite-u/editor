@@ -2,7 +2,7 @@ import { createWith, getManipulationBox } from '../../lib/lib.js';
 import { getBoundingRectFromBoundingRects } from '../tool/resize/helper.js';
 import { DEFAULT_STROKE } from '../../elements/defaultProps.js';
 import { getMinimalBoundingRect } from '../../core/utils.js';
-import Rectangle from '../../elements/rectangle/rectangle.js';
+import ElementRectangle from '../../elements/rectangle/rectangle.js';
 import Ellipse from '../../elements/ellipse/ellipse.js';
 import LineSegment from '../../elements/lines/lineSegment.js';
 class InteractionState {
@@ -96,16 +96,7 @@ class InteractionState {
         elements.forEach((ele) => {
             // debugger
             const clone = elementManager.create(ele.toMinimalJSON());
-            const centerPoint = new Rectangle({
-                id: 'handle-move-center',
-                layer: 1,
-                rotation: ele.rotation,
-                type: 'rectangle',
-                width: pointLen,
-                height: pointLen,
-                cx: ele.cx,
-                cy: ele.cy,
-            });
+            const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen);
             centerPoint.stroke.enabled = false;
             centerPoint.fill.enabled = true;
             centerPoint.fill.color = 'orange';
@@ -136,7 +127,7 @@ class InteractionState {
             rect = getBoundingRectFromBoundingRects(rectsWithRotation);
             this._manipulationElements.push(...getManipulationBox(rect, 0, ratio, specialLineSeg));
         }
-        this._outlineElement = new Rectangle({
+        this._outlineElement = new ElementRectangle({
             id: 'selected-elements-outline',
             layer: 0,
             show: !specialLineSeg,
@@ -167,7 +158,7 @@ class InteractionState {
             points.forEach((point, index) => {
                 const aPX = point.anchor.x;
                 const aPY = point.anchor.y;
-                const anchorPoint = new Rectangle({
+                const anchorPoint = new ElementRectangle({
                     id: ele.id + '-anchor-' + index,
                     layer: 1,
                     cx: aPX,
