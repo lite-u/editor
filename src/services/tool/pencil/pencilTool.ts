@@ -26,14 +26,14 @@ const pencilTool: ToolType = {
   },
   mouseUp(this: ToolManager) {
     const {interaction, action} = this.editor
-    const {center, points} = convertPointsToBezierPoints(_drawingPoints)
-
+    const {center, points,closed} = convertPointsToBezierPoints(_drawingPoints)
+    console.log(points[0])
     const eleProps: PropsWithoutIdentifiers<'path'> = {
       type: 'path',
       cx: center.x,
       cy: center.y,
       points,
-      closed: false,
+      closed,
     }
 
     action.dispatch('element-add', [eleProps])
