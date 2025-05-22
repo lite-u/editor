@@ -19,28 +19,31 @@ export function convertPointsToBezierPoints(points, tension = 0.3) {
     }
     points = filtered;
     const bezierPoints = [];
+    const isClosed = points.length > 2 &&
+        Math.hypot(points[0].x - points[points.length - 1].x, points[0].y - points[points.length - 1].y) < closeThreshold;
     for (let i = 0; i < points.length; i++) {
-        const prev = points[i - 1] ?? points[i];
+        const prev = points[i - 1] ?? (isClosed ? points[points.length - 2] : points[i]);
         const curr = points[i];
-        const next = points[i + 1] ?? points[i];
-        const next2 = points[i + 2] ?? next;
+        const next = points[i + 1] ?? (isClosed ? points[(i + 1) % points.length] : points[i]);
+        const next2 = points[i + 2] ?? (isClosed ? points[(i + 2) % points.length] : next);
         // Vector from prev to next
         const dx1 = (next.x - prev.x) * tension;
         const dy1 = (next.y - prev.y) * tension;
         // Vector from curr to next2
         const dx2 = (next2.x - curr.x) * tension;
         const dy2 = (next2.y - curr.y) * tension;
-        const handleIn = i === 0 ? null : { x: curr.x - dx1 / 2, y: curr.y - dy1 / 2 };
-        const handleOut = i === points.length - 1 ? null : { x: curr.x + dx2 / 2, y: curr.y + dy2 / 2 };
+        const handleIn = (!isClosed && i === 0) ? null : { x: curr.x - dx1 / 2, y: curr.y - dy1 / 2 };
+        const handleOut = (!isClosed && i === points.length - 1) ? null : { x: curr.x + dx2 / 2, y: curr.y + dy2 / 2 };
         bezierPoints.push({
             anchor: { ...curr },
             cp1: handleIn,
             cp2: handleOut,
-            type: 'smooth', // optional – set based on need
+            type: 'smooth',
         });
     }
     const rect = ElementPath._getBoundingRect(bezierPoints);
     const center = { x: rect.cx, y: rect.cy };
+    // translate to relative points
     for (const point of bezierPoints) {
         point.anchor.x -= center.x;
         point.anchor.y -= center.y;
@@ -54,8 +57,6 @@ export function convertPointsToBezierPoints(points, tension = 0.3) {
         }
     }
     // console.log(rect)
-    const isClosed = bezierPoints.length > 2 &&
-        Math.hypot(bezierPoints[0].anchor.x - bezierPoints[bezierPoints.length - 1].anchor.x, bezierPoints[0].anchor.y - bezierPoints[bezierPoints.length - 1].anchor.y) < closeThreshold;
     return {
         center,
         points: bezierPoints,
