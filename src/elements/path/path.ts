@@ -77,29 +77,37 @@ class ElementPath extends ElementBase {
     for (let i = 1; i < this.points.length; i++) {
       const prev = this.points[i - 1]
       const curr = this.points[i]
-      const cp1 = prev.cp2
-        ? ElementBase.transformPoint(prev.cp2.x + cx, prev.cp2.y + cy, transform)
-        : ElementBase.transformPoint(prev.anchor.x + cx, prev.anchor.y + cy, transform)
-      const cp2 = curr.cp1
-        ? ElementBase.transformPoint(curr.cp1.x + cx, curr.cp1.y + cy, transform)
-        : ElementBase.transformPoint(curr.anchor.x + cx, curr.anchor.y + cy, transform)
-      const anchor = ElementBase.transformPoint(curr.anchor.x + cx, curr.anchor.y + cy, transform)
 
-      this.path2D.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, anchor.x, anchor.y)
+      const prevType = prev.type ?? 'directional'
+      const currType = curr.type ?? 'directional'
+
+      const cp1 = prevType === 'corner' ? prev.anchor : (prev.cp2 ?? prev.anchor)
+      const cp2 = currType === 'corner' ? curr.anchor : (curr.cp1 ?? curr.anchor)
+      const anchor = curr.anchor
+
+      const t_cp1 = ElementBase.transformPoint(cp1.x + cx, cp1.y + cy, transform)
+      const t_cp2 = ElementBase.transformPoint(cp2.x + cx, cp2.y + cy, transform)
+      const t_anchor = ElementBase.transformPoint(anchor.x + cx, anchor.y + cy, transform)
+
+      this.path2D.bezierCurveTo(t_cp1.x, t_cp1.y, t_cp2.x, t_cp2.y, t_anchor.x, t_anchor.y)
     }
 
     if (this.closed && this.points.length > 1) {
       const last = this.points[this.points.length - 1]
       const first = this.points[0]
-      const cp1 = last.cp2
-        ? ElementBase.transformPoint(last.cp2.x + cx, last.cp2.y + cy, transform)
-        : ElementBase.transformPoint(last.anchor.x + cx, last.anchor.y + cy, transform)
-      const cp2 = first.cp1
-        ? ElementBase.transformPoint(first.cp1.x + cx, first.cp1.y + cy, transform)
-        : ElementBase.transformPoint(first.anchor.x + cx, first.anchor.y + cy, transform)
-      const anchor = ElementBase.transformPoint(first.anchor.x + cx, first.anchor.y + cy, transform)
 
-      this.path2D.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, anchor.x, anchor.y)
+      const lastType = last.type ?? 'directional'
+      const firstType = first.type ?? 'directional'
+
+      const cp1 = lastType === 'corner' ? last.anchor : (last.cp2 ?? last.anchor)
+      const cp2 = firstType === 'corner' ? first.anchor : (first.cp1 ?? first.anchor)
+      const anchor = first.anchor
+
+      const t_cp1 = ElementBase.transformPoint(cp1.x + cx, cp1.y + cy, transform)
+      const t_cp2 = ElementBase.transformPoint(cp2.x + cx, cp2.y + cy, transform)
+      const t_anchor = ElementBase.transformPoint(anchor.x + cx, anchor.y + cy, transform)
+
+      this.path2D.bezierCurveTo(t_cp1.x, t_cp1.y, t_cp2.x, t_cp2.y, t_anchor.x, t_anchor.y)
       this.path2D.closePath()
     }
   }
