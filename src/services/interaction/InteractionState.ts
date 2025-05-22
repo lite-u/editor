@@ -8,6 +8,7 @@ import {getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
 import {DEFAULT_STROKE} from '~/elements/defaultProps'
 import {getMinimalBoundingRect} from '~/core/utils'
 import Rectangle from '~/elements/rectangle/rectangle'
+import visibleManager from '~/services/visible/VisibleManager'
 
 export type EditorManipulationType =
   | 'static'
@@ -199,9 +200,12 @@ class InteractionState {
     })
   }
 
-
   createPathPoints() {
+    const eles = this.editor.visible.values
 
+    eles.forEach(ele => {
+      ele.getPoints
+    })
   }
 
   destroy() {

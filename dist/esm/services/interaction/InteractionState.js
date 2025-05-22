@@ -151,6 +151,10 @@ class InteractionState {
         });
     }
     createPathPoints() {
+        const eles = this.editor.visible.values;
+        eles.forEach(ele => {
+            ele.getPoints;
+        });
     }
     destroy() {
         this.selectionBox?.remove();
