@@ -13,13 +13,6 @@ const dSelector: ToolType = {
     const {x, y} = interaction.mouseWorldMovement
 
     this.editor.interaction._movingHandle.translate(x, y)
-
-    /*    if (!_pointDown) return
-      this.editor.action.dispatch('world-shift',
-        {
-          x: movementX,
-          y: movementY,
-        })*/
   },
   mouseUp(this: ToolManager) {
     this.editor.interaction._movingHandle = null
