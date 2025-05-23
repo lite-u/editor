@@ -1,15 +1,18 @@
 import ElementBase from '../base/elementBase.js';
-import deepClone from '../../core/deepClone.js';
 import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '../../core/utils.js';
 class ElementLineSegment extends ElementBase {
     type = 'lineSegment';
-    points;
-    constructor({ points, ...rest }) {
+    // points: [{ id: 'start' } & Point, { id: 'end' } & Point]
+    start;
+    end;
+    constructor({ start, end, ...rest }) {
         super(rest);
-        this.points = points;
+        this.start = { ...start };
+        this.end = { ...end };
         this.original = {
             ...this.original,
-            points: deepClone(points),
+            start: { ...start },
+            end: { ...end },
             rotation: this.rotation,
         };
         this.updatePath2D();
@@ -22,18 +25,8 @@ class ElementLineSegment extends ElementBase {
             layer: 0,
             cx: centerX,
             cy: centerY,
-            points: [
-                {
-                    id: 'start',
-                    x: sX - centerX,
-                    y: sY - centerY,
-                },
-                {
-                    id: 'end',
-                    x: eX - centerX,
-                    y: eY - centerY,
-                },
-            ],
+            start: { x: sX, y: sY },
+            end: { x: eX, y: eY },
         });
     }
     static _getBoundingRect(start, end, rotation = 0) {
@@ -53,16 +46,13 @@ class ElementLineSegment extends ElementBase {
         return generateBoundingRectFromRotatedRect({ x, y, width, height }, rotation);
     }
     updatePath2D() {
-        const { cx, cy, rotation } = this;
-        const [start, end] = this.points;
-        const absStart = { x: start.x + cx, y: start.y + cy };
-        const absEnd = { x: end.x + cx, y: end.y + cy };
+        const { cx, cy, start, end, rotation } = this;
         const matrix = new DOMMatrix()
             .translate(cx, cy)
             .rotate(rotation)
             .translate(-cx, -cy);
-        const rotatedStart = ElementBase.transformPoint(absStart.x, absStart.y, matrix);
-        const rotatedEnd = ElementBase.transformPoint(absEnd.x, absEnd.y, matrix);
+        const rotatedStart = ElementBase.transformPoint(start.x, start.y, matrix);
+        const rotatedEnd = ElementBase.transformPoint(end.x, end.y, matrix);
         this.path2D = new Path2D();
         this.path2D.moveTo(rotatedStart.x, rotatedStart.y);
         this.path2D.lineTo(rotatedEnd.x, rotatedEnd.y);
@@ -70,58 +60,54 @@ class ElementLineSegment extends ElementBase {
     updateOriginal() {
         this.original.cx = this.cx;
         this.original.cy = this.cy;
-        this.original.points = deepClone(this.points);
+        this.original.start = { ...this.start };
+        this.original.end = { ...this.end };
         this.original.rotation = this.rotation;
         this.updatePath2D();
     }
-    get getPoints() {
-        return this.points.map(p => ({ x: p.x, y: p.y }));
-    }
+    /*
+      public get getPoints(): Point[] {
+        return this.points.map(p => ({x: p.x, y: p.y}))
+      }
+    */
     getBoundingRect(withoutRotation = false) {
-        const { cx, cy, points: [start, end], rotation } = this;
-        const aStart = { x: start.x + cx, y: start.y + cy };
-        const aEnd = { x: end.x + cx, y: end.y + cy };
-        const r = withoutRotation ? 0 : rotation;
-        return ElementLineSegment._getBoundingRect(aStart, aEnd, r);
+        const { start, end, rotation } = this;
+        return ElementLineSegment._getBoundingRect(start, end, rotation);
     }
     getBoundingRectFromOriginal() {
-        const { cx, cy, points: [start, end], rotation } = this;
-        const aStart = { x: start.x + cx, y: start.y + cy };
-        const aEnd = { x: end.x + cx, y: end.y + cy };
-        return ElementLineSegment._getBoundingRect(aStart, aEnd, rotation);
+        const { start, end, rotation } = this.original;
+        return ElementLineSegment._getBoundingRect(start, end, rotation);
     }
     scaleFrom(scaleX, scaleY, anchor) {
         const matrix = new DOMMatrix()
             .translate(anchor.x, anchor.y)
             .scale(scaleX, scaleY)
             .translate(-anchor.x, -anchor.y);
-        const [oStart, oEnd] = this.original.points;
+        const { start, end } = this.original;
         // Adjust to absolute coordinates for transformation
-        const newStart = ElementBase.transformPoint(oStart.x + this.cx, oStart.y + this.cy, matrix);
-        const newEnd = ElementBase.transformPoint(oEnd.x + this.cx, oEnd.y + this.cy, matrix);
+        const newStart = ElementBase.transformPoint(start.x + this.cx, start.y + this.cy, matrix);
+        const newEnd = ElementBase.transformPoint(end.x + this.cx, end.y + this.cy, matrix);
         // Store back as relative to cx, cy
-        this.points[0].x = newStart.x - this.cx;
-        this.points[0].y = newStart.y - this.cy;
-        this.points[1].x = newEnd.x - this.cx;
-        this.points[1].y = newEnd.y - this.cy;
+        this.start.x = newStart.x - this.cx;
+        this.start.y = newStart.y - this.cy;
+        this.end.x = newEnd.x - this.cx;
+        this.end.y = newEnd.y - this.cy;
         this.updatePath2D();
     }
     toJSON() {
         return {
             ...super.toJSON(),
-            // id: this.id,
-            // layer: this.layer,
             type: this.type,
-            points: deepClone(this.points),
+            start: { ...this.start },
+            end: { ...this.end },
         };
     }
     toMinimalJSON() {
         return {
             ...super.toMinimalJSON(),
-            // id: this.id,
-            // layer: this.layer,
             type: this.type,
-            points: deepClone(this.points),
+            start: { ...this.start },
+            end: { ...this.end },
         };
     }
 }

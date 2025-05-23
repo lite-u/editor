@@ -175,15 +175,15 @@ class InteractionState {
                     if (cp1LineToAnchor) {
                         cp1LineToAnchor.cx += dx;
                         cp1LineToAnchor.cy += dy;
-                        cp1LineToAnchor.points[1].x += dx;
-                        cp1LineToAnchor.points[1].y += dy;
+                        cp1LineToAnchor.end.x += dx;
+                        cp1LineToAnchor.end.y += dy;
                         cp1LineToAnchor.updatePath2D();
                     }
                     if (cp2LineToAnchor) {
                         cp2LineToAnchor.cx += dx;
                         cp2LineToAnchor.cy += dy;
-                        cp2LineToAnchor.points[1].x += dx;
-                        cp2LineToAnchor.points[1].y += dy;
+                        cp2LineToAnchor.end.x += dx;
+                        cp2LineToAnchor.end.y += dy;
                         cp2LineToAnchor.updatePath2D();
                     }
                     ele.updatePath2D();
