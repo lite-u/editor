@@ -193,7 +193,6 @@ class InteractionState {
   }
 
   createPathPoints() {
-    // const {elementManager} = this.editor
     const {scale, dpr} = this.editor.world
     const ratio = scale * dpr
     const idSet = this.editor.selection.values
@@ -203,7 +202,6 @@ class InteractionState {
     const elements = this.editor.elementManager.getElementsByIdSet(idSet)
     const resizeStrokeWidth = 2 / ratio
 
-    // console.log(eles)
     elements.forEach(ele => {
       const points: BezierPoint[] = ele.getBezierPoints()
 
@@ -222,7 +220,7 @@ class InteractionState {
         if (point.cp1) {
           const cPX = point.cp1.x
           const cPY = point.cp1.y
-          const cp1 = ElementEllipse.create(ele.id + '-cp1-' + index, cPY, cPY, pointLen)
+          const cp1 = ElementEllipse.create(ele.id + '-cp1-' + index, cPX, cPY, pointLen)
           const lineToAnchor = LineSegment.create(ele.id + '-cp1-' + index, cPX, cPY, aPX, aPY)
 
           cp1.layer = 1
@@ -237,44 +235,20 @@ class InteractionState {
         }
 
         if (point.cp2) {
-          /* const cPX = point.cp2.x
-           const cPY = point.cp2.y
+          const cPX = point.cp2.x
+          const cPY = point.cp2.y
+          const cp2 = ElementEllipse.create(ele.id + '-cp2-' + index, cPX, cPY, pointLen)
+          const lineToAnchor = LineSegment.create(ele.id + '-cp2-' + index, cPX, cPY, aPX, aPY)
 
-           const cp2 = new Ellipse({
-             id: ele.id + '-cp1-' + index,
-             layer: 1,
-             cx: cPX,
-             cy: cPY,
-             r1: pointLen,
-             r2: pointLen,
-             fill: {
-               enabled: true,
-               color: this.boxColor,
-             },
-           })
+          cp2.layer = 2
+          cp2.fill.enabled = true
+          cp2.fill.color = this.boxColor
+          cp2.stroke.enabled = false
+          lineToAnchor.layer = 1
+          lineToAnchor.stroke.color = this.boxColor
+          lineToAnchor.stroke.weight = 2 / ratio
 
-           const lineCX = (cPX + aPX) / 2
-           const lineCY = (cPY + aPY) / 2
-           const lineStartX = lineCX - aPX
-           const lineStartY = lineCY - aPY
-           const lineEndX = lineCX - cPX
-           const lineEndY = lineCY - cPY
-
-           const lineToAnchor = new LineSegment({
-             id: ele.id + '-cp1-' + index,
-             layer: 1,
-             cx: lineCX,
-             cy: lineCY,
-             points: [
-               {id: 'start', x: lineStartX, y: lineStartY},
-               {id: 'end', x: lineEndX, y: lineEndY},
-             ],
-           })
-           lineToAnchor.stroke.color = this.boxColor
-           lineToAnchor.stroke.weight = 2 / ratio
-           cp2.stroke.enabled = false
-
-           pointElements.push(lineToAnchor, cp2)*/
+          pointElements.push(lineToAnchor, cp2)
         }
 
       })
