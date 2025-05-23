@@ -36,7 +36,6 @@ class ElementEllipse extends ElementBase {
   }
 
   static create(id: UID, cx: number, cy: number, r1: number = 1, r2?: number): ElementEllipse {
-    // const _r2 = r2 || r1
     return new ElementEllipse({id, cx, cy, r1, r2: r2 || r1, layer: 0})
   }
 

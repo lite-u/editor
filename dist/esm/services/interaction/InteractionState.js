@@ -4,6 +4,7 @@ import { DEFAULT_STROKE } from '../../elements/defaultProps.js';
 import { getMinimalBoundingRect } from '../../core/utils.js';
 import ElementRectangle from '../../elements/rectangle/rectangle.js';
 import Ellipse from '../../elements/ellipse/ellipse.js';
+import ElementEllipse from '../../elements/ellipse/ellipse.js';
 import LineSegment from '../../elements/lines/lineSegment.js';
 class InteractionState {
     editor;
@@ -168,24 +169,17 @@ class InteractionState {
                 if (point.cp1) {
                     const cPX = point.cp1.x;
                     const cPY = point.cp1.y;
-                    const cp1 = new Ellipse({
-                        id: ele.id + '-cp1-' + index,
-                        layer: 1,
-                        cx: cPX,
-                        cy: cPY,
-                        r1: pointLen,
-                        r2: pointLen,
-                        fill: {
-                            enabled: true,
-                            color: this.boxColor,
-                        },
-                    });
+                    const cp1 = ElementEllipse.create(ele.id + '-cp1-' + index, cPY, cPY, pointLen);
+                    cp1.layer = 1;
+                    cp1.fill.enabled = true;
+                    cp1.fill.color = this.boxColor;
                     const lineCX = (cPX + aPX) / 2;
                     const lineCY = (cPY + aPY) / 2;
                     const lineStartX = lineCX - aPX;
                     const lineStartY = lineCY - aPY;
                     const lineEndX = lineCX - cPX;
                     const lineEndY = lineCY - cPY;
+                    LineSegment.create(ele.id + '-cp1-' + index);
                     const lineToAnchor = new LineSegment({
                         id: ele.id + '-cp1-' + index,
                         layer: 1,

@@ -10,6 +10,7 @@ import {getMinimalBoundingRect} from '~/core/utils'
 import ElementRectangle from '~/elements/rectangle/rectangle'
 import {BezierPoint} from '~/elements/props'
 import Ellipse from '~/elements/ellipse/ellipse'
+import ElementEllipse from '~/elements/ellipse/ellipse'
 import LineSegment from '~/elements/lines/lineSegment'
 
 export type EditorManipulationType =
@@ -223,19 +224,11 @@ class InteractionState {
         if (point.cp1) {
           const cPX = point.cp1.x
           const cPY = point.cp1.y
+          const cp1 = ElementEllipse.create(ele.id + '-cp1-' + index, cPY, cPY, pointLen)
 
-          const cp1 = new Ellipse({
-            id: ele.id + '-cp1-' + index,
-            layer: 1,
-            cx: cPX,
-            cy: cPY,
-            r1: pointLen,
-            r2: pointLen,
-            fill: {
-              enabled: true,
-              color: this.boxColor,
-            },
-          })
+          cp1.layer = 1
+          cp1.fill.enabled = true
+          cp1.fill.color = this.boxColor
 
           const lineCX = (cPX + aPX) / 2
           const lineCY = (cPY + aPY) / 2
@@ -243,7 +236,7 @@ class InteractionState {
           const lineStartY = lineCY - aPY
           const lineEndX = lineCX - cPX
           const lineEndY = lineCY - cPY
-
+          LineSegment.create(ele.id + '-cp1-' + index,)
           const lineToAnchor = new LineSegment({
             id: ele.id + '-cp1-' + index,
             layer: 1,

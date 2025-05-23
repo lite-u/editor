@@ -14,26 +14,27 @@ class ElementLineSegment extends ElementBase {
         };
         this.updatePath2D();
     }
-    static createByPoints(start, end) {
-        const centerX = (start.x + end.x) / 2;
-        const centerY = (start.y + end.y) / 2;
-        const props = {
+    static create(id, sX, sY, eX, eY) {
+        const centerX = (sX + eX) / 2;
+        const centerY = (sY + eY) / 2;
+        return new ElementLineSegment({
+            id,
+            layer: 0,
             cx: centerX,
             cy: centerY,
             points: [
                 {
                     id: 'start',
-                    x: centerX - start.x,
-                    y: centerY - start.y,
+                    x: centerX - sX,
+                    y: centerY - sY,
                 },
                 {
                     id: 'end',
-                    x: centerX - end.x,
-                    y: centerY - end.y,
+                    x: centerX - eX,
+                    y: centerY - eY,
                 },
             ],
-        };
-        return props;
+        });
         // return new ElementLineSegment(props)
     }
     static _getBoundingRect(start, end, rotation = 0) {
