@@ -210,7 +210,6 @@ class InteractionState {
     elements.forEach(ele => {
       const points: BezierPoint[] = ele.getBezierPoints()
 
-
       points.forEach((point, index) => {
         const aPX = point.anchor.x
         const aPY = point.anchor.y
@@ -225,22 +224,22 @@ class InteractionState {
         anchorPoint.stroke.weight = resizeStrokeWidth
         pointElements.push(anchorPoint)
         anchorPoint.on('move', ({dx, dy}) => {
-          console.log(dx,dy)
+          console.log(dx, dy)
           // console.log(ele.points[index])
           ele.points[index].x += dx
           ele.points[index].y += dy
 
           if (cp1LineToAnchor) {
-            cp1LineToAnchor.cx+=dx
-            cp1LineToAnchor.cy+=dy
+            cp1LineToAnchor.cx += dx
+            cp1LineToAnchor.cy += dy
             cp1LineToAnchor.points[1].x += dx
             cp1LineToAnchor.points[1].y += dy
             cp1LineToAnchor.updatePath2D()
           }
 
           if (cp2LineToAnchor) {
-            cp2LineToAnchor.cx+=dx
-            cp2LineToAnchor.cy+=dy
+            cp2LineToAnchor.cx += dx
+            cp2LineToAnchor.cy += dy
             cp2LineToAnchor.points[1].x += dx
             cp2LineToAnchor.points[1].y += dy
             cp2LineToAnchor.updatePath2D()
