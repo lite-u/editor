@@ -64,6 +64,8 @@ class ElementBase {
     cy: number;
     rotation: number,
     points?: BezierPoint[],
+    start?: Point,
+    end?: Point,
     width?: number,
     height?: number,
     r1?: number,
