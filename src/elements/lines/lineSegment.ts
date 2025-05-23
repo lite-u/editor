@@ -14,7 +14,7 @@ export type RequiredLineSegmentProps = Required<LineSegmentProps>
 
 class ElementLineSegment extends ElementBase {
   readonly type = 'lineSegment'
-  private points: [{ id: 'start' } & Point, { id: 'end' } & Point]
+  points: [{ id: 'start' } & Point, { id: 'end' } & Point]
 
   constructor({
                 points,

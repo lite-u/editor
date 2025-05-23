@@ -209,33 +209,46 @@ class InteractionState {
 
     elements.forEach(ele => {
       const points: BezierPoint[] = ele.getBezierPoints()
-      let cp1LineToAnchor: ElementLineSegment | null
-      let cp2LineToAnchor: ElementLineSegment | null
+
 
       points.forEach((point, index) => {
         const aPX = point.anchor.x
         const aPY = point.anchor.y
         const id = ele.id + '-anchor-' + index
         const anchorPoint = ElementRectangle.create(id, aPX, aPY, pointLen)
+        let cp1LineToAnchor: ElementLineSegment | null
+        let cp2LineToAnchor: ElementLineSegment | null
 
         anchorPoint.fill.enabled = true
         anchorPoint.fill.color = '#00ff00'
         anchorPoint.layer = 1
         anchorPoint.stroke.weight = resizeStrokeWidth
         pointElements.push(anchorPoint)
-        anchorPoint.on('move', (payload) => {
+        anchorPoint.on('move', ({dx, dy}) => {
+          console.log(dx,dy)
           // console.log(ele.points[index])
-          ele.points[index].x += payload.dx
-          ele.points[index].y += payload.dy
+          ele.points[index].x += dx
+          ele.points[index].y += dy
 
           if (cp1LineToAnchor) {
-            cp1LineToAnchor.points[0].x += dx
-            cp1LineToAnchor.points[0].y += dy
+            cp1LineToAnchor.cx+=dx
+            cp1LineToAnchor.cy+=dy
+            cp1LineToAnchor.points[1].x += dx
+            cp1LineToAnchor.points[1].y += dy
+            cp1LineToAnchor.updatePath2D()
+          }
+
+          if (cp2LineToAnchor) {
+            cp2LineToAnchor.cx+=dx
+            cp2LineToAnchor.cy+=dy
+            cp2LineToAnchor.points[1].x += dx
+            cp2LineToAnchor.points[1].y += dy
+            cp2LineToAnchor.updatePath2D()
           }
 
           ele.updatePath2D()
           this.editor.action.dispatch('element-updated')
-          // console.log('anchorPoint move ', payload)
+          // this.editor.action.dispatch('render-overlay')
         })
 
         if (point.cp1) {

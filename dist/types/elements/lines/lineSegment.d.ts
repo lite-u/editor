@@ -11,7 +11,11 @@ export interface LineSegmentProps extends ElementBaseProps {
 export type RequiredLineSegmentProps = Required<LineSegmentProps>;
 declare class ElementLineSegment extends ElementBase {
     readonly type = "lineSegment";
-    private points;
+    points: [{
+        id: 'start';
+    } & Point, {
+        id: 'end';
+    } & Point];
     constructor({ points, ...rest }: LineSegmentProps);
     static create(id: UID, sX: number, sY: number, eX: number, eY: number): ElementLineSegment;
     static _getBoundingRect(start: Point, end: Point, rotation?: number): BoundingRect;
