@@ -132,7 +132,7 @@ export function initEvents(this: Editor) {
 
   on('element-updated', (historyData: HistoryOperation) => {
     dispatch('visible-element-updated')
-    dispatch('selection-updated')
+    // dispatch('selection-updated')
 
     if (historyData) {
       this.history.add(historyData)

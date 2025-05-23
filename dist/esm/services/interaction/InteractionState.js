@@ -1,10 +1,10 @@
-import { createWith, getManipulationBox } from '../../lib/lib.js';
-import { getBoundingRectFromBoundingRects } from '../tool/resize/helper.js';
-import { DEFAULT_STROKE } from '../../elements/defaultProps.js';
-import { getMinimalBoundingRect } from '../../core/utils.js';
-import ElementRectangle from '../../elements/rectangle/rectangle.js';
-import ElementEllipse from '../../elements/ellipse/ellipse.js';
-import LineSegment from '../../elements/lines/lineSegment.js';
+import { createWith, getManipulationBox } from '~/lib/lib';
+import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
+import { DEFAULT_STROKE } from '~/elements/defaultProps';
+import { getMinimalBoundingRect } from '~/core/utils';
+import ElementRectangle from '~/elements/rectangle/rectangle';
+import ElementEllipse from '~/elements/ellipse/ellipse';
+import LineSegment from '~/elements/lines/lineSegment';
 class InteractionState {
     editor;
     state = 'static';
@@ -155,6 +155,8 @@ class InteractionState {
         const resizeStrokeWidth = 2 / ratio;
         elements.forEach(ele => {
             const points = ele.getBezierPoints();
+            let cp1LineToAnchor;
+            let cp2LineToAnchor;
             points.forEach((point, index) => {
                 const aPX = point.anchor.x;
                 const aPY = point.anchor.y;
@@ -166,35 +168,42 @@ class InteractionState {
                 anchorPoint.stroke.weight = resizeStrokeWidth;
                 pointElements.push(anchorPoint);
                 anchorPoint.on('move', (payload) => {
-                    console.log('anchorPoint move ', payload);
+                    // console.log(ele.points[index])
+                    ele.points[index].x += payload.dx;
+                    ele.points[index].y += payload.dy;
+                    if (cp1LineToAnchor) {
+                        cp1LineToAnchor.points[0].x += dx;
+                        cp1LineToAnchor.points[0].y += dy;
+                    }
+                    ele.updatePath2D();
+                    this.editor.action.dispatch('element-updated');
+                    // console.log('anchorPoint move ', payload)
                 });
                 if (point.cp1) {
-                    const cPX = point.cp1.x;
-                    const cPY = point.cp1.y;
+                    const { x: cPX, y: cPY } = point.cp1;
                     const cp1 = ElementEllipse.create(ele.id + '-cp1-' + index, cPX, cPY, pointLen);
-                    const lineToAnchor = LineSegment.create(ele.id + '-cp1-' + index, cPX, cPY, aPX, aPY);
+                    const cp1LineToAnchor = LineSegment.create(ele.id + '-cp1-' + index, cPX, cPY, aPX, aPY);
                     cp1.layer = 1;
                     cp1.fill.enabled = true;
                     cp1.fill.color = this.boxColor;
                     cp1.stroke.enabled = false;
-                    lineToAnchor.layer = 1;
-                    lineToAnchor.stroke.color = this.boxColor;
-                    lineToAnchor.stroke.weight = 2 / ratio;
-                    pointElements.push(lineToAnchor, cp1);
+                    cp1LineToAnchor.layer = 1;
+                    cp1LineToAnchor.stroke.color = this.boxColor;
+                    cp1LineToAnchor.stroke.weight = 2 / ratio;
+                    pointElements.push(cp1LineToAnchor, cp1);
                 }
                 if (point.cp2) {
-                    const cPX = point.cp2.x;
-                    const cPY = point.cp2.y;
+                    const { x: cPX, y: cPY } = point.cp2;
                     const cp2 = ElementEllipse.create(ele.id + '-cp2-' + index, cPX, cPY, pointLen);
-                    const lineToAnchor = LineSegment.create(ele.id + '-cp2-' + index, cPX, cPY, aPX, aPY);
+                    cp2LineToAnchor = LineSegment.create(ele.id + '-cp2-' + index, cPX, cPY, aPX, aPY);
                     cp2.layer = 2;
                     cp2.fill.enabled = true;
                     cp2.fill.color = this.boxColor;
                     cp2.stroke.enabled = false;
-                    lineToAnchor.layer = 1;
-                    lineToAnchor.stroke.color = this.boxColor;
-                    lineToAnchor.stroke.weight = 2 / ratio;
-                    pointElements.push(lineToAnchor, cp2);
+                    cp2LineToAnchor.layer = 1;
+                    cp2LineToAnchor.stroke.color = this.boxColor;
+                    cp2LineToAnchor.stroke.weight = 2 / ratio;
+                    pointElements.push(cp2LineToAnchor, cp2);
                 }
             });
         });

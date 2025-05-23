@@ -109,7 +109,7 @@ export function initEvents() {
     });
     on('element-updated', (historyData) => {
         dispatch('visible-element-updated');
-        dispatch('selection-updated');
+        // dispatch('selection-updated')
         if (historyData) {
             this.history.add(historyData);
             this.events.onHistoryUpdated?.(this.history);
