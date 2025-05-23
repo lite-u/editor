@@ -121,8 +121,8 @@ class ElementLineSegment extends ElementBase {
 
     const {start, end} = this.original
     // Adjust to absolute coordinates for transformation
-    const newStart = ElementBase.transformPoint(oStart.x + this.cx, oStart.y + this.cy, matrix)
-    const newEnd = ElementBase.transformPoint(oEnd.x + this.cx, oEnd.y + this.cy, matrix)
+    const newStart = ElementBase.transformPoint(start.x + this.cx, start.y + this.cy, matrix)
+    const newEnd = ElementBase.transformPoint(end.x + this.cx, end.y + this.cy, matrix)
 
     // Store back as relative to cx, cy
     this.start.x = newStart.x - this.cx
@@ -136,8 +136,6 @@ class ElementLineSegment extends ElementBase {
   public toJSON(): RequiredLineSegmentProps {
     return {
       ...super.toJSON(),
-      // id: this.id,
-      // layer: this.layer,
       type: this.type,
       start: {...this.start},
       end: {...this.end},
