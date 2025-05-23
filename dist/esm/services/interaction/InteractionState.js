@@ -48,7 +48,7 @@ class InteractionState {
     };
     selectionBox = null;
     _lastTool = null;
-    boxColor = '#006bfa';
+    boxColor = '#435fb9';
     boxBgColor = 'rgba(31,180,255,0.1)';
     // toolMap: Map<string, ToolManager> = new Map()
     copyDeltaX = 10;
@@ -137,7 +137,7 @@ class InteractionState {
             stroke: {
                 ...DEFAULT_STROKE,
                 weight: 2 / scale,
-                color: '#5491f8',
+                color: this.boxColor,
             },
         });
     }
@@ -158,18 +158,11 @@ class InteractionState {
             points.forEach((point, index) => {
                 const aPX = point.anchor.x;
                 const aPY = point.anchor.y;
-                const anchorPoint = new ElementRectangle({
-                    id: ele.id + '-anchor-' + index,
-                    layer: 1,
-                    cx: aPX,
-                    cy: aPY,
-                    width: pointLen,
-                    height: pointLen,
-                    fill: {
-                        enabled: true,
-                        color: '#fff',
-                    },
-                });
+                const id = ele.id + '-anchor-' + index;
+                const anchorPoint = ElementRectangle.create(id, aPX, aPY, pointLen);
+                anchorPoint.fill.enabled = true;
+                anchorPoint.fill.color = '#fff';
+                anchorPoint.layer = 1;
                 anchorPoint.stroke.weight = resizeStrokeWidth;
                 pointElements.push(anchorPoint);
                 if (point.cp1) {

@@ -10,7 +10,7 @@ function overlayRender(this: World) {
   const {scale, dpr} = this.editor.world
   const ratio = scale * dpr
   const size = 20 / ratio
-  const lineWidth = 3 / ratio
+  const lineWidth = 2 / ratio
   const fontSize = 40 / ratio
   // const lineColor = '#5491f8'
   const lineColor = '#435fb9'

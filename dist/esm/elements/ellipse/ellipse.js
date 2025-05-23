@@ -18,6 +18,10 @@ class ElementEllipse extends ElementBase {
         };
         this.updatePath2D();
     }
+    static create(id, cx, cy, r1 = 1, r2) {
+        // const _r2 = r2 || r1
+        return new ElementEllipse({ id, cx, cy, r1, r2: r2 || r1, layer: 0 });
+    }
     get getPoints() {
         const { cx, cy, r1, r2, rotation } = this;
         // Points before rotation

@@ -86,7 +86,7 @@ class InteractionState {
   }
   selectionBox: HTMLDivElement | null = null
   _lastTool: ToolName | null = null
-  boxColor = '#006bfa'
+  boxColor = '#435fb9'
   boxBgColor = 'rgba(31,180,255,0.1)'
   // toolMap: Map<string, ToolManager> = new Map()
   copyDeltaX = 10
@@ -187,7 +187,7 @@ class InteractionState {
       stroke: {
         ...DEFAULT_STROKE,
         weight: 2 / scale,
-        color: '#5491f8',
+        color: this.boxColor,
       },
     })
   }
