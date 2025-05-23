@@ -1,15 +1,16 @@
 const dSelector = {
     cursor: 'default',
     mouseDown() {
-        // this.editor.cursor.set('grabbing')
-        // updateCursor.call(this, 'grabbing')
+        this.editor.interaction._movingHandle = this.editor.interaction._hoveredHandle;
     },
     mouseMove() {
+        if (!this.editor.interaction._movingHandle)
+            return;
+        const { interaction, elementManager, selection } = this.editor;
         // this.editor.container.setPointerCapture(e.pointerId)
-        /*  const {_modifier, _pointDown} = this.editor.interaction
-          const {movementX, movementY} = _modifier
-      
-          if (!_pointDown) return
+        const { x, y } = interaction.mouseWorldMovement;
+        this.editor.interaction._movingHandle.translate(x, y);
+        /*    if (!_pointDown) return
           this.editor.action.dispatch('world-shift',
             {
               x: movementX,
@@ -17,6 +18,7 @@ const dSelector = {
             })*/
     },
     mouseUp() {
+        this.editor.interaction._movingHandle = null;
         // this.editor.cursor.set('grab')
     },
 };

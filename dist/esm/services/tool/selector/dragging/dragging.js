@@ -4,9 +4,10 @@ const dragging = {
     mouseMove: function () {
         _mouseMoved = true;
         const { interaction, elementManager, selection } = this.editor;
-        const { movementX, movementY } = interaction._modifier;
-        const { dpr, scale } = this.editor.world;
-        const dp = { x: movementX * dpr / scale, y: movementY * dpr / scale };
+        // const {movementX, movementY} = interaction._modifier
+        // const {dpr, scale} = this.editor.world
+        // const dp = {x: movementX * dpr / scale, y: movementY * dpr / scale}
+        const dp = interaction.mouseWorldMovement;
         const elements = elementManager.getElementsByIdSet(selection.values);
         interaction._outlineElement?.translate(dp.x, dp.y);
         interaction._manipulationElements.forEach(ele => ele.translate(dp.x, dp.y));

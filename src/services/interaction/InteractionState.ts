@@ -48,6 +48,7 @@ class InteractionState {
   mouseWorldStart: Point = {x: 0, y: 0}
   mouseWorldCurrent: Point = {x: 0, y: 0}
   mouseWorldDelta: Point = {x: 0, y: 0}
+  mouseWorldMovement: Point = {x: 0, y: 0}
 
   _hoveredElement: ElementInstance | null = null
   _hoveredResizeManipulator: ElementInstance | null = null
@@ -60,6 +61,9 @@ class InteractionState {
 
   _manipulationElements: ElementInstance[] = []
   _controlPoints: ElementInstance[] = []
+
+  _hoveredHandle: ElementInstance | null = null
+  _movingHandle: ElementInstance | null = null
 
   readonly operationHandlers: OperationHandler[] = []
   _pointDown = false
@@ -216,6 +220,9 @@ class InteractionState {
         anchorPoint.layer = 1
         anchorPoint.stroke.weight = resizeStrokeWidth
         pointElements.push(anchorPoint)
+        anchorPoint.on('move', (payload) => {
+          console.log('anchorPoint move ', payload)
+        })
 
         if (point.cp1) {
           const cPX = point.cp1.x

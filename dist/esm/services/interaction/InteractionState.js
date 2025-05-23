@@ -14,6 +14,7 @@ class InteractionState {
     mouseWorldStart = { x: 0, y: 0 };
     mouseWorldCurrent = { x: 0, y: 0 };
     mouseWorldDelta = { x: 0, y: 0 };
+    mouseWorldMovement = { x: 0, y: 0 };
     _hoveredElement = null;
     _hoveredResizeManipulator = null;
     _hoveredRotateManipulator = null;
@@ -23,6 +24,8 @@ class InteractionState {
     _rotateData = null;
     _manipulationElements = [];
     _controlPoints = [];
+    _hoveredHandle = null;
+    _movingHandle = null;
     operationHandlers = [];
     _pointDown = false;
     _snapped = false;
@@ -162,6 +165,9 @@ class InteractionState {
                 anchorPoint.layer = 1;
                 anchorPoint.stroke.weight = resizeStrokeWidth;
                 pointElements.push(anchorPoint);
+                anchorPoint.on('move', (payload) => {
+                    console.log('anchorPoint move ', payload);
+                });
                 if (point.cp1) {
                     const cPX = point.cp1.x;
                     const cPY = point.cp1.y;

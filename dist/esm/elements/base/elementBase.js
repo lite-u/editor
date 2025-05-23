@@ -53,6 +53,7 @@ class ElementBase {
         this.cx = this.cx + dx;
         this.cy = this.cy + dy;
         this.updatePath2D();
+        this.eventListeners['move']?.forEach(handler => handler({ dx, dy }));
         if (f) {
             return {
                 id: this.id,

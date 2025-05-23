@@ -4,6 +4,7 @@ import detectTool from '~/services/tool/detectTool'
 
 export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
   const {action, rect, cursor, interaction, world} = this.editor
+  const {dpr, scale} = world
   const x = e.clientX - rect!.x
   const y = e.clientY - rect!.y
   const {button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY} = e
@@ -14,6 +15,7 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
   interaction.mouseDelta.y = y - interaction.mouseStart.y
   interaction.mouseWorldCurrent = world.getWorldPointByViewportPoint(x, y)
   interaction.mouseWorldDelta = world.getWorldPointByViewportPoint(x, y)
+  interaction.mouseWorldMovement = {x: movementX * dpr / scale, y: movementY * dpr / scale}
   interaction._modifier = {button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY}
   // console.log(movementX,movementY)
   cursor.move({x: e.clientX, y: e.clientY})

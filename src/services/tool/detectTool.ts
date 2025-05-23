@@ -16,14 +16,16 @@ function detectTool(this: ToolManager) {
   interaction._hoveredElement = null
   interaction._hoveredResizeManipulator = null
   interaction._hoveredRotateManipulator = null
+  interaction._hoveredHandle = null
 
   for (let i = 0; i < cElements.length; i++) {
     const currMEle = cElements[i]
-    const {path2D, id} = currMEle
+    const {path2D} = currMEle
     const inside = ctx.isPointInPath(path2D, viewPoint.x, viewPoint.y)
 
     if (inside) {
-      console.log(currMEle)
+      interaction._hoveredHandle = currMEle
+      break
     }
   }
 

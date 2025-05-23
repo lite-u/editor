@@ -23,6 +23,7 @@ interface ElementEventMap {
   translate: { dx: number; dy: number };
   resize: { scaleX: number; scaleY: number };
   rotate: { angle: number };
+
   [key: string]: any; // For extensibility
 }
 
@@ -73,7 +74,8 @@ class ElementBase {
   // public _relatedId: string
   private eventListeners: {
     [K in keyof ElementEventMap]?: ElementEventHandler<ElementEventMap[K]>[]
-  } = {};
+  } = {}
+
   constructor({
                 id,
                 layer,
@@ -116,16 +118,18 @@ class ElementBase {
 
   on<K extends keyof ElementEventMap>(
     event: K,
-    handler: ElementEventHandler<ElementEventMap[K]>
+    handler: ElementEventHandler<ElementEventMap[K]>,
   ) {
-    if (!this.eventListeners[event]) this.eventListeners[event] = [];
-    this.eventListeners[event]!.push(handler);
+    if (!this.eventListeners[event]) this.eventListeners[event] = []
+    this.eventListeners[event]!.push(handler)
   }
 
   protected translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined {
     this.cx = this.cx + dx
     this.cy = this.cy + dy
     this.updatePath2D()
+
+    this.eventListeners['move']?.forEach(handler => handler({dx, dy}))
 
     if (f) {
       return {
@@ -152,21 +156,21 @@ class ElementBase {
 
   protected rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined {
     // if (rotation !== 0) {
-      const matrix = new DOMMatrix()
-        .translate(anchor.x, anchor.y)
-        .rotate(rotation)
-        .translate(-anchor.x, -anchor.y)
-      const {cx, cy} = this.original
-      const transformed = matrix.transformPoint({x: cx, y: cy})
-      let newRotation = (this.original.rotation + rotation) % 360
+    const matrix = new DOMMatrix()
+      .translate(anchor.x, anchor.y)
+      .rotate(rotation)
+      .translate(-anchor.x, -anchor.y)
+    const {cx, cy} = this.original
+    const transformed = matrix.transformPoint({x: cx, y: cy})
+    let newRotation = (this.original.rotation + rotation) % 360
 
-      if (newRotation < 0) newRotation += 360
+    if (newRotation < 0) newRotation += 360
 
-      this.rotation = newRotation
-      this.cx = transformed.x
-      this.cy = transformed.y
+    this.rotation = newRotation
+    this.cx = transformed.x
+    this.cy = transformed.y
 
-      this.updatePath2D()
+    this.updatePath2D()
     // }
 
     if (f) {
@@ -293,13 +297,13 @@ class ElementBase {
     this.matrix = new DOMMatrix()
   }*/
 
-/*  protected applyTransform(matrix: DOMMatrix): void {
-    this.matrix = matrix.multiply(this.matrix)
-  }*/
+  /*  protected applyTransform(matrix: DOMMatrix): void {
+      this.matrix = matrix.multiply(this.matrix)
+    }*/
 
-/*  protected getTransformMatrix(): DOMMatrix {
-    return this.matrix
-  }*/
+  /*  protected getTransformMatrix(): DOMMatrix {
+      return this.matrix
+    }*/
 
   public render(ctx: CanvasRenderingContext2D): void {
     if (!this.path2D) return
