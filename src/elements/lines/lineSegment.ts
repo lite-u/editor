@@ -7,25 +7,31 @@ export interface LineSegmentProps extends ElementBaseProps {
   // id: string
   // layer: number
   type?: 'lineSegment'
-  points: [{ id: 'start' } & Point, { id: 'end' } & Point]
+  start: Point
+  end: Point
+  // points: [{ id: 'start' } & Point, { id: 'end' } & Point]
 }
 
 export type RequiredLineSegmentProps = Required<LineSegmentProps>
 
 class ElementLineSegment extends ElementBase {
   readonly type = 'lineSegment'
-  points: [{ id: 'start' } & Point, { id: 'end' } & Point]
-  start:Point
-  end:Point
+  // points: [{ id: 'start' } & Point, { id: 'end' } & Point]
+  start: Point
+  end: Point
+
   constructor({
-                points,
+                start,
+                end,
                 ...rest
               }: LineSegmentProps) {
     super(rest)
-    this.points = points
+    this.start = {...start}
+    this.end = {...end}
     this.original = {
       ...this.original,
-      points: deepClone(points),
+      start: {...start},
+      end: {...end},
       rotation: this.rotation,
     }
     this.updatePath2D()
@@ -40,18 +46,8 @@ class ElementLineSegment extends ElementBase {
       layer: 0,
       cx: centerX,
       cy: centerY,
-      points: [
-        {
-          id: 'start',
-          x: sX - centerX,
-          y: sY - centerY,
-        },
-        {
-          id: 'end',
-          x: eX - centerX,
-          y: eY - centerY,
-        },
-      ],
+      start: {x: sX, y: sY},
+      end: {x: eX, y: eY},
     })
   }
 
@@ -76,11 +72,11 @@ class ElementLineSegment extends ElementBase {
   }
 
   public updatePath2D() {
-    const {cx, cy, rotation} = this
-    const [start, end] = this.points
+    const {cx, cy, start, end, rotation} = this
+    // const [start, end] = this.points
 
-    const absStart = {x: start.x + cx, y: start.y + cy}
-    const absEnd = {x: end.x + cx, y: end.y + cy}
+    const absStart = {x: start.x, y: start.y}
+    const absEnd = {x: end.x, y: end.y}
 
     const matrix = new DOMMatrix()
       .translate(cx, cy)
@@ -110,8 +106,8 @@ class ElementLineSegment extends ElementBase {
   public getBoundingRect(withoutRotation: boolean = false): BoundingRect {
     const {cx, cy, points: [start, end], rotation} = this
 
-    const aStart = {x: start.x + cx, y: start.y + cy}
-    const aEnd = {x: end.x + cx, y: end.y + cy}
+    const aStart = {x: start.x, y: start.y}
+    const aEnd = {x: end.x, y: end.y}
 
     const r = withoutRotation ? 0 : rotation
 
@@ -121,8 +117,8 @@ class ElementLineSegment extends ElementBase {
   public getBoundingRectFromOriginal() {
     const {cx, cy, points: [start, end], rotation} = this
 
-    const aStart = {x: start.x + cx, y: start.y + cy}
-    const aEnd = {x: end.x + cx, y: end.y + cy}
+    const aStart = {x: start.x, y: start.y}
+    const aEnd = {x: end.x, y: end.y}
     return ElementLineSegment._getBoundingRect(aStart, aEnd, rotation)
   }
 
