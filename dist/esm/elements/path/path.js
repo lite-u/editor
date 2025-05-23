@@ -34,6 +34,9 @@ class ElementPath extends ElementBase {
         this.original.rotation = this.rotation;
         this.updatePath2D();
     }
+    /**
+     * Return absolute position points
+     */
     getBezierPoints() {
         const { cx, cy } = this;
         const transform = new DOMMatrix()
@@ -41,8 +44,8 @@ class ElementPath extends ElementBase {
             .rotate(this.rotation)
             .translate(-cx, -cy);
         return this.points.map(({ anchor, cp1, cp2, type }) => {
-            const t_cp1 = ElementBase.transformPoint(cp1.x + cx, cp1.y + cy, transform);
-            const t_cp2 = ElementBase.transformPoint(cp2.x + cx, cp2.y + cy, transform);
+            const t_cp1 = cp1 ? ElementBase.transformPoint(cp1.x + cx, cp1.y + cy, transform) : null;
+            const t_cp2 = cp2 ? ElementBase.transformPoint(cp2.x + cx, cp2.y + cy, transform) : null;
             const t_anchor = ElementBase.transformPoint(anchor.x + cx, anchor.y + cy, transform);
             return {
                 type,

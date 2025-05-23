@@ -3,7 +3,6 @@ import { getBoundingRectFromBoundingRects } from '../tool/resize/helper.js';
 import { DEFAULT_STROKE } from '../../elements/defaultProps.js';
 import { getMinimalBoundingRect } from '../../core/utils.js';
 import ElementRectangle from '../../elements/rectangle/rectangle.js';
-import Ellipse from '../../elements/ellipse/ellipse.js';
 import ElementEllipse from '../../elements/ellipse/ellipse.js';
 import LineSegment from '../../elements/lines/lineSegment.js';
 class InteractionState {
@@ -155,14 +154,13 @@ class InteractionState {
         // console.log(eles)
         elements.forEach(ele => {
             const points = ele.getBezierPoints();
-            const { cx, cy } = ele;
             points.forEach((point, index) => {
                 const aPX = point.anchor.x;
                 const aPY = point.anchor.y;
                 const id = ele.id + '-anchor-' + index;
                 const anchorPoint = ElementRectangle.create(id, aPX, aPY, pointLen);
                 anchorPoint.fill.enabled = true;
-                anchorPoint.fill.color = '#fff';
+                anchorPoint.fill.color = '#00ff00';
                 anchorPoint.layer = 1;
                 anchorPoint.stroke.weight = resizeStrokeWidth;
                 pointElements.push(anchorPoint);
@@ -170,66 +168,55 @@ class InteractionState {
                     const cPX = point.cp1.x;
                     const cPY = point.cp1.y;
                     const cp1 = ElementEllipse.create(ele.id + '-cp1-' + index, cPY, cPY, pointLen);
+                    const lineToAnchor = LineSegment.create(ele.id + '-cp1-' + index, cPX, cPY, aPX, aPY);
                     cp1.layer = 1;
                     cp1.fill.enabled = true;
                     cp1.fill.color = this.boxColor;
-                    const lineCX = (cPX + aPX) / 2;
-                    const lineCY = (cPY + aPY) / 2;
-                    const lineStartX = lineCX - aPX;
-                    const lineStartY = lineCY - aPY;
-                    const lineEndX = lineCX - cPX;
-                    const lineEndY = lineCY - cPY;
-                    LineSegment.create(ele.id + '-cp1-' + index);
-                    const lineToAnchor = new LineSegment({
-                        id: ele.id + '-cp1-' + index,
-                        layer: 1,
-                        cx: lineCX,
-                        cy: lineCY,
-                        points: [
-                            { id: 'start', x: lineStartX, y: lineStartY },
-                            { id: 'end', x: lineEndX, y: lineEndY },
-                        ],
-                    });
+                    cp1.stroke.enabled = false;
+                    lineToAnchor.layer = 1;
                     lineToAnchor.stroke.color = this.boxColor;
                     lineToAnchor.stroke.weight = 2 / ratio;
-                    cp1.stroke.enabled = false;
                     pointElements.push(lineToAnchor, cp1);
                 }
                 if (point.cp2) {
-                    const cPX = point.cp2.x;
-                    const cPY = point.cp2.y;
-                    const cp2 = new Ellipse({
-                        id: ele.id + '-cp1-' + index,
-                        layer: 1,
-                        cx: cPX,
-                        cy: cPY,
-                        r1: pointLen,
-                        r2: pointLen,
-                        fill: {
-                            enabled: true,
-                            color: this.boxColor,
-                        },
-                    });
-                    const lineCX = (cPX + aPX) / 2;
-                    const lineCY = (cPY + aPY) / 2;
-                    const lineStartX = lineCX - aPX;
-                    const lineStartY = lineCY - aPY;
-                    const lineEndX = lineCX - cPX;
-                    const lineEndY = lineCY - cPY;
-                    const lineToAnchor = new LineSegment({
-                        id: ele.id + '-cp1-' + index,
-                        layer: 1,
-                        cx: lineCX,
-                        cy: lineCY,
-                        points: [
-                            { id: 'start', x: lineStartX, y: lineStartY },
-                            { id: 'end', x: lineEndX, y: lineEndY },
-                        ],
-                    });
-                    lineToAnchor.stroke.color = this.boxColor;
-                    lineToAnchor.stroke.weight = 2 / ratio;
-                    cp2.stroke.enabled = false;
-                    pointElements.push(lineToAnchor, cp2);
+                    /* const cPX = point.cp2.x
+                     const cPY = point.cp2.y
+          
+                     const cp2 = new Ellipse({
+                       id: ele.id + '-cp1-' + index,
+                       layer: 1,
+                       cx: cPX,
+                       cy: cPY,
+                       r1: pointLen,
+                       r2: pointLen,
+                       fill: {
+                         enabled: true,
+                         color: this.boxColor,
+                       },
+                     })
+          
+                     const lineCX = (cPX + aPX) / 2
+                     const lineCY = (cPY + aPY) / 2
+                     const lineStartX = lineCX - aPX
+                     const lineStartY = lineCY - aPY
+                     const lineEndX = lineCX - cPX
+                     const lineEndY = lineCY - cPY
+          
+                     const lineToAnchor = new LineSegment({
+                       id: ele.id + '-cp1-' + index,
+                       layer: 1,
+                       cx: lineCX,
+                       cy: lineCY,
+                       points: [
+                         {id: 'start', x: lineStartX, y: lineStartY},
+                         {id: 'end', x: lineEndX, y: lineEndY},
+                       ],
+                     })
+                     lineToAnchor.stroke.color = this.boxColor
+                     lineToAnchor.stroke.weight = 2 / ratio
+                     cp2.stroke.enabled = false
+          
+                     pointElements.push(lineToAnchor, cp2)*/
                 }
             });
         });

@@ -25,17 +25,16 @@ class ElementLineSegment extends ElementBase {
             points: [
                 {
                     id: 'start',
-                    x: centerX - sX,
-                    y: centerY - sY,
+                    x: sX - centerX,
+                    y: sY - centerY,
                 },
                 {
                     id: 'end',
-                    x: centerX - eX,
-                    y: centerY - eY,
+                    x: eX - centerX,
+                    y: eY - centerY,
                 },
             ],
         });
-        // return new ElementLineSegment(props)
     }
     static _getBoundingRect(start, end, rotation = 0) {
         const x = Math.min(start.x, end.x);

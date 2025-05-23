@@ -42,18 +42,16 @@ class ElementLineSegment extends ElementBase {
       points: [
         {
           id: 'start',
-          x: centerX - sX,
-          y: centerY - sY,
+          x: sX - centerX,
+          y: sY - centerY,
         },
         {
           id: 'end',
-          x: centerX - eX,
-          y: centerY - eY,
+          x: eX - centerX,
+          y: eY - centerY,
         },
       ],
     })
-
-    // return new ElementLineSegment(props)
   }
 
   static _getBoundingRect(start: Point, end: Point, rotation: number = 0): BoundingRect {

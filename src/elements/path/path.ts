@@ -1,5 +1,4 @@
 import {BoundingRect, Point} from '~/type'
-import {AnchorPoint, Appearance, Fill, Stroke, Transform} from '~/elements/defaultProps'
 import {BezierPoint} from '~/elements/props'
 import deepClone from '~/core/deepClone'
 import ElementBase, {ElementBaseProps} from '~/elements/base/elementBase'
@@ -55,6 +54,9 @@ class ElementPath extends ElementBase {
     this.updatePath2D()
   }
 
+  /**
+   * Return absolute position points
+   */
   getBezierPoints(): BezierPoint[] {
     const {cx, cy} = this
     const transform = new DOMMatrix()
@@ -63,8 +65,8 @@ class ElementPath extends ElementBase {
       .translate(-cx, -cy)
 
     return this.points.map(({anchor, cp1, cp2, type}) => {
-      const t_cp1 = ElementBase.transformPoint(cp1.x + cx, cp1.y + cy, transform)
-      const t_cp2 = ElementBase.transformPoint(cp2.x + cx, cp2.y + cy, transform)
+      const t_cp1 = cp1 ? ElementBase.transformPoint(cp1.x + cx, cp1.y + cy, transform) : null
+      const t_cp2 = cp2 ? ElementBase.transformPoint(cp2.x + cx, cp2.y + cy, transform) : null
       const t_anchor = ElementBase.transformPoint(anchor.x + cx, anchor.y + cy, transform)
 
       return {
