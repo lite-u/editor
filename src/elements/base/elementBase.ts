@@ -79,6 +79,11 @@ class ElementBase {
   protected eventListeners: {
     [K in keyof ElementEventMap]?: ElementEventHandler<ElementEventMap[K]>[]
   } = {}
+  onmouseenter
+  onmouseleave
+  onmousedown
+  onmousemove
+  onmouseup
 
   constructor({
                 id,
@@ -189,7 +194,6 @@ class ElementBase {
     this.cy = transformed.y
 
     this.updatePath2D()
-
 
     if (f) {
       return {
@@ -328,7 +332,7 @@ class ElementBase {
 
     let {show, opacity, fill, stroke} = this
     const {enabled: enabledFill, color: fillColor} = fill
-    const {enabled: enabledStroke, color: strokeColor, weight, /*join, cap*/} = stroke
+    const {enabled: enabledStroke, color: strokeColor, weight /*join, cap*/} = stroke
 
     if (!show || opacity <= 0) return
 
