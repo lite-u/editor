@@ -159,10 +159,12 @@ class ElementPath extends ElementBase {
         from: {
           cx: this.original.cx,
           cy: this.original.cy,
+          points: deepClone(this.original.points),
         },
         to: {
           cx: this.cx,
           cy: this.cy,
+          points: deepClone(this.points),
         },
       }
     }
