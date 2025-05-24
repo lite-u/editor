@@ -270,8 +270,11 @@ class InteractionState {
             ele.points[index].cp1.x += dx
             ele.points[index].cp1.y += dy
 
-            // cp2.x = anchor.x * 2 - cp1.x
-            // cp2.y = anchor.y * 2 - cp1.y
+            if (cp2) {
+              cp2.cx = ele.points[index].cp2.x = ele.points[index].anchor.x * 2 - ele.points[index].cp1.x
+              cp2.cy = ele.points[index].cp2.y = ele.points[index].anchor.y * 2 - ele.points[index].cp1.y
+              cp2.updatePath2D()
+            }
 
             if (cp1LineToAnchor) {
               cp1LineToAnchor.start.x += dx
