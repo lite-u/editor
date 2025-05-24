@@ -1,13 +1,13 @@
-import resetCanvas from '../services/world/resetCanvas.js';
-import { redo } from '../services/history/redo.js';
-import { undo } from '../services/history/undo.js';
-import { pick } from '../services/history/pick.js';
+import resetCanvas from '~/services/world/resetCanvas';
+import { redo } from '~/services/history/redo';
+import { undo } from '~/services/history/undo';
+import { pick } from '~/services/history/pick';
 // import {updateSelectionCanvasRenderData} from '../services/selection/helper'
 // import zoom from '../../components/statusBar/zoom'
-import { fitRectToViewport } from '../services/world/helper.js';
-import snapTool from '../services/tool/snap/snap.js';
-import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
-import TypeCheck from '../core/typeCheck.js';
+import { fitRectToViewport } from '~/services/world/helper';
+import snapTool from '~/services/tool/snap/snap';
+import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
+import TypeCheck from '~/core/typeCheck';
 export function initEvents() {
     const { action } = this;
     const dispatch = action.dispatch.bind(action);
@@ -300,8 +300,37 @@ export function initEvents() {
     on('element-add', (data) => {
         if (!data || data.length === 0)
             return;
+        const { overlayCanvasContext: ctx, scale } = this.world;
         const newElements = this.elementManager.batchCreate(data);
         this.elementManager.batchAdd(newElements, () => {
+            newElements.forEach((ele) => {
+                // el.on('element-move-up', (data) => {})
+                ele.on('mouseenter', () => {
+                    console.log('mouseenter');
+                    ctx.save();
+                    ctx.lineWidth = 2 / scale;
+                    ctx.strokeStyle = '#ff0000';
+                    ctx.stroke(ele.path2D);
+                    ctx.restore();
+                    // clone.fill.enabled = false
+                    // clone.stroke.enabled = true
+                    // clone.stroke.weight = 2 / scale
+                    // clone.stroke.color = '#5491f8'
+                });
+                ele.on('mouseleave', () => {
+                    dispatch('render-overlay');
+                    console.log('render');
+                    // ele.render(ctx)
+                    /*  ctx.save()
+                      ctx.lineWidth = 2 / scale
+                      ctx.stroke(ele.path2D)
+                      ctx.restore()*/
+                    // clone.fill.enabled = false
+                    // clone.stroke.enabled = true
+                    // clone.stroke.weight = 2 / scale
+                    // clone.stroke.color = '#5491f8'
+                });
+            });
             dispatch('render-elements');
         });
         const savedSelected = new Set(newElements.keys());

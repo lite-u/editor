@@ -364,10 +364,41 @@ export function initEvents(this: Editor) {
 
   on('element-add', (data) => {
     if (!data || data.length === 0) return
-
+    const {overlayCanvasContext: ctx, scale} = this.world
     const newElements = this.elementManager.batchCreate(data)
     this.elementManager.batchAdd(newElements, () => {
+      newElements.forEach((ele) => {
+        // el.on('element-move-up', (data) => {})
 
+        ele.on('mouseenter', () => {
+          console.log('mouseenter')
+          ctx.save()
+
+          ctx.lineWidth = 2 / scale
+          ctx.strokeStyle = '#ff0000'
+          ctx.stroke(ele.path2D)
+          ctx.restore()
+
+          // clone.fill.enabled = false
+          // clone.stroke.enabled = true
+          // clone.stroke.weight = 2 / scale
+          // clone.stroke.color = '#5491f8'
+        })
+
+        ele.on('mouseleave', () => {
+          dispatch('render-overlay')
+          console.log('render')
+          // ele.render(ctx)
+          /*  ctx.save()
+            ctx.lineWidth = 2 / scale
+            ctx.stroke(ele.path2D)
+            ctx.restore()*/
+          // clone.fill.enabled = false
+          // clone.stroke.enabled = true
+          // clone.stroke.weight = 2 / scale
+          // clone.stroke.color = '#5491f8'
+        })
+      })
       dispatch('render-elements')
     })
     const savedSelected = new Set(newElements.keys())
