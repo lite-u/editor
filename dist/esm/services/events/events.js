@@ -2,7 +2,7 @@ class EventManager {
     editor;
     eventsController = new AbortController();
     dispatchEvent(domEvent, type, options) {
-        const { overlayCanvasContext, baseCanvasContext, scale, dpr } = this.editor.world;
+        const { baseCanvasContext, scale, dpr } = this.editor.world;
         const { clientX, clientY, pointerId } = domEvent;
         const elements = this.editor.visible.values.sort((a, b) => b.layer - a.layer);
         const x = clientX - this.editor.rect.x;
@@ -14,8 +14,8 @@ class EventManager {
         for (const el of elements) {
             let stopped = false;
             const { path2D, fill } = el;
-            const f1 = overlayCanvasContext.isPointInStroke(path2D, viewPoint.x, viewPoint.y);
-            const f2 = overlayCanvasContext.isPointInPath(path2D, viewPoint.x, viewPoint.y);
+            const f1 = baseCanvasContext.isPointInStroke(path2D, viewPoint.x, viewPoint.y);
+            const f2 = baseCanvasContext.isPointInPath(path2D, viewPoint.x, viewPoint.y);
             if (!f1 && (!f2 || !fill.enabled)) {
                 continue;
             }
