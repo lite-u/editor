@@ -1,0 +1,100 @@
+import { generateBoundingRectFromTwoPoints } from '../../../../core/utils.js';
+import { areSetsEqual, removeIntersectionAndMerge } from '../../../../lib/lib.js';
+let _mouseMoved = false;
+let _selecting = new Set();
+let _selectedCopy = null;
+const selecting = {
+    cursor: 'default',
+    mouseMove() {
+        const { interaction, action, elementManager, selection, cursor } = this;
+        const { mouseStart, mouseCurrent, mouseWorldStart, mouseWorldCurrent, _modifier: { shiftKey, metaKey, ctrlKey }, } = interaction;
+        const rect = generateBoundingRectFromTwoPoints(mouseStart, mouseCurrent);
+        const _selected = selection.values;
+        if (!_selectedCopy) {
+            _selectedCopy = new Set(selection.values);
+        }
+        interaction.updateSelectionBox(rect);
+        const outer = generateBoundingRectFromTwoPoints(mouseWorldStart, mouseWorldCurrent);
+        const modifyKey = ctrlKey || metaKey || shiftKey;
+        _mouseMoved = true;
+        _selecting.clear();
+        elementManager.all.forEach((ele) => {
+            const inner = ele.getBoundingRect();
+            if (inner.left >= outer.left &&
+                inner.right <= outer.right &&
+                inner.top >= outer.top &&
+                inner.bottom <= outer.bottom) {
+                _selecting.add(ele.id);
+            }
+        });
+        if (modifyKey) {
+            // if (_selecting.size === 0) return
+            // const SD = getSymmetricDifference(_selectedCopy, _selecting)
+            const merged = removeIntersectionAndMerge(_selectedCopy, _selecting);
+            if (areSetsEqual(_selectedCopy, merged))
+                return;
+            console.log(merged);
+            action.dispatch('selection-modify', {
+                mode: 'replace',
+                idSet: merged,
+            });
+        }
+        else {
+            if (areSetsEqual(_selected, _selecting))
+                return;
+            if (_selecting.size === 0) {
+                action.dispatch('selection-clear');
+            }
+            else {
+                action.dispatch('selection-modify', {
+                    mode: 'replace',
+                    idSet: _selecting,
+                });
+            }
+        }
+        // if ((modifyKey && _selecting.size === 0) || areSetsEqual(selectedCopy, _selecting)) return
+        /*
+    
+            const SD = getSymmetricDifference(_selectedCopy, _selecting)
+            console.log(SD)
+    
+            if (modifyKey) {
+              console.log(SD)
+              action.dispatch('selection-modify', {
+                mode: 'toggle',
+                idSet: SD,
+              })
+            } else {
+              action.dispatch('selection-modify', {
+                mode: 'replace',
+                idSet: _selecting,
+              })
+            }
+        */
+        /*
+        if (_selecting.size === 0 && selectedCopy.size === 0) {
+          return action.dispatch('selection-clear')
+        }
+        const newSet = new Set([...selectedCopy, ..._selecting])
+    
+        action.dispatch('selection-modify', {
+          mode: 'replace',
+          idSet: newSet,
+        })*/
+    },
+    mouseUp() {
+        /*const {shiftKey, metaKey, ctrlKey} = this.editor.interaction._modifier
+        const {interaction, action, selection, cursor} = this.editor
+        interaction.hideSelectionBox()*/
+        this.interaction.hideSelectionBox();
+        // this.tool = selector
+        if (!_mouseMoved) {
+            this.action.dispatch('selection-clear');
+        }
+        _mouseMoved = false;
+        _selecting.clear();
+        _selectedCopy?.clear();
+        _selectedCopy = null;
+    },
+};
+export default selecting;
