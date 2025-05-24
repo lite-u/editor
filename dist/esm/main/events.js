@@ -73,7 +73,7 @@ export function initEvents() {
         this.world.offset.y = result.y;
         this.events.onZoomed?.(newScale);
         dispatch('world-updated');
-        this.interaction.createTransformHandles();
+        this.interaction.updateHandles();
         this.interaction.createPathPoints();
     });
     on('world-shift', (data) => {
@@ -118,7 +118,7 @@ export function initEvents() {
     });
     on('selection-updated', () => {
         this.interaction._hoveredElement = null;
-        this.interaction.createTransformHandles();
+        this.interaction.updateHandles();
         this.interaction.createPathPoints();
         // getAnchorsByBoundingRect()
         console.log(this.selection.pickIfUnique);

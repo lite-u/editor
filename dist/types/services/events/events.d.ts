@@ -6,7 +6,7 @@ declare class EventManager {
     _hoveredElement: ElementInstance | null;
     dispatchEvent(domEvent: PointerEvent, type: PointerEvent['type'], options?: {
         tolerance?: number;
-    }): boolean;
+    }): void;
     constructor(editor: Editor);
     destroy(): void;
 }

@@ -88,7 +88,7 @@ export function initEvents(this: Editor) {
     this.world.offset.y = result.y!
     this.events.onZoomed?.(newScale)
     dispatch('world-updated')
-    this.interaction.createTransformHandles()
+    this.interaction.updateHandles()
     this.interaction.createPathPoints()
   })
 
@@ -144,7 +144,7 @@ export function initEvents(this: Editor) {
 
   on('selection-updated', () => {
     this.interaction._hoveredElement = null!
-    this.interaction.createTransformHandles()
+    this.interaction.updateHandles()
     this.interaction.createPathPoints()
 
     // getAnchorsByBoundingRect()

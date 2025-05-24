@@ -80,7 +80,8 @@ class InteractionState {
         this.selectionBox.style.height = height + 'px';
         this.selectionBox.style.display = 'block';
     }
-    createTransformHandles() {
+    updateHandles() {
+        console.log('updateHandles');
         const { elementManager } = this.editor;
         const { scale, dpr, overlayCanvasContext: ctx } = this.editor.world;
         const ratio = scale * dpr;
@@ -218,7 +219,7 @@ class InteractionState {
                             line1.updatePath2D();
                         }
                         ele.updatePath2D();
-                        this.editor.interaction.createTransformHandles();
+                        this.editor.interaction.updateHandles();
                         this.editor.action.dispatch('element-updated');
                         this.editor.action.dispatch('render-overlay');
                     });
@@ -249,7 +250,7 @@ class InteractionState {
                             line2.updatePath2D();
                         }
                         ele.updatePath2D();
-                        this.editor.interaction.createTransformHandles();
+                        this.editor.interaction.updateHandles();
                         this.editor.action.dispatch('element-updated');
                         this.editor.action.dispatch('render-overlay');
                     });

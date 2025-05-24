@@ -73,7 +73,7 @@ declare class InteractionState {
     constructor(editor: Editor);
     hideSelectionBox(): void;
     updateSelectionBox({ x, y, height, width }: Rect): void;
-    createTransformHandles(): void;
+    updateHandles(): void;
     createPathPoints(): void;
     destroy(): void;
 }
