@@ -202,7 +202,7 @@ class ElementBase {
             return;
         let { show, opacity, fill, stroke } = this;
         const { enabled: enabledFill, color: fillColor } = fill;
-        const { enabled: enabledStroke, color: strokeColor, weight, join, cap } = stroke;
+        const { enabled: enabledStroke, color: strokeColor, weight, /*join, cap*/ } = stroke;
         if (!show || opacity <= 0)
             return;
         ctx.save();

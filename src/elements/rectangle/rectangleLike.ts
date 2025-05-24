@@ -92,7 +92,7 @@ class RectangleLike extends ElementBase {
     this.path2D.closePath()
   }
 
-  protected updateOriginal() {
+  updateOriginal() {
     this.original.cx = this.cx
     this.original.cy = this.cy
     this.original.width = this.width

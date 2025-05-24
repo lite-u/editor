@@ -35,7 +35,8 @@
   "description": "",
   "devDependencies": {
     "react-docgen-typescript": "^2.2.2",
-    "resolve-tspaths": "^0.8.23"
+    "resolve-tspaths": "^0.8.23",
+    "typescript": "^5.8.3"
   },
   "dependencies": {
     "tsc-watch": "^6.2.1"

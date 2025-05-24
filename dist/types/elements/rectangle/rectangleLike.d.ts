@@ -16,7 +16,7 @@ declare class RectangleLike extends ElementBase {
     borderRadius: BorderRadius;
     constructor({ width, height, borderRadius, ...rest }: RectangleLikeProps);
     protected updatePath2D(): void;
-    protected updateOriginal(): void;
+    updateOriginal(): void;
     protected get getPoints(): Point[];
     protected get corners(): Point[];
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): HistoryChangeItem | undefined;

@@ -2,6 +2,7 @@
 import {SelectionActionMode} from '~/services/selection/type'
 import {ElementProps} from '~/elements/type'
  import {UID} from '~/type'
+ import ElementBase from '~/elements/base/elementBase'
 
 class SelectionManager {
   protected selected: Set<UID> = new Set()
@@ -32,8 +33,8 @@ class SelectionManager {
       const unique = [...this.selected.values()][0]
       const element = this.editor.elementManager.all.get(unique)
 
-      if (element) {
-        return element.toJSON()
+      if (element ) {
+        return (element as ElementBase).toJSON()
       }
     }
   }

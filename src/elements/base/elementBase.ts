@@ -165,7 +165,7 @@ class ElementBase {
   }
 
   /* Invoke updateOriginal method when you do accept the element's current state as static state */
-  protected updateOriginal() {}
+  public updateOriginal() {}
 
   protected rotate(angle: number) {
     this.rotation = angle
@@ -212,7 +212,7 @@ class ElementBase {
     return {x: this.cx, y: this.cy}
   }
 
-  protected toJSON(): RequiredBaseProps {
+  public toJSON(): RequiredBaseProps {
     const {
       id,
       cx,
@@ -328,7 +328,7 @@ class ElementBase {
 
     let {show, opacity, fill, stroke} = this
     const {enabled: enabledFill, color: fillColor} = fill
-    const {enabled: enabledStroke, color: strokeColor, weight, join, cap} = stroke
+    const {enabled: enabledStroke, color: strokeColor, weight, /*join, cap*/} = stroke
 
     if (!show || opacity <= 0) return
 

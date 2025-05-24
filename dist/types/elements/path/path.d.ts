@@ -14,7 +14,7 @@ declare class ElementPath extends ElementBase {
     closed: boolean;
     constructor({ points, closed, ...rest }: PathProps);
     static cubicBezier(t: number, p0: Point, p1: Point, p2: Point, p3: Point): Point;
-    protected updateOriginal(): void;
+    updateOriginal(): void;
     /**
      * Return absolute position points
      */

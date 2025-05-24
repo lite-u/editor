@@ -125,26 +125,15 @@ export function initEvents() {
         this.events.onSelectionUpdated?.(this.selection.values, this.selection.pickIfUnique);
         dispatch('visible-selection-updated');
     });
-    on('world-mouse-down', () => {
+    /*  on('world-mouse-down', () => {
         if (this.toolManager._currentTool) {
-            this.toolManager._currentTool?.mouseDown.call(this);
+          this.toolManager._currentTool?.mouseDown.call(this)
+        } else {
+          selecting.mouseDown.call(this)
         }
-        else {
-            selecting.mouseDown.call(this);
-        }
-    });
+      })*/
     on('world-mouse-move', () => {
-        const { interaction } = this;
-        const p = interaction.mouseWorldCurrent;
-        if (interaction._pointDown) {
-            if (this.toolManager._currentTool) {
-                this.toolManager._currentTool?.mouseMove.call(this);
-            }
-            else {
-                selecting.mouseMove.call(this);
-            }
-        }
-        this.events.onWorldMouseMove?.(p);
+        this.events.onWorldMouseMove?.(this.interaction.mouseWorldCurrent);
     });
     on('world-mouse-up', () => {
         console.log('world-mouse-up');

@@ -45,7 +45,7 @@ class ElementPath extends ElementBase {
     }
   }
 
-  protected updateOriginal() {
+  public updateOriginal() {
     this.original.cx = this.cx
     this.original.cy = this.cy
     this.original.points = deepClone(this.points)
