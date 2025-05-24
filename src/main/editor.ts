@@ -16,6 +16,7 @@ import World from '~/services/world/World'
 import ClipboardManager from '~/services/clipboard/Clipboard'
 import InteractionState from '~/services/interaction/InteractionState'
 import VisibleManager from '~/services/visible/VisibleManager'
+import EventManager from '~/services/events/events'
 
 class Editor {
   id = nid()
@@ -24,6 +25,7 @@ class Editor {
   events: EventHandlers = {}
   resizeObserver: ResizeObserver
 
+  eventManager: EventManager
   world: World
   action: Action
   visible: VisibleManager
@@ -59,6 +61,7 @@ class Editor {
     this.container = container
     // services
     this.action = new Action()
+    this.eventManager = new EventManager(this)
     this.visible = new VisibleManager(this)
     this.clipboard = new ClipboardManager()
     this.interaction = new InteractionState(this)
@@ -152,6 +155,7 @@ class Editor {
     this.history.destroy()
     this.elementManager.destroy()
 
+    this.eventManager.destroy()
     this.action.destroy()
     this.visible.destroy()
     this.clipboard.destroy()

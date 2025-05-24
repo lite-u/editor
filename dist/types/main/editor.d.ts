@@ -12,12 +12,14 @@ import World from '~/services/world/World';
 import ClipboardManager from '~/services/clipboard/Clipboard';
 import InteractionState from '~/services/interaction/InteractionState';
 import VisibleManager from '~/services/visible/VisibleManager';
+import EventManager from '~/services/events/events';
 declare class Editor {
     id: string;
     readonly container: HTMLDivElement;
     config: EditorConfig;
     events: EventHandlers;
     resizeObserver: ResizeObserver;
+    eventManager: EventManager;
     world: World;
     action: Action;
     visible: VisibleManager;

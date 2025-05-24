@@ -18,6 +18,8 @@ class VisibleManager {
     return [...this.visibleElementMap.values()]
   }
 
+  public getElementsAtPoint() {}
+
   public get getVisibleElementMap(): ElementMap {
     return new Map(this.visibleElementMap)
   }
