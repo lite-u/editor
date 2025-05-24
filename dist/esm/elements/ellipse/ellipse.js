@@ -7,10 +7,14 @@ class ElementEllipse extends ElementBase {
     r1;
     // vertical
     r2;
+    startAngle = 0;
+    endAngle = 360;
+    fan = false;
     constructor({ r1, r2, ...rest }) {
         super(rest);
         this.r1 = r1;
         this.r2 = r2;
+        this.fan = rest.fan ?? false;
         this.original = {
             ...this.original,
             r1: this.r1,
@@ -33,8 +37,13 @@ class ElementEllipse extends ElementBase {
     updatePath2D() {
         this.path2D = new Path2D();
         const rotationRad = (this.rotation * Math.PI) / 180;
-        this.path2D.ellipse(this.cx, this.cy, this.r1, this.r2, rotationRad, 0, Math.PI * 2);
-        // this.path2D.closePath()
+        const startAngle = ((this.startAngle ?? 0) * Math.PI) / 180;
+        const endAngle = ((this.endAngle ?? 360) * Math.PI) / 180;
+        this.path2D.ellipse(this.cx, this.cy, this.r1, this.r2, rotationRad, startAngle, endAngle);
+        if (startAngle !== endAngle) {
+            this.path2D.lineTo(this.cx, this.cy);
+            this.path2D.closePath();
+        }
     }
     updateOriginal() {
         this.original.cx = this.cx;
