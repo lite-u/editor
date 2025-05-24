@@ -7,7 +7,7 @@ class EventManager {
   _hoveredElement: ElementInstance | null = null
 
   dispatchEvent(domEvent: PointerEvent, type: PointerEvent['type'], options?: { tolerance?: number }) {
-    const {baseCanvasContext, scale, dpr} = this.editor.world
+    const {baseCanvasContext, dpr} = this.editor.world
     const {clientX, clientY, pointerId} = domEvent
     const elements = this.editor.visible.values.sort((a, b) => b.layer - a.layer)
     const x = clientX - this.editor.rect!.x
@@ -69,7 +69,6 @@ class EventManager {
       originalEvent: domEvent,
       isPropagationStopped: false,
       stopPropagation() {
-        // stopped = true
         event.isPropagationStopped = true
       },
     }
