@@ -12,6 +12,7 @@ const selector: ToolType = {
 
     visible.getVisibleSelectedElements.forEach(ele => {
       const {id} = ele
+
       ele.onmouseenter = () => {
         ctx.save()
         ctx.lineWidth = 1 / this.world.scale * this.world.dpr
