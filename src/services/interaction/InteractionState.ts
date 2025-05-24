@@ -229,23 +229,11 @@ class InteractionState {
           ele.points[index].anchor.x += dx
           ele.points[index].anchor.y += dy
 
-          if (cp1LineToAnchor) {
-            cp1LineToAnchor.translate(dx, dy, false)
-          }
+          cp1LineToAnchor && cp1LineToAnchor.translate(dx, dy, false)
+          cp2LineToAnchor && cp2LineToAnchor.translate(dx, dy, false)
+          cp1 && cp1.translate(dx, dy, false)
+          cp2 && cp2.translate(dx, dy, false)
 
-          if (cp2LineToAnchor) {
-            cp2LineToAnchor.translate(dx, dy, false)
-          }
-
-          if (cp1) {
-            cp1.translate(dx, dy)
-          }
-
-          if (cp2) {
-            cp2.translate(dx, dy)
-          }
-
-          // ele.updatePath2D()
           ele.updateOriginal()
           this.editor.action.dispatch('element-updated')
         })
@@ -264,7 +252,6 @@ class InteractionState {
           cp1LineToAnchor.stroke.color = this.boxColor
           cp1LineToAnchor.stroke.weight = 2 / ratio
 
-          pointElements.push(cp1LineToAnchor, cp1)
           cp1.on('move', ({dx, dy}) => {
             ele.points[index].cp1.x += dx
             ele.points[index].cp1.y += dy
@@ -289,6 +276,8 @@ class InteractionState {
             this.editor.action.dispatch('render-overlay')
 
           })
+
+          pointElements.push(cp1LineToAnchor, cp1)
         }
 
         if (point.cp2) {
