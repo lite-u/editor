@@ -1,13 +1,13 @@
-import ToolManager, {ToolType} from '~/services/tool/toolManager'
+import {ToolType} from '~/services/tool/toolManager'
 import resizeFunc from '~/services/tool/resize/resizeFunc'
 import {PropsWithoutIdentifiers} from '~/elements/type'
 import ElementRectangle from '~/elements/rectangle/rectangle'
 
 const ellipseTool: ToolType = {
   cursor: 'crosshair',
-  mouseDown(this: ToolManager) {
-    const {elementManager, interaction, world} = this.editor
-    const {x, y} = this.editor.interaction.mouseWorldCurrent
+  mouseDown: function () {
+    const {elementManager, interaction, world} = this
+    const {x, y} = this.interaction.mouseWorldCurrent
     const r1 = 1
     const r2 = 1
     const rectProps: PropsWithoutIdentifiers<'ellipse'> = {
@@ -22,18 +22,18 @@ const ellipseTool: ToolType = {
     ele.render(world.creationCanvasContext)
     interaction._ele = ele
   },
-  mouseMove(this: ToolManager) {
-    if (!this.editor.interaction._ele) return
-    this.editor.action.dispatch('clear-creation')
+  mouseMove: function () {
+    if (!this.interaction._ele) return
+    this.action.dispatch('clear-creation')
 
-    resizeFunc.call(this, [this.editor.interaction._ele], 'br')
-    this.editor.interaction._ele.render(this.editor.world.creationCanvasContext)
+    resizeFunc.call(this, [this.interaction._ele], 'br')
+    this.interaction._ele.render(this.world.creationCanvasContext)
   },
-  mouseUp(this: ToolManager) {
-    const eleProps = this.editor.interaction._ele.toMinimalJSON()
+  mouseUp: function () {
+    const eleProps = this.interaction._ele.toMinimalJSON()
 
-    this.editor.action.dispatch('element-add', [eleProps])
-    this.editor.interaction._ele = null
+    this.action.dispatch('element-add', [eleProps])
+    this.interaction._ele = null
   },
 }
 

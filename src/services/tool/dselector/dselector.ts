@@ -1,21 +1,21 @@
-import ToolManager, {ToolType} from '~/services/tool/toolManager'
+import {ToolType} from '~/services/tool/toolManager'
 
 const dSelector: ToolType = {
   cursor: 'default',
-  mouseDown(this: ToolManager) {
-    this.editor.interaction._movingHandle = this.editor.interaction._hoveredHandle
+  mouseDown() {
+    this.interaction._movingHandle = this.interaction._hoveredHandle
   },
-  mouseMove(this: ToolManager) {
-    if (!this.editor.interaction._movingHandle) return
-    const {interaction, elementManager, selection} = this.editor
+  mouseMove() {
+    if (!this.interaction._movingHandle) return
+    const {interaction} = this
 
-    // this.editor.container.setPointerCapture(e.pointerId)
+    // this.container.setPointerCapture(e.pointerId)
     const {x, y} = interaction.mouseWorldMovement
 
-    this.editor.interaction._movingHandle.translate(x, y)
+    this.interaction._movingHandle.translate(x, y)
   },
-  mouseUp(this: ToolManager) {
-    this.editor.interaction._movingHandle = null
+  mouseUp() {
+    this.interaction._movingHandle = null
     // this.editor.cursor.set('grab')
   },
 }

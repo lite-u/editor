@@ -2,9 +2,9 @@ import Editor from '~/main/editor';
 import { CursorName } from '~/services/cursor/cursor';
 export type ToolType = {
     cursor: CursorName;
-    mouseDown: (this: ToolManager) => void;
-    mouseMove: (this: ToolManager) => unknown;
-    mouseUp: (this: ToolManager) => void;
+    mouseDown?: (this: Editor) => void;
+    mouseMove: (this: Editor) => unknown;
+    mouseUp: (this: Editor) => void;
 };
 export type SubToolType = Omit<ToolType, 'mouseDown' | 'cursor'> & {
     cursor?: CursorName;

@@ -4,30 +4,30 @@ import {PointHit} from '~/services/interaction/InteractionState'
 function overlayRender(this: World) {
   if (this.editor.elementManager.size === 0) return
   const {overlayCanvasContext: ctx} = this
-  const {_snappedPoint, _hoveredElement, _outlineElement} = this.editor.interaction
+  const {_snappedPoint, _outlineElement} = this.editor.interaction
   const {scale, dpr} = this.editor.world
   const ratio = scale * dpr
   const size = 20 / ratio
   const lineWidth = 2 / ratio
   const fontSize = 40 / ratio
   // const lineColor = '#5491f8'
-  const lineColor = '#435fb9'
-  const visibleElements = this.editor.visible.getVisibleSelectedElements
+  // const lineColor = '#435fb9'
+  // const visibleElements = this.editor.visible.getVisibleSelectedElements
 
   if (_snappedPoint) {
     drawCrossWithLabel(ctx, _snappedPoint, size, '#ff0000', lineWidth, fontSize)
   }
 
-/*  visibleElements.forEach(visibleElement => {
-    visibleElement.render(ctx)
+  /*  visibleElements.forEach(visibleElement => {
+      visibleElement.render(ctx)
 
-    ctx.lineWidth = lineWidth
-    // console.log(weight,strokeColor)
-    ctx.strokeStyle = lineColor
-    ctx.lineJoin = 'round'
-    ctx.lineCap = 'round'
-    ctx.stroke(visibleElement.path2D)
-  })*/
+      ctx.lineWidth = lineWidth
+      // console.log(weight,strokeColor)
+      ctx.strokeStyle = lineColor
+      ctx.lineJoin = 'round'
+      ctx.lineCap = 'round'
+      ctx.stroke(visibleElement.path2D)
+    })*/
   /*
     if (_hoveredElement) {
       const pointProps = _hoveredElement.center

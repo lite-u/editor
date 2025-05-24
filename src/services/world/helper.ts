@@ -1,12 +1,9 @@
-import {ElementInstance} from '~/elements/type'
-import {UID} from '~/core/core'
-import Rectangle from '~/services/tool/rectangle/rectangleTool'
 import {Point, Rect} from '~/type'
 import World from '~/services/world/World'
 
-type FrameType = 'A4' | 'A4L' | 'photo1'
+// type FrameType = 'A4' | 'A4L' | 'photo1'
 
-export const createFrame = (p: FrameType, id: UID): ElementInstance => {
+/*export const createFrame = (p: FrameType, id: UID): ElementInstance => {
   let width: number = 0
   let height: number = 0
   let x: number = 0
@@ -46,7 +43,7 @@ export const createFrame = (p: FrameType, id: UID): ElementInstance => {
     fillColor: '#fff',
     layer: -1,
   })
-}
+}*/
 
 /*
 * Fit a world coordinate based rect into pixel-based viewport

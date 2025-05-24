@@ -65,7 +65,7 @@ class Cursor {
     }
   }
 
-  move(p: Point, rotation?: number) {
+  move(p: Point) {
     // console.log('set cursor', p)
     // this.domRef.style.left = `${p.x}px`
     // this.domRef.style.top = `${p.y}px`

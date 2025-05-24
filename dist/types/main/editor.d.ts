@@ -4,7 +4,7 @@ import Action from '~/services/actions/actions';
 import AssetsManager from '~/services/assets/AssetsManager';
 import { ElementProps } from '~/elements/type';
 import ToolManager from '~/services/tool/toolManager';
-import { BoundingRect, VisionEditorAssetType, VisionEventType } from '~/type';
+import { BoundingRect, VisionEventType } from '~/type';
 import ElementManager from '~/services/element/ElementManager';
 import SelectionManager from '~/services/selection/SelectionManager';
 import Cursor from '~/services/cursor/cursor';
@@ -13,6 +13,7 @@ import ClipboardManager from '~/services/clipboard/Clipboard';
 import InteractionState from '~/services/interaction/InteractionState';
 import VisibleManager from '~/services/visible/VisibleManager';
 import EventManager from '~/services/events/events';
+import { VisionEditorAssetType } from '~/services/assets/asssetsManager';
 declare class Editor {
     id: string;
     readonly container: HTMLDivElement;

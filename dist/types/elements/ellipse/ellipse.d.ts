@@ -4,7 +4,8 @@ export interface EllipseProps extends ElementBaseProps {
     type?: 'ellipse';
     r1: number;
     r2: number;
-    fan?: boolean;
+    startAngle?: number;
+    endAngle?: number;
 }
 export type RequiredEllipseProps = Required<EllipseProps>;
 declare class ElementEllipse extends ElementBase {
@@ -13,8 +14,7 @@ declare class ElementEllipse extends ElementBase {
     r2: number;
     startAngle: number;
     endAngle: number;
-    fan: boolean;
-    constructor({ r1, r2, ...rest }: EllipseProps);
+    constructor({ r1, r2, startAngle, endAngle, ...rest }: EllipseProps);
     static create(id: UID, cx: number, cy: number, r1?: number, r2?: number): ElementEllipse;
     get getPoints(): Point[];
     updatePath2D(): void;

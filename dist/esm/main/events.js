@@ -52,7 +52,7 @@ export function initEvents() {
             dispatch('world-updated');
             return;
         }
-        const { scale, dpr } = this.world;
+        const { scale } = this.world;
         let result = null;
         let newScale = 1;
         // const minScale = 0.01 * dpr
@@ -125,7 +125,7 @@ export function initEvents() {
         dispatch('visible-selection-updated');
     });
     on('world-mouse-move', () => {
-        const { interaction, elementManager, selection } = this;
+        const { interaction } = this;
         const p = interaction.mouseWorldCurrent;
         if (interaction._draggingElements.length > 0) {
             const dp = interaction.mouseWorldMovement;
@@ -319,7 +319,7 @@ export function initEvents() {
         if (!data || data.length === 0)
             return;
         const { world, interaction } = this;
-        const { overlayCanvasContext: ctx, scale, dpr } = world;
+        const { overlayCanvasContext: ctx } = world;
         const newElements = this.elementManager.batchCreate(data);
         this.elementManager.batchAdd(newElements, () => {
             newElements.forEach((ele) => {

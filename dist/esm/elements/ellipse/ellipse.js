@@ -9,16 +9,18 @@ class ElementEllipse extends ElementBase {
     r2;
     startAngle = 0;
     endAngle = 360;
-    fan = false;
-    constructor({ r1, r2, ...rest }) {
+    constructor({ r1, r2, startAngle = 0, endAngle = 360, ...rest }) {
         super(rest);
         this.r1 = r1;
         this.r2 = r2;
-        this.fan = rest.fan ?? false;
+        this.startAngle = startAngle;
+        this.endAngle = endAngle;
         this.original = {
             ...this.original,
             r1: this.r1,
             r2: this.r1,
+            startAngle: this.startAngle,
+            endAngle: this.endAngle,
         };
         this.updatePath2D();
     }
@@ -51,6 +53,8 @@ class ElementEllipse extends ElementBase {
         this.original.r1 = this.r1;
         this.original.r2 = this.r2;
         this.original.rotation = this.rotation;
+        this.original.startAngle = this.startAngle;
+        this.original.endAngle = this.endAngle;
         this.updatePath2D();
     }
     scaleFrom(scaleX, scaleY, anchor) {
@@ -71,6 +75,8 @@ class ElementEllipse extends ElementBase {
     toMinimalJSON() {
         return {
             ...super.toMinimalJSON(),
+            startAngle: this.startAngle,
+            endAngle: this.endAngle,
             type: this.type,
             r1: this.r1,
             r2: this.r2,
@@ -79,6 +85,8 @@ class ElementEllipse extends ElementBase {
     toJSON() {
         return {
             ...super.toJSON(),
+            startAngle: this.startAngle,
+            endAngle: this.endAngle,
             type: this.type,
             r1: this.r1,
             r2: this.r2,

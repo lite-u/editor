@@ -65,7 +65,7 @@ export function initEvents(this: Editor) {
       return
     }
 
-    const {scale, dpr} = this.world
+    const {scale} = this.world
     let result = null
     let newScale = 1
     // const minScale = 0.01 * dpr
@@ -154,7 +154,7 @@ export function initEvents(this: Editor) {
   })
 
   on('world-mouse-move', () => {
-    const {interaction, elementManager, selection} = this
+    const {interaction} = this
     const p = interaction.mouseWorldCurrent
 
     if (interaction._draggingElements.length > 0) {
@@ -172,7 +172,6 @@ export function initEvents(this: Editor) {
       this.toolManager._currentTool?.mouseMove.call(this)
 
     }
-
 
     this.events.onWorldMouseMove?.(p as Point)
   })
@@ -389,7 +388,7 @@ export function initEvents(this: Editor) {
   on('element-add', (data) => {
     if (!data || data.length === 0) return
     const {world, interaction} = this
-    const {overlayCanvasContext: ctx, scale, dpr} = world
+    const {overlayCanvasContext: ctx} = world
     const newElements = this.elementManager.batchCreate(data)
 
     this.elementManager.batchAdd(newElements, () => {

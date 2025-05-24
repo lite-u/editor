@@ -9,7 +9,7 @@ declare class Cursor {
     EC: AbortController;
     constructor(editor: Editor);
     set(name: CursorName): void;
-    move(p: Point, rotation?: number): void;
+    move(p: Point): void;
     rotate(rotation: number): void;
     show(): void;
     hide(): void;

@@ -19,9 +19,9 @@ import dSelector from '~/services/tool/dselector/dselector'
 
 export type ToolType = {
   cursor: CursorName
-  mouseDown: (this: ToolManager) => void
-  mouseMove: (this: ToolManager) => unknown
-  mouseUp: (this: ToolManager) => void
+  mouseDown?: (this: Editor) => void
+  mouseMove: (this: Editor) => unknown
+  mouseUp: (this: Editor) => void
   // keyDown: (this: ToolManager) => void
   // keyUp: (this: ToolManager) => void
 }

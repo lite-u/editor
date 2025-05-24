@@ -7,7 +7,8 @@ export interface EllipseProps extends ElementBaseProps {
   type?: 'ellipse'
   r1: number
   r2: number
-  fan?: boolean
+  startAngle?: number
+  endAngle?: number
 }
 
 export type RequiredEllipseProps = Required<EllipseProps>
@@ -20,22 +21,25 @@ class ElementEllipse extends ElementBase {
   r2: number
   startAngle = 0
   endAngle = 360
-  fan = false
+
   constructor({
                 r1,
                 r2,
+                startAngle = 0,
+                endAngle = 360,
                 ...rest
               }: EllipseProps) {
     super(rest)
     this.r1 = r1!
     this.r2 = r2!
-
-    this.fan = rest.fan ?? false
-
+    this.startAngle = startAngle
+    this.endAngle = endAngle
     this.original = {
       ...this.original,
       r1: this.r1,
       r2: this.r1,
+      startAngle: this.startAngle,
+      endAngle: this.endAngle,
     }
     this.updatePath2D()
   }
@@ -77,6 +81,8 @@ class ElementEllipse extends ElementBase {
     this.original.r1 = this.r1
     this.original.r2 = this.r2
     this.original.rotation = this.rotation
+    this.original.startAngle = this.startAngle
+    this.original.endAngle = this.endAngle
     this.updatePath2D()
   }
 
@@ -89,8 +95,8 @@ class ElementEllipse extends ElementBase {
     const {cx, cy, r1, r2} = this.original
 
     const center = ElementBase.transformPoint(cx, cy, matrix)
-    const rx = ElementBase.transformPoint(cx + r1, cy, matrix)
-    const ry = ElementBase.transformPoint(cx, cy + r2, matrix)
+    const rx = ElementBase.transformPoint(cx + r1!, cy, matrix)
+    const ry = ElementBase.transformPoint(cx, cy + r2!, matrix)
 
     this.cx = center.x
     this.cy = center.y
@@ -102,6 +108,8 @@ class ElementEllipse extends ElementBase {
   public toMinimalJSON(): EllipseProps {
     return {
       ...super.toMinimalJSON(),
+      startAngle:this.startAngle,
+      endAngle:this.endAngle,
       type: this.type,
       r1: this.r1,
       r2: this.r2,
@@ -111,6 +119,8 @@ class ElementEllipse extends ElementBase {
   public toJSON(): RequiredEllipseProps {
     return {
       ...super.toJSON(),
+      startAngle:this.startAngle,
+      endAngle:this.endAngle,
       type: this.type,
       r1: this.r1,
       r2: this.r2,
@@ -137,10 +147,10 @@ class ElementEllipse extends ElementBase {
     const {cx: cx, cy: cy, r1, r2, rotation} = this.original
 
     return generateBoundingRectFromRotatedRect({
-      x: cx - r1,
-      y: cy - r2,
-      width: r1 * 2,
-      height: r2 * 2,
+      x: cx - r1!,
+      y: cy - r2!,
+      width: r1! * 2,
+      height: r2! * 2,
     }, rotation)
   }
 

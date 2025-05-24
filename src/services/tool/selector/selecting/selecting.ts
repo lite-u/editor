@@ -2,15 +2,14 @@ import {SubToolType} from '~/services/tool/toolManager'
 import {generateBoundingRectFromTwoPoints} from '~/core/utils'
 import {BoundingRect} from '~/type'
 import {areSetsEqual, removeIntersectionAndMerge} from '~/lib/lib'
-import Editor from '~/main/editor'
 
 let _mouseMoved = false
 let _selecting = new Set()
 let _selectedCopy: Set<string> | null = null
 const selecting: SubToolType = {
   cursor: 'default',
-  mouseMove(this: Editor) {
-    const {interaction, action, elementManager, selection, cursor} = this
+  mouseMove: function () {
+    const {interaction, action, elementManager, selection} = this
     const {
       mouseStart,
       mouseCurrent,
@@ -102,7 +101,7 @@ const selecting: SubToolType = {
     })*/
 
   },
-  mouseUp(this: Editor) {
+  mouseUp() {
     /*const {shiftKey, metaKey, ctrlKey} = this.editor.interaction._modifier
     const {interaction, action, selection, cursor} = this.editor
     interaction.hideSelectionBox()*/
