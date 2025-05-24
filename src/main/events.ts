@@ -364,7 +364,7 @@ export function initEvents(this: Editor) {
 
   on('element-add', (data) => {
     if (!data || data.length === 0) return
-    const {world} = this
+    const {world, interaction} = this
     const {overlayCanvasContext: ctx, scale, dpr} = world
     const newElements = this.elementManager.batchCreate(data)
 
@@ -380,6 +380,13 @@ export function initEvents(this: Editor) {
 
         ele.on('mouseleave', () => {
           dispatch('render-overlay')
+        })
+
+        ele.on('mousedown', () => {
+          interaction._ele = ele
+        })
+        ele.on('mousedown', () => {
+          interaction._ele = ele
         })
       })
 

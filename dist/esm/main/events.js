@@ -300,36 +300,26 @@ export function initEvents() {
     on('element-add', (data) => {
         if (!data || data.length === 0)
             return;
-        const { overlayCanvasContext: ctx, scale, dpr } = this.world;
+        const { world, interaction } = this;
+        const { overlayCanvasContext: ctx, scale, dpr } = world;
         const newElements = this.elementManager.batchCreate(data);
         this.elementManager.batchAdd(newElements, () => {
             newElements.forEach((ele) => {
-                // el.on('element-move-up', (data) => {})
                 ele.on('mouseenter', () => {
                     ctx.save();
-                    console.log(scale, dpr);
-                    ctx.lineWidth = 1 / this.world.scale * this.world.dpr;
-                    // ctx.strokeStyle = '#ff0000'
+                    ctx.lineWidth = 1 / world.scale * world.dpr;
                     ctx.strokeStyle = '#5491f8';
                     ctx.stroke(ele.path2D);
                     ctx.restore();
-                    // clone.fill.enabled = false
-                    // clone.stroke.enabled = true
-                    // clone.stroke.weight = 2 / scale
-                    // clone.stroke.color = '#5491f8'
                 });
                 ele.on('mouseleave', () => {
-                    console.log('mouseleave');
                     dispatch('render-overlay');
-                    // ele.render(ctx)
-                    /*  ctx.save()
-                      ctx.lineWidth = 2 / scale
-                      ctx.stroke(ele.path2D)
-                      ctx.restore()*/
-                    // clone.fill.enabled = false
-                    // clone.stroke.enabled = true
-                    // clone.stroke.weight = 2 / scale
-                    // clone.stroke.color = '#5491f8'
+                });
+                ele.on('mousedown', () => {
+                    interaction._ele = ele;
+                });
+                ele.on('mousedown', () => {
+                    interaction._ele = ele;
                 });
             });
             dispatch('render-elements');
