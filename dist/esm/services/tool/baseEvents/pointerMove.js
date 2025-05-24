@@ -1,5 +1,4 @@
 import snapTool from '../snap/snap.js';
-import detectTool from '../detectTool.js';
 export default function handlePointerMove(e) {
     const { action, rect, cursor, interaction, world } = this.editor;
     const { dpr, scale } = world;
@@ -21,11 +20,11 @@ export default function handlePointerMove(e) {
         interaction._hoveredElement = null;
     }
     else {
-        detectTool.call(this);
+        // detectTool.call(this)
         snapTool.call(this);
     }
     // console.log(interaction._snappedPoint)
     action.dispatch('world-mouse-move');
     // action.dispatch('render-overlay')
-    this.tool.mouseMove.call(this);
+    // this.tool.mouseMove.call(this)
 }

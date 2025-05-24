@@ -1,4 +1,3 @@
-import selecting from './selecting/selecting.js';
 import resizing from './resizing/resizing.js';
 import rotating from './rotating/rotating.js';
 import { getBoundingRectFromBoundingRects } from '../resize/helper.js';
@@ -39,7 +38,7 @@ const selector = {
           interaction._draggingElements = elementManager.getElementsByIdSet(selection.values)
         } */
         else {
-            this.subTool = selecting;
+            // this.subTool = selecting
         }
     },
     mouseMove() {

@@ -26,7 +26,7 @@ function handleMouseDown(this: ToolManager, e: PointerEvent) {
   this.editor.action.dispatch('clear-creation')
 
   snapTool.call(this)
-  this.tool.mouseDown.call(this)
+  // this.tool.mouseDown.call(this)
 }
 
 export default handleMouseDown

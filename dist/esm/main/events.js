@@ -8,6 +8,7 @@ import { fitRectToViewport } from '../services/world/helper.js';
 import snapTool from '../services/tool/snap/snap.js';
 import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
 import TypeCheck from '../core/typeCheck.js';
+import selecting from '../services/tool/selector/selecting/selecting.js';
 export function initEvents() {
     const { action } = this;
     const dispatch = action.dispatch.bind(action);
@@ -130,17 +131,25 @@ export function initEvents() {
         const p = interaction.mouseWorldCurrent;
         if (interaction._draggingElements.length > 0) {
             const dp = interaction.mouseWorldMovement;
-            const elements = elementManager.getElementsByIdSet(selection.values);
+            // const elements = elementManager.getElementsByIdSet(selection.values)
             interaction._outlineElement?.translate(dp.x, dp.y);
             interaction._draggingElements.forEach(ele => ele.translate(dp.x, dp.y));
-            elements.forEach(ele => ele.translate(dp.x, dp.y));
+            // elements.forEach(ele => ele.translate(dp.x, dp.y))
             this.action.dispatch('render-overlay');
             this.action.dispatch('render-elements');
         }
+        if (interaction._pointDown) {
+            this.toolManager._currentTool = selecting;
+            selecting.mouseMove.call(this);
+        }
+        this.toolManager._currentTool?.mouseMove.call(this);
         this.events.onWorldMouseMove?.(p);
     });
     on('world-mouse-up', () => {
+        console.log('world-mouse-up');
+        this.action.dispatch('element-move', { delta: { x: 0, y: 0 } });
         this.interaction._draggingElements = [];
+        this.toolManager._currentTool?.mouseUp.call(this);
     });
     on('drop-image', ({ position, assets }) => {
         // console.log(data)

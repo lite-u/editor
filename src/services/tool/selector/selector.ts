@@ -44,7 +44,7 @@ const selector: ToolType = {
 
       interaction._draggingElements = elementManager.getElementsByIdSet(selection.values)
     } */else {
-      this.subTool = selecting
+      // this.subTool = selecting
     }
   },
   mouseMove(this: ToolManager) {
