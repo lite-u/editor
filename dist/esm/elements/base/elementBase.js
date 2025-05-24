@@ -203,7 +203,7 @@ class ElementBase {
         // if(this.id ==='hello3')debugger
         let { show, opacity, fill, stroke } = this;
         const { enabled: enabledFill, color: fillColor } = fill;
-        const { enabled: enabledStroke, color: strokeColor, weight, join, cap /*dashed*/ } = stroke;
+        const { enabled: enabledStroke, color: strokeColor, weight, /*join, cap*/ /*dashed*/ } = stroke;
         if (!show || opacity <= 0)
             return;
         ctx.save();

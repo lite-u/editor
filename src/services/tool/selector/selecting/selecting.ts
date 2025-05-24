@@ -9,7 +9,7 @@ let _selecting = new Set()
 let _selectedCopy: Set<string> | null = null
 const selecting: SubToolType = {
   cursor: 'default',
-  mouseMove(this: Editor,) {
+  mouseMove(this: Editor) {
     const {interaction, action, elementManager, selection, cursor} = this
     const {
       mouseStart,
@@ -69,8 +69,6 @@ const selecting: SubToolType = {
         })
       }
     }
-
-    return
 
     // if ((modifyKey && _selecting.size === 0) || areSetsEqual(selectedCopy, _selecting)) return
     /*

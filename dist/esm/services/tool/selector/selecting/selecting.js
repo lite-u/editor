@@ -52,7 +52,6 @@ const selecting = {
                 });
             }
         }
-        return;
         // if ((modifyKey && _selecting.size === 0) || areSetsEqual(selectedCopy, _selecting)) return
         /*
     
