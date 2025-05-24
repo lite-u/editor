@@ -79,11 +79,11 @@ class ElementBase {
   protected eventListeners: {
     [K in keyof ElementEventMap]?: ElementEventHandler<ElementEventMap[K]>[]
   } = {}
-  onmouseenter
-  onmouseleave
-  onmousedown
-  onmousemove
-  onmouseup
+  onmouseenter: () => void
+  onmouseleave: () => void
+  onmousedown: () => void
+  onmousemove: () => void
+  onmouseup: () => void
 
   constructor({
                 id,
@@ -138,6 +138,11 @@ class ElementBase {
     /*    if(eventData.type ==='mouseenter'){
           debugger
         }*/
+    eventData.type === 'mouseenter' && this.onmouseenter?.(eventData)
+    eventData.type === 'mouseleave' && this.onmouseleave?.(eventData)
+    eventData.type === 'mousedown' && this.onmousedown?.(eventData)
+    eventData.type === 'mousemove' && this.onmousemove?.(eventData)
+    eventData.type === 'mouseup' && this.onmouseup?.(eventData)
     const handlers = this.eventListeners[eventData.type as keyof ElementEventMap]
     if (!handlers) return
 

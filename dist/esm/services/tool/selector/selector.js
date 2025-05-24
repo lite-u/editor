@@ -9,22 +9,22 @@ const selector = {
         const { overlayCanvasContext: ctx } = world;
         visible.getVisibleSelectedElements.forEach(ele => {
             const { id } = ele;
-            ele.on('mouseenter', () => {
+            ele.onmouseenter = () => {
                 ctx.save();
                 ctx.lineWidth = 1 / this.world.scale * this.world.dpr;
                 ctx.strokeStyle = '#5491f8';
                 ctx.stroke(ele.path2D);
                 ctx.restore();
-            });
-            ele.on('mouseleave', () => {
+            };
+            ele.onmouseleave = () => {
                 action.dispatch('render-overlay');
-            });
-            ele.on('mousedown', () => {
+            };
+            ele.onmousedown = () => {
                 if (!this.selection.has(id)) {
                     action.dispatch('selection-modify', { mode: 'replace', idSet: new Set([id]) });
                 }
                 interaction._draggingElements = this.elementManager.getElementsByIdSet(this.selection.values);
-            });
+            };
         });
     },
     mouseDown: function () {

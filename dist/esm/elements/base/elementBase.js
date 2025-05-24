@@ -20,6 +20,11 @@ class ElementBase {
     original;
     // public _relatedId: string
     eventListeners = {};
+    onmouseenter;
+    onmouseleave;
+    onmousedown;
+    onmousemove;
+    onmouseup;
     constructor({ id, layer, cx = DEFAULT_CX, cy = DEFAULT_CY, gradient = DEFAULT_GRADIENT, stroke = deepClone(DEFAULT_STROKE), fill = deepClone(DEFAULT_FILL), opacity = deepClone(DEFAULT_OPACITY), shadow = deepClone(DEFAULT_SHADOW), rotation = deepClone(DEFAULT_ROTATION), transform = deepClone(DEFAULT_TRANSFORM), show = true, }) {
         this.id = id;
         this.layer = layer;
@@ -54,6 +59,11 @@ class ElementBase {
         /*    if(eventData.type ==='mouseenter'){
               debugger
             }*/
+        eventData.type === 'mouseenter' && this.onmouseenter?.(eventData);
+        eventData.type === 'mouseleave' && this.onmouseleave?.(eventData);
+        eventData.type === 'mousedown' && this.onmousedown?.(eventData);
+        eventData.type === 'mousemove' && this.onmousemove?.(eventData);
+        eventData.type === 'mouseup' && this.onmouseup?.(eventData);
         const handlers = this.eventListeners[eventData.type];
         if (!handlers)
             return;
@@ -202,7 +212,7 @@ class ElementBase {
             return;
         let { show, opacity, fill, stroke } = this;
         const { enabled: enabledFill, color: fillColor } = fill;
-        const { enabled: enabledStroke, color: strokeColor, weight, /*join, cap*/ } = stroke;
+        const { enabled: enabledStroke, color: strokeColor, weight /*join, cap*/ } = stroke;
         if (!show || opacity <= 0)
             return;
         ctx.save();

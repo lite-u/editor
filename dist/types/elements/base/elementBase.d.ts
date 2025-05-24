@@ -66,6 +66,11 @@ declare class ElementBase {
     protected eventListeners: {
         [K in keyof ElementEventMap]?: ElementEventHandler<ElementEventMap[K]>[];
     };
+    onmouseenter: () => void;
+    onmouseleave: () => void;
+    onmousedown: () => void;
+    onmousemove: () => void;
+    onmouseup: () => void;
     constructor({ id, layer, cx, cy, gradient, stroke, fill, opacity, shadow, rotation, transform, show, }: ElementBaseProps);
     static transformPoint(x: number, y: number, matrix: DOMMatrix): Point;
     on<K extends keyof ElementEventMap>(event: K, handler: ElementEventHandler<ElementEventMap[K]>): void;
