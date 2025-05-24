@@ -222,21 +222,25 @@ class InteractionState {
                     cp2LineToAnchor.layer = 1;
                     cp2LineToAnchor.stroke.color = this.boxColor;
                     cp2LineToAnchor.stroke.weight = 2 / ratio;
-                    pointElements.push(cp2LineToAnchor, cp2);
                     cp2.on('move', ({ dx, dy }) => {
                         ele.points[index].cp2.x += dx;
                         ele.points[index].cp2.y += dy;
+                        if (cp1) {
+                            cp1.cx = ele.points[index].cp1.x = ele.points[index].anchor.x * 2 - ele.points[index].cp1.x;
+                            cp1.cy = ele.points[index].cp1.y = ele.points[index].anchor.y * 2 - ele.points[index].cp1.y;
+                            cp1.updatePath2D();
+                        }
                         if (cp2LineToAnchor) {
                             cp2LineToAnchor.start.x += dx;
                             cp2LineToAnchor.start.y += dy;
                             cp2LineToAnchor.updatePath2D();
                         }
                         ele.updatePath2D();
-                        // ele.updateOriginal()
                         this.editor.interaction.createTransformHandles();
                         this.editor.action.dispatch('element-updated');
                         this.editor.action.dispatch('render-overlay');
                     });
+                    pointElements.push(cp2LineToAnchor, cp2);
                 }
             });
         });
