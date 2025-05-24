@@ -100,13 +100,16 @@ class InteractionState {
             // debugger
             const clone = elementManager.create(ele.toMinimalJSON());
             const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen);
-            ele.on('mousemove', () => {
-                // console.log('mousemove')
+            ele.on('mouseenter', () => {
+                console.log('mouseenter');
                 ele.render(ctx);
                 clone.fill.enabled = false;
                 clone.stroke.enabled = true;
                 clone.stroke.weight = 2 / scale;
                 clone.stroke.color = '#5491f8';
+            });
+            ele.on('mouseleave', () => {
+                console.log('mouseleave');
             });
             clone.on('mousedown', () => {
                 console.log('mousedown');

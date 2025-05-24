@@ -126,8 +126,17 @@ class ElementBase {
     this.eventListeners[event]!.push(handler)
   }
 
-  dispatchEvent(eventData) {
-    console.log('dispatchEvent', eventData)
+  dispatchEvent(eventData: { type: string; [key: string]: any }) {
+/*    if(eventData.type ==='mouseenter'){
+      debugger
+    }*/
+    const handlers = this.eventListeners[eventData.type as keyof ElementEventMap]
+    if (!handlers) return
+
+    for (const handler of handlers) {
+      handler(eventData)
+      if (eventData.isPropagationStopped) break
+    }
   }
 
   public translate(dx: number, dy: number, f: boolean = false): HistoryChangeItem | undefined {

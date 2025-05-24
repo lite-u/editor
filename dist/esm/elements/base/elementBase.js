@@ -50,7 +50,17 @@ class ElementBase {
         this.eventListeners[event].push(handler);
     }
     dispatchEvent(eventData) {
-        console.log('dispatchEvent', eventData);
+        /*    if(eventData.type ==='mouseenter'){
+              debugger
+            }*/
+        const handlers = this.eventListeners[eventData.type];
+        if (!handlers)
+            return;
+        for (const handler of handlers) {
+            handler(eventData);
+            if (eventData.isPropagationStopped)
+                break;
+        }
     }
     translate(dx, dy, f = false) {
         this.cx = this.cx + dx;

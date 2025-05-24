@@ -1,6 +1,7 @@
 class EventManager {
     editor;
     eventsController = new AbortController();
+    _hoveredElement = null;
     dispatchEvent(domEvent, type, options) {
         const { baseCanvasContext, scale, dpr } = this.editor.world;
         const { clientX, clientY, pointerId } = domEvent;
@@ -18,6 +19,33 @@ class EventManager {
             const f2 = baseCanvasContext.isPointInPath(path2D, viewPoint.x, viewPoint.y);
             if (!f1 && (!f2 || !fill.enabled)) {
                 continue;
+            }
+            if (type === 'mousemove') {
+                if (this._hoveredElement !== el) {
+                    // mouseleave for old
+                    if (this._hoveredElement) {
+                        this._hoveredElement.dispatchEvent?.({
+                            type: 'mouseleave',
+                            x,
+                            y,
+                            pointerId,
+                            originalEvent: domEvent,
+                            isPropagationStopped: false,
+                            stopPropagation() { }
+                        });
+                    }
+                    // mouseenter for new
+                    el.dispatchEvent?.({
+                        type: 'mouseenter',
+                        x,
+                        y,
+                        pointerId,
+                        originalEvent: domEvent,
+                        isPropagationStopped: false,
+                        stopPropagation() { }
+                    });
+                    this._hoveredElement = el;
+                }
             }
             // ctx.isPointInStroke()
             // let effectiveType = type
@@ -46,6 +74,20 @@ class EventManager {
                 return true;
             }
         }
+        /*    if (type === 'mousemove' && !this._hoveredElement) {
+              if (this._hoveredElement !== null) {
+                this._hoveredElement.dispatchEvent?.({
+                  type: 'mouseleave',
+                  x,
+                  y,
+                  pointerId,
+                  originalEvent: domEvent,
+                  isPropagationStopped: false,
+                  stopPropagation() {}
+                })
+                this._hoveredElement = null
+              }
+            }*/
         return false;
     }
     constructor(editor) {

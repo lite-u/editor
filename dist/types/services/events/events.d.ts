@@ -1,9 +1,10 @@
 import Editor from '~/main/editor';
-import type { PointerEventType } from '~/types/event';
+import { ElementInstance } from '~/elements/type';
 declare class EventManager {
     editor: Editor;
     eventsController: AbortController;
-    dispatchEvent(domEvent: PointerEvent, type: PointerEventType, options?: {
+    _hoveredElement: ElementInstance | null;
+    dispatchEvent(domEvent: PointerEvent, type: PointerEvent['type'], options?: {
         tolerance?: number;
     }): boolean;
     constructor(editor: Editor);
