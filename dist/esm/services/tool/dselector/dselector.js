@@ -1,9 +1,9 @@
 const dSelector = {
     cursor: 'default',
-    mouseDown() {
+    mouseDown: function () {
         this.interaction._movingHandle = this.interaction._hoveredHandle;
     },
-    mouseMove() {
+    mouseMove: function () {
         if (!this.interaction._movingHandle)
             return;
         const { interaction } = this;
@@ -11,7 +11,7 @@ const dSelector = {
         const { x, y } = interaction.mouseWorldMovement;
         this.interaction._movingHandle.translate(x, y);
     },
-    mouseUp() {
+    mouseUp: function () {
         this.interaction._movingHandle = null;
         // this.editor.cursor.set('grab')
     },

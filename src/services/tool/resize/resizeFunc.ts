@@ -1,7 +1,7 @@
 import {ElementInstance} from '~/elements/type'
 import {ResizeDirectionName} from '~/services/selection/type'
 import {getAnchorsByResizeDirection, getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
-import Editor from '~/main/editor'
+// import Editor from '~/main/editor'
 
 function resizeFunc(this: Editor, elements: ElementInstance[], placement: ResizeDirectionName = 'br') {
   const {interaction /*action*/} = this

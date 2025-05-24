@@ -41,7 +41,7 @@ export interface ElementBaseProps {
   cy?: number
   gradient?: Gradient
 
-  toJSON: () => ElementProps
+  // toJSON: () => ElementProps
 }
 
 export type RequiredBaseProps = Required<ElementBaseProps>

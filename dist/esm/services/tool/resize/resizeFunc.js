@@ -1,4 +1,5 @@
 import { getAnchorsByResizeDirection, getBoundingRectFromBoundingRects } from './helper.js';
+// import Editor from '../../../main/editor.js'
 function resizeFunc(elements, placement = 'br') {
     const { interaction /*action*/ } = this;
     const { mouseWorldCurrent, _modifier } = interaction;
