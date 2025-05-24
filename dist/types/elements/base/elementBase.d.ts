@@ -33,7 +33,6 @@ export interface ElementBaseProps {
     cx?: number;
     cy?: number;
     gradient?: Gradient;
-    toJSON: () => ElementProps;
 }
 export type RequiredBaseProps = Required<ElementBaseProps>;
 declare class ElementBase {
