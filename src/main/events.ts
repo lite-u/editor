@@ -370,9 +370,10 @@ export function initEvents(this: Editor) {
 
     this.elementManager.batchAdd(newElements, () => {
       newElements.forEach((ele) => {
+        const {id} = ele
         ele.on('mouseenter', () => {
           ctx.save()
-          ctx.lineWidth = 1 / world.scale * world.dpr
+          ctx.lineWidth = 1 / this.world.scale * this.world.dpr
           ctx.strokeStyle = '#5491f8'
           ctx.stroke(ele.path2D)
           ctx.restore()
@@ -383,11 +384,24 @@ export function initEvents(this: Editor) {
         })
 
         ele.on('mousedown', () => {
-          interaction._ele = ele
+          if (!this.selection.has(id)) {
+            action.dispatch('selection-modify', {mode: 'replace', idSet: new Set([id])})
+          }
+
+          interaction._draggingElements = this.elementManager.getElementsByIdSet(this.selection.values)
         })
 
-        ele.on('mousedown', () => {
-          interaction._ele = ele
+        ele.on('mousemove', () => {
+          if (this.interaction._draggingElements.length === 0) return
+          const dp = interaction.mouseWorldMovement
+          const elements = this.elementManager.getElementsByIdSet(this.selection.values)
+
+          interaction._outlineElement?.translate(dp.x, dp.y)
+          interaction._manipulationElements.forEach(ele => ele.translate(dp.x, dp.y))
+          elements.forEach(ele => ele.translate(dp.x, dp.y))
+
+          this.action.dispatch('render-overlay')
+          this.action.dispatch('render-elements')
         })
       })
 
