@@ -366,6 +366,7 @@ export function initEvents(this: Editor) {
     if (!data || data.length === 0) return
     const {overlayCanvasContext: ctx, scale} = this.world
     const newElements = this.elementManager.batchCreate(data)
+
     this.elementManager.batchAdd(newElements, () => {
       newElements.forEach((ele) => {
         // el.on('element-move-up', (data) => {})
