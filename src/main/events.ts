@@ -156,17 +156,24 @@ export function initEvents(this: Editor) {
 
   on('world-mouse-move', () => {
     const {interaction, elementManager, selection} = this
-    const elements = elementManager.getElementsByIdSet(selection.values)
     const p = interaction.mouseWorldCurrent
-    const dp = interaction.mouseWorldMovement
 
-    interaction._outlineElement?.translate(dp.x, dp.y)
-    interaction._manipulationElements.forEach(ele => ele.translate(dp.x, dp.y))
-    elements.forEach(ele => ele.translate(dp.x, dp.y))
+    if (interaction._draggingElements.length > 0) {
+      const dp = interaction.mouseWorldMovement
+      const elements = elementManager.getElementsByIdSet(selection.values)
+      interaction._outlineElement?.translate(dp.x, dp.y)
+      interaction._manipulationElements.forEach(ele => ele.translate(dp.x, dp.y))
+      elements.forEach(ele => ele.translate(dp.x, dp.y))
 
-    this.action.dispatch('render-overlay')
-    this.action.dispatch('render-elements')
+      this.action.dispatch('render-overlay')
+      this.action.dispatch('render-elements')
+    }
+
     this.events.onWorldMouseMove?.(p as Point)
+  })
+
+  on('world-mouse-up', () => {
+    this.interaction._draggingElements = []
   })
 
   on('drop-image', ({position, assets}) => {
