@@ -365,8 +365,9 @@ export function initEvents(this: Editor) {
   on('element-add', (data) => {
     if (!data || data.length === 0) return
 
-    const newElements = this.elementManager.batchAdd(this.elementManager.batchCreate(data), () => {
-      // console.log(9)
+    const newElements = this.elementManager.batchCreate(data)
+    this.elementManager.batchAdd(newElements, () => {
+
       dispatch('render-elements')
     })
     const savedSelected = new Set(newElements.keys())
