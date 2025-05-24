@@ -372,17 +372,10 @@ export function initEvents(this: Editor) {
       newElements.forEach((ele) => {
         ele.on('mouseenter', () => {
           ctx.save()
-          console.log(scale, dpr)
           ctx.lineWidth = 1 / world.scale * world.dpr
           ctx.strokeStyle = '#5491f8'
           ctx.stroke(ele.path2D)
-
           ctx.restore()
-
-          // clone.fill.enabled = false
-          // clone.stroke.enabled = true
-          // clone.stroke.weight = 2 / scale
-          // clone.stroke.color = '#5491f8'
         })
 
         ele.on('mouseleave', () => {
