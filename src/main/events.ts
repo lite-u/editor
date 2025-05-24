@@ -155,10 +155,18 @@ export function initEvents(this: Editor) {
   })
 
   on('world-mouse-move', () => {
-    const p = this.world.getWorldPointByViewportPoint(
-      this.interaction.mouseCurrent.x,
-      this.interaction.mouseCurrent.y,
-    )
+    const {interaction, elementManager, selection} = this
+    const elements = elementManager.getElementsByIdSet(selection.values)
+    const p = interaction.mouseWorldCurrent
+    const dp = interaction.mouseWorldMovement
+
+    interaction._outlineElement?.translate(dp.x, dp.y)
+    interaction._manipulationElements.forEach(ele => ele.translate(dp.x, dp.y))
+    elements.forEach(ele => ele.translate(dp.x, dp.y))
+
+    this.action.dispatch('render-overlay')
+    this.action.dispatch('render-elements')
+
     this.events.onWorldMouseMove?.(p as Point)
   })
 

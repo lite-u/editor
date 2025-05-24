@@ -1,13 +1,13 @@
-import resetCanvas from '../services/world/resetCanvas.js';
-import { redo } from '../services/history/redo.js';
-import { undo } from '../services/history/undo.js';
-import { pick } from '../services/history/pick.js';
+import resetCanvas from '~/services/world/resetCanvas';
+import { redo } from '~/services/history/redo';
+import { undo } from '~/services/history/undo';
+import { pick } from '~/services/history/pick';
 // import {updateSelectionCanvasRenderData} from '../services/selection/helper'
 // import zoom from '../../components/statusBar/zoom'
-import { fitRectToViewport } from '../services/world/helper.js';
-import snapTool from '../services/tool/snap/snap.js';
-import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
-import TypeCheck from '../core/typeCheck.js';
+import { fitRectToViewport } from '~/services/world/helper';
+import snapTool from '~/services/tool/snap/snap';
+import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
+import TypeCheck from '~/core/typeCheck';
 export function initEvents() {
     const { action } = this;
     const dispatch = action.dispatch.bind(action);
@@ -126,7 +126,15 @@ export function initEvents() {
         dispatch('visible-selection-updated');
     });
     on('world-mouse-move', () => {
-        const p = this.world.getWorldPointByViewportPoint(this.interaction.mouseCurrent.x, this.interaction.mouseCurrent.y);
+        const { interaction, elementManager, selection } = this;
+        const elements = elementManager.getElementsByIdSet(selection.values);
+        const p = interaction.mouseWorldCurrent;
+        const dp = interaction.mouseWorldMovement;
+        interaction._outlineElement?.translate(dp.x, dp.y);
+        interaction._manipulationElements.forEach(ele => ele.translate(dp.x, dp.y));
+        elements.forEach(ele => ele.translate(dp.x, dp.y));
+        this.action.dispatch('render-overlay');
+        this.action.dispatch('render-elements');
         this.events.onWorldMouseMove?.(p);
     });
     on('drop-image', ({ position, assets }) => {
