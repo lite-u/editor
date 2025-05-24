@@ -379,17 +379,7 @@ export function initEvents(this: Editor) {
         })
 
         ele.on('mouseleave', () => {
-          console.log('mouseleave')
           dispatch('render-overlay')
-          // ele.render(ctx)
-          /*  ctx.save()
-            ctx.lineWidth = 2 / scale
-            ctx.stroke(ele.path2D)
-            ctx.restore()*/
-          // clone.fill.enabled = false
-          // clone.stroke.enabled = true
-          // clone.stroke.weight = 2 / scale
-          // clone.stroke.color = '#5491f8'
         })
       })
 
