@@ -126,7 +126,7 @@ class ElementBase {
     this.eventListeners[event]!.push(handler)
   }
 
-  protected translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined {
+  public translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined {
     this.cx = this.cx + dx
     this.cy = this.cy + dy
     this.updatePath2D()

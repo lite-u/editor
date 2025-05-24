@@ -1,5 +1,6 @@
 import ElementBase, { ElementBaseProps } from '~/elements/base/elementBase';
 import { BoundingRect, Point, UID } from '~/type';
+import { HistoryChangeItem } from '~/services/actions/type';
 export interface LineSegmentProps extends ElementBaseProps {
     type?: 'lineSegment';
     start: Point;
@@ -17,6 +18,7 @@ declare class ElementLineSegment extends ElementBase {
     updateOriginal(): void;
     getBoundingRect(withoutRotation?: boolean): BoundingRect;
     getBoundingRectFromOriginal(): BoundingRect;
+    protected translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined;
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
     toJSON(): RequiredLineSegmentProps;
     toMinimalJSON(): LineSegmentProps;
