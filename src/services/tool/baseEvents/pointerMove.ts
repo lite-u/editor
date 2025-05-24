@@ -30,7 +30,7 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
 
   // console.log(interaction._snappedPoint)
   action.dispatch('world-mouse-move')
-  action.dispatch('render-overlay')
+  // action.dispatch('render-overlay')
 
   this.tool.mouseMove.call(this)
 }

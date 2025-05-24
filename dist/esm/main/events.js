@@ -306,20 +306,10 @@ export function initEvents() {
             newElements.forEach((ele) => {
                 // el.on('element-move-up', (data) => {})
                 ele.on('mouseenter', () => {
-                    console.log('mouseenter');
                     ctx.save();
-                    ctx.lineWidth = 2;
-                    ctx.strokeStyle = 'red';
-                    ctx.beginPath();
-                    ctx.moveTo(100, 100);
-                    ctx.lineTo(1000, 1000);
-                    ctx.stroke();
-                    ctx.restore();
-                    ctx.save();
-                    // ctx.lineWidth = 2 / scale
-                    ctx.lineWidth = 200;
+                    ctx.lineWidth = 1 / scale;
                     // ctx.strokeStyle = '#ff0000'
-                    ctx.strokeStyle = 'red';
+                    ctx.strokeStyle = '#5491f8';
                     ctx.stroke(ele.path2D);
                     ctx.restore();
                     // clone.fill.enabled = false
