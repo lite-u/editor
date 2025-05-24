@@ -14,8 +14,8 @@ class EventManager {
         for (const el of elements) {
             let stopped = false;
             const { path2D, fill } = el;
-            const f1 = baseCanvasContext.isPointInStroke(path2D, viewPoint.x, viewPoint.y);
-            const f2 = baseCanvasContext.isPointInPath(path2D, viewPoint.x, viewPoint.y);
+            const f1 = overlayCanvasContext.isPointInStroke(path2D, viewPoint.x, viewPoint.y);
+            const f2 = overlayCanvasContext.isPointInPath(path2D, viewPoint.x, viewPoint.y);
             if (!f1 && (!f2 || !fill.enabled)) {
                 continue;
             }
