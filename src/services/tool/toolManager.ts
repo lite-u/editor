@@ -46,6 +46,7 @@ class ToolManager {
   tool: ToolType
   subTool: SubToolType | null = null
   currentToolName: ToolName
+  _currentTool: ToolType | null = null
 
   constructor(editor: Editor) {
     const {signal} = this.eventsController

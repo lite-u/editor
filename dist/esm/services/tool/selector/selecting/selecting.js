@@ -1,5 +1,5 @@
 import { generateBoundingRectFromTwoPoints } from '../../../../core/utils.js';
-import { areSetsEqual, getSymmetricDifference, removeIntersectionAndMerge } from '../../../../lib/lib.js';
+import { areSetsEqual, removeIntersectionAndMerge } from '../../../../lib/lib.js';
 let _mouseMoved = false;
 let _selecting = new Set();
 let _selectedCopy = null;
@@ -54,31 +54,34 @@ const selecting = {
         }
         return;
         // if ((modifyKey && _selecting.size === 0) || areSetsEqual(selectedCopy, _selecting)) return
-        const SD = getSymmetricDifference(_selectedCopy, _selecting);
-        console.log(SD);
-        if (modifyKey) {
-            console.log(SD);
-            action.dispatch('selection-modify', {
+        /*
+    
+            const SD = getSymmetricDifference(_selectedCopy, _selecting)
+            console.log(SD)
+    
+            if (modifyKey) {
+              console.log(SD)
+              action.dispatch('selection-modify', {
                 mode: 'toggle',
                 idSet: SD,
-            });
-        }
-        else {
-            action.dispatch('selection-modify', {
+              })
+            } else {
+              action.dispatch('selection-modify', {
                 mode: 'replace',
                 idSet: _selecting,
-            });
-            /*
-            if (_selecting.size === 0 && selectedCopy.size === 0) {
-              return action.dispatch('selection-clear')
+              })
             }
-            const newSet = new Set([...selectedCopy, ..._selecting])
-      
-            action.dispatch('selection-modify', {
-              mode: 'replace',
-              idSet: newSet,
-            })*/
+        */
+        /*
+        if (_selecting.size === 0 && selectedCopy.size === 0) {
+          return action.dispatch('selection-clear')
         }
+        const newSet = new Set([...selectedCopy, ..._selecting])
+    
+        action.dispatch('selection-modify', {
+          mode: 'replace',
+          idSet: newSet,
+        })*/
     },
     mouseUp() {
         /*const {shiftKey, metaKey, ctrlKey} = this.editor.interaction._modifier

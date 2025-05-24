@@ -2,13 +2,11 @@ import resetCanvas from '../services/world/resetCanvas.js';
 import { redo } from '../services/history/redo.js';
 import { undo } from '../services/history/undo.js';
 import { pick } from '../services/history/pick.js';
-// import {updateSelectionCanvasRenderData} from '../services/selection/helper'
-// import zoom from '../../components/statusBar/zoom'
 import { fitRectToViewport } from '../services/world/helper.js';
 import snapTool from '../services/tool/snap/snap.js';
 import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
 import TypeCheck from '../core/typeCheck.js';
-import selecting from '../services/tool/selector/selecting/selecting.js';
+import dragging from '../services/tool/selector/dragging/dragging.js';
 export function initEvents() {
     const { action } = this;
     const dispatch = action.dispatch.bind(action);
@@ -139,10 +137,8 @@ export function initEvents() {
             this.action.dispatch('render-elements');
         }
         if (interaction._pointDown) {
-            this.toolManager._currentTool = selecting;
-            selecting.mouseMove.call(this);
+            this.toolManager._currentTool?.mouseMove.call(this);
         }
-        this.toolManager._currentTool?.mouseMove.call(this);
         this.events.onWorldMouseMove?.(p);
     });
     on('world-mouse-up', () => {
@@ -343,6 +339,7 @@ export function initEvents() {
                         action.dispatch('selection-modify', { mode: 'replace', idSet: new Set([id]) });
                     }
                     interaction._draggingElements = this.elementManager.getElementsByIdSet(this.selection.values);
+                    this.toolManager._currentTool = dragging;
                 });
             });
             dispatch('render-elements');

@@ -111,7 +111,7 @@ class InteractionState {
              })*/
             /* ele.on('mouseleave', () => {
                console.log('mouseleave')
-       
+      
              })*/
             /*   clone.on('mousedown', () => {
                  console.log('mousedown')

@@ -21,6 +21,7 @@ class ToolManager {
     tool;
     subTool = null;
     currentToolName;
+    _currentTool = null;
     constructor(editor) {
         const { signal } = this.eventsController;
         const { container } = editor;

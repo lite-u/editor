@@ -5,15 +5,13 @@ import {redo} from '~/services/history/redo'
 import {undo} from '~/services/history/undo'
 import {pick} from '~/services/history/pick'
 import {HistoryOperation} from '~/services/history/type'
-// import {updateSelectionCanvasRenderData} from '../services/selection/helper'
-// import zoom from '../../components/statusBar/zoom'
 import {fitRectToViewport} from '~/services/world/helper'
 import {Point, ToolName} from '~/type'
 import {ElementMap, ElementProps} from '~/elements/type'
 import snapTool from '~/services/tool/snap/snap'
 import {getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
 import TypeCheck from '~/core/typeCheck'
-import selecting from '~/services/tool/selector/selecting/selecting'
+import dragging from '~/services/tool/selector/dragging/dragging'
 
 export function initEvents(this: Editor) {
   const {action} = this
@@ -171,11 +169,10 @@ export function initEvents(this: Editor) {
     }
 
     if (interaction._pointDown) {
-      this.toolManager._currentTool = selecting
-      selecting.mouseMove.call(this)
+      this.toolManager._currentTool?.mouseMove.call(this)
+
     }
 
-    this.toolManager._currentTool?.mouseMove.call(this)
 
     this.events.onWorldMouseMove?.(p as Point)
   })
@@ -414,8 +411,8 @@ export function initEvents(this: Editor) {
           if (!this.selection.has(id)) {
             action.dispatch('selection-modify', {mode: 'replace', idSet: new Set([id])})
           }
-
           interaction._draggingElements = this.elementManager.getElementsByIdSet(this.selection.values)
+          this.toolManager._currentTool = dragging
         })
       })
 

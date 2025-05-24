@@ -3,7 +3,7 @@ import {BoundingRect, Point, Rect, UID} from '~/type'
 import {createWith, getManipulationBox} from '~/lib/lib'
 import Editor from '~/main/editor'
 import {ElementInstance} from '~/elements/type'
-import {ToolName} from '~/services/tool/toolManager'
+import {ToolName, ToolType} from '~/services/tool/toolManager'
 import {getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
 import {DEFAULT_STROKE} from '~/elements/defaultProps'
 import {getMinimalBoundingRect} from '~/core/utils'
@@ -148,21 +148,21 @@ class InteractionState {
       const clone = elementManager.create(ele.toMinimalJSON())
       const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen)
 
-     /* ele.on('mouseenter', () => {
-        console.log('mouseenter')
-        ele.render(ctx)
-        clone.fill.enabled = false
-        clone.stroke.enabled = true
-        clone.stroke.weight = 2 / scale
-        clone.stroke.color = '#5491f8'
-      })*/
-     /* ele.on('mouseleave', () => {
-        console.log('mouseleave')
+      /* ele.on('mouseenter', () => {
+         console.log('mouseenter')
+         ele.render(ctx)
+         clone.fill.enabled = false
+         clone.stroke.enabled = true
+         clone.stroke.weight = 2 / scale
+         clone.stroke.color = '#5491f8'
+       })*/
+      /* ele.on('mouseleave', () => {
+         console.log('mouseleave')
 
-      })*/
-   /*   clone.on('mousedown', () => {
-        console.log('mousedown')
-      })*/
+       })*/
+      /*   clone.on('mousedown', () => {
+           console.log('mousedown')
+         })*/
       centerPoint.stroke.enabled = false
       centerPoint.fill.enabled = true
       centerPoint.fill.color = 'orange'

@@ -1,9 +1,8 @@
-let _mouseMoved = false;
+// let _mouseMoved = false
 const dragging = {
     cursor: 'drag',
     mouseMove: function () {
-        return;
-        _mouseMoved = true;
+        // _mouseMoved = true
         const { interaction, elementManager, selection } = this.editor;
         // const {movementX, movementY} = interaction._modifier
         // const {dpr, scale} = this.editor.world
