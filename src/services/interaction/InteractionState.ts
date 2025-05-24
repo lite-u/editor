@@ -217,26 +217,28 @@ class InteractionState {
         const anchorPoint = ElementRectangle.create(id, aPX, aPY, pointLen)
         let cp1: ElementEllipse | null
         let cp2: ElementEllipse | null
-        let cp1LineToAnchor: ElementLineSegment | null
-        let cp2LineToAnchor: ElementLineSegment | null
+        let line1: ElementLineSegment | null
+        let line2: ElementLineSegment | null
 
         anchorPoint.fill.enabled = true
         anchorPoint.fill.color = '#00ff00'
         anchorPoint.layer = 1
         anchorPoint.stroke.weight = resizeStrokeWidth
-        pointElements.push(anchorPoint)
+
         anchorPoint.on('move', ({dx, dy}) => {
           ele.points[index].anchor.x += dx
           ele.points[index].anchor.y += dy
 
-          cp1LineToAnchor && cp1LineToAnchor.translate(dx, dy, false)
-          cp2LineToAnchor && cp2LineToAnchor.translate(dx, dy, false)
+          line1 && line1.translate(dx, dy, false)
+          line2 && line2.translate(dx, dy, false)
           cp1 && cp1.translate(dx, dy, false)
           cp2 && cp2.translate(dx, dy, false)
 
-          ele.updateOriginal()
+          // ele.updateOriginal()
           this.editor.action.dispatch('element-updated')
         })
+
+        pointElements.push(anchorPoint)
 
         if (point.cp1) {
           const {x: cPX, y: cPY} = point.cp1
@@ -247,10 +249,10 @@ class InteractionState {
           cp1.fill.color = this.boxColor
           cp1.stroke.enabled = false
 
-          cp1LineToAnchor = LineSegment.create(ele.id + '-cp1-' + index, cPX, cPY, aPX, aPY)
-          cp1LineToAnchor.layer = 1
-          cp1LineToAnchor.stroke.color = this.boxColor
-          cp1LineToAnchor.stroke.weight = 2 / ratio
+          line1 = LineSegment.create(ele.id + '-cp1-' + index, cPX, cPY, aPX, aPY)
+          line1.layer = 1
+          line1.stroke.color = this.boxColor
+          line1.stroke.weight = 2 / ratio
 
           cp1.on('move', ({dx, dy}) => {
             ele.points[index].cp1.x += dx
@@ -262,14 +264,13 @@ class InteractionState {
               cp2.updatePath2D()
             }
 
-            if (cp1LineToAnchor) {
-              cp1LineToAnchor.start.x += dx
-              cp1LineToAnchor.start.y += dy
-              cp1LineToAnchor.updatePath2D()
+            if (line1) {
+              line1.start.x += dx
+              line1.start.y += dy
+              line1.updatePath2D()
             }
 
             ele.updatePath2D()
-            // ele.updateOriginal()
             this.editor.interaction.createTransformHandles()
 
             this.editor.action.dispatch('element-updated')
@@ -277,21 +278,21 @@ class InteractionState {
 
           })
 
-          pointElements.push(cp1LineToAnchor, cp1)
+          pointElements.push(line1, cp1)
         }
 
         if (point.cp2) {
           const {x: cPX, y: cPY} = point.cp2
           cp2 = ElementEllipse.create(ele.id + '-cp2-' + index, cPX, cPY, pointLen)
-          cp2LineToAnchor = LineSegment.create(ele.id + '-cp2-' + index, cPX, cPY, aPX, aPY)
+          line2 = LineSegment.create(ele.id + '-cp2-' + index, cPX, cPY, aPX, aPY)
 
           cp2.layer = 2
           cp2.fill.enabled = true
           cp2.fill.color = this.boxColor
           cp2.stroke.enabled = false
-          cp2LineToAnchor.layer = 1
-          cp2LineToAnchor.stroke.color = this.boxColor
-          cp2LineToAnchor.stroke.weight = 2 / ratio
+          line2.layer = 1
+          line2.stroke.color = this.boxColor
+          line2.stroke.weight = 2 / ratio
 
           cp2.on('move', ({dx, dy}) => {
             ele.points[index].cp2.x += dx
@@ -303,10 +304,10 @@ class InteractionState {
               cp1.updatePath2D()
             }
 
-            if (cp2LineToAnchor) {
-              cp2LineToAnchor.start.x += dx
-              cp2LineToAnchor.start.y += dy
-              cp2LineToAnchor.updatePath2D()
+            if (line2) {
+              line2.start.x += dx
+              line2.start.y += dy
+              line2.updatePath2D()
             }
 
             ele.updatePath2D()
@@ -316,7 +317,7 @@ class InteractionState {
             this.editor.action.dispatch('render-overlay')
           })
 
-          pointElements.push(cp2LineToAnchor, cp2)
+          pointElements.push(line2, cp2)
         }
       })
     })
