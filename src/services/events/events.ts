@@ -31,8 +31,6 @@ class EventManager {
       }
     }
 
-    if (!_ele) return
-
     if (type === 'mousemove') {
       if (this._hoveredElement !== _ele) {
         // mouseleave for old
@@ -47,7 +45,7 @@ class EventManager {
         })
 
         // mouseenter for new
-        _ele.dispatchEvent?.({
+        _ele?.dispatchEvent?.({
           type: 'mouseenter',
           x,
           y,
@@ -60,6 +58,8 @@ class EventManager {
         this._hoveredElement = _ele
       }
     }
+
+    if (!_ele) return
 
     const event = {
       type,
