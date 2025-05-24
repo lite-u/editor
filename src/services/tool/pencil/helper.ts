@@ -56,7 +56,7 @@ export function convertPointsToBezierPoints(points: Point[], tension = 0.3): { c
   const center = {x: rect.cx, y: rect.cy}
 
   // translate to relative points
-  for (const point of bezierPoints) {
+  /*for (const point of bezierPoints) {
     point.anchor.x -= center.x
     point.anchor.y -= center.y
     if (point.cp1) {
@@ -67,7 +67,7 @@ export function convertPointsToBezierPoints(points: Point[], tension = 0.3): { c
       point.cp2.x -= center.x
       point.cp2.y -= center.y
     }
-  }
+  }*/
 
   // console.log(rect)
 

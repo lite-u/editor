@@ -65,9 +65,9 @@ class ElementPath extends ElementBase {
       .translate(-cx, -cy)
 
     return this.points.map(({anchor, cp1, cp2, type}) => {
-      const t_cp1 = cp1 ? ElementBase.transformPoint(cp1.x + cx, cp1.y + cy, transform) : null
-      const t_cp2 = cp2 ? ElementBase.transformPoint(cp2.x + cx, cp2.y + cy, transform) : null
-      const t_anchor = ElementBase.transformPoint(anchor.x + cx, anchor.y + cy, transform)
+      const t_cp1 = cp1 ? ElementBase.transformPoint(cp1.x, cp1.y, transform) : null
+      const t_cp2 = cp2 ? ElementBase.transformPoint(cp2.x, cp2.y, transform) : null
+      const t_anchor = ElementBase.transformPoint(anchor.x, anchor.y, transform)
 
       return {
         type,
@@ -90,7 +90,7 @@ class ElementPath extends ElementBase {
       .translate(-cx, -cy)
 
     const startAnchor = this.points[0].anchor
-    const start = ElementBase.transformPoint(startAnchor.x + cx, startAnchor.y + cy, transform)
+    const start = ElementBase.transformPoint(startAnchor.x, startAnchor.y, transform)
     this.path2D.moveTo(start.x, start.y)
 
     for (let i = 1; i < this.points.length; i++) {
@@ -104,9 +104,9 @@ class ElementPath extends ElementBase {
       const cp2 = currType === 'corner' ? curr.anchor : (curr.cp1 ?? curr.anchor)
       const anchor = curr.anchor
 
-      const t_cp1 = ElementBase.transformPoint(cp1.x + cx, cp1.y + cy, transform)
-      const t_cp2 = ElementBase.transformPoint(cp2.x + cx, cp2.y + cy, transform)
-      const t_anchor = ElementBase.transformPoint(anchor.x + cx, anchor.y + cy, transform)
+      const t_cp1 = ElementBase.transformPoint(cp1.x, cp1.y, transform)
+      const t_cp2 = ElementBase.transformPoint(cp2.x, cp2.y, transform)
+      const t_anchor = ElementBase.transformPoint(anchor.x, anchor.y, transform)
 
       this.path2D.bezierCurveTo(t_cp1.x, t_cp1.y, t_cp2.x, t_cp2.y, t_anchor.x, t_anchor.y)
     }
@@ -122,9 +122,9 @@ class ElementPath extends ElementBase {
       const cp2 = firstType === 'corner' ? first.anchor : (first.cp1 ?? first.anchor)
       const anchor = first.anchor
 
-      const t_cp1 = ElementBase.transformPoint(cp1.x + cx, cp1.y + cy, transform)
-      const t_cp2 = ElementBase.transformPoint(cp2.x + cx, cp2.y + cy, transform)
-      const t_anchor = ElementBase.transformPoint(anchor.x + cx, anchor.y + cy, transform)
+      const t_cp1 = ElementBase.transformPoint(cp1.x, cp1.y, transform)
+      const t_cp2 = ElementBase.transformPoint(cp2.x, cp2.y, transform)
+      const t_anchor = ElementBase.transformPoint(anchor.x, anchor.y, transform)
 
       this.path2D.bezierCurveTo(t_cp1.x, t_cp1.y, t_cp2.x, t_cp2.y, t_anchor.x, t_anchor.y)
       this.path2D.closePath()
@@ -189,7 +189,7 @@ class ElementPath extends ElementBase {
     return {x, y, width, height, left, right, top, bottom, cx, cy}
   }
 
-  static _getBoundingRectFromRelativePoints(cx: number, cy: number, rotation: number, points: BezierPoint[]): BoundingRect {
+  static _rotatePoints(cx: number, cy: number, rotation: number, points: BezierPoint[]): BoundingRect {
     const matrix = new DOMMatrix()
       .translate(cx, cy)
       .rotate(rotation)
@@ -197,17 +197,17 @@ class ElementPath extends ElementBase {
 
     const transformedPoints: BezierPoint[] = points.map(p => ({
       anchor: rotation
-        ? ElementBase.transformPoint(p.anchor.x + cx, p.anchor.y + cy, matrix)
-        : {x: p.anchor.x + cx, y: p.anchor.y + cy},
+        ? ElementBase.transformPoint(p.anchor.x, p.anchor.y, matrix)
+        : {x: p.anchor.x, y: p.anchor.y},
       cp1: p.cp1
         ? (rotation
-          ? ElementPath.transformPoint(p.cp1.x + cx, p.cp1.y + cy, matrix)
-          : {x: p.cp1.x + cx, y: p.cp1.y + cy})
+          ? ElementPath.transformPoint(p.cp1.x, p.cp1.y, matrix)
+          : {x: p.cp1.x, y: p.cp1.y})
         : undefined,
       cp2: p.cp2
         ? (rotation
-          ? ElementPath.transformPoint(p.cp2.x + cx, p.cp2.y + cy, matrix)
-          : {x: p.cp2.x + cx, y: p.cp2.y + cy})
+          ? ElementPath.transformPoint(p.cp2.x, p.cp2.y, matrix)
+          : {x: p.cp2.x, y: p.cp2.y})
         : undefined,
     })) as BezierPoint[]
 
@@ -217,15 +217,14 @@ class ElementPath extends ElementBase {
   getBoundingRectFromOriginal() {
     const {cx, cy, rotation, points} = this.original
 
-    return ElementPath._getBoundingRectFromRelativePoints(cx, cy, rotation, points)
+    return ElementPath._rotatePoints(cx, cy, rotation, points!)
   }
 
   public getBoundingRect(withoutRotation: boolean = false): BoundingRect {
     const {cx, cy, rotation, points} = this
     const r = withoutRotation ? 0 : rotation
 
-    return ElementPath._getBoundingRectFromRelativePoints(cx, cy, r, points)
-
+    return ElementPath._rotatePoints(cx, cy, r, points)
   }
 
   protected toJSON(): RequiredShapeProps {
