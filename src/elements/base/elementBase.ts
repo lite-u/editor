@@ -334,7 +334,6 @@ class ElementBase {
       ctx.strokeStyle = strokeColor
       ctx.lineJoin = 'round'
       ctx.lineCap = 'round'
-      console.log(cap)
       ctx.stroke(this.path2D)
     }
 

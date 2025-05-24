@@ -1,4 +1,3 @@
-import { DEFAULT_FILL, DEFAULT_STROKE } from '../../elements/defaultProps.js';
 function overlayRender() {
     if (this.editor.elementManager.size === 0)
         return;
@@ -14,34 +13,38 @@ function overlayRender() {
     if (_snappedPoint) {
         drawCrossWithLabel(ctx, _snappedPoint, size, '#ff0000', lineWidth, fontSize);
     }
-    if (_hoveredElement) {
-        const pointProps = _hoveredElement.center;
+    /*
+      if (_hoveredElement) {
+        const pointProps = _hoveredElement.center
         const eleStroke = this.editor.elementManager.create({
-            ..._hoveredElement.toJSON(),
-            stroke: {
-                ...DEFAULT_STROKE,
-                color: lineColor,
-                weight: 4 / scale,
-            },
-            fill: {
-                ...DEFAULT_FILL,
-            },
-        });
+          ..._hoveredElement.toJSON(),
+          stroke: {
+            ...DEFAULT_STROKE,
+            color: lineColor,
+            weight: 4 / scale,
+          },
+          fill: {
+            ...DEFAULT_FILL,
+          },
+        })
         const point = this.editor.elementManager.create({
-            type: 'ellipse',
-            r1: 2 / ratio,
-            r2: 2 / ratio,
-            cx: pointProps.x,
-            cy: pointProps.y,
-        });
+          type: 'ellipse',
+          r1: 2 / ratio,
+          r2: 2 / ratio,
+          cx: pointProps.x,
+          cy: pointProps.y,
+        } as OptionalIdentifiersProps)
+    
         // console.log(lineWidth)
         // console.log(eleStroke)
+    
         // ele.stroke.weight = 3 / ratio
         // ele.stroke.color = lineColor
-        point.stroke.color = lineColor;
-        point.render(ctx);
-        eleStroke.render(ctx);
-    }
+        point.stroke.color = lineColor
+        point.render(ctx)
+        eleStroke.render(ctx)
+      }
+    */
     if (_outlineElement) {
         // console.log(_outlineElement)
         _outlineElement.render(ctx);

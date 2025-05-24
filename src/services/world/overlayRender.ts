@@ -19,6 +19,7 @@ function overlayRender(this: World) {
     drawCrossWithLabel(ctx, _snappedPoint, size, '#ff0000', lineWidth, fontSize)
   }
 
+/*
   if (_hoveredElement) {
     const pointProps = _hoveredElement.center
     const eleStroke = this.editor.elementManager.create({
@@ -49,6 +50,7 @@ function overlayRender(this: World) {
     point.render(ctx)
     eleStroke.render(ctx)
   }
+*/
 
   if (_outlineElement) {
     // console.log(_outlineElement)
