@@ -49,7 +49,7 @@ class ElementBase {
             this.eventListeners[event] = [];
         this.eventListeners[event].push(handler);
     }
-    translate(dx, dy, f) {
+    translate(dx, dy, f = false) {
         this.cx = this.cx + dx;
         this.cy = this.cy + dy;
         this.updatePath2D();

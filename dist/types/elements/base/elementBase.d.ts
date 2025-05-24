@@ -69,7 +69,7 @@ declare class ElementBase {
     constructor({ id, layer, cx, cy, gradient, stroke, fill, opacity, shadow, rotation, transform, show, }: ElementBaseProps);
     static transformPoint(x: number, y: number, matrix: DOMMatrix): Point;
     on<K extends keyof ElementEventMap>(event: K, handler: ElementEventHandler<ElementEventMap[K]>): void;
-    translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined;
+    translate(dx: number, dy: number, f?: boolean): HistoryChangeItem | undefined;
     protected updateOriginal(): void;
     protected rotate(angle: number): void;
     protected rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined;
