@@ -5,8 +5,8 @@ import handleKeyUp from '~/services/tool/baseEvents/keyUp'
 import handlePointerMove from '~/services/tool/baseEvents/pointerMove'
 import handleContextMenu from '~/services/tool/baseEvents/contextMenu'
 import handleMouseDown from '~/services/tool/baseEvents/pointerDown'
-import selector from '~/services/tool/selector/selector'
 import {CursorName} from '~/services/cursor/cursor'
+import selector from '~/services/tool/selector/selector'
 import dSelector from '~/services/tool/dselector/dselector'
 import panning from '~/services/tool/panning/panning'
 import rectangleTool from '~/services/tool/rectangle/rectangleTool'
@@ -22,8 +22,6 @@ export type ToolType = {
   mouseDown?: (this: Editor) => void
   mouseMove: (this: Editor) => unknown
   mouseUp: (this: Editor) => void
-  // keyDown: (this: ToolManager) => void
-  // keyUp: (this: ToolManager) => void
 }
 export type SubToolType = Omit<ToolType, 'mouseDown' | 'cursor'> & { cursor?: CursorName }
 export type ToolName =
@@ -46,7 +44,6 @@ class ToolManager {
   tool: ToolType
   subTool: SubToolType | null = null
   currentToolName: ToolName
-  _currentTool: ToolType | null = null
 
   constructor(editor: Editor) {
     const {signal} = this.eventsController
@@ -69,9 +66,9 @@ class ToolManager {
     this.toolMap.set('ellipse', ellipseTool)
     this.toolMap.set('text', textTool)
     this.toolMap.set('lineSegment', lineSegmentTool)
-    this.toolMap.set('pencil', pencilTool)
     this.toolMap.set('zoomIn', zoomInTool)
     this.toolMap.set('zoomOut', zoomOutTool)
+    this.toolMap.set('pencil', pencilTool)
 
     this.currentToolName = 'selector'
     this.tool = selector
@@ -79,11 +76,12 @@ class ToolManager {
 
   set(name: ToolName) {
     const tool = this.toolMap.get(name)
-
+    console.log(tool)
     if (tool) {
       this.currentToolName = name
       this.tool = tool
       this.editor.cursor.set(tool.cursor)
+      tool.init.call(this.editor)
     }
   }
 

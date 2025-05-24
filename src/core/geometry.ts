@@ -1,12 +1,6 @@
-/*
-const rotatePointAroundPoint = (p1: Point, p2: Point, rotation: number) => {
 
-}
-
-export default rotatePointAroundPoint
-*/
-
-import {Point} from '~/type'
+import {BoundingRect, Point} from '~/type'
+import {BezierPoint} from '~/elements/props'
 
 export function rotatePointAroundPoint(
   px: number,
@@ -118,4 +112,53 @@ export function nearestPointOnCurve(
   }
 
   return closest
+}
+
+export function cubicBezier(t: number, p0: Point, p1: Point, p2: Point, p3: Point): Point {
+  const mt = 1 - t
+  const mt2 = mt * mt
+  const t2 = t * t
+
+  return {
+    x: mt2 * mt * p0.x + 3 * mt2 * t * p1.x + 3 * mt * t2 * p2.x + t2 * t * p3.x,
+    y: mt2 * mt * p0.y + 3 * mt2 * t * p1.y + 3 * mt * t2 * p2.y + t2 * t * p3.y,
+  }
+}
+
+export function getBoundingRectFromBezierPoints(points: BezierPoint[]): BoundingRect {
+  const samplePoints: Point[] = []
+
+  for (let i = 1; i < points.length; i++) {
+    const prev = points[i - 1]
+    const curr = points[i]
+
+    const p0 = prev.anchor
+    const p1 = prev.cp2 ?? prev.anchor
+    const p2 = curr.cp1 ?? curr.anchor
+    const p3 = curr.anchor
+
+    for (let t = 0; t <= 1; t += 0.05) {
+      samplePoints.push(cubicBezier(t, p0, p1, p2, p3))
+    }
+  }
+
+  if (points.length === 1) {
+    samplePoints.push(points[0].anchor)
+  }
+
+  const xs = samplePoints.map(p => p.x)
+  const ys = samplePoints.map(p => p.y)
+
+  const left = Math.min(...xs)
+  const right = Math.max(...xs)
+  const top = Math.min(...ys)
+  const bottom = Math.max(...ys)
+  const width = right - left
+  const height = bottom - top
+  const x = left
+  const y = top
+  const cx = x + width / 2
+  const cy = y + height / 2
+
+  return {x, y, width, height, left, right, top, bottom, cx, cy}
 }

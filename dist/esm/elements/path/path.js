@@ -1,5 +1,6 @@
-import deepClone from '../../core/deepClone.js';
 import ElementBase from '../base/elementBase.js';
+import deepClone from '../../core/deepClone.js';
+import { cubicBezier, getBoundingRectFromBezierPoints } from '../../core/geometry.js';
 class ElementPath extends ElementBase {
     type = 'path';
     points = [];
@@ -17,15 +18,16 @@ class ElementPath extends ElementBase {
         };
         this.updatePath2D();
     }
-    static cubicBezier(t, p0, p1, p2, p3) {
-        const mt = 1 - t;
-        const mt2 = mt * mt;
-        const t2 = t * t;
+    /*  static cubicBezier(t: number, p0: Point, p1: Point, p2: Point, p3: Point): Point {
+        const mt = 1 - t
+        const mt2 = mt * mt
+        const t2 = t * t
+    
         return {
-            x: mt2 * mt * p0.x + 3 * mt2 * t * p1.x + 3 * mt * t2 * p2.x + t2 * t * p3.x,
-            y: mt2 * mt * p0.y + 3 * mt2 * t * p1.y + 3 * mt * t2 * p2.y + t2 * t * p3.y,
-        };
-    }
+          x: mt2 * mt * p0.x + 3 * mt2 * t * p1.x + 3 * mt * t2 * p2.x + t2 * t * p3.x,
+          y: mt2 * mt * p0.y + 3 * mt2 * t * p1.y + 3 * mt * t2 * p2.y + t2 * t * p3.y,
+        }
+      }*/
     updateOriginal() {
         this.original.cx = this.cx;
         this.original.cy = this.cy;
@@ -157,7 +159,7 @@ class ElementPath extends ElementBase {
             const p2 = curr.cp1 ?? curr.anchor;
             const p3 = curr.anchor;
             for (let t = 0; t <= 1; t += 0.05) {
-                samplePoints.push(ElementPath.cubicBezier(t, p0, p1, p2, p3));
+                samplePoints.push(cubicBezier(t, p0, p1, p2, p3));
             }
         }
         if (points.length === 1) {
@@ -197,7 +199,7 @@ class ElementPath extends ElementBase {
                     : { x: p.cp2.x, y: p.cp2.y })
                 : undefined,
         }));
-        return ElementPath._getBoundingRect(transformedPoints);
+        return getBoundingRectFromBezierPoints(transformedPoints);
     }
     getBoundingRectFromOriginal() {
         const { cx, cy, rotation, points } = this.original;

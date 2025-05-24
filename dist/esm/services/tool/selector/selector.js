@@ -4,9 +4,32 @@ import { getBoundingRectFromBoundingRects } from '../resize/helper.js';
 import { getRotateAngle } from './helper.js';
 const selector = {
     cursor: 'default',
+    init: function () {
+        const { interaction, action, visible, world } = this;
+        const { overlayCanvasContext: ctx } = world;
+        visible.getVisibleSelectedElements.forEach(ele => {
+            const { id } = ele;
+            ele.on('mouseenter', () => {
+                ctx.save();
+                ctx.lineWidth = 1 / this.world.scale * this.world.dpr;
+                ctx.strokeStyle = '#5491f8';
+                ctx.stroke(ele.path2D);
+                ctx.restore();
+            });
+            ele.on('mouseleave', () => {
+                action.dispatch('render-overlay');
+            });
+            ele.on('mousedown', () => {
+                if (!this.selection.has(id)) {
+                    action.dispatch('selection-modify', { mode: 'replace', idSet: new Set([id]) });
+                }
+                interaction._draggingElements = this.elementManager.getElementsByIdSet(this.selection.values);
+            });
+        });
+    },
     mouseDown: function () {
         const { interaction, elementManager, selection, cursor } = this;
-        const { _hoveredElement } = interaction;
+        // const {_hoveredElement} = interaction
         const rotateMode = !!interaction._hoveredRotateManipulator;
         const resizeMode = !!interaction._hoveredResizeManipulator;
         if (resizeMode) {
@@ -41,7 +64,7 @@ const selector = {
         }
     },
     mouseMove() {
-        const { interaction, cursor } = this.editor;
+        const { interaction, cursor } = this;
         if (!this.subTool) {
             if (interaction._hoveredResizeManipulator) {
                 cursor.set('nw-resize');

@@ -1,10 +1,8 @@
-import { EditorConfig, EditorExportFileType, EventHandlers } from './type';
 import History from '~/services/history/history';
 import Action from '~/services/actions/actions';
 import AssetsManager from '~/services/assets/AssetsManager';
 import { ElementProps } from '~/elements/type';
 import ToolManager from '~/services/tool/toolManager';
-import { BoundingRect, VisionEventType } from '~/type';
 import ElementManager from '~/services/element/ElementManager';
 import SelectionManager from '~/services/selection/SelectionManager';
 import Cursor from '~/services/cursor/cursor';
@@ -14,6 +12,8 @@ import InteractionState from '~/services/interaction/InteractionState';
 import VisibleManager from '~/services/visible/VisibleManager';
 import EventManager from '~/services/events/events';
 import { VisionEditorAssetType } from '~/services/assets/asssetsManager';
+import { BoundingRect } from '~/type';
+import { EditorConfig, EventHandlers } from './type';
 declare class Editor {
     id: string;
     readonly container: HTMLDivElement;

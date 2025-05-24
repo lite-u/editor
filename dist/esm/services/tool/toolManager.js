@@ -20,7 +20,6 @@ class ToolManager {
     tool;
     subTool = null;
     currentToolName;
-    _currentTool = null;
     constructor(editor) {
         const { signal } = this.eventsController;
         const { container } = editor;
@@ -39,18 +38,20 @@ class ToolManager {
         this.toolMap.set('ellipse', ellipseTool);
         this.toolMap.set('text', textTool);
         this.toolMap.set('lineSegment', lineSegmentTool);
-        this.toolMap.set('pencil', pencilTool);
         this.toolMap.set('zoomIn', zoomInTool);
         this.toolMap.set('zoomOut', zoomOutTool);
+        this.toolMap.set('pencil', pencilTool);
         this.currentToolName = 'selector';
         this.tool = selector;
     }
     set(name) {
         const tool = this.toolMap.get(name);
+        console.log(tool);
         if (tool) {
             this.currentToolName = name;
             this.tool = tool;
             this.editor.cursor.set(tool.cursor);
+            tool.init.call(this.editor);
         }
     }
     destroy() {

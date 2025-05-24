@@ -79,7 +79,7 @@ class ElementLineSegment extends ElementBase {
         const { start, end, rotation } = this.original;
         return ElementLineSegment._getBoundingRect(start, end, rotation);
     }
-    translate(dx, dy, f) {
+    translate(dx, dy, f = false) {
         this.cx = this.cx + dx;
         this.cy = this.cy + dy;
         this.start.x += dx;

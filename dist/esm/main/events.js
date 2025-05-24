@@ -6,8 +6,6 @@ import { fitRectToViewport } from '../services/world/helper.js';
 import snapTool from '../services/tool/snap/snap.js';
 import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
 import TypeCheck from '../core/typeCheck.js';
-import dragging from '../services/tool/selector/dragging/dragging.js';
-import selecting from '../services/tool/selector/selecting/selecting.js';
 export function initEvents() {
     const { action } = this;
     const dispatch = action.dispatch.bind(action);
@@ -139,12 +137,12 @@ export function initEvents() {
         console.log('world-mouse-up');
         this.action.dispatch('element-move', { delta: { x: 0, y: 0 } });
         this.interaction._draggingElements = [];
-        if (this.toolManager._currentTool) {
-            this.toolManager._currentTool?.mouseUp.call(this);
-        }
-        else {
-            selecting.mouseUp.call(this);
-        }
+        /*
+            if (this.toolManager._currentTool) {
+              this.toolManager._currentTool?.mouseUp.call(this)
+            } else {
+              selecting.mouseUp.call(this)
+            }*/
     });
     on('drop-image', ({ position, assets }) => {
         // console.log(data)
@@ -194,7 +192,7 @@ export function initEvents() {
             const offsetX = x - cx;
             const offsetY = y - cy;
             [...newElements.values()].forEach(ele => {
-                ele.translate(offsetX, offsetY);
+                ele.translate(offsetX, offsetY, false);
                 ele.updateOriginal();
             });
             console.log(cx, cy);
@@ -222,7 +220,7 @@ export function initEvents() {
             const { copyDeltaX, copyDeltaY } = this.interaction;
             newElements = this.elementManager.batchCreate(this.clipboard.copiedItems);
             newElements.forEach((el) => {
-                el.translate(copyDeltaX, copyDeltaY);
+                el.translate(copyDeltaX, copyDeltaY, false);
                 el.updateOriginal();
             });
             this.interaction.copyDeltaX += 10;
@@ -308,7 +306,7 @@ export function initEvents() {
         this.selection.values.forEach((id) => {
             const ele = this.elementManager.all.get(id);
             if (ele) {
-                ele.translate(delta.x, delta.y);
+                ele.translate(delta.x, delta.y, false);
                 ele.updatePath2D();
             }
         });
@@ -317,31 +315,31 @@ export function initEvents() {
     on('element-add', (data) => {
         if (!data || data.length === 0)
             return;
-        const { world, interaction } = this;
-        const { overlayCanvasContext: ctx } = world;
         const newElements = this.elementManager.batchCreate(data);
         this.elementManager.batchAdd(newElements, () => {
-            newElements.forEach((ele) => {
-                const { id } = ele;
-                ele.on('mouseenter', () => {
-                    ctx.save();
-                    ctx.lineWidth = 1 / this.world.scale * this.world.dpr;
-                    ctx.strokeStyle = '#5491f8';
-                    ctx.stroke(ele.path2D);
-                    ctx.restore();
-                });
-                ele.on('mouseleave', () => {
-                    dispatch('render-overlay');
-                });
-                ele.on('mousedown', (e) => {
-                    console.log(e);
-                    if (!this.selection.has(id)) {
-                        action.dispatch('selection-modify', { mode: 'replace', idSet: new Set([id]) });
-                    }
-                    interaction._draggingElements = this.elementManager.getElementsByIdSet(this.selection.values);
-                    this.toolManager._currentTool = dragging;
-                });
-            });
+            /* newElements.forEach((ele) => {
+               const {id} = ele
+               ele.on('mouseenter', () => {
+                 ctx.save()
+                 ctx.lineWidth = 1 / this.world.scale * this.world.dpr
+                 ctx.strokeStyle = '#5491f8'
+                 ctx.stroke(ele.path2D)
+                 ctx.restore()
+               })
+      
+               ele.on('mouseleave', () => {
+                 dispatch('render-overlay')
+               })
+      
+               ele.on('mousedown', (e) => {
+                 console.log(e)
+                 if (!this.selection.has(id)) {
+                   action.dispatch('selection-modify', {mode: 'replace', idSet: new Set([id])})
+                 }
+                 interaction._draggingElements = this.elementManager.getElementsByIdSet(this.selection.values)
+                 this.toolManager._currentTool = dragging
+               })
+             })*/
             dispatch('render-elements');
         });
         const savedSelected = new Set(newElements.keys());

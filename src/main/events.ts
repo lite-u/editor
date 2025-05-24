@@ -11,8 +11,6 @@ import {ElementMap, ElementProps} from '~/elements/type'
 import snapTool from '~/services/tool/snap/snap'
 import {getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
 import TypeCheck from '~/core/typeCheck'
-import dragging from '~/services/tool/selector/dragging/dragging'
-import selecting from '~/services/tool/selector/selecting/selecting'
 
 export function initEvents(this: Editor) {
   const {action} = this
@@ -170,12 +168,12 @@ export function initEvents(this: Editor) {
     console.log('world-mouse-up')
     this.action.dispatch('element-move', {delta: {x: 0, y: 0}})
     this.interaction._draggingElements = []
-
-    if (this.toolManager._currentTool) {
-      this.toolManager._currentTool?.mouseUp.call(this)
-    } else {
-      selecting.mouseUp.call(this)
-    }
+    /*
+        if (this.toolManager._currentTool) {
+          this.toolManager._currentTool?.mouseUp.call(this)
+        } else {
+          selecting.mouseUp.call(this)
+        }*/
 
   })
 
@@ -237,7 +235,7 @@ export function initEvents(this: Editor) {
       const offsetY = y - cy
 
       ;[...newElements.values()].forEach(ele => {
-        ele.translate(offsetX, offsetY)
+        ele.translate(offsetX, offsetY, false)
         ele.updateOriginal()
       })
 
@@ -266,7 +264,7 @@ export function initEvents(this: Editor) {
 
       newElements = this.elementManager.batchCreate(this.clipboard.copiedItems)
       newElements.forEach((el) => {
-        el.translate(copyDeltaX, copyDeltaY)
+        el.translate(copyDeltaX, copyDeltaY, false)
         el.updateOriginal()
       })
 
@@ -371,7 +369,7 @@ export function initEvents(this: Editor) {
       const ele = this.elementManager.all.get(id)
 
       if (ele) {
-        ele.translate(delta.x, delta.y)
+        ele.translate(delta.x, delta.y, false)
         ele.updatePath2D()
       }
     })
@@ -381,34 +379,32 @@ export function initEvents(this: Editor) {
 
   on('element-add', (data) => {
     if (!data || data.length === 0) return
-    const {world, interaction} = this
-    const {overlayCanvasContext: ctx} = world
     const newElements = this.elementManager.batchCreate(data)
 
     this.elementManager.batchAdd(newElements, () => {
-      newElements.forEach((ele) => {
-        const {id} = ele
-        ele.on('mouseenter', () => {
-          ctx.save()
-          ctx.lineWidth = 1 / this.world.scale * this.world.dpr
-          ctx.strokeStyle = '#5491f8'
-          ctx.stroke(ele.path2D)
-          ctx.restore()
-        })
+      /* newElements.forEach((ele) => {
+         const {id} = ele
+         ele.on('mouseenter', () => {
+           ctx.save()
+           ctx.lineWidth = 1 / this.world.scale * this.world.dpr
+           ctx.strokeStyle = '#5491f8'
+           ctx.stroke(ele.path2D)
+           ctx.restore()
+         })
 
-        ele.on('mouseleave', () => {
-          dispatch('render-overlay')
-        })
+         ele.on('mouseleave', () => {
+           dispatch('render-overlay')
+         })
 
-        ele.on('mousedown', (e) => {
-          console.log(e)
-          if (!this.selection.has(id)) {
-            action.dispatch('selection-modify', {mode: 'replace', idSet: new Set([id])})
-          }
-          interaction._draggingElements = this.elementManager.getElementsByIdSet(this.selection.values)
-          this.toolManager._currentTool = dragging
-        })
-      })
+         ele.on('mousedown', (e) => {
+           console.log(e)
+           if (!this.selection.has(id)) {
+             action.dispatch('selection-modify', {mode: 'replace', idSet: new Set([id])})
+           }
+           interaction._draggingElements = this.elementManager.getElementsByIdSet(this.selection.values)
+           this.toolManager._currentTool = dragging
+         })
+       })*/
 
       dispatch('render-elements')
     })

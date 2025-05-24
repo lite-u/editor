@@ -1,8 +1,9 @@
+import ElementBase, {ElementBaseProps} from '~/elements/base/elementBase'
 import {BoundingRect, Point} from '~/type'
 import {BezierPoint} from '~/elements/props'
 import deepClone from '~/core/deepClone'
-import ElementBase, {ElementBaseProps} from '~/elements/base/elementBase'
 import {HistoryChangeItem} from '~/services/actions/type'
+import {cubicBezier, getBoundingRectFromBezierPoints} from '~/core/geometry'
 
 export interface PathProps extends ElementBaseProps {
   // id: UID,
@@ -34,7 +35,7 @@ class ElementPath extends ElementBase {
     this.updatePath2D()
   }
 
-  static cubicBezier(t: number, p0: Point, p1: Point, p2: Point, p3: Point): Point {
+/*  static cubicBezier(t: number, p0: Point, p1: Point, p2: Point, p3: Point): Point {
     const mt = 1 - t
     const mt2 = mt * mt
     const t2 = t * t
@@ -43,7 +44,7 @@ class ElementPath extends ElementBase {
       x: mt2 * mt * p0.x + 3 * mt2 * t * p1.x + 3 * mt * t2 * p2.x + t2 * t * p3.x,
       y: mt2 * mt * p0.y + 3 * mt2 * t * p1.y + 3 * mt * t2 * p2.y + t2 * t * p3.y,
     }
-  }
+  }*/
 
   public updateOriginal() {
     this.original.cx = this.cx
@@ -79,7 +80,7 @@ class ElementPath extends ElementBase {
     })
   }
 
-  protected updatePath2D() {
+  public updatePath2D() {
     if (this.points.length === 0) return
 
     this.path2D = new Path2D()
@@ -203,7 +204,7 @@ class ElementPath extends ElementBase {
       const p3 = curr.anchor
 
       for (let t = 0; t <= 1; t += 0.05) {
-        samplePoints.push(ElementPath.cubicBezier(t, p0, p1, p2, p3))
+        samplePoints.push(cubicBezier(t, p0, p1, p2, p3))
       }
     }
 
@@ -250,7 +251,7 @@ class ElementPath extends ElementBase {
         : undefined,
     })) as BezierPoint[]
 
-    return ElementPath._getBoundingRect(transformedPoints)
+    return getBoundingRectFromBezierPoints(transformedPoints)
   }
 
   getBoundingRectFromOriginal() {
@@ -266,7 +267,7 @@ class ElementPath extends ElementBase {
     return ElementPath._rotatePoints(cx, cy, r, points)
   }
 
-  protected toJSON(): RequiredShapeProps {
+  public toJSON(): RequiredShapeProps {
     return {
       type: this.type,
       points: this.points,

@@ -3,6 +3,7 @@ import {BoundingRect, Point, UID} from '~/type'
 import {generateBoundingRectFromRect, generateBoundingRectFromRotatedRect} from '~/core/utils'
 import {HistoryChangeItem} from '~/services/actions/type'
 import deepClone from '~/core/deepClone'
+
 export interface LineSegmentProps extends ElementBaseProps {
   // id: string
   // layer: number
@@ -114,7 +115,7 @@ class ElementLineSegment extends ElementBase {
     return ElementLineSegment._getBoundingRect(start!, end!, rotation)
   }
 
-  public translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined {
+  public translate(dx: number, dy: number, f: boolean = false): HistoryChangeItem | undefined {
     this.cx = this.cx + dx
     this.cy = this.cy + dy
     this.start.x += dx

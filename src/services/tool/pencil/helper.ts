@@ -1,6 +1,6 @@
 import {Point} from '~/type'
 import {BezierPoint} from '~/elements/props'
-import ElementPath from '~/elements/path/path'
+import {getBoundingRectFromBezierPoints} from '~/core/geometry'
 
 export function convertPointsToBezierPoints(points: Point[], tension = 0.3): { center: Point, points: BezierPoint[], closed: boolean } {
   const filtered: Point[] = []
@@ -66,7 +66,7 @@ export function convertPointsToBezierPoints(points: Point[], tension = 0.3): { c
     });
   }
 
-  const rect = ElementPath._getBoundingRect(bezierPoints)
+  const rect = getBoundingRectFromBezierPoints(bezierPoints)
   const center = {x: rect.cx, y: rect.cy}
 
   // translate to relative points

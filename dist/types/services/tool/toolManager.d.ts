@@ -18,7 +18,6 @@ declare class ToolManager {
     tool: ToolType;
     subTool: SubToolType | null;
     currentToolName: ToolName;
-    _currentTool: ToolType | null;
     constructor(editor: Editor);
     set(name: ToolName): void;
     destroy(): void;
