@@ -1,6 +1,4 @@
 import ToolManager, {ToolType} from '~/services/tool/toolManager'
-import selecting from '~/services/tool/selector/selecting/selecting'
-import dragging from '~/services/tool/selector/dragging/dragging'
 import resizing from '~/services/tool/selector/resizing/resizing'
 import rotating from '~/services/tool/selector/rotating/rotating'
 import {getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'

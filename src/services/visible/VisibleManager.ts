@@ -2,7 +2,7 @@ import {ElementMap} from '~/elements/type'
 import {BoundingRect, UID} from '~/type'
 import {rectsOverlap} from '~/core/utils'
 import Editor from '~/main/editor'
-import {generateHandles} from '~/elements/helper'
+// import {generateHandles} from '~/elements/helper'
 
 class VisibleManager {
   private visibleElementMap: ElementMap
@@ -66,7 +66,7 @@ class VisibleManager {
       const ratio = scale * dpr
 
       return
-      const operators = generateHandles(element, ratio)
+      // const operators = generateHandles(element, ratio)
       /* const operators = element.getOperators(
          element!.id,
          {

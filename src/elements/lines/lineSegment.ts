@@ -3,7 +3,6 @@ import {BoundingRect, Point, UID} from '~/type'
 import {generateBoundingRectFromRect, generateBoundingRectFromRotatedRect} from '~/core/utils'
 import {HistoryChangeItem} from '~/services/actions/type'
 import deepClone from '~/core/deepClone'
-
 export interface LineSegmentProps extends ElementBaseProps {
   // id: string
   // layer: number

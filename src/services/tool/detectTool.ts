@@ -2,7 +2,7 @@ import ToolManager from '~/services/tool/toolManager'
 import {isPointNearStroke2} from '~/services/tool/helper'
 
 function detectTool(this: ToolManager) {
-  const {interaction, world, visible, elementManager} = this.editor
+  const {interaction, world, visible} = this.editor
   const {baseCanvasContext: ctx, scale, dpr} = world
   const {x, y} = interaction.mouseCurrent
   const viewPoint = {
