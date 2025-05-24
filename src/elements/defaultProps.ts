@@ -123,4 +123,5 @@ export const DEFAULT_BEZIER_POINT: BezierPoint = {
   cp1: {x: 0, y: 0},
   cp2: {x: 0, y: 0},
   type: 'corner',
+  symmetric: true,
 }

@@ -123,4 +123,5 @@ export type BezierPoint = {
   // Control point 2
   cp2: Point | null
   type?: BezierPointType
+  symmetric?: boolean
 };
