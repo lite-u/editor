@@ -364,7 +364,7 @@ export function initEvents(this: Editor) {
 
   on('element-add', (data) => {
     if (!data || data.length === 0) return
-    const {overlayCanvasContext: ctx, scale} = this.world
+    const {overlayCanvasContext: ctx, scale, dpr} = this.world
     const newElements = this.elementManager.batchCreate(data)
 
     this.elementManager.batchAdd(newElements, () => {
@@ -373,7 +373,7 @@ export function initEvents(this: Editor) {
 
         ele.on('mouseenter', () => {
           ctx.save()
-          ctx.lineWidth = 1 / scale
+          ctx.lineWidth = 1 / scale * dpr
           // ctx.strokeStyle = '#ff0000'
           ctx.strokeStyle = '#5491f8'
           ctx.stroke(ele.path2D)

@@ -300,14 +300,14 @@ export function initEvents() {
     on('element-add', (data) => {
         if (!data || data.length === 0)
             return;
-        const { overlayCanvasContext: ctx, scale } = this.world;
+        const { overlayCanvasContext: ctx, scale, dpr } = this.world;
         const newElements = this.elementManager.batchCreate(data);
         this.elementManager.batchAdd(newElements, () => {
             newElements.forEach((ele) => {
                 // el.on('element-move-up', (data) => {})
                 ele.on('mouseenter', () => {
                     ctx.save();
-                    ctx.lineWidth = 1 / scale;
+                    ctx.lineWidth = 1 / scale * dpr;
                     // ctx.strokeStyle = '#ff0000'
                     ctx.strokeStyle = '#5491f8';
                     ctx.stroke(ele.path2D);
