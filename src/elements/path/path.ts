@@ -131,7 +131,7 @@ class ElementPath extends ElementBase {
     }
   }
 
-  protected translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined {
+  public translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined {
     this.cx = this.cx + dx
     this.cy = this.cy + dy
     this.points.forEach((point) => {

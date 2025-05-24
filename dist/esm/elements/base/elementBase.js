@@ -103,7 +103,6 @@ class ElementBase {
         this.cx = transformed.x;
         this.cy = transformed.y;
         this.updatePath2D();
-        // }
         if (f) {
             return {
                 id: this.id,
@@ -201,7 +200,6 @@ class ElementBase {
     render(ctx) {
         if (!this.path2D)
             return;
-        // if(this.id ==='hello3')debugger
         let { show, opacity, fill, stroke } = this;
         const { enabled: enabledFill, color: fillColor } = fill;
         const { enabled: enabledStroke, color: strokeColor, weight, join, cap } = stroke;
