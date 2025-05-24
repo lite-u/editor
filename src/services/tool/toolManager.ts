@@ -81,7 +81,7 @@ class ToolManager {
       this.currentToolName = name
       this.tool = tool
       this.editor.cursor.set(tool.cursor)
-      tool.init.call(this.editor)
+      tool.init?.call(this.editor)
     }
   }
 

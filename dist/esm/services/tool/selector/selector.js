@@ -9,6 +9,8 @@ const selector = {
         visible.getVisibleSelectedElements.forEach(ele => {
             const { id } = ele;
             ele.onmouseenter = () => {
+                if (this.selection.has(ele.id))
+                    return;
                 ctx.save();
                 ctx.lineWidth = 1 / this.world.scale * this.world.dpr;
                 ctx.strokeStyle = '#5491f8';
