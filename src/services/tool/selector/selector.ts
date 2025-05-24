@@ -9,6 +9,7 @@ const selector: ToolType = {
     const {interaction, action, visible, world} = this
     const {overlayCanvasContext: ctx} = world
 
+    // translate
     visible.getVisibleSelectedElements.forEach(ele => {
       const {id} = ele
 
@@ -33,6 +34,9 @@ const selector: ToolType = {
         interaction._draggingElements = this.elementManager.getElementsByIdSet(this.selection.values)
       }
     })
+
+    // handles
+
 
   },
   mouseDown: function () {
