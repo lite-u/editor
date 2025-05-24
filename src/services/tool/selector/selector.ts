@@ -7,9 +7,9 @@ import {getRotateAngle} from '~/services/tool/selector/helper'
 const selector: ToolType = {
   cursor: 'default',
   mouseDown: function () {
-    const {interaction, elementManager, action, selection, cursor} = this.editor
-    const {_hoveredElement, mouseStart, mouseCurrent, _modifier: {shiftKey, metaKey, ctrlKey}} = interaction
-    const dragMode = !!_hoveredElement
+    const {interaction, elementManager, selection, cursor} = this
+    const {_hoveredElement} = interaction
+
     const rotateMode = !!interaction._hoveredRotateManipulator
     const resizeMode = !!interaction._hoveredResizeManipulator
 
