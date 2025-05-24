@@ -1,13 +1,13 @@
-import resetCanvas from '~/services/world/resetCanvas';
-import { redo } from '~/services/history/redo';
-import { undo } from '~/services/history/undo';
-import { pick } from '~/services/history/pick';
+import resetCanvas from '../services/world/resetCanvas.js';
+import { redo } from '../services/history/redo.js';
+import { undo } from '../services/history/undo.js';
+import { pick } from '../services/history/pick.js';
 // import {updateSelectionCanvasRenderData} from '../services/selection/helper'
 // import zoom from '../../components/statusBar/zoom'
-import { fitRectToViewport } from '~/services/world/helper';
-import snapTool from '~/services/tool/snap/snap';
-import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
-import TypeCheck from '~/core/typeCheck';
+import { fitRectToViewport } from '../services/world/helper.js';
+import snapTool from '../services/tool/snap/snap.js';
+import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
+import TypeCheck from '../core/typeCheck.js';
 export function initEvents() {
     const { action } = this;
     const dispatch = action.dispatch.bind(action);
@@ -321,17 +321,6 @@ export function initEvents() {
                         action.dispatch('selection-modify', { mode: 'replace', idSet: new Set([id]) });
                     }
                     interaction._draggingElements = this.elementManager.getElementsByIdSet(this.selection.values);
-                });
-                ele.on('mousemove', () => {
-                    if (this.interaction._draggingElements.length === 0)
-                        return;
-                    const dp = interaction.mouseWorldMovement;
-                    const elements = this.elementManager.getElementsByIdSet(this.selection.values);
-                    interaction._outlineElement?.translate(dp.x, dp.y);
-                    interaction._manipulationElements.forEach(ele => ele.translate(dp.x, dp.y));
-                    elements.forEach(ele => ele.translate(dp.x, dp.y));
-                    this.action.dispatch('render-overlay');
-                    this.action.dispatch('render-elements');
                 });
             });
             dispatch('render-elements');

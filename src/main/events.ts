@@ -390,19 +390,6 @@ export function initEvents(this: Editor) {
 
           interaction._draggingElements = this.elementManager.getElementsByIdSet(this.selection.values)
         })
-
-        ele.on('mousemove', () => {
-          if (this.interaction._draggingElements.length === 0) return
-          const dp = interaction.mouseWorldMovement
-          const elements = this.elementManager.getElementsByIdSet(this.selection.values)
-
-          interaction._outlineElement?.translate(dp.x, dp.y)
-          interaction._manipulationElements.forEach(ele => ele.translate(dp.x, dp.y))
-          elements.forEach(ele => ele.translate(dp.x, dp.y))
-
-          this.action.dispatch('render-overlay')
-          this.action.dispatch('render-elements')
-        })
       })
 
       dispatch('render-elements')

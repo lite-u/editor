@@ -4,7 +4,6 @@ let _mouseMoved = false
 const dragging: SubToolType = {
   cursor: 'drag',
   mouseMove: function () {
-    return
     _mouseMoved = true
     const {interaction, elementManager, selection} = this.editor
     // const {movementX, movementY} = interaction._modifier
