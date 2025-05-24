@@ -16,11 +16,7 @@ class EventManager {
             const { path2D, fill } = el;
             const f1 = baseCanvasContext.isPointInStroke(path2D, viewPoint.x, viewPoint.y);
             const f2 = baseCanvasContext.isPointInPath(path2D, viewPoint.x, viewPoint.y);
-            console.log(f1);
-            if (!f1 && !f2) {
-                continue;
-            }
-            if (f2 && !fill.enabled) {
+            if (!f1 && (!f2 || !fill.enabled)) {
                 continue;
             }
             // ctx.isPointInStroke()
