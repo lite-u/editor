@@ -308,9 +308,18 @@ export function initEvents() {
                 ele.on('mouseenter', () => {
                     console.log('mouseenter');
                     ctx.save();
+                    ctx.lineWidth = 2;
+                    ctx.strokeStyle = 'red';
+                    ctx.beginPath();
+                    ctx.moveTo(100, 100);
+                    ctx.lineTo(1000, 1000);
+                    ctx.stroke();
+                    ctx.restore();
+                    ctx.save();
                     // ctx.lineWidth = 2 / scale
                     ctx.lineWidth = 200;
-                    ctx.strokeStyle = '#ff0000';
+                    // ctx.strokeStyle = '#ff0000'
+                    ctx.strokeStyle = 'red';
                     ctx.stroke(ele.path2D);
                     ctx.restore();
                     // clone.fill.enabled = false
