@@ -385,6 +385,7 @@ export function initEvents(this: Editor) {
         ele.on('mousedown', () => {
           interaction._ele = ele
         })
+
         ele.on('mousedown', () => {
           interaction._ele = ele
         })
