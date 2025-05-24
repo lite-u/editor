@@ -1,10 +1,18 @@
-import handleMouseUp from './baseEvents/pointerUp.js';
-import handleKeyDown from './baseEvents/keyDown.js';
-import handleKeyUp from './baseEvents/keyUp.js';
-import handlePointerMove from './baseEvents/pointerMove.js';
-import handleContextMenu from './baseEvents/contextMenu.js';
-import handleMouseDown from './baseEvents/pointerDown.js';
-import selector from './selector/selector.js';
+import handleMouseUp from '~/services/tool/baseEvents/pointerUp';
+import handleKeyDown from '~/services/tool/baseEvents/keyDown';
+import handleKeyUp from '~/services/tool/baseEvents/keyUp';
+import handlePointerMove from '~/services/tool/baseEvents/pointerMove';
+import handleContextMenu from '~/services/tool/baseEvents/contextMenu';
+import handleMouseDown from '~/services/tool/baseEvents/pointerDown';
+import selector from '~/services/tool/selector/selector';
+import dSelector from '~/services/tool/dselector/dselector';
+import panning from '~/services/tool/panning/panning';
+import rectangleTool from '~/services/tool/rectangle/rectangleTool';
+import ellipseTool from '~/services/tool/ellipseTool';
+import textTool from '~/services/tool/textTool';
+import lineSegmentTool from '~/services/tool/lineSegmentTool';
+import pencilTool from '~/services/tool/pencil/pencilTool';
+import { zoomInTool, zoomOutTool } from '~/services/tool/zoomTool';
 class ToolManager {
     editor;
     eventsController = new AbortController();
@@ -24,16 +32,16 @@ class ToolManager {
         container.addEventListener('pointerup', handleMouseUp.bind(this), { signal });
         container.addEventListener('pointermove', handlePointerMove.bind(this), { signal });
         container.addEventListener('contextmenu', handleContextMenu.bind(this), { signal });
-        // this.toolMap.set('selector', selector)
-        // this.toolMap.set('dselector', dSelector)
-        // this.toolMap.set('panning', panning)
-        // this.toolMap.set('rectangle', rectangleTool)
-        // this.toolMap.set('ellipse', ellipseTool)
-        // this.toolMap.set('text', textTool)
-        // this.toolMap.set('lineSegment', lineSegmentTool)
-        // this.toolMap.set('pencil', pencilTool)
-        // this.toolMap.set('zoomIn', zoomInTool)
-        // this.toolMap.set('zoomOut', zoomOutTool)
+        this.toolMap.set('selector', selector);
+        this.toolMap.set('dselector', dSelector);
+        this.toolMap.set('panning', panning);
+        this.toolMap.set('rectangle', rectangleTool);
+        this.toolMap.set('ellipse', ellipseTool);
+        this.toolMap.set('text', textTool);
+        this.toolMap.set('lineSegment', lineSegmentTool);
+        this.toolMap.set('pencil', pencilTool);
+        this.toolMap.set('zoomIn', zoomInTool);
+        this.toolMap.set('zoomOut', zoomOutTool);
         this.currentToolName = 'selector';
         this.tool = selector;
     }

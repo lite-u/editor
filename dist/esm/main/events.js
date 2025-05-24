@@ -344,7 +344,8 @@ export function initEvents() {
                 ele.on('mouseleave', () => {
                     dispatch('render-overlay');
                 });
-                ele.on('mousedown', () => {
+                ele.on('mousedown', (e) => {
+                    console.log(e);
                     if (!this.selection.has(id)) {
                         action.dispatch('selection-modify', { mode: 'replace', idSet: new Set([id]) });
                     }

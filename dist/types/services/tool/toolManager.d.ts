@@ -2,6 +2,7 @@ import Editor from '~/main/editor';
 import { CursorName } from '~/services/cursor/cursor';
 export type ToolType = {
     cursor: CursorName;
+    init: (this: Editor) => unknown;
     mouseDown?: (this: Editor) => void;
     mouseMove: (this: Editor) => unknown;
     mouseUp: (this: Editor) => void;
