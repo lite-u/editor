@@ -1,18 +1,18 @@
 const dSelector = {
     cursor: 'default',
     mouseDown() {
-        this.editor.interaction._movingHandle = this.editor.interaction._hoveredHandle;
+        this.interaction._movingHandle = this.interaction._hoveredHandle;
     },
     mouseMove() {
-        if (!this.editor.interaction._movingHandle)
+        if (!this.interaction._movingHandle)
             return;
-        const { interaction, elementManager, selection } = this.editor;
-        // this.editor.container.setPointerCapture(e.pointerId)
+        const { interaction } = this;
+        // this.container.setPointerCapture(e.pointerId)
         const { x, y } = interaction.mouseWorldMovement;
-        this.editor.interaction._movingHandle.translate(x, y);
+        this.interaction._movingHandle.translate(x, y);
     },
     mouseUp() {
-        this.editor.interaction._movingHandle = null;
+        this.interaction._movingHandle = null;
         // this.editor.cursor.set('grab')
     },
 };

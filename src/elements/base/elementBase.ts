@@ -294,7 +294,7 @@ class ElementBase {
 
   protected updatePath2D() { }
 
-  protected restore(props: Partial<ElementProps>) {
+  public restore(props: Partial<ElementProps>) {
     Object.assign(this, props)
     Object.assign(this.original, props)
 

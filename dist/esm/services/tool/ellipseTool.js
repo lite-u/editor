@@ -1,9 +1,9 @@
 import resizeFunc from './resize/resizeFunc.js';
 const ellipseTool = {
     cursor: 'crosshair',
-    mouseDown() {
-        const { elementManager, interaction, world } = this.editor;
-        const { x, y } = this.editor.interaction.mouseWorldCurrent;
+    mouseDown: function () {
+        const { elementManager, interaction, world } = this;
+        const { x, y } = this.interaction.mouseWorldCurrent;
         const r1 = 1;
         const r2 = 1;
         const rectProps = {
@@ -17,17 +17,17 @@ const ellipseTool = {
         ele.render(world.creationCanvasContext);
         interaction._ele = ele;
     },
-    mouseMove() {
-        if (!this.editor.interaction._ele)
+    mouseMove: function () {
+        if (!this.interaction._ele)
             return;
-        this.editor.action.dispatch('clear-creation');
-        resizeFunc.call(this, [this.editor.interaction._ele], 'br');
-        this.editor.interaction._ele.render(this.editor.world.creationCanvasContext);
+        this.action.dispatch('clear-creation');
+        resizeFunc.call(this, [this.interaction._ele], 'br');
+        this.interaction._ele.render(this.world.creationCanvasContext);
     },
-    mouseUp() {
-        const eleProps = this.editor.interaction._ele.toMinimalJSON();
-        this.editor.action.dispatch('element-add', [eleProps]);
-        this.editor.interaction._ele = null;
+    mouseUp: function () {
+        const eleProps = this.interaction._ele.toMinimalJSON();
+        this.action.dispatch('element-add', [eleProps]);
+        this.interaction._ele = null;
     },
 };
 export default ellipseTool;

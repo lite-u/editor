@@ -46,9 +46,9 @@ class VisibleManager {
         });
         const elementProps = this.editor.selection.pickIfUnique;
         if (elementProps) {
-            const element = this.editor.elementManager.getElementById(elementProps.id);
-            const { scale, dpr } = this.editor.world;
-            const ratio = scale * dpr;
+            // const element = this.editor.elementManager.getElementById(elementProps.id)
+            // const {scale, dpr} = this.editor.world
+            // const ratio = scale * dpr
             return;
             // const operators = generateHandles(element, ratio)
             /* const operators = element.getOperators(
@@ -65,7 +65,7 @@ class VisibleManager {
                  fillColor: 'transparent',
                })*/
             // console.log(...operators)
-            this.editor.interaction.operationHandlers.push(...operators);
+            // this.editor.interaction.operationHandlers.push(...operators)
         }
     }
     destroy() {

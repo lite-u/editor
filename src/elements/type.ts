@@ -22,11 +22,11 @@ export type ElementProps = RectangleProps | EllipseProps | TextProps | ImageProp
 export type OptionalIdentifiersProps = Omit<ElementProps, 'id' | 'layer'> & { id?: UID, layer?: number }
 export type PropsWithoutIdentifiers<T extends keyof ElementPropsMap> = Omit<ElementPropsMap[T], 'id' | 'layer'>
 export type ElementInstance =
-  InstanceType<ElementRectangle>
-  | InstanceType<ElementEllipse>
-  | InstanceType<ElementImage>
-  | InstanceType<ElementText>
-  | InstanceType<ElementLineSegment>
-  | InstanceType<ElementPath>
+  InstanceType<typeof ElementRectangle>
+  | InstanceType<typeof ElementEllipse>
+  | InstanceType<typeof ElementImage>
+  | InstanceType<typeof ElementText>
+  | InstanceType<typeof ElementLineSegment>
+  | InstanceType<typeof ElementPath>
 export type ElementMap = Map<UID, ElementInstance>
 

@@ -1,6 +1,6 @@
 import { getAnchorsByResizeDirection, getBoundingRectFromBoundingRects } from './helper.js';
 function resizeFunc(elements, placement = 'br') {
-    const { interaction /*action*/ } = this.editor;
+    const { interaction /*action*/ } = this;
     const { mouseWorldCurrent, _modifier } = interaction;
     const { altKey, shiftKey } = _modifier;
     const rect = getBoundingRectFromBoundingRects(elements.map(el => el.getBoundingRectFromOriginal()));

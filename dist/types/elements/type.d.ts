@@ -19,5 +19,5 @@ export type OptionalIdentifiersProps = Omit<ElementProps, 'id' | 'layer'> & {
     layer?: number;
 };
 export type PropsWithoutIdentifiers<T extends keyof ElementPropsMap> = Omit<ElementPropsMap[T], 'id' | 'layer'>;
-export type ElementInstance = InstanceType<ElementRectangle> | InstanceType<ElementEllipse> | InstanceType<ElementImage> | InstanceType<ElementText> | InstanceType<ElementLineSegment> | InstanceType<ElementPath>;
+export type ElementInstance = InstanceType<typeof ElementRectangle> | InstanceType<typeof ElementEllipse> | InstanceType<typeof ElementImage> | InstanceType<typeof ElementText> | InstanceType<typeof ElementLineSegment> | InstanceType<typeof ElementPath>;
 export type ElementMap = Map<UID, ElementInstance>;

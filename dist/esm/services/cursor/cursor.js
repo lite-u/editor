@@ -52,7 +52,7 @@ class Cursor {
             this.editor.container.style.cursor = name;
         }
     }
-    move(p, rotation) {
+    move(p) {
         // console.log('set cursor', p)
         // this.domRef.style.left = `${p.x}px`
         // this.domRef.style.top = `${p.y}px`

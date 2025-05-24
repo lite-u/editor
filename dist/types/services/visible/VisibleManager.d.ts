@@ -5,11 +5,11 @@ declare class VisibleManager {
     private visibleSelected;
     private editor;
     constructor(editor: Editor);
-    get values(): any[];
+    get values(): import("~/type").ElementInstance[];
     getElementsAtPoint(): void;
     get getVisibleElementMap(): ElementMap;
     get getVisibleSelected(): Set<string>;
-    get getVisibleSelectedElements(): any[];
+    get getVisibleSelectedElements(): import("~/type").ElementInstance[];
     updateVisibleElementMap(): void;
     updateVisibleSelected(): void;
     destroy(): void;

@@ -5,8 +5,8 @@ let _selecting = new Set();
 let _selectedCopy = null;
 const selecting = {
     cursor: 'default',
-    mouseMove() {
-        const { interaction, action, elementManager, selection, cursor } = this;
+    mouseMove: function () {
+        const { interaction, action, elementManager, selection } = this;
         const { mouseStart, mouseCurrent, mouseWorldStart, mouseWorldCurrent, _modifier: { shiftKey, metaKey, ctrlKey }, } = interaction;
         const rect = generateBoundingRectFromTwoPoints(mouseStart, mouseCurrent);
         const _selected = selection.values;

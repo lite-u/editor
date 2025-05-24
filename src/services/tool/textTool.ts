@@ -1,4 +1,4 @@
-import ToolManager, {ToolType} from '~/services/tool/toolManager'
+import {ToolType} from '~/services/tool/toolManager'
 import ElementRectangle from '~/elements/rectangle/rectangle'
 import resizeFunc from '~/services/tool/resize/resizeFunc'
 import {DEFAULT_FONT, DEFAULT_STROKE, DEFAULT_TEXT_FILL} from '~/elements/defaultProps'
@@ -6,10 +6,10 @@ import {PropsWithoutIdentifiers} from '~/elements/type'
 
 const textTool: ToolType = {
   cursor: 'text',
-  mouseDown(this: ToolManager) {
+  mouseDown: function () {
 
-    const {elementManager, interaction, world} = this.editor
-    const {x, y} = this.editor.interaction.mouseWorldCurrent
+    const {elementManager, interaction, world} = this
+    const {x, y} = this.interaction.mouseWorldCurrent
     const width = 1
     const height = 1
     const eleProps: PropsWithoutIdentifiers<'text'> = {
@@ -30,18 +30,18 @@ const textTool: ToolType = {
     ele.render(world.creationCanvasContext)
     interaction._ele = ele
   },
-  mouseMove(this: ToolManager) {
-    if (!this.editor.interaction._ele) return
-    this.editor.action.dispatch('clear-creation')
+  mouseMove: function () {
+    if (!this.interaction._ele) return
+    this.action.dispatch('clear-creation')
 
-    resizeFunc.call(this, [this.editor.interaction._ele], 'br')
-    this.editor.interaction._ele.render(this.editor.world.creationCanvasContext)
+    resizeFunc.call(this, [this.interaction._ele], 'br')
+    this.interaction._ele.render(this.world.creationCanvasContext)
   },
-  mouseUp(this: ToolManager) {
-    const eleProps = this.editor.interaction._ele.toMinimalJSON()
+  mouseUp: function () {
+    const eleProps = this.interaction._ele.toMinimalJSON()
 
-    this.editor.action.dispatch('element-add', [eleProps])
-    this.editor.interaction._ele = null
+    this.action.dispatch('element-add', [eleProps])
+    this.interaction._ele = null
   },
 }
 
