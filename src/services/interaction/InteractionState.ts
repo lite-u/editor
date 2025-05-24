@@ -147,6 +147,12 @@ class InteractionState {
       const clone = elementManager.create(ele.toMinimalJSON())
       const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen)
 
+      ele.on('mousemove',()=>{
+        console.log('mousemove')
+      })
+      clone.on('mousedown',()=>{
+        console.log('mousedown')
+      })
       centerPoint.stroke.enabled = false
       centerPoint.fill.enabled = true
       centerPoint.fill.color = 'orange'
@@ -158,7 +164,7 @@ class InteractionState {
       clone.stroke.color = '#5491f8'
       // clone._relatedId = ele.id
 
-      this._manipulationElements.push(clone, centerPoint)
+      this._manipulationElements.push(/*clone, */centerPoint)
 
       rotations.push(ele.rotation)
       rectsWithRotation.push(ele.getBoundingRect())
@@ -322,7 +328,8 @@ class InteractionState {
       })
     })
 
-    this.editor.interaction._controlPoints = pointElements
+    // this.editor.interaction._controlPoints = pointElements
+    this.editor.interaction._controlPoints = []
   }
 
   destroy() {

@@ -126,6 +126,10 @@ class ElementBase {
     this.eventListeners[event]!.push(handler)
   }
 
+  dispatchEvent(eventData) {
+    console.log('dispatchEvent', eventData)
+  }
+
   public translate(dx: number, dy: number, f: boolean = false): HistoryChangeItem | undefined {
     this.cx = this.cx + dx
     this.cy = this.cy + dy

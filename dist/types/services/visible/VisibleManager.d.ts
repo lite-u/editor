@@ -9,7 +9,7 @@ declare class VisibleManager {
     getElementsAtPoint(): void;
     get getVisibleElementMap(): ElementMap;
     get getVisibleSelected(): Set<string>;
-    get getVisibleSelectedElementMap(): ElementMap;
+    get getVisibleSelectedElements(): any[];
     updateVisibleElementMap(): void;
     updateVisibleSelected(): void;
     destroy(): void;

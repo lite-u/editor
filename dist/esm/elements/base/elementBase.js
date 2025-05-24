@@ -49,6 +49,9 @@ class ElementBase {
             this.eventListeners[event] = [];
         this.eventListeners[event].push(handler);
     }
+    dispatchEvent(eventData) {
+        console.log('dispatchEvent', eventData);
+    }
     translate(dx, dy, f = false) {
         this.cx = this.cx + dx;
         this.cy = this.cy + dy;

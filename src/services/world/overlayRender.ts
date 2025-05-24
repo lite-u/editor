@@ -1,6 +1,4 @@
-import {OptionalIdentifiersProps} from '~/elements/type'
 import World from '~/services/world/World'
-import {DEFAULT_FILL, DEFAULT_STROKE} from '~/elements/defaultProps'
 import {PointHit} from '~/services/interaction/InteractionState'
 
 function overlayRender(this: World) {
@@ -14,43 +12,54 @@ function overlayRender(this: World) {
   const fontSize = 40 / ratio
   // const lineColor = '#5491f8'
   const lineColor = '#435fb9'
+  const visibleElements = this.editor.visible.getVisibleSelectedElements
 
   if (_snappedPoint) {
     drawCrossWithLabel(ctx, _snappedPoint, size, '#ff0000', lineWidth, fontSize)
   }
 
-/*
-  if (_hoveredElement) {
-    const pointProps = _hoveredElement.center
-    const eleStroke = this.editor.elementManager.create({
-      ..._hoveredElement.toJSON(),
-      stroke: {
-        ...DEFAULT_STROKE,
-        color: lineColor,
-        weight: 4 / scale,
-      },
-      fill: {
-        ...DEFAULT_FILL,
-      },
-    })
-    const point = this.editor.elementManager.create({
-      type: 'ellipse',
-      r1: 2 / ratio,
-      r2: 2 / ratio,
-      cx: pointProps.x,
-      cy: pointProps.y,
-    } as OptionalIdentifiersProps)
+  visibleElements.forEach(visibleElement => {
+    visibleElement.render(ctx)
 
-    // console.log(lineWidth)
-    // console.log(eleStroke)
+    ctx.lineWidth = lineWidth
+    // console.log(weight,strokeColor)
+    ctx.strokeStyle = lineColor
+    ctx.lineJoin = 'round'
+    ctx.lineCap = 'round'
+    ctx.stroke(visibleElement.path2D)
+  })
+  /*
+    if (_hoveredElement) {
+      const pointProps = _hoveredElement.center
+      const eleStroke = this.editor.elementManager.create({
+        ..._hoveredElement.toJSON(),
+        stroke: {
+          ...DEFAULT_STROKE,
+          color: lineColor,
+          weight: 4 / scale,
+        },
+        fill: {
+          ...DEFAULT_FILL,
+        },
+      })
+      const point = this.editor.elementManager.create({
+        type: 'ellipse',
+        r1: 2 / ratio,
+        r2: 2 / ratio,
+        cx: pointProps.x,
+        cy: pointProps.y,
+      } as OptionalIdentifiersProps)
 
-    // ele.stroke.weight = 3 / ratio
-    // ele.stroke.color = lineColor
-    point.stroke.color = lineColor
-    point.render(ctx)
-    eleStroke.render(ctx)
-  }
-*/
+      // console.log(lineWidth)
+      // console.log(eleStroke)
+
+      // ele.stroke.weight = 3 / ratio
+      // ele.stroke.color = lineColor
+      point.stroke.color = lineColor
+      point.render(ctx)
+      eleStroke.render(ctx)
+    }
+  */
 
   if (_outlineElement) {
     // console.log(_outlineElement)

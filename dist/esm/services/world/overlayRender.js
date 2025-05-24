@@ -10,9 +10,19 @@ function overlayRender() {
     const fontSize = 40 / ratio;
     // const lineColor = '#5491f8'
     const lineColor = '#435fb9';
+    const visibleElements = this.editor.visible.getVisibleSelectedElements;
     if (_snappedPoint) {
         drawCrossWithLabel(ctx, _snappedPoint, size, '#ff0000', lineWidth, fontSize);
     }
+    visibleElements.forEach(visibleElement => {
+        visibleElement.render(ctx);
+        ctx.lineWidth = lineWidth;
+        // console.log(weight,strokeColor)
+        ctx.strokeStyle = lineColor;
+        ctx.lineJoin = 'round';
+        ctx.lineCap = 'round';
+        ctx.stroke(visibleElement.path2D);
+    });
     /*
       if (_hoveredElement) {
         const pointProps = _hoveredElement.center
@@ -34,10 +44,10 @@ function overlayRender() {
           cx: pointProps.x,
           cy: pointProps.y,
         } as OptionalIdentifiersProps)
-    
+  
         // console.log(lineWidth)
         // console.log(eleStroke)
-    
+  
         // ele.stroke.weight = 3 / ratio
         // ele.stroke.color = lineColor
         point.stroke.color = lineColor

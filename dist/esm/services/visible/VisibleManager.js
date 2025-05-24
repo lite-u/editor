@@ -18,8 +18,8 @@ class VisibleManager {
     get getVisibleSelected() {
         return new Set(this.visibleSelected);
     }
-    get getVisibleSelectedElementMap() {
-        return this.editor.elementManager.getElementMapByIdSet(this.getVisibleSelected);
+    get getVisibleSelectedElements() {
+        return this.editor.elementManager.getElementsByIdSet(this.getVisibleSelected);
     }
     updateVisibleElementMap() {
         this.visibleElementMap.clear();

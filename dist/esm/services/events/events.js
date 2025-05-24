@@ -2,17 +2,37 @@ class EventManager {
     editor;
     eventsController = new AbortController();
     dispatchEvent(domEvent, type, options) {
-        const { offsetX: x, offsetY: y, pointerId } = domEvent;
-        const elements = this.editor.visible.values.sort((a, b) => a.layer - b.layer);
+        const { overlayCanvasContext, baseCanvasContext, scale, dpr } = this.editor.world;
+        const { clientX, clientY, pointerId } = domEvent;
+        const elements = this.editor.visible.values.sort((a, b) => b.layer - a.layer);
+        const x = clientX - this.editor.rect.x;
+        const y = clientY - this.editor.rect.y;
+        const viewPoint = {
+            x: x * dpr,
+            y: y * dpr,
+        };
         for (const el of elements) {
             let stopped = false;
-            let effectiveType = type;
-            if (type === 'mousemove' &&
-                el.isNearPath?.(x, y, options?.tolerance)) {
-                effectiveType = 'onnearpath';
+            const { path2D, fill } = el;
+            const f1 = baseCanvasContext.isPointInStroke(path2D, viewPoint.x, viewPoint.y);
+            const f2 = baseCanvasContext.isPointInPath(path2D, viewPoint.x, viewPoint.y);
+            console.log(f1);
+            if (!f1 && !f2) {
+                continue;
             }
+            if (f2 && !fill.enabled) {
+                continue;
+            }
+            // ctx.isPointInStroke()
+            // let effectiveType = type
+            /* if (
+               type === 'mousemove' &&
+               el.isNearPath?.(x, y, options?.tolerance)
+             ) {
+               effectiveType = 'onnearpath'
+             }*/
             const event = {
-                type: effectiveType,
+                type,
                 x,
                 y,
                 pointerId,
