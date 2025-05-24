@@ -74,7 +74,7 @@ class ElementBase {
     [key: string]: unknown
   }
   // public _relatedId: string
-  private eventListeners: {
+  protected eventListeners: {
     [K in keyof ElementEventMap]?: ElementEventHandler<ElementEventMap[K]>[]
   } = {}
 

@@ -44,18 +44,18 @@ export function convertPointsToBezierPoints(points, tension = 0.3) {
     const rect = ElementPath._getBoundingRect(bezierPoints);
     const center = { x: rect.cx, y: rect.cy };
     // translate to relative points
-    for (const point of bezierPoints) {
-        point.anchor.x -= center.x;
-        point.anchor.y -= center.y;
-        if (point.cp1) {
-            point.cp1.x -= center.x;
-            point.cp1.y -= center.y;
-        }
-        if (point.cp2) {
-            point.cp2.x -= center.x;
-            point.cp2.y -= center.y;
-        }
-    }
+    /*for (const point of bezierPoints) {
+      point.anchor.x -= center.x
+      point.anchor.y -= center.y
+      if (point.cp1) {
+        point.cp1.x -= center.x
+        point.cp1.y -= center.y
+      }
+      if (point.cp2) {
+        point.cp2.x -= center.x
+        point.cp2.y -= center.y
+      }
+    }*/
     // console.log(rect)
     return {
         center,

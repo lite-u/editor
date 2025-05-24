@@ -2,6 +2,7 @@ import {BoundingRect, Point} from '~/type'
 import {BezierPoint} from '~/elements/props'
 import deepClone from '~/core/deepClone'
 import ElementBase, {ElementBaseProps} from '~/elements/base/elementBase'
+import {HistoryChangeItem} from '~/services/actions/type'
 
 export interface PathProps extends ElementBaseProps {
   // id: UID,
@@ -128,6 +129,42 @@ class ElementPath extends ElementBase {
 
       this.path2D.bezierCurveTo(t_cp1.x, t_cp1.y, t_cp2.x, t_cp2.y, t_anchor.x, t_anchor.y)
       this.path2D.closePath()
+    }
+  }
+
+  protected translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined {
+    this.cx = this.cx + dx
+    this.cy = this.cy + dy
+    this.points.forEach((point) => {
+      point.anchor.x += dx
+      point.anchor.y += dy
+
+      if (point.cp1) {
+        point.cp1.x += dx
+        point.cp1.y += dy
+      }
+
+      if (point.cp2) {
+        point.cp2.x += dx
+        point.cp2.y += dy
+      }
+    })
+    this.updatePath2D()
+
+    this.eventListeners['move']?.forEach(handler => handler({dx, dy}))
+
+    if (f) {
+      return {
+        id: this.id,
+        from: {
+          cx: this.original.cx,
+          cy: this.original.cy,
+        },
+        to: {
+          cx: this.cx,
+          cy: this.cy,
+        },
+      }
     }
   }
 
