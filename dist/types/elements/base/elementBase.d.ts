@@ -33,6 +33,7 @@ export interface ElementBaseProps {
     cx?: number;
     cy?: number;
     gradient?: Gradient;
+    toJSON: () => ElementProps;
 }
 export type RequiredBaseProps = Required<ElementBaseProps>;
 declare class ElementBase {
@@ -82,7 +83,7 @@ declare class ElementBase {
     protected toMinimalJSON(): ElementBaseProps;
     protected getBoundingRect(): BoundingRect;
     protected updatePath2D(): void;
-    protected restore(props: Partial<ElementProps>): void;
+    restore(props: Partial<ElementProps>): void;
     protected getTransformedPoints(): Point[];
     protected getCenter(): Point;
     render(ctx: CanvasRenderingContext2D): void;

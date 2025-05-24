@@ -1,5 +1,4 @@
 import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '../../core/utils.js';
-import ElementRectangle from './rectangle.js';
 import { DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../defaultProps.js';
 import { isEqual } from '../../lib/lib.js';
 import ElementBase from '../base/elementBase.js';
@@ -172,42 +171,6 @@ class RectangleLike extends ElementBase {
             return generateBoundingRectFromRect({ x, y, width, height });
         }
         return generateBoundingRectFromRotatedRect({ x, y, width, height }, rotation);
-    }
-    getSelectedBoxElement(lineWidth, lineColor) {
-        return new ElementRectangle({
-            ...this.toJSON(),
-            lineColor,
-            lineWidth,
-            id: this.id + '-selected-box',
-            opacity: 0,
-        });
-    }
-    getHighlightElement(lineWidth, lineColor) {
-        return new ElementRectangle({
-            ...this.toJSON(),
-            lineColor,
-            lineWidth,
-            id: this.id + 'highlight',
-            opacity: 0,
-        });
-    }
-    getSnapPoints() {
-        const { cx: cx, cy: cy, width, height, id } = this;
-        const halfWidth = width / 2;
-        const halfHeight = height / 2;
-        // Define basic snap points: center, corners, and edge centers
-        const points = [
-            { id, x: cx, y: cy, type: 'center' },
-            { id, x: cx - halfWidth, y: cy - halfHeight, type: 'corner-tl' },
-            { id, x: cx + halfWidth, y: cy - halfHeight, type: 'corner-tr' },
-            { id, x: cx + halfWidth, y: cy + halfHeight, type: 'corner-br' },
-            { id, x: cx - halfWidth, y: cy + halfHeight, type: 'corner-bl' },
-            { id, x: cx, y: cy - halfHeight, type: 'edge-top' },
-            { id, x: cx + halfWidth, y: cy, type: 'edge-right' },
-            { id, x: cx, y: cy + halfHeight, type: 'edge-bottom' },
-            { id, x: cx - halfWidth, y: cy, type: 'edge-left' },
-        ];
-        return points;
     }
 }
 export default RectangleLike;

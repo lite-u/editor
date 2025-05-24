@@ -1,12 +1,12 @@
 export const zoomInTool = {
     cursor: 'zoom-in',
-    mouseDown() { },
-    mouseMove() { },
-    mouseUp() { },
+    mouseDown: function () { },
+    mouseMove: function () { },
+    mouseUp: function () { },
 };
 export const zoomOutTool = {
     cursor: 'zoom-out',
-    mouseDown() { },
-    mouseMove() { },
-    mouseUp() { },
+    mouseDown: function () { },
+    mouseMove: function () { },
+    mouseUp: function () { },
 };

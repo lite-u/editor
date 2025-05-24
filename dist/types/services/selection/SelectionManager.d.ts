@@ -1,7 +1,7 @@
-import { UID } from '~/core/core';
 import Editor from '~/main/editor';
 import { SelectionActionMode } from '~/services/selection/type';
 import { ElementProps } from '~/elements/type';
+import { UID } from '~/type';
 declare class SelectionManager {
     protected selected: Set<UID>;
     editor: Editor;

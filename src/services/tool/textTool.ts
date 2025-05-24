@@ -1,5 +1,4 @@
 import {ToolType} from '~/services/tool/toolManager'
-import ElementRectangle from '~/elements/rectangle/rectangle'
 import resizeFunc from '~/services/tool/resize/resizeFunc'
 import {DEFAULT_FONT, DEFAULT_STROKE, DEFAULT_TEXT_FILL} from '~/elements/defaultProps'
 import {PropsWithoutIdentifiers} from '~/elements/type'
@@ -7,7 +6,6 @@ import {PropsWithoutIdentifiers} from '~/elements/type'
 const textTool: ToolType = {
   cursor: 'text',
   mouseDown: function () {
-
     const {elementManager, interaction, world} = this
     const {x, y} = this.interaction.mouseWorldCurrent
     const width = 1
@@ -25,10 +23,12 @@ const textTool: ToolType = {
       width,
       height,
     }
-    const ele: ElementRectangle = elementManager.create(eleProps)
+    const ele = elementManager.create(eleProps)
 
-    ele.render(world.creationCanvasContext)
-    interaction._ele = ele
+    if (ele) {
+      ele.render(world.creationCanvasContext)
+      interaction._ele = ele
+    }
   },
   mouseMove: function () {
     if (!this.interaction._ele) return
@@ -41,7 +41,7 @@ const textTool: ToolType = {
     const eleProps = this.interaction._ele.toMinimalJSON()
 
     this.action.dispatch('element-add', [eleProps])
-    this.interaction._ele = null
+    this.interaction._ele = null!
   },
 }
 
