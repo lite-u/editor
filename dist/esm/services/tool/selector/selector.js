@@ -1,5 +1,6 @@
 import { getRotateAngle } from './helper.js';
 import dragging from './dragging/dragging.js';
+import selecting from './selecting/selecting.js';
 const selector = {
     cursor: 'default',
     init: function () {
@@ -27,19 +28,22 @@ const selector = {
         });
     },
     mouseDown: function () {
+        if (!this.toolManager.subTool) {
+            this.toolManager.subTool = selecting;
+        }
         /* const {interaction, elementManager, selection, cursor} = this
          // const {_hoveredElement} = interaction
-     
+    
          const rotateMode = !!interaction._hoveredRotateManipulator
          const resizeMode = !!interaction._hoveredResizeManipulator
-     
+    
          if (resizeMode) {
            const placement = interaction._hoveredResizeManipulator.id.replace('handle-resize-', '')
            cursor.set('resize')
            this.subTool = resizing
-     
+    
            interaction._resizingData = {placement}
-     
+    
            cursor.set('resize')
            this.subTool = resizing
          } else if (rotateMode) {
@@ -48,7 +52,7 @@ const selector = {
            })
            const center = getBoundingRectFromBoundingRects(rects)
            const {cx: x, cy: y} = center
-     
+    
            console.log(interaction._hoveredElement)
            interaction._rotateData = {startRotation: interaction._outlineElement.rotation, targetPoint: {x, y}}
            this.subTool = rotating
@@ -80,9 +84,7 @@ const selector = {
         this.toolManager.subTool?.mouseMove.call(this);
     },
     mouseUp() {
-        if (!this.toolManager.subTool)
-            return;
-        this.toolManager.subTool.mouseUp.call(this);
+        this.toolManager.subTool?.mouseUp.call(this);
         this.interaction._rotateData = null;
         this.toolManager.subTool = null;
     },

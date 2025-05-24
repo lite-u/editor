@@ -20,6 +20,6 @@ function handleMouseDown(e) {
         return;
     this.editor.action.dispatch('clear-creation');
     snapTool.call(this);
-    // this.tool.mouseDown.call(this)
+    this.tool?.mouseDown?.call(this.editor);
 }
 export default handleMouseDown;
