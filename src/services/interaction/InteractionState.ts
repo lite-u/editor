@@ -293,8 +293,6 @@ class InteractionState {
           cp2LineToAnchor.stroke.color = this.boxColor
           cp2LineToAnchor.stroke.weight = 2 / ratio
 
-          pointElements.push(cp2LineToAnchor, cp2)
-
           cp2.on('move', ({dx, dy}) => {
             ele.points[index].cp2.x += dx
             ele.points[index].cp2.y += dy
@@ -312,8 +310,9 @@ class InteractionState {
             this.editor.action.dispatch('element-updated')
             this.editor.action.dispatch('render-overlay')
           })
-        }
 
+          pointElements.push(cp2LineToAnchor, cp2)
+        }
       })
     })
 
