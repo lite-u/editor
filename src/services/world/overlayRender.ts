@@ -18,7 +18,7 @@ function overlayRender(this: World) {
     drawCrossWithLabel(ctx, _snappedPoint, size, '#ff0000', lineWidth, fontSize)
   }
 
-  visibleElements.forEach(visibleElement => {
+/*  visibleElements.forEach(visibleElement => {
     visibleElement.render(ctx)
 
     ctx.lineWidth = lineWidth
@@ -27,7 +27,7 @@ function overlayRender(this: World) {
     ctx.lineJoin = 'round'
     ctx.lineCap = 'round'
     ctx.stroke(visibleElement.path2D)
-  })
+  })*/
   /*
     if (_hoveredElement) {
       const pointProps = _hoveredElement.center

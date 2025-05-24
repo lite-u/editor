@@ -373,9 +373,10 @@ export function initEvents(this: Editor) {
 
         ele.on('mouseenter', () => {
           console.log('mouseenter')
-          ctx.save()
 
-          ctx.lineWidth = 2 / scale
+          ctx.save()
+          // ctx.lineWidth = 2 / scale
+          ctx.lineWidth = 200
           ctx.strokeStyle = '#ff0000'
           ctx.stroke(ele.path2D)
           ctx.restore()
@@ -387,8 +388,8 @@ export function initEvents(this: Editor) {
         })
 
         ele.on('mouseleave', () => {
+          console.log('mouseleave')
           dispatch('render-overlay')
-          console.log('render')
           // ele.render(ctx)
           /*  ctx.save()
             ctx.lineWidth = 2 / scale

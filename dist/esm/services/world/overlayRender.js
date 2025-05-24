@@ -14,15 +14,16 @@ function overlayRender() {
     if (_snappedPoint) {
         drawCrossWithLabel(ctx, _snappedPoint, size, '#ff0000', lineWidth, fontSize);
     }
-    visibleElements.forEach(visibleElement => {
-        visibleElement.render(ctx);
-        ctx.lineWidth = lineWidth;
+    /*  visibleElements.forEach(visibleElement => {
+        visibleElement.render(ctx)
+    
+        ctx.lineWidth = lineWidth
         // console.log(weight,strokeColor)
-        ctx.strokeStyle = lineColor;
-        ctx.lineJoin = 'round';
-        ctx.lineCap = 'round';
-        ctx.stroke(visibleElement.path2D);
-    });
+        ctx.strokeStyle = lineColor
+        ctx.lineJoin = 'round'
+        ctx.lineCap = 'round'
+        ctx.stroke(visibleElement.path2D)
+      })*/
     /*
       if (_hoveredElement) {
         const pointProps = _hoveredElement.center
