@@ -115,7 +115,7 @@ class ElementLineSegment extends ElementBase {
     return ElementLineSegment._getBoundingRect(start!, end!, rotation)
   }
 
-  protected translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined {
+  public translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined {
     this.cx = this.cx + dx
     this.cy = this.cy + dy
     this.start.x += dx
