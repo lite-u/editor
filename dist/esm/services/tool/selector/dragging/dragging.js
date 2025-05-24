@@ -1,12 +1,10 @@
 const dragging = {
     cursor: 'drag',
     mouseMove: function () {
-        const { interaction, elementManager, selection } = this;
+        const { interaction } = this;
         const dp = interaction.mouseWorldMovement;
-        // const elements = elementManager.getElementsByIdSet(selection.values)
         interaction._outlineElement?.translate(dp.x, dp.y, false);
         interaction._draggingElements.forEach(ele => ele.translate(dp.x, dp.y, false));
-        // elements.forEach(ele => ele.translate(dp.x, dp.y,false))
         this.action.dispatch('render-overlay');
         this.action.dispatch('render-elements');
     },

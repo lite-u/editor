@@ -1,3 +1,3 @@
-import { ToolType } from '~/services/tool/toolManager';
-declare const dragging: ToolType;
+import { SubToolType } from '~/services/tool/toolManager';
+declare const dragging: SubToolType;
 export default dragging;

@@ -1,7 +1,5 @@
-import resizing from './resizing/resizing.js';
-import rotating from './rotating/rotating.js';
-import { getBoundingRectFromBoundingRects } from '../resize/helper.js';
 import { getRotateAngle } from './helper.js';
+import dragging from './dragging/dragging.js';
 const selector = {
     cursor: 'default',
     init: function () {
@@ -23,49 +21,42 @@ const selector = {
                 if (!this.selection.has(id)) {
                     action.dispatch('selection-modify', { mode: 'replace', idSet: new Set([id]) });
                 }
+                this.toolManager.subTool = dragging;
                 interaction._draggingElements = this.elementManager.getElementsByIdSet(this.selection.values);
             };
         });
     },
     mouseDown: function () {
-        const { interaction, elementManager, selection, cursor } = this;
-        // const {_hoveredElement} = interaction
-        const rotateMode = !!interaction._hoveredRotateManipulator;
-        const resizeMode = !!interaction._hoveredResizeManipulator;
-        if (resizeMode) {
-            const placement = interaction._hoveredResizeManipulator.id.replace('handle-resize-', '');
-            cursor.set('resize');
-            this.subTool = resizing;
-            interaction._resizingData = { placement };
-            cursor.set('resize');
-            this.subTool = resizing;
-        }
-        else if (rotateMode) {
-            const rects = elementManager.getElementsByIdSet(selection.values).map(ele => {
-                return ele.getBoundingRect(true);
-            });
-            const center = getBoundingRectFromBoundingRects(rects);
-            const { cx: x, cy: y } = center;
-            console.log(interaction._hoveredElement);
-            interaction._rotateData = { startRotation: interaction._outlineElement.rotation, targetPoint: { x, y } };
-            this.subTool = rotating;
-        } /* else if (dragMode) {
-          this.subTool = dragging
-          const id = _hoveredElement.id
-    
-          if (!this.editor.selection.has(id)) {
-            action.dispatch('selection-modify', {mode: 'replace', idSet: new Set([_hoveredElement.id])})
-          }
-    
-          interaction._draggingElements = elementManager.getElementsByIdSet(selection.values)
-        } */
-        else {
-            // this.subTool = selecting
-        }
+        /* const {interaction, elementManager, selection, cursor} = this
+         // const {_hoveredElement} = interaction
+     
+         const rotateMode = !!interaction._hoveredRotateManipulator
+         const resizeMode = !!interaction._hoveredResizeManipulator
+     
+         if (resizeMode) {
+           const placement = interaction._hoveredResizeManipulator.id.replace('handle-resize-', '')
+           cursor.set('resize')
+           this.subTool = resizing
+     
+           interaction._resizingData = {placement}
+     
+           cursor.set('resize')
+           this.subTool = resizing
+         } else if (rotateMode) {
+           const rects = elementManager.getElementsByIdSet(selection.values).map(ele => {
+             return ele.getBoundingRect(true)
+           })
+           const center = getBoundingRectFromBoundingRects(rects)
+           const {cx: x, cy: y} = center
+     
+           console.log(interaction._hoveredElement)
+           interaction._rotateData = {startRotation: interaction._outlineElement.rotation, targetPoint: {x, y}}
+           this.subTool = rotating
+         } */
     },
-    mouseMove() {
+    mouseMove: function () {
         const { interaction, cursor } = this;
-        if (!this.subTool) {
+        if (!this.toolManager.subTool) {
             if (interaction._hoveredResizeManipulator) {
                 cursor.set('nw-resize');
                 // console.log(10)
@@ -86,14 +77,14 @@ const selector = {
             }
         }
         // if (!this.subTool) return
-        this.subTool?.mouseMove.call(this);
+        this.toolManager.subTool?.mouseMove.call(this);
     },
     mouseUp() {
-        if (!this.subTool)
+        if (!this.toolManager.subTool)
             return;
-        this.subTool.mouseUp.call(this);
-        this.editor.interaction._rotateData = null;
-        this.subTool = null;
+        this.toolManager.subTool.mouseUp.call(this);
+        this.interaction._rotateData = null;
+        this.toolManager.subTool = null;
     },
 };
 export default selector;

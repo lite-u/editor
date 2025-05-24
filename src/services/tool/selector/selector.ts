@@ -3,6 +3,7 @@ import resizing from '~/services/tool/selector/resizing/resizing'
 import rotating from '~/services/tool/selector/rotating/rotating'
 import {getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
 import {getRotateAngle} from '~/services/tool/selector/helper'
+import dragging from '~/services/tool/selector/dragging/dragging'
 
 const selector: ToolType = {
   cursor: 'default',
@@ -29,13 +30,14 @@ const selector: ToolType = {
         if (!this.selection.has(id)) {
           action.dispatch('selection-modify', {mode: 'replace', idSet: new Set([id])})
         }
+        this.toolManager.subTool = dragging
         interaction._draggingElements = this.elementManager.getElementsByIdSet(this.selection.values)
       }
     })
 
   },
   mouseDown: function () {
-    const {interaction, elementManager, selection, cursor} = this
+   /* const {interaction, elementManager, selection, cursor} = this
     // const {_hoveredElement} = interaction
 
     const rotateMode = !!interaction._hoveredRotateManipulator
@@ -60,23 +62,12 @@ const selector: ToolType = {
       console.log(interaction._hoveredElement)
       interaction._rotateData = {startRotation: interaction._outlineElement.rotation, targetPoint: {x, y}}
       this.subTool = rotating
-    }/* else if (dragMode) {
-      this.subTool = dragging
-      const id = _hoveredElement.id
-
-      if (!this.editor.selection.has(id)) {
-        action.dispatch('selection-modify', {mode: 'replace', idSet: new Set([_hoveredElement.id])})
-      }
-
-      interaction._draggingElements = elementManager.getElementsByIdSet(selection.values)
-    } */ else {
-      // this.subTool = selecting
-    }
+    } */
   },
-  mouseMove() {
+  mouseMove:function () {
     const {interaction, cursor} = this
 
-    if (!this.subTool) {
+    if (!this.toolManager.subTool) {
       if (interaction._hoveredResizeManipulator) {
         cursor.set('nw-resize')
         // console.log(10)
@@ -96,15 +87,14 @@ const selector: ToolType = {
       }
     }
     // if (!this.subTool) return
-
-    this.subTool?.mouseMove.call(this)
+    this.toolManager.subTool?.mouseMove.call(this)
   },
   mouseUp() {
-    if (!this.subTool) return
+    if (!this.toolManager.subTool) return
 
-    this.subTool.mouseUp.call(this)
-    this.editor.interaction._rotateData = null
-    this.subTool = null
+    this.toolManager.subTool.mouseUp.call(this)
+    this.interaction._rotateData = null
+    this.toolManager.subTool = null
   },
 }
 
