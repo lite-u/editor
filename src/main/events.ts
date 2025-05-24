@@ -12,6 +12,7 @@ import snapTool from '~/services/tool/snap/snap'
 import {getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
 import TypeCheck from '~/core/typeCheck'
 import dragging from '~/services/tool/selector/dragging/dragging'
+import selecting from '~/services/tool/selector/selecting/selecting'
 
 export function initEvents(this: Editor) {
   const {action} = this
@@ -153,12 +154,24 @@ export function initEvents(this: Editor) {
     dispatch('visible-selection-updated')
   })
 
+  on('world-mouse-down', () => {
+    if (this.toolManager._currentTool) {
+      this.toolManager._currentTool?.mouseDown.call(this)
+    } else {
+      selecting.mouseDown.call(this)
+    }
+  })
+
   on('world-mouse-move', () => {
     const {interaction} = this
     const p = interaction.mouseWorldCurrent
 
     if (interaction._pointDown) {
-      this.toolManager._currentTool?.mouseMove.call(this)
+      if (this.toolManager._currentTool) {
+        this.toolManager._currentTool?.mouseMove.call(this)
+      } else {
+        selecting.mouseMove.call(this)
+      }
     }
 
     this.events.onWorldMouseMove?.(p as Point)
@@ -169,7 +182,11 @@ export function initEvents(this: Editor) {
     this.action.dispatch('element-move', {delta: {x: 0, y: 0}})
     this.interaction._draggingElements = []
 
-    this.toolManager._currentTool?.mouseUp.call(this)
+    if (this.toolManager._currentTool) {
+      this.toolManager._currentTool?.mouseUp.call(this)
+    } else {
+      selecting.mouseUp.call(this)
+    }
 
   })
 

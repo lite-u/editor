@@ -1,12 +1,13 @@
-import resetCanvas from '~/services/world/resetCanvas';
-import { redo } from '~/services/history/redo';
-import { undo } from '~/services/history/undo';
-import { pick } from '~/services/history/pick';
-import { fitRectToViewport } from '~/services/world/helper';
-import snapTool from '~/services/tool/snap/snap';
-import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
-import TypeCheck from '~/core/typeCheck';
-import dragging from '~/services/tool/selector/dragging/dragging';
+import resetCanvas from '../services/world/resetCanvas.js';
+import { redo } from '../services/history/redo.js';
+import { undo } from '../services/history/undo.js';
+import { pick } from '../services/history/pick.js';
+import { fitRectToViewport } from '../services/world/helper.js';
+import snapTool from '../services/tool/snap/snap.js';
+import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
+import TypeCheck from '../core/typeCheck.js';
+import dragging from '../services/tool/selector/dragging/dragging.js';
+import selecting from '../services/tool/selector/selecting/selecting.js';
 export function initEvents() {
     const { action } = this;
     const dispatch = action.dispatch.bind(action);
@@ -124,11 +125,24 @@ export function initEvents() {
         this.events.onSelectionUpdated?.(this.selection.values, this.selection.pickIfUnique);
         dispatch('visible-selection-updated');
     });
+    on('world-mouse-down', () => {
+        if (this.toolManager._currentTool) {
+            this.toolManager._currentTool?.mouseDown.call(this);
+        }
+        else {
+            selecting.mouseDown.call(this);
+        }
+    });
     on('world-mouse-move', () => {
         const { interaction } = this;
         const p = interaction.mouseWorldCurrent;
         if (interaction._pointDown) {
-            this.toolManager._currentTool?.mouseMove.call(this);
+            if (this.toolManager._currentTool) {
+                this.toolManager._currentTool?.mouseMove.call(this);
+            }
+            else {
+                selecting.mouseMove.call(this);
+            }
         }
         this.events.onWorldMouseMove?.(p);
     });
@@ -136,7 +150,12 @@ export function initEvents() {
         console.log('world-mouse-up');
         this.action.dispatch('element-move', { delta: { x: 0, y: 0 } });
         this.interaction._draggingElements = [];
-        this.toolManager._currentTool?.mouseUp.call(this);
+        if (this.toolManager._currentTool) {
+            this.toolManager._currentTool?.mouseUp.call(this);
+        }
+        else {
+            selecting.mouseUp.call(this);
+        }
     });
     on('drop-image', ({ position, assets }) => {
         // console.log(data)
