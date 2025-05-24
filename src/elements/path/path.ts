@@ -3,6 +3,7 @@ import {BezierPoint} from '~/elements/props'
 import deepClone from '~/core/deepClone'
 import ElementBase, {ElementBaseProps} from '~/elements/base/elementBase'
 import {HistoryChangeItem} from '~/services/actions/type'
+
 export interface PathProps extends ElementBaseProps {
   // id: UID,
   // layer: number
