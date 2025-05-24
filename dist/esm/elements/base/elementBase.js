@@ -190,7 +190,7 @@ class ElementBase {
         // if(this.id ==='hello3')debugger
         let { show, opacity, fill, stroke } = this;
         const { enabled: enabledFill, color: fillColor } = fill;
-        const { enabled: enabledStroke, color: strokeColor, weight, join /*dashed*/ } = stroke;
+        const { enabled: enabledStroke, color: strokeColor, weight, join, cap /*dashed*/ } = stroke;
         if (!show || opacity <= 0)
             return;
         ctx.save();
@@ -205,7 +205,9 @@ class ElementBase {
             ctx.lineWidth = weight;
             // console.log(weight,strokeColor)
             ctx.strokeStyle = strokeColor;
-            ctx.lineJoin = join;
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+            console.log(cap);
             ctx.stroke(this.path2D);
         }
         ctx.restore();

@@ -1,10 +1,10 @@
-import { createWith, getManipulationBox } from '../../lib/lib.js';
-import { getBoundingRectFromBoundingRects } from '../tool/resize/helper.js';
-import { DEFAULT_STROKE } from '../../elements/defaultProps.js';
-import { getMinimalBoundingRect } from '../../core/utils.js';
-import ElementRectangle from '../../elements/rectangle/rectangle.js';
-import ElementEllipse from '../../elements/ellipse/ellipse.js';
-import LineSegment from '../../elements/lines/lineSegment.js';
+import { createWith, getManipulationBox } from '~/lib/lib';
+import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
+import { DEFAULT_STROKE } from '~/elements/defaultProps';
+import { getMinimalBoundingRect } from '~/core/utils';
+import ElementRectangle from '~/elements/rectangle/rectangle';
+import ElementEllipse from '~/elements/ellipse/ellipse';
+import LineSegment from '~/elements/lines/lineSegment';
 class InteractionState {
     editor;
     state = 'static';
@@ -160,6 +160,8 @@ class InteractionState {
                 const aPY = point.anchor.y;
                 const id = ele.id + '-anchor-' + index;
                 const anchorPoint = ElementRectangle.create(id, aPX, aPY, pointLen);
+                let cp1;
+                let cp2;
                 let cp1LineToAnchor;
                 let cp2LineToAnchor;
                 anchorPoint.fill.enabled = true;
@@ -168,10 +170,9 @@ class InteractionState {
                 anchorPoint.stroke.weight = resizeStrokeWidth;
                 pointElements.push(anchorPoint);
                 anchorPoint.on('move', ({ dx, dy }) => {
-                    console.log(dx, dy);
-                    // console.log(ele.points[index])
-                    ele.points[index].x += dx;
-                    ele.points[index].y += dy;
+                    console.log(ele, dx, dy);
+                    ele.points[index].anchor.x += dx;
+                    ele.points[index].anchor.y += dy;
                     if (cp1LineToAnchor) {
                         cp1LineToAnchor.cx += dx;
                         cp1LineToAnchor.cy += dy;
@@ -187,25 +188,41 @@ class InteractionState {
                         cp2LineToAnchor.updatePath2D();
                     }
                     ele.updatePath2D();
+                    ele.updateOriginal();
                     this.editor.action.dispatch('element-updated');
-                    // this.editor.action.dispatch('render-overlay')
                 });
                 if (point.cp1) {
                     const { x: cPX, y: cPY } = point.cp1;
-                    const cp1 = ElementEllipse.create(ele.id + '-cp1-' + index, cPX, cPY, pointLen);
-                    const cp1LineToAnchor = LineSegment.create(ele.id + '-cp1-' + index, cPX, cPY, aPX, aPY);
+                    cp1 = ElementEllipse.create(ele.id + '-cp1-' + index, cPX, cPY, pointLen);
                     cp1.layer = 1;
                     cp1.fill.enabled = true;
                     cp1.fill.color = this.boxColor;
                     cp1.stroke.enabled = false;
+                    cp1LineToAnchor = LineSegment.create(ele.id + '-cp1-' + index, cPX, cPY, aPX, aPY);
                     cp1LineToAnchor.layer = 1;
                     cp1LineToAnchor.stroke.color = this.boxColor;
                     cp1LineToAnchor.stroke.weight = 2 / ratio;
                     pointElements.push(cp1LineToAnchor, cp1);
+                    cp1.on('move', ({ dx, dy }) => {
+                        ele.points[index].cp1.x += dx;
+                        ele.points[index].cp1.y += dy;
+                        // cp2.x = anchor.x * 2 - cp1.x
+                        // cp2.y = anchor.y * 2 - cp1.y
+                        if (cp1LineToAnchor) {
+                            cp1LineToAnchor.start.x += dx;
+                            cp1LineToAnchor.start.y += dy;
+                            cp1LineToAnchor.updatePath2D();
+                        }
+                        ele.updatePath2D();
+                        // ele.updateOriginal()
+                        this.editor.interaction.createTransformHandles();
+                        this.editor.action.dispatch('element-updated');
+                        this.editor.action.dispatch('render-overlay');
+                    });
                 }
                 if (point.cp2) {
                     const { x: cPX, y: cPY } = point.cp2;
-                    const cp2 = ElementEllipse.create(ele.id + '-cp2-' + index, cPX, cPY, pointLen);
+                    cp2 = ElementEllipse.create(ele.id + '-cp2-' + index, cPX, cPY, pointLen);
                     cp2LineToAnchor = LineSegment.create(ele.id + '-cp2-' + index, cPX, cPY, aPX, aPY);
                     cp2.layer = 2;
                     cp2.fill.enabled = true;
@@ -215,6 +232,20 @@ class InteractionState {
                     cp2LineToAnchor.stroke.color = this.boxColor;
                     cp2LineToAnchor.stroke.weight = 2 / ratio;
                     pointElements.push(cp2LineToAnchor, cp2);
+                    cp2.on('move', ({ dx, dy }) => {
+                        ele.points[index].cp2.x += dx;
+                        ele.points[index].cp2.y += dy;
+                        if (cp2LineToAnchor) {
+                            cp2LineToAnchor.start.x += dx;
+                            cp2LineToAnchor.start.y += dy;
+                            cp2LineToAnchor.updatePath2D();
+                        }
+                        ele.updatePath2D();
+                        // ele.updateOriginal()
+                        this.editor.interaction.createTransformHandles();
+                        this.editor.action.dispatch('element-updated');
+                        this.editor.action.dispatch('render-overlay');
+                    });
                 }
             });
         });

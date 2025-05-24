@@ -15,7 +15,7 @@ export type Stroke = {
   enabled: boolean
   color: string; // e.g., "#000000"
   weight: number; // stroke width
-  cap: 'butt' | 'round' | 'projecting';
+  cap: 'butt' | 'round' | 'square';
   join: 'miter' | 'round' | 'bevel';
   dashed: boolean;
 };
