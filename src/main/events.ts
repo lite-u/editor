@@ -374,7 +374,7 @@ export function initEvents(this: Editor) {
         ele.on('mouseenter', () => {
           ctx.save()
           console.log(scale, dpr)
-          ctx.lineWidth = 1 / scale * dpr
+          ctx.lineWidth = 1 / this.world.scale * this.world.dpr
           // ctx.strokeStyle = '#ff0000'
           ctx.strokeStyle = '#5491f8'
           ctx.stroke(ele.path2D)
