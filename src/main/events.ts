@@ -166,7 +166,6 @@ export function initEvents(this: Editor) {
 
     this.action.dispatch('render-overlay')
     this.action.dispatch('render-elements')
-
     this.events.onWorldMouseMove?.(p as Point)
   })
 
