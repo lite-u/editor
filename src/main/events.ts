@@ -157,20 +157,8 @@ export function initEvents(this: Editor) {
     const {interaction} = this
     const p = interaction.mouseWorldCurrent
 
-    if (interaction._draggingElements.length > 0) {
-      const dp = interaction.mouseWorldMovement
-      // const elements = elementManager.getElementsByIdSet(selection.values)
-      interaction._outlineElement?.translate(dp.x, dp.y)
-      interaction._draggingElements.forEach(ele => ele.translate(dp.x, dp.y))
-      // elements.forEach(ele => ele.translate(dp.x, dp.y))
-
-      this.action.dispatch('render-overlay')
-      this.action.dispatch('render-elements')
-    }
-
     if (interaction._pointDown) {
       this.toolManager._currentTool?.mouseMove.call(this)
-
     }
 
     this.events.onWorldMouseMove?.(p as Point)

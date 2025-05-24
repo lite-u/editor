@@ -1,12 +1,12 @@
-import resetCanvas from '../services/world/resetCanvas.js';
-import { redo } from '../services/history/redo.js';
-import { undo } from '../services/history/undo.js';
-import { pick } from '../services/history/pick.js';
-import { fitRectToViewport } from '../services/world/helper.js';
-import snapTool from '../services/tool/snap/snap.js';
-import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
-import TypeCheck from '../core/typeCheck.js';
-import dragging from '../services/tool/selector/dragging/dragging.js';
+import resetCanvas from '~/services/world/resetCanvas';
+import { redo } from '~/services/history/redo';
+import { undo } from '~/services/history/undo';
+import { pick } from '~/services/history/pick';
+import { fitRectToViewport } from '~/services/world/helper';
+import snapTool from '~/services/tool/snap/snap';
+import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
+import TypeCheck from '~/core/typeCheck';
+import dragging from '~/services/tool/selector/dragging/dragging';
 export function initEvents() {
     const { action } = this;
     const dispatch = action.dispatch.bind(action);
@@ -127,15 +127,6 @@ export function initEvents() {
     on('world-mouse-move', () => {
         const { interaction } = this;
         const p = interaction.mouseWorldCurrent;
-        if (interaction._draggingElements.length > 0) {
-            const dp = interaction.mouseWorldMovement;
-            // const elements = elementManager.getElementsByIdSet(selection.values)
-            interaction._outlineElement?.translate(dp.x, dp.y);
-            interaction._draggingElements.forEach(ele => ele.translate(dp.x, dp.y));
-            // elements.forEach(ele => ele.translate(dp.x, dp.y))
-            this.action.dispatch('render-overlay');
-            this.action.dispatch('render-elements');
-        }
         if (interaction._pointDown) {
             this.toolManager._currentTool?.mouseMove.call(this);
         }
