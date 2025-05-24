@@ -373,6 +373,7 @@ export function initEvents(this: Editor) {
 
         ele.on('mouseenter', () => {
           ctx.save()
+          console.log(scale, dpr)
           ctx.lineWidth = 1 / scale * dpr
           // ctx.strokeStyle = '#ff0000'
           ctx.strokeStyle = '#5491f8'
