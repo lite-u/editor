@@ -245,7 +245,7 @@ class InteractionState {
             cp2.translate(dx, dy)
           }
 
-          ele.updatePath2D()
+          // ele.updatePath2D()
           ele.updateOriginal()
           this.editor.action.dispatch('element-updated')
         })
