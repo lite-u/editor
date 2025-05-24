@@ -7,6 +7,7 @@ import handleContextMenu from '~/services/tool/baseEvents/contextMenu'
 import handleMouseDown from '~/services/tool/baseEvents/pointerDown'
 import selector from '~/services/tool/selector/selector'
 import {CursorName} from '~/services/cursor/cursor'
+/*
 import rectangleTool from '~/services/tool/rectangle/rectangleTool'
 import panning from '~/services/tool/panning/panning'
 import ellipseTool from '~/services/tool/ellipseTool'
@@ -15,6 +16,7 @@ import lineSegmentTool from '~/services/tool/lineSegmentTool'
 import pencilTool from '~/services/tool/pencil/pencilTool'
 import {zoomInTool, zoomOutTool} from '~/services/tool/zoomTool'
 import dSelector from '~/services/tool/dselector/dselector'
+*/
 
 export type ToolType = {
   cursor: CursorName
@@ -61,16 +63,16 @@ class ToolManager {
     container.addEventListener('pointermove', handlePointerMove.bind(this), {signal})
     container.addEventListener('contextmenu', handleContextMenu.bind(this), {signal})
 
-    this.toolMap.set('selector', selector)
-    this.toolMap.set('dselector', dSelector)
-    this.toolMap.set('panning', panning)
-    this.toolMap.set('rectangle', rectangleTool)
-    this.toolMap.set('ellipse', ellipseTool)
-    this.toolMap.set('text', textTool)
-    this.toolMap.set('lineSegment', lineSegmentTool)
-    this.toolMap.set('pencil', pencilTool)
-    this.toolMap.set('zoomIn', zoomInTool)
-    this.toolMap.set('zoomOut', zoomOutTool)
+    // this.toolMap.set('selector', selector)
+    // this.toolMap.set('dselector', dSelector)
+    // this.toolMap.set('panning', panning)
+    // this.toolMap.set('rectangle', rectangleTool)
+    // this.toolMap.set('ellipse', ellipseTool)
+    // this.toolMap.set('text', textTool)
+    // this.toolMap.set('lineSegment', lineSegmentTool)
+    // this.toolMap.set('pencil', pencilTool)
+    // this.toolMap.set('zoomIn', zoomInTool)
+    // this.toolMap.set('zoomOut', zoomOutTool)
 
     this.currentToolName = 'selector'
     this.tool = selector
