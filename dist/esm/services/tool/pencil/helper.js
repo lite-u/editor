@@ -1,4 +1,4 @@
-import ElementPath from '../../../elements/path/path.js';
+import { getBoundingRectFromBezierPoints } from '../../../core/geometry.js';
 export function convertPointsToBezierPoints(points, tension = 0.3) {
     const filtered = [];
     const offsetThreshold = 2;
@@ -54,7 +54,7 @@ export function convertPointsToBezierPoints(points, tension = 0.3) {
             type: 'smooth',
         });
     }
-    const rect = ElementPath._getBoundingRect(bezierPoints);
+    const rect = getBoundingRectFromBezierPoints(bezierPoints);
     const center = { x: rect.cx, y: rect.cy };
     // translate to relative points
     /*for (const point of bezierPoints) {
