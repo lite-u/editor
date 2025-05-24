@@ -186,6 +186,16 @@ class InteractionState {
                         cp2LineToAnchor.end.y += dy;
                         cp2LineToAnchor.updatePath2D();
                     }
+                    if (cp1) {
+                        cp1.cy += dx;
+                        cp1.cy += dy;
+                        cp1.updatePath2D();
+                    }
+                    if (cp2) {
+                        cp2.cy += dx;
+                        cp2.cy += dy;
+                        cp2.updatePath2D();
+                    }
                     ele.updatePath2D();
                     ele.updateOriginal();
                     this.editor.action.dispatch('element-updated');

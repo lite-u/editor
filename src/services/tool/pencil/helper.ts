@@ -28,28 +28,42 @@ export function convertPointsToBezierPoints(points: Point[], tension = 0.3): { c
     Math.hypot(points[0].x - points[points.length - 1].x, points[0].y - points[points.length - 1].y) < closeThreshold;
 
   for (let i = 0; i < points.length; i++) {
-    const prev = points[i - 1] ?? (isClosed ? points[points.length - 2] : points[i])
-    const curr = points[i]
-    const next = points[i + 1] ?? (isClosed ? points[(i + 1) % points.length] : points[i])
-    const next2 = points[i + 2] ?? (isClosed ? points[(i + 2) % points.length] : next)
+    const prev = points[i - 1] ?? (isClosed ? points[points.length - 2] : points[i]);
+    const curr = points[i];
+    const next = points[i + 1] ?? (isClosed ? points[(i + 1) % points.length] : points[i]);
 
-    // Vector from prev to next
-    const dx1 = (next.x - prev.x) * tension
-    const dy1 = (next.y - prev.y) * tension
+    // Vector from prev to next (smoothed direction)
+    const dx = (next.x - prev.x) * tension;
+    const dy = (next.y - prev.y) * tension;
 
-    // Vector from curr to next2
-    const dx2 = (next2.x - curr.x) * tension
-    const dy2 = (next2.y - curr.y) * tension
+    let cp1: Point | null = null;
+    let cp2: Point | null = null;
 
-    const handleIn: Point | null = (!isClosed && i === 0) ? null : {x: curr.x - dx1 / 2, y: curr.y - dy1 / 2}
-    const handleOut: Point | null = (!isClosed && i === points.length - 1) ? null : {x: curr.x + dx2 / 2, y: curr.y + dy2 / 2}
+    if (i !== 0 || isClosed) {
+      cp1 = {
+        x: curr.x - dx,
+        y: curr.y - dy,
+      };
+    }
+
+    if (i !== points.length - 1 || isClosed) {
+      cp2 = cp1
+        ? {
+            x: curr.x * 2 - cp1.x,
+            y: curr.y * 2 - cp1.y,
+          }
+        : {
+            x: curr.x + dx,
+            y: curr.y + dy,
+          };
+    }
 
     bezierPoints.push({
-      anchor: {...curr},
-      cp1: handleIn,
-      cp2: handleOut,
+      anchor: { ...curr },
+      cp1,
+      cp2,
       type: 'smooth',
-    })
+    });
   }
 
   const rect = ElementPath._getBoundingRect(bezierPoints)
