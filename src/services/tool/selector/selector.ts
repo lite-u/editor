@@ -34,7 +34,7 @@ const selector: ToolType = {
       console.log(interaction._hoveredElement)
       interaction._rotateData = {startRotation: interaction._outlineElement.rotation, targetPoint: {x, y}}
       this.subTool = rotating
-    } else if (dragMode) {
+    }/* else if (dragMode) {
       this.subTool = dragging
       const id = _hoveredElement.id
 
@@ -43,7 +43,7 @@ const selector: ToolType = {
       }
 
       interaction._draggingElements = elementManager.getElementsByIdSet(selection.values)
-    } else {
+    } */else {
       this.subTool = selecting
     }
   },

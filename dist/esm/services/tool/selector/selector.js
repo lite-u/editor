@@ -1,5 +1,4 @@
 import selecting from './selecting/selecting.js';
-import dragging from './dragging/dragging.js';
 import resizing from './resizing/resizing.js';
 import rotating from './rotating/rotating.js';
 import { getBoundingRectFromBoundingRects } from '../resize/helper.js';
@@ -29,15 +28,16 @@ const selector = {
             console.log(interaction._hoveredElement);
             interaction._rotateData = { startRotation: interaction._outlineElement.rotation, targetPoint: { x, y } };
             this.subTool = rotating;
-        }
-        else if (dragMode) {
-            this.subTool = dragging;
-            const id = _hoveredElement.id;
-            if (!this.editor.selection.has(id)) {
-                action.dispatch('selection-modify', { mode: 'replace', idSet: new Set([_hoveredElement.id]) });
-            }
-            interaction._draggingElements = elementManager.getElementsByIdSet(selection.values);
-        }
+        } /* else if (dragMode) {
+          this.subTool = dragging
+          const id = _hoveredElement.id
+    
+          if (!this.editor.selection.has(id)) {
+            action.dispatch('selection-modify', {mode: 'replace', idSet: new Set([_hoveredElement.id])})
+          }
+    
+          interaction._draggingElements = elementManager.getElementsByIdSet(selection.values)
+        } */
         else {
             this.subTool = selecting;
         }

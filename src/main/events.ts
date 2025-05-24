@@ -162,7 +162,7 @@ export function initEvents(this: Editor) {
       const dp = interaction.mouseWorldMovement
       const elements = elementManager.getElementsByIdSet(selection.values)
       interaction._outlineElement?.translate(dp.x, dp.y)
-      interaction._manipulationElements.forEach(ele => ele.translate(dp.x, dp.y))
+      interaction._draggingElements.forEach(ele => ele.translate(dp.x, dp.y))
       elements.forEach(ele => ele.translate(dp.x, dp.y))
 
       this.action.dispatch('render-overlay')
