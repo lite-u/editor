@@ -51,7 +51,7 @@ class ElementEllipse extends ElementBase {
     return [top, right, bottom, left]
   }
 
-  protected updatePath2D() {
+  public updatePath2D() {
     this.path2D = new Path2D()
     const rotationRad = (this.rotation * Math.PI) / 180
 

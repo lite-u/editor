@@ -13,7 +13,7 @@ declare class ElementEllipse extends ElementBase {
     constructor({ r1, r2, ...rest }: EllipseProps);
     static create(id: UID, cx: number, cy: number, r1?: number, r2?: number): ElementEllipse;
     get getPoints(): Point[];
-    protected updatePath2D(): void;
+    updatePath2D(): void;
     protected updateOriginal(): void;
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
     toMinimalJSON(): EllipseProps;

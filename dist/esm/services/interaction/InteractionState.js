@@ -170,7 +170,6 @@ class InteractionState {
                 anchorPoint.stroke.weight = resizeStrokeWidth;
                 pointElements.push(anchorPoint);
                 anchorPoint.on('move', ({ dx, dy }) => {
-                    console.log(ele, dx, dy);
                     ele.points[index].anchor.x += dx;
                     ele.points[index].anchor.y += dy;
                     if (cp1LineToAnchor) {
