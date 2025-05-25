@@ -94,9 +94,7 @@ export function initEvents(this: Editor) {
 
   on('world-updated', () => {
     this.world.updateWorldRect()
-    // dispatch('visible-element-updated')
     this.mainHost.updateVisibleElementMap()
-
     this.overlayHost.updateVisibleElementMap()
 
     // this.updateSnapPoints()
@@ -106,7 +104,7 @@ export function initEvents(this: Editor) {
 
   on('world-scale-changed', () => {
     this.overlayHost.reset()
-    this.updateOverlay()
+    this.generateOverlayElements()
   })
 
   on('selection-all', () => {

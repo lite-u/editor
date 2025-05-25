@@ -157,7 +157,7 @@ class Editor {
     this.overlayHost.setSize(viewportWidth, viewportHeight)
   }
 
-  updateOverlay() {
+  generateOverlayElements() {
     this.overlayHost.reset()
     const boxColor = '#435fb9'
     const {world, action, toolManager, selection, mainHost,overlayHost} = this
