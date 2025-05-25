@@ -136,7 +136,6 @@ export function getManipulationBox(this: Editor) {
 }
 
 export function regenerateOverlayElements(this: Editor) {
-
   const boxColor = '#435fb9'
   const {world, action, toolManager, selection, mainHost, overlayHost} = this
   const {scale, dpr} = world
@@ -148,11 +147,6 @@ export function regenerateOverlayElements(this: Editor) {
 
   // overlayHost.reset()
 
-  const rectsWithRotation: BoundingRect[] = []
-  const rectsWithoutRotation: BoundingRect[] = []
-
-  const handleTranslateMouseEnter = (ele) => {}
-  const handleTranslateMouseLeave = (ele) => {}
   const handleTranslateMouseDown = (id: UID) => {
     if (!selection.has(id)) {
       action.dispatch('selection-modify', {mode: 'replace', idSet: new Set([id])})
@@ -160,6 +154,9 @@ export function regenerateOverlayElements(this: Editor) {
     toolManager.subTool = dragging
     this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values)
   }
+
+  const handleTranslateMouseEnter = (ele) => {}
+  const handleTranslateMouseLeave = (ele) => {}
   const handleRotateMouseEnter = (ele) => {}
   const handleRotateMouseLeave = (ele) => {}
   const handleRotateMouseDown = (ele) => {

@@ -1,11 +1,11 @@
-import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
-import dragging from '~/services/tool/selector/dragging/dragging';
-import ElementRectangle from '~/elements/rectangle/rectangle';
-import Rectangle from '~/elements/rectangle/rectangle';
-import { getMinimalBoundingRect } from '~/core/utils';
-import { DEFAULT_STROKE } from '~/elements/defaultProps';
-import { rotatePointAroundPoint } from '~/core/geometry';
-import Ellipse from '~/elements/ellipse/ellipse';
+import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
+import dragging from '../services/tool/selector/dragging/dragging.js';
+import ElementRectangle from '../elements/rectangle/rectangle.js';
+import Rectangle from '../elements/rectangle/rectangle.js';
+import { getMinimalBoundingRect } from '../core/utils.js';
+import { DEFAULT_STROKE } from '../elements/defaultProps.js';
+import { rotatePointAroundPoint } from '../core/geometry.js';
+import Ellipse from '../elements/ellipse/ellipse.js';
 export function generateTransformHandles(rect, ratio, rotation, specialLineSeg = false) {
     const result = [];
     const resizeLen = 30 / ratio;
@@ -123,10 +123,6 @@ export function regenerateOverlayElements() {
     const visibleElements = mainHost.visibleElements;
     const selectedElements = mainHost.getElementsByIdSet(idSet);
     // overlayHost.reset()
-    const rectsWithRotation = [];
-    const rectsWithoutRotation = [];
-    const handleTranslateMouseEnter = (ele) => { };
-    const handleTranslateMouseLeave = (ele) => { };
     const handleTranslateMouseDown = (id) => {
         if (!selection.has(id)) {
             action.dispatch('selection-modify', { mode: 'replace', idSet: new Set([id]) });
@@ -134,6 +130,8 @@ export function regenerateOverlayElements() {
         toolManager.subTool = dragging;
         this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values);
     };
+    const handleTranslateMouseEnter = (ele) => { };
+    const handleTranslateMouseLeave = (ele) => { };
     const handleRotateMouseEnter = (ele) => { };
     const handleRotateMouseLeave = (ele) => { };
     const handleRotateMouseDown = (ele) => {
