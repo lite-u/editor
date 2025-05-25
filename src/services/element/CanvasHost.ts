@@ -26,8 +26,8 @@ class CanvasHost {
   editor: Editor
   eventsController = new AbortController()
   _hoveredElement: ElementInstance | null = null
-  canvas = createWith('canvas', 'main-canvas', {...STYLE})
-  ctx = createWith('canvas', 'overlay-canvas', {...STYLE})
+  canvas: HTMLCanvasElement
+  ctx: CanvasRenderingContext2D
   // visible
   dpr = 2
 
@@ -36,6 +36,8 @@ class CanvasHost {
     const {signal} = this.eventsController
     const {container} = editor
     this.editor = editor
+    this.canvas = createWith('canvas', 'main-canvas', {...STYLE})
+    this.ctx = this.canvas.getContext('2d')!
 
     container.addEventListener('pointerdown', e => this.dispatchEvent(e, 'mousedown'), {signal, passive: false})
     container.addEventListener('pointerup', e => this.dispatchEvent(e, 'mouseup'), {signal})
