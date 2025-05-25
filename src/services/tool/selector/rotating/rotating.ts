@@ -7,7 +7,7 @@ const rotating: SubToolType = {
   // cursor: 'default',
 
   mouseMove: function () {
-    const {interaction, elementManager, selection, cursor} = this.editor
+    const {interaction, elementManager, selection, cursor} = this
     const elements = elementManager.getElementsByIdSet(selection.values)
     const {_rotateData, _modifier, mouseWorldCurrent, mouseWorldStart} = interaction
     const {shiftKey} = _modifier
@@ -28,13 +28,13 @@ const rotating: SubToolType = {
     elements.forEach(ele => ele.rotateFrom(rotationDiff, targetPoint))
     cursor.rotate(mouseCurrentRotation)
 
-    this.editor.action.dispatch('render-overlay')
-    this.editor.action.dispatch('render-main-host')
+    this.action.dispatch('render-overlay')
+    this.action.dispatch('render-main-host')
 
     return rotationDiff
   },
-  mouseUp(this: ToolManager) {
-    const {interaction, mainHost, action, cursor, selection} = this.editor
+  mouseUp() {
+    const {interaction, mainHost, action, cursor, selection} = this
     const elements = mainHost.getElementsByIdSet(selection.values)
 
     const changes: HistoryChangeItem[] = []

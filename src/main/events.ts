@@ -528,6 +528,7 @@ export function initEvents(this: Editor) {
   })
 
   on('render-overlay', () => {
+    console.log('render-overlay')
     resetCanvas(
       this.overlayHost.ctx,
       this.world.scale,

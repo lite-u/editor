@@ -1,13 +1,13 @@
-import deepClone from '../../core/deepClone.js';
-import nid from '../../core/nid.js';
-import ElementRectangle from '../../elements/rectangle/rectangle.js';
-import ElementEllipse from '../../elements/ellipse/ellipse.js';
-import ElementText from '../../elements/text/text.js';
-import ElementImage from '../../elements/image/image.js';
-import ElementLineSegment from '../../elements/lines/lineSegment.js';
-import ElementPath from '../../elements/path/path.js';
-import { createWith } from '../../lib/lib.js';
-import { rectsOverlap } from '../../core/utils.js';
+import deepClone from '~/core/deepClone';
+import nid from '~/core/nid';
+import ElementRectangle from '~/elements/rectangle/rectangle';
+import ElementEllipse from '~/elements/ellipse/ellipse';
+import ElementText from '~/elements/text/text';
+import ElementImage from '~/elements/image/image';
+import ElementLineSegment from '~/elements/lines/lineSegment';
+import ElementPath from '~/elements/path/path';
+import { createWith } from '~/lib/lib';
+import { rectsOverlap } from '~/core/utils';
 const STYLE = {
     position: 'absolute',
     left: '0',
@@ -307,7 +307,7 @@ class CanvasHost {
     }
     render() {
         this.allVisibleElements.forEach((element) => {
-            console.log(element);
+            // console.log(element)
             element.render(this.ctx);
         });
     }

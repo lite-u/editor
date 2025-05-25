@@ -441,6 +441,7 @@ export function initEvents() {
         new ElementRectangle(frameFill).render(this.mainHost.ctx);
     });
     on('render-overlay', () => {
+        console.log('render-overlay');
         resetCanvas(this.overlayHost.ctx, this.world.scale, this.world.offset, this.world.dpr);
         this.overlayHost.render();
     });

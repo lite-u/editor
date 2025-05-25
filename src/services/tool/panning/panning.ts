@@ -2,24 +2,24 @@ import ToolManager, {ToolType} from '~/services/tool/toolManager'
 
 const panning: ToolType = {
   cursor: 'grab',
-  mouseDown(this: ToolManager) {
-    this.editor.cursor.set('grabbing')
+  mouseDown() {
+    this.cursor.set('grabbing')
     // updateCursor.call(this, 'grabbing')
   },
-  mouseMove(this: ToolManager) {
-    // this.editor.container.setPointerCapture(e.pointerId)
-    const {_modifier, _pointDown} = this.editor.interaction
+  mouseMove() {
+    // this.container.setPointerCapture(e.pointerId)
+    const {_modifier, _pointDown} = this.interaction
     const {movementX, movementY} = _modifier
 
     if (!_pointDown) return
-    this.editor.action.dispatch('world-shift',
+    this.action.dispatch('world-shift',
       {
         x: movementX,
         y: movementY,
       })
   },
-  mouseUp(this: ToolManager) {
-    this.editor.cursor.set('grab')
+  mouseUp() {
+    this.cursor.set('grab')
   },
 }
 

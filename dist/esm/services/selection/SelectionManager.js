@@ -26,7 +26,6 @@ class SelectionManager {
         }
     }
     selectAll() {
-        console.log('all');
         this.selected = this.editor.mainHost.allIds;
     }
     modify(idSet, action) {
@@ -68,7 +67,6 @@ class SelectionManager {
     }
     replace(idSet) {
         this.clear();
-        console.log('replace', idSet);
         this.selected = new Set(idSet);
     }
     destroy() {
