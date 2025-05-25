@@ -98,6 +98,11 @@ class ElementPath extends ElementBase {
             this.path2D.closePath();
         }
     }
+    /*
+      public updateBoundingRect() {
+        this.boundingRect = this.getBoundingRect()
+      }
+    */
     translate(dx, dy, f) {
         this.cx = this.cx + dx;
         this.cy = this.cy + dy;
@@ -115,6 +120,7 @@ class ElementPath extends ElementBase {
         });
         // console.time('translate')
         this.updatePath2D();
+        this.updateBoundingRect();
         // console.timeEnd('translate')
         this.transform.cx = this.cx;
         this.transform.cy = this.cy;

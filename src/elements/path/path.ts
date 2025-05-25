@@ -134,6 +134,12 @@ class ElementPath extends ElementBase {
     }
   }
 
+/*
+  public updateBoundingRect() {
+    this.boundingRect = this.getBoundingRect()
+  }
+*/
+
   public translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined {
     this.cx = this.cx + dx
     this.cy = this.cy + dy
@@ -153,6 +159,7 @@ class ElementPath extends ElementBase {
     })
     // console.time('translate')
     this.updatePath2D()
+    this.updateBoundingRect()
     // console.timeEnd('translate')
     this.transform.cx = this.cx
     this.transform.cy = this.cy
