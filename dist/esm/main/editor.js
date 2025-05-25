@@ -12,14 +12,13 @@ import World from '../services/world/World.js';
 import ClipboardManager from '../services/clipboard/Clipboard.js';
 import InteractionState from '../services/interaction/InteractionState.js';
 import VisibleManager from '../services/visible/VisibleManager.js';
-import EventManager from '../services/events/events.js';
 class Editor {
     id = nid();
     container;
     config;
     events = {};
     resizeObserver;
-    eventManager;
+    // eventManager: EventManager
     world;
     action;
     visible;
@@ -43,7 +42,7 @@ class Editor {
         this.container = container;
         // services
         this.action = new Action();
-        this.eventManager = new EventManager(this);
+        // this.eventManager = new EventManager(this)
         this.visible = new VisibleManager(this);
         this.clipboard = new ClipboardManager();
         this.interaction = new InteractionState(this);
@@ -123,7 +122,7 @@ class Editor {
         this.history.destroy();
         this.mainHost.destroy();
         this.overlayHost.destroy();
-        this.eventManager.destroy();
+        // this.eventManager.destroy()
         this.action.destroy();
         this.visible.destroy();
         this.clipboard.destroy();
