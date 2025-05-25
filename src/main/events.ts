@@ -164,6 +164,8 @@ export function initEvents(this: Editor) {
       }
     })*/
 
+  on('drag-start')
+
   on('world-mouse-move', () => {
     this.events.onWorldMouseMove?.(this.interaction.mouseWorldCurrent)
   })

@@ -133,6 +133,7 @@ export function initEvents() {
           selecting.mouseDown.call(this)
         }
       })*/
+    on('drag-start');
     on('world-mouse-move', () => {
         this.events.onWorldMouseMove?.(this.interaction.mouseWorldCurrent);
     });
