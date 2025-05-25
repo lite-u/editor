@@ -33,7 +33,7 @@ export function initEvents(this: Editor) {
 
     if (!this.initialized) {
       this.initialized = true
-      dispatch('world-zoom', 'fit')
+      dispatch('world-fit-content')
       dispatch('element-updated')
       this.events.onInitialized?.()
       this.events.onHistoryUpdated?.(this.history)
@@ -43,24 +43,28 @@ export function initEvents(this: Editor) {
     }
   })
 
+  on('world-fit-content', () => {
+    const {width, height} = this.config.page
+    const {viewportRect} = this
+    const pageRect = {
+      x: 0,
+      y: 0,
+      width,
+      height,
+    }
+    const {scale, offsetX, offsetY} = fitRectToViewport(pageRect, viewportRect, 0.02)
+
+    this.world.scale = scale
+    this.world.offset.x = offsetX
+    this.world.offset.y = offsetY
+    this.events.onZoomed?.(scale)
+    dispatch('world-scale-changed')
+    dispatch('world-updated')
+  })
+
   on('world-zoom', (arg) => {
     if (arg === 'fit') {
-      const {width, height} = this.config.page
-      const {viewportRect} = this
-      const pageRect = {
-        x: 0,
-        y: 0,
-        width,
-        height,
-      }
-      const {scale, offsetX, offsetY} = fitRectToViewport(pageRect, viewportRect, 0.02)
-
-      this.world.scale = scale
-      this.world.offset.x = offsetX
-      this.world.offset.y = offsetY
-      this.events.onZoomed?.(scale)
-      dispatch('world-scale-changed')
-      dispatch('world-updated')
+      dispatch('world-fit-content')
       return
     }
 

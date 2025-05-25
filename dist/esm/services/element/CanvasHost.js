@@ -147,8 +147,6 @@ class CanvasHost {
     setSize(width, height) {
         this.canvas.width = width;
         this.canvas.height = height;
-        this.updateVisibleElementMap();
-        this.render();
     }
     getElementById(id) {
         return this.elementMap.get(id);
