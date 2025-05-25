@@ -34,7 +34,7 @@ export function initEvents(this: Editor) {
     if (!this.initialized) {
       this.initialized = true
       dispatch('world-fit-content')
-      dispatch('element-updated')
+      // dispatch('element-updated')
       this.events.onInitialized?.()
       this.events.onHistoryUpdated?.(this.history)
       this.events.onElementsUpdated?.(this.mainHost.all)
