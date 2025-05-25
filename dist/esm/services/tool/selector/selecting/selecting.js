@@ -89,6 +89,7 @@ const selecting = {
         this.interaction.hideSelectionBox();
         // this.tool = selector
         if (!_mouseMoved) {
+            console.log('clear');
             this.action.dispatch('selection-clear');
         }
         _mouseMoved = false;

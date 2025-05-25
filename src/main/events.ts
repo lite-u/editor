@@ -156,9 +156,9 @@ export function initEvents(this: Editor) {
     this.interaction._hoveredElement = null!
     this.overlayHost.reset()
     this.generateOverlayElements()
-
+    // console.log(this.overlayHost.visibleElements)
     // getAnchorsByBoundingRect()
-    console.log(this.selection.pickIfUnique)
+    // console.log(this.selection.pickIfUnique)
     this.events.onSelectionUpdated?.(this.selection.values, this.selection.pickIfUnique)
     dispatch('rerender-overlay')
 

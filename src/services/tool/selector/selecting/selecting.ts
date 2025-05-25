@@ -109,6 +109,7 @@ const selecting: SubToolType = {
     // this.tool = selector
 
     if (!_mouseMoved) {
+      console.log('clear')
       this.action.dispatch('selection-clear')
     }
 

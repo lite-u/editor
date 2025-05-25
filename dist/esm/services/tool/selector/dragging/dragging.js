@@ -17,7 +17,7 @@ const dragging = {
         // this.action.dispatch('rerender-main-host')
         this.interaction._draggingElements = [];
         this.action.dispatch('element-move', { delta: { x: 0, y: 0 } });
-        this.action.dispatch('refresh-overlay');
+        // this.action.dispatch('refresh-overlay')
     },
 };
 export default dragging;
