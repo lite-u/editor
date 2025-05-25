@@ -1,4 +1,4 @@
-import {BoundingRect, ElementInstance} from '~/type'
+import {BoundingRect, ElementInstance, UID} from '~/type'
 import {getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
 import dragging from '~/services/tool/selector/dragging/dragging'
 import ElementRectangle from '~/elements/rectangle/rectangle'
@@ -26,7 +26,7 @@ export function regenerateOverlayElements(this: Editor) {
 
   const handleTranslateMouseEnter = (ele) => {}
   const handleTranslateMouseLeave = (ele) => {}
-  const handleTranslateMouseDown = id => {
+  const handleTranslateMouseDown = (id: UID) => {
     if (!selection.has(id)) {
       action.dispatch('selection-modify', {mode: 'replace', idSet: new Set([id])})
     }
