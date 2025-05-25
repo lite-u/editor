@@ -205,8 +205,8 @@ class Editor {
         this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values)
       }
 
-      this.overlayHost.add(clone)
-      this.overlayHost.add(centerPoint)
+      this.overlayHost.append(clone)
+      this.overlayHost.append(centerPoint)
       // this.transformHandles.push(centerPoint)
 
       rotations.push(ele.rotation)
@@ -246,7 +246,7 @@ class Editor {
       },
     })
 
-    this.overlayHost.add(selectedOutlineElement)
+    this.overlayHost.append(selectedOutlineElement)
   }
 
   destroy() {
