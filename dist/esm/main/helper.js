@@ -1,12 +1,68 @@
-import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
-import dragging from '../services/tool/selector/dragging/dragging.js';
-import ElementRectangle from '../elements/rectangle/rectangle.js';
-import Rectangle from '../elements/rectangle/rectangle.js';
-import { getMinimalBoundingRect } from '../core/utils.js';
-import { DEFAULT_STROKE } from '../elements/defaultProps.js';
-import { rotatePointAroundPoint } from '../core/geometry.js';
-import Ellipse from '../elements/ellipse/ellipse.js';
-export const getManipulationBox = (rect, rotation, ratio, specialLineSeg = false, handleRotate, handleResize) => {
+import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
+import dragging from '~/services/tool/selector/dragging/dragging';
+import ElementRectangle from '~/elements/rectangle/rectangle';
+import Rectangle from '~/elements/rectangle/rectangle';
+import { getMinimalBoundingRect } from '~/core/utils';
+import { DEFAULT_STROKE } from '~/elements/defaultProps';
+import { rotatePointAroundPoint } from '~/core/geometry';
+import Ellipse from '~/elements/ellipse/ellipse';
+export function getManipulationBox() {
+    const rectsWithRotation = [];
+    const rectsWithoutRotation = [];
+    let rotations = [];
+    const boxColor = '#435fb9';
+    const { world, action, toolManager, selection, mainHost, overlayHost } = this;
+    const { scale, dpr } = world;
+    const ratio = scale * dpr;
+    const pointLen = 20 / ratio;
+    const idSet = selection.values;
+    const visibleElements = mainHost.visibleElements;
+    const selectedElements = mainHost.getElementsByIdSet(idSet);
+    if (selectedElements.length === 0)
+        return;
+    selectedElements.forEach((ele) => {
+        const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen);
+        centerPoint.stroke.enabled = false;
+        centerPoint.fill.enabled = true;
+        centerPoint.fill.color = 'orange';
+        overlayHost.append(centerPoint);
+        rotations.push(ele.rotation);
+        rectsWithRotation.push(ele.getBoundingRect());
+        rectsWithoutRotation.push(ele.getBoundingRect(true));
+    });
+    // selectedOutlineElement
+    const sameRotation = rotations.every(val => val === rotations[0]);
+    let applyRotation = sameRotation ? rotations[0] : 0;
+    let rect;
+    const specialLineSeg = idSet.size === 1 && selectedElements[0].type === 'lineSegment';
+    if (sameRotation) {
+        rect = getMinimalBoundingRect(rectsWithoutRotation, applyRotation);
+        if (specialLineSeg) {
+            rect.width = 1;
+            rect.cx = selectedElements[0].cx;
+        }
+        // overlayHost.append(...getManipulationBox(rect, applyRotation, ratio, specialLineSeg, handleRotate, handleResize))
+    }
+    else {
+        rect = getBoundingRectFromBoundingRects(rectsWithRotation);
+        applyRotation = 0;
+        // overlayHost.append(...getManipulationBox(rect, 0, ratio, specialLineSeg, handleRotate, handleResize))
+    }
+    const selectedOutlineElement = new ElementRectangle({
+        id: 'selected-elements-outline',
+        layer: 0,
+        show: !specialLineSeg,
+        type: 'rectangle',
+        ...rect,
+        rotation: applyRotation,
+        stroke: {
+            ...DEFAULT_STROKE,
+            weight: 2 / scale,
+            color: boxColor,
+        },
+    });
+    // console.log('selectedOutlineElement', selectedOutlineElement)
+    overlayHost.append(selectedOutlineElement);
     const resizeLen = 30 / ratio;
     const resizeStrokeWidth = 2 / ratio;
     const rotateRadius = 50 / ratio;
@@ -25,7 +81,7 @@ export const getManipulationBox = (rect, rotation, ratio, specialLineSeg = false
     arr.map(({ dx, dy, name }) => {
         if (specialLineSeg && name !== 't' && name !== 'b')
             return;
-        const { x, y } = rotatePointAroundPoint(cx + dx * width, cy + dy * height, cx, cy, rotation);
+        const { x, y } = rotatePointAroundPoint(cx + dx * width, cy + dy * height, cx, cy, applyRotation);
         const resizeEle = new Rectangle({
             id: 'handle-resize-' + name,
             layer: 1,
@@ -33,7 +89,7 @@ export const getManipulationBox = (rect, rotation, ratio, specialLineSeg = false
             cy: y,
             width: resizeLen,
             height: resizeLen,
-            rotation,
+            rotation: applyRotation,
         });
         const rotateEle = new Ellipse({
             id: 'handle-rotate-' + name,
@@ -42,7 +98,7 @@ export const getManipulationBox = (rect, rotation, ratio, specialLineSeg = false
             cy: y,
             r1: rotateRadius,
             r2: rotateRadius,
-            rotation,
+            rotation: applyRotation,
             stroke: {
                 ...DEFAULT_STROKE,
                 weight: resizeStrokeWidth,
@@ -54,10 +110,10 @@ export const getManipulationBox = (rect, rotation, ratio, specialLineSeg = false
         resizeEle.fill.enabled = true;
         resizeEle.fill.color = '#fff';
         rotateEle.stroke.enabled = false;
-        result.push(resizeEle, rotateEle);
+        overlayHost.append(resizeEle, rotateEle);
     });
     return result;
-};
+}
 export function regenerateOverlayElements() {
     const boxColor = '#435fb9';
     const { world, action, toolManager, selection, mainHost, overlayHost } = this;
@@ -67,7 +123,6 @@ export function regenerateOverlayElements() {
     const idSet = selection.values;
     const visibleElements = mainHost.visibleElements;
     const selectedElements = mainHost.getElementsByIdSet(idSet);
-    let rotations = [];
     // overlayHost.reset()
     const rectsWithRotation = [];
     const rectsWithoutRotation = [];
@@ -117,52 +172,4 @@ export function regenerateOverlayElements() {
         clone.onmousedown = () => handleTranslateMouseDown(id);
         overlayHost.append(clone);
     });
-    if (selectedElements.length === 0)
-        return;
-    /*if (selectedElements.length <= 1) {
-      // this.selectedOutlineElement = null
-      if (selectedElements.length === 0) return
-    }*/
-    selectedElements.forEach((ele) => {
-        const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen);
-        centerPoint.stroke.enabled = false;
-        centerPoint.fill.enabled = true;
-        centerPoint.fill.color = 'orange';
-        overlayHost.append(centerPoint);
-        rotations.push(ele.rotation);
-        rectsWithRotation.push(ele.getBoundingRect());
-        rectsWithoutRotation.push(ele.getBoundingRect(true));
-    });
-    // selectedOutlineElement
-    const sameRotation = rotations.every(val => val === rotations[0]);
-    const applyRotation = sameRotation ? rotations[0] : 0;
-    let rect;
-    const specialLineSeg = idSet.size === 1 && selectedElements[0].type === 'lineSegment';
-    if (sameRotation) {
-        rect = getMinimalBoundingRect(rectsWithoutRotation, applyRotation);
-        if (specialLineSeg) {
-            rect.width = 1;
-            rect.cx = selectedElements[0].cx;
-        }
-        overlayHost.append(...getManipulationBox(rect, applyRotation, ratio, specialLineSeg, handleRotate, handleResize));
-    }
-    else {
-        rect = getBoundingRectFromBoundingRects(rectsWithRotation);
-        overlayHost.append(...getManipulationBox(rect, 0, ratio, specialLineSeg, handleRotate, handleResize));
-    }
-    const selectedOutlineElement = new ElementRectangle({
-        id: 'selected-elements-outline',
-        layer: 0,
-        show: !specialLineSeg,
-        type: 'rectangle',
-        ...rect,
-        rotation: applyRotation,
-        stroke: {
-            ...DEFAULT_STROKE,
-            weight: 2 / scale,
-            color: boxColor,
-        },
-    });
-    console.log('selectedOutlineElement', selectedOutlineElement);
-    overlayHost.append(selectedOutlineElement);
 }
