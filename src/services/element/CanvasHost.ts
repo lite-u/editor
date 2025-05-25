@@ -123,7 +123,7 @@ class CanvasHost {
     return this.elementMap.size
   }
 
-  public get keys(): Set<UID> {
+  public get allIds(): Set<UID> {
     const set: Set<UID> = new Set()
 
     this.elementMap.forEach((element) => {

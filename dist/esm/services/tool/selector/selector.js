@@ -10,7 +10,7 @@ const selector = {
     cursor: 'default',
     init: function () {
         const { interaction, action, mainHost, overlayHost, world } = this;
-        const { overlayCanvasContext: ctx, scale, dpr } = world;
+        const { scale, dpr } = world;
         const elements = mainHost.allVisibleElements;
         interaction.generateTransformHandles();
         // const elements = this.interaction.editor.mainHost.getElementsByIdSet(idSet)
@@ -18,13 +18,14 @@ const selector = {
         elements.forEach(ele => {
             const { id } = ele;
             ele.onmouseenter = () => {
+                console.log(10);
                 if (this.selection.has(ele.id))
                     return;
-                ctx.save();
-                ctx.lineWidth = 1 / this.world.scale * this.world.dpr;
-                ctx.strokeStyle = '#5491f8';
-                ctx.stroke(ele.path2D);
-                ctx.restore();
+                overlayHost.ctx.save();
+                overlayHost.ctx.lineWidth = 1 / this.world.scale * this.world.dpr;
+                overlayHost.ctx.strokeStyle = '#5491f8';
+                overlayHost.ctx.stroke(ele.path2D);
+                overlayHost.ctx.restore();
             };
             ele.onmouseleave = () => {
                 action.dispatch('render-overlay');

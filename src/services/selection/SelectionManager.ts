@@ -41,7 +41,7 @@ class SelectionManager {
 
   public selectAll(): void {
     console.log('all')
-    this.selected = this.editor.mainHost.keys
+    this.selected = this.editor.mainHost.allIds
   }
 
   public modify(idSet: Set<UID>, action: SelectionActionMode) {
