@@ -120,7 +120,7 @@ class Editor {
         this.mainHost.setSize(viewportWidth, viewportHeight);
         this.overlayHost.setSize(viewportWidth, viewportHeight);
     }
-    updateOverlay() {
+    generateOverlayElements() {
         this.overlayHost.reset();
         const boxColor = '#435fb9';
         const { world, action, toolManager, selection, mainHost, overlayHost } = this;
@@ -153,7 +153,7 @@ class Editor {
                     return;
             };
             clone.onmouseleave = () => {
-                action.dispatch('render-overlay');
+                action.dispatch('rerender-overlay');
             };
             clone.onmousedown = () => {
                 if (!selection.has(id)) {

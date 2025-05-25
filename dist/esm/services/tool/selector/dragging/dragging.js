@@ -5,8 +5,8 @@ const dragging = {
         const dp = interaction.mouseWorldMovement;
         interaction.selectedOutlineElement?.translate(dp.x, dp.y, false);
         interaction._draggingElements.forEach(ele => ele.translate(dp.x, dp.y, false));
-        this.action.dispatch('render-overlay');
-        this.action.dispatch('render-main-host');
+        this.action.dispatch('rerender-overlay');
+        this.action.dispatch('rerender-main-host');
     },
     mouseUp() {
         this.interaction._draggingElements = [];

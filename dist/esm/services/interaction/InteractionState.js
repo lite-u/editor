@@ -121,7 +121,7 @@ class InteractionState {
                 ctx.restore();
             };
             ele.onmouseleave = () => {
-                action.dispatch('render-overlay');
+                action.dispatch('rerender-overlay');
             };
             ele.onmousedown = () => {
                 if (!selection.has(id)) {
@@ -228,7 +228,7 @@ class InteractionState {
                         ele.updatePath2D();
                         this.editor.interaction.generateTransformHandles();
                         this.editor.action.dispatch('element-updated');
-                        this.editor.action.dispatch('render-overlay');
+                        this.editor.action.dispatch('rerender-overlay');
                     });
                     pointElements.push(line1, cp1);
                 }
@@ -259,7 +259,7 @@ class InteractionState {
                         ele.updatePath2D();
                         this.editor.interaction.generateTransformHandles();
                         this.editor.action.dispatch('element-updated');
-                        this.editor.action.dispatch('render-overlay');
+                        this.editor.action.dispatch('rerender-overlay');
                     });
                     pointElements.push(line2, cp2);
                 }

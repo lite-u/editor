@@ -31,7 +31,7 @@ const selector = {
                 overlayHost.ctx.restore();
             };
             ele.onmouseleave = () => {
-                action.dispatch('render-overlay');
+                action.dispatch('rerender-overlay');
             };
             ele.onmousedown = () => {
                 if (!this.selection.has(id)) {

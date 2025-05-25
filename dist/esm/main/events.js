@@ -67,7 +67,6 @@ export function initEvents() {
         this.events.onZoomed?.(newScale);
         dispatch('world-scale-changed');
         dispatch('world-updated');
-        // this.updateOverlay()
     });
     on('world-shift', (data) => {
         const { x, y } = data;
@@ -79,28 +78,15 @@ export function initEvents() {
     });
     on('world-updated', () => {
         this.world.updateWorldRect();
-        // dispatch('visible-element-updated')
         this.mainHost.updateVisibleElementMap();
         this.overlayHost.updateVisibleElementMap();
-        // this.updateSnapPoints()
-        dispatch('render-main-host');
-        dispatch('render-overlay');
+        dispatch('rerender-main-host');
+        dispatch('rerender-overlay');
     });
     on('world-scale-changed', () => {
         this.overlayHost.reset();
-        this.updateOverlay();
+        this.generateOverlayElements();
     });
-    /* on('visible-element-updated', () => {
-       this.mainHost.updateVisibleElementMap()
-       this.overlayHost.updateVisibleElementMap()
-       // this.updateSnapPoints()
-       dispatch('render-main-host')
-       dispatch('render-overlay')
-     })*/
-    /*  on('visible-selection-updated', () => {
-        // this.visible.updateVisibleSelected()
-        dispatch('render-overlay')
-      })*/
     on('selection-all', () => {
         this.selection.selectAll();
         dispatch('selection-updated');
@@ -132,7 +118,7 @@ export function initEvents() {
         // getAnchorsByBoundingRect()
         console.log(this.selection.pickIfUnique);
         this.events.onSelectionUpdated?.(this.selection.values, this.selection.pickIfUnique);
-        dispatch('render-overlay');
+        dispatch('rerender-overlay');
         // dispatch('visible-selection-updated')
     });
     /*  on('world-mouse-down', () => {
@@ -352,7 +338,7 @@ export function initEvents() {
                  this.toolManager._currentTool = dragging
                })
              })*/
-            dispatch('render-main-host');
+            dispatch('rerender-main-host');
         });
         const savedSelected = new Set(newElements.keys());
         this.selection.replace(savedSelected);
@@ -416,7 +402,7 @@ export function initEvents() {
         this.events.onElementsUpdated?.(this.mainHost.all);
         dispatch('element-updated');
     });
-    on('render-main-host', () => {
+    on('rerender-main-host', () => {
         const { scale, dpr } = this.world;
         const { width, height } = this.config.page;
         const frameStroke = {
@@ -447,7 +433,7 @@ export function initEvents() {
         // deduplicateObjectsByKeyValue
         new ElementRectangle(frameFill).render(this.mainHost.ctx);
     });
-    on('render-overlay', () => {
+    on('rerender-overlay', () => {
         console.log('render-overlay');
         resetCanvas(this.overlayHost.ctx, this.world.scale, this.world.offset, this.world.dpr);
         this.overlayHost.render();
@@ -502,7 +488,7 @@ export function initEvents() {
             snapTool.call(this.toolManager);
         }
         this.toolManager.set(toolName);
-        action.dispatch('render-overlay');
+        action.dispatch('rerender-overlay');
         // this.toolManager.currentToolName = toolName
         this.events.onSwitchTool?.(toolName);
         console.log(toolName);
