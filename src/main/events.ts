@@ -11,6 +11,9 @@ import {ElementMap, ElementProps} from '~/elements/type'
 import snapTool from '~/services/tool/snap/snap'
 import {getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
 import TypeCheck from '~/core/typeCheck'
+import ElementRectangle, {RectangleProps} from '~/elements/rectangle/rectangle'
+import nid from '~/core/nid'
+import {DEFAULT_STROKE} from '~/elements/defaultProps'
 
 export function initEvents(this: Editor) {
   const {action} = this
@@ -102,7 +105,7 @@ export function initEvents(this: Editor) {
   on('visible-element-updated', () => {
     this.visible.updateVisibleElementMap()
     // this.updateSnapPoints()
-    dispatch('render-elements')
+    dispatch('render-main-host')
     dispatch('visible-selection-updated')
   })
 
@@ -406,7 +409,7 @@ export function initEvents(this: Editor) {
          })
        })*/
 
-      dispatch('render-elements')
+      dispatch('render-main-host')
     })
     const savedSelected = new Set(newElements.keys())
 
@@ -481,7 +484,29 @@ export function initEvents(this: Editor) {
     dispatch('element-updated')
   })
 
-  on('render-elements', () => {
+  on('render-main-host', () => {
+    const {scale, dpr} = this.world
+    const {width, height} = this.config.page
+    const frameStroke: RectangleProps = {
+      id: nid() + '-frame',
+      cx: width / 2,
+      cy: height / 2,
+      width,
+      height,
+      // borderRadius: [0, 10, 0, 10],
+      stroke: {
+        ...DEFAULT_STROKE,
+        weight: 1 / scale * dpr,
+      },
+      layer: -1,
+      opacity: 100,
+    }
+    const frameFill = {
+      ...frameBorder, fill: {
+        enabled: true,
+        color: '#fff',
+      },
+    }
     resetCanvas(
       this.world.baseCanvasContext,
       this.world.scale,
@@ -489,7 +514,14 @@ export function initEvents(this: Editor) {
       this.world.dpr,
     )
 
-    this.world.renderElements()
+    this.mainHost.render()
+
+
+    // deduplicateObjectsByKeyValue()
+    // console.log(this.visibleelementMap.size)
+    // deduplicateObjectsByKeyValue
+
+    new ElementRectangle(frameFill).render(ctx)
   })
 
   on('render-overlay', () => {

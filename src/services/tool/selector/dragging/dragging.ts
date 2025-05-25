@@ -10,7 +10,7 @@ const dragging: SubToolType = {
     interaction._draggingElements.forEach(ele => ele.translate(dp.x, dp.y, false))
 
     this.action.dispatch('render-overlay')
-    this.action.dispatch('render-elements')
+    this.action.dispatch('render-main-host')
   },
   mouseUp() {
     this.interaction._draggingElements = []

@@ -49,7 +49,7 @@ export type VisionEventMap = {
     physicalPoint?: Point;
   };
   'world-shift': Point;
-  'render-elements': boolean;
+  'render-main-host': boolean;
   'render-overlay': never;
   'clear-creation': never;
   'selection-updated': never
@@ -115,8 +115,8 @@ const forwardEventDependencyMap: Record<VisionEventType, VisionEventType[]> = {
   'element-modifying': ['element-updated'],
   'element-modified': ['element-updated'],
   'element-updated': ['visible-element-updated', 'selection-updated'],
-  'visible-element-updated': ['render-elements', 'visible-selection-updated'],
-  'render-elements': [],
+  'visible-element-updated': ['render-main-host', 'visible-selection-updated'],
+  'render-main-host': [],
   'context-menu': [],
   'element-copy': [],
   /* history */

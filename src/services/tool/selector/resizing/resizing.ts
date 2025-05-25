@@ -22,7 +22,7 @@ const resizing: SubToolType = {
     })
 
     this.editor.action.dispatch('render-overlay')
-    this.editor.action.dispatch('render-elements')*/
+    this.editor.action.dispatch('render-main-host')*/
     // this.subTool.mouseMove.call(this)
   },
   mouseUp(this: ToolManager) {

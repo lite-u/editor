@@ -29,7 +29,7 @@ const rotating: SubToolType = {
     cursor.rotate(mouseCurrentRotation)
 
     this.editor.action.dispatch('render-overlay')
-    this.editor.action.dispatch('render-elements')
+    this.editor.action.dispatch('render-main-host')
 
     return rotationDiff
   },

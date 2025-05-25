@@ -22,7 +22,7 @@ const STYLE = {
 
 class CanvasHost {
   protected elementMap: ElementMap = new Map()
-  private visibleElementMap: ElementMap
+  private visibleElementMap: ElementMap = new Map()
   editor: Editor
   eventsController = new AbortController()
   _hoveredElement: ElementInstance | null = null
@@ -136,6 +136,10 @@ class CanvasHost {
 
   public get all(): ElementMap {
     return new Map(this.elementMap)
+  }
+
+  public get allVisibles(): ElementInstance[] {
+    return [...this.visibleElementMap.values()]
   }
 
   public get getMaxLayerIndex(): number {
@@ -352,7 +356,9 @@ class CanvasHost {
   }
 
   render() {
-
+    this.allVisibles.forEach((element) => {
+      element.render(this.ctx)
+    })
   }
 
   destroy() {
