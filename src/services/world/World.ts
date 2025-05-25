@@ -61,7 +61,6 @@ class World {
     const p2 = this.getWorldPointByViewportPoint(width / dpr, height / dpr)
 
     this.worldRect = generateBoundingRectFromTwoPoints(p1, p2)
-    // console.log('worldRect', this.viewport.worldRect)
   }
 
   zoom(zoom: number, point?: Point): { x: number, y: number } {

@@ -50,7 +50,6 @@ class World {
         const p1 = this.getWorldPointByViewportPoint(0, 0);
         const p2 = this.getWorldPointByViewportPoint(width / dpr, height / dpr);
         this.worldRect = generateBoundingRectFromTwoPoints(p1, p2);
-        // console.log('worldRect', this.viewport.worldRect)
     }
     zoom(zoom, point) {
         const { rect } = this.editor;
