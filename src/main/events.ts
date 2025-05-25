@@ -90,7 +90,6 @@ export function initEvents(this: Editor) {
   })
 
   on('world-shift', (data) => {
-
     const {x, y} = data
     const {dpr} = this.world
 
