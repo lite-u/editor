@@ -178,18 +178,15 @@ class Editor {
     const rectsWithRotation: BoundingRect[] = []
     const rectsWithoutRotation: BoundingRect[] = []
 
-    selectedElements.forEach((ele: ElementInstance) => {
+    visibleElements.forEach((ele) => {
       const id = ele.id
       const clone = ele.clone()
-      const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen)
 
       clone.fill.enabled = false
       clone.stroke.enabled = true
       clone.stroke.weight = 2 / scale
       clone.stroke.color = '#5491f8'
-      centerPoint.stroke.enabled = false
-      centerPoint.fill.enabled = true
-      centerPoint.fill.color = 'orange'
+
 
       clone.onmouseenter = () => {
         if (this.selection.has(ele.id)) return
@@ -207,7 +204,18 @@ class Editor {
         this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values)
       }
 
-      overlayHost.append(clone, centerPoint)
+      overlayHost.append(clone)
+    })
+
+    selectedElements.forEach((ele: ElementInstance) => {
+      const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen)
+
+      centerPoint.stroke.enabled = false
+      centerPoint.fill.enabled = true
+      centerPoint.fill.color = 'orange'
+
+
+      overlayHost.append(centerPoint)
       rotations.push(ele.rotation)
       rectsWithRotation.push(ele.getBoundingRect())
       rectsWithoutRotation.push(ele.getBoundingRect(true))

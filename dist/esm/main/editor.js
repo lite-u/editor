@@ -128,27 +128,24 @@ class Editor {
         const ratio = scale * dpr;
         const pointLen = 20 / ratio;
         const idSet = selection.values;
-        const elements = mainHost.getElementsByIdSet(idSet);
+        const visibleElements = mainHost.visibleElements;
+        const selectedElements = mainHost.getElementsByIdSet(idSet);
         let rotations = [];
         overlayHost.reset();
-        if (elements.length <= 1) {
+        if (selectedElements.length <= 1) {
             // this.selectedOutlineElement = null
-            if (elements.length === 0)
+            if (selectedElements.length === 0)
                 return;
         }
         const rectsWithRotation = [];
         const rectsWithoutRotation = [];
-        elements.forEach((ele) => {
+        visibleElements.forEach((ele) => {
             const id = ele.id;
             const clone = ele.clone();
-            const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen);
             clone.fill.enabled = false;
             clone.stroke.enabled = true;
             clone.stroke.weight = 2 / scale;
             clone.stroke.color = '#5491f8';
-            centerPoint.stroke.enabled = false;
-            centerPoint.fill.enabled = true;
-            centerPoint.fill.color = 'orange';
             clone.onmouseenter = () => {
                 if (this.selection.has(ele.id))
                     return;
@@ -163,7 +160,14 @@ class Editor {
                 toolManager.subTool = dragging;
                 this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values);
             };
-            overlayHost.append(clone, centerPoint);
+            overlayHost.append(clone);
+        });
+        selectedElements.forEach((ele) => {
+            const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen);
+            centerPoint.stroke.enabled = false;
+            centerPoint.fill.enabled = true;
+            centerPoint.fill.color = 'orange';
+            overlayHost.append(centerPoint);
             rotations.push(ele.rotation);
             rectsWithRotation.push(ele.getBoundingRect());
             rectsWithoutRotation.push(ele.getBoundingRect(true));
@@ -172,12 +176,12 @@ class Editor {
         const sameRotation = rotations.every(val => val === rotations[0]);
         const applyRotation = sameRotation ? rotations[0] : 0;
         let rect;
-        const specialLineSeg = idSet.size === 1 && elements[0].type === 'lineSegment';
+        const specialLineSeg = idSet.size === 1 && selectedElements[0].type === 'lineSegment';
         if (sameRotation) {
             rect = getMinimalBoundingRect(rectsWithoutRotation, applyRotation);
             if (specialLineSeg) {
                 rect.width = 1;
-                rect.cx = elements[0].cx;
+                rect.cx = selectedElements[0].cx;
             }
             overlayHost.append(...getManipulationBox(rect, applyRotation, ratio, specialLineSeg));
         }
