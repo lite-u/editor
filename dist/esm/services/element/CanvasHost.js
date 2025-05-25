@@ -1,12 +1,13 @@
-import deepClone from '../../core/deepClone.js';
-import nid from '../../core/nid.js';
-import ElementRectangle from '../../elements/rectangle/rectangle.js';
-import ElementEllipse from '../../elements/ellipse/ellipse.js';
-import ElementText from '../../elements/text/text.js';
-import ElementImage from '../../elements/image/image.js';
-import ElementLineSegment from '../../elements/lines/lineSegment.js';
-import ElementPath from '../../elements/path/path.js';
-import { createWith } from '../../lib/lib.js';
+import deepClone from '~/core/deepClone';
+import nid from '~/core/nid';
+import ElementRectangle from '~/elements/rectangle/rectangle';
+import ElementEllipse from '~/elements/ellipse/ellipse';
+import ElementText from '~/elements/text/text';
+import ElementImage from '~/elements/image/image';
+import ElementLineSegment from '~/elements/lines/lineSegment';
+import ElementPath from '~/elements/path/path';
+import { createWith } from '~/lib/lib';
+import { rectsOverlap } from '~/core/utils';
 const STYLE = {
     position: 'absolute',
     left: '0',
@@ -118,6 +119,20 @@ class CanvasHost {
     }
     get allVisibleElements() {
         return [...this.visibleElementMap.values()];
+    }
+    updateVisibleElementMap() {
+        this.visibleElementMap.clear();
+        // Create an array from the Map, sort by the 'layer' property,
+        // and then add them to visibleElementMap
+        const sortedElements = (this.editor.mainHost.values)
+            .filter(element => {
+            const boundingRect = element.getBoundingRect();
+            return rectsOverlap(boundingRect, this.editor.world.worldRect);
+        })
+            .sort((a, b) => a.layer - b.layer);
+        sortedElements.forEach(element => {
+            this.visibleElementMap.set(element.id, element);
+        });
     }
     get getMaxLayerIndex() {
         let max = 0;
@@ -292,6 +307,7 @@ class CanvasHost {
     }
     render() {
         this.allVisibleElements.forEach((element) => {
+            console.log(element);
             element.render(this.ctx);
         });
     }

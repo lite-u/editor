@@ -6,10 +6,11 @@ import ElementRectangle from '~/elements/rectangle/rectangle'
 import ElementEllipse from '~/elements/ellipse/ellipse'
 import ElementText from '~/elements/text/text'
 import ElementImage from '~/elements/image/image'
-import {Point, UID} from '~/type'
+import {BoundingRect, Point, UID} from '~/type'
 import ElementLineSegment from '~/elements/lines/lineSegment'
 import ElementPath from '~/elements/path/path'
 import {createWith} from '~/lib/lib'
+import {rectsOverlap} from '~/core/utils'
 
 const STYLE = {
   position: 'absolute',
@@ -142,6 +143,23 @@ class CanvasHost {
 
   public get allVisibleElements(): ElementInstance[] {
     return [...this.visibleElementMap.values()]
+  }
+
+  updateVisibleElementMap() {
+    this.visibleElementMap.clear()
+
+    // Create an array from the Map, sort by the 'layer' property,
+    // and then add them to visibleElementMap
+    const sortedElements = (this.editor.mainHost.values)
+      .filter(element => {
+        const boundingRect = element.getBoundingRect() as BoundingRect
+        return rectsOverlap(boundingRect, this.editor.world.worldRect)
+      })
+      .sort((a, b) => a.layer - b.layer)
+
+    sortedElements.forEach(element => {
+      this.visibleElementMap.set(element.id, element)
+    })
   }
 
   public get getMaxLayerIndex(): number {
@@ -367,6 +385,7 @@ class CanvasHost {
 
   render() {
     this.allVisibleElements.forEach((element) => {
+      console.log(element)
       element.render(this.ctx)
     })
   }
