@@ -145,7 +145,7 @@ class CanvasHost {
     return [...this.visible.values()]
   }
 
-  updateVisible() {
+  public updateVisible() {
     this.visible.clear()
 
     // Create an array from the Map, sort by the 'layer' property,
