@@ -174,6 +174,13 @@ class Editor {
     const rectsWithRotation: BoundingRect[] = []
     const rectsWithoutRotation: BoundingRect[] = []
 
+    const handleRotate = () => {
+
+    }
+    const handleResize = () => {
+
+    }
+
     visibleElements.forEach((ele) => {
       const id = ele.id
       const clone = ele.clone()
@@ -239,10 +246,10 @@ class Editor {
         rect.width = 1
         rect.cx = selectedElements[0].cx
       }
-      overlayHost.append(...getManipulationBox(rect, applyRotation, ratio, specialLineSeg))
+      overlayHost.append(...getManipulationBox(rect, applyRotation, ratio, specialLineSeg,handleRotate,handleResize))
     } else {
       rect = getBoundingRectFromBoundingRects(rectsWithRotation)
-      overlayHost.append(...getManipulationBox(rect, 0, ratio, specialLineSeg))
+      overlayHost.append(...getManipulationBox(rect, 0, ratio, specialLineSeg,handleRotate,handleResize))
     }
 
     const selectedOutlineElement = new ElementRectangle({

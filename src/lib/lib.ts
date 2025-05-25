@@ -194,6 +194,8 @@ export const getManipulationBox = (rect: {
   width: number,
   height: number,
   specialLineSeg?: boolean,
+  handleRotate: VoidFunction,
+  handleResize: VoidFunction,
 }, rotation: number, ratio: number, specialLineSeg = false): ElementInstance[] => {
   const resizeLen = 30 / ratio
   const resizeStrokeWidth = 2 / ratio
