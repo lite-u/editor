@@ -7,7 +7,11 @@ const dragging: SubToolType = {
     const dp = interaction.mouseWorldMovement
 
     // interaction.selectedOutlineElement?.translate(dp.x, dp.y, false)
+
+    // const start = performance.now();
     interaction._draggingElements.forEach(ele => ele.translate(dp.x, dp.y, false))
+    // const end = performance.now();
+    // console.log(`Canvas render took ${end - start}ms`);
 
     this.overlayHost.reset()
     this.action.dispatch('rerender-overlay')

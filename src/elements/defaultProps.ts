@@ -59,10 +59,10 @@ export const DEFAULT_TRANSFORM: Transform = {
   rotation: 0,
   width: 0,
   height: 0,
-  shear: {
+/*  shear: {
     angle: 0,
     axis: 'horizontal',
-  },
+  },*/
 }
 
 export const DEFAULT_APPEARANCE: Appearance = {

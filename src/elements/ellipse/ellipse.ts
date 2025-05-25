@@ -42,7 +42,7 @@ class ElementEllipse extends ElementBase {
       endAngle: this.endAngle,
     }
     this.updatePath2D()
-    this.updateBoundingRect()
+    // this.updateTransform()
   }
 
   static create(id: UID, cx: number, cy: number, r1: number = 1, r2?: number): ElementEllipse {

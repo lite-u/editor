@@ -1,6 +1,6 @@
 import ElementBase from '../base/elementBase.js';
 import deepClone from '../../core/deepClone.js';
-import { cubicBezier, getBoundingRectFromBezierPoints, rotatePointAroundPoint } from '../../core/geometry.js';
+import { cubicBezier, getBoundingRectFromBezierPoints } from '../../core/geometry.js';
 class ElementPath extends ElementBase {
     type = 'path';
     points = [];
@@ -17,7 +17,8 @@ class ElementPath extends ElementBase {
             rotation: this.rotation,
         };
         this.updatePath2D();
-        this.updateBoundingRect();
+        this.boundingRect = this.getBoundingRect();
+        // this.updateTransform()
     }
     /*  static cubicBezier(t: number, p0: Point, p1: Point, p2: Point, p3: Point): Point {
         const mt = 1 - t
@@ -113,7 +114,11 @@ class ElementPath extends ElementBase {
                 point.cp2.y += dy;
             }
         });
+        // console.time('translate')
         this.updatePath2D();
+        // console.timeEnd('translate')
+        this.transform.cx = this.cx;
+        this.transform.cy = this.cy;
         this.eventListeners['move']?.forEach(handler => handler({ dx, dy }));
         if (f) {
             return {
@@ -181,26 +186,25 @@ class ElementPath extends ElementBase {
         return { x, y, width, height, left, right, top, bottom, cx, cy };
     }
     static _rotatePoints(cx, cy, rotation, points) {
-        /*    const matrix = new DOMMatrix()
-              .translate(cx, cy)
-              .rotate(rotation)
-              .translate(-cx, -cy)*/
-        const transformedPoints = points.map(({ anchor, cp1, cp2 }) => {
-            const _anchor = rotatePointAroundPoint(anchor.x, anchor.y, cx, cy, rotation);
-            let _cp1;
-            let _cp2;
-            if (cp1) {
-                _cp1 = rotatePointAroundPoint(cp1.x, cp1.y, cx, cy, rotation);
-            }
-            if (cp2) {
-                _cp2 = rotatePointAroundPoint(cp2.x, cp2.y, cx, cy, rotation);
-            }
-            return {
-                anchor: _anchor,
-                cp1: _cp1,
-                cp2: _cp2,
-            };
-        });
+        const matrix = new DOMMatrix()
+            .translate(cx, cy)
+            .rotate(rotation)
+            .translate(-cx, -cy);
+        const transformedPoints = points.map(p => ({
+            anchor: rotation
+                ? ElementBase.transformPoint(p.anchor.x, p.anchor.y, matrix)
+                : { x: p.anchor.x, y: p.anchor.y },
+            cp1: p.cp1
+                ? (rotation
+                    ? ElementPath.transformPoint(p.cp1.x, p.cp1.y, matrix)
+                    : { x: p.cp1.x, y: p.cp1.y })
+                : undefined,
+            cp2: p.cp2
+                ? (rotation
+                    ? ElementPath.transformPoint(p.cp2.x, p.cp2.y, matrix)
+                    : { x: p.cp2.x, y: p.cp2.y })
+                : undefined,
+        }));
         return getBoundingRectFromBezierPoints(transformedPoints);
     }
     getBoundingRectFromOriginal() {

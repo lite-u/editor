@@ -21,7 +21,7 @@ class ElementImage extends RectangleLike {
     super(rest)
 
     this.asset = asset
-    this.updateBoundingRect()
+    // this.updateTransform()
 
   }
 

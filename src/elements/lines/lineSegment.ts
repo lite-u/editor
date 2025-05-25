@@ -36,7 +36,7 @@ class ElementLineSegment extends ElementBase {
       rotation: this.rotation,
     }
     this.updatePath2D()
-    this.updateBoundingRect()
+    // this.updateTransform()
   }
 
   static create(id: UID, sX: number, sY: number, eX: number, eY: number): ElementLineSegment {

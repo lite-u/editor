@@ -97,11 +97,16 @@ class ElementBase {
     }
     /* Invoke updateOriginal method when you do accept the element's current state as static state */
     updateOriginal() { }
-    rotate(angle) {
-        this.rotation = angle;
-        this.updatePath2D();
-        this.updateBoundingRect();
+    updateBoundingRect() {
+        this.boundingRect = this.getBoundingRect();
     }
+    /*  protected rotate(angle: number) {
+        this.rotation = angle
+        this.updatePath2D()
+        this.updateBoundingRect()
+    
+        // this.updateTransform()
+      }*/
     rotateFrom(rotation, anchor, f) {
         // if (rotation !== 0) {
         const matrix = new DOMMatrix()
@@ -118,6 +123,7 @@ class ElementBase {
         this.cy = transformed.y;
         this.updatePath2D();
         this.updateBoundingRect();
+        // this.updateTransform()
         if (f) {
             return {
                 id: this.id,
@@ -191,8 +197,12 @@ class ElementBase {
     getBoundingRect() {
         return generateBoundingRectFromTwoPoints({ x: 0, y: 0 }, { x: 0, y: 0 });
     }
-    updateBoundingRect() {
-        this.boundingRect = this.getBoundingRect();
+    updateTransform() {
+        const { cx, cy, width, height } = this.getBoundingRect();
+        this.transform = {
+            cx, cy, width, height,
+            rotation: this.rotation,
+        };
     }
     updatePath2D() { }
     restore(props) {

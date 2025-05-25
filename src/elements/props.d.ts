@@ -49,10 +49,10 @@ export type Transform = {
   rotation: number
   width: number
   height: number
-  shear: {
+/*  shear: {
     angle: number;
     axis: 'horizontal' | 'vertical';
-  };
+  };*/
 };
 
 // [topLeft,topRight,bottomRight,bottomLeft]

@@ -7,6 +7,7 @@ class ElementImage extends RectangleLike {
     constructor({ asset, ...rest }) {
         super(rest);
         this.asset = asset;
+        // this.updateTransform()
     }
     toJSON() {
         return {

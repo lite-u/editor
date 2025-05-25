@@ -158,7 +158,7 @@ class Editor {
                 }
                 toolManager.subTool = dragging;
                 this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values);
-                console.log('this.interaction._draggingElements', this.interaction._draggingElements);
+                // console.log('this.interaction._draggingElements',this.interaction._draggingElements)
             };
             overlayHost.append(clone);
         });

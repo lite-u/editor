@@ -81,13 +81,13 @@ declare class ElementBase {
     }): void;
     translate(dx: number, dy: number, f?: boolean): HistoryChangeItem | undefined;
     updateOriginal(): void;
-    protected rotate(angle: number): void;
+    updateBoundingRect(): void;
     protected rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined;
     protected get center(): Point;
     toJSON(): RequiredBaseProps;
     protected toMinimalJSON(): ElementBaseProps;
     protected getBoundingRect(): BoundingRect;
-    updateBoundingRect(): void;
+    updateTransform(): void;
     protected updatePath2D(): void;
     restore(props: Partial<ElementProps>): void;
     protected getTransformedPoints(): Point[];

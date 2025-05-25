@@ -180,11 +180,17 @@ class ElementBase {
   /* Invoke updateOriginal method when you do accept the element's current state as static state */
   public updateOriginal() {}
 
-  protected rotate(angle: number) {
+  public updateBoundingRect() {
+    this.boundingRect = this.getBoundingRect()
+  }
+
+/*  protected rotate(angle: number) {
     this.rotation = angle
     this.updatePath2D()
     this.updateBoundingRect()
-  }
+
+    // this.updateTransform()
+  }*/
 
   protected rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined {
     // if (rotation !== 0) {
@@ -204,6 +210,8 @@ class ElementBase {
 
     this.updatePath2D()
     this.updateBoundingRect()
+
+    // this.updateTransform()
 
     if (f) {
       return {
@@ -308,8 +316,12 @@ class ElementBase {
     return generateBoundingRectFromTwoPoints({x: 0, y: 0}, {x: 0, y: 0})
   }
 
-  public updateBoundingRect() {
-    this.boundingRect = this.getBoundingRect()
+  public updateTransform() {
+    const {cx, cy, width, height} = this.getBoundingRect()
+    this.transform = {
+      cx, cy, width, height,
+      rotation: this.rotation,
+    }
   }
 
   protected updatePath2D() { }
