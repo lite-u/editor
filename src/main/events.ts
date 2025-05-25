@@ -103,9 +103,8 @@ export function initEvents(this: Editor) {
   on('world-transformed', () => {
     this.world.updateWorldRect()
     this.mainHost.updateVisible()
-    this.overlayHost.updateVisible()
     dispatch('rerender-main-host')
-    dispatch('rerender-overlay')
+    dispatch('reset-overlay')
 
   })
 
