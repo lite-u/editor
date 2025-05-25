@@ -140,7 +140,7 @@ class Editor {
     return result
   }
 
-  updateViewport() {
+  reCalcViewport() {
     const {dpr} = this.world
     const rect = this.container.getBoundingClientRect().toJSON()
     const {x, y, width, height} = rect
