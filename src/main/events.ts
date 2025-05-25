@@ -87,8 +87,6 @@ export function initEvents(this: Editor) {
     this.events.onZoomed?.(newScale)
     dispatch('world-updated')
     this.updateOverlay()
-    // this.interaction.generateTransformHandles()
-    // this.interaction.createPathPoints()
   })
 
   on('world-shift', (data) => {
