@@ -46,7 +46,7 @@ const selector = {
         const elements = this.interaction.editor.elementManager.getElementsByIdSet(idSet);
         let rotations = [];
         if (elements.length <= 1) {
-            this.interaction._outlineElement = null;
+            this.interaction.selectedOutlineElement = null;
             if (elements.length === 0)
                 return;
         }
@@ -87,7 +87,7 @@ const selector = {
             rect = getBoundingRectFromBoundingRects(rectsWithRotation);
             this.interaction.transformHandles.push(...getManipulationBox(rect, 0, ratio, specialLineSeg));
         }
-        this.interaction._outlineElement = new ElementRectangle({
+        this.interaction.selectedOutlineElement = new ElementRectangle({
             id: 'selected-elements-outline',
             layer: 0,
             show: !specialLineSeg,
@@ -142,8 +142,8 @@ const selector = {
             else if (interaction._hoveredRotateManipulator) {
                 // console.log(interaction._hoveredRotateManipulator.id)
                 const centerPoint = {
-                    x: interaction._outlineElement.cx,
-                    y: interaction._outlineElement.cy,
+                    x: interaction.selectedOutlineElement.cx,
+                    y: interaction.selectedOutlineElement.cy,
                 };
                 const rotation = getRotateAngle(centerPoint, interaction.mouseWorldCurrent);
                 cursor.set('rotate');

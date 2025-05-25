@@ -4,7 +4,7 @@ import {PointHit} from '~/services/interaction/InteractionState'
 function overlayRender(this: World) {
   if (this.editor.elementManager.size === 0) return
   const {overlayCanvasContext: ctx} = this
-  const {_snappedPoint, _outlineElement} = this.editor.interaction
+  const {_snappedPoint, selectedOutlineElement} = this.editor.interaction
   const {scale, dpr} = this.editor.world
   const ratio = scale * dpr
   const size = 20 / ratio
@@ -61,9 +61,9 @@ function overlayRender(this: World) {
     }
   */
 
-  if (_outlineElement) {
+  if (selectedOutlineElement) {
     // console.log(_outlineElement)
-    _outlineElement.render(ctx)
+    selectedOutlineElement.render(ctx)
   }
 
   this.editor.interaction.transformHandles.forEach((ele) => {

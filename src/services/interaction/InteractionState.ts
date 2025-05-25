@@ -12,6 +12,7 @@ import {BezierPoint} from '~/elements/props'
 import ElementEllipse from '~/elements/ellipse/ellipse'
 import LineSegment from '~/elements/lines/lineSegment'
 import ElementLineSegment from '~/elements/lines/lineSegment'
+import dragging from '~/services/tool/selector/dragging/dragging'
 
 export type EditorManipulationType =
   | 'static'
@@ -71,7 +72,7 @@ class InteractionState {
   _snapped = false
   _snappedPoint: PointHit | null = null
   _pointHit: PointHit | null = null
-  _outlineElement: ElementInstance | null = null
+  selectedOutlineElement: ElementInstance | null = null
   // _creatingElementId: UID
   // _ele: Set<UID> = new Set()
   _selectingElements: Set<UID> = new Set()
@@ -125,15 +126,16 @@ class InteractionState {
 
   updateHandles() {
     console.log('updateHandles')
-    const {scale, dpr, overlayCanvasContext: ctx} = this.editor.world
+    const {world, action, toolManager, selection, elementManager} = this.editor
+    const {scale, dpr, overlayCanvasContext: ctx} = world
     const ratio = scale * dpr
     const pointLen = 20 / ratio
-    const idSet = this.editor.selection.values
-    const elements = this.editor.elementManager.getElementsByIdSet(idSet)
+    const idSet = selection.values
+    const elements = elementManager.getElementsByIdSet(idSet)
     let rotations: number[] = []
 
     if (elements.length <= 1) {
-      this._outlineElement = null
+      this.selectedOutlineElement = null
       if (elements.length === 0) return
     }
 
@@ -143,8 +145,8 @@ class InteractionState {
     const rectsWithoutRotation: BoundingRect[] = []
 
     elements.forEach((ele: ElementInstance) => {
-      // debugger
-      // const clone = elementManager.create(ele.toMinimalJSON())
+      const id = ele.id
+      const clone = this.editor.elementManager.create(ele.toMinimalJSON())
       const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen)
 
       centerPoint.stroke.enabled = false
@@ -152,19 +154,42 @@ class InteractionState {
       centerPoint.fill.color = 'orange'
       // centerPoint._relatedId = ele.id
 
-      // clone.fill.enabled = false
-      // clone.stroke.enabled = true
-      // clone.stroke.weight = 2 / scale
-      // clone.stroke.color = '#5491f8'
-      // clone._relatedId = ele.id
+      if (clone) {
+        clone.fill.enabled = false
+        clone.stroke.enabled = true
+        clone.stroke.weight = 2 / scale
+        clone.stroke.color = '#5491f8'
+      }
 
-      this.transformHandles.push(/*clone, */centerPoint)
+      ele.onmouseenter = () => {
+        if (this.editor.selection.has(ele.id)) return
+        ctx.save()
+        ctx.lineWidth = 1 / world.scale * world.dpr
+        ctx.strokeStyle = '#5491f8'
+        ctx.stroke(ele.path2D)
+        ctx.restore()
+      }
+
+      ele.onmouseleave = () => {
+        action.dispatch('render-overlay')
+      }
+
+      ele.onmousedown = () => {
+        if (!selection.has(id)) {
+          action.dispatch('selection-modify', {mode: 'replace', idSet: new Set([id])})
+        }
+        toolManager.subTool = dragging
+        this._draggingElements = elementManager.getElementsByIdSet(selection.values)
+      }
+
+      this.transformHandles.push(centerPoint)
 
       rotations.push(ele.rotation)
       rectsWithRotation.push(ele.getBoundingRect())
       rectsWithoutRotation.push(ele.getBoundingRect(true))
     })
 
+    // selectedOutlineElement
     const sameRotation = rotations.every(val => val === rotations[0])
     const applyRotation = sameRotation ? rotations[0] : 0
     let rect: { cx: number, cy: number, width: number, height: number }
@@ -182,7 +207,7 @@ class InteractionState {
       this.transformHandles.push(...getManipulationBox(rect, 0, ratio, specialLineSeg))
     }
 
-    this._outlineElement = new ElementRectangle({
+    this.selectedOutlineElement = new ElementRectangle({
       id: 'selected-elements-outline',
       layer: 0,
       show: !specialLineSeg,

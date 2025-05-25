@@ -6,7 +6,7 @@ const dragging: SubToolType = {
     const {interaction} = this
     const dp = interaction.mouseWorldMovement
 
-    interaction._outlineElement?.translate(dp.x, dp.y, false)
+    interaction.selectedOutlineElement?.translate(dp.x, dp.y, false)
     interaction._draggingElements.forEach(ele => ele.translate(dp.x, dp.y, false))
 
     this.action.dispatch('render-overlay')

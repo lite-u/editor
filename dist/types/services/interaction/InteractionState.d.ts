@@ -57,7 +57,7 @@ declare class InteractionState {
     _snapped: boolean;
     _snappedPoint: PointHit | null;
     _pointHit: PointHit | null;
-    _outlineElement: ElementInstance | null;
+    selectedOutlineElement: ElementInstance | null;
     _selectingElements: Set<UID>;
     _deselection: UID | null;
     _rotatingOperator: OperationHandler | null;
