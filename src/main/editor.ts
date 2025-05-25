@@ -88,18 +88,18 @@ class Editor {
     this.action.dispatch('element-add', elements)
   }
 
-  public execute(type: VisionEventType, data: unknown = null) {
-    // console.log('Editor', type)
-    // @ts-ignore
-    this.action.execute(type, data)
-  }
-
   /*  public get getElementsInsideOfFrame(): ElementInstance[] {
       const arr = []
       this.elementManager.all.forEach((element) => {
 
       })
     }*/
+
+  public execute(type: VisionEventType, data: unknown = null) {
+    // console.log('Editor', type)
+    // @ts-ignore
+    this.action.execute(type, data)
+  }
 
   public export(): EditorExportFileType {
     const {scale, offset} = this.world
