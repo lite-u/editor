@@ -3,7 +3,7 @@ import { ElementInstance, ElementMap, ElementProps, OptionalIdentifiersProps } f
 import { Point, UID } from '~/type';
 declare class CanvasHost {
     protected elementMap: ElementMap;
-    private visibleElementMap;
+    private visible;
     editor: Editor;
     eventsController: AbortController;
     _hoveredElement: ElementInstance | null;
@@ -20,7 +20,7 @@ declare class CanvasHost {
     get values(): ElementInstance[];
     get all(): ElementMap;
     get allVisibleElements(): ElementInstance[];
-    updateVisibleElementMap(): void;
+    updateVisible(): void;
     get getMaxLayerIndex(): number;
     setSize(width: number, height: number): void;
     getElementById(id: string): ElementInstance | undefined;

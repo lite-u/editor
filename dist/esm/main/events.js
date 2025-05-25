@@ -83,8 +83,8 @@ export function initEvents() {
     });
     on('world-transformed', () => {
         this.world.updateWorldRect();
-        this.mainHost.updateVisibleElementMap();
-        this.overlayHost.updateVisibleElementMap();
+        this.mainHost.updateVisible();
+        this.overlayHost.updateVisible();
         dispatch('rerender-main-host');
         dispatch('rerender-overlay');
     });
@@ -107,8 +107,8 @@ export function initEvents() {
     });
     on('element-updated', (historyData) => {
         // dispatch('visible-element-updated')
-        this.mainHost.updateVisibleElementMap();
-        this.overlayHost.updateVisibleElementMap();
+        this.mainHost.updateVisible();
+        this.overlayHost.updateVisible();
         // dispatch('selection-updated')
         if (historyData) {
             this.history.add(historyData);

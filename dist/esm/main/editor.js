@@ -122,7 +122,6 @@ class Editor {
             this.overlayHost.setSize(viewportWidth, viewportHeight)*/
     }
     generateOverlayElements() {
-        this.overlayHost.reset();
         const boxColor = '#435fb9';
         const { world, action, toolManager, selection, mainHost, overlayHost } = this;
         const { scale, dpr } = world;
@@ -131,6 +130,7 @@ class Editor {
         const idSet = selection.values;
         const elements = mainHost.getElementsByIdSet(idSet);
         let rotations = [];
+        overlayHost.reset();
         if (elements.length <= 1) {
             // this.selectedOutlineElement = null
             if (elements.length === 0)
@@ -163,9 +163,7 @@ class Editor {
                 toolManager.subTool = dragging;
                 this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values);
             };
-            overlayHost.append(clone);
-            overlayHost.append(centerPoint);
-            // this.transformHandles.push(centerPoint)
+            overlayHost.append(clone, centerPoint);
             rotations.push(ele.rotation);
             rectsWithRotation.push(ele.getBoundingRect());
             rectsWithoutRotation.push(ele.getBoundingRect(true));

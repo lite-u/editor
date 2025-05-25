@@ -18,7 +18,7 @@ const STYLE = {
 };
 class CanvasHost {
     elementMap = new Map();
-    visibleElementMap = new Map();
+    visible = new Map();
     editor;
     eventsController = new AbortController();
     _hoveredElement = null;
@@ -118,20 +118,20 @@ class CanvasHost {
         return new Map(this.elementMap);
     }
     get allVisibleElements() {
-        return [...this.visibleElementMap.values()];
+        return [...this.visible.values()];
     }
-    updateVisibleElementMap() {
-        this.visibleElementMap.clear();
+    updateVisible() {
+        this.visible.clear();
         // Create an array from the Map, sort by the 'layer' property,
         // and then add them to visibleElementMap
-        const sortedElements = (this.editor.mainHost.values)
+        const sortedElements = this.values
             .filter(element => {
             const boundingRect = element.getBoundingRect();
             return rectsOverlap(boundingRect, this.editor.world.worldRect);
         })
             .sort((a, b) => a.layer - b.layer);
         sortedElements.forEach(element => {
-            this.visibleElementMap.set(element.id, element);
+            this.visible.set(element.id, element);
         });
     }
     get getMaxLayerIndex() {
@@ -305,19 +305,23 @@ class CanvasHost {
         });
     }
     render() {
-        console.log(this.allVisibleElements);
         this.allVisibleElements.forEach((element) => {
-            // console.log(element)
             element.render(this.ctx);
         });
     }
     reset() {
         this.elementMap.clear();
+        this.visible.clear();
     }
     destroy() {
         this.canvas.remove();
         this.elementMap.clear();
+        this.visible.clear();
         this.eventsController.abort();
+        this.canvas = null;
+        this.elementMap = null;
+        this.visible = null;
+        this.eventsController = null;
     }
 }
 export default CanvasHost;
