@@ -206,8 +206,7 @@ class Editor {
         this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values)
       }
 
-      overlayHost.append(clone)
-      overlayHost.append(centerPoint)
+      overlayHost.append(clone, centerPoint)
       // this.transformHandles.push(centerPoint)
 
       rotations.push(ele.rotation)
