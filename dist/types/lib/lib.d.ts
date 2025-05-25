@@ -1,4 +1,4 @@
-import { DPR, ElementInstance, Point } from '../type';
+import { DPR, Point } from '../type';
 /** Convert screen (mouse) coordinates to canvas coordinates */
 export declare function screenToWorld(point: Point, offset: Point, scale: number, dpr: DPR): Point;
 /** Convert canvas coordinates to screen coordinates */
@@ -10,9 +10,3 @@ export declare const deduplicateObjectsByKeyValue: <T>(objects: T[]) => T[];
 export declare const createWith: <T extends keyof HTMLElementTagNameMap>(tagName: T, style?: Partial<CSSStyleDeclaration>) => HTMLElementTagNameMap[T];
 export declare const setStyle: (dom: HTMLElement, styles: Partial<CSSStyleDeclaration>) => void;
 export declare const isEqual: (o1: string | number | object, o2: string | number | object) => boolean;
-export declare const getManipulationBox: (rect: {
-    cx: number;
-    cy: number;
-    width: number;
-    height: number;
-}, rotation: number, ratio: number, specialLineSeg: boolean | undefined, handleRotate: VoidFunction, handleResize: VoidFunction) => ElementInstance[];

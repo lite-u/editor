@@ -2,10 +2,80 @@ import {BoundingRect, ElementInstance, UID} from '~/type'
 import {getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
 import dragging from '~/services/tool/selector/dragging/dragging'
 import ElementRectangle from '~/elements/rectangle/rectangle'
+import Rectangle from '~/elements/rectangle/rectangle'
 import {getMinimalBoundingRect} from '~/core/utils'
-import {getManipulationBox} from '~/lib/lib'
 import {DEFAULT_STROKE} from '~/elements/defaultProps'
 import Editor from '~/main/editor'
+import {rotatePointAroundPoint} from '~/core/geometry'
+import Ellipse from '~/elements/ellipse/ellipse'
+
+export const getManipulationBox = (rect: {
+                                     cx: number,
+                                     cy: number,
+                                     width: number,
+                                     height: number,
+                                   },
+                                   rotation: number,
+                                   ratio: number,
+                                   specialLineSeg = false,
+                                   handleRotate: VoidFunction,
+                                   handleResize: VoidFunction): ElementInstance[] => {
+  const resizeLen = 30 / ratio
+  const resizeStrokeWidth = 2 / ratio
+  const rotateRadius = 50 / ratio
+  const {cx, cy, width, height} = rect
+  const arr = [
+    {name: 'tl', dx: -0.5, dy: -0.5},
+    {name: 't', dx: 0.0, dy: -0.5},
+    {name: 'tr', dx: 0.5, dy: -0.5},
+    {name: 'r', dx: 0.5, dy: 0},
+    {name: 'br', dx: 0.5, dy: 0.5},
+    {name: 'b', dx: 0, dy: 0.5},
+    {name: 'bl', dx: -0.5, dy: 0.5},
+    {name: 'l', dx: -0.5, dy: 0},
+  ]
+  const result: ElementInstance[] = []
+
+  arr.map(({dx, dy, name}) => {
+    if (specialLineSeg && name !== 't' && name !== 'b') return
+
+    const {x, y} = rotatePointAroundPoint(cx + dx * width, cy + dy * height, cx, cy, rotation)
+    const resizeEle = new Rectangle({
+        id: 'handle-resize-' + name,
+        layer: 1,
+        cx: x,
+        cy: y,
+        width: resizeLen,
+        height: resizeLen,
+        rotation,
+      },
+    )
+    const rotateEle = new Ellipse({
+      id: 'handle-rotate-' + name,
+      layer: 0,
+      cx: x,
+      cy: y,
+      r1: rotateRadius,
+      r2: rotateRadius,
+      rotation,
+      stroke: {
+        ...DEFAULT_STROKE,
+        weight: resizeStrokeWidth,
+      },
+    })
+
+    // resizeEle.stroke.enabled = false
+    resizeEle.stroke.weight = resizeStrokeWidth
+    resizeEle.stroke.color = '#435fb9'
+    resizeEle.fill.enabled = true
+    resizeEle.fill.color = '#fff'
+    rotateEle.stroke.enabled = false
+
+    result.push(resizeEle, rotateEle)
+  })
+
+  return result
+}
 
 export function regenerateOverlayElements(this: Editor) {
 

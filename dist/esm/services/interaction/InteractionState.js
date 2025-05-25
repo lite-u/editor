@@ -1,4 +1,4 @@
-import { createWith, getManipulationBox } from '../../lib/lib.js';
+import { createWith } from '../../lib/lib.js';
 import { getBoundingRectFromBoundingRects } from '../tool/resize/helper.js';
 import { DEFAULT_STROKE } from '../../elements/defaultProps.js';
 import { getMinimalBoundingRect } from '../../core/utils.js';
@@ -6,6 +6,7 @@ import ElementRectangle from '../../elements/rectangle/rectangle.js';
 import ElementEllipse from '../../elements/ellipse/ellipse.js';
 import LineSegment from '../../elements/lines/lineSegment.js';
 import dragging from '../tool/selector/dragging/dragging.js';
+import { getManipulationBox } from '../../main/helper.js';
 class InteractionState {
     editor;
     state = 'static';

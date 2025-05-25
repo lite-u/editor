@@ -1,6 +1,6 @@
 import {OperationHandler} from '~/services/selection/type'
 import {BoundingRect, Point, Rect, UID} from '~/type'
-import {createWith, getManipulationBox} from '~/lib/lib'
+import {createWith} from '~/lib/lib'
 import Editor from '~/main/editor'
 import {ElementInstance} from '~/elements/type'
 import {ToolName} from '~/services/tool/toolManager'
@@ -13,6 +13,7 @@ import ElementEllipse from '~/elements/ellipse/ellipse'
 import LineSegment from '~/elements/lines/lineSegment'
 import ElementLineSegment from '~/elements/lines/lineSegment'
 import dragging from '~/services/tool/selector/dragging/dragging'
+import {getManipulationBox} from '~/main/helper'
 
 export type EditorManipulationType =
   | 'static'

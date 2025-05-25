@@ -1,9 +1,63 @@
 import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
 import dragging from '../services/tool/selector/dragging/dragging.js';
 import ElementRectangle from '../elements/rectangle/rectangle.js';
+import Rectangle from '../elements/rectangle/rectangle.js';
 import { getMinimalBoundingRect } from '../core/utils.js';
-import { getManipulationBox } from '../lib/lib.js';
 import { DEFAULT_STROKE } from '../elements/defaultProps.js';
+import { rotatePointAroundPoint } from '../core/geometry.js';
+import Ellipse from '../elements/ellipse/ellipse.js';
+export const getManipulationBox = (rect, rotation, ratio, specialLineSeg = false, handleRotate, handleResize) => {
+    const resizeLen = 30 / ratio;
+    const resizeStrokeWidth = 2 / ratio;
+    const rotateRadius = 50 / ratio;
+    const { cx, cy, width, height } = rect;
+    const arr = [
+        { name: 'tl', dx: -0.5, dy: -0.5 },
+        { name: 't', dx: 0.0, dy: -0.5 },
+        { name: 'tr', dx: 0.5, dy: -0.5 },
+        { name: 'r', dx: 0.5, dy: 0 },
+        { name: 'br', dx: 0.5, dy: 0.5 },
+        { name: 'b', dx: 0, dy: 0.5 },
+        { name: 'bl', dx: -0.5, dy: 0.5 },
+        { name: 'l', dx: -0.5, dy: 0 },
+    ];
+    const result = [];
+    arr.map(({ dx, dy, name }) => {
+        if (specialLineSeg && name !== 't' && name !== 'b')
+            return;
+        const { x, y } = rotatePointAroundPoint(cx + dx * width, cy + dy * height, cx, cy, rotation);
+        const resizeEle = new Rectangle({
+            id: 'handle-resize-' + name,
+            layer: 1,
+            cx: x,
+            cy: y,
+            width: resizeLen,
+            height: resizeLen,
+            rotation,
+        });
+        const rotateEle = new Ellipse({
+            id: 'handle-rotate-' + name,
+            layer: 0,
+            cx: x,
+            cy: y,
+            r1: rotateRadius,
+            r2: rotateRadius,
+            rotation,
+            stroke: {
+                ...DEFAULT_STROKE,
+                weight: resizeStrokeWidth,
+            },
+        });
+        // resizeEle.stroke.enabled = false
+        resizeEle.stroke.weight = resizeStrokeWidth;
+        resizeEle.stroke.color = '#435fb9';
+        resizeEle.fill.enabled = true;
+        resizeEle.fill.color = '#fff';
+        rotateEle.stroke.enabled = false;
+        result.push(resizeEle, rotateEle);
+    });
+    return result;
+};
 export function regenerateOverlayElements() {
     const boxColor = '#435fb9';
     const { world, action, toolManager, selection, mainHost, overlayHost } = this;
@@ -60,15 +114,7 @@ export function regenerateOverlayElements() {
                 action.dispatch('rerender-overlay');
             };
         }
-        clone.onmousedown = () => {
-            handleTranslateMouseDown(id);
-            /*if (!selection.has(id)) {
-              action.dispatch('selection-modify', {mode: 'replace', idSet: new Set([id])})
-            }
-            toolManager.subTool = dragging
-            this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values)*/
-            // console.log('this.interaction._draggingElements',this.interaction._draggingElements)
-        };
+        clone.onmousedown = () => handleTranslateMouseDown(id);
         overlayHost.append(clone);
     });
     if (selectedElements.length === 0)

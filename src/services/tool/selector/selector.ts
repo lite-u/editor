@@ -5,9 +5,9 @@ import selecting from '~/services/tool/selector/selecting/selecting'
 import {BoundingRect, ElementInstance} from '~/type'
 import ElementRectangle from '~/elements/rectangle/rectangle'
 import {getMinimalBoundingRect} from '~/core/utils'
-import {getManipulationBox} from '~/lib/lib'
 import {getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
 import {DEFAULT_STROKE} from '~/elements/defaultProps'
+import {getManipulationBox} from '~/main/helper'
 
 const selector: ToolType = {
   cursor: 'default',
