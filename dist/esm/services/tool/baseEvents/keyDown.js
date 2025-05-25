@@ -4,7 +4,7 @@ function handleKeyDown(e) {
     const { interaction } = this.editor;
     if (e.code !== 'Space') {
         interaction._modifier = { ...interaction._modifier, shiftKey, metaKey, ctrlKey, altKey };
-        this.tool.mouseMove.call(this);
+        this.tool.mouseMove.call(this.editor);
     }
 }
 export default handleKeyDown;
