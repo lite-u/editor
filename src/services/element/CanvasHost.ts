@@ -46,7 +46,7 @@ class CanvasHost {
   dispatchEvent(domEvent: PointerEvent, type: PointerEvent['type'], options?: { tolerance?: number }) {
     const {ctx, dpr} = this
     const {clientX, clientY, pointerId} = domEvent
-    const elements = this.visible.values.sort((a, b) => b.layer - a.layer)
+    const elements = this.allVisibles.sort((a, b) => b.layer - a.layer)
     const x = clientX - this.editor.rect!.x
     const y = clientY - this.editor.rect!.y
     const viewPoint = {
@@ -59,8 +59,8 @@ class CanvasHost {
       // let stopped = false
       const {path2D, fill} = el
 
-      const f1 = baseCanvasContext.isPointInStroke(path2D, viewPoint.x, viewPoint.y)
-      const f2 = baseCanvasContext.isPointInPath(path2D, viewPoint.x, viewPoint.y)
+      const f1 = ctx.isPointInStroke(path2D, viewPoint.x, viewPoint.y)
+      const f2 = ctx.isPointInPath(path2D, viewPoint.x, viewPoint.y)
 
       if (f1 || (f2 && fill.enabled)) {
         _ele = el
