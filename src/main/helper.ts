@@ -72,15 +72,7 @@ export function regenerateOverlayElements(this: Editor) {
       }
     }
 
-    clone.onmousedown = () => {
-      handleTranslateMouseDown(id)
-      /*if (!selection.has(id)) {
-        action.dispatch('selection-modify', {mode: 'replace', idSet: new Set([id])})
-      }
-      toolManager.subTool = dragging
-      this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values)*/
-      // console.log('this.interaction._draggingElements',this.interaction._draggingElements)
-    }
+    clone.onmousedown = () => handleTranslateMouseDown(id)
 
     overlayHost.append(clone)
   })
