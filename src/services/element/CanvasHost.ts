@@ -133,7 +133,7 @@ class CanvasHost {
     return set
   }
 
-  public get values(): ElementInstance[] {
+  public get elements(): ElementInstance[] {
     return [...this.elementMap.values()]
   }
 
@@ -149,7 +149,7 @@ class CanvasHost {
     this.visible.clear()
 
     // Create an array from the Map, sort by the 'layer' property,
-    const sortedElements = this.values
+    const sortedElements = this.elements
       .filter(element => {
         const boundingRect = element.getBoundingRect() as BoundingRect
         return rectsOverlap(boundingRect, this.editor.world.worldRect)
