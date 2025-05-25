@@ -187,7 +187,6 @@ class Editor {
       clone.stroke.weight = 2 / scale
       clone.stroke.color = '#5491f8'
 
-
       clone.onmouseenter = () => {
         if (this.selection.has(ele.id)) return
       }
@@ -213,7 +212,6 @@ class Editor {
       centerPoint.stroke.enabled = false
       centerPoint.fill.enabled = true
       centerPoint.fill.color = 'orange'
-
 
       overlayHost.append(centerPoint)
       rotations.push(ele.rotation)
