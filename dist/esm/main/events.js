@@ -1,14 +1,14 @@
-import resetCanvas from '../services/world/resetCanvas.js';
-import { redo } from '../services/history/redo.js';
-import { undo } from '../services/history/undo.js';
-import { pick } from '../services/history/pick.js';
-import { fitRectToViewport } from '../services/world/helper.js';
-import snapTool from '../services/tool/snap/snap.js';
-import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
-import TypeCheck from '../core/typeCheck.js';
-import ElementRectangle from '../elements/rectangle/rectangle.js';
-import nid from '../core/nid.js';
-import { DEFAULT_STROKE } from '../elements/defaultProps.js';
+import resetCanvas from '~/services/world/resetCanvas';
+import { redo } from '~/services/history/redo';
+import { undo } from '~/services/history/undo';
+import { pick } from '~/services/history/pick';
+import { fitRectToViewport } from '~/services/world/helper';
+import snapTool from '~/services/tool/snap/snap';
+import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
+import TypeCheck from '~/core/typeCheck';
+import ElementRectangle from '~/elements/rectangle/rectangle';
+import nid from '~/core/nid';
+import { DEFAULT_STROKE } from '~/elements/defaultProps';
 export function initEvents() {
     const { action } = this;
     const dispatch = action.dispatch.bind(action);
@@ -19,10 +19,8 @@ export function initEvents() {
     // this.toolMap.set('ellipse', selector)
     on('world-resized', () => {
         this.updateViewport();
-        this.updateOverlay();
         if (!this.initialized) {
             this.initialized = true;
-            // dispatch('switch-tool', 'selector')
             dispatch('world-zoom', 'fit');
             dispatch('element-updated');
             this.events.onInitialized?.();
@@ -37,6 +35,8 @@ export function initEvents() {
         this.world.updateWorldRect();
         // dispatch('visible-element-updated')
         this.mainHost.updateVisibleElementMap();
+        this.overlayHost.reset();
+        this.updateOverlay();
         this.overlayHost.updateVisibleElementMap();
         // this.updateSnapPoints()
         dispatch('render-main-host');

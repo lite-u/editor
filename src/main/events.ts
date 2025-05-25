@@ -28,7 +28,6 @@ export function initEvents(this: Editor) {
 
   on('world-resized', () => {
     this.updateViewport()
-    this.updateOverlay()
 
     if (!this.initialized) {
       this.initialized = true
@@ -46,7 +45,10 @@ export function initEvents(this: Editor) {
     this.world.updateWorldRect()
     // dispatch('visible-element-updated')
     this.mainHost.updateVisibleElementMap()
+    this.overlayHost.reset()
+    this.updateOverlay()
     this.overlayHost.updateVisibleElementMap()
+
     // this.updateSnapPoints()
     dispatch('render-main-host')
     dispatch('render-overlay')
