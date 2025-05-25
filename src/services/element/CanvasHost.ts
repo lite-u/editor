@@ -9,17 +9,34 @@ import ElementImage from '~/elements/image/image'
 import {Point, UID} from '~/type'
 import ElementLineSegment from '~/elements/lines/lineSegment'
 import ElementPath from '~/elements/path/path'
+import {createWith} from '~/lib/lib'
 
 class CanvasHost {
-  editor: Editor
   protected elementMap: ElementMap = new Map()
+  private visibleElementMap: ElementMap
+  editor: Editor
   eventsController = new AbortController()
   _hoveredElement: ElementInstance | null = null
+  canvas = createWith('canvas', 'main-canvas', editor.id, {...STYLE})
+  ctx = createWith('canvas', 'overlay-canvas', editor.id, {...STYLE})
+  // visible
+  dpr = 2
+
+  constructor(editor: Editor) {
+    this.editor = editor
+    const {signal} = this.eventsController
+    const {container} = editor
+    this.editor = editor
+
+    container.addEventListener('pointerdown', e => this.dispatchEvent(e, 'mousedown'), {signal, passive: false})
+    container.addEventListener('pointerup', e => this.dispatchEvent(e, 'mouseup'), {signal})
+    container.addEventListener('pointermove', e => this.dispatchEvent(e, 'mousemove'), {signal})
+  }
 
   dispatchEvent(domEvent: PointerEvent, type: PointerEvent['type'], options?: { tolerance?: number }) {
-    const {baseCanvasContext, overlayCanvasContext, dpr} = this.editor.world
+    const {ctx, dpr} = this
     const {clientX, clientY, pointerId} = domEvent
-    const elements = this.editor.visible.values.sort((a, b) => b.layer - a.layer)
+    const elements = this.visible.values.sort((a, b) => b.layer - a.layer)
     const x = clientX - this.editor.rect!.x
     const y = clientY - this.editor.rect!.y
     const viewPoint = {
@@ -91,17 +108,6 @@ class CanvasHost {
           return true
         }*/
 
-  }
-
-  constructor(editor: Editor) {
-    this.editor = editor
-    const {signal} = this.eventsController
-    const {container} = editor
-    this.editor = editor
-
-    container.addEventListener('pointerdown', e => this.dispatchEvent(e, 'mousedown'), {signal, passive: false})
-    container.addEventListener('pointerup', e => this.dispatchEvent(e, 'mouseup'), {signal})
-    container.addEventListener('pointermove', e => this.dispatchEvent(e, 'mousemove'), {signal})
   }
 
   public has(id: string): boolean {
@@ -341,6 +347,10 @@ class CanvasHost {
         element[keyName] = data[key]
       })
     })
+  }
+
+  render() {
+
   }
 
   destroy() {

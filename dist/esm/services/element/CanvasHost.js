@@ -6,15 +6,30 @@ import ElementText from '../../elements/text/text.js';
 import ElementImage from '../../elements/image/image.js';
 import ElementLineSegment from '../../elements/lines/lineSegment.js';
 import ElementPath from '../../elements/path/path.js';
+import { createWith } from '../../lib/lib.js';
 class CanvasHost {
-    editor;
     elementMap = new Map();
+    visibleElementMap;
+    editor;
     eventsController = new AbortController();
     _hoveredElement = null;
+    canvas = createWith('canvas', 'main-canvas', editor.id, { ...STYLE });
+    ctx = createWith('canvas', 'overlay-canvas', editor.id, { ...STYLE });
+    // visible
+    dpr = 2;
+    constructor(editor) {
+        this.editor = editor;
+        const { signal } = this.eventsController;
+        const { container } = editor;
+        this.editor = editor;
+        container.addEventListener('pointerdown', e => this.dispatchEvent(e, 'mousedown'), { signal, passive: false });
+        container.addEventListener('pointerup', e => this.dispatchEvent(e, 'mouseup'), { signal });
+        container.addEventListener('pointermove', e => this.dispatchEvent(e, 'mousemove'), { signal });
+    }
     dispatchEvent(domEvent, type, options) {
-        const { baseCanvasContext, overlayCanvasContext, dpr } = this.editor.world;
+        const { ctx, dpr } = this;
         const { clientX, clientY, pointerId } = domEvent;
-        const elements = this.editor.visible.values.sort((a, b) => b.layer - a.layer);
+        const elements = this.visible.values.sort((a, b) => b.layer - a.layer);
         const x = clientX - this.editor.rect.x;
         const y = clientY - this.editor.rect.y;
         const viewPoint = {
@@ -77,15 +92,6 @@ class CanvasHost {
               domEvent.preventDefault()
               return true
             }*/
-    }
-    constructor(editor) {
-        this.editor = editor;
-        const { signal } = this.eventsController;
-        const { container } = editor;
-        this.editor = editor;
-        container.addEventListener('pointerdown', e => this.dispatchEvent(e, 'mousedown'), { signal, passive: false });
-        container.addEventListener('pointerup', e => this.dispatchEvent(e, 'mouseup'), { signal });
-        container.addEventListener('pointermove', e => this.dispatchEvent(e, 'mousemove'), { signal });
     }
     has(id) {
         return this.elementMap.has(id);
@@ -270,6 +276,8 @@ class CanvasHost {
                 element[keyName] = data[key];
             });
         });
+    }
+    render() {
     }
     destroy() {
         this.elementMap.clear();
