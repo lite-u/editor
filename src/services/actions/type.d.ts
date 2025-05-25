@@ -41,7 +41,7 @@ export type VisionEventMap = {
   'world-mouse-down': never;
   'world-mouse-move': never;
   'world-mouse-up': never;
-  'world-updated': never;
+  'world-transformed': never;
   'world-scale-changed': never;
   'world-fit-content': never
   'world-zoom': 'fit' | {
@@ -94,11 +94,11 @@ export type VisionEventMap = {
 }
 
 const forwardEventDependencyMap: Record<VisionEventType, VisionEventType[]> = {
-  'world-resized': ['world-updated'],
+  'world-resized': ['world-transformed'],
   // 'editor-initialized': ['world-updated'],
-  'world-updated': ['visible-element-updated'],
-  'world-zoom': ['world-updated'],
-  'world-shift': ['world-updated'],
+  'world-transformed': ['visible-element-updated'],
+  'world-zoom': ['world-transformed'],
+  'world-shift': ['world-transformed'],
   /* selections */
   'selection-all': ['selection-updated'],
   'selection-clear': ['selection-updated'],

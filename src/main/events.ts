@@ -39,7 +39,7 @@ export function initEvents(this: Editor) {
       this.events.onHistoryUpdated?.(this.history)
       this.events.onElementsUpdated?.(this.mainHost.all)
     } else {
-      dispatch('world-updated')
+      dispatch('world-transformed')
     }
   })
 
@@ -67,7 +67,7 @@ export function initEvents(this: Editor) {
     this.world.offset.y = result.y!
     this.events.onZoomed?.(newScale)
     dispatch('world-scale-changed')
-    dispatch('world-updated')
+    dispatch('world-transformed')
   })
 
   on('world-fit-content', () => {
@@ -86,7 +86,7 @@ export function initEvents(this: Editor) {
     this.world.offset.y = offsetY
     this.events.onZoomed?.(scale)
     dispatch('world-scale-changed')
-    dispatch('world-updated')
+    dispatch('world-transformed')
   })
 
   on('world-shift', (data) => {
@@ -95,10 +95,10 @@ export function initEvents(this: Editor) {
     const {dpr} = this.world
     this.world.offset.x += x * dpr
     this.world.offset.y += y * dpr
-    dispatch('world-updated')
+    dispatch('world-transformed')
   })
 
-  on('world-updated', () => {
+  on('world-transformed', () => {
     this.world.updateWorldRect()
     this.mainHost.updateVisibleElementMap()
     this.overlayHost.updateVisibleElementMap()
