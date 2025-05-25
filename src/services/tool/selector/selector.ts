@@ -13,7 +13,7 @@ const selector: ToolType = {
   cursor: 'default',
   init: function () {
     const {interaction, action, mainHost, overlayHost, world} = this
-    const { scale, dpr} = world
+    const {scale, dpr} = world
     const elements = mainHost.allVisibleElements
     interaction.generateTransformHandles()
     // const elements = this.interaction.editor.mainHost.getElementsByIdSet(idSet)
@@ -21,9 +21,14 @@ const selector: ToolType = {
     // hover style and translate
     elements.forEach(ele => {
       const {id} = ele
-      console.log(ele.clone())
-      ele.onmouseenter = () => {
+      const clone = ele.clone()
 
+      clone.stroke.weight = 1 / this.world.scale * this.world.dpr
+      clone.stroke.color = '#5491f8'
+
+      overlayHost.add(clone)
+
+      clone.onmouseenter = () => {
         if (this.selection.has(ele.id)) return
         overlayHost.ctx.save()
         overlayHost.ctx.lineWidth = 1 / this.world.scale * this.world.dpr
