@@ -113,8 +113,8 @@ export function initEvents() {
     });
     on('selection-updated', () => {
         this.interaction._hoveredElement = null;
-        this.interaction.generateTransformHandles();
-        this.interaction.createPathPoints();
+        this.overlayHost.reset();
+        this.generateOverlayElements();
         // getAnchorsByBoundingRect()
         console.log(this.selection.pickIfUnique);
         this.events.onSelectionUpdated?.(this.selection.values, this.selection.pickIfUnique);

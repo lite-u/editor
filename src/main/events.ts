@@ -139,6 +139,7 @@ export function initEvents(this: Editor) {
 
   on('selection-updated', () => {
     this.interaction._hoveredElement = null!
+    this.overlayHost.reset()
     this.generateOverlayElements()
 
     // getAnchorsByBoundingRect()
