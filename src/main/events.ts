@@ -28,6 +28,7 @@ export function initEvents(this: Editor) {
 
   on('world-resized', () => {
     this.updateViewport()
+    this.updateOverlay()
 
     if (!this.initialized) {
       this.initialized = true
@@ -89,8 +90,9 @@ export function initEvents(this: Editor) {
     this.world.offset.y = result.y!
     this.events.onZoomed?.(newScale)
     dispatch('world-updated')
-    this.interaction.generateTransformHandles()
-    this.interaction.createPathPoints()
+    this.updateOverlay()
+    // this.interaction.generateTransformHandles()
+    // this.interaction.createPathPoints()
   })
 
   on('world-shift', (data) => {
