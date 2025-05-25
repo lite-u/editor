@@ -502,7 +502,8 @@ export function initEvents(this: Editor) {
       opacity: 100,
     }
     const frameFill = {
-      ...frameBorder, fill: {
+      ...frameStroke,
+      fill: {
         enabled: true,
         color: '#fff',
       },
@@ -515,7 +516,6 @@ export function initEvents(this: Editor) {
     )
 
     this.mainHost.render()
-
 
     // deduplicateObjectsByKeyValue()
     // console.log(this.visibleelementMap.size)

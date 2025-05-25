@@ -17,19 +17,20 @@ const STYLE = {
 };
 class CanvasHost {
     elementMap = new Map();
-    visibleElementMap;
+    visibleElementMap = new Map();
     editor;
     eventsController = new AbortController();
     _hoveredElement = null;
-    canvas = createWith('canvas', 'main-canvas', { ...STYLE });
-    ctx = createWith('canvas', 'overlay-canvas', { ...STYLE });
-    // visible
+    canvas;
+    ctx;
     dpr = 2;
     constructor(editor) {
         this.editor = editor;
         const { signal } = this.eventsController;
         const { container } = editor;
         this.editor = editor;
+        this.canvas = createWith('canvas', 'main-canvas', { ...STYLE });
+        this.ctx = this.canvas.getContext('2d');
         container.addEventListener('pointerdown', e => this.dispatchEvent(e, 'mousedown'), { signal, passive: false });
         container.addEventListener('pointerup', e => this.dispatchEvent(e, 'mouseup'), { signal });
         container.addEventListener('pointermove', e => this.dispatchEvent(e, 'mousemove'), { signal });
@@ -37,7 +38,7 @@ class CanvasHost {
     dispatchEvent(domEvent, type, options) {
         const { ctx, dpr } = this;
         const { clientX, clientY, pointerId } = domEvent;
-        const elements = this.visible.values.sort((a, b) => b.layer - a.layer);
+        const elements = this.allVisibles.sort((a, b) => b.layer - a.layer);
         const x = clientX - this.editor.rect.x;
         const y = clientY - this.editor.rect.y;
         const viewPoint = {
@@ -48,8 +49,8 @@ class CanvasHost {
         for (const el of elements) {
             // let stopped = false
             const { path2D, fill } = el;
-            const f1 = baseCanvasContext.isPointInStroke(path2D, viewPoint.x, viewPoint.y);
-            const f2 = baseCanvasContext.isPointInPath(path2D, viewPoint.x, viewPoint.y);
+            const f1 = ctx.isPointInStroke(path2D, viewPoint.x, viewPoint.y);
+            const f2 = ctx.isPointInPath(path2D, viewPoint.x, viewPoint.y);
             if (f1 || (f2 && fill.enabled)) {
                 _ele = el;
                 break;
@@ -113,6 +114,9 @@ class CanvasHost {
     }
     get all() {
         return new Map(this.elementMap);
+    }
+    get allVisibles() {
+        return [...this.visibleElementMap.values()];
     }
     get getMaxLayerIndex() {
         let max = 0;
@@ -280,6 +284,9 @@ class CanvasHost {
         });
     }
     render() {
+        this.allVisibles.forEach((element) => {
+            element.render(this.ctx);
+        });
     }
     destroy() {
         this.canvas.remove();

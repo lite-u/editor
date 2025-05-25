@@ -8,7 +8,7 @@ declare class CanvasHost {
     eventsController: AbortController;
     _hoveredElement: ElementInstance | null;
     canvas: HTMLCanvasElement;
-    ctx: HTMLCanvasElement;
+    ctx: CanvasRenderingContext2D;
     dpr: number;
     constructor(editor: Editor);
     dispatchEvent(domEvent: PointerEvent, type: PointerEvent['type'], options?: {
@@ -19,6 +19,7 @@ declare class CanvasHost {
     get keys(): Set<UID>;
     get values(): ElementInstance[];
     get all(): ElementMap;
+    get allVisibles(): ElementInstance[];
     get getMaxLayerIndex(): number;
     getElementById(id: string): ElementInstance | undefined;
     getElementsByIdSet(idSet: Set<UID>): ElementInstance[];
