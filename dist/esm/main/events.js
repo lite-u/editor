@@ -425,17 +425,18 @@ export function initEvents() {
             opacity: 100,
         };
         const frameFill = {
-            ...frameBorder, fill: {
+            ...frameStroke,
+            fill: {
                 enabled: true,
                 color: '#fff',
             },
         };
-        resetCanvas(this.world.baseCanvasContext, this.world.scale, this.world.offset, this.world.dpr);
+        resetCanvas(this.mainHost.ctx, this.world.scale, this.world.offset, this.world.dpr);
         this.mainHost.render();
         // deduplicateObjectsByKeyValue()
         // console.log(this.visibleelementMap.size)
         // deduplicateObjectsByKeyValue
-        new ElementRectangle(frameFill).render(ctx);
+        new ElementRectangle(frameFill).render(this.mainHost.ctx);
     });
     on('render-overlay', () => {
         resetCanvas(this.world.overlayCanvasContext, this.world.scale, this.world.offset, this.world.dpr);

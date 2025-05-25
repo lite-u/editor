@@ -508,8 +508,9 @@ export function initEvents(this: Editor) {
         color: '#fff',
       },
     }
+
     resetCanvas(
-      this.world.baseCanvasContext,
+      this.mainHost.ctx,
       this.world.scale,
       this.world.offset,
       this.world.dpr,
@@ -521,7 +522,7 @@ export function initEvents(this: Editor) {
     // console.log(this.visibleelementMap.size)
     // deduplicateObjectsByKeyValue
 
-    new ElementRectangle(frameFill).render(ctx)
+    new ElementRectangle(frameFill).render(this.mainHost.ctx)
   })
 
   on('render-overlay', () => {
