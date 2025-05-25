@@ -1,4 +1,3 @@
-import { rectsOverlap } from '../../core/utils.js';
 // import {generateHandles} from '~/elements/helper'
 class VisibleManager {
     visibleElementMap;
@@ -21,21 +20,22 @@ class VisibleManager {
     get getVisibleSelectedElements() {
         return this.editor.mainHost.getElementsByIdSet(this.getVisibleSelected);
     }
-    updateVisibleElementMap() {
-        this.visibleElementMap.clear();
+    /*
+      updateVisibleElementMap() {
+        this.visibleElementMap.clear()
         // console.log(this.viewport.offset, this.viewport.worldRect)
         // Create an array from the Map, sort by the 'layer' property, and then add them to visibleelementMap
         const sortedElements = (this.editor.mainHost.values)
-            .filter(element => {
-            const boundingRect = element.getBoundingRect();
-            return rectsOverlap(boundingRect, this.editor.world.worldRect);
-        })
-            .sort((a, b) => a.layer - b.layer);
+          .filter(element => {
+            const boundingRect = element.getBoundingRect() as BoundingRect
+            return rectsOverlap(boundingRect, this.editor.world.worldRect)
+          })
+          .sort((a, b) => a.layer - b.layer)
         // console.log(this.editor.elementManager.all)
         sortedElements.forEach(element => {
-            this.visibleElementMap.set(element.id, element);
-        });
-    }
+          this.visibleElementMap.set(element.id, element)
+        })
+      }*/
     updateVisibleSelected() {
         this.visibleSelected.clear();
         this.editor.interaction.operationHandlers.length = 0;

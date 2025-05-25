@@ -103,7 +103,9 @@ export function initEvents(this: Editor) {
   })
 
   on('visible-element-updated', () => {
-    this.visible.updateVisibleElementMap()
+    // this.visible.updateVisibleElementMap()
+    this.mainHost.updateVisibleElementMap()
+    this.overlayHost.updateVisibleElementMap()
     // this.updateSnapPoints()
     dispatch('render-main-host')
     dispatch('visible-selection-updated')

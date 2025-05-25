@@ -31,7 +31,7 @@ class VisibleManager {
   public get getVisibleSelectedElements() {
     return this.editor.mainHost.getElementsByIdSet(this.getVisibleSelected)
   }
-
+/*
   updateVisibleElementMap() {
     this.visibleElementMap.clear()
     // console.log(this.viewport.offset, this.viewport.worldRect)
@@ -46,7 +46,7 @@ class VisibleManager {
     sortedElements.forEach(element => {
       this.visibleElementMap.set(element.id, element)
     })
-  }
+  }*/
 
   updateVisibleSelected() {
     this.visibleSelected.clear()
