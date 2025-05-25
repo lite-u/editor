@@ -66,7 +66,7 @@ export function initEvents(this: Editor) {
     this.world.offset.x = result.x!
     this.world.offset.y = result.y!
     this.events.onZoomed?.(newScale)
-    dispatch('world-scale-changed')
+    dispatch('reset-overlay')
     dispatch('world-transformed')
   })
 
@@ -85,7 +85,7 @@ export function initEvents(this: Editor) {
     this.world.offset.x = offsetX
     this.world.offset.y = offsetY
     this.events.onZoomed?.(scale)
-    dispatch('world-scale-changed')
+    dispatch('reset-overlay')
     dispatch('world-transformed')
   })
 
@@ -116,9 +116,10 @@ export function initEvents(this: Editor) {
 
   })
 
-  on('world-scale-changed', () => {
+  on('reset-overlay', () => {
     this.overlayHost.reset()
     this.regenerateOverlayElements()
+    this.overlayHost.updateVisible()
   })
 
   on('selection-all', () => {
@@ -142,8 +143,8 @@ export function initEvents(this: Editor) {
     // this.overlayHost.reset()
     this.mainHost.updateVisible()
     // this.overlayHost.updateVisible()
-    this.regenerateOverlayElements()
-    dispatch('rerender-overlay')
+    // this.regenerateOverlayElements()
+    dispatch('reset-overlay')
 
     if (historyData) {
       this.history.add(historyData)
@@ -156,12 +157,12 @@ export function initEvents(this: Editor) {
   on('selection-updated', () => {
     this.interaction._hoveredElement = null!
     // this.overlayHost.reset()
-    this.regenerateOverlayElements()
+    // this.regenerateOverlayElements()
+    dispatch('reset-overlay')
     // console.log(this.overlayHost.visibleElements)
     // getAnchorsByBoundingRect()
     // console.log(this.selection.pickIfUnique)
     this.events.onSelectionUpdated?.(this.selection.values, this.selection.pickIfUnique)
-    dispatch('rerender-overlay')
 
     // dispatch('visible-selection-updated')
   })

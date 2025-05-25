@@ -50,7 +50,7 @@ class Action {
     type: K,
     data?: VisionEventData<K>,
   ) {
-    // console.info('action: ', type)
+    console.info('action: ', type)
     // console.info('action: ', type)
 
     if (this.eventsMap.has(type)) {

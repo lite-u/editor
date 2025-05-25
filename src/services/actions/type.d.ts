@@ -80,6 +80,7 @@ export type VisionEventMap = {
   }
   'element-hover-enter': UID;
   'element-hover-leave': UID;
+  'reset-overlay': never;
   'visible-element-updated': never;
   'visible-selection-updated': never;
   'history-redo': never;

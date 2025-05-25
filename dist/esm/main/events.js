@@ -53,7 +53,7 @@ export function initEvents() {
         this.world.offset.x = result.x;
         this.world.offset.y = result.y;
         this.events.onZoomed?.(newScale);
-        dispatch('world-scale-changed');
+        dispatch('reset-overlay');
         dispatch('world-transformed');
     });
     on('world-fit-content', () => {
@@ -70,7 +70,7 @@ export function initEvents() {
         this.world.offset.x = offsetX;
         this.world.offset.y = offsetY;
         this.events.onZoomed?.(scale);
-        dispatch('world-scale-changed');
+        dispatch('reset-overlay');
         dispatch('world-transformed');
     });
     on('world-shift', (data) => {
@@ -90,9 +90,10 @@ export function initEvents() {
         dispatch('rerender-main-host');
         dispatch('rerender-overlay');
     });
-    on('world-scale-changed', () => {
+    on('reset-overlay', () => {
         this.overlayHost.reset();
         this.regenerateOverlayElements();
+        this.overlayHost.updateVisible();
     });
     on('selection-all', () => {
         this.selection.selectAll();
@@ -111,8 +112,8 @@ export function initEvents() {
         // this.overlayHost.reset()
         this.mainHost.updateVisible();
         // this.overlayHost.updateVisible()
-        this.regenerateOverlayElements();
-        dispatch('rerender-overlay');
+        // this.regenerateOverlayElements()
+        dispatch('reset-overlay');
         if (historyData) {
             this.history.add(historyData);
             this.events.onHistoryUpdated?.(this.history);
@@ -122,12 +123,12 @@ export function initEvents() {
     on('selection-updated', () => {
         this.interaction._hoveredElement = null;
         // this.overlayHost.reset()
-        this.regenerateOverlayElements();
+        // this.regenerateOverlayElements()
+        dispatch('reset-overlay');
         // console.log(this.overlayHost.visibleElements)
         // getAnchorsByBoundingRect()
         // console.log(this.selection.pickIfUnique)
         this.events.onSelectionUpdated?.(this.selection.values, this.selection.pickIfUnique);
-        dispatch('rerender-overlay');
         // dispatch('visible-selection-updated')
     });
     /*  on('world-mouse-down', () => {

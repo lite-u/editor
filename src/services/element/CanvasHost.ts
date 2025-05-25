@@ -44,7 +44,7 @@ class CanvasHost {
     container.addEventListener('pointerdown', e => this.dispatchEvent(e, 'mousedown'), {signal, passive: false})
     container.addEventListener('pointerup', e => this.dispatchEvent(e, 'mouseup'), {signal})
     container.addEventListener('pointermove', e => this.dispatchEvent(e, 'mousemove'), {signal})
-    this.startRender()
+    // this.startRender()
   }
 
   dispatchEvent(domEvent: PointerEvent, type: PointerEvent['type'], options?: { tolerance?: number }) {
@@ -392,23 +392,6 @@ class CanvasHost {
     // console.timeEnd('element render')
   }
 
-  startRender() {
-    const animate = () => {
-      // requestAnimationFrame(() => animate())
-      this.visibleElements.forEach((element) => {
-        element.render(this.ctx)
-      })
-      this._rqId = requestAnimationFrame(animate)
-    }
-
-    this._rqId = requestAnimationFrame(animate)
-    // console.time('element render')
-    /*  this.visibleElements.forEach((element) => {
-        element.render(this.ctx)
-      })*/
-    // console.timeEnd('element render')
-
-  }
 
   reset() {
     this.elementMap.clear()

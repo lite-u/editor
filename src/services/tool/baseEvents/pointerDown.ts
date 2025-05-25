@@ -23,7 +23,7 @@ function handleMouseDown(this: ToolManager, e: PointerEvent) {
   e.preventDefault()
   if (button !== 0) return
 
-  this.editor.action.dispatch('clear-creation')
+  // this.editor.action.dispatch('clear-creation')
 
   snapTool.call(this)
   this.tool?.mouseDown?.call(this.editor)

@@ -1,13 +1,13 @@
-import deepClone from '~/core/deepClone';
-import nid from '~/core/nid';
-import ElementRectangle from '~/elements/rectangle/rectangle';
-import ElementEllipse from '~/elements/ellipse/ellipse';
-import ElementText from '~/elements/text/text';
-import ElementImage from '~/elements/image/image';
-import ElementLineSegment from '~/elements/lines/lineSegment';
-import ElementPath from '~/elements/path/path';
-import { createWith } from '~/lib/lib';
-import { rectsOverlap } from '~/core/utils';
+import deepClone from '../../core/deepClone.js';
+import nid from '../../core/nid.js';
+import ElementRectangle from '../../elements/rectangle/rectangle.js';
+import ElementEllipse from '../../elements/ellipse/ellipse.js';
+import ElementText from '../../elements/text/text.js';
+import ElementImage from '../../elements/image/image.js';
+import ElementLineSegment from '../../elements/lines/lineSegment.js';
+import ElementPath from '../../elements/path/path.js';
+import { createWith } from '../../lib/lib.js';
+import { rectsOverlap } from '../../core/utils.js';
 const STYLE = {
     position: 'absolute',
     left: '0',
@@ -37,7 +37,7 @@ class CanvasHost {
         container.addEventListener('pointerdown', e => this.dispatchEvent(e, 'mousedown'), { signal, passive: false });
         container.addEventListener('pointerup', e => this.dispatchEvent(e, 'mouseup'), { signal });
         container.addEventListener('pointermove', e => this.dispatchEvent(e, 'mousemove'), { signal });
-        this.startRender();
+        // this.startRender()
     }
     dispatchEvent(domEvent, type, options) {
         const { ctx, dpr } = this;
@@ -312,21 +312,6 @@ class CanvasHost {
         this.visibleElements.forEach((element) => {
             element.render(this.ctx);
         });
-        // console.timeEnd('element render')
-    }
-    startRender() {
-        const animate = () => {
-            // requestAnimationFrame(() => animate())
-            this.visibleElements.forEach((element) => {
-                element.render(this.ctx);
-            });
-            this._rqId = requestAnimationFrame(animate);
-        };
-        this._rqId = requestAnimationFrame(animate);
-        // console.time('element render')
-        /*  this.visibleElements.forEach((element) => {
-            element.render(this.ctx)
-          })*/
         // console.timeEnd('element render')
     }
     reset() {

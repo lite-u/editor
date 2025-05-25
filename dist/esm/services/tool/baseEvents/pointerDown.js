@@ -18,7 +18,7 @@ function handleMouseDown(e) {
     e.preventDefault();
     if (button !== 0)
         return;
-    this.editor.action.dispatch('clear-creation');
+    // this.editor.action.dispatch('clear-creation')
     snapTool.call(this);
     this.tool?.mouseDown?.call(this.editor);
 }
