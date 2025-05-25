@@ -389,6 +389,7 @@ class CanvasHost {
 
   reset() {
     this.elementMap.clear()
+    this.visible.clear()
   }
 
   destroy() {
