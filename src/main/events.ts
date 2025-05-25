@@ -92,12 +92,11 @@ export function initEvents(this: Editor) {
   on('world-shift', (data) => {
 
     const {x, y} = data
-    // console.log(x, y)
     const {dpr} = this.world
+
     this.world.offset.x += x * dpr
     this.world.offset.y += y * dpr
     dispatch('world-transformed')
-
   })
 
   on('world-transformed', () => {
