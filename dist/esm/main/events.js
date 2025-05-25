@@ -30,7 +30,7 @@ export function initEvents() {
             this.events.onElementsUpdated?.(this.mainHost.all);
         }
         else {
-            dispatch('world-updated');
+            dispatch('world-transformed');
         }
     });
     on('world-zoom', (arg) => {
@@ -54,7 +54,7 @@ export function initEvents() {
         this.world.offset.y = result.y;
         this.events.onZoomed?.(newScale);
         dispatch('world-scale-changed');
-        dispatch('world-updated');
+        dispatch('world-transformed');
     });
     on('world-fit-content', () => {
         const { width, height } = this.config.page;
@@ -71,7 +71,7 @@ export function initEvents() {
         this.world.offset.y = offsetY;
         this.events.onZoomed?.(scale);
         dispatch('world-scale-changed');
-        dispatch('world-updated');
+        dispatch('world-transformed');
     });
     on('world-shift', (data) => {
         const { x, y } = data;
@@ -79,9 +79,9 @@ export function initEvents() {
         const { dpr } = this.world;
         this.world.offset.x += x * dpr;
         this.world.offset.y += y * dpr;
-        dispatch('world-updated');
+        dispatch('world-transformed');
     });
-    on('world-updated', () => {
+    on('world-transformed', () => {
         this.world.updateWorldRect();
         this.mainHost.updateVisibleElementMap();
         this.overlayHost.updateVisibleElementMap();
