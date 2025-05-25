@@ -141,11 +141,11 @@ class Editor {
             clone.fill.enabled = false;
             clone.stroke.enabled = true;
             clone.stroke.weight = 2 / ratio;
-            clone.stroke.color = 'none';
+            clone.stroke.color = idSet.has(id) ? boxColor : 'none';
             clone.onmouseenter = () => {
                 if (this.selection.has(ele.id))
                     return;
-                clone.stroke.color = '#ff0000';
+                clone.stroke.color = boxColor;
                 action.dispatch('rerender-overlay');
             };
             clone.onmouseleave = () => {
@@ -208,6 +208,7 @@ class Editor {
                 color: boxColor,
             },
         });
+        console.log('selectedOutlineElement', selectedOutlineElement);
         overlayHost.append(selectedOutlineElement);
     }
     destroy() {

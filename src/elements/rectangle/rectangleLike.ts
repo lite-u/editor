@@ -46,6 +46,7 @@ class RectangleLike extends ElementBase {
       height,
     }
     this.updatePath2D()
+    this.updateBoundingRect()
     // this.updateTransform()
   }
 
