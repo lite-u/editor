@@ -90,21 +90,30 @@ export function initEvents(this: Editor) {
   })
 
   on('world-shift', (data) => {
+
+
     const {x, y} = data
     // console.log(x, y)
     const {dpr} = this.world
     this.world.offset.x += x * dpr
     this.world.offset.y += y * dpr
     dispatch('world-transformed')
+
   })
 
   on('world-transformed', () => {
-    this.world.updateWorldRect()
-    this.mainHost.updateVisible()
-    this.overlayHost.updateVisible()
 
+
+    this.world.updateWorldRect()
+    // console.time('element render')
+
+    this.mainHost.updateVisible()
+
+    this.overlayHost.updateVisible()
+    // console.timeEnd('element render')
     dispatch('rerender-main-host')
     dispatch('rerender-overlay')
+
   })
 
   on('world-scale-changed', () => {
@@ -522,7 +531,7 @@ export function initEvents(this: Editor) {
     new ElementRectangle(frameStroke).render(this.mainHost.ctx)
   })
 
-  on('reset-overlay', () => {
+  on('refresh-overlay', () => {
     this.overlayHost.reset()
     this.generateOverlayElements()
     dispatch('rerender-overlay')
