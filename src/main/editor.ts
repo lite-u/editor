@@ -13,7 +13,7 @@ import Cursor from '~/services/cursor/cursor'
 import World from '~/services/world/World'
 import ClipboardManager from '~/services/clipboard/Clipboard'
 import InteractionState from '~/services/interaction/InteractionState'
-import VisibleManager from '~/services/visible/VisibleManager'
+// import VisibleManager from '~/services/visible/VisibleManager'
 // import EventManager from '~/services/events/events'
 import {VisionEditorAssetType} from '~/services/assets/asssetsManager'
 import {BoundingRect} from '~/type'
@@ -29,7 +29,7 @@ class Editor {
   // eventManager: EventManager
   world: World
   action: Action
-  visible: VisibleManager
+  // visible: VisibleManager
   interaction: InteractionState
   clipboard: ClipboardManager
   cursor: Cursor
@@ -64,7 +64,7 @@ class Editor {
     // services
     this.action = new Action()
     // this.eventManager = new EventManager(this)
-    this.visible = new VisibleManager(this)
+    // this.visible = new VisibleManager(this)
     this.clipboard = new ClipboardManager()
     this.interaction = new InteractionState(this)
     this.world = new World(this)
@@ -161,7 +161,7 @@ class Editor {
 
     // this.eventManager.destroy()
     this.action.destroy()
-    this.visible.destroy()
+    // this.visible.destroy()
     this.clipboard.destroy()
     this.interaction.destroy()
     this.world.destroy()

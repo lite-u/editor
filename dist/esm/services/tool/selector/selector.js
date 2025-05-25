@@ -9,11 +9,13 @@ import { DEFAULT_STROKE } from '../../../elements/defaultProps.js';
 const selector = {
     cursor: 'default',
     init: function () {
-        const { interaction, action, visible, world } = this;
+        const { interaction, action, mainHost, overlayHost, world } = this;
         const { overlayCanvasContext: ctx, scale, dpr } = world;
+        const elements = mainHost.allVisibleElements;
         interaction.generateTransformHandles();
+        // const elements = this.interaction.editor.mainHost.getElementsByIdSet(idSet)
         // hover style and translate
-        visible.getVisibleSelectedElements.forEach(ele => {
+        elements.forEach(ele => {
             const { id } = ele;
             ele.onmouseenter = () => {
                 if (this.selection.has(ele.id))
@@ -39,12 +41,10 @@ const selector = {
         // translate
         // scale and rotation
         console.log('updateHandles');
-        const { mainHost } = this;
         // const {scale, dpr, overlayCanvasContext: ctx} = this.interaction.editor.world
         const ratio = scale * dpr;
         const idSet = this.interaction.editor.selection.values;
         const pointLen = 20 / ratio;
-        const elements = this.interaction.editor.mainHost.getElementsByIdSet(idSet);
         let rotations = [];
         if (elements.length <= 1) {
             this.interaction.selectedOutlineElement = null;

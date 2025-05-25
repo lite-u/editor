@@ -9,7 +9,6 @@ import Cursor from '~/services/cursor/cursor';
 import World from '~/services/world/World';
 import ClipboardManager from '~/services/clipboard/Clipboard';
 import InteractionState from '~/services/interaction/InteractionState';
-import VisibleManager from '~/services/visible/VisibleManager';
 import { VisionEditorAssetType } from '~/services/assets/asssetsManager';
 import { BoundingRect } from '~/type';
 import { EditorConfig, EventHandlers } from './type';
@@ -21,7 +20,6 @@ declare class Editor {
     resizeObserver: ResizeObserver;
     world: World;
     action: Action;
-    visible: VisibleManager;
     interaction: InteractionState;
     clipboard: ClipboardManager;
     cursor: Cursor;

@@ -11,7 +11,6 @@ import Cursor from '../services/cursor/cursor.js';
 import World from '../services/world/World.js';
 import ClipboardManager from '../services/clipboard/Clipboard.js';
 import InteractionState from '../services/interaction/InteractionState.js';
-import VisibleManager from '../services/visible/VisibleManager.js';
 class Editor {
     id = nid();
     container;
@@ -21,7 +20,7 @@ class Editor {
     // eventManager: EventManager
     world;
     action;
-    visible;
+    // visible: VisibleManager
     interaction;
     clipboard;
     cursor;
@@ -43,7 +42,7 @@ class Editor {
         // services
         this.action = new Action();
         // this.eventManager = new EventManager(this)
-        this.visible = new VisibleManager(this);
+        // this.visible = new VisibleManager(this)
         this.clipboard = new ClipboardManager();
         this.interaction = new InteractionState(this);
         this.world = new World(this);
@@ -124,7 +123,7 @@ class Editor {
         this.overlayHost.destroy();
         // this.eventManager.destroy()
         this.action.destroy();
-        this.visible.destroy();
+        // this.visible.destroy()
         this.clipboard.destroy();
         this.interaction.destroy();
         this.world.destroy();

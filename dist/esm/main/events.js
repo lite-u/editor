@@ -94,7 +94,7 @@ export function initEvents() {
         dispatch('visible-selection-updated');
     });
     on('visible-selection-updated', () => {
-        this.visible.updateVisibleSelected();
+        // this.visible.updateVisibleSelected()
         dispatch('render-overlay');
     });
     on('selection-all', () => {

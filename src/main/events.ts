@@ -112,7 +112,7 @@ export function initEvents(this: Editor) {
   })
 
   on('visible-selection-updated', () => {
-    this.visible.updateVisibleSelected()
+    // this.visible.updateVisibleSelected()
     dispatch('render-overlay')
   })
 
