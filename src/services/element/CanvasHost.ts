@@ -382,7 +382,6 @@ class CanvasHost {
 
   render() {
     this.allVisibleElements.forEach((element) => {
-      // console.log(element)
       element.render(this.ctx)
     })
   }
