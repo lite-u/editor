@@ -164,20 +164,21 @@ class Editor {
     const ratio = scale * dpr
     const pointLen = 20 / ratio
     const idSet = selection.values
-    const elements = mainHost.getElementsByIdSet(idSet)
+    const visibleElements = mainHost.visibleElements
+    const selectedElements = mainHost.getElementsByIdSet(idSet)
     let rotations: number[] = []
 
     overlayHost.reset()
 
-    if (elements.length <= 1) {
+    if (selectedElements.length <= 1) {
       // this.selectedOutlineElement = null
-      if (elements.length === 0) return
+      if (selectedElements.length === 0) return
     }
 
     const rectsWithRotation: BoundingRect[] = []
     const rectsWithoutRotation: BoundingRect[] = []
 
-    elements.forEach((ele: ElementInstance) => {
+    selectedElements.forEach((ele: ElementInstance) => {
       const id = ele.id
       const clone = ele.clone()
       const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen)
@@ -216,13 +217,13 @@ class Editor {
     const sameRotation = rotations.every(val => val === rotations[0])
     const applyRotation = sameRotation ? rotations[0] : 0
     let rect: { cx: number, cy: number, width: number, height: number }
-    const specialLineSeg = idSet.size === 1 && elements[0].type === 'lineSegment'
+    const specialLineSeg = idSet.size === 1 && selectedElements[0].type === 'lineSegment'
 
     if (sameRotation) {
       rect = getMinimalBoundingRect(rectsWithoutRotation, applyRotation)
       if (specialLineSeg) {
         rect.width = 1
-        rect.cx = elements[0].cx
+        rect.cx = selectedElements[0].cx
       }
       overlayHost.append(...getManipulationBox(rect, applyRotation, ratio, specialLineSeg))
     } else {
