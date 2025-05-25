@@ -131,6 +131,8 @@ export function initEvents(this: Editor) {
 
   on('element-updated', (historyData: HistoryOperation) => {
     // dispatch('visible-element-updated')
+    this.overlayHost.reset()
+    this.generateOverlayElements()
     this.mainHost.updateVisible()
     this.overlayHost.updateVisible()
     // dispatch('selection-updated')
@@ -163,7 +165,6 @@ export function initEvents(this: Editor) {
         selecting.mouseDown.call(this)
       }
     })*/
-
 
   on('world-mouse-move', () => {
     this.events.onWorldMouseMove?.(this.interaction.mouseWorldCurrent)
@@ -503,13 +504,13 @@ export function initEvents(this: Editor) {
       layer: -1,
       opacity: 100,
     }
-/*    const frameFill = {
-      ...frameStroke,
-      fill: {
-        enabled: true,
-        color: '#fff',
-      },
-    }*/
+    /*    const frameFill = {
+          ...frameStroke,
+          fill: {
+            enabled: true,
+            color: '#fff',
+          },
+        }*/
 
     resetCanvas(
       this.mainHost.ctx,
