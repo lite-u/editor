@@ -149,7 +149,6 @@ class CanvasHost {
     this.visible.clear()
 
     // Create an array from the Map, sort by the 'layer' property,
-    // and then add them to visibleElementMap
     const sortedElements = this.values
       .filter(element => {
         const boundingRect = element.getBoundingRect() as BoundingRect
