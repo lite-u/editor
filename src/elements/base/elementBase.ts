@@ -321,9 +321,9 @@ class ElementBase {
   }
 
   public clone() {
-    console.log(this)
-    const data = this.toJSON()
-    return new this.constructor.prototype(data)
+    const data = this.toJSON();
+    const ctor = this.constructor as new (data: any) => this;
+    return new ctor(data);
   }
 
   /*protected resetTransform() {

@@ -90,7 +90,7 @@ declare class ElementBase {
     restore(props: Partial<ElementProps>): void;
     protected getTransformedPoints(): Point[];
     protected getCenter(): Point;
-    clone(): any;
+    clone(): this;
     render(ctx: CanvasRenderingContext2D): void;
 }
 export default ElementBase;
