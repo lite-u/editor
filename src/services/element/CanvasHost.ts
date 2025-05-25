@@ -30,6 +30,7 @@ class CanvasHost {
   canvas: HTMLCanvasElement
   ctx: CanvasRenderingContext2D
   dpr = 2
+  _rqId: number = -1
 
   constructor(editor: Editor) {
     this.editor = editor
@@ -43,6 +44,7 @@ class CanvasHost {
     container.addEventListener('pointerdown', e => this.dispatchEvent(e, 'mousedown'), {signal, passive: false})
     container.addEventListener('pointerup', e => this.dispatchEvent(e, 'mouseup'), {signal})
     container.addEventListener('pointermove', e => this.dispatchEvent(e, 'mousemove'), {signal})
+    this.startRender()
   }
 
   dispatchEvent(domEvent: PointerEvent, type: PointerEvent['type'], options?: { tolerance?: number }) {
@@ -149,12 +151,12 @@ class CanvasHost {
 
     this.visible.clear()
     // let _start = Date.now()
-     // Create an array from the Map, sort by the 'layer' property,
+    // Create an array from the Map, sort by the 'layer' property,
     const sortedElements = this.elements
       .filter((element, index) => {
 
         const boundingRect = element.boundingRect as BoundingRect
-         return rectsOverlap(boundingRect, this.editor.world.worldRect)
+        return rectsOverlap(boundingRect, this.editor.world.worldRect)
       })
       .sort((a, b) => a.layer - b.layer)
     // console.log(Date.now() - _start)
@@ -388,6 +390,23 @@ class CanvasHost {
       element.render(this.ctx)
     })
     // console.timeEnd('element render')
+  }
+
+  startRender() {
+    const animate = () => {
+      // requestAnimationFrame(() => animate())
+      this.visibleElements.forEach((element) => {
+        element.render(this.ctx)
+      })
+      this._rqId = requestAnimationFrame(animate)
+    }
+
+    this._rqId = requestAnimationFrame(animate)
+    // console.time('element render')
+    /*  this.visibleElements.forEach((element) => {
+        element.render(this.ctx)
+      })*/
+    // console.timeEnd('element render')
 
   }
 
@@ -397,6 +416,10 @@ class CanvasHost {
   }
 
   destroy() {
+    cancelAnimationFrame(this._rqId)
+    /*this._timer = requestAnimationFrame(() => {
+      this.render()
+    })*/
     this.canvas.remove()
     this.elementMap.clear()
     this.visible.clear()

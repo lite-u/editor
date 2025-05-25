@@ -92,7 +92,7 @@ export function initEvents() {
     });
     on('world-scale-changed', () => {
         this.overlayHost.reset();
-        this.generateOverlayElements();
+        this.regenerateOverlayElements();
     });
     on('selection-all', () => {
         this.selection.selectAll();
@@ -108,10 +108,11 @@ export function initEvents() {
         dispatch('selection-updated');
     });
     on('element-updated', (historyData) => {
-        this.overlayHost.reset();
-        this.generateOverlayElements();
+        // this.overlayHost.reset()
         this.mainHost.updateVisible();
-        this.overlayHost.updateVisible();
+        // this.overlayHost.updateVisible()
+        this.regenerateOverlayElements();
+        dispatch('rerender-overlay');
         if (historyData) {
             this.history.add(historyData);
             this.events.onHistoryUpdated?.(this.history);
@@ -120,8 +121,8 @@ export function initEvents() {
     });
     on('selection-updated', () => {
         this.interaction._hoveredElement = null;
-        this.overlayHost.reset();
-        this.generateOverlayElements();
+        // this.overlayHost.reset()
+        this.regenerateOverlayElements();
         // console.log(this.overlayHost.visibleElements)
         // getAnchorsByBoundingRect()
         // console.log(this.selection.pickIfUnique)
@@ -438,11 +439,10 @@ export function initEvents() {
         this.mainHost.render();
         new ElementRectangle(frameStroke).render(this.mainHost.ctx);
     });
-    on('refresh-overlay', () => {
-        this.overlayHost.reset();
-        this.generateOverlayElements();
-        dispatch('rerender-overlay');
-    });
+    /*  on('refresh-overlay', () => {
+        this.regenerateOverlayElements()
+        dispatch('rerender-overlay')
+      })*/
     on('rerender-overlay', () => {
         // console.log('rerender-overlay')
         resetCanvas(this.overlayHost.ctx, this.world.scale, this.world.offset, this.world.dpr);

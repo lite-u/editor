@@ -118,7 +118,7 @@ export function initEvents(this: Editor) {
 
   on('world-scale-changed', () => {
     this.overlayHost.reset()
-    this.generateOverlayElements()
+    this.regenerateOverlayElements()
   })
 
   on('selection-all', () => {
@@ -139,10 +139,11 @@ export function initEvents(this: Editor) {
   })
 
   on('element-updated', (historyData: HistoryOperation) => {
-    this.overlayHost.reset()
-    this.generateOverlayElements()
+    // this.overlayHost.reset()
     this.mainHost.updateVisible()
-    this.overlayHost.updateVisible()
+    // this.overlayHost.updateVisible()
+    this.regenerateOverlayElements()
+    dispatch('rerender-overlay')
 
     if (historyData) {
       this.history.add(historyData)
@@ -154,8 +155,8 @@ export function initEvents(this: Editor) {
 
   on('selection-updated', () => {
     this.interaction._hoveredElement = null!
-    this.overlayHost.reset()
-    this.generateOverlayElements()
+    // this.overlayHost.reset()
+    this.regenerateOverlayElements()
     // console.log(this.overlayHost.visibleElements)
     // getAnchorsByBoundingRect()
     // console.log(this.selection.pickIfUnique)
@@ -531,11 +532,10 @@ export function initEvents(this: Editor) {
     new ElementRectangle(frameStroke).render(this.mainHost.ctx)
   })
 
-  on('refresh-overlay', () => {
-    this.overlayHost.reset()
-    this.generateOverlayElements()
+/*  on('refresh-overlay', () => {
+    this.regenerateOverlayElements()
     dispatch('rerender-overlay')
-  })
+  })*/
 
   on('rerender-overlay', () => {
     // console.log('rerender-overlay')

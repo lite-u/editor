@@ -10,6 +10,7 @@ declare class CanvasHost {
     canvas: HTMLCanvasElement;
     ctx: CanvasRenderingContext2D;
     dpr: number;
+    _rqId: number;
     constructor(editor: Editor);
     dispatchEvent(domEvent: PointerEvent, type: PointerEvent['type'], options?: {
         tolerance?: number;
@@ -35,6 +36,7 @@ declare class CanvasHost {
     batchMove(from: Set<UID>, delta: Point): void;
     batchModify(idSet: Set<UID>, data: Partial<ElementProps>): void;
     render(): void;
+    startRender(): void;
     reset(): void;
     destroy(): void;
 }

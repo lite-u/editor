@@ -157,7 +157,7 @@ class Editor {
         this.overlayHost.setSize(viewportWidth, viewportHeight)*/
   }
 
-  generateOverlayElements() {
+  regenerateOverlayElements() {
     console.log('generateOverlayElements')
     const boxColor = '#435fb9'
     const {world, action, toolManager, selection, mainHost, overlayHost} = this
@@ -207,10 +207,12 @@ class Editor {
       overlayHost.append(clone)
     })
 
-    if (selectedElements.length <= 1) {
+    if (selectedElements.length === 0) return
+
+    /*if (selectedElements.length <= 1) {
       // this.selectedOutlineElement = null
       if (selectedElements.length === 0) return
-    }
+    }*/
 
     selectedElements.forEach((ele: ElementInstance) => {
       const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen)

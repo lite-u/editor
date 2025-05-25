@@ -42,7 +42,7 @@ declare class Editor {
     execute(type: VisionEventType, data?: unknown): void;
     export(): EditorExportFileType;
     reCalcViewport(): void;
-    generateOverlayElements(): void;
+    regenerateOverlayElements(): void;
     destroy(): void;
 }
 export default Editor;
