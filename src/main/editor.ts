@@ -152,21 +152,22 @@ class Editor {
       {x: 0, y: 0},
       {x: viewportWidth, y: viewportHeight},
     )
-/*
-    this.mainHost.setSize(viewportWidth, viewportHeight)
-    this.overlayHost.setSize(viewportWidth, viewportHeight)*/
+    /*
+        this.mainHost.setSize(viewportWidth, viewportHeight)
+        this.overlayHost.setSize(viewportWidth, viewportHeight)*/
   }
 
   generateOverlayElements() {
-    this.overlayHost.reset()
     const boxColor = '#435fb9'
-    const {world, action, toolManager, selection, mainHost,overlayHost} = this
+    const {world, action, toolManager, selection, mainHost, overlayHost} = this
     const {scale, dpr} = world
     const ratio = scale * dpr
     const pointLen = 20 / ratio
     const idSet = selection.values
     const elements = mainHost.getElementsByIdSet(idSet)
     let rotations: number[] = []
+
+    overlayHost.reset()
 
     if (elements.length <= 1) {
       // this.selectedOutlineElement = null
