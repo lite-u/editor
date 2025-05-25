@@ -139,8 +139,6 @@ export function initEvents(this: Editor) {
 
   on('selection-updated', () => {
     this.interaction._hoveredElement = null!
-    // this.interaction.generateTransformHandles()
-    // this.interaction.createPathPoints()
     this.generateOverlayElements()
 
     // getAnchorsByBoundingRect()
