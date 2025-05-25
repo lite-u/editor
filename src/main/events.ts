@@ -43,25 +43,6 @@ export function initEvents(this: Editor) {
     }
   })
 
-  on('world-fit-content', () => {
-    const {width, height} = this.config.page
-    const {viewportRect} = this
-    const pageRect = {
-      x: 0,
-      y: 0,
-      width,
-      height,
-    }
-    const {scale, offsetX, offsetY} = fitRectToViewport(pageRect, viewportRect, 0.02)
-
-    this.world.scale = scale
-    this.world.offset.x = offsetX
-    this.world.offset.y = offsetY
-    this.events.onZoomed?.(scale)
-    dispatch('world-scale-changed')
-    dispatch('world-updated')
-  })
-
   on('world-zoom', (arg) => {
     if (arg === 'fit') {
       dispatch('world-fit-content')
@@ -85,6 +66,25 @@ export function initEvents(this: Editor) {
     this.world.offset.x = result.x!
     this.world.offset.y = result.y!
     this.events.onZoomed?.(newScale)
+    dispatch('world-scale-changed')
+    dispatch('world-updated')
+  })
+
+  on('world-fit-content', () => {
+    const {width, height} = this.config.page
+    const {viewportRect} = this
+    const pageRect = {
+      x: 0,
+      y: 0,
+      width,
+      height,
+    }
+    const {scale, offsetX, offsetY} = fitRectToViewport(pageRect, viewportRect, 0.02)
+
+    this.world.scale = scale
+    this.world.offset.x = offsetX
+    this.world.offset.y = offsetY
+    this.events.onZoomed?.(scale)
     dispatch('world-scale-changed')
     dispatch('world-updated')
   })
