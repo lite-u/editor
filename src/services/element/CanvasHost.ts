@@ -48,7 +48,7 @@ class CanvasHost {
   dispatchEvent(domEvent: PointerEvent, type: PointerEvent['type'], options?: { tolerance?: number }) {
     const {ctx, dpr} = this
     const {clientX, clientY, pointerId} = domEvent
-    const elements = this.allVisibleElements.sort((a, b) => b.layer - a.layer)
+    const elements = this.visibleElements.sort((a, b) => b.layer - a.layer)
     const x = clientX - this.editor.rect!.x
     const y = clientY - this.editor.rect!.y
     const viewPoint = {
@@ -141,7 +141,7 @@ class CanvasHost {
     return new Map(this.elementMap)
   }
 
-  public get allVisibleElements(): ElementInstance[] {
+  public get visibleElements(): ElementInstance[] {
     return [...this.visible.values()]
   }
 
@@ -380,7 +380,7 @@ class CanvasHost {
   }
 
   render() {
-    this.allVisibleElements.forEach((element) => {
+    this.visibleElements.forEach((element) => {
       element.render(this.ctx)
     })
   }

@@ -14,7 +14,7 @@ const selector: ToolType = {
   init: function () {
     const {interaction, action, mainHost, overlayHost, world} = this
     const {scale, dpr} = world
-    const elements = mainHost.allVisibleElements
+    const elements = mainHost.visibleElements
     interaction.generateTransformHandles()
     // const elements = this.interaction.editor.mainHost.getElementsByIdSet(idSet)
 
