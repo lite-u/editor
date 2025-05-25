@@ -207,7 +207,6 @@ class Editor {
       }
 
       overlayHost.append(clone, centerPoint)
-
       rotations.push(ele.rotation)
       rectsWithRotation.push(ele.getBoundingRect())
       rectsWithoutRotation.push(ele.getBoundingRect(true))
