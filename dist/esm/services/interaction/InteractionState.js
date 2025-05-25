@@ -1,10 +1,10 @@
-import { createWith, getManipulationBox } from '../../lib/lib.js';
-import { getBoundingRectFromBoundingRects } from '../tool/resize/helper.js';
-import { DEFAULT_STROKE } from '../../elements/defaultProps.js';
-import { getMinimalBoundingRect } from '../../core/utils.js';
-import ElementRectangle from '../../elements/rectangle/rectangle.js';
-import ElementEllipse from '../../elements/ellipse/ellipse.js';
-import LineSegment from '../../elements/lines/lineSegment.js';
+import { createWith, getManipulationBox } from '~/lib/lib';
+import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
+import { DEFAULT_STROKE } from '~/elements/defaultProps';
+import { getMinimalBoundingRect } from '~/core/utils';
+import ElementRectangle from '~/elements/rectangle/rectangle';
+import ElementEllipse from '~/elements/ellipse/ellipse';
+import LineSegment from '~/elements/lines/lineSegment';
 class InteractionState {
     editor;
     state = 'static';
@@ -22,7 +22,7 @@ class InteractionState {
     _resizingElements = [];
     _resizingData = null;
     _rotateData = null;
-    _manipulationElements = [];
+    transformHandles = [];
     _controlPoints = [];
     _hoveredHandle = null;
     _movingHandle = null;
@@ -82,11 +82,10 @@ class InteractionState {
     }
     updateHandles() {
         console.log('updateHandles');
-        const { elementManager } = this.editor;
         const { scale, dpr, overlayCanvasContext: ctx } = this.editor.world;
         const ratio = scale * dpr;
-        const idSet = this.editor.selection.values;
         const pointLen = 20 / ratio;
+        const idSet = this.editor.selection.values;
         const elements = this.editor.elementManager.getElementsByIdSet(idSet);
         let rotations = [];
         if (elements.length <= 1) {
@@ -94,38 +93,23 @@ class InteractionState {
             if (elements.length === 0)
                 return;
         }
-        this._manipulationElements = [];
+        this.transformHandles = [];
         const rectsWithRotation = [];
         const rectsWithoutRotation = [];
         elements.forEach((ele) => {
             // debugger
-            const clone = elementManager.create(ele.toMinimalJSON());
+            // const clone = elementManager.create(ele.toMinimalJSON())
             const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen);
-            /* ele.on('mouseenter', () => {
-               console.log('mouseenter')
-               ele.render(ctx)
-               clone.fill.enabled = false
-               clone.stroke.enabled = true
-               clone.stroke.weight = 2 / scale
-               clone.stroke.color = '#5491f8'
-             })*/
-            /* ele.on('mouseleave', () => {
-               console.log('mouseleave')
-      
-             })*/
-            /*   clone.on('mousedown', () => {
-                 console.log('mousedown')
-               })*/
             centerPoint.stroke.enabled = false;
             centerPoint.fill.enabled = true;
             centerPoint.fill.color = 'orange';
             // centerPoint._relatedId = ele.id
-            clone.fill.enabled = false;
-            clone.stroke.enabled = true;
-            clone.stroke.weight = 2 / scale;
-            clone.stroke.color = '#5491f8';
+            // clone.fill.enabled = false
+            // clone.stroke.enabled = true
+            // clone.stroke.weight = 2 / scale
+            // clone.stroke.color = '#5491f8'
             // clone._relatedId = ele.id
-            this._manipulationElements.push(/*clone, */ centerPoint);
+            this.transformHandles.push(/*clone, */ centerPoint);
             rotations.push(ele.rotation);
             rectsWithRotation.push(ele.getBoundingRect());
             rectsWithoutRotation.push(ele.getBoundingRect(true));
@@ -140,11 +124,11 @@ class InteractionState {
                 rect.width = 1;
                 rect.cx = elements[0].cx;
             }
-            this._manipulationElements.push(...getManipulationBox(rect, applyRotation, ratio, specialLineSeg));
+            this.transformHandles.push(...getManipulationBox(rect, applyRotation, ratio, specialLineSeg));
         }
         else {
             rect = getBoundingRectFromBoundingRects(rectsWithRotation);
-            this._manipulationElements.push(...getManipulationBox(rect, 0, ratio, specialLineSeg));
+            this.transformHandles.push(...getManipulationBox(rect, 0, ratio, specialLineSeg));
         }
         this._outlineElement = new ElementRectangle({
             id: 'selected-elements-outline',

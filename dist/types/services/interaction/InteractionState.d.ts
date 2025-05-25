@@ -48,7 +48,7 @@ declare class InteractionState {
             y: number;
         };
     } | null;
-    _manipulationElements: ElementInstance[];
+    transformHandles: ElementInstance[];
     _controlPoints: ElementInstance[];
     _hoveredHandle: ElementInstance | null;
     _movingHandle: ElementInstance | null;

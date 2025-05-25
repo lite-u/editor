@@ -60,7 +60,7 @@ function overlayRender() {
         // console.log(_outlineElement)
         _outlineElement.render(ctx);
     }
-    this.editor.interaction._manipulationElements.forEach((ele) => {
+    this.editor.interaction.transformHandles.forEach((ele) => {
         // console.log(ele)
         ele.render(ctx);
     });

@@ -10,7 +10,7 @@ function detectTool(this: ToolManager) {
     y: y * dpr,
   }
   const elements = visible.values
-  const mElements = interaction._manipulationElements.sort((a, b) => b.layer - a.layer)
+  const mElements = interaction.transformHandles.sort((a, b) => b.layer - a.layer)
   const cElements = interaction._controlPoints.sort((a, b) => b.layer - a.layer)
 
   interaction._hoveredElement = null

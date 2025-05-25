@@ -60,7 +60,7 @@ class InteractionState {
   _resizingData: { targetPoint: { x: number, y: number }, placement: string } | null = null
   _rotateData: { startRotation: number, snappedRotation?: number, targetPoint: { x: number, y: number } } | null = null
 
-  _manipulationElements: ElementInstance[] = []
+  transformHandles: ElementInstance[] = []
   _controlPoints: ElementInstance[] = []
 
   _hoveredHandle: ElementInstance | null = null
@@ -125,11 +125,10 @@ class InteractionState {
 
   updateHandles() {
     console.log('updateHandles')
-    const {elementManager} = this.editor
     const {scale, dpr, overlayCanvasContext: ctx} = this.editor.world
     const ratio = scale * dpr
-    const idSet = this.editor.selection.values
     const pointLen = 20 / ratio
+    const idSet = this.editor.selection.values
     const elements = this.editor.elementManager.getElementsByIdSet(idSet)
     let rotations: number[] = []
 
@@ -138,14 +137,14 @@ class InteractionState {
       if (elements.length === 0) return
     }
 
-    this._manipulationElements = []
+    this.transformHandles = []
 
     const rectsWithRotation: BoundingRect[] = []
     const rectsWithoutRotation: BoundingRect[] = []
 
     elements.forEach((ele: ElementInstance) => {
       // debugger
-      const clone = elementManager.create(ele.toMinimalJSON())
+      // const clone = elementManager.create(ele.toMinimalJSON())
       const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen)
 
       centerPoint.stroke.enabled = false
@@ -153,13 +152,13 @@ class InteractionState {
       centerPoint.fill.color = 'orange'
       // centerPoint._relatedId = ele.id
 
-      clone.fill.enabled = false
-      clone.stroke.enabled = true
-      clone.stroke.weight = 2 / scale
-      clone.stroke.color = '#5491f8'
+      // clone.fill.enabled = false
+      // clone.stroke.enabled = true
+      // clone.stroke.weight = 2 / scale
+      // clone.stroke.color = '#5491f8'
       // clone._relatedId = ele.id
 
-      this._manipulationElements.push(/*clone, */centerPoint)
+      this.transformHandles.push(/*clone, */centerPoint)
 
       rotations.push(ele.rotation)
       rectsWithRotation.push(ele.getBoundingRect())
@@ -177,10 +176,10 @@ class InteractionState {
         rect.width = 1
         rect.cx = elements[0].cx
       }
-      this._manipulationElements.push(...getManipulationBox(rect, applyRotation, ratio, specialLineSeg))
+      this.transformHandles.push(...getManipulationBox(rect, applyRotation, ratio, specialLineSeg))
     } else {
       rect = getBoundingRectFromBoundingRects(rectsWithRotation)
-      this._manipulationElements.push(...getManipulationBox(rect, 0, ratio, specialLineSeg))
+      this.transformHandles.push(...getManipulationBox(rect, 0, ratio, specialLineSeg))
     }
 
     this._outlineElement = new ElementRectangle({
