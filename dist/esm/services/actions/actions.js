@@ -28,7 +28,7 @@ class Action {
         }
     }
     dispatch(type, data) {
-        console.info('action: ', type);
+        // console.info('action: ', type)
         // console.info('action: ', type)
         if (this.eventsMap.has(type)) {
             this.eventsMap.get(type).forEach((cb) => {
