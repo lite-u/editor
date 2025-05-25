@@ -124,8 +124,7 @@ class InteractionState {
     this.selectionBox!.style.display = 'block'
   }
 
-  updateHandles() {
-    console.log('updateHandles')
+  generateTransformHandles() {
     const {world, action, toolManager, selection, elementManager} = this.editor
     const {scale, dpr, overlayCanvasContext: ctx} = world
     const ratio = scale * dpr
@@ -296,7 +295,7 @@ class InteractionState {
             }
 
             ele.updatePath2D()
-            this.editor.interaction.updateHandles()
+            this.editor.interaction.generateTransformHandles()
 
             this.editor.action.dispatch('element-updated')
             this.editor.action.dispatch('render-overlay')
@@ -337,7 +336,7 @@ class InteractionState {
 
             ele.updatePath2D()
 
-            this.editor.interaction.updateHandles()
+            this.editor.interaction.generateTransformHandles()
             this.editor.action.dispatch('element-updated')
             this.editor.action.dispatch('render-overlay')
           })

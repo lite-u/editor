@@ -96,7 +96,6 @@ class World {
   }
 
   renderElements() {
-
     const animate = () => {
       const {scale, dpr, baseCanvasContext: ctx} = this
       const {width, height} = this.editor.config.page
@@ -142,6 +141,14 @@ class World {
       })
 
       new ElementRectangle(frameBorder).render(ctx)
+    }
+
+    requestAnimationFrame(animate)
+  }
+
+  renderTransformHandles() {
+    const animate = () => {
+      console.log(this.editor.interaction.transformHandles)
     }
 
     requestAnimationFrame(animate)
