@@ -1,9 +1,9 @@
-import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
-import dragging from '../services/tool/selector/dragging/dragging.js';
-import ElementRectangle from '../elements/rectangle/rectangle.js';
-import { getMinimalBoundingRect } from '../core/utils.js';
-import { getManipulationBox } from '../lib/lib.js';
-import { DEFAULT_STROKE } from '../elements/defaultProps.js';
+import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
+import dragging from '~/services/tool/selector/dragging/dragging';
+import ElementRectangle from '~/elements/rectangle/rectangle';
+import { getMinimalBoundingRect } from '~/core/utils';
+import { getManipulationBox } from '~/lib/lib';
+import { DEFAULT_STROKE } from '~/elements/defaultProps';
 export function regenerateOverlayElements() {
     const boxColor = '#435fb9';
     const { world, action, toolManager, selection, mainHost, overlayHost } = this;
@@ -19,7 +19,13 @@ export function regenerateOverlayElements() {
     const rectsWithoutRotation = [];
     const handleTranslateMouseEnter = (ele) => { };
     const handleTranslateMouseLeave = (ele) => { };
-    const handleTranslateMouseDown = (ele) => { };
+    const handleTranslateMouseDown = id => {
+        if (!selection.has(id)) {
+            action.dispatch('selection-modify', { mode: 'replace', idSet: new Set([id]) });
+        }
+        toolManager.subTool = dragging;
+        this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values);
+    };
     const handleRotateMouseEnter = (ele) => { };
     const handleRotateMouseLeave = (ele) => { };
     const handleRotateMouseDown = (ele) => {
@@ -55,11 +61,12 @@ export function regenerateOverlayElements() {
             };
         }
         clone.onmousedown = () => {
-            if (!selection.has(id)) {
-                action.dispatch('selection-modify', { mode: 'replace', idSet: new Set([id]) });
+            handleTranslateMouseDown(id);
+            /*if (!selection.has(id)) {
+              action.dispatch('selection-modify', {mode: 'replace', idSet: new Set([id])})
             }
-            toolManager.subTool = dragging;
-            this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values);
+            toolManager.subTool = dragging
+            this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values)*/
             // console.log('this.interaction._draggingElements',this.interaction._draggingElements)
         };
         overlayHost.append(clone);

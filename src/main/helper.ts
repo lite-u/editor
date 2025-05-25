@@ -26,7 +26,13 @@ export function regenerateOverlayElements(this: Editor) {
 
   const handleTranslateMouseEnter = (ele) => {}
   const handleTranslateMouseLeave = (ele) => {}
-  const handleTranslateMouseDown = (ele) => {}
+  const handleTranslateMouseDown = id => {
+    if (!selection.has(id)) {
+      action.dispatch('selection-modify', {mode: 'replace', idSet: new Set([id])})
+    }
+    toolManager.subTool = dragging
+    this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values)
+  }
   const handleRotateMouseEnter = (ele) => {}
   const handleRotateMouseLeave = (ele) => {}
   const handleRotateMouseDown = (ele) => {
@@ -67,11 +73,12 @@ export function regenerateOverlayElements(this: Editor) {
     }
 
     clone.onmousedown = () => {
-      if (!selection.has(id)) {
+      handleTranslateMouseDown(id)
+      /*if (!selection.has(id)) {
         action.dispatch('selection-modify', {mode: 'replace', idSet: new Set([id])})
       }
       toolManager.subTool = dragging
-      this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values)
+      this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values)*/
       // console.log('this.interaction._draggingElements',this.interaction._draggingElements)
     }
 
