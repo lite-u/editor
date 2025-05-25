@@ -130,7 +130,6 @@ export function initEvents(this: Editor) {
   })
 
   on('element-updated', (historyData: HistoryOperation) => {
-    // dispatch('visible-element-updated')
     this.overlayHost.reset()
     this.generateOverlayElements()
     this.mainHost.updateVisible()
