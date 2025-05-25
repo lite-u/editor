@@ -153,7 +153,7 @@ class Editor {
   }
 
   updateOverlay() {
-      this.overlayHost.clear
+    this.overlayHost.reset()
   }
 
   destroy() {
