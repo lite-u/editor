@@ -1,5 +1,5 @@
 function overlayRender() {
-    if (this.editor.elementManager.size === 0)
+    if (this.editor.mainHost.size === 0)
         return;
     const { overlayCanvasContext: ctx } = this;
     const { _snappedPoint, selectedOutlineElement } = this.editor.interaction;

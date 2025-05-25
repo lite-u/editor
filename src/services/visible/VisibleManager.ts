@@ -29,14 +29,14 @@ class VisibleManager {
   }
 
   public get getVisibleSelectedElements() {
-    return this.editor.elementManager.getElementsByIdSet(this.getVisibleSelected)
+    return this.editor.mainHost.getElementsByIdSet(this.getVisibleSelected)
   }
 
   updateVisibleElementMap() {
     this.visibleElementMap.clear()
     // console.log(this.viewport.offset, this.viewport.worldRect)
     // Create an array from the Map, sort by the 'layer' property, and then add them to visibleelementMap
-    const sortedElements = (this.editor.elementManager.values)
+    const sortedElements = (this.editor.mainHost.values)
       .filter(element => {
         const boundingRect = element.getBoundingRect() as BoundingRect
         return rectsOverlap(boundingRect, this.editor.world.worldRect)

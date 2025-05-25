@@ -9,7 +9,7 @@ let _selectedCopy: Set<string> | null = null
 const selecting: SubToolType = {
   cursor: 'default',
   mouseMove: function () {
-    const {interaction, action, elementManager, selection} = this
+    const {interaction, action, mainHost, selection} = this
     const {
       mouseStart,
       mouseCurrent,
@@ -30,7 +30,7 @@ const selecting: SubToolType = {
 
     _mouseMoved = true
     _selecting.clear()
-    elementManager.all.forEach((ele) => {
+    mainHost.all.forEach((ele) => {
       const inner = ele.getBoundingRect()
 
       if (

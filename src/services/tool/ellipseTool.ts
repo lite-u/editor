@@ -6,7 +6,7 @@ import ElementRectangle from '~/elements/rectangle/rectangle'
 const ellipseTool: ToolType = {
   cursor: 'crosshair',
   mouseDown: function () {
-    const {elementManager, interaction, world} = this
+    const {mainHost, interaction, world} = this
     const {x, y} = this.interaction.mouseWorldCurrent
     const r1 = 1
     const r2 = 1
@@ -17,7 +17,7 @@ const ellipseTool: ToolType = {
       r1,
       r2,
     }
-    const ele: ElementRectangle = elementManager.create(rectProps)
+    const ele: ElementRectangle = mainHost.create(rectProps)
 
     ele.render(world.creationCanvasContext)
     interaction._ele = ele

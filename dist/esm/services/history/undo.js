@@ -12,11 +12,11 @@ export function undo(quiet = false) {
         case 'history-paste':
         case 'history-duplicate':
             // delete elements from added
-            this.elementManager.batchDelete(extractIdSetFromArray(payload.elements));
+            this.mainHost.batchDelete(extractIdSetFromArray(payload.elements));
             break;
         case 'history-modify':
             payload.changes.map(({ id, from }) => {
-                const ele = this.elementManager.getElementById(id);
+                const ele = this.mainHost.getElementById(id);
                 ele?.restore(from);
             });
             break;
@@ -30,7 +30,7 @@ export function undo(quiet = false) {
             break;
         case 'history-delete':
             elements = payload.elements;
-            this.elementManager.batchAdd(this.elementManager.batchCreate(elements));
+            this.mainHost.batchAdd(this.mainHost.batchCreate(elements));
             break;
     }
     this.history.back();

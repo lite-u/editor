@@ -19,7 +19,7 @@ class SelectionManager {
     get pickIfUnique() {
         if (this.selected.size === 1) {
             const unique = [...this.selected.values()][0];
-            const element = this.editor.elementManager.all.get(unique);
+            const element = this.editor.mainHost.all.get(unique);
             if (element) {
                 return element.toJSON();
             }
@@ -27,7 +27,7 @@ class SelectionManager {
     }
     selectAll() {
         console.log('all');
-        this.selected = this.editor.elementManager.keys;
+        this.selected = this.editor.mainHost.keys;
     }
     modify(idSet, action) {
         // selectionHelper.call(this, idSet, action)

@@ -6,7 +6,7 @@ let _selectedCopy = null;
 const selecting = {
     cursor: 'default',
     mouseMove: function () {
-        const { interaction, action, elementManager, selection } = this;
+        const { interaction, action, mainHost, selection } = this;
         const { mouseStart, mouseCurrent, mouseWorldStart, mouseWorldCurrent, _modifier: { shiftKey, metaKey, ctrlKey }, } = interaction;
         const rect = generateBoundingRectFromTwoPoints(mouseStart, mouseCurrent);
         const _selected = selection.values;
@@ -18,7 +18,7 @@ const selecting = {
         const modifyKey = ctrlKey || metaKey || shiftKey;
         _mouseMoved = true;
         _selecting.clear();
-        elementManager.all.forEach((ele) => {
+        mainHost.all.forEach((ele) => {
             const inner = ele.getBoundingRect();
             if (inner.left >= outer.left &&
                 inner.right <= outer.right &&

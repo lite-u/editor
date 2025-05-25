@@ -31,7 +31,7 @@ class SelectionManager {
   public get pickIfUnique(): ElementProps | undefined {
     if (this.selected.size === 1) {
       const unique = [...this.selected.values()][0]
-      const element = this.editor.elementManager.all.get(unique)
+      const element = this.editor.mainHost.all.get(unique)
 
       if (element ) {
         return (element as ElementBase).toJSON()
@@ -41,7 +41,7 @@ class SelectionManager {
 
   public selectAll(): void {
     console.log('all')
-    this.selected = this.editor.elementManager.keys
+    this.selected = this.editor.mainHost.keys
   }
 
   public modify(idSet: Set<UID>, action: SelectionActionMode) {

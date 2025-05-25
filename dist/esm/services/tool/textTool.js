@@ -3,7 +3,7 @@ import { DEFAULT_FONT, DEFAULT_STROKE, DEFAULT_TEXT_FILL } from '../../elements/
 const textTool = {
     cursor: 'text',
     mouseDown: function () {
-        const { elementManager, interaction, world } = this;
+        const { mainHost, interaction, world } = this;
         const { x, y } = this.interaction.mouseWorldCurrent;
         const width = 1;
         const height = 1;
@@ -20,7 +20,7 @@ const textTool = {
             width,
             height,
         };
-        const ele = elementManager.create(eleProps);
+        const ele = mainHost.create(eleProps);
         if (ele) {
             ele.render(world.creationCanvasContext);
             interaction._ele = ele;

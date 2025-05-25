@@ -6,7 +6,7 @@ import {PropsWithoutIdentifiers} from '~/elements/type'
 const rectangleTool: ToolType = {
   cursor: 'crosshair',
   mouseDown(this: ToolManager) {
-    const {elementManager, interaction, world} = this.editor
+    const {mainHost, interaction, world} = this.editor
     const {x, y} = this.editor.interaction.mouseWorldCurrent
     const width = 1
     const height = 1
@@ -17,7 +17,7 @@ const rectangleTool: ToolType = {
       width,
       height,
     }
-    const ele: ElementRectangle = elementManager.create(rectProps)
+    const ele: ElementRectangle = mainHost.create(rectProps)
 
     ele.render(world.creationCanvasContext)
     interaction._ele = ele

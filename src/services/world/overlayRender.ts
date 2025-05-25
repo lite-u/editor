@@ -2,7 +2,7 @@ import World from '~/services/world/World'
 import {PointHit} from '~/services/interaction/InteractionState'
 
 function overlayRender(this: World) {
-  if (this.editor.elementManager.size === 0) return
+  if (this.editor.mainHost.size === 0) return
   const {overlayCanvasContext: ctx} = this
   const {_snappedPoint, selectedOutlineElement} = this.editor.interaction
   const {scale, dpr} = this.editor.world

@@ -23,7 +23,7 @@ export function initEvents() {
             dispatch('element-updated');
             this.events.onInitialized?.();
             this.events.onHistoryUpdated?.(this.history);
-            this.events.onElementsUpdated?.(this.elementManager.all);
+            this.events.onElementsUpdated?.(this.mainHost.all);
         }
         else {
             dispatch('world-updated');
@@ -112,7 +112,7 @@ export function initEvents() {
             this.history.add(historyData);
             this.events.onHistoryUpdated?.(this.history);
         }
-        this.events.onElementsUpdated?.(this.elementManager.all);
+        this.events.onElementsUpdated?.(this.mainHost.all);
     });
     on('selection-updated', () => {
         this.interaction._hoveredElement = null;
@@ -166,7 +166,7 @@ export function initEvents() {
     });
     on('element-delete', () => {
         const savedSelected = this.selection.values;
-        const backup = this.elementManager.batchDelete(savedSelected);
+        const backup = this.mainHost.batchDelete(savedSelected);
         this.selection.clear();
         dispatch('element-updated', {
             type: 'history-delete',
@@ -177,14 +177,14 @@ export function initEvents() {
         });
     });
     on('element-copy', () => {
-        this.clipboard.copiedItems = this.elementManager.batchCopy(this.selection.values, false);
+        this.clipboard.copiedItems = this.mainHost.batchCopy(this.selection.values, false);
         // this.clipboard.updateCopiedItemsDelta()
         this.events.onElementCopied?.(this.clipboard.copiedItems);
     });
     on('element-paste', (position) => {
         if (this.clipboard.copiedItems.length === 0)
             return;
-        let newElements = this.elementManager.batchCreate(this.clipboard.copiedItems);
+        let newElements = this.mainHost.batchCreate(this.clipboard.copiedItems);
         if (position) {
             const { x, y } = this.world.getWorldPointByViewportPoint(position.x, position.y);
             const rect = [...newElements.values()].map(ele => ele.getBoundingRect());
@@ -218,7 +218,7 @@ export function initEvents() {
         }
         else {
             const { copyDeltaX, copyDeltaY } = this.interaction;
-            newElements = this.elementManager.batchCreate(this.clipboard.copiedItems);
+            newElements = this.mainHost.batchCreate(this.clipboard.copiedItems);
             newElements.forEach((el) => {
                 el.translate(copyDeltaX, copyDeltaY, false);
                 el.updateOriginal();
@@ -227,7 +227,7 @@ export function initEvents() {
             this.interaction.copyDeltaY += 10;
         }
         const savedSelected = new Set(newElements.keys());
-        this.elementManager.batchAdd(newElements);
+        this.mainHost.batchAdd(newElements);
         this.selection.replace(savedSelected);
         // this.clipboard.updateCopiedItemsDelta()
         dispatch('element-updated', {
@@ -241,15 +241,15 @@ export function initEvents() {
     on('element-duplicate', () => {
         if (this.selection.size === 0)
             return;
-        const temp = this.elementManager.batchCopy(this.selection.values, false);
+        const temp = this.mainHost.batchCopy(this.selection.values, false);
         const { copyDeltaX, copyDeltaY } = this.interaction;
-        const newElements = this.elementManager.batchCreate(temp);
+        const newElements = this.mainHost.batchCreate(temp);
         const savedSelected = new Set(newElements.keys());
         newElements.forEach((el) => {
             el.translate(copyDeltaX, copyDeltaY);
             el.updateOriginal();
         });
-        this.elementManager.batchAdd(newElements);
+        this.mainHost.batchAdd(newElements);
         this.selection.replace(savedSelected);
         const elementProps = [...newElements.values()].map((mod) => mod.toMinimalJSON());
         dispatch('element-updated', {
@@ -292,7 +292,7 @@ export function initEvents() {
             return;
         const changes = [];
         s.forEach((id) => {
-            const ele = this.elementManager.all.get(id);
+            const ele = this.mainHost.all.get(id);
             if (ele) {
                 const change = ele.translate(delta.x, delta.y, true);
                 ele.updateOriginal();
@@ -304,7 +304,7 @@ export function initEvents() {
     });
     on('element-moving', ({ delta = { x: 0, y: 0 } }) => {
         this.selection.values.forEach((id) => {
-            const ele = this.elementManager.all.get(id);
+            const ele = this.mainHost.all.get(id);
             if (ele) {
                 ele.translate(delta.x, delta.y, false);
                 ele.updatePath2D();
@@ -315,8 +315,8 @@ export function initEvents() {
     on('element-add', (data) => {
         if (!data || data.length === 0)
             return;
-        const newElements = this.elementManager.batchCreate(data);
-        this.elementManager.batchAdd(newElements, () => {
+        const newElements = this.mainHost.batchCreate(data);
+        this.mainHost.batchAdd(newElements, () => {
             /* newElements.forEach((ele) => {
                const {id} = ele
                ele.on('mouseenter', () => {
@@ -369,7 +369,7 @@ export function initEvents() {
     on('element-modify', (data) => {
         // console.log(data)
         data.map(({ id, props }) => {
-            const ele = this.elementManager.getElementById(id);
+            const ele = this.mainHost.getElementById(id);
             if (ele && props) {
                 console.log(props);
                 Object.keys(props).forEach(propName => {
@@ -401,7 +401,7 @@ export function initEvents() {
         });
         // console.log(changes)
         this.events.onHistoryUpdated?.(this.history);
-        this.events.onElementsUpdated?.(this.elementManager.all);
+        this.events.onElementsUpdated?.(this.mainHost.all);
         dispatch('element-updated');
     });
     on('render-elements', () => {

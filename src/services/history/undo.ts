@@ -19,13 +19,13 @@ export function undo(this: Editor, quiet: boolean = false): HistoryNode | false 
     case 'history-duplicate':
 
       // delete elements from added
-      this.elementManager.batchDelete(extractIdSetFromArray(payload.elements))
+      this.mainHost.batchDelete(extractIdSetFromArray(payload.elements))
 
       break
 
     case 'history-modify':
       payload.changes.map(({id, from}) => {
-        const ele = this.elementManager.getElementById(id)
+        const ele = this.mainHost.getElementById(id)
 
         ele?.restore(from)
       })
@@ -43,7 +43,7 @@ export function undo(this: Editor, quiet: boolean = false): HistoryNode | false 
     case 'history-delete':
       elements = payload.elements
 
-      this.elementManager.batchAdd(this.elementManager.batchCreate(elements!))
+      this.mainHost.batchAdd(this.mainHost.batchCreate(elements!))
 
       break
   }

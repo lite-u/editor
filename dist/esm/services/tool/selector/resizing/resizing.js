@@ -4,8 +4,8 @@ const resizing = {
     mouseMove() {
         // console.log(111)
         // interaction._resizingElements = elementManager.getElementsByIdSet(selection.values)
-        const { interaction, elementManager, action, selection, cursor } = this.editor;
-        resizeFunc.call(this, elementManager.getElementsByIdSet(selection.values), interaction._resizingData.placement);
+        const { interaction, mainHost, action, selection, cursor } = this.editor;
+        resizeFunc.call(this, mainHost.getElementsByIdSet(selection.values), interaction._resizingData.placement);
         this.editor.action.dispatch('element-updated');
         /*
             interaction._outlineElement?.rotateFrom(rotationDiff, targetPoint)

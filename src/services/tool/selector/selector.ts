@@ -39,7 +39,7 @@ const selector: ToolType = {
           action.dispatch('selection-modify', {mode: 'replace', idSet: new Set([id])})
         }
         this.toolManager.subTool = dragging
-        interaction._draggingElements = this.elementManager.getElementsByIdSet(this.selection.values)
+        interaction._draggingElements = this.mainHost.getElementsByIdSet(this.selection.values)
       }
     })
 
@@ -48,12 +48,12 @@ const selector: ToolType = {
 
     // scale and rotation
     console.log('updateHandles')
-    const {elementManager} = this
+    const {mainHost} = this
     // const {scale, dpr, overlayCanvasContext: ctx} = this.interaction.editor.world
     const ratio = scale * dpr
     const idSet = this.interaction.editor.selection.values
     const pointLen = 20 / ratio
-    const elements = this.interaction.editor.elementManager.getElementsByIdSet(idSet)
+    const elements = this.interaction.editor.mainHost.getElementsByIdSet(idSet)
     let rotations: number[] = []
 
     if (elements.length <= 1) {

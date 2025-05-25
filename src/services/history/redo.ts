@@ -18,20 +18,20 @@ export function redo(this: Editor, quiet: boolean = false): HistoryNode | false 
     case 'history-duplicate':
 
       // delete elements from added
-      this.elementManager.batchAdd(this.elementManager.batchCreate(payload.elements))
+      this.mainHost.batchAdd(this.mainHost.batchCreate(payload.elements))
 
       break
 
     case 'history-modify':
       payload.changes.map(({id, to}) => {
-        const ele = this.elementManager.getElementById(id)
+        const ele = this.mainHost.getElementById(id)
 
         ele?.restore(to)
       })
       break
 
     case 'history-move':
-      this.elementManager.batchMove(payload.selectedElements, {
+      this.mainHost.batchMove(payload.selectedElements, {
         x: payload.delta.x,
         y: payload.delta.y,
       })
@@ -47,7 +47,7 @@ export function redo(this: Editor, quiet: boolean = false): HistoryNode | false 
       break
 
     case 'history-delete':
-      this.elementManager.batchDelete(extractIdSetFromArray(payload.elements))
+      this.mainHost.batchDelete(extractIdSetFromArray(payload.elements))
 
       break
   }

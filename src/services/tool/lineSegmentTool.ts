@@ -6,7 +6,7 @@ import {PropsWithoutIdentifiers} from '~/elements/type'
 const lineSegmentTool: ToolType = {
   cursor: 'crosshair',
   mouseDown(this: ToolManager) {
-    const {elementManager, interaction, world} = this.editor
+    const {mainHost, interaction, world} = this.editor
     const {x, y} = this.editor.interaction.mouseWorldCurrent
     let initialLineLen = 1
     const cx = x + initialLineLen / 2
@@ -23,7 +23,7 @@ const lineSegmentTool: ToolType = {
       ],
     }
 
-    const ele: ElementRectangle = elementManager.create(eleProps)
+    const ele: ElementRectangle = mainHost.create(eleProps)
 
     ele.render(world.creationCanvasContext)
     interaction._ele = ele

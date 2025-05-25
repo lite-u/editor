@@ -33,7 +33,7 @@ export function initEvents(this: Editor) {
       dispatch('element-updated')
       this.events.onInitialized?.()
       this.events.onHistoryUpdated?.(this.history)
-      this.events.onElementsUpdated?.(this.elementManager.all)
+      this.events.onElementsUpdated?.(this.mainHost.all)
     } else {
       dispatch('world-updated')
     }
@@ -137,7 +137,7 @@ export function initEvents(this: Editor) {
       this.events.onHistoryUpdated?.(this.history)
     }
 
-    this.events.onElementsUpdated?.(this.elementManager.all)
+    this.events.onElementsUpdated?.(this.mainHost.all)
   })
 
   on('selection-updated', () => {
@@ -203,7 +203,7 @@ export function initEvents(this: Editor) {
 
   on('element-delete', () => {
     const savedSelected = this.selection.values
-    const backup = this.elementManager.batchDelete(savedSelected)
+    const backup = this.mainHost.batchDelete(savedSelected)
 
     this.selection.clear()
 
@@ -217,7 +217,7 @@ export function initEvents(this: Editor) {
   })
 
   on('element-copy', () => {
-    this.clipboard.copiedItems = this.elementManager.batchCopy(this.selection.values, false)
+    this.clipboard.copiedItems = this.mainHost.batchCopy(this.selection.values, false)
     // this.clipboard.updateCopiedItemsDelta()
     this.events.onElementCopied?.(this.clipboard.copiedItems)
   })
@@ -225,7 +225,7 @@ export function initEvents(this: Editor) {
   on('element-paste', (position?) => {
     if (this.clipboard.copiedItems.length === 0) return
 
-    let newElements: ElementMap = this.elementManager.batchCreate(this.clipboard.copiedItems)
+    let newElements: ElementMap = this.mainHost.batchCreate(this.clipboard.copiedItems)
 
     if (position) {
       const {x, y} = this.world.getWorldPointByViewportPoint(position.x, position.y)
@@ -262,7 +262,7 @@ export function initEvents(this: Editor) {
     } else {
       const {copyDeltaX, copyDeltaY} = this.interaction
 
-      newElements = this.elementManager.batchCreate(this.clipboard.copiedItems)
+      newElements = this.mainHost.batchCreate(this.clipboard.copiedItems)
       newElements.forEach((el) => {
         el.translate(copyDeltaX, copyDeltaY, false)
         el.updateOriginal()
@@ -274,7 +274,7 @@ export function initEvents(this: Editor) {
 
     const savedSelected = new Set(newElements.keys())
 
-    this.elementManager.batchAdd(newElements)
+    this.mainHost.batchAdd(newElements)
     this.selection.replace(savedSelected)
     // this.clipboard.updateCopiedItemsDelta()
 
@@ -290,10 +290,10 @@ export function initEvents(this: Editor) {
   on('element-duplicate', () => {
     if (this.selection.size === 0) return
 
-    const temp: ElementProps[] = this.elementManager.batchCopy(this.selection.values, false)
+    const temp: ElementProps[] = this.mainHost.batchCopy(this.selection.values, false)
     const {copyDeltaX, copyDeltaY} = this.interaction
 
-    const newElements = this.elementManager.batchCreate(temp)
+    const newElements = this.mainHost.batchCreate(temp)
     const savedSelected = new Set(newElements.keys())
 
     newElements.forEach((el) => {
@@ -301,7 +301,7 @@ export function initEvents(this: Editor) {
       el.updateOriginal()
     })
 
-    this.elementManager.batchAdd(newElements)
+    this.mainHost.batchAdd(newElements)
     this.selection.replace(savedSelected)
 
     const elementProps = [...newElements.values()].map((mod) => mod.toMinimalJSON())
@@ -351,7 +351,7 @@ export function initEvents(this: Editor) {
     const changes: HistoryChangeItem[] = []
 
     s.forEach((id) => {
-      const ele = this.elementManager.all.get(id)
+      const ele = this.mainHost.all.get(id)
       if (ele) {
         const change = ele.translate(delta.x, delta.y, true)
 
@@ -366,7 +366,7 @@ export function initEvents(this: Editor) {
 
   on('element-moving', ({delta = {x: 0, y: 0}}) => {
     this.selection.values.forEach((id) => {
-      const ele = this.elementManager.all.get(id)
+      const ele = this.mainHost.all.get(id)
 
       if (ele) {
         ele.translate(delta.x, delta.y, false)
@@ -379,9 +379,9 @@ export function initEvents(this: Editor) {
 
   on('element-add', (data) => {
     if (!data || data.length === 0) return
-    const newElements = this.elementManager.batchCreate(data)
+    const newElements = this.mainHost.batchCreate(data)
 
-    this.elementManager.batchAdd(newElements, () => {
+    this.mainHost.batchAdd(newElements, () => {
       /* newElements.forEach((ele) => {
          const {id} = ele
          ele.on('mouseenter', () => {
@@ -440,7 +440,7 @@ export function initEvents(this: Editor) {
   on('element-modify', (data) => {
     // console.log(data)
     data.map(({id, props}) => {
-      const ele = this.elementManager.getElementById(id)
+      const ele = this.mainHost.getElementById(id)
       if (ele && props) {
         console.log(props)
 
@@ -476,7 +476,7 @@ export function initEvents(this: Editor) {
     })
     // console.log(changes)
     this.events.onHistoryUpdated?.(this.history)
-    this.events.onElementsUpdated?.(this.elementManager.all)
+    this.events.onElementsUpdated?.(this.mainHost.all)
 
     dispatch('element-updated')
   })

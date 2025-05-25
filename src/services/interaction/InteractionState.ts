@@ -125,12 +125,12 @@ class InteractionState {
   }
 
   generateTransformHandles() {
-    const {world, action, toolManager, selection, elementManager} = this.editor
+    const {world, action, toolManager, selection, mainHost} = this.editor
     const {scale, dpr, overlayCanvasContext: ctx} = world
     const ratio = scale * dpr
     const pointLen = 20 / ratio
     const idSet = selection.values
-    const elements = elementManager.getElementsByIdSet(idSet)
+    const elements = mainHost.getElementsByIdSet(idSet)
     let rotations: number[] = []
 
     if (elements.length <= 1) {
@@ -145,7 +145,7 @@ class InteractionState {
 
     elements.forEach((ele: ElementInstance) => {
       const id = ele.id
-      const clone = this.editor.elementManager.create(ele.toMinimalJSON())
+      const clone = this.editor.mainHost.create(ele.toMinimalJSON())
       const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen)
 
       centerPoint.stroke.enabled = false
@@ -178,7 +178,7 @@ class InteractionState {
           action.dispatch('selection-modify', {mode: 'replace', idSet: new Set([id])})
         }
         toolManager.subTool = dragging
-        this._draggingElements = elementManager.getElementsByIdSet(selection.values)
+        this._draggingElements = mainHost.getElementsByIdSet(selection.values)
       }
 
       this.transformHandles.push(centerPoint)
@@ -228,7 +228,7 @@ class InteractionState {
     const pointLen = 20 / ratio
     // const eles = this.editor.visible.values
     const pointElements: ElementInstance[] = []
-    const elements = this.editor.elementManager.getElementsByIdSet(idSet)
+    const elements = this.editor.mainHost.getElementsByIdSet(idSet)
     const resizeStrokeWidth = 2 / ratio
 
     elements.forEach(ele => {

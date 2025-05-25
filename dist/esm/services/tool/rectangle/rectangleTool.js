@@ -2,7 +2,7 @@ import resizeFunc from '../resize/resizeFunc.js';
 const rectangleTool = {
     cursor: 'crosshair',
     mouseDown() {
-        const { elementManager, interaction, world } = this.editor;
+        const { mainHost, interaction, world } = this.editor;
         const { x, y } = this.editor.interaction.mouseWorldCurrent;
         const width = 1;
         const height = 1;
@@ -13,7 +13,7 @@ const rectangleTool = {
             width,
             height,
         };
-        const ele = elementManager.create(rectProps);
+        const ele = mainHost.create(rectProps);
         ele.render(world.creationCanvasContext);
         interaction._ele = ele;
     },

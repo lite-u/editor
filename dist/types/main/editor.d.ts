@@ -3,7 +3,7 @@ import Action from '~/services/actions/actions';
 import AssetsManager from '~/services/assets/AssetsManager';
 import { ElementProps } from '~/elements/type';
 import ToolManager from '~/services/tool/toolManager';
-import ElementManager from '~/services/element/ElementManager';
+import CanvasHost from '~/services/element/CanvasHost';
 import SelectionManager from '~/services/selection/SelectionManager';
 import Cursor from '~/services/cursor/cursor';
 import World from '~/services/world/World';
@@ -29,7 +29,8 @@ declare class Editor {
     cursor: Cursor;
     history: History;
     toolManager: ToolManager;
-    elementManager: ElementManager;
+    mainHost: CanvasHost;
+    overlayHost: CanvasHost;
     selection: SelectionManager;
     assetsManager: AssetsManager;
     rect: BoundingRect;

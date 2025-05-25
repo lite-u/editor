@@ -6,7 +6,7 @@ import {PropsWithoutIdentifiers} from '~/elements/type'
 const textTool: ToolType = {
   cursor: 'text',
   mouseDown: function () {
-    const {elementManager, interaction, world} = this
+    const {mainHost, interaction, world} = this
     const {x, y} = this.interaction.mouseWorldCurrent
     const width = 1
     const height = 1
@@ -23,7 +23,7 @@ const textTool: ToolType = {
       width,
       height,
     }
-    const ele = elementManager.create(eleProps)
+    const ele = mainHost.create(eleProps)
 
     if (ele) {
       ele.render(world.creationCanvasContext)

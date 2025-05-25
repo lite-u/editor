@@ -5,7 +5,7 @@ import { initEvents } from './events.js';
 import AssetsManager from '../services/assets/AssetsManager.js';
 import nid from '../core/nid.js';
 import ToolManager from '../services/tool/toolManager.js';
-import ElementManager from '../services/element/ElementManager.js';
+import CanvasHost from '../services/element/CanvasHost.js';
 import SelectionManager from '../services/selection/SelectionManager.js';
 import Cursor from '../services/cursor/cursor.js';
 import World from '../services/world/World.js';
@@ -28,7 +28,8 @@ class Editor {
     cursor;
     history;
     toolManager;
-    elementManager;
+    mainHost;
+    overlayHost;
     selection;
     assetsManager;
     rect;
@@ -52,7 +53,8 @@ class Editor {
         this.history = new History(this);
         this.selection = new SelectionManager(this);
         this.assetsManager = new AssetsManager(this, assets);
-        this.elementManager = new ElementManager(this);
+        this.mainHost = new CanvasHost(this);
+        this.overlayHost = new CanvasHost(this);
         this.resizeObserver = new ResizeObserver(throttle(() => { this.action.dispatch('world-resized'); }, 200));
         initEvents.call(this);
         const p1 = { x: 0, y: 0 };
@@ -86,7 +88,7 @@ class Editor {
             },
             assets: [],
         };
-        this.elementManager.all.forEach((element) => {
+        this.mainHost.all.forEach((element) => {
             if (element.type === 'image') {
                 const { asset } = element;
                 if (!asset)
@@ -119,7 +121,8 @@ class Editor {
         // this.destroy()
         this.action.destroy();
         this.history.destroy();
-        this.elementManager.destroy();
+        this.mainHost.destroy();
+        this.overlayHost.destroy();
         this.eventManager.destroy();
         this.action.destroy();
         this.visible.destroy();
@@ -131,7 +134,7 @@ class Editor {
         this.history.destroy();
         this.selection.destroy();
         this.assetsManager.destroy();
-        this.elementManager.destroy();
+        this.mainHost.destroy();
         this.resizeObserver.disconnect();
     }
 }

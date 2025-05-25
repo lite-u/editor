@@ -2,7 +2,7 @@ import resizeFunc from './resize/resizeFunc.js';
 const lineSegmentTool = {
     cursor: 'crosshair',
     mouseDown() {
-        const { elementManager, interaction, world } = this.editor;
+        const { mainHost, interaction, world } = this.editor;
         const { x, y } = this.editor.interaction.mouseWorldCurrent;
         let initialLineLen = 1;
         const cx = x + initialLineLen / 2;
@@ -18,7 +18,7 @@ const lineSegmentTool = {
                 { id: 'end', x: x - cx + initialLineLen, y: y - cy + initialLineLen },
             ],
         };
-        const ele = elementManager.create(eleProps);
+        const ele = mainHost.create(eleProps);
         ele.render(world.creationCanvasContext);
         interaction._ele = ele;
     },

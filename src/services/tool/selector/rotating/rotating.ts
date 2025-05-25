@@ -34,8 +34,8 @@ const rotating: SubToolType = {
     return rotationDiff
   },
   mouseUp(this: ToolManager) {
-    const {interaction, elementManager, action, cursor, selection} = this.editor
-    const elements = elementManager.getElementsByIdSet(selection.values)
+    const {interaction, mainHost, action, cursor, selection} = this.editor
+    const elements = mainHost.getElementsByIdSet(selection.values)
 
     const changes: HistoryChangeItem[] = []
     const rotation = rotating.mouseMove.call(this)

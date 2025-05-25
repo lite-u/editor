@@ -2,7 +2,7 @@ import resizeFunc from './resize/resizeFunc.js';
 const ellipseTool = {
     cursor: 'crosshair',
     mouseDown: function () {
-        const { elementManager, interaction, world } = this;
+        const { mainHost, interaction, world } = this;
         const { x, y } = this.interaction.mouseWorldCurrent;
         const r1 = 1;
         const r2 = 1;
@@ -13,7 +13,7 @@ const ellipseTool = {
             r1,
             r2,
         };
-        const ele = elementManager.create(rectProps);
+        const ele = mainHost.create(rectProps);
         ele.render(world.creationCanvasContext);
         interaction._ele = ele;
     },

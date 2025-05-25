@@ -7,7 +7,7 @@ import ElementImage from '~/elements/image/image'
 import {ElementProps} from '~/elements/type'
 import nid from '~/core/nid'
 import ToolManager from '~/services/tool/toolManager'
-import ElementManager from '~/services/element/ElementManager'
+import CanvasHost from '~/services/element/CanvasHost'
 import SelectionManager from '~/services/selection/SelectionManager'
 import Cursor from '~/services/cursor/cursor'
 import World from '~/services/world/World'
@@ -35,7 +35,8 @@ class Editor {
   cursor: Cursor
   history: History
   toolManager: ToolManager
-  elementManager: ElementManager
+  mainHost: CanvasHost
+  overlayHost: CanvasHost
   selection: SelectionManager
   assetsManager: AssetsManager
   rect: BoundingRect
@@ -72,7 +73,8 @@ class Editor {
     this.history = new History(this)
     this.selection = new SelectionManager(this)
     this.assetsManager = new AssetsManager(this, assets)
-    this.elementManager = new ElementManager(this)
+    this.mainHost = new CanvasHost(this)
+    this.overlayHost = new CanvasHost(this)
     this.resizeObserver = new ResizeObserver(throttle(() => { this.action.dispatch('world-resized') }, 200))
 
     initEvents.call(this)
@@ -111,7 +113,7 @@ class Editor {
       assets: [],
     }
 
-    this.elementManager.all.forEach((element) => {
+    this.mainHost.all.forEach((element) => {
       if (element.type === 'image') {
         const {asset} = element as ElementImage
         if (!asset) return
@@ -154,7 +156,8 @@ class Editor {
     // this.destroy()
     this.action.destroy()
     this.history.destroy()
-    this.elementManager.destroy()
+    this.mainHost.destroy()
+    this.overlayHost.destroy()
 
     this.eventManager.destroy()
     this.action.destroy()
@@ -167,7 +170,7 @@ class Editor {
     this.history.destroy()
     this.selection.destroy()
     this.assetsManager.destroy()
-    this.elementManager.destroy()
+    this.mainHost.destroy()
     this.resizeObserver.disconnect()
 
   }
