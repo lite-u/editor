@@ -8,9 +8,8 @@ const dragging = {
         interaction._draggingElements.forEach(ele => ele.translate(dp.x, dp.y, false));
         // const end = performance.now();
         // console.log(`Canvas render took ${end - start}ms`);
-        this.overlayHost.reset();
-        this.action.dispatch('rerender-overlay');
-        this.action.dispatch('rerender-main-host');
+        // this.overlayHost.reset()
+        this.action.dispatch('element-updated');
     },
     mouseUp() {
         // this.action.dispatch('rerender-overlay')

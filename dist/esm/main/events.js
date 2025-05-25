@@ -110,6 +110,7 @@ export function initEvents() {
         this.mainHost.updateVisible();
         // this.overlayHost.updateVisible()
         // this.regenerateOverlayElements()
+        dispatch('rerender-main-host');
         dispatch('reset-overlay');
         if (historyData) {
             this.history.add(historyData);
