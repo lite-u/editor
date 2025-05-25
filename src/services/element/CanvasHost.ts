@@ -174,12 +174,11 @@ class CanvasHost {
     return max
   }
 
-  public set width(width: number) {
+  public setSize(width: number, height: number): void {
     this.canvas.width = width
-  }
-
-  public set height(height: number) {
     this.canvas.height = height
+
+    this.render()
   }
 
   public getElementById(id: string): ElementInstance | undefined {
