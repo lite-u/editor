@@ -152,6 +152,10 @@ class Editor {
     this.overlayHost.setSize(viewportWidth, viewportHeight)
   }
 
+  updateOverlay() {
+      this.overlayHost.clear
+  }
+
   destroy() {
     // this.destroy()
     this.action.destroy()

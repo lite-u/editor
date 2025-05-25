@@ -64,17 +64,17 @@ class Editor {
         // this.toolManager.set('selector')
         this.action.dispatch('element-add', elements);
     }
-    execute(type, data = null) {
-        // console.log('Editor', type)
-        // @ts-ignore
-        this.action.execute(type, data);
-    }
     /*  public get getElementsInsideOfFrame(): ElementInstance[] {
         const arr = []
         this.elementManager.all.forEach((element) => {
   
         })
       }*/
+    execute(type, data = null) {
+        // console.log('Editor', type)
+        // @ts-ignore
+        this.action.execute(type, data);
+    }
     export() {
         const { scale, offset } = this.world;
         const assetSet = new Set();
@@ -105,7 +105,7 @@ class Editor {
         return result;
     }
     updateViewport() {
-        const { dpr /*baseCanvas, overlayCanvas,*/ /*creationCanvas*/ } = this.world;
+        const { dpr } = this.world;
         const rect = this.container.getBoundingClientRect().toJSON();
         const { x, y, width, height } = rect;
         const viewportWidth = width * dpr;
@@ -114,6 +114,9 @@ class Editor {
         this.viewportRect = generateBoundingRectFromTwoPoints({ x: 0, y: 0 }, { x: viewportWidth, y: viewportHeight });
         this.mainHost.setSize(viewportWidth, viewportHeight);
         this.overlayHost.setSize(viewportWidth, viewportHeight);
+    }
+    updateOverlay() {
+        this.overlayHost.clear;
     }
     destroy() {
         // this.destroy()

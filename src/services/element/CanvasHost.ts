@@ -390,6 +390,10 @@ class CanvasHost {
     })
   }
 
+  reset() {
+    this.elementMap.clear()
+  }
+
   destroy() {
     this.canvas.remove()
     this.elementMap.clear()

@@ -42,6 +42,7 @@ declare class Editor {
     execute(type: VisionEventType, data?: unknown): void;
     export(): EditorExportFileType;
     updateViewport(): void;
+    updateOverlay(): void;
     destroy(): void;
 }
 export default Editor;
