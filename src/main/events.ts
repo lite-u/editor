@@ -91,7 +91,6 @@ export function initEvents(this: Editor) {
 
   on('world-shift', (data) => {
 
-
     const {x, y} = data
     // console.log(x, y)
     const {dpr} = this.world
@@ -102,15 +101,9 @@ export function initEvents(this: Editor) {
   })
 
   on('world-transformed', () => {
-
-
     this.world.updateWorldRect()
-    // console.time('element render')
-
     this.mainHost.updateVisible()
-
     this.overlayHost.updateVisible()
-    // console.timeEnd('element render')
     dispatch('rerender-main-host')
     dispatch('rerender-overlay')
 
@@ -533,10 +526,10 @@ export function initEvents(this: Editor) {
     new ElementRectangle(frameStroke).render(this.mainHost.ctx)
   })
 
-/*  on('refresh-overlay', () => {
-    this.regenerateOverlayElements()
-    dispatch('rerender-overlay')
-  })*/
+  /*  on('refresh-overlay', () => {
+      this.regenerateOverlayElements()
+      dispatch('rerender-overlay')
+    })*/
 
   on('rerender-overlay', () => {
     // console.log('rerender-overlay')
