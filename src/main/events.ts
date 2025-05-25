@@ -81,7 +81,6 @@ export function initEvents(this: Editor) {
     this.events.onZoomed?.(newScale)
     dispatch('world-scale-changed')
     dispatch('world-updated')
-    // this.updateOverlay()
   })
 
   on('world-shift', (data) => {
