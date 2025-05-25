@@ -144,11 +144,11 @@ class CanvasHost {
         });
         return max;
     }
-    set width(width) {
+    setSize(width, height) {
         this.canvas.width = width;
-    }
-    set height(height) {
         this.canvas.height = height;
+        this.updateVisibleElementMap();
+        this.render();
     }
     getElementById(id) {
         return this.elementMap.get(id);

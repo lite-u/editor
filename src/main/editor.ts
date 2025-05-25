@@ -148,8 +148,8 @@ class Editor {
       {x: viewportWidth, y: viewportHeight},
     )
 
-    this.mainHost.width = this.overlayHost.width = viewportWidth
-    this.mainHost.width = this.overlayHost.width = viewportWidth
+    this.mainHost.setSize(viewportWidth, viewportHeight)
+    this.overlayHost.setSize(viewportWidth, viewportHeight)
   }
 
   destroy() {

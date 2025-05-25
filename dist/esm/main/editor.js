@@ -1,16 +1,16 @@
-import History from '../services/history/history.js';
-import Action from '../services/actions/actions.js';
-import { generateBoundingRectFromTwoPoints, throttle } from '../core/utils.js';
-import { initEvents } from './events.js';
-import AssetsManager from '../services/assets/AssetsManager.js';
-import nid from '../core/nid.js';
-import ToolManager from '../services/tool/toolManager.js';
-import CanvasHost from '../services/element/CanvasHost.js';
-import SelectionManager from '../services/selection/SelectionManager.js';
-import Cursor from '../services/cursor/cursor.js';
-import World from '../services/world/World.js';
-import ClipboardManager from '../services/clipboard/Clipboard.js';
-import InteractionState from '../services/interaction/InteractionState.js';
+import History from '~/services/history/history';
+import Action from '~/services/actions/actions';
+import { generateBoundingRectFromTwoPoints, throttle } from '~/core/utils';
+import { initEvents } from './events';
+import AssetsManager from '~/services/assets/AssetsManager';
+import nid from '~/core/nid';
+import ToolManager from '~/services/tool/toolManager';
+import CanvasHost from '~/services/element/CanvasHost';
+import SelectionManager from '~/services/selection/SelectionManager';
+import Cursor from '~/services/cursor/cursor';
+import World from '~/services/world/World';
+import ClipboardManager from '~/services/clipboard/Clipboard';
+import InteractionState from '~/services/interaction/InteractionState';
 class Editor {
     id = nid();
     container;
@@ -112,8 +112,8 @@ class Editor {
         const viewportHeight = height * dpr;
         this.rect = { ...rect, cx: x + width / 2, cy: y + height / 2 };
         this.viewportRect = generateBoundingRectFromTwoPoints({ x: 0, y: 0 }, { x: viewportWidth, y: viewportHeight });
-        this.mainHost.width = this.overlayHost.width = viewportWidth;
-        this.mainHost.width = this.overlayHost.width = viewportWidth;
+        this.mainHost.setSize(viewportWidth, viewportHeight);
+        this.overlayHost.setSize(viewportWidth, viewportHeight);
     }
     destroy() {
         // this.destroy()

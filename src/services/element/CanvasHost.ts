@@ -178,6 +178,7 @@ class CanvasHost {
     this.canvas.width = width
     this.canvas.height = height
 
+    this.updateVisibleElementMap()
     this.render()
   }
 
