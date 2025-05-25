@@ -97,7 +97,6 @@ export function initEvents(this: Editor) {
     this.mainHost.updateVisibleElementMap()
     this.overlayHost.updateVisibleElementMap()
 
-    // this.updateSnapPoints()
     dispatch('render-main-host')
     dispatch('render-overlay')
   })
