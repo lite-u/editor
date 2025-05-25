@@ -17,8 +17,7 @@ class ElementPath extends ElementBase {
             rotation: this.rotation,
         };
         this.updatePath2D();
-        this.boundingRect = this.getBoundingRect();
-        // this.updateTransform()
+        this.updateBoundingRect();
     }
     /*  static cubicBezier(t: number, p0: Point, p1: Point, p2: Point, p3: Point): Point {
         const mt = 1 - t

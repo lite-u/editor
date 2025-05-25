@@ -53,7 +53,7 @@ export function initEvents() {
         this.world.offset.x = result.x;
         this.world.offset.y = result.y;
         this.events.onZoomed?.(newScale);
-        dispatch('reset-overlay');
+        // dispatch('reset-overlay')
         dispatch('world-transformed');
     });
     on('world-fit-content', () => {
@@ -75,7 +75,6 @@ export function initEvents() {
     });
     on('world-shift', (data) => {
         const { x, y } = data;
-        // console.log(x, y)
         const { dpr } = this.world;
         this.world.offset.x += x * dpr;
         this.world.offset.y += y * dpr;
@@ -83,17 +82,15 @@ export function initEvents() {
     });
     on('world-transformed', () => {
         this.world.updateWorldRect();
-        // console.time('element render')
         this.mainHost.updateVisible();
-        this.overlayHost.updateVisible();
-        // console.timeEnd('element render')
         dispatch('rerender-main-host');
-        dispatch('rerender-overlay');
+        dispatch('reset-overlay');
     });
     on('reset-overlay', () => {
         this.overlayHost.reset();
         this.regenerateOverlayElements();
         this.overlayHost.updateVisible();
+        dispatch('rerender-overlay');
     });
     on('selection-all', () => {
         this.selection.selectAll();

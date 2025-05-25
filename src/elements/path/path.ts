@@ -3,7 +3,7 @@ import {BoundingRect, Point} from '~/type'
 import {BezierPoint} from '~/elements/props'
 import deepClone from '~/core/deepClone'
 import {HistoryChangeItem} from '~/services/actions/type'
-import {cubicBezier, getBoundingRectFromBezierPoints, rotatePointAroundPoint} from '~/core/geometry'
+import {cubicBezier, getBoundingRectFromBezierPoints} from '~/core/geometry'
 
 export interface PathProps extends ElementBaseProps {
   // id: UID,
@@ -33,8 +33,7 @@ class ElementPath extends ElementBase {
       rotation: this.rotation,
     }
     this.updatePath2D()
-    this.boundingRect = this.getBoundingRect()
-    // this.updateTransform()
+    this.updateBoundingRect()
   }
 
   /*  static cubicBezier(t: number, p0: Point, p1: Point, p2: Point, p3: Point): Point {

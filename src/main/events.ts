@@ -66,7 +66,7 @@ export function initEvents(this: Editor) {
     this.world.offset.x = result.x!
     this.world.offset.y = result.y!
     this.events.onZoomed?.(newScale)
-    dispatch('reset-overlay')
+    // dispatch('reset-overlay')
     dispatch('world-transformed')
   })
 
@@ -109,6 +109,7 @@ export function initEvents(this: Editor) {
     this.overlayHost.reset()
     this.regenerateOverlayElements()
     this.overlayHost.updateVisible()
+    dispatch('rerender-overlay')
   })
 
   on('selection-all', () => {

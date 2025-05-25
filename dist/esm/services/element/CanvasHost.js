@@ -127,7 +127,7 @@ class CanvasHost {
         // let _start = Date.now()
         // Create an array from the Map, sort by the 'layer' property,
         const sortedElements = this.elements
-            .filter((element, index) => {
+            .filter((element) => {
             const boundingRect = element.boundingRect;
             return rectsOverlap(boundingRect, this.editor.world.worldRect);
         })
