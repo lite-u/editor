@@ -32,7 +32,6 @@ export function initEvents(this: Editor) {
 
     if (!this.initialized) {
       this.initialized = true
-      // dispatch('switch-tool', 'selector')
       dispatch('world-zoom', 'fit')
       dispatch('element-updated')
       this.events.onInitialized?.()
