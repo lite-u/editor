@@ -159,7 +159,7 @@ class Editor {
 
   updateOverlay() {
     this.overlayHost.reset()
-
+    const boxColor = '#435fb9'
     const {world, action, toolManager, selection, mainHost} = this
     const {scale, dpr} = world
     const ratio = scale * dpr
@@ -189,28 +189,25 @@ class Editor {
       centerPoint.fill.enabled = true
       centerPoint.fill.color = 'orange'
 
-      ele.onmouseenter = () => {
-        if (this.editor.selection.has(ele.id)) return
-        ctx.save()
-        ctx.lineWidth = 1 / world.scale * world.dpr
-        ctx.strokeStyle = '#5491f8'
-        ctx.stroke(ele.path2D)
-        ctx.restore()
+      clone.onmouseenter = () => {
+        if (this.selection.has(ele.id)) return
       }
 
-      ele.onmouseleave = () => {
+      clone.onmouseleave = () => {
         action.dispatch('render-overlay')
       }
 
-      ele.onmousedown = () => {
+      clone.onmousedown = () => {
         if (!selection.has(id)) {
           action.dispatch('selection-modify', {mode: 'replace', idSet: new Set([id])})
         }
         toolManager.subTool = dragging
-        this._draggingElements = mainHost.getElementsByIdSet(selection.values)
+        this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values)
       }
 
-      this.transformHandles.push(centerPoint)
+      this.overlayHost.add(clone)
+      this.overlayHost.add(centerPoint)
+      // this.transformHandles.push(centerPoint)
 
       rotations.push(ele.rotation)
       rectsWithRotation.push(ele.getBoundingRect())
@@ -235,7 +232,7 @@ class Editor {
       this.transformHandles.push(...getManipulationBox(rect, 0, ratio, specialLineSeg))
     }
 
-    this.selectedOutlineElement = new ElementRectangle({
+    const selectedOutlineElement = new ElementRectangle({
       id: 'selected-elements-outline',
       layer: 0,
       show: !specialLineSeg,
@@ -245,9 +242,11 @@ class Editor {
       stroke: {
         ...DEFAULT_STROKE,
         weight: 2 / scale,
-        color: this.boxColor,
+        color: boxColor,
       },
     })
+
+    this.overlayHost.add(selectedOutlineElement)
   }
 
   destroy() {

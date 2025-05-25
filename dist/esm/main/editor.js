@@ -122,6 +122,7 @@ class Editor {
     }
     updateOverlay() {
         this.overlayHost.reset();
+        const boxColor = '#435fb9';
         const { world, action, toolManager, selection, mainHost } = this;
         const { scale, dpr } = world;
         const ratio = scale * dpr;
@@ -138,38 +139,32 @@ class Editor {
         const rectsWithoutRotation = [];
         elements.forEach((ele) => {
             const id = ele.id;
-            const clone = mainHost.create(ele.toMinimalJSON());
+            const clone = ele.clone();
             const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen);
+            clone.fill.enabled = false;
+            clone.stroke.enabled = true;
+            clone.stroke.weight = 2 / scale;
+            clone.stroke.color = '#5491f8';
             centerPoint.stroke.enabled = false;
             centerPoint.fill.enabled = true;
             centerPoint.fill.color = 'orange';
-            // centerPoint._relatedId = ele.id
-            if (clone) {
-                clone.fill.enabled = false;
-                clone.stroke.enabled = true;
-                clone.stroke.weight = 2 / scale;
-                clone.stroke.color = '#5491f8';
-            }
-            ele.onmouseenter = () => {
-                if (this.editor.selection.has(ele.id))
+            clone.onmouseenter = () => {
+                if (this.selection.has(ele.id))
                     return;
-                ctx.save();
-                ctx.lineWidth = 1 / world.scale * world.dpr;
-                ctx.strokeStyle = '#5491f8';
-                ctx.stroke(ele.path2D);
-                ctx.restore();
             };
-            ele.onmouseleave = () => {
+            clone.onmouseleave = () => {
                 action.dispatch('render-overlay');
             };
-            ele.onmousedown = () => {
+            clone.onmousedown = () => {
                 if (!selection.has(id)) {
                     action.dispatch('selection-modify', { mode: 'replace', idSet: new Set([id]) });
                 }
                 toolManager.subTool = dragging;
-                this._draggingElements = mainHost.getElementsByIdSet(selection.values);
+                this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values);
             };
-            this.transformHandles.push(centerPoint);
+            this.overlayHost.add(clone);
+            this.overlayHost.add(centerPoint);
+            // this.transformHandles.push(centerPoint)
             rotations.push(ele.rotation);
             rectsWithRotation.push(ele.getBoundingRect());
             rectsWithoutRotation.push(ele.getBoundingRect(true));
@@ -191,7 +186,7 @@ class Editor {
             rect = getBoundingRectFromBoundingRects(rectsWithRotation);
             this.transformHandles.push(...getManipulationBox(rect, 0, ratio, specialLineSeg));
         }
-        this.selectedOutlineElement = new ElementRectangle({
+        const selectedOutlineElement = new ElementRectangle({
             id: 'selected-elements-outline',
             layer: 0,
             show: !specialLineSeg,
@@ -201,9 +196,10 @@ class Editor {
             stroke: {
                 ...DEFAULT_STROKE,
                 weight: 2 / scale,
-                color: this.boxColor,
+                color: boxColor,
             },
         });
+        this.overlayHost.add(selectedOutlineElement);
     }
     destroy() {
         // this.destroy()
