@@ -140,7 +140,7 @@ class Editor {
             const clone = ele.clone();
             clone.fill.enabled = false;
             clone.stroke.enabled = true;
-            clone.stroke.weight = 2 / scale;
+            clone.stroke.weight = 2 / ratio;
             clone.stroke.color = 'none';
             clone.onmouseenter = () => {
                 if (this.selection.has(ele.id))
@@ -158,6 +158,7 @@ class Editor {
                 }
                 toolManager.subTool = dragging;
                 this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values);
+                console.log('this.interaction._draggingElements', this.interaction._draggingElements);
             };
             overlayHost.append(clone);
         });

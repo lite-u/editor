@@ -61,6 +61,7 @@ class ElementBase {
   show: boolean
   // protected matrix = new DOMMatrix()
   path2D = new Path2D()
+  boundingRect: BoundingRect
   protected original: {
     cx: number;
     cy: number;
@@ -117,6 +118,7 @@ class ElementBase {
       cy: this.cy,
       rotation: this.rotation,
     }
+    this.boundingRect = generateBoundingRectFromTwoPoints({x: 0, y: 0}, {x: 0, y: 0})
   }
 
   static transformPoint(x: number, y: number, matrix: DOMMatrix): Point {
@@ -156,6 +158,7 @@ class ElementBase {
     this.cx = this.cx + dx
     this.cy = this.cy + dy
     this.updatePath2D()
+    this.updateBoundingRect()
 
     this.eventListeners['move']?.forEach(handler => handler({dx, dy}))
 
@@ -180,6 +183,7 @@ class ElementBase {
   protected rotate(angle: number) {
     this.rotation = angle
     this.updatePath2D()
+    this.updateBoundingRect()
   }
 
   protected rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined {
@@ -199,6 +203,7 @@ class ElementBase {
     this.cy = transformed.y
 
     this.updatePath2D()
+    this.updateBoundingRect()
 
     if (f) {
       return {
@@ -303,6 +308,10 @@ class ElementBase {
     return generateBoundingRectFromTwoPoints({x: 0, y: 0}, {x: 0, y: 0})
   }
 
+  public updateBoundingRect() {
+    this.boundingRect = this.getBoundingRect()
+  }
+
   protected updatePath2D() { }
 
   public restore(props: Partial<ElementProps>) {
@@ -321,9 +330,9 @@ class ElementBase {
   }
 
   public clone() {
-    const data = this.toJSON();
-    const ctor = this.constructor as new (data: any) => this;
-    return new ctor(data);
+    const data = this.toJSON()
+    const ctor = this.constructor as new (data: any) => this
+    return new ctor(data)
   }
 
   /*protected resetTransform() {

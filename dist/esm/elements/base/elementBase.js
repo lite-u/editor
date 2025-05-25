@@ -17,6 +17,7 @@ class ElementBase {
     show;
     // protected matrix = new DOMMatrix()
     path2D = new Path2D();
+    boundingRect;
     original;
     // public _relatedId: string
     eventListeners = {};
@@ -43,6 +44,7 @@ class ElementBase {
             cy: this.cy,
             rotation: this.rotation,
         };
+        this.boundingRect = generateBoundingRectFromTwoPoints({ x: 0, y: 0 }, { x: 0, y: 0 });
     }
     static transformPoint(x, y, matrix) {
         // if(!matrix) debugger
@@ -77,6 +79,7 @@ class ElementBase {
         this.cx = this.cx + dx;
         this.cy = this.cy + dy;
         this.updatePath2D();
+        this.updateBoundingRect();
         this.eventListeners['move']?.forEach(handler => handler({ dx, dy }));
         if (f) {
             return {
@@ -97,6 +100,7 @@ class ElementBase {
     rotate(angle) {
         this.rotation = angle;
         this.updatePath2D();
+        this.updateBoundingRect();
     }
     rotateFrom(rotation, anchor, f) {
         // if (rotation !== 0) {
@@ -113,6 +117,7 @@ class ElementBase {
         this.cx = transformed.x;
         this.cy = transformed.y;
         this.updatePath2D();
+        this.updateBoundingRect();
         if (f) {
             return {
                 id: this.id,
@@ -185,6 +190,9 @@ class ElementBase {
     }
     getBoundingRect() {
         return generateBoundingRectFromTwoPoints({ x: 0, y: 0 }, { x: 0, y: 0 });
+    }
+    updateBoundingRect() {
+        this.boundingRect = this.getBoundingRect();
     }
     updatePath2D() { }
     restore(props) {

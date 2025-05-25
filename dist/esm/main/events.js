@@ -83,8 +83,10 @@ export function initEvents() {
     });
     on('world-transformed', () => {
         this.world.updateWorldRect();
+        // console.time('element render')
         this.mainHost.updateVisible();
         this.overlayHost.updateVisible();
+        // console.timeEnd('element render')
         dispatch('rerender-main-host');
         dispatch('rerender-overlay');
     });
@@ -435,7 +437,7 @@ export function initEvents() {
         this.mainHost.render();
         new ElementRectangle(frameStroke).render(this.mainHost.ctx);
     });
-    on('reset-overlay', () => {
+    on('refresh-overlay', () => {
         this.overlayHost.reset();
         this.generateOverlayElements();
         dispatch('rerender-overlay');

@@ -18,8 +18,8 @@ const selecting = {
         const modifyKey = ctrlKey || metaKey || shiftKey;
         _mouseMoved = true;
         _selecting.clear();
-        mainHost.all.forEach((ele) => {
-            const inner = ele.getBoundingRect();
+        mainHost.visibleElements.forEach((ele) => {
+            const inner = ele.boundingRect;
             if (inner.left >= outer.left &&
                 inner.right <= outer.right &&
                 inner.top >= outer.top &&

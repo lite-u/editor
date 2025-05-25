@@ -49,6 +49,7 @@ declare class ElementBase {
     transform: Transform;
     show: boolean;
     path2D: Path2D;
+    boundingRect: BoundingRect;
     protected original: {
         cx: number;
         cy: number;
@@ -86,6 +87,7 @@ declare class ElementBase {
     toJSON(): RequiredBaseProps;
     protected toMinimalJSON(): ElementBaseProps;
     protected getBoundingRect(): BoundingRect;
+    updateBoundingRect(): void;
     protected updatePath2D(): void;
     restore(props: Partial<ElementProps>): void;
     protected getTransformedPoints(): Point[];

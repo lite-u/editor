@@ -122,13 +122,15 @@ class CanvasHost {
     }
     updateVisible() {
         this.visible.clear();
+        // let _start = Date.now()
         // Create an array from the Map, sort by the 'layer' property,
         const sortedElements = this.elements
-            .filter(element => {
-            const boundingRect = element.getBoundingRect();
+            .filter((element, index) => {
+            const boundingRect = element.boundingRect;
             return rectsOverlap(boundingRect, this.editor.world.worldRect);
         })
             .sort((a, b) => a.layer - b.layer);
+        // console.log(Date.now() - _start)
         sortedElements.forEach(element => {
             this.visible.set(element.id, element);
         });
@@ -304,9 +306,11 @@ class CanvasHost {
         });
     }
     render() {
+        // console.time('element render')
         this.visibleElements.forEach((element) => {
             element.render(this.ctx);
         });
+        // console.timeEnd('element render')
     }
     reset() {
         this.elementMap.clear();

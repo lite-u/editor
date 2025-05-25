@@ -146,19 +146,22 @@ class CanvasHost {
   }
 
   public updateVisible() {
-    this.visible.clear()
 
-    // Create an array from the Map, sort by the 'layer' property,
+    this.visible.clear()
+    // let _start = Date.now()
+     // Create an array from the Map, sort by the 'layer' property,
     const sortedElements = this.elements
-      .filter(element => {
-        const boundingRect = element.getBoundingRect() as BoundingRect
-        return rectsOverlap(boundingRect, this.editor.world.worldRect)
+      .filter((element, index) => {
+
+        const boundingRect = element.boundingRect as BoundingRect
+         return rectsOverlap(boundingRect, this.editor.world.worldRect)
       })
       .sort((a, b) => a.layer - b.layer)
-
+    // console.log(Date.now() - _start)
     sortedElements.forEach(element => {
       this.visible.set(element.id, element)
     })
+
   }
 
   public get getMaxLayerIndex(): number {
@@ -380,9 +383,12 @@ class CanvasHost {
   }
 
   render() {
+    // console.time('element render')
     this.visibleElements.forEach((element) => {
       element.render(this.ctx)
     })
+    // console.timeEnd('element render')
+
   }
 
   reset() {
