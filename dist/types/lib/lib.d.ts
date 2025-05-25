@@ -15,5 +15,4 @@ export declare const getManipulationBox: (rect: {
     cy: number;
     width: number;
     height: number;
-    specialLineSeg?: boolean;
-}, rotation: number, ratio: number, specialLineSeg?: boolean) => ElementInstance[];
+}, rotation: number, ratio: number, specialLineSeg: boolean | undefined, handleRotate: VoidFunction, handleResize: VoidFunction) => ElementInstance[];

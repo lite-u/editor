@@ -144,7 +144,7 @@ export const isEqual = (o1, o2) => {
     }
     return false;
 };
-export const getManipulationBox = (rect, rotation, ratio, specialLineSeg = false) => {
+export const getManipulationBox = (rect, rotation, ratio, specialLineSeg = false, handleRotate, handleResize) => {
     const resizeLen = 30 / ratio;
     const resizeStrokeWidth = 2 / ratio;
     const rotateRadius = 50 / ratio;

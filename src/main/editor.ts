@@ -175,7 +175,16 @@ class Editor {
     const rectsWithoutRotation: BoundingRect[] = []
 
     const handleRotate = () => {
+      const rects = selectedElements.map(ele => {
+        return ele.getBoundingRect(true)
+      })
+      const {cx: x, cy: y} = getBoundingRectFromBoundingRects(rects)
 
+      // console.log(interaction._hoveredElement)
+      // this.interaction._rotateData = {startRotation: interaction._outlineElement.rotation, targetPoint: {x, y}}
+      // this.subTool = rotating
+      console.log(sameRotation)
+      console.log(applyRotation)
     }
     const handleResize = () => {
 

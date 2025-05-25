@@ -189,14 +189,16 @@ export const isEqual = (o1: string | number | object, o2: string | number | obje
 }
 
 export const getManipulationBox = (rect: {
-  cx: number,
-  cy: number,
-  width: number,
-  height: number,
-  specialLineSeg?: boolean,
-  handleRotate: VoidFunction,
-  handleResize: VoidFunction,
-}, rotation: number, ratio: number, specialLineSeg = false): ElementInstance[] => {
+                                     cx: number,
+                                     cy: number,
+                                     width: number,
+                                     height: number,
+                                   },
+                                   rotation: number,
+                                   ratio: number,
+                                   specialLineSeg = false,
+                                   handleRotate: VoidFunction,
+                                   handleResize: VoidFunction): ElementInstance[] => {
   const resizeLen = 30 / ratio
   const resizeStrokeWidth = 2 / ratio
   const rotateRadius = 50 / ratio
