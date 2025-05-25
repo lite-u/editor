@@ -16,7 +16,7 @@ declare class CanvasHost {
     }): void;
     has(id: string): boolean;
     get size(): number;
-    get keys(): Set<UID>;
+    get allIds(): Set<UID>;
     get values(): ElementInstance[];
     get all(): ElementMap;
     get allVisibleElements(): ElementInstance[];

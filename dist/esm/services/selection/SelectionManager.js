@@ -27,7 +27,7 @@ class SelectionManager {
     }
     selectAll() {
         console.log('all');
-        this.selected = this.editor.mainHost.keys;
+        this.selected = this.editor.mainHost.allIds;
     }
     modify(idSet, action) {
         // selectionHelper.call(this, idSet, action)

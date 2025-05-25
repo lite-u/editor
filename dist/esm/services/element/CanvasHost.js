@@ -104,7 +104,7 @@ class CanvasHost {
     get size() {
         return this.elementMap.size;
     }
-    get keys() {
+    get allIds() {
         const set = new Set();
         this.elementMap.forEach((element) => {
             set.add(element.id);
