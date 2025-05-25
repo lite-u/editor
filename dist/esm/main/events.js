@@ -110,7 +110,6 @@ export function initEvents() {
         this.generateOverlayElements();
         this.mainHost.updateVisible();
         this.overlayHost.updateVisible();
-        // dispatch('selection-updated')
         if (historyData) {
             this.history.add(historyData);
             this.events.onHistoryUpdated?.(this.history);
@@ -435,6 +434,8 @@ export function initEvents() {
         resetCanvas(this.mainHost.ctx, this.world.scale, this.world.offset, this.world.dpr);
         this.mainHost.render();
         new ElementRectangle(frameStroke).render(this.mainHost.ctx);
+    });
+    on('reset-overlay', () => {
     });
     on('rerender-overlay', () => {
         // console.log('rerender-overlay')

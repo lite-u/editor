@@ -522,6 +522,10 @@ export function initEvents(this: Editor) {
     new ElementRectangle(frameStroke).render(this.mainHost.ctx)
   })
 
+  on('reset-overlay', () => {
+
+  })
+
   on('rerender-overlay', () => {
     // console.log('rerender-overlay')
     resetCanvas(
