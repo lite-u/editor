@@ -394,7 +394,12 @@ class CanvasHost {
   destroy() {
     this.canvas.remove()
     this.elementMap.clear()
+    this.visible.clear()
     this.eventsController.abort()
+    this.canvas = null!
+    this.elementMap = null!
+    this.visible = null!
+    this.eventsController = null!
   }
 }
 
