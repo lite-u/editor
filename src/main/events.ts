@@ -28,7 +28,8 @@ export function initEvents(this: Editor) {
 
   on('world-resized', () => {
     this.updateViewport()
-
+    this.mainHost.setSize(this.viewportRect.width, this.viewportRect.height)
+    this.overlayHost.setSize(this.viewportRect.width, this.viewportRect.height)
     if (!this.initialized) {
       this.initialized = true
       dispatch('world-zoom', 'fit')

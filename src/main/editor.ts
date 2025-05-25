@@ -152,9 +152,9 @@ class Editor {
       {x: 0, y: 0},
       {x: viewportWidth, y: viewportHeight},
     )
-
+/*
     this.mainHost.setSize(viewportWidth, viewportHeight)
-    this.overlayHost.setSize(viewportWidth, viewportHeight)
+    this.overlayHost.setSize(viewportWidth, viewportHeight)*/
   }
 
   generateOverlayElements() {
