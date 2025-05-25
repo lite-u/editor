@@ -38,6 +38,7 @@ class CanvasHost {
     this.canvas = createWith('canvas', 'main-canvas', {...STYLE})
     this.ctx = this.canvas.getContext('2d')!
 
+    container.appendChild(this.canvas)
     container.addEventListener('pointerdown', e => this.dispatchEvent(e, 'mousedown'), {signal, passive: false})
     container.addEventListener('pointerup', e => this.dispatchEvent(e, 'mouseup'), {signal})
     container.addEventListener('pointermove', e => this.dispatchEvent(e, 'mousemove'), {signal})
