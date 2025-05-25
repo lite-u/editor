@@ -21,6 +21,8 @@ class ElementImage extends RectangleLike {
     super(rest)
 
     this.asset = asset
+    this.updateBoundingRect()
+
   }
 
   public toJSON(): RequiredImageProps {

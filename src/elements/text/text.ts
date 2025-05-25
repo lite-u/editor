@@ -47,6 +47,7 @@ class ElementText extends RectangleLike {
     this.verticalAlign = verticalAlign
     this.horizontalAlign = horizontalAlign
     this.fill = deepClone(DEFAULT_TEXT_FILL)
+
   }
 
   override toJSON(): RequiredTextProps {
