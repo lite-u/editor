@@ -520,10 +520,6 @@ export function initEvents(this: Editor) {
 
     this.mainHost.render()
 
-    // deduplicateObjectsByKeyValue()
-    // console.log(this.visibleelementMap.size)
-    // deduplicateObjectsByKeyValue
-
     new ElementRectangle(frameFill).render(this.mainHost.ctx)
   })
 
