@@ -39,7 +39,7 @@ class CanvasHost {
     dispatchEvent(domEvent, type, options) {
         const { ctx, dpr } = this;
         const { clientX, clientY, pointerId } = domEvent;
-        const elements = this.allVisibles.sort((a, b) => b.layer - a.layer);
+        const elements = this.allVisibleElements.sort((a, b) => b.layer - a.layer);
         const x = clientX - this.editor.rect.x;
         const y = clientY - this.editor.rect.y;
         const viewPoint = {
@@ -116,7 +116,7 @@ class CanvasHost {
     get all() {
         return new Map(this.elementMap);
     }
-    get allVisibles() {
+    get allVisibleElements() {
         return [...this.visibleElementMap.values()];
     }
     get getMaxLayerIndex() {
@@ -291,7 +291,7 @@ class CanvasHost {
         });
     }
     render() {
-        this.allVisibles.forEach((element) => {
+        this.allVisibleElements.forEach((element) => {
             element.render(this.ctx);
         });
     }
