@@ -145,12 +145,12 @@ class CanvasHost {
     return [...this.visible.values()]
   }
 
-  updateVisibleElementMap() {
+  updateVisible() {
     this.visible.clear()
 
     // Create an array from the Map, sort by the 'layer' property,
     // and then add them to visibleElementMap
-    const sortedElements = (this.editor.mainHost.values)
+    const sortedElements = this.values
       .filter(element => {
         const boundingRect = element.getBoundingRect() as BoundingRect
         return rectsOverlap(boundingRect, this.editor.world.worldRect)
