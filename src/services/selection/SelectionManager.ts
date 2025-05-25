@@ -40,7 +40,6 @@ class SelectionManager {
   }
 
   public selectAll(): void {
-    console.log('all')
     this.selected = this.editor.mainHost.allIds
   }
 
@@ -86,7 +85,6 @@ class SelectionManager {
 
   public replace(idSet: Set<UID>) {
     this.clear()
-    console.log('replace', idSet)
 
     this.selected = new Set(idSet)
   }
