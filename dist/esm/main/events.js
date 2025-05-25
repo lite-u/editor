@@ -1,14 +1,14 @@
-import resetCanvas from '~/services/world/resetCanvas';
-import { redo } from '~/services/history/redo';
-import { undo } from '~/services/history/undo';
-import { pick } from '~/services/history/pick';
-import { fitRectToViewport } from '~/services/world/helper';
-import snapTool from '~/services/tool/snap/snap';
-import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
-import TypeCheck from '~/core/typeCheck';
-import ElementRectangle from '~/elements/rectangle/rectangle';
-import nid from '~/core/nid';
-import { DEFAULT_STROKE } from '~/elements/defaultProps';
+import resetCanvas from '../services/world/resetCanvas.js';
+import { redo } from '../services/history/redo.js';
+import { undo } from '../services/history/undo.js';
+import { pick } from '../services/history/pick.js';
+import { fitRectToViewport } from '../services/world/helper.js';
+import snapTool from '../services/tool/snap/snap.js';
+import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
+import TypeCheck from '../core/typeCheck.js';
+import ElementRectangle from '../elements/rectangle/rectangle.js';
+import nid from '../core/nid.js';
+import { DEFAULT_STROKE } from '../elements/defaultProps.js';
 export function initEvents() {
     const { action } = this;
     const dispatch = action.dispatch.bind(action);
@@ -30,17 +30,6 @@ export function initEvents() {
         else {
             dispatch('world-updated');
         }
-    });
-    on('world-updated', () => {
-        this.world.updateWorldRect();
-        // dispatch('visible-element-updated')
-        this.mainHost.updateVisibleElementMap();
-        this.overlayHost.reset();
-        this.updateOverlay();
-        this.overlayHost.updateVisibleElementMap();
-        // this.updateSnapPoints()
-        dispatch('render-main-host');
-        dispatch('render-overlay');
     });
     on('world-zoom', (arg) => {
         if (arg === 'fit') {
@@ -76,7 +65,7 @@ export function initEvents() {
         this.world.offset.y = result.y;
         this.events.onZoomed?.(newScale);
         dispatch('world-updated');
-        this.updateOverlay();
+        // this.updateOverlay()
     });
     on('world-shift', (data) => {
         const { x, y } = data;
@@ -85,6 +74,17 @@ export function initEvents() {
         this.world.offset.x += x * dpr;
         this.world.offset.y += y * dpr;
         dispatch('world-updated');
+    });
+    on('world-updated', () => {
+        this.world.updateWorldRect();
+        // dispatch('visible-element-updated')
+        this.mainHost.updateVisibleElementMap();
+        this.overlayHost.reset();
+        this.updateOverlay();
+        this.overlayHost.updateVisibleElementMap();
+        // this.updateSnapPoints()
+        dispatch('render-main-host');
+        dispatch('render-overlay');
     });
     /* on('visible-element-updated', () => {
        this.mainHost.updateVisibleElementMap()

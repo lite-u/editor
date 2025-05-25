@@ -41,19 +41,6 @@ export function initEvents(this: Editor) {
     }
   })
 
-  on('world-updated', () => {
-    this.world.updateWorldRect()
-    // dispatch('visible-element-updated')
-    this.mainHost.updateVisibleElementMap()
-    this.overlayHost.reset()
-    this.updateOverlay()
-    this.overlayHost.updateVisibleElementMap()
-
-    // this.updateSnapPoints()
-    dispatch('render-main-host')
-    dispatch('render-overlay')
-  })
-
   on('world-zoom', (arg) => {
     if (arg === 'fit') {
       const {width, height} = this.config.page
@@ -92,7 +79,7 @@ export function initEvents(this: Editor) {
     this.world.offset.y = result.y!
     this.events.onZoomed?.(newScale)
     dispatch('world-updated')
-    this.updateOverlay()
+    // this.updateOverlay()
   })
 
   on('world-shift', (data) => {
@@ -102,6 +89,19 @@ export function initEvents(this: Editor) {
     this.world.offset.x += x * dpr
     this.world.offset.y += y * dpr
     dispatch('world-updated')
+  })
+
+  on('world-updated', () => {
+    this.world.updateWorldRect()
+    // dispatch('visible-element-updated')
+    this.mainHost.updateVisibleElementMap()
+    this.overlayHost.reset()
+    this.updateOverlay()
+    this.overlayHost.updateVisibleElementMap()
+
+    // this.updateSnapPoints()
+    dispatch('render-main-host')
+    dispatch('render-overlay')
   })
 
   /* on('visible-element-updated', () => {
