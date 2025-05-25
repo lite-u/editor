@@ -6,6 +6,8 @@ import { getMinimalBoundingRect } from '~/core/utils';
 import { DEFAULT_STROKE } from '~/elements/defaultProps';
 import { rotatePointAroundPoint } from '~/core/geometry';
 import Ellipse from '~/elements/ellipse/ellipse';
+export function generateTransform() {
+}
 export function getManipulationBox() {
     const rectsWithRotation = [];
     const rectsWithoutRotation = [];
@@ -41,12 +43,10 @@ export function getManipulationBox() {
             rect.width = 1;
             rect.cx = selectedElements[0].cx;
         }
-        // overlayHost.append(...getManipulationBox(rect, applyRotation, ratio, specialLineSeg, handleRotate, handleResize))
     }
     else {
         rect = getBoundingRectFromBoundingRects(rectsWithRotation);
         applyRotation = 0;
-        // overlayHost.append(...getManipulationBox(rect, 0, ratio, specialLineSeg, handleRotate, handleResize))
     }
     const selectedOutlineElement = new ElementRectangle({
         id: 'selected-elements-outline',

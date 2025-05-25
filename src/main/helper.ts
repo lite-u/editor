@@ -9,6 +9,10 @@ import Editor from '~/main/editor'
 import {rotatePointAroundPoint} from '~/core/geometry'
 import Ellipse from '~/elements/ellipse/ellipse'
 
+export function generateTransform(this: Editor) {
+
+}
+
 export function getManipulationBox(this: Editor) {
   const rectsWithRotation: BoundingRect[] = []
   const rectsWithoutRotation: BoundingRect[] = []
@@ -49,12 +53,9 @@ export function getManipulationBox(this: Editor) {
       rect.width = 1
       rect.cx = selectedElements[0].cx
     }
-
-    // overlayHost.append(...getManipulationBox(rect, applyRotation, ratio, specialLineSeg, handleRotate, handleResize))
   } else {
     rect = getBoundingRectFromBoundingRects(rectsWithRotation)
     applyRotation = 0
-    // overlayHost.append(...getManipulationBox(rect, 0, ratio, specialLineSeg, handleRotate, handleResize))
   }
 
   const selectedOutlineElement = new ElementRectangle({
