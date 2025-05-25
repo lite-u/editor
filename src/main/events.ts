@@ -103,18 +103,18 @@ export function initEvents(this: Editor) {
     dispatch('world-updated')
   })
 
- /* on('visible-element-updated', () => {
-    this.mainHost.updateVisibleElementMap()
-    this.overlayHost.updateVisibleElementMap()
-    // this.updateSnapPoints()
-    dispatch('render-main-host')
-    dispatch('render-overlay')
-  })*/
+  /* on('visible-element-updated', () => {
+     this.mainHost.updateVisibleElementMap()
+     this.overlayHost.updateVisibleElementMap()
+     // this.updateSnapPoints()
+     dispatch('render-main-host')
+     dispatch('render-overlay')
+   })*/
 
-/*  on('visible-selection-updated', () => {
-    // this.visible.updateVisibleSelected()
-    dispatch('render-overlay')
-  })*/
+  /*  on('visible-selection-updated', () => {
+      // this.visible.updateVisibleSelected()
+      dispatch('render-overlay')
+    })*/
 
   on('selection-all', () => {
     this.selection.selectAll()
