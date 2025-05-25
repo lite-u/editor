@@ -105,7 +105,6 @@ export function initEvents(this: Editor) {
     this.mainHost.updateVisible()
     dispatch('rerender-main-host')
     dispatch('reset-overlay')
-
   })
 
   on('reset-overlay', () => {
