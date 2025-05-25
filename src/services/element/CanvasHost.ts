@@ -23,7 +23,7 @@ const STYLE = {
 
 class CanvasHost {
   protected elementMap: ElementMap = new Map()
-  private visibleElementMap: ElementMap = new Map()
+  private visible: ElementMap = new Map()
   editor: Editor
   eventsController = new AbortController()
   _hoveredElement: ElementInstance | null = null
@@ -142,11 +142,11 @@ class CanvasHost {
   }
 
   public get allVisibleElements(): ElementInstance[] {
-    return [...this.visibleElementMap.values()]
+    return [...this.visible.values()]
   }
 
   updateVisibleElementMap() {
-    this.visibleElementMap.clear()
+    this.visible.clear()
 
     // Create an array from the Map, sort by the 'layer' property,
     // and then add them to visibleElementMap
@@ -158,7 +158,7 @@ class CanvasHost {
       .sort((a, b) => a.layer - b.layer)
 
     sortedElements.forEach(element => {
-      this.visibleElementMap.set(element.id, element)
+      this.visible.set(element.id, element)
     })
   }
 
@@ -381,7 +381,6 @@ class CanvasHost {
   }
 
   render() {
-    console.log(this.allVisibleElements)
     this.allVisibleElements.forEach((element) => {
       // console.log(element)
       element.render(this.ctx)
