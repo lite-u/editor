@@ -439,8 +439,8 @@ export function initEvents() {
         new ElementRectangle(frameFill).render(this.mainHost.ctx);
     });
     on('render-overlay', () => {
-        resetCanvas(this.world.overlayCanvasContext, this.world.scale, this.world.offset, this.world.dpr);
-        this.world.renderOverlay();
+        resetCanvas(this.overlayHost.ctx, this.world.scale, this.world.offset, this.world.dpr);
+        this.overlayHost.render();
     });
     on('clear-creation', () => {
         resetCanvas(this.world.creationCanvasContext, this.world.scale, this.world.offset, this.world.dpr);

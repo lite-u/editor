@@ -34,14 +34,14 @@ class World {
 
   constructor(editor: Editor) {
     this.editor = editor
-    this.baseCanvas = createWith('canvas', 'main-canvas',  {...STYLE})
-    this.overlayCanvas = createWith('canvas', 'overlay-canvas',  {...STYLE})
+    // this.baseCanvas = createWith('canvas', 'main-canvas',  {...STYLE})
+    // this.overlayCanvas = createWith('canvas', 'overlay-canvas',  {...STYLE})
     this.creationCanvas = createWith('canvas', 'creation-canvas',   {...STYLE})
-    this.baseCanvasContext = this.baseCanvas.getContext('2d') as CanvasRenderingContext2D
-    this.overlayCanvasContext = this.overlayCanvas.getContext('2d') as CanvasRenderingContext2D
     this.creationCanvasContext = this.creationCanvas.getContext('2d') as CanvasRenderingContext2D
+    // this.baseCanvasContext = this.baseCanvas.getContext('2d') as CanvasRenderingContext2D
+    // this.overlayCanvasContext = this.overlayCanvas.getContext('2d') as CanvasRenderingContext2D
     // this.selectionBox = createWith('div', 'editor-selection-box', editor.id)
-    this.baseCanvas.setAttribute('id', 'main-canvas')
+    // this.baseCanvas.setAttribute('id', 'main-canvas')
     this.scale = 1
     this.offset = {x: 0, y: 0}
     this.worldRect = generateBoundingRectFromTwoPoints(
@@ -51,7 +51,7 @@ class World {
     this.dpr = 2
 
     // this.selectionBox.style.pointerEvents = 'none'
-    this.editor.container.append(this.baseCanvas, this.overlayCanvas, this.creationCanvas)
+    this.editor.container.append(/*this.baseCanvas, this.overlayCanvas, */this.creationCanvas)
   }
 
   updateWorldRect() {
@@ -170,14 +170,14 @@ class World {
   }
 
   destroy() {
-    this.baseCanvas.remove()
-    this.overlayCanvas.remove()
+    // this.baseCanvas.remove()
+    // this.overlayCanvas.remove()
     this.creationCanvas.remove()
-    this.baseCanvas = null!
-    this.overlayCanvas = null!
+    // this.baseCanvas = null!
+    // this.overlayCanvas = null!
     this.creationCanvas = null!
-    this.baseCanvasContext = null!
-    this.overlayCanvasContext = null!
+    // this.baseCanvasContext = null!
+    // this.overlayCanvasContext = null!
     this.creationCanvasContext = null!
   }
 }

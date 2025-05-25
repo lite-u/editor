@@ -156,6 +156,14 @@ class CanvasHost {
     return max
   }
 
+  public set width(width: number) {
+    this.canvas.width = width
+  }
+
+  public set height(height: number) {
+    this.canvas.height = height
+  }
+
   public getElementById(id: string): ElementInstance | undefined {
     return this.elementMap.get(id)
   }

@@ -527,12 +527,13 @@ export function initEvents(this: Editor) {
 
   on('render-overlay', () => {
     resetCanvas(
-      this.world.overlayCanvasContext,
+      this.overlayHost.ctx,
       this.world.scale,
       this.world.offset,
       this.world.dpr,
     )
-    this.world.renderOverlay()
+
+    this.overlayHost.render()
   })
 
   on('clear-creation', () => {
