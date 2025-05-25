@@ -134,7 +134,6 @@ export function initEvents(this: Editor) {
     this.generateOverlayElements()
     this.mainHost.updateVisible()
     this.overlayHost.updateVisible()
-    // dispatch('selection-updated')
 
     if (historyData) {
       this.history.add(historyData)
