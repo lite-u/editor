@@ -71,8 +71,6 @@ export function initEvents(this: Editor) {
     const {scale} = this.world
     let result = null
     let newScale = 1
-    // const minScale = 0.01 * dpr
-    // const maxScale = 500 * dpr
     let point = arg.physicalPoint
 
     if (arg.zoomTo) {
