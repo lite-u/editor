@@ -42,6 +42,7 @@ export type VisionEventMap = {
   'world-mouse-move': never;
   'world-mouse-up': never;
   'world-updated': never;
+  'world-scale-changed': never;
   'world-zoom': 'fit' | {
     zoomBy?: boolean
     zoomTo?: boolean

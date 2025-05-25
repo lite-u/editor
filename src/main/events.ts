@@ -57,6 +57,7 @@ export function initEvents(this: Editor) {
       this.world.offset.x = offsetX
       this.world.offset.y = offsetY
       this.events.onZoomed?.(scale)
+      dispatch('world-scale-changed')
       dispatch('world-updated')
       return
     }
@@ -78,6 +79,7 @@ export function initEvents(this: Editor) {
     this.world.offset.x = result.x!
     this.world.offset.y = result.y!
     this.events.onZoomed?.(newScale)
+    dispatch('world-scale-changed')
     dispatch('world-updated')
     // this.updateOverlay()
   })
@@ -95,8 +97,7 @@ export function initEvents(this: Editor) {
     this.world.updateWorldRect()
     // dispatch('visible-element-updated')
     this.mainHost.updateVisibleElementMap()
-    this.overlayHost.reset()
-    this.updateOverlay()
+
     this.overlayHost.updateVisibleElementMap()
 
     // this.updateSnapPoints()
@@ -104,6 +105,10 @@ export function initEvents(this: Editor) {
     dispatch('render-overlay')
   })
 
+  on('world-scale-changed', () => {
+    this.overlayHost.reset()
+    this.updateOverlay()
+  })
   /* on('visible-element-updated', () => {
      this.mainHost.updateVisibleElementMap()
      this.overlayHost.updateVisibleElementMap()
