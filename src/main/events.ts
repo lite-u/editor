@@ -79,8 +79,6 @@ export function initEvents(this: Editor) {
       newScale = scale + arg.zoomFactor
     }
 
-    // clamp
-    // newScale = Math.max(minScale, Math.min(newScale, maxScale))
     result = this.world.zoom(newScale, point)
 
     this.world.scale = newScale
