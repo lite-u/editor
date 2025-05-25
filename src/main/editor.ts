@@ -1,10 +1,10 @@
 import History from '~/services/history/history'
 import Action from '~/services/actions/actions'
-import {generateBoundingRectFromTwoPoints, throttle} from '~/core/utils'
+import {generateBoundingRectFromTwoPoints, getMinimalBoundingRect, throttle} from '~/core/utils'
 import {initEvents} from './events'
 import AssetsManager from '~/services/assets/AssetsManager'
 import ElementImage from '~/elements/image/image'
-import {ElementProps} from '~/elements/type'
+import {ElementInstance, ElementProps} from '~/elements/type'
 import nid from '~/core/nid'
 import ToolManager from '~/services/tool/toolManager'
 import CanvasHost from '~/services/element/CanvasHost'
@@ -18,6 +18,11 @@ import InteractionState from '~/services/interaction/InteractionState'
 import {VisionEditorAssetType} from '~/services/assets/asssetsManager'
 import {BoundingRect} from '~/type'
 import {EditorConfig, EventHandlers} from './type'
+import ElementRectangle from '~/elements/rectangle/rectangle'
+import dragging from '~/services/tool/selector/dragging/dragging'
+import {getManipulationBox} from '~/lib/lib'
+import {getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
+import {DEFAULT_STROKE} from '~/elements/defaultProps'
 
 class Editor {
   id = nid()
@@ -154,7 +159,99 @@ class Editor {
 
   updateOverlay() {
     this.overlayHost.reset()
-    
+
+    const {world, action, toolManager, selection, mainHost} = this
+    const {scale, dpr} = world
+    const ratio = scale * dpr
+    const pointLen = 20 / ratio
+    const idSet = selection.values
+    const elements = mainHost.getElementsByIdSet(idSet)
+    let rotations: number[] = []
+
+    if (elements.length <= 1) {
+      this.selectedOutlineElement = null
+      if (elements.length === 0) return
+    }
+
+    const rectsWithRotation: BoundingRect[] = []
+    const rectsWithoutRotation: BoundingRect[] = []
+
+    elements.forEach((ele: ElementInstance) => {
+      const id = ele.id
+      const clone = mainHost.create(ele.toMinimalJSON())
+      const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen)
+
+      centerPoint.stroke.enabled = false
+      centerPoint.fill.enabled = true
+      centerPoint.fill.color = 'orange'
+      // centerPoint._relatedId = ele.id
+
+      if (clone) {
+        clone.fill.enabled = false
+        clone.stroke.enabled = true
+        clone.stroke.weight = 2 / scale
+        clone.stroke.color = '#5491f8'
+      }
+
+      ele.onmouseenter = () => {
+        if (this.editor.selection.has(ele.id)) return
+        ctx.save()
+        ctx.lineWidth = 1 / world.scale * world.dpr
+        ctx.strokeStyle = '#5491f8'
+        ctx.stroke(ele.path2D)
+        ctx.restore()
+      }
+
+      ele.onmouseleave = () => {
+        action.dispatch('render-overlay')
+      }
+
+      ele.onmousedown = () => {
+        if (!selection.has(id)) {
+          action.dispatch('selection-modify', {mode: 'replace', idSet: new Set([id])})
+        }
+        toolManager.subTool = dragging
+        this._draggingElements = mainHost.getElementsByIdSet(selection.values)
+      }
+
+      this.transformHandles.push(centerPoint)
+
+      rotations.push(ele.rotation)
+      rectsWithRotation.push(ele.getBoundingRect())
+      rectsWithoutRotation.push(ele.getBoundingRect(true))
+    })
+
+    // selectedOutlineElement
+    const sameRotation = rotations.every(val => val === rotations[0])
+    const applyRotation = sameRotation ? rotations[0] : 0
+    let rect: { cx: number, cy: number, width: number, height: number }
+    const specialLineSeg = idSet.size === 1 && elements[0].type === 'lineSegment'
+
+    if (sameRotation) {
+      rect = getMinimalBoundingRect(rectsWithoutRotation, applyRotation)
+      if (specialLineSeg) {
+        rect.width = 1
+        rect.cx = elements[0].cx
+      }
+      this.transformHandles.push(...getManipulationBox(rect, applyRotation, ratio, specialLineSeg))
+    } else {
+      rect = getBoundingRectFromBoundingRects(rectsWithRotation)
+      this.transformHandles.push(...getManipulationBox(rect, 0, ratio, specialLineSeg))
+    }
+
+    this.selectedOutlineElement = new ElementRectangle({
+      id: 'selected-elements-outline',
+      layer: 0,
+      show: !specialLineSeg,
+      type: 'rectangle',
+      ...rect,
+      rotation: applyRotation,
+      stroke: {
+        ...DEFAULT_STROKE,
+        weight: 2 / scale,
+        color: this.boxColor,
+      },
+    })
   }
 
   destroy() {

@@ -1,6 +1,6 @@
 import History from '../services/history/history.js';
 import Action from '../services/actions/actions.js';
-import { generateBoundingRectFromTwoPoints, throttle } from '../core/utils.js';
+import { generateBoundingRectFromTwoPoints, getMinimalBoundingRect, throttle } from '../core/utils.js';
 import { initEvents } from './events.js';
 import AssetsManager from '../services/assets/AssetsManager.js';
 import nid from '../core/nid.js';
@@ -11,6 +11,11 @@ import Cursor from '../services/cursor/cursor.js';
 import World from '../services/world/World.js';
 import ClipboardManager from '../services/clipboard/Clipboard.js';
 import InteractionState from '../services/interaction/InteractionState.js';
+import ElementRectangle from '../elements/rectangle/rectangle.js';
+import dragging from '../services/tool/selector/dragging/dragging.js';
+import { getManipulationBox } from '../lib/lib.js';
+import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
+import { DEFAULT_STROKE } from '../elements/defaultProps.js';
 class Editor {
     id = nid();
     container;
@@ -117,6 +122,88 @@ class Editor {
     }
     updateOverlay() {
         this.overlayHost.reset();
+        const { world, action, toolManager, selection, mainHost } = this;
+        const { scale, dpr } = world;
+        const ratio = scale * dpr;
+        const pointLen = 20 / ratio;
+        const idSet = selection.values;
+        const elements = mainHost.getElementsByIdSet(idSet);
+        let rotations = [];
+        if (elements.length <= 1) {
+            this.selectedOutlineElement = null;
+            if (elements.length === 0)
+                return;
+        }
+        const rectsWithRotation = [];
+        const rectsWithoutRotation = [];
+        elements.forEach((ele) => {
+            const id = ele.id;
+            const clone = mainHost.create(ele.toMinimalJSON());
+            const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen);
+            centerPoint.stroke.enabled = false;
+            centerPoint.fill.enabled = true;
+            centerPoint.fill.color = 'orange';
+            // centerPoint._relatedId = ele.id
+            if (clone) {
+                clone.fill.enabled = false;
+                clone.stroke.enabled = true;
+                clone.stroke.weight = 2 / scale;
+                clone.stroke.color = '#5491f8';
+            }
+            ele.onmouseenter = () => {
+                if (this.editor.selection.has(ele.id))
+                    return;
+                ctx.save();
+                ctx.lineWidth = 1 / world.scale * world.dpr;
+                ctx.strokeStyle = '#5491f8';
+                ctx.stroke(ele.path2D);
+                ctx.restore();
+            };
+            ele.onmouseleave = () => {
+                action.dispatch('render-overlay');
+            };
+            ele.onmousedown = () => {
+                if (!selection.has(id)) {
+                    action.dispatch('selection-modify', { mode: 'replace', idSet: new Set([id]) });
+                }
+                toolManager.subTool = dragging;
+                this._draggingElements = mainHost.getElementsByIdSet(selection.values);
+            };
+            this.transformHandles.push(centerPoint);
+            rotations.push(ele.rotation);
+            rectsWithRotation.push(ele.getBoundingRect());
+            rectsWithoutRotation.push(ele.getBoundingRect(true));
+        });
+        // selectedOutlineElement
+        const sameRotation = rotations.every(val => val === rotations[0]);
+        const applyRotation = sameRotation ? rotations[0] : 0;
+        let rect;
+        const specialLineSeg = idSet.size === 1 && elements[0].type === 'lineSegment';
+        if (sameRotation) {
+            rect = getMinimalBoundingRect(rectsWithoutRotation, applyRotation);
+            if (specialLineSeg) {
+                rect.width = 1;
+                rect.cx = elements[0].cx;
+            }
+            this.transformHandles.push(...getManipulationBox(rect, applyRotation, ratio, specialLineSeg));
+        }
+        else {
+            rect = getBoundingRectFromBoundingRects(rectsWithRotation);
+            this.transformHandles.push(...getManipulationBox(rect, 0, ratio, specialLineSeg));
+        }
+        this.selectedOutlineElement = new ElementRectangle({
+            id: 'selected-elements-outline',
+            layer: 0,
+            show: !specialLineSeg,
+            type: 'rectangle',
+            ...rect,
+            rotation: applyRotation,
+            stroke: {
+                ...DEFAULT_STROKE,
+                weight: 2 / scale,
+                color: this.boxColor,
+            },
+        });
     }
     destroy() {
         // this.destroy()
