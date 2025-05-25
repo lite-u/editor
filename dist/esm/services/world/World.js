@@ -106,6 +106,9 @@ class World {
                      }
                    }*/
             });
+            this.editor.interaction.transformHandles.forEach(handle => {
+                handle.render(ctx);
+            });
             new ElementRectangle(frameBorder).render(ctx);
         };
         requestAnimationFrame(animate);
