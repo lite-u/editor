@@ -12,10 +12,10 @@ import {DEFAULT_STROKE} from '~/elements/defaultProps'
 const selector: ToolType = {
   cursor: 'default',
   init: function () {
-    const {interaction, action, mainHost, overlayHost, world} = this
+   /* const {interaction, action, mainHost, overlayHost, world} = this
     const {scale, dpr} = world
     const elements = mainHost.visibleElements
-    interaction.generateTransformHandles()
+    // interaction.generateTransformHandles()
     // const elements = this.interaction.editor.mainHost.getElementsByIdSet(idSet)
 
     // hover style and translate
@@ -87,7 +87,7 @@ const selector: ToolType = {
       // clone.stroke.color = '#5491f8'
       // clone._relatedId = ele.id
 
-      this.interaction.transformHandles.push(/*clone, */centerPoint)
+      this.interaction.transformHandles.push(/!*clone, *!/centerPoint)
 
       rotations.push(ele.rotation)
       rectsWithRotation.push(ele.getBoundingRect())
@@ -123,7 +123,7 @@ const selector: ToolType = {
         weight: 2 / scale,
         color: this.boxColor,
       },
-    })
+    })*/
 
   },
   mouseDown: function () {
