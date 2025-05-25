@@ -58,8 +58,6 @@ export function initEvents() {
         const { scale } = this.world;
         let result = null;
         let newScale = 1;
-        // const minScale = 0.01 * dpr
-        // const maxScale = 500 * dpr
         let point = arg.physicalPoint;
         if (arg.zoomTo) {
             newScale = arg.zoomFactor;
@@ -67,8 +65,6 @@ export function initEvents() {
         else if (arg.zoomBy) {
             newScale = scale + arg.zoomFactor;
         }
-        // clamp
-        // newScale = Math.max(minScale, Math.min(newScale, maxScale))
         result = this.world.zoom(newScale, point);
         this.world.scale = newScale;
         this.world.offset.x = result.x;
@@ -76,8 +72,6 @@ export function initEvents() {
         this.events.onZoomed?.(newScale);
         dispatch('world-updated');
         this.updateOverlay();
-        // this.interaction.generateTransformHandles()
-        // this.interaction.createPathPoints()
     });
     on('world-shift', (data) => {
         const { x, y } = data;
