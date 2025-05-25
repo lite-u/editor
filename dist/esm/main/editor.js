@@ -109,7 +109,7 @@ class Editor {
         });
         return result;
     }
-    updateViewport() {
+    reCalcViewport() {
         const { dpr } = this.world;
         const rect = this.container.getBoundingClientRect().toJSON();
         const { x, y, width, height } = rect;
@@ -117,8 +117,9 @@ class Editor {
         const viewportHeight = height * dpr;
         this.rect = { ...rect, cx: x + width / 2, cy: y + height / 2 };
         this.viewportRect = generateBoundingRectFromTwoPoints({ x: 0, y: 0 }, { x: viewportWidth, y: viewportHeight });
-        this.mainHost.setSize(viewportWidth, viewportHeight);
-        this.overlayHost.setSize(viewportWidth, viewportHeight);
+        /*
+            this.mainHost.setSize(viewportWidth, viewportHeight)
+            this.overlayHost.setSize(viewportWidth, viewportHeight)*/
     }
     generateOverlayElements() {
         this.overlayHost.reset();

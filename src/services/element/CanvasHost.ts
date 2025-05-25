@@ -177,9 +177,6 @@ class CanvasHost {
   public setSize(width: number, height: number): void {
     this.canvas.width = width
     this.canvas.height = height
-
-    this.updateVisibleElementMap()
-    this.render()
   }
 
   public getElementById(id: string): ElementInstance | undefined {

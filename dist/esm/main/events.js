@@ -18,7 +18,9 @@ export function initEvents() {
     // this.toolMap.set('text', selector)
     // this.toolMap.set('ellipse', selector)
     on('world-resized', () => {
-        this.updateViewport();
+        this.reCalcViewport();
+        this.mainHost.setSize(this.viewportRect.width, this.viewportRect.height);
+        this.overlayHost.setSize(this.viewportRect.width, this.viewportRect.height);
         if (!this.initialized) {
             this.initialized = true;
             dispatch('world-zoom', 'fit');

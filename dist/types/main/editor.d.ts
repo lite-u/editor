@@ -41,7 +41,7 @@ declare class Editor {
     });
     execute(type: VisionEventType, data?: unknown): void;
     export(): EditorExportFileType;
-    updateViewport(): void;
+    reCalcViewport(): void;
     generateOverlayElements(): void;
     destroy(): void;
 }
