@@ -424,16 +424,16 @@ export function initEvents() {
             layer: -1,
             opacity: 100,
         };
-        const frameFill = {
-            ...frameStroke,
-            fill: {
+        /*    const frameFill = {
+              ...frameStroke,
+              fill: {
                 enabled: true,
                 color: '#fff',
-            },
-        };
+              },
+            }*/
         resetCanvas(this.mainHost.ctx, this.world.scale, this.world.offset, this.world.dpr);
         this.mainHost.render();
-        new ElementRectangle(frameFill).render(this.mainHost.ctx);
+        new ElementRectangle(frameStroke).render(this.mainHost.ctx);
     });
     on('rerender-overlay', () => {
         // console.log('rerender-overlay')

@@ -502,13 +502,13 @@ export function initEvents(this: Editor) {
       layer: -1,
       opacity: 100,
     }
-    const frameFill = {
+/*    const frameFill = {
       ...frameStroke,
       fill: {
         enabled: true,
         color: '#fff',
       },
-    }
+    }*/
 
     resetCanvas(
       this.mainHost.ctx,
@@ -519,7 +519,7 @@ export function initEvents(this: Editor) {
 
     this.mainHost.render()
 
-    new ElementRectangle(frameFill).render(this.mainHost.ctx)
+    new ElementRectangle(frameStroke).render(this.mainHost.ctx)
   })
 
   on('rerender-overlay', () => {
