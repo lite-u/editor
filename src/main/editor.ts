@@ -158,6 +158,7 @@ class Editor {
   }
 
   generateOverlayElements() {
+    console.log('generateOverlayElements')
     const boxColor = '#435fb9'
     const {world, action, toolManager, selection, mainHost, overlayHost} = this
     const {scale, dpr} = world
@@ -170,7 +171,6 @@ class Editor {
 
     overlayHost.reset()
 
-
     const rectsWithRotation: BoundingRect[] = []
     const rectsWithoutRotation: BoundingRect[] = []
 
@@ -181,7 +181,7 @@ class Editor {
       clone.fill.enabled = false
       clone.stroke.enabled = true
       clone.stroke.weight = 2 / scale
-      clone.stroke.color = '#5491f8'
+      clone.stroke.color = 'none'
 
       clone.onmouseenter = () => {
         if (this.selection.has(ele.id)) return
@@ -210,7 +210,6 @@ class Editor {
       // this.selectedOutlineElement = null
       if (selectedElements.length === 0) return
     }
-
 
     selectedElements.forEach((ele: ElementInstance) => {
       const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen)

@@ -137,9 +137,9 @@ export function initEvents() {
         this.events.onWorldMouseMove?.(this.interaction.mouseWorldCurrent);
     });
     on('world-mouse-up', () => {
-        console.log('world-mouse-up');
-        this.action.dispatch('element-move', { delta: { x: 0, y: 0 } });
-        this.interaction._draggingElements = [];
+        // console.log('world-mouse-up')
+        // this.action.dispatch('element-move', {delta: {x: 0, y: 0}})
+        // this.interaction._draggingElements = []
         /*
             if (this.toolManager._currentTool) {
               this.toolManager._currentTool?.mouseUp.call(this)

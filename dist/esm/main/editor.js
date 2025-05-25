@@ -122,6 +122,7 @@ class Editor {
             this.overlayHost.setSize(viewportWidth, viewportHeight)*/
     }
     generateOverlayElements() {
+        console.log('generateOverlayElements');
         const boxColor = '#435fb9';
         const { world, action, toolManager, selection, mainHost, overlayHost } = this;
         const { scale, dpr } = world;
@@ -140,7 +141,7 @@ class Editor {
             clone.fill.enabled = false;
             clone.stroke.enabled = true;
             clone.stroke.weight = 2 / scale;
-            clone.stroke.color = '#5491f8';
+            clone.stroke.color = 'none';
             clone.onmouseenter = () => {
                 if (this.selection.has(ele.id))
                     return;
