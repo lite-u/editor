@@ -17,9 +17,9 @@ declare class CanvasHost {
     has(id: string): boolean;
     get size(): number;
     get allIds(): Set<UID>;
-    get values(): ElementInstance[];
+    get elements(): ElementInstance[];
     get all(): ElementMap;
-    get allVisibleElements(): ElementInstance[];
+    get visibleElements(): ElementInstance[];
     updateVisible(): void;
     get getMaxLayerIndex(): number;
     setSize(width: number, height: number): void;

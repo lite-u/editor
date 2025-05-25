@@ -40,7 +40,7 @@ class CanvasHost {
     dispatchEvent(domEvent, type, options) {
         const { ctx, dpr } = this;
         const { clientX, clientY, pointerId } = domEvent;
-        const elements = this.allVisibleElements.sort((a, b) => b.layer - a.layer);
+        const elements = this.visibleElements.sort((a, b) => b.layer - a.layer);
         const x = clientX - this.editor.rect.x;
         const y = clientY - this.editor.rect.y;
         const viewPoint = {
@@ -111,20 +111,19 @@ class CanvasHost {
         });
         return set;
     }
-    get values() {
+    get elements() {
         return [...this.elementMap.values()];
     }
     get all() {
         return new Map(this.elementMap);
     }
-    get allVisibleElements() {
+    get visibleElements() {
         return [...this.visible.values()];
     }
     updateVisible() {
         this.visible.clear();
         // Create an array from the Map, sort by the 'layer' property,
-        // and then add them to visibleElementMap
-        const sortedElements = this.values
+        const sortedElements = this.elements
             .filter(element => {
             const boundingRect = element.getBoundingRect();
             return rectsOverlap(boundingRect, this.editor.world.worldRect);
@@ -305,7 +304,7 @@ class CanvasHost {
         });
     }
     render() {
-        this.allVisibleElements.forEach((element) => {
+        this.visibleElements.forEach((element) => {
             element.render(this.ctx);
         });
     }
