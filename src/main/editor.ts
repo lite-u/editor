@@ -170,10 +170,6 @@ class Editor {
 
     overlayHost.reset()
 
-    if (selectedElements.length <= 1) {
-      // this.selectedOutlineElement = null
-      if (selectedElements.length === 0) return
-    }
 
     const rectsWithRotation: BoundingRect[] = []
     const rectsWithoutRotation: BoundingRect[] = []
@@ -209,6 +205,12 @@ class Editor {
 
       overlayHost.append(clone)
     })
+
+    if (selectedElements.length <= 1) {
+      // this.selectedOutlineElement = null
+      if (selectedElements.length === 0) return
+    }
+
 
     selectedElements.forEach((ele: ElementInstance) => {
       const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen)

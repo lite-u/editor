@@ -10,8 +10,8 @@ const dragging = {
         this.action.dispatch('rerender-main-host');
     },
     mouseUp() {
-        this.action.dispatch('reset-overlay');
-        this.action.dispatch('rerender-main-host');
+        // this.action.dispatch('reset-overlay')
+        // this.action.dispatch('rerender-main-host')
         this.interaction._draggingElements = [];
         this.action.dispatch('element-move', { delta: { x: 0, y: 0 } });
     },
