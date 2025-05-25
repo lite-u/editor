@@ -28,7 +28,6 @@ class CanvasHost {
   _hoveredElement: ElementInstance | null = null
   canvas: HTMLCanvasElement
   ctx: CanvasRenderingContext2D
-  // visible
   dpr = 2
 
   constructor(editor: Editor) {
