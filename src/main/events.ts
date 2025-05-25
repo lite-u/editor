@@ -486,7 +486,7 @@ export function initEvents(this: Editor) {
   })
 
   on('rerender-main-host', () => {
-    console.log('rerender-main-host')
+    // console.log('rerender-main-host')
     const {scale, dpr} = this.world
     const {width, height} = this.config.page
     const frameStroke: RectangleProps = {
@@ -524,7 +524,7 @@ export function initEvents(this: Editor) {
   })
 
   on('rerender-overlay', () => {
-    console.log('rerender-overlay')
+    // console.log('rerender-overlay')
     resetCanvas(
       this.overlayHost.ctx,
       this.world.scale,
