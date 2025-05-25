@@ -17,7 +17,7 @@ class ElementLineSegment extends ElementBase {
             rotation: this.rotation,
         };
         this.updatePath2D();
-        // this.updateTransform()
+        this.updateBoundingRect();
     }
     static create(id, sX, sY, eX, eY) {
         const centerX = (sX + eX) / 2;

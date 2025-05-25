@@ -23,7 +23,7 @@ class ElementEllipse extends ElementBase {
             endAngle: this.endAngle,
         };
         this.updatePath2D();
-        // this.updateTransform()
+        this.updateBoundingRect();
     }
     static create(id, cx, cy, r1 = 1, r2) {
         return new ElementEllipse({ id, cx, cy, r1, r2: r2 || r1, layer: 0 });

@@ -27,7 +27,6 @@ class RectangleLike extends ElementBase {
         };
         this.updatePath2D();
         this.updateBoundingRect();
-        // this.updateTransform()
     }
     updatePath2D() {
         const { cx, cy, borderRadius, rotation } = this;
