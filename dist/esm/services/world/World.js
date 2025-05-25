@@ -110,6 +110,12 @@ class World {
         };
         requestAnimationFrame(animate);
     }
+    renderTransformHandles() {
+        const animate = () => {
+            console.log(this.editor.interaction.transformHandles);
+        };
+        requestAnimationFrame(animate);
+    }
     renderOverlay() {
         // console.log('renderOverlay')
         const animate = () => {

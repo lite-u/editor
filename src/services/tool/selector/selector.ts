@@ -15,6 +15,8 @@ const selector: ToolType = {
     const {interaction, action, visible, world} = this
     const {overlayCanvasContext: ctx, scale, dpr} = world
 
+    interaction.generateTransformHandles()
+
     // hover style and translate
     visible.getVisibleSelectedElements.forEach(ele => {
       const {id} = ele
