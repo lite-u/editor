@@ -436,6 +436,9 @@ export function initEvents() {
         new ElementRectangle(frameStroke).render(this.mainHost.ctx);
     });
     on('reset-overlay', () => {
+        this.overlayHost.reset();
+        this.generateOverlayElements();
+        dispatch('rerender-overlay');
     });
     on('rerender-overlay', () => {
         // console.log('rerender-overlay')

@@ -523,7 +523,9 @@ export function initEvents(this: Editor) {
   })
 
   on('reset-overlay', () => {
-
+    this.overlayHost.reset()
+    this.generateOverlayElements()
+    dispatch('rerender-overlay')
   })
 
   on('rerender-overlay', () => {
