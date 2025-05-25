@@ -132,7 +132,7 @@ class Editor {
         const visibleElements = mainHost.visibleElements;
         const selectedElements = mainHost.getElementsByIdSet(idSet);
         let rotations = [];
-        overlayHost.reset();
+        // overlayHost.reset()
         const rectsWithRotation = [];
         const rectsWithoutRotation = [];
         const handleRotate = () => {

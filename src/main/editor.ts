@@ -169,7 +169,7 @@ class Editor {
     const selectedElements = mainHost.getElementsByIdSet(idSet)
     let rotations: number[] = []
 
-    overlayHost.reset()
+    // overlayHost.reset()
 
     const rectsWithRotation: BoundingRect[] = []
     const rectsWithoutRotation: BoundingRect[] = []
