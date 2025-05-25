@@ -1,21 +1,21 @@
-import History from '../services/history/history.js';
-import Action from '../services/actions/actions.js';
-import { generateBoundingRectFromTwoPoints, getMinimalBoundingRect, throttle } from '../core/utils.js';
-import { initEvents } from './events.js';
-import AssetsManager from '../services/assets/AssetsManager.js';
-import nid from '../core/nid.js';
-import ToolManager from '../services/tool/toolManager.js';
-import CanvasHost from '../services/element/CanvasHost.js';
-import SelectionManager from '../services/selection/SelectionManager.js';
-import Cursor from '../services/cursor/cursor.js';
-import World from '../services/world/World.js';
-import ClipboardManager from '../services/clipboard/Clipboard.js';
-import InteractionState from '../services/interaction/InteractionState.js';
-import ElementRectangle from '../elements/rectangle/rectangle.js';
-import dragging from '../services/tool/selector/dragging/dragging.js';
-import { getManipulationBox } from '../lib/lib.js';
-import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
-import { DEFAULT_STROKE } from '../elements/defaultProps.js';
+import History from '~/services/history/history';
+import Action from '~/services/actions/actions';
+import { generateBoundingRectFromTwoPoints, getMinimalBoundingRect, throttle } from '~/core/utils';
+import { initEvents } from './events';
+import AssetsManager from '~/services/assets/AssetsManager';
+import nid from '~/core/nid';
+import ToolManager from '~/services/tool/toolManager';
+import CanvasHost from '~/services/element/CanvasHost';
+import SelectionManager from '~/services/selection/SelectionManager';
+import Cursor from '~/services/cursor/cursor';
+import World from '~/services/world/World';
+import ClipboardManager from '~/services/clipboard/Clipboard';
+import InteractionState from '~/services/interaction/InteractionState';
+import ElementRectangle from '~/elements/rectangle/rectangle';
+import dragging from '~/services/tool/selector/dragging/dragging';
+import { getManipulationBox } from '~/lib/lib';
+import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
+import { DEFAULT_STROKE } from '~/elements/defaultProps';
 class Editor {
     id = nid();
     container;
@@ -149,8 +149,11 @@ class Editor {
             clone.onmouseenter = () => {
                 if (this.selection.has(ele.id))
                     return;
+                clone.stroke.color = '#ff0000';
+                action.dispatch('rerender-overlay');
             };
             clone.onmouseleave = () => {
+                clone.stroke.color = '#5491f8';
                 action.dispatch('rerender-overlay');
             };
             clone.onmousedown = () => {

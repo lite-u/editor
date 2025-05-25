@@ -189,9 +189,13 @@ class Editor {
 
       clone.onmouseenter = () => {
         if (this.selection.has(ele.id)) return
+        clone.stroke.color = '#ff0000'
+        action.dispatch('rerender-overlay')
       }
 
       clone.onmouseleave = () => {
+        clone.stroke.color = '#5491f8'
+
         action.dispatch('rerender-overlay')
       }
 
