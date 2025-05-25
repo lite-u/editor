@@ -1,20 +1,28 @@
-import deepClone from '../../core/deepClone.js';
-import nid from '../../core/nid.js';
-import ElementRectangle from '../../elements/rectangle/rectangle.js';
-import ElementEllipse from '../../elements/ellipse/ellipse.js';
-import ElementText from '../../elements/text/text.js';
-import ElementImage from '../../elements/image/image.js';
-import ElementLineSegment from '../../elements/lines/lineSegment.js';
-import ElementPath from '../../elements/path/path.js';
-import { createWith } from '../../lib/lib.js';
+import deepClone from '~/core/deepClone';
+import nid from '~/core/nid';
+import ElementRectangle from '~/elements/rectangle/rectangle';
+import ElementEllipse from '~/elements/ellipse/ellipse';
+import ElementText from '~/elements/text/text';
+import ElementImage from '~/elements/image/image';
+import ElementLineSegment from '~/elements/lines/lineSegment';
+import ElementPath from '~/elements/path/path';
+import { createWith } from '~/lib/lib';
+const STYLE = {
+    position: 'absolute',
+    left: '0',
+    top: '0',
+    width: '100%',
+    height: '100%',
+    pointerEvents: 'none',
+};
 class CanvasHost {
     elementMap = new Map();
     visibleElementMap;
     editor;
     eventsController = new AbortController();
     _hoveredElement = null;
-    canvas = createWith('canvas', 'main-canvas', editor.id, { ...STYLE });
-    ctx = createWith('canvas', 'overlay-canvas', editor.id, { ...STYLE });
+    canvas = createWith('canvas', 'main-canvas', { ...STYLE });
+    ctx = createWith('canvas', 'overlay-canvas', { ...STYLE });
     // visible
     dpr = 2;
     constructor(editor) {
@@ -86,12 +94,6 @@ class CanvasHost {
             },
         };
         _ele.dispatchEvent?.(event);
-        /*
-            if (stopped) {
-              domEvent.stopPropagation()
-              domEvent.preventDefault()
-              return true
-            }*/
     }
     has(id) {
         return this.elementMap.has(id);
@@ -280,6 +282,7 @@ class CanvasHost {
     render() {
     }
     destroy() {
+        this.canvas.remove();
         this.elementMap.clear();
         this.eventsController.abort();
     }

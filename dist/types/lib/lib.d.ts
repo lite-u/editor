@@ -7,7 +7,7 @@ export declare const areSetsEqual: <T>(setA: Set<T>, setB: Set<T>) => boolean;
 export declare const getSymmetricDifference: <T>(setA: Set<T>, setB: Set<T>) => Set<T>;
 export declare function removeIntersectionAndMerge(setA: Set<unknown>, setB: Set<unknown>): Set<unknown>;
 export declare const deduplicateObjectsByKeyValue: <T>(objects: T[]) => T[];
-export declare const createWith: <T extends keyof HTMLElementTagNameMap>(tagName: T, role: string, id: string, style?: Partial<CSSStyleDeclaration>) => HTMLElementTagNameMap[T];
+export declare const createWith: <T extends keyof HTMLElementTagNameMap>(tagName: T, role: string, style?: Partial<CSSStyleDeclaration>) => HTMLElementTagNameMap[T];
 export declare const setStyle: (dom: HTMLElement, styles: Partial<CSSStyleDeclaration>) => void;
 export declare const isEqual: (o1: string | number | object, o2: string | number | object) => boolean;
 export declare const getManipulationBox: (rect: {

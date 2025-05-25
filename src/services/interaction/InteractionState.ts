@@ -101,7 +101,7 @@ class InteractionState {
   // currentToolName: string = 'selector'
   constructor(editor: Editor) {
     this.editor = editor
-    this.selectionBox = createWith('div', 'selection-box', editor.id, {
+    this.selectionBox = createWith('div', 'selection-box',   {
       display: 'none',
       pointerEvents: 'none',
       position: 'absolute',

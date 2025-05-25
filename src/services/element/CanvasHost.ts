@@ -11,14 +11,23 @@ import ElementLineSegment from '~/elements/lines/lineSegment'
 import ElementPath from '~/elements/path/path'
 import {createWith} from '~/lib/lib'
 
+const STYLE = {
+  position: 'absolute',
+  left: '0',
+  top: '0',
+  width: '100%',
+  height: '100%',
+  pointerEvents: 'none',
+}
+
 class CanvasHost {
   protected elementMap: ElementMap = new Map()
   private visibleElementMap: ElementMap
   editor: Editor
   eventsController = new AbortController()
   _hoveredElement: ElementInstance | null = null
-  canvas = createWith('canvas', 'main-canvas', editor.id, {...STYLE})
-  ctx = createWith('canvas', 'overlay-canvas', editor.id, {...STYLE})
+  canvas = createWith('canvas', 'main-canvas', {...STYLE})
+  ctx = createWith('canvas', 'overlay-canvas', {...STYLE})
   // visible
   dpr = 2
 
@@ -101,13 +110,6 @@ class CanvasHost {
     }
 
     _ele.dispatchEvent?.(event)
-    /*
-        if (stopped) {
-          domEvent.stopPropagation()
-          domEvent.preventDefault()
-          return true
-        }*/
-
   }
 
   public has(id: string): boolean {
@@ -354,6 +356,7 @@ class CanvasHost {
   }
 
   destroy() {
+    this.canvas.remove()
     this.elementMap.clear()
     this.eventsController.abort()
   }
