@@ -36,7 +36,7 @@ class Cursor {
   constructor(editor: Editor) {
     this.EC = new AbortController()
     this.editor = editor
-    this.domRef = createWith('div', 'cursor',  {
+    this.domRef = createWith('div', /*'cursor', */ {
       pointerEvents: 'none',
       width: SVG_SIZE + 'px',
       height: SVG_SIZE + 'px',

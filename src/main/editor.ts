@@ -148,8 +148,8 @@ class Editor {
       {x: viewportWidth, y: viewportHeight},
     )
 
-    baseCanvas.width = overlayCanvas.width = creationCanvas.width = viewportWidth
-    baseCanvas.height = overlayCanvas.height = creationCanvas.height = viewportHeight
+    this.mainHost.width = this.overlayHost.width = viewportWidth
+    this.mainHost.width = this.overlayHost.width = viewportWidth
   }
 
   destroy() {

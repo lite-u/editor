@@ -29,7 +29,7 @@ class CanvasHost {
         const { signal } = this.eventsController;
         const { container } = editor;
         this.editor = editor;
-        this.canvas = createWith('canvas', 'main-canvas', { ...STYLE });
+        this.canvas = createWith('canvas', { ...STYLE });
         this.ctx = this.canvas.getContext('2d');
         container.appendChild(this.canvas);
         container.addEventListener('pointerdown', e => this.dispatchEvent(e, 'mousedown'), { signal, passive: false });
@@ -128,6 +128,12 @@ class CanvasHost {
             }
         });
         return max;
+    }
+    set width(width) {
+        this.canvas.width = width;
+    }
+    set height(height) {
+        this.canvas.height = height;
     }
     getElementById(id) {
         return this.elementMap.get(id);

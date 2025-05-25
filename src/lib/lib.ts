@@ -148,9 +148,9 @@ export const deduplicateObjectsByKeyValue = <T>(objects: T[]): T[] => {
   })
 }
 
-export const createWith = <T extends keyof HTMLElementTagNameMap>(tagName: T, role: string, style?: Partial<CSSStyleDeclaration>): HTMLElementTagNameMap[T] => {
+export const createWith = <T extends keyof HTMLElementTagNameMap>(tagName: T, style?: Partial<CSSStyleDeclaration>): HTMLElementTagNameMap[T] => {
   const dom = document.createElement(tagName)
-  dom.setAttribute(role, '')
+  // dom.setAttribute(role, '')
 
   if (style) {
     Object.assign(dom.style, style)

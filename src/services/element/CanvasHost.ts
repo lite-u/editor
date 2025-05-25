@@ -35,7 +35,7 @@ class CanvasHost {
     const {signal} = this.eventsController
     const {container} = editor
     this.editor = editor
-    this.canvas = createWith('canvas', 'main-canvas', {...STYLE})
+    this.canvas = createWith('canvas', {...STYLE})
     this.ctx = this.canvas.getContext('2d')!
 
     container.appendChild(this.canvas)

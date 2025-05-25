@@ -113,8 +113,8 @@ class Editor {
         const viewportHeight = height * dpr;
         this.rect = { ...rect, cx: x + width / 2, cy: y + height / 2 };
         this.viewportRect = generateBoundingRectFromTwoPoints({ x: 0, y: 0 }, { x: viewportWidth, y: viewportHeight });
-        baseCanvas.width = overlayCanvas.width = creationCanvas.width = viewportWidth;
-        baseCanvas.height = overlayCanvas.height = creationCanvas.height = viewportHeight;
+        this.mainHost.width = this.overlayHost.width = viewportWidth;
+        this.mainHost.width = this.overlayHost.width = viewportWidth;
     }
     destroy() {
         // this.destroy()

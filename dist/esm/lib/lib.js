@@ -113,9 +113,9 @@ export const deduplicateObjectsByKeyValue = (objects) => {
         return true;
     });
 };
-export const createWith = (tagName, role, style) => {
+export const createWith = (tagName, style) => {
     const dom = document.createElement(tagName);
-    dom.setAttribute(role, '');
+    // dom.setAttribute(role, '')
     if (style) {
         Object.assign(dom.style, style);
     }

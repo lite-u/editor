@@ -31,7 +31,7 @@ class World {
         this.editor = editor;
         // this.baseCanvas = createWith('canvas', 'main-canvas',  {...STYLE})
         // this.overlayCanvas = createWith('canvas', 'overlay-canvas',  {...STYLE})
-        this.creationCanvas = createWith('canvas', 'creation-canvas', { ...STYLE });
+        this.creationCanvas = createWith('canvas', /*'creation-canvas', */ { ...STYLE });
         this.creationCanvasContext = this.creationCanvas.getContext('2d');
         // this.baseCanvasContext = this.baseCanvas.getContext('2d') as CanvasRenderingContext2D
         // this.overlayCanvasContext = this.overlayCanvas.getContext('2d') as CanvasRenderingContext2D

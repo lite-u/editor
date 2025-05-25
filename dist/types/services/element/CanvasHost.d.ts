@@ -21,6 +21,8 @@ declare class CanvasHost {
     get all(): ElementMap;
     get allVisibles(): ElementInstance[];
     get getMaxLayerIndex(): number;
+    set width(width: number);
+    set height(height: number);
     getElementById(id: string): ElementInstance | undefined;
     getElementsByIdSet(idSet: Set<UID>): ElementInstance[];
     getElementMapByIdSet(idSet: Set<UID>): ElementMap;
