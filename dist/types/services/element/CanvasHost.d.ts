@@ -35,6 +35,7 @@ declare class CanvasHost {
     batchMove(from: Set<UID>, delta: Point): void;
     batchModify(idSet: Set<UID>, data: Partial<ElementProps>): void;
     render(): void;
+    reset(): void;
     destroy(): void;
 }
 export default CanvasHost;

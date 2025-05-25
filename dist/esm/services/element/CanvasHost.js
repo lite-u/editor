@@ -311,6 +311,9 @@ class CanvasHost {
             element.render(this.ctx);
         });
     }
+    reset() {
+        this.elementMap.clear();
+    }
     destroy() {
         this.canvas.remove();
         this.elementMap.clear();
