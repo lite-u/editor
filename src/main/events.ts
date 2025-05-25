@@ -97,8 +97,8 @@ export function initEvents(this: Editor) {
     this.mainHost.updateVisibleElementMap()
     this.overlayHost.updateVisibleElementMap()
 
-    dispatch('render-main-host')
-    dispatch('render-overlay')
+    dispatch('rerender-main-host')
+    dispatch('rerender-overlay')
   })
 
   on('world-scale-changed', () => {
@@ -145,7 +145,7 @@ export function initEvents(this: Editor) {
     // getAnchorsByBoundingRect()
     console.log(this.selection.pickIfUnique)
     this.events.onSelectionUpdated?.(this.selection.values, this.selection.pickIfUnique)
-    dispatch('render-overlay')
+    dispatch('rerender-overlay')
 
     // dispatch('visible-selection-updated')
   })
@@ -404,7 +404,7 @@ export function initEvents(this: Editor) {
          })
        })*/
 
-      dispatch('render-main-host')
+      dispatch('rerender-main-host')
     })
     const savedSelected = new Set(newElements.keys())
 
@@ -479,7 +479,7 @@ export function initEvents(this: Editor) {
     dispatch('element-updated')
   })
 
-  on('render-main-host', () => {
+  on('rerender-main-host', () => {
     const {scale, dpr} = this.world
     const {width, height} = this.config.page
     const frameStroke: RectangleProps = {
@@ -520,7 +520,7 @@ export function initEvents(this: Editor) {
     new ElementRectangle(frameFill).render(this.mainHost.ctx)
   })
 
-  on('render-overlay', () => {
+  on('rerender-overlay', () => {
     console.log('render-overlay')
     resetCanvas(
       this.overlayHost.ctx,
@@ -595,7 +595,7 @@ export function initEvents(this: Editor) {
     }
 
     this.toolManager.set(toolName)
-    action.dispatch('render-overlay')
+    action.dispatch('rerender-overlay')
 
     // this.toolManager.currentToolName = toolName
     this.events.onSwitchTool?.(toolName)

@@ -194,7 +194,7 @@ class Editor {
       }
 
       clone.onmouseleave = () => {
-        action.dispatch('render-overlay')
+        action.dispatch('rerender-overlay')
       }
 
       clone.onmousedown = () => {

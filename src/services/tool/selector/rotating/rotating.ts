@@ -28,8 +28,8 @@ const rotating: SubToolType = {
     elements.forEach(ele => ele.rotateFrom(rotationDiff, targetPoint))
     cursor.rotate(mouseCurrentRotation)
 
-    this.action.dispatch('render-overlay')
-    this.action.dispatch('render-main-host')
+    this.action.dispatch('rerender-overlay')
+    this.action.dispatch('rerender-main-host')
 
     return rotationDiff
   },

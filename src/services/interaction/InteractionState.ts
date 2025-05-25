@@ -170,7 +170,7 @@ class InteractionState {
       }
 
       ele.onmouseleave = () => {
-        action.dispatch('render-overlay')
+        action.dispatch('rerender-overlay')
       }
 
       ele.onmousedown = () => {
@@ -298,7 +298,7 @@ class InteractionState {
             this.editor.interaction.generateTransformHandles()
 
             this.editor.action.dispatch('element-updated')
-            this.editor.action.dispatch('render-overlay')
+            this.editor.action.dispatch('rerender-overlay')
 
           })
 
@@ -338,7 +338,7 @@ class InteractionState {
 
             this.editor.interaction.generateTransformHandles()
             this.editor.action.dispatch('element-updated')
-            this.editor.action.dispatch('render-overlay')
+            this.editor.action.dispatch('rerender-overlay')
           })
 
           pointElements.push(line2, cp2)

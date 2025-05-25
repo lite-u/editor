@@ -38,7 +38,7 @@ const selector: ToolType = {
       }
 
       ele.onmouseleave = () => {
-        action.dispatch('render-overlay')
+        action.dispatch('rerender-overlay')
       }
 
       ele.onmousedown = () => {
