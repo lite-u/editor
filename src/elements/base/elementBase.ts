@@ -320,6 +320,12 @@ class ElementBase {
     return {x: 0, y: 0}
   }
 
+  public clone() {
+    console.log(this)
+    const data = this.toJSON()
+    return new this.constructor.prototype(data)
+  }
+
   /*protected resetTransform() {
     this.matrix = new DOMMatrix()
   }*/

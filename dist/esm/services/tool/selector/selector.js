@@ -17,8 +17,8 @@ const selector = {
         // hover style and translate
         elements.forEach(ele => {
             const { id } = ele;
+            console.log(ele.clone());
             ele.onmouseenter = () => {
-                console.log(10);
                 if (this.selection.has(ele.id))
                     return;
                 overlayHost.ctx.save();

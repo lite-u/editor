@@ -1,7 +1,7 @@
-import { generateBoundingRectFromTwoPoints } from '../../core/utils.js';
-import { DEFAULT_CX, DEFAULT_CY, DEFAULT_FILL, DEFAULT_GRADIENT, DEFAULT_OPACITY, DEFAULT_ROTATION, DEFAULT_SHADOW, DEFAULT_STROKE, DEFAULT_TRANSFORM, } from '../defaultProps.js';
-import deepClone from '../../core/deepClone.js';
-import { isEqual } from '../../lib/lib.js';
+import { generateBoundingRectFromTwoPoints } from '~/core/utils';
+import { DEFAULT_CX, DEFAULT_CY, DEFAULT_FILL, DEFAULT_GRADIENT, DEFAULT_OPACITY, DEFAULT_ROTATION, DEFAULT_SHADOW, DEFAULT_STROKE, DEFAULT_TRANSFORM, } from '~/elements/defaultProps';
+import deepClone from '~/core/deepClone';
+import { isEqual } from '~/lib/lib';
 class ElementBase {
     id;
     layer;
@@ -197,6 +197,11 @@ class ElementBase {
     }
     getCenter() {
         return { x: 0, y: 0 };
+    }
+    clone() {
+        console.log(this);
+        const data = this.toJSON();
+        return new this.constructor.prototype(data);
     }
     /*protected resetTransform() {
       this.matrix = new DOMMatrix()
