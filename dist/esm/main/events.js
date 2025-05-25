@@ -35,7 +35,12 @@ export function initEvents() {
     });
     on('world-updated', () => {
         this.world.updateWorldRect();
-        dispatch('visible-element-updated');
+        // dispatch('visible-element-updated')
+        this.mainHost.updateVisibleElementMap();
+        this.overlayHost.updateVisibleElementMap();
+        // this.updateSnapPoints()
+        dispatch('render-main-host');
+        dispatch('render-overlay');
     });
     on('world-zoom', (arg) => {
         if (arg === 'fit') {
@@ -81,18 +86,17 @@ export function initEvents() {
         this.world.offset.y += y * dpr;
         dispatch('world-updated');
     });
-    on('visible-element-updated', () => {
-        // this.visible.updateVisibleElementMap()
-        this.mainHost.updateVisibleElementMap();
-        this.overlayHost.updateVisibleElementMap();
-        // this.updateSnapPoints()
-        dispatch('render-main-host');
-        dispatch('visible-selection-updated');
-    });
-    on('visible-selection-updated', () => {
+    /* on('visible-element-updated', () => {
+       this.mainHost.updateVisibleElementMap()
+       this.overlayHost.updateVisibleElementMap()
+       // this.updateSnapPoints()
+       dispatch('render-main-host')
+       dispatch('render-overlay')
+     })*/
+    /*  on('visible-selection-updated', () => {
         // this.visible.updateVisibleSelected()
-        dispatch('render-overlay');
-    });
+        dispatch('render-overlay')
+      })*/
     on('selection-all', () => {
         this.selection.selectAll();
         dispatch('selection-updated');
@@ -107,7 +111,9 @@ export function initEvents() {
         dispatch('selection-updated');
     });
     on('element-updated', (historyData) => {
-        dispatch('visible-element-updated');
+        // dispatch('visible-element-updated')
+        this.mainHost.updateVisibleElementMap();
+        this.overlayHost.updateVisibleElementMap();
         // dispatch('selection-updated')
         if (historyData) {
             this.history.add(historyData);
@@ -122,7 +128,8 @@ export function initEvents() {
         // getAnchorsByBoundingRect()
         console.log(this.selection.pickIfUnique);
         this.events.onSelectionUpdated?.(this.selection.values, this.selection.pickIfUnique);
-        dispatch('visible-selection-updated');
+        dispatch('render-overlay');
+        // dispatch('visible-selection-updated')
     });
     /*  on('world-mouse-down', () => {
         if (this.toolManager._currentTool) {

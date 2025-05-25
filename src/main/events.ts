@@ -45,7 +45,12 @@ export function initEvents(this: Editor) {
 
   on('world-updated', () => {
     this.world.updateWorldRect()
-    dispatch('visible-element-updated')
+    // dispatch('visible-element-updated')
+    this.mainHost.updateVisibleElementMap()
+    this.overlayHost.updateVisibleElementMap()
+    // this.updateSnapPoints()
+    dispatch('render-main-host')
+    dispatch('render-overlay')
   })
 
   on('world-zoom', (arg) => {
@@ -98,18 +103,18 @@ export function initEvents(this: Editor) {
     dispatch('world-updated')
   })
 
-  on('visible-element-updated', () => {
+ /* on('visible-element-updated', () => {
     this.mainHost.updateVisibleElementMap()
     this.overlayHost.updateVisibleElementMap()
     // this.updateSnapPoints()
     dispatch('render-main-host')
-    dispatch('visible-selection-updated')
-  })
+    dispatch('render-overlay')
+  })*/
 
-  on('visible-selection-updated', () => {
+/*  on('visible-selection-updated', () => {
     // this.visible.updateVisibleSelected()
     dispatch('render-overlay')
-  })
+  })*/
 
   on('selection-all', () => {
     this.selection.selectAll()
@@ -129,7 +134,9 @@ export function initEvents(this: Editor) {
   })
 
   on('element-updated', (historyData: HistoryOperation) => {
-    dispatch('visible-element-updated')
+    // dispatch('visible-element-updated')
+    this.mainHost.updateVisibleElementMap()
+    this.overlayHost.updateVisibleElementMap()
     // dispatch('selection-updated')
 
     if (historyData) {
@@ -148,8 +155,9 @@ export function initEvents(this: Editor) {
     // getAnchorsByBoundingRect()
     console.log(this.selection.pickIfUnique)
     this.events.onSelectionUpdated?.(this.selection.values, this.selection.pickIfUnique)
+    dispatch('render-overlay')
 
-    dispatch('visible-selection-updated')
+    // dispatch('visible-selection-updated')
   })
 
   /*  on('world-mouse-down', () => {
