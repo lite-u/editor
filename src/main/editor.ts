@@ -178,20 +178,16 @@ class Editor {
 
     elements.forEach((ele: ElementInstance) => {
       const id = ele.id
-      const clone = mainHost.create(ele.toMinimalJSON())
+      const clone = ele.clone()
       const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen)
 
+      clone.fill.enabled = false
+      clone.stroke.enabled = true
+      clone.stroke.weight = 2 / scale
+      clone.stroke.color = '#5491f8'
       centerPoint.stroke.enabled = false
       centerPoint.fill.enabled = true
       centerPoint.fill.color = 'orange'
-      // centerPoint._relatedId = ele.id
-
-      if (clone) {
-        clone.fill.enabled = false
-        clone.stroke.enabled = true
-        clone.stroke.weight = 2 / scale
-        clone.stroke.color = '#5491f8'
-      }
 
       ele.onmouseenter = () => {
         if (this.editor.selection.has(ele.id)) return
