@@ -2,10 +2,6 @@ import Editor from '~/main/editor';
 import { BoundingRect, Point } from '~/type';
 declare class World {
     editor: Editor;
-    baseCanvas: HTMLCanvasElement;
-    baseCanvasContext: CanvasRenderingContext2D;
-    overlayCanvas: HTMLCanvasElement;
-    overlayCanvasContext: CanvasRenderingContext2D;
     creationCanvas: HTMLCanvasElement;
     creationCanvasContext: CanvasRenderingContext2D;
     scale: number;

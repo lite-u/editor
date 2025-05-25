@@ -15,10 +15,10 @@ const STYLE = {
 };
 class World {
     editor;
-    baseCanvas;
-    baseCanvasContext;
-    overlayCanvas;
-    overlayCanvasContext;
+    // baseCanvas: HTMLCanvasElement
+    // baseCanvasContext: CanvasRenderingContext2D
+    // overlayCanvas: HTMLCanvasElement
+    // overlayCanvasContext: CanvasRenderingContext2D
     creationCanvas;
     creationCanvasContext;
     scale;

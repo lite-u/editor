@@ -19,10 +19,10 @@ const STYLE = {
 
 class World {
   editor: Editor
-  baseCanvas: HTMLCanvasElement
-  baseCanvasContext: CanvasRenderingContext2D
-  overlayCanvas: HTMLCanvasElement
-  overlayCanvasContext: CanvasRenderingContext2D
+  // baseCanvas: HTMLCanvasElement
+  // baseCanvasContext: CanvasRenderingContext2D
+  // overlayCanvas: HTMLCanvasElement
+  // overlayCanvasContext: CanvasRenderingContext2D
   creationCanvas: HTMLCanvasElement
   creationCanvasContext: CanvasRenderingContext2D
   scale: number

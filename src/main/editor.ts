@@ -136,7 +136,7 @@ class Editor {
   }
 
   updateViewport() {
-    const {dpr, baseCanvas, overlayCanvas, creationCanvas} = this.world
+    const {dpr /*baseCanvas, overlayCanvas,*/ /*creationCanvas*/} = this.world
     const rect = this.container.getBoundingClientRect().toJSON()
     const {x, y, width, height} = rect
     const viewportWidth = width * dpr
