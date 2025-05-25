@@ -20,7 +20,7 @@ const selector = {
             const clone = ele.clone();
             clone.stroke.weight = 1 / this.world.scale * this.world.dpr;
             clone.stroke.color = '#5491f8';
-            overlayHost.add(clone);
+            overlayHost.append(clone);
             clone.onmouseenter = () => {
                 if (this.selection.has(ele.id))
                     return;

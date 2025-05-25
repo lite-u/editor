@@ -230,13 +230,14 @@ class CanvasHost {
         });
         return newMap;
     }
-    add(element) {
-        this.elementMap.set(element.id, element);
-        return element;
+    append(...args) {
+        args.forEach(el => {
+            this.elementMap.set(el.id, el);
+        });
     }
     batchAdd(elements, callback) {
         elements.forEach(mod => {
-            this.add(mod);
+            this.append(mod);
         });
         callback && callback();
         //       this.assetsManager.add('image', data.src)

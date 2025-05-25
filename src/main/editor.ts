@@ -160,7 +160,7 @@ class Editor {
   updateOverlay() {
     this.overlayHost.reset()
     const boxColor = '#435fb9'
-    const {world, action, toolManager, selection, mainHost} = this
+    const {world, action, toolManager, selection, mainHost,overlayHost} = this
     const {scale, dpr} = world
     const ratio = scale * dpr
     const pointLen = 20 / ratio
@@ -169,7 +169,7 @@ class Editor {
     let rotations: number[] = []
 
     if (elements.length <= 1) {
-      this.selectedOutlineElement = null
+      // this.selectedOutlineElement = null
       if (elements.length === 0) return
     }
 
@@ -205,8 +205,8 @@ class Editor {
         this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values)
       }
 
-      this.overlayHost.append(clone)
-      this.overlayHost.append(centerPoint)
+      overlayHost.append(clone)
+      overlayHost.append(centerPoint)
       // this.transformHandles.push(centerPoint)
 
       rotations.push(ele.rotation)
@@ -226,10 +226,10 @@ class Editor {
         rect.width = 1
         rect.cx = elements[0].cx
       }
-      this.transformHandles.push(...getManipulationBox(rect, applyRotation, ratio, specialLineSeg))
+      overlayHost.append(...getManipulationBox(rect, applyRotation, ratio, specialLineSeg))
     } else {
       rect = getBoundingRectFromBoundingRects(rectsWithRotation)
-      this.transformHandles.push(...getManipulationBox(rect, 0, ratio, specialLineSeg))
+      overlayHost.append(...getManipulationBox(rect, 0, ratio, specialLineSeg))
     }
 
     const selectedOutlineElement = new ElementRectangle({
@@ -246,7 +246,7 @@ class Editor {
       },
     })
 
-    this.overlayHost.append(selectedOutlineElement)
+    overlayHost.append(selectedOutlineElement)
   }
 
   destroy() {

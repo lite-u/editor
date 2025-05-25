@@ -288,10 +288,10 @@ class CanvasHost {
     return newMap
   }
 
-  append(element: ElementInstance): ElementInstance {
-    this.elementMap.set(element.id, element)
-
-    return element
+  append(...args: ElementInstance[]): void {
+    args.forEach(el => {
+      this.elementMap.set(el.id, el)
+    })
   }
 
   batchAdd(elements: ElementMap, callback?: VoidFunction): ElementMap {
