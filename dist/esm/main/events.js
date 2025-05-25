@@ -445,24 +445,6 @@ export function initEvents() {
         resetCanvas(this.world.creationCanvasContext, this.world.scale, this.world.offset, this.world.dpr);
         // this.world.renderOverlay()
     });
-    /*
-      on('element-hover-enter', (id) => {
-        if (this.interaction._hoveredElement && id && this.interaction._hoveredElement === id) {
-          return
-        }
-  
-        // console.log(this.hoveredElement, id)
-  
-        this.interaction._hoveredElement = id
-        dispatch('visible-selection-updated')
-      })
-    */
-    /*
-      on('element-hover-leave', () => {
-        this.interaction._hoveredElement = null!
-        dispatch('visible-selection-updated')
-      })
-    */
     on('history-undo', () => {
         undo.call(this);
         dispatch('element-updated');
