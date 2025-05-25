@@ -408,6 +408,7 @@ export function initEvents() {
         dispatch('element-updated');
     });
     on('rerender-main-host', () => {
+        console.log('rerender-main-host');
         const { scale, dpr } = this.world;
         const { width, height } = this.config.page;
         const frameStroke = {
@@ -439,7 +440,7 @@ export function initEvents() {
         new ElementRectangle(frameFill).render(this.mainHost.ctx);
     });
     on('rerender-overlay', () => {
-        console.log('render-overlay');
+        console.log('rerender-overlay');
         resetCanvas(this.overlayHost.ctx, this.world.scale, this.world.offset, this.world.dpr);
         this.overlayHost.render();
     });
