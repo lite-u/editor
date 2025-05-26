@@ -49,6 +49,7 @@ const rotating: SubToolType = {
     cursor.set(selector.cursor)
     action.dispatch('element-modified', changes)
 
+    this.interaction._rotateData = null
     this.interaction.subTool = null
   },
 }

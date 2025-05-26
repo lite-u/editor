@@ -178,8 +178,13 @@ const selector = {
         this.toolManager.subTool?.mouseMove.call(this);
     },
     mouseUp() {
+        if (this.interaction._rotateData) {
+            rotating.mouseMove.call(this);
+            // return
+        }
+        this.cursor.set(selector.cursor);
         this.toolManager.subTool?.mouseUp.call(this);
-        this.interaction._rotateData = null;
+        // this.interaction._rotateData = null
         this.toolManager.subTool = null;
     },
 };
