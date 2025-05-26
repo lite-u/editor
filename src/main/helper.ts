@@ -31,14 +31,12 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
   ]
   const handleRotateMouseEnter = (e) => {
     this.cursor.set('rotate')
-    e.target.fill.color = 'red'
-    this.action.dispatch('rerender-overlay')
+    // this.action.dispatch('rerender-overlay')
 
   }
   const handleRotateMouseLeave = (e) => {
-    // this.cursor.set('default')
-    console.log('Rotate leave')
-    e.target.fill.color = 'blue'
+    this.cursor.set('default')
+    // e.target.fill.color = 'blue'
     this.action.dispatch('rerender-overlay')
   }
   const handleRotateMouseDown = (e) => {
@@ -55,15 +53,13 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
   }
 
   const handleResizeMouseEnter = (e) => {
-    // this.cursor.set('nw-resize')
-    console.log('Resize Enter')
-    e.target.fill.color = 'red'
+    this.cursor.set('nw-resize')
+    // console.log('Resize Enter')
     this.action.dispatch('rerender-overlay')
   }
   const handleResizeMouseLeave = (e) => {
-    // this.cursor.set('default')
-    console.log('Resize leave')
-    e.target.fill.color = '#ffffff'
+    this.cursor.set('default')
+    // e.target.fill.color = '#ffffff'
     this.action.dispatch('rerender-overlay')
   }
 
