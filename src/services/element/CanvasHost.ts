@@ -57,6 +57,8 @@ class CanvasHost {
     // console.log(elements)
     for (const el of elements) {
       const {path2D, fill} = el
+      let f1 = false
+      let f2 = false
       // console.log(ctx.lineWidth)
       ctx.save()
       // console.log(el.stroke.weight)

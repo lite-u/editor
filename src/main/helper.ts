@@ -88,7 +88,7 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
     resizeEle.layer = 2
     rotateEle.rotation = rotation
     rotateEle.stroke.enabled = false
-    rotateEle.stroke.weight = resizeStrokeWidth
+    rotateEle.stroke.weight = 0
     rotateEle.fill.enabled = true
     rotateEle.fill.color = 'blue'
 
