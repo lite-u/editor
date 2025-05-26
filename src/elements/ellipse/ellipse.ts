@@ -104,13 +104,14 @@ class ElementEllipse extends ElementBase {
     this.r1 = Math.abs(rx.x - center.x)
     this.r2 = Math.abs(ry.y - center.y)
     this.updatePath2D()
+    this.updateBoundingRect()
   }
 
   public toMinimalJSON(): EllipseProps {
     return {
       ...super.toMinimalJSON(),
-      startAngle:this.startAngle,
-      endAngle:this.endAngle,
+      startAngle: this.startAngle,
+      endAngle: this.endAngle,
       type: this.type,
       r1: this.r1,
       r2: this.r2,
@@ -120,8 +121,8 @@ class ElementEllipse extends ElementBase {
   public toJSON(): RequiredEllipseProps {
     return {
       ...super.toJSON(),
-      startAngle:this.startAngle,
-      endAngle:this.endAngle,
+      startAngle: this.startAngle,
+      endAngle: this.endAngle,
       type: this.type,
       r1: this.r1,
       r2: this.r2,
