@@ -27,6 +27,8 @@ class CanvasHost {
     dpr = 2;
     onmousedown;
     onmouseup;
+    onmousemove;
+    oncontextmenu;
     // _rqId: number = -1
     constructor(editor) {
         this.editor = editor;
@@ -39,13 +41,43 @@ class CanvasHost {
         container.addEventListener('pointerdown', e => {
             container.setPointerCapture(e.pointerId);
             this.dispatchEvent(e, 'mousedown');
+            this.onmousedown?.({
+                element: this._hoveredElement,
+                originalEvent: e,
+            });
         }, { signal, passive: false });
         container.addEventListener('pointerup', e => {
+            console.log(e);
             container.releasePointerCapture(e.pointerId);
-            this.dispatchEvent(e, 'mouseup');
+            if (e.button === 0) {
+                this.dispatchEvent(e, 'mouseup');
+                this.onmouseup?.({
+                    element: this._hoveredElement,
+                    originalEvent: e,
+                });
+            }
+            if (e.button === 2) {
+                this.dispatchEvent(e, 'contextmenu');
+                this.oncontextmenu?.({
+                    element: this._hoveredElement,
+                    originalEvent: e,
+                });
+            }
         }, { signal });
-        container.addEventListener('pointermove', e => this.dispatchEvent(e, 'mousemove'), { signal });
-        // this.startRender()
+        container.addEventListener('pointermove', e => {
+            this.dispatchEvent(e, 'mousemove');
+            this.onmousemove?.({
+                element: this._hoveredElement,
+                originalEvent: e,
+            });
+        }, { signal });
+        /*    container.addEventListener('contextmenu', e => {
+              this.dispatchEvent(e, 'mousemove')
+              this.onmousemove?.({
+                element: this._hoveredElement,
+                originalEvent: e,
+              })
+            }, {signal})*/
     }
     dispatchEvent(domEvent, type, options) {
         const { ctx, dpr } = this;
@@ -98,22 +130,8 @@ class CanvasHost {
                 this._hoveredElement = _ele;
             }
         }
-        if (type === 'mousedown') {
-            this.onmousedown?.({
-                element: _ele,
-                originalEvent: domEvent,
-            });
-        }
-        if (type === 'mouseup') {
-            this.onmouseup?.({
-                element: _ele,
-                originalEvent: domEvent,
-            });
-        }
-        if (!_ele) {
+        if (!_ele)
             return;
-        }
-        // console.log(_ele)
         const event = {
             type,
             x,

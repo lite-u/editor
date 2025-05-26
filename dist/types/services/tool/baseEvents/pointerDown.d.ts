@@ -1,3 +1,4 @@
 import ToolManager from '~/services/tool/toolManager';
-declare function handleMouseDown(this: ToolManager, e: PointerEvent): void;
+import { CanvasHostEvent } from '~/services/element/CanvasHost';
+declare function handleMouseDown(this: ToolManager, e: CanvasHostEvent): void;
 export default handleMouseDown;

@@ -1,6 +1,11 @@
 import Editor from '~/main/editor';
 import { ElementInstance, ElementMap, ElementProps, OptionalIdentifiersProps } from '~/elements/type';
 import { Point, UID } from '~/type';
+export type CanvasHostEvent = {
+    element: ElementInstance | null;
+    originalEvent: MouseEvent;
+};
+export type CanvasHostEventHandler = (event: CanvasHostEvent) => void;
 declare class CanvasHost {
     protected elementMap: ElementMap;
     private visible;
@@ -10,14 +15,10 @@ declare class CanvasHost {
     canvas: HTMLCanvasElement;
     ctx: CanvasRenderingContext2D;
     dpr: number;
-    onmousedown?: (event: {
-        element: ElementInstance | null;
-        originalEvent: MouseEvent;
-    }) => void;
-    onmouseup?: (event: {
-        element: ElementInstance | null;
-        originalEvent: MouseEvent;
-    }) => void;
+    onmousedown?: CanvasHostEventHandler;
+    onmouseup?: CanvasHostEventHandler;
+    onmousemove?: CanvasHostEventHandler;
+    oncontextmenu?: CanvasHostEventHandler;
     constructor(editor: Editor);
     dispatchEvent(domEvent: PointerEvent, type: PointerEvent['type'], options?: {
         tolerance?: number;
