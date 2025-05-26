@@ -1,11 +1,12 @@
-import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
-import dragging from '~/services/tool/selector/dragging/dragging';
-import ElementRectangle from '~/elements/rectangle/rectangle';
-import Rectangle from '~/elements/rectangle/rectangle';
-import { getMinimalBoundingRect } from '~/core/utils';
-import { DEFAULT_STROKE } from '~/elements/defaultProps';
-import { rotatePointAroundPoint } from '~/core/geometry';
-import Ellipse from '~/elements/ellipse/ellipse';
+import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
+import dragging from '../services/tool/selector/dragging/dragging.js';
+import ElementRectangle from '../elements/rectangle/rectangle.js';
+import Rectangle from '../elements/rectangle/rectangle.js';
+import { getMinimalBoundingRect } from '../core/utils.js';
+import { DEFAULT_STROKE } from '../elements/defaultProps.js';
+import { rotatePointAroundPoint } from '../core/geometry.js';
+import Ellipse from '../elements/ellipse/ellipse.js';
+import { nid } from '../index.js';
 export function generateTransformHandles(rect, ratio, rotation, specialLineSeg = false) {
     const result = [];
     const resizeLen = 30 / ratio;
@@ -73,11 +74,12 @@ export function getManipulationBox() {
     if (selectedElements.length === 0)
         return;
     selectedElements.forEach((ele) => {
-        const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen);
-        centerPoint.stroke.enabled = false;
-        centerPoint.fill.enabled = true;
-        centerPoint.fill.color = 'orange';
-        overlayHost.append(centerPoint);
+        // const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen)
+        /*
+            centerPoint.stroke.enabled = false
+            centerPoint.fill.enabled = true
+            centerPoint.fill.color = 'orange'*/
+        // overlayHost.append(centerPoint)
         rotations.push(ele.rotation);
         rectsWithRotation.push(ele.getBoundingRect());
         rectsWithoutRotation.push(ele.getBoundingRect(true));
@@ -175,17 +177,11 @@ export function generateElementsClones() {
         if (ele.type !== 'path1') {
             console.log('point');
             const pointLen = 20 / ratio;
-            const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen);
+            const centerPoint = ElementRectangle.create(nid(), ele.cx, ele.cy, pointLen);
             centerPoint.onmousedown = () => handleTranslateMouseDown(id);
-            centerPoint.onmouseenter = () => {
-                console.log(9);
-            };
-            centerPoint.onmouseleave = () => {
-                console.log(10);
-            };
             centerPoint.layer = 1;
             centerPoint.stroke.enabled = false;
-            centerPoint.fill.enabled = false;
+            centerPoint.fill.enabled = true;
             centerPoint.fill.color = 'orange';
             overlayHost.append(centerPoint);
         }

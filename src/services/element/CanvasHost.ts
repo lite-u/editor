@@ -99,7 +99,6 @@ class CanvasHost {
         this._hoveredElement = _ele
       }
     }
-
     if (!_ele) return
 
     const event = {

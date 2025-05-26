@@ -8,6 +8,7 @@ import {DEFAULT_STROKE} from '~/elements/defaultProps'
 import Editor from '~/main/editor'
 import {rotatePointAroundPoint} from '~/core/geometry'
 import Ellipse from '~/elements/ellipse/ellipse'
+import {nid} from '~/index'
 
 export function generateTransformHandles(rect: {
   cx: number,
@@ -89,13 +90,13 @@ export function getManipulationBox(this: Editor) {
   if (selectedElements.length === 0) return
 
   selectedElements.forEach((ele: ElementInstance) => {
-    const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen)
+    // const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen)
+    /*
+        centerPoint.stroke.enabled = false
+        centerPoint.fill.enabled = true
+        centerPoint.fill.color = 'orange'*/
 
-    centerPoint.stroke.enabled = false
-    centerPoint.fill.enabled = true
-    centerPoint.fill.color = 'orange'
-
-    overlayHost.append(centerPoint)
+    // overlayHost.append(centerPoint)
     rotations.push(ele.rotation)
     rectsWithRotation.push(ele.getBoundingRect())
     rectsWithoutRotation.push(ele.getBoundingRect(true))
@@ -204,18 +205,12 @@ export function generateElementsClones(this: Editor) {
     if (ele.type !== 'path1') {
       console.log('point')
       const pointLen = 20 / ratio
-      const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen)
+      const centerPoint = ElementRectangle.create(nid(), ele.cx, ele.cy, pointLen)
       centerPoint.onmousedown = () => handleTranslateMouseDown(id)
-      centerPoint.onmouseenter = () => {
-        console.log(9)
-      }
-      centerPoint.onmouseleave = () => {
-        console.log(10)
-      }
 
       centerPoint.layer = 1
       centerPoint.stroke.enabled = false
-      centerPoint.fill.enabled = false
+      centerPoint.fill.enabled = true
       centerPoint.fill.color = 'orange'
       overlayHost.append(centerPoint)
     }
