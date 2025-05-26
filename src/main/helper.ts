@@ -9,6 +9,7 @@ import Editor from '~/main/editor'
 import {rotatePointAroundPoint} from '~/core/geometry'
 import Ellipse from '~/elements/ellipse/ellipse'
 import {nid} from '~/index'
+import {getRotateAngle} from '~/services/tool/selector/helper'
 
 export function generateTransformHandles(this: Editor, ele: ElementRectangle, specialLineSeg = false) {
   const {world} = this
@@ -30,8 +31,10 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
     {name: 'l', dx: -0.5, dy: 0},
   ]
   const handleRotateMouseEnter = (e) => {
+    const mouseCurrentRotation = getRotateAngle({x: cx, y: cy}, this.interaction.mouseWorldCurrent)
+
     this.cursor.set('rotate')
-    console.log(e)
+    this.cursor.rotate(mouseCurrentRotation)
     // this.action.dispatch('rerender-overlay')
 
   }
@@ -41,6 +44,11 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
     this.action.dispatch('rerender-overlay')
   }
   const handleRotateMouseDown = (e) => {
+
+    const mouseCurrentRotation = getRotateAngle({x: cx, y: cy}, this.interaction.mouseWorldCurrent)
+
+    this.cursor.rotate(mouseCurrentRotation)
+
     /*  const rects = selectedElements.map(ele => {
         return ele.getBoundingRect(true)
       })

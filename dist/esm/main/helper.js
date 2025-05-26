@@ -7,6 +7,7 @@ import { DEFAULT_STROKE } from '../elements/defaultProps.js';
 import { rotatePointAroundPoint } from '../core/geometry.js';
 import Ellipse from '../elements/ellipse/ellipse.js';
 import { nid } from '../index.js';
+import { getRotateAngle } from '../services/tool/selector/helper.js';
 export function generateTransformHandles(ele, specialLineSeg = false) {
     const { world } = this;
     const { scale, dpr } = world;
@@ -27,8 +28,9 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
         { name: 'l', dx: -0.5, dy: 0 },
     ];
     const handleRotateMouseEnter = (e) => {
+        const mouseCurrentRotation = getRotateAngle({ x: cx, y: cy }, this.interaction.mouseWorldCurrent);
         this.cursor.set('rotate');
-        console.log(e);
+        this.cursor.rotate(mouseCurrentRotation);
         // this.action.dispatch('rerender-overlay')
     };
     const handleRotateMouseLeave = (e) => {
@@ -37,6 +39,8 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
         this.action.dispatch('rerender-overlay');
     };
     const handleRotateMouseDown = (e) => {
+        const mouseCurrentRotation = getRotateAngle({ x: cx, y: cy }, this.interaction.mouseWorldCurrent);
+        this.cursor.rotate(mouseCurrentRotation);
         /*  const rects = selectedElements.map(ele => {
             return ele.getBoundingRect(true)
           })
