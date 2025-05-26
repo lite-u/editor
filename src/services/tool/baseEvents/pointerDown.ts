@@ -24,8 +24,6 @@ function handleMouseDown(this: ToolManager, e: CanvasHostEvent) {
   this.editor.interaction._modifier = modifiers
   this.editor.interaction._pointDown = true
 
-  if (button !== 0) return
-
   if (!element) {
     this.tool?.mouseDown?.call(this.editor)
 
