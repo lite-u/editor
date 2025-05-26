@@ -1,5 +1,5 @@
-import { getRotateAngle } from '~/services/tool/selector/helper';
-import selector from '~/services/tool/selector/selector';
+import { getRotateAngle } from '../helper.js';
+import selector from '../selector.js';
 const rotating = {
     // cursor: 'default',
     mouseMove: function () {
@@ -18,6 +18,7 @@ const rotating = {
         }
         elements.forEach(ele => ele.rotateFrom(rotationDiff, targetPoint));
         cursor.rotate(mouseCurrentRotation);
+        this.overlayHost.reset();
         this.action.dispatch('rerender-overlay');
         this.action.dispatch('rerender-main-host');
         return rotationDiff;
