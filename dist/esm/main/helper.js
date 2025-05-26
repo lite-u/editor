@@ -82,10 +82,10 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
             'tr': [180, 90],
             'r': [270, 90],
             'br': [270, 180],
-            'b': [135, 225],
-            'bl': [180, 270],
-            'l': [225, 315],
-            'tl': [270, 360],
+            'b': [360, 180],
+            'bl': [0, 270],
+            'l': [90, 270],
+            'tl': [90, 360],
         };
         if (angleMap[name]) {
             const [startDeg, endDeg] = angleMap[name];
