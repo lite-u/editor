@@ -28,6 +28,7 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
     ];
     const handleRotateMouseEnter = (e) => {
         this.cursor.set('rotate');
+        console.log(e);
         console.log('Rotate Enter');
     };
     const handleRotateMouseLeave = (e) => {

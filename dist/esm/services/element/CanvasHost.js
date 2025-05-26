@@ -68,6 +68,7 @@ class CanvasHost {
                     x,
                     y,
                     pointerId,
+                    target: _ele,
                     originalEvent: domEvent,
                     isPropagationStopped: false,
                     stopPropagation() { },
@@ -78,6 +79,7 @@ class CanvasHost {
                     x,
                     y,
                     pointerId,
+                    target: _ele,
                     originalEvent: domEvent,
                     isPropagationStopped: false,
                     stopPropagation() { },
@@ -94,6 +96,7 @@ class CanvasHost {
             y,
             pointerId,
             originalEvent: domEvent,
+            target: _ele,
             isPropagationStopped: false,
             stopPropagation() {
                 event.isPropagationStopped = true;
