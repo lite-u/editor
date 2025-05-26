@@ -1,7 +1,6 @@
 import {SubToolType} from '~/services/tool/toolManager'
 import {getRotateAngle} from '~/services/tool/selector/helper'
 import {HistoryChangeItem} from '~/services/actions/type'
-import selector from '~/services/tool/selector/selector'
 
 const rotating: SubToolType = {
   // cursor: 'default',
@@ -49,7 +48,6 @@ const rotating: SubToolType = {
     // cursor.set(selector.cursor)
     action.dispatch('element-modified', changes)
     this.interaction._rotateData = null
-    this.interaction.subTool = null
   },
 }
 
