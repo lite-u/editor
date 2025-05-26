@@ -51,13 +51,17 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
           console.log(sameRotation)
           console.log(applyRotation)*/
     };
-    const handleResizeMouseEnter = () => {
+    const handleResizeMouseEnter = (e) => {
         // this.cursor.set('nw-resize')
         console.log('Resize Enter');
+        e.target.fill.color = 'red';
+        this.action.dispatch('rerender-overlay');
     };
-    const handleResizeMouseLeave = () => {
+    const handleResizeMouseLeave = (e) => {
         // this.cursor.set('default')
         console.log('Resize leave');
+        e.target.fill.color = '#ffffff';
+        this.action.dispatch('rerender-overlay');
     };
     const handleResizeMouseDown = () => { };
     arr.map(({ dx, dy, name }) => {
