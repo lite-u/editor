@@ -1,6 +1,5 @@
 import {ToolType} from '~/services/tool/toolManager'
 import {getRotateAngle} from '~/services/tool/selector/helper'
-import selecting from '~/services/tool/selector/selecting/selecting'
 import rotating from '~/services/tool/selector/rotating/rotating'
 
 const selector: ToolType = {
@@ -8,7 +7,7 @@ const selector: ToolType = {
   init: function () { },
   mouseDown: function () {
     if (!this.toolManager.subTool) {
-      this.toolManager.subTool = selecting
+      // this.toolManager.subTool = selecting
     }
     /* const {interaction, elementManager, selection, cursor} = this
      // const {_hoveredElement} = interaction
@@ -68,10 +67,9 @@ const selector: ToolType = {
   mouseUp() {
     if (this.interaction._rotateData) {
       rotating.mouseMove.call(this)
-      // return
     }
     this.cursor.set(selector.cursor)
-    this.toolManager.subTool?.mouseUp.call(this)
+    // this.toolManager.subTool?.mouseUp.call(this)
     this.toolManager.subTool = null
   },
 }
