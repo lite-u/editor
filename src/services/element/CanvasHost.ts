@@ -85,13 +85,10 @@ class CanvasHost {
         originalEvent: e,
       })
     }, {signal})
-    /*    container.addEventListener('contextmenu', e => {
-          this.dispatchEvent(e, 'mousemove')
-          this.onmousemove?.({
-            element: this._hoveredElement,
-            originalEvent: e,
-          })
-        }, {signal})*/
+    container.addEventListener('contextmenu', e => {
+      e.preventDefault()
+      e.stopPropagation()
+    }, {signal})
   }
 
   public dispatchEvent(domEvent: PointerEvent, type: PointerEvent['type'], options?: { tolerance?: number }) {
