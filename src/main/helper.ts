@@ -179,6 +179,13 @@ export function generateElementsClones(this: Editor) {
     const id = ele.id
     const clone = ele.clone()
     const elementSelected = idSet.has(id)
+    const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen)
+
+    centerPoint.stroke.enabled = false
+    centerPoint.fill.enabled = true
+    centerPoint.fill.color = 'orange'
+    overlayHost.append(centerPoint)
+
     clone.fill.enabled = false
     clone.stroke.enabled = true
     clone.stroke.weight = 2 / ratio
