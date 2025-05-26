@@ -7,7 +7,6 @@ const rotating: SubToolType = {
   // cursor: 'default',
 
   mouseMove: function () {
-    console.log(this)
     const {interaction, mainHost, selection, cursor} = this
     const elements = mainHost.getElementsByIdSet(selection.values)
     const {_rotateData, _modifier, mouseWorldCurrent, mouseWorldStart} = interaction
