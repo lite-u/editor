@@ -182,6 +182,7 @@ export function generateElementsClones(this: Editor) {
     const cloneStrokeLine = ele.clone()
     const elementSelected = idSet.has(id)
 
+    invisibleClone.id = 'invisible-clone'
     invisibleClone.layer = 1
     invisibleClone.fill.enabled = false
     invisibleClone.stroke.enabled = true
@@ -197,7 +198,9 @@ export function generateElementsClones(this: Editor) {
 
       // overlayHost.append(translateClone)
 
+      console.log(8)
       invisibleClone.onmouseenter = () => {
+        console.log(9)
         cloneStrokeLine.stroke.color = boxColor
         action.dispatch('rerender-overlay')
       }

@@ -161,6 +161,7 @@ export function generateElementsClones() {
         const invisibleClone = ele.clone();
         const cloneStrokeLine = ele.clone();
         const elementSelected = idSet.has(id);
+        invisibleClone.id = 'invisible-clone';
         invisibleClone.layer = 1;
         invisibleClone.fill.enabled = false;
         invisibleClone.stroke.enabled = true;
@@ -173,7 +174,9 @@ export function generateElementsClones() {
             // const cloneStrokeLine = translateClone.clone()
             // cloneStrokeLine.layer = 1
             // overlayHost.append(translateClone)
+            console.log(8);
             invisibleClone.onmouseenter = () => {
+                console.log(9);
                 cloneStrokeLine.stroke.color = boxColor;
                 action.dispatch('rerender-overlay');
             };
