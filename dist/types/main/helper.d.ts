@@ -7,4 +7,4 @@ export declare function generateTransformHandles(rect: {
     height: number;
 }, ratio: number, rotation: number, specialLineSeg?: boolean): ElementInstance[];
 export declare function getManipulationBox(this: Editor): void;
-export declare function regenerateOverlayElements(this: Editor): void;
+export declare function generateElementsClones(this: Editor): void;

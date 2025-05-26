@@ -135,7 +135,7 @@ export function getManipulationBox(this: Editor) {
   overlayHost.append(selectedOutlineElement, ...generateTransformHandles(rect, ratio, applyRotation, specialLineSeg))
 }
 
-export function regenerateOverlayElements(this: Editor) {
+export function generateElementsClones(this: Editor) {
   const boxColor = '#435fb9'
   const {world, action, toolManager, selection, mainHost, overlayHost} = this
   const {scale, dpr} = world

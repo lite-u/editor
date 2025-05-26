@@ -22,7 +22,7 @@ import ElementRectangle from '~/elements/rectangle/rectangle'
 import dragging from '~/services/tool/selector/dragging/dragging'
 import {getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
 import {DEFAULT_STROKE} from '~/elements/defaultProps'
-import {getManipulationBox, regenerateOverlayElements} from '~/main/helper'
+import {getManipulationBox, generateElementsClones, generateTransformHandles} from '~/main/helper'
 
 class Editor {
   id = nid()
@@ -158,7 +158,10 @@ class Editor {
   }
 
   regenerateOverlayElements() {
-    regenerateOverlayElements.call(this)
+    generateElementsClones.call(this)
+    getManipulationBox.call(this)
+    generateTransformHandles.call(this)
+
   }
   destroy() {
     // this.destroy()
