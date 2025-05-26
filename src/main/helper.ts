@@ -55,6 +55,7 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
       console.log(sameRotation)
       console.log(applyRotation)*/
   }
+
   const handleResizeMouseEnter = (e) => {
     // this.cursor.set('nw-resize')
     console.log('Resize Enter')
