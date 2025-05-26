@@ -159,7 +159,7 @@ export function generateElementsClones() {
         const id = ele.id;
         const translateClone = ele.clone();
         const elementSelected = idSet.has(id);
-        translateClone.layer = 1;
+        translateClone.layer = 0;
         translateClone.fill.enabled = false;
         translateClone.stroke.enabled = false;
         translateClone.stroke.color = elementSelected ? boxColor : 'none';
@@ -167,6 +167,7 @@ export function generateElementsClones() {
         overlayHost.append(translateClone);
         if (!elementSelected) {
             const cloneStrokeLine = translateClone.clone();
+            cloneStrokeLine.layer = 1;
             overlayHost.append(translateClone);
             translateClone.onmouseenter = () => {
                 cloneStrokeLine.stroke.color = boxColor;
