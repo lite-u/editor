@@ -30,7 +30,7 @@ class CanvasHost {
   canvas: HTMLCanvasElement
   ctx: CanvasRenderingContext2D
   dpr = 2
-  _rqId: number = -1
+  // _rqId: number = -1
 
   constructor(editor: Editor) {
     this.editor = editor
@@ -393,10 +393,11 @@ class CanvasHost {
   reset() {
     this.elementMap.clear()
     this.visible.clear()
+    this._hoveredElement = null
   }
 
   destroy() {
-    cancelAnimationFrame(this._rqId)
+    // cancelAnimationFrame(this._rqId)
     /*this._timer = requestAnimationFrame(() => {
       this.render()
     })*/

@@ -10,7 +10,6 @@ declare class CanvasHost {
     canvas: HTMLCanvasElement;
     ctx: CanvasRenderingContext2D;
     dpr: number;
-    _rqId: number;
     constructor(editor: Editor);
     dispatchEvent(domEvent: PointerEvent, type: PointerEvent['type'], options?: {
         tolerance?: number;

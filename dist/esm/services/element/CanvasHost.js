@@ -25,7 +25,7 @@ class CanvasHost {
     canvas;
     ctx;
     dpr = 2;
-    _rqId = -1;
+    // _rqId: number = -1
     constructor(editor) {
         this.editor = editor;
         const { signal } = this.eventsController;
@@ -316,9 +316,10 @@ class CanvasHost {
     reset() {
         this.elementMap.clear();
         this.visible.clear();
+        this._hoveredElement = null;
     }
     destroy() {
-        cancelAnimationFrame(this._rqId);
+        // cancelAnimationFrame(this._rqId)
         /*this._timer = requestAnimationFrame(() => {
           this.render()
         })*/
