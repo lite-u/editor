@@ -383,7 +383,7 @@ class ElementBase {
       ctx.lineWidth = weight
       // console.log(weight,strokeColor)
       ctx.strokeStyle = strokeColor
-      ctx.lineJoin = 'round'
+      // ctx.lineJoin = 'round'
       ctx.lineCap = 'round'
       ctx.stroke(this.path2D)
     }
