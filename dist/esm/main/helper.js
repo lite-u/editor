@@ -1,11 +1,11 @@
-import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
-import dragging from '../services/tool/selector/dragging/dragging.js';
-import ElementRectangle from '../elements/rectangle/rectangle.js';
-import Rectangle from '../elements/rectangle/rectangle.js';
-import { getMinimalBoundingRect } from '../core/utils.js';
-import { DEFAULT_STROKE } from '../elements/defaultProps.js';
-import { rotatePointAroundPoint } from '../core/geometry.js';
-import Ellipse from '../elements/ellipse/ellipse.js';
+import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
+import dragging from '~/services/tool/selector/dragging/dragging';
+import ElementRectangle from '~/elements/rectangle/rectangle';
+import Rectangle from '~/elements/rectangle/rectangle';
+import { getMinimalBoundingRect } from '~/core/utils';
+import { DEFAULT_STROKE } from '~/elements/defaultProps';
+import { rotatePointAroundPoint } from '~/core/geometry';
+import Ellipse from '~/elements/ellipse/ellipse';
 export function generateTransformHandles(rect, ratio, rotation, specialLineSeg = false) {
     const result = [];
     const resizeLen = 30 / ratio;
@@ -157,6 +157,7 @@ export function generateElementsClones() {
         clone.stroke.enabled = true;
         clone.stroke.weight = 2 / ratio;
         clone.stroke.color = elementSelected ? boxColor : 'none';
+        clone.onmousedown = () => handleTranslateMouseDown(id);
         if (!elementSelected) {
             clone.onmouseenter = () => {
                 clone.stroke.color = boxColor;
@@ -167,10 +168,16 @@ export function generateElementsClones() {
                 action.dispatch('rerender-overlay');
             };
         }
-        clone.onmousedown = () => handleTranslateMouseDown(id);
-        overlayHost.append(clone);
-        if (ele.type !== 'path') {
+        if (ele.type !== 'path1') {
             const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen);
+            centerPoint.onmousedown = () => handleTranslateMouseDown(id);
+            centerPoint.onmouseenter = () => {
+                console.log(9);
+            };
+            centerPoint.onmouseleave = () => {
+                console.log(10);
+            };
+            console.log('go');
             centerPoint.stroke.enabled = false;
             centerPoint.fill.enabled = false;
             centerPoint.fill.color = 'orange';
