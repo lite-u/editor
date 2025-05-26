@@ -148,6 +148,7 @@ export function generateElementsClones() {
     const ratio = scale * dpr;
     const idSet = selection.values;
     const visibleElements = mainHost.visibleElements;
+    const strokeWidth = 2 / ratio;
     const handleTranslateMouseDown = (id) => {
         if (!selection.has(id)) {
             action.dispatch('selection-modify', { mode: 'replace', idSet: new Set([id]) });
@@ -157,25 +158,26 @@ export function generateElementsClones() {
     };
     visibleElements.forEach((ele) => {
         const id = ele.id;
-        const translateClone = ele.clone();
+        const invisibleClone = ele.clone();
+        const cloneStrokeLine = ele.clone();
         const elementSelected = idSet.has(id);
-        const cloneStrokeLine = translateClone.clone();
-        translateClone.layer = 0;
+        invisibleClone.layer = 0;
+        invisibleClone.fill.enabled = false;
+        invisibleClone.stroke.enabled = true;
+        invisibleClone.stroke.color = 'none';
+        invisibleClone.onmousedown = () => handleTranslateMouseDown(id);
         cloneStrokeLine.layer = 1;
-        translateClone.fill.enabled = false;
-        translateClone.stroke.enabled = true;
-        translateClone.stroke.color = 'none';
-        translateClone.onmousedown = () => handleTranslateMouseDown(id);
-        overlayHost.append(translateClone, cloneStrokeLine);
+        cloneStrokeLine.stroke.weight = strokeWidth;
+        overlayHost.append(invisibleClone, cloneStrokeLine);
         if (!elementSelected) {
             // const cloneStrokeLine = translateClone.clone()
             // cloneStrokeLine.layer = 1
             // overlayHost.append(translateClone)
-            translateClone.onmouseenter = () => {
+            invisibleClone.onmouseenter = () => {
                 cloneStrokeLine.stroke.color = boxColor;
                 action.dispatch('rerender-overlay');
             };
-            translateClone.onmouseleave = () => {
+            invisibleClone.onmouseleave = () => {
                 cloneStrokeLine.stroke.color = 'none';
                 action.dispatch('rerender-overlay');
             };
