@@ -30,6 +30,7 @@ class CanvasHost {
   canvas: HTMLCanvasElement
   ctx: CanvasRenderingContext2D
   dpr = 2
+  onmousedown? = Function
 
   // _rqId: number = -1
 
@@ -48,14 +49,18 @@ class CanvasHost {
     // this.startRender()
   }
 
-  dispatchEvent(domEvent: PointerEvent, type: PointerEvent['type'], options?: { tolerance?: number }) {
+  public on() {
+
+  }
+
+  public dispatchEvent(domEvent: PointerEvent, type: PointerEvent['type'], options?: { tolerance?: number }) {
     const {ctx, dpr} = this
     const {offsetX: x, offsetY: y, pointerId} = domEvent
     const elements = this.visibleElements.sort((a, b) => b.layer - a.layer)
     const vx = x * dpr
     const vy = y * dpr
     let _ele: ElementInstance | null = null
-    // console.log(elements)
+
     for (const el of elements) {
       const {path2D, fill} = el
       let f1 = false
