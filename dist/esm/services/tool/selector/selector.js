@@ -1,11 +1,11 @@
-import { getRotateAngle } from '~/services/tool/selector/helper';
-import rotating from '~/services/tool/selector/rotating/rotating';
+import { getRotateAngle } from './helper.js';
+import rotating from './rotating/rotating.js';
 const selector = {
     cursor: 'default',
     init: function () { },
     mouseDown: function () {
         if (!this.toolManager.subTool) {
-            // this.toolManager.subTool = selecting
+            this.toolManager.subTool = selecting;
         }
         /* const {interaction, elementManager, selection, cursor} = this
          // const {_hoveredElement} = interaction

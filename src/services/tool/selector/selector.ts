@@ -7,7 +7,7 @@ const selector: ToolType = {
   init: function () { },
   mouseDown: function () {
     if (!this.toolManager.subTool) {
-      // this.toolManager.subTool = selecting
+      this.toolManager.subTool = selecting
     }
     /* const {interaction, elementManager, selection, cursor} = this
      // const {_hoveredElement} = interaction
