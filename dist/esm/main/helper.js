@@ -28,6 +28,7 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
     ];
     const handleRotateMouseEnter = (e) => {
         this.cursor.set('rotate');
+        console.log(e);
         // this.action.dispatch('rerender-overlay')
     };
     const handleRotateMouseLeave = (e) => {

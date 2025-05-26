@@ -1,4 +1,4 @@
-import { createWith } from '../../lib/lib.js';
+import { createWith } from '~/lib/lib';
 /* | 'default'
  | 'crosshair'
  | 'text'
@@ -22,6 +22,7 @@ class Cursor {
     domRef;
     editor;
     EC;
+    _cursorForRecover = null;
     constructor(editor) {
         this.EC = new AbortController();
         this.editor = editor;
@@ -41,7 +42,6 @@ class Cursor {
         editor.container.addEventListener('mousemove', e => { this.move(e); }, { signal });
     }
     set(name) {
-        // console.log(name)
         // if(name==='default') debugger
         this.domRef.setAttribute('date-current-cursor', name);
         // console.log(name)
@@ -73,8 +73,10 @@ class Cursor {
     }
     show() {
         this.domRef.style.display = 'block';
+        this.domRef.style.visibility = 'visible';
     }
     hide() {
+        this.domRef.style.visibility = 'hidden';
         this.domRef.style.display = 'none';
     }
     destroy() {

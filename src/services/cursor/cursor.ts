@@ -32,6 +32,7 @@ class Cursor {
   domRef: HTMLElement
   editor: Editor
   EC: AbortController
+  _cursorForRecover = null
 
   constructor(editor: Editor) {
     this.EC = new AbortController()
@@ -53,7 +54,6 @@ class Cursor {
   }
 
   set(name: CursorName) {
-    // console.log(name)
     // if(name==='default') debugger
     this.domRef.setAttribute('date-current-cursor', name)
     // console.log(name)
@@ -90,9 +90,11 @@ class Cursor {
 
   show() {
     this.domRef.style.display = 'block'
+    this.domRef.style.visibility = 'visible'
   }
 
   hide() {
+    this.domRef.style.visibility = 'hidden'
     this.domRef.style.display = 'none'
   }
 

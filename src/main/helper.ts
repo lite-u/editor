@@ -31,6 +31,7 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
   ]
   const handleRotateMouseEnter = (e) => {
     this.cursor.set('rotate')
+    console.log(e)
     // this.action.dispatch('rerender-overlay')
 
   }
