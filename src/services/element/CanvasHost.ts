@@ -136,7 +136,7 @@ class CanvasHost {
     }
 
     if (!_ele) return
-    // console.log(_ele)
+
     const event = {
       type,
       x,
