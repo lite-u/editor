@@ -8,13 +8,13 @@ export type CanvasHostEvent = {
 export type CanvasHostEventHandler = (event: CanvasHostEvent) => void;
 declare class CanvasHost {
     protected elementMap: ElementMap;
-    private visible;
-    editor: Editor;
-    eventsController: AbortController;
-    _hoveredElement: ElementInstance | null;
-    canvas: HTMLCanvasElement;
-    ctx: CanvasRenderingContext2D;
-    dpr: number;
+    protected visible: ElementMap;
+    protected editor: Editor;
+    protected eventsController: AbortController;
+    protected canvas: HTMLCanvasElement;
+    protected ctx: CanvasRenderingContext2D;
+    protected dpr: number;
+    protected _hoveredElement: ElementInstance | null;
     onmousedown?: CanvasHostEventHandler;
     onmouseup?: CanvasHostEventHandler;
     onmousemove?: CanvasHostEventHandler;

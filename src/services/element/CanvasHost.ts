@@ -85,6 +85,7 @@ class CanvasHost {
         originalEvent: e,
       })
     }, {signal})
+
     container.addEventListener('contextmenu', e => {
       e.preventDefault()
       e.stopPropagation()
