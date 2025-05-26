@@ -76,21 +76,23 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
         rotateEle.stroke.weight = 0;
         rotateEle.fill.enabled = true;
         rotateEle.fill.color = 'blue';
-        // Set rotateEle arc angles based on position
+        // Set rotateEle arc angles based on position (degrees, will convert to radians)
         const angleMap = {
-            't': [-Math.PI / 4, Math.PI / 4],
-            'tr': [0, Math.PI / 2],
-            'r': [Math.PI / 4, (3 * Math.PI) / 4],
-            'br': [Math.PI / 2, Math.PI],
-            'b': [(3 * Math.PI) / 4, (5 * Math.PI) / 4],
-            'bl': [Math.PI, (3 * Math.PI) / 2],
-            'l': [(5 * Math.PI) / 4, (7 * Math.PI) / 4],
-            'tl': [(3 * Math.PI) / 2, 2 * Math.PI],
+            't': [180, 360],
+            'tr': [180, 90],
+            'r': [270, 90],
+            'br': [270, 180],
+            'b': [135, 225],
+            'bl': [180, 270],
+            'l': [225, 315],
+            'tl': [270, 360],
         };
         if (angleMap[name]) {
-            const [start, end] = angleMap[name];
-            rotateEle.startAngle = start;
-            rotateEle.endAngle = end;
+            const [startDeg, endDeg] = angleMap[name];
+            rotateEle.startAngle = startDeg;
+            rotateEle.endAngle = endDeg;
+            rotateEle.updatePath2D();
+            rotateEle.updateBoundingRect();
         }
         resizeEle.onmouseenter = handleResizeMouseEnter;
         resizeEle.onmouseleave = handleResizeMouseLeave;
