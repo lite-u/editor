@@ -183,18 +183,20 @@ export function generateElementsClones(this: Editor) {
     const elementSelected = idSet.has(id)
 
     invisibleClone.id = 'invisible-clone-' + id
-    invisibleClone.layer = 1
+    invisibleClone.layer = 0
     invisibleClone.fill.enabled = false
     invisibleClone.stroke.enabled = true
     invisibleClone.stroke.color = 'none'
     invisibleClone.onmousedown = () => handleTranslateMouseDown(id)
 
     invisibleClone.id = 'stroke-line-clone-' + id
-    cloneStrokeLine.layer = 0
+    cloneStrokeLine.layer = 1
     cloneStrokeLine.stroke.weight = strokeWidth
     overlayHost.append(invisibleClone, cloneStrokeLine)
 
-    if (!elementSelected) {
+    if (elementSelected) {
+      cloneStrokeLine.stroke.color = boxColor
+    } else {
       // const cloneStrokeLine = translateClone.clone()
       // cloneStrokeLine.layer = 1
 
