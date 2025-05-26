@@ -30,7 +30,7 @@ class CanvasHost {
   canvas: HTMLCanvasElement
   ctx: CanvasRenderingContext2D
   dpr = 2
-  onmousedown? = Function
+  onmousedown?: { element: ElementInstance, originalEvent: MouseEvent }
 
   // _rqId: number = -1
 
@@ -47,10 +47,6 @@ class CanvasHost {
     container.addEventListener('pointerup', e => this.dispatchEvent(e, 'mouseup'), {signal})
     container.addEventListener('pointermove', e => this.dispatchEvent(e, 'mousemove'), {signal})
     // this.startRender()
-  }
-
-  public on() {
-
   }
 
   public dispatchEvent(domEvent: PointerEvent, type: PointerEvent['type'], options?: { tolerance?: number }) {
@@ -112,7 +108,16 @@ class CanvasHost {
       }
     }
 
-    if (!_ele) return
+    if (type === 'mousedown') {
+      this.onmousedown?.({
+        element: _ele,
+        originalEvent: domEvent,
+      })
+    }
+
+    if (!_ele) {
+      return
+    }
     // console.log(_ele)
     const event = {
       type,
