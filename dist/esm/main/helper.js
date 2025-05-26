@@ -27,29 +27,19 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
         { name: 'bl', dx: -0.5, dy: 0.5 },
         { name: 'l', dx: -0.5, dy: 0 },
     ];
-    const handleRotateMouseEnter = (e) => {
+    const handleRotateMouseEnter = () => {
         const mouseCurrentRotation = getRotateAngle({ x: cx, y: cy }, this.interaction.mouseWorldCurrent);
         this.cursor.set('rotate');
         this.cursor.rotate(mouseCurrentRotation);
     };
-    const handleRotateMouseLeave = (e) => {
+    const handleRotateMouseLeave = () => {
         this.cursor.set(this.toolManager.tool.cursor);
         this.action.dispatch('rerender-overlay');
     };
-    const handleRotateMouseDown = (e) => {
+    const handleRotateMouseDown = () => {
         this.interaction._rotateData = { startRotation: rotation, targetPoint: { x: cx, y: cy } };
         const mouseCurrentRotation = getRotateAngle({ x: cx, y: cy }, this.interaction.mouseWorldCurrent);
         this.cursor.rotate(mouseCurrentRotation);
-        /*  const rects = selectedElements.map(ele => {
-            return ele.getBoundingRect(true)
-          })
-          const {cx: x, cy: y} = getBoundingRectFromBoundingRects(rects)
-    
-          // console.log(interaction._hoveredElement)
-          // this.interaction._rotateData = {startRotation: interaction._outlineElement.rotation, targetPoint: {x, y}}
-          // this.subTool = rotating
-          console.log(sameRotation)
-          console.log(applyRotation)*/
     };
     const handleResizeMouseEnter = (e) => {
         this.cursor.set('nw-resize');
