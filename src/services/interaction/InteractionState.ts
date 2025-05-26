@@ -124,6 +124,7 @@ class InteractionState {
     this.selectionBox!.style.height = height + 'px'
     this.selectionBox!.style.display = 'block'
   }
+/*
 
   generateTransformHandles() {
     const {world, action, toolManager, selection, mainHost} = this.editor
@@ -221,6 +222,8 @@ class InteractionState {
       },
     })
   }
+*/
+/*
 
   createPathPoints() {
     const {scale, dpr} = this.editor.world
@@ -350,6 +353,7 @@ class InteractionState {
     // this.editor.interaction._controlPoints = pointElements
     this.editor.interaction._controlPoints = []
   }
+*/
 
   destroy() {
     this.selectionBox?.remove()
