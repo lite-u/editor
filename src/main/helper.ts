@@ -67,6 +67,9 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
     const rotateEle = Ellipse.create('handle-rotate-' + name, x, y, rotateRadius)
 
     resizeEle.rotation = rotation
+    resizeEle.layer = 1
+    resizeEle.fill.enabled = true
+    resizeEle.fill.color = '#000000'
     rotateEle.rotation = rotation
     rotateEle.stroke.weight = resizeStrokeWidth
     rotateEle.fill.enabled = true

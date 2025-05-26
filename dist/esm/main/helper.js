@@ -56,32 +56,16 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
         if (specialLineSeg && name !== 't' && name !== 'b')
             return;
         const { x, y } = rotatePointAroundPoint(cx + dx * width, cy + dy * height, cx, cy, rotation);
-        const resizeEle = new Rectangle({
-            id: 'handle-resize-' + name,
-            layer: 1,
-            cx: x,
-            cy: y,
-            width: resizeLen,
-            height: resizeLen,
-            rotation,
-        });
-        const rotateEle = new Ellipse({
-            id: 'handle-rotate-' + name,
-            layer: 0,
-            cx: x,
-            cy: y,
-            r1: rotateRadius,
-            r2: rotateRadius,
-            rotation,
-            stroke: {
-                ...DEFAULT_STROKE,
-                weight: resizeStrokeWidth,
-            },
-            fill: {
-                enabled: true,
-                color: 'blue',
-            },
-        });
+        const resizeEle = Rectangle.create('handle-resize-' + name, x, y, resizeLen);
+        const rotateEle = Ellipse.create('handle-rotate-' + name, x, y, rotateRadius);
+        resizeEle.rotation = rotation;
+        resizeEle.layer = 1;
+        resizeEle.fill.enabled = true;
+        resizeEle.fill.color = '#000000';
+        rotateEle.rotation = rotation;
+        rotateEle.stroke.weight = resizeStrokeWidth;
+        rotateEle.fill.enabled = true;
+        rotateEle.fill.color = 'blue';
         resizeEle.onmouseenter = handleResizeMouseEnter;
         resizeEle.onmouseleave = handleResizeMouseLeave;
         resizeEle.onmousedown = handleResizeMouseDown;
