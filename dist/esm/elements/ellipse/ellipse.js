@@ -72,6 +72,7 @@ class ElementEllipse extends ElementBase {
         this.r1 = Math.abs(rx.x - center.x);
         this.r2 = Math.abs(ry.y - center.y);
         this.updatePath2D();
+        this.updateBoundingRect();
     }
     toMinimalJSON() {
         return {

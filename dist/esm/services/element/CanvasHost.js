@@ -46,6 +46,7 @@ class CanvasHost {
         const vx = x * dpr;
         const vy = y * dpr;
         let _ele = null;
+        console.log(elements);
         for (const el of elements) {
             const { path2D, fill } = el;
             const f1 = ctx.isPointInStroke(path2D, vx, vy);
@@ -135,6 +136,7 @@ class CanvasHost {
         sortedElements.forEach(element => {
             this.visible.set(element.id, element);
         });
+        console.log(this.visible);
     }
     get getMaxLayerIndex() {
         let max = 0;

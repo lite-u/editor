@@ -54,7 +54,7 @@ class CanvasHost {
     const vx = x * dpr
     const vy = y * dpr
     let _ele: ElementInstance | null = null
-
+    console.log(elements)
     for (const el of elements) {
       const {path2D, fill} = el
 
@@ -161,6 +161,8 @@ class CanvasHost {
     sortedElements.forEach(element => {
       this.visible.set(element.id, element)
     })
+
+    console.log(this.visible)
 
   }
 
