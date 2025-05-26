@@ -79,12 +79,13 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
     const rotateEle = Ellipse.create('handle-rotate-' + name, x, y, rotateRadius)
 
     resizeEle.rotation = rotation
-    resizeEle.layer = 1
+    resizeEle.layer = 3
     resizeEle.fill.enabled = true
     resizeEle.fill.color = '#ffffff'
     resizeEle.stroke.weight = resizeStrokeWidth
     resizeEle.stroke.color = '#435fb9'
 
+    resizeEle.layer = 2
     rotateEle.rotation = rotation
     rotateEle.stroke.enabled = false
     rotateEle.stroke.weight = resizeStrokeWidth
@@ -180,9 +181,9 @@ export function generateElementsClones(this: Editor) {
     const translateClone = ele.clone()
     const elementSelected = idSet.has(id)
 
+    translateClone.layer = 1
     translateClone.fill.enabled = false
-    translateClone.stroke.enabled = true
-    translateClone.stroke.weight = 2 / ratio
+    translateClone.stroke.enabled = false
     translateClone.stroke.color = elementSelected ? boxColor : 'none'
     translateClone.onmousedown = () => handleTranslateMouseDown(id)
     overlayHost.append(translateClone)
