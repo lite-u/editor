@@ -197,6 +197,7 @@ export function generateElementsClones(this: Editor) {
     if (elementSelected) {
       cloneStrokeLine.stroke.color = boxColor
     } else {
+      cloneStrokeLine.stroke.color = 'none'
       // const cloneStrokeLine = translateClone.clone()
       // cloneStrokeLine.layer = 1
 

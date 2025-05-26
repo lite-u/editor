@@ -175,6 +175,7 @@ export function generateElementsClones() {
             cloneStrokeLine.stroke.color = boxColor;
         }
         else {
+            cloneStrokeLine.stroke.color = 'none';
             // const cloneStrokeLine = translateClone.clone()
             // cloneStrokeLine.layer = 1
             // overlayHost.append(translateClone)
