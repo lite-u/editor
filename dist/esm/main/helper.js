@@ -31,11 +31,9 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
         const mouseCurrentRotation = getRotateAngle({ x: cx, y: cy }, this.interaction.mouseWorldCurrent);
         this.cursor.set('rotate');
         this.cursor.rotate(mouseCurrentRotation);
-        // this.action.dispatch('rerender-overlay')
     };
     const handleRotateMouseLeave = (e) => {
-        this.cursor.set('default');
-        // e.target.fill.color = 'blue'
+        this.cursor.set(this.toolManager.tool.cursor);
         this.action.dispatch('rerender-overlay');
     };
     const handleRotateMouseDown = (e) => {
