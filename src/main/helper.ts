@@ -35,8 +35,6 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
 
     this.cursor.set('rotate')
     this.cursor.rotate(mouseCurrentRotation)
-    // this.action.dispatch('rerender-overlay')
-
   }
   const handleRotateMouseLeave = (e) => {
     this.cursor.set('default')
