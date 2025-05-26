@@ -31,6 +31,7 @@ class CanvasHost {
   ctx: CanvasRenderingContext2D
   dpr = 2
   onmousedown?: { element: ElementInstance, originalEvent: MouseEvent }
+  onmouseup?: { element: ElementInstance, originalEvent: MouseEvent }
 
   // _rqId: number = -1
 
