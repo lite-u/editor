@@ -30,9 +30,7 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
     {name: 'l', dx: -0.5, dy: 0},
   ]
   const handleRotateMouseEnter = (e) => {
-    // this.cursor.set('rotate')
-    console.log(e)
-    console.log('Rotate Enter')
+    this.cursor.set('rotate')
     e.target.fill.color = 'red'
     this.action.dispatch('rerender-overlay')
 
@@ -201,7 +199,7 @@ export function generateElementsClones(this: Editor) {
     } else {
       cloneStrokeLine.stroke.color = 'none'
 
-      invisibleClone.onmouseenter =cloneStrokeLine.onmouseenter = () => {
+      invisibleClone.onmouseenter = cloneStrokeLine.onmouseenter = () => {
         cloneStrokeLine.stroke.color = boxColor
         action.dispatch('rerender-overlay')
       }
