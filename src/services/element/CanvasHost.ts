@@ -68,7 +68,7 @@ class CanvasHost {
     }
 
     if (type === 'mousemove') {
-      if (this._hoveredElement !== _ele) {
+      if (_ele !== this._hoveredElement) {
         // mouseleave for old
         this._hoveredElement?.dispatchEvent?.({
           type: 'mouseleave',
@@ -96,6 +96,7 @@ class CanvasHost {
         this._hoveredElement = _ele
       }
     }
+
     if (!_ele) return
     // console.log(_ele)
     const event = {
