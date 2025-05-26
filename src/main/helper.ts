@@ -90,13 +90,6 @@ export function getManipulationBox(this: Editor) {
   if (selectedElements.length === 0) return
 
   selectedElements.forEach((ele: ElementInstance) => {
-    // const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen)
-    /*
-        centerPoint.stroke.enabled = false
-        centerPoint.fill.enabled = true
-        centerPoint.fill.color = 'orange'*/
-
-    // overlayHost.append(centerPoint)
     rotations.push(ele.rotation)
     rectsWithRotation.push(ele.getBoundingRect())
     rectsWithoutRotation.push(ele.getBoundingRect(true))
@@ -133,7 +126,10 @@ export function getManipulationBox(this: Editor) {
     },
   })
 
-  overlayHost.append(selectedOutlineElement, ...generateTransformHandles(rect, ratio, applyRotation, specialLineSeg))
+  // overlayHost.append(selectedOutlineElement, ...generateTransformHandles(rect, ratio, applyRotation, specialLineSeg))
+  overlayHost.append(selectedOutlineElement)
+
+  return selectedOutlineElement
 }
 
 export function generateElementsClones(this: Editor) {
