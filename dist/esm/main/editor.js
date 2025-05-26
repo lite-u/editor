@@ -11,7 +11,7 @@ import Cursor from '../services/cursor/cursor.js';
 import World from '../services/world/World.js';
 import ClipboardManager from '../services/clipboard/Clipboard.js';
 import InteractionState from '../services/interaction/InteractionState.js';
-import { getManipulationBox, generateElementsClones, generateTransformHandles } from './helper.js';
+import { getManipulationBox, generateElementsClones } from './helper.js';
 class Editor {
     id = nid();
     container;
@@ -120,7 +120,7 @@ class Editor {
     regenerateOverlayElements() {
         generateElementsClones.call(this);
         getManipulationBox.call(this);
-        generateTransformHandles.call(this);
+        // generateTransformHandles.call(this)
     }
     destroy() {
         // this.destroy()

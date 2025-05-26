@@ -160,7 +160,7 @@ class Editor {
   regenerateOverlayElements() {
     generateElementsClones.call(this)
     getManipulationBox.call(this)
-    generateTransformHandles.call(this)
+    // generateTransformHandles.call(this)
 
   }
   destroy() {
