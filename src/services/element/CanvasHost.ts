@@ -30,6 +30,7 @@ class CanvasHost {
   canvas: HTMLCanvasElement
   ctx: CanvasRenderingContext2D
   dpr = 2
+
   // _rqId: number = -1
 
   constructor(editor: Editor) {
@@ -59,13 +60,16 @@ class CanvasHost {
       const {path2D, fill} = el
       let f1 = false
       let f2 = false
-      // console.log(ctx.lineWidth)
-      ctx.save()
-      // console.log(el.stroke.weight)
-      ctx.lineWidth = el.stroke.weight
-      const f1 = ctx.isPointInStroke(path2D, vx, vy)
-      const f2 = ctx.isPointInPath(path2D, vx, vy)
-      ctx.restore()
+
+      if (el.stroke.enabled) {
+        ctx.save()
+        // console.log(el.stroke.weight)
+        ctx.lineWidth = el.stroke.weight
+        f1 = ctx.isPointInStroke(path2D, vx, vy)
+        ctx.restore()
+      }
+
+      f2 = ctx.isPointInPath(path2D, vx, vy)
 
       if (f1 || (f2 && fill.enabled)) {
         _ele = el
