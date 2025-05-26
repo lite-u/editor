@@ -89,13 +89,13 @@ class Cursor {
   }
 
   show() {
-    this.domRef.style.display = 'block'
+    // this.domRef.style.display = 'block'
     this.domRef.style.visibility = 'visible'
   }
 
   hide() {
     this.domRef.style.visibility = 'hidden'
-    this.domRef.style.display = 'none'
+    // this.domRef.style.display = 'none'
   }
 
   destroy() {

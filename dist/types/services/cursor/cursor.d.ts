@@ -7,6 +7,7 @@ declare class Cursor {
     domRef: HTMLElement;
     editor: Editor;
     EC: AbortController;
+    _cursorForRecover: null;
     constructor(editor: Editor);
     set(name: CursorName): void;
     move(p: Point): void;

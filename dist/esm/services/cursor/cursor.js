@@ -1,4 +1,4 @@
-import { createWith } from '~/lib/lib';
+import { createWith } from '../../lib/lib.js';
 /* | 'default'
  | 'crosshair'
  | 'text'
@@ -72,12 +72,12 @@ class Cursor {
         this.domRef.style.rotate = `${rotation}deg`;
     }
     show() {
-        this.domRef.style.display = 'block';
+        // this.domRef.style.display = 'block'
         this.domRef.style.visibility = 'visible';
     }
     hide() {
         this.domRef.style.visibility = 'hidden';
-        this.domRef.style.display = 'none';
+        // this.domRef.style.display = 'none'
     }
     destroy() {
         this.EC.abort();
