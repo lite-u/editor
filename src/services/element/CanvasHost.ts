@@ -46,16 +46,33 @@ class CanvasHost {
     this.ctx = this.canvas.getContext('2d')!
 
     container.appendChild(this.canvas)
+
     container.addEventListener('pointerdown', e => {
       container.setPointerCapture(e.pointerId)
       this.dispatchEvent(e, 'mousedown')
+
+      this.onmousedown?.({
+        element: this._hoveredElement,
+        originalEvent: e,
+      })
     }, {signal, passive: false})
+
     container.addEventListener('pointerup', e => {
       container.releasePointerCapture(e.pointerId)
       this.dispatchEvent(e, 'mouseup')
+      this.onmouseup?.({
+        element: this._hoveredElement,
+        originalEvent: e,
+      })
     }, {signal})
-    container.addEventListener('pointermove', e => this.dispatchEvent(e, 'mousemove'), {signal})
-    // this.startRender()
+
+    container.addEventListener('pointermove', e => {
+      this.dispatchEvent(e, 'mousemove')
+      this.onmouseup?.({
+        element: this._hoveredElement,
+        originalEvent: e,
+      })
+    }, {signal})
   }
 
   public dispatchEvent(domEvent: PointerEvent, type: PointerEvent['type'], options?: { tolerance?: number }) {
@@ -115,13 +132,6 @@ class CanvasHost {
 
         this._hoveredElement = _ele
       }
-    }
-
-    if (type === 'mousedown') {
-      this.onmousedown?.({
-        element: _ele,
-        originalEvent: domEvent,
-      })
     }
 
     if (type === 'mouseup') {
