@@ -30,8 +30,8 @@ class CanvasHost {
   canvas: HTMLCanvasElement
   ctx: CanvasRenderingContext2D
   dpr = 2
-  onmousedown?: { element: ElementInstance, originalEvent: MouseEvent }
-  onmouseup?: { element: ElementInstance, originalEvent: MouseEvent }
+  onmousedown?: (event: { element: ElementInstance | null, originalEvent: MouseEvent }) => void
+  onmouseup?: (event: { element: ElementInstance | null, originalEvent: MouseEvent }) => void
 
   // _rqId: number = -1
 
@@ -111,6 +111,13 @@ class CanvasHost {
 
     if (type === 'mousedown') {
       this.onmousedown?.({
+        element: _ele,
+        originalEvent: domEvent,
+      })
+    }
+
+    if (type === 'mouseup') {
+      this.onmouseup?.({
         element: _ele,
         originalEvent: domEvent,
       })
