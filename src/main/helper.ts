@@ -86,6 +86,24 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
     rotateEle.fill.enabled = true
     rotateEle.fill.color = 'blue'
 
+    // Set rotateEle arc angles based on position
+    const angleMap = {
+      't': [-Math.PI / 4, Math.PI / 4],
+      'tr': [0, Math.PI / 2],
+      'r': [Math.PI / 4, (3 * Math.PI) / 4],
+      'br': [Math.PI / 2, Math.PI],
+      'b': [(3 * Math.PI) / 4, (5 * Math.PI) / 4],
+      'bl': [Math.PI, (3 * Math.PI) / 2],
+      'l': [(5 * Math.PI) / 4, (7 * Math.PI) / 4],
+      'tl': [(3 * Math.PI) / 2, 2 * Math.PI],
+    };
+
+    if (angleMap[name]) {
+      const [start, end] = angleMap[name];
+      rotateEle.startAngle = start;
+      rotateEle.endAngle = end;
+    }
+
     resizeEle.onmouseenter = handleResizeMouseEnter
     resizeEle.onmouseleave = handleResizeMouseLeave
     resizeEle.onmousedown = handleResizeMouseDown
