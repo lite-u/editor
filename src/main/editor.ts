@@ -155,10 +155,10 @@ class Editor {
 
   regenerateOverlayElements() {
     generateElementsClones.call(this)
-    const ele = getSelectedBoundingElement.call(this)
-    console.log(ele)
-    generateTransformHandles.call(this, ele)
-
+    if (this.selection.size > 0) {
+      const ele = getSelectedBoundingElement.call(this)
+      generateTransformHandles.call(this, ele)
+    }
   }
 
   destroy() {

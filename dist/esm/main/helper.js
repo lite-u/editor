@@ -7,7 +7,10 @@ import { DEFAULT_STROKE } from '../elements/defaultProps.js';
 import { rotatePointAroundPoint } from '../core/geometry.js';
 import Ellipse from '../elements/ellipse/ellipse.js';
 import { nid } from '../index.js';
-export function generateTransformHandles(ele, ratio, specialLineSeg = false) {
+export function generateTransformHandles(ele, specialLineSeg = false) {
+    const { world } = this;
+    const { scale, dpr } = world;
+    const ratio = scale * dpr;
     const result = [];
     const { cx, cy, width, height, rotation } = ele;
     const resizeLen = 30 / ratio;
@@ -55,7 +58,7 @@ export function generateTransformHandles(ele, ratio, specialLineSeg = false) {
         resizeEle.fill.enabled = true;
         resizeEle.fill.color = '#fff';
         rotateEle.stroke.enabled = false;
-        // overlayHost.append(resizeEle, rotateEle)
+        this.overlayHost.append(resizeEle, rotateEle);
     });
     return result;
 }
@@ -71,8 +74,6 @@ export function getSelectedBoundingElement() {
     const idSet = selection.values;
     const visibleElements = mainHost.visibleElements;
     const selectedElements = mainHost.getElementsByIdSet(idSet);
-    if (selectedElements.length === 0)
-        return;
     selectedElements.forEach((ele) => {
         rotations.push(ele.rotation);
         rectsWithRotation.push(ele.getBoundingRect());

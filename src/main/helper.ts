@@ -10,7 +10,10 @@ import {rotatePointAroundPoint} from '~/core/geometry'
 import Ellipse from '~/elements/ellipse/ellipse'
 import {nid} from '~/index'
 
-export function generateTransformHandles(ele: ElementRectangle, ratio: number, specialLineSeg = false) {
+export function generateTransformHandles(this: Editor, ele: ElementRectangle, specialLineSeg = false) {
+  const {world} = this
+  const {scale, dpr} = world
+  const ratio = scale * dpr
   const result: ElementInstance[] = []
   const {cx, cy, width, height, rotation} = ele
   const resizeLen = 30 / ratio
@@ -62,13 +65,13 @@ export function generateTransformHandles(ele: ElementRectangle, ratio: number, s
     resizeEle.fill.color = '#fff'
     rotateEle.stroke.enabled = false
 
-    // overlayHost.append(resizeEle, rotateEle)
+    this.overlayHost.append(resizeEle, rotateEle)
   })
 
   return result
 }
 
-export function getSelectedBoundingElement(this: Editor) {
+export function getSelectedBoundingElement(this: Editor): ElementRectangle {
   const rectsWithRotation: BoundingRect[] = []
   const rectsWithoutRotation: BoundingRect[] = []
   let rotations: number[] = []
@@ -81,7 +84,6 @@ export function getSelectedBoundingElement(this: Editor) {
   const visibleElements = mainHost.visibleElements
   const selectedElements = mainHost.getElementsByIdSet(idSet)
 
-  if (selectedElements.length === 0) return
 
   selectedElements.forEach((ele: ElementInstance) => {
     rotations.push(ele.rotation)
