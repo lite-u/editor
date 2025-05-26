@@ -10,6 +10,14 @@ declare class CanvasHost {
     canvas: HTMLCanvasElement;
     ctx: CanvasRenderingContext2D;
     dpr: number;
+    onmousedown?: (event: {
+        element: ElementInstance | null;
+        originalEvent: MouseEvent;
+    }) => void;
+    onmouseup?: (event: {
+        element: ElementInstance | null;
+        originalEvent: MouseEvent;
+    }) => void;
     constructor(editor: Editor);
     dispatchEvent(domEvent: PointerEvent, type: PointerEvent['type'], options?: {
         tolerance?: number;

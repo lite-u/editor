@@ -25,6 +25,8 @@ class CanvasHost {
     canvas;
     ctx;
     dpr = 2;
+    onmousedown;
+    onmouseup;
     // _rqId: number = -1
     constructor(editor) {
         this.editor = editor;
@@ -46,7 +48,6 @@ class CanvasHost {
         const vx = x * dpr;
         const vy = y * dpr;
         let _ele = null;
-        // console.log(elements)
         for (const el of elements) {
             const { path2D, fill } = el;
             let f1 = false;
@@ -91,8 +92,21 @@ class CanvasHost {
                 this._hoveredElement = _ele;
             }
         }
-        if (!_ele)
+        if (type === 'mousedown') {
+            this.onmousedown?.({
+                element: _ele,
+                originalEvent: domEvent,
+            });
+        }
+        if (type === 'mouseup') {
+            this.onmouseup?.({
+                element: _ele,
+                originalEvent: domEvent,
+            });
+        }
+        if (!_ele) {
             return;
+        }
         // console.log(_ele)
         const event = {
             type,
