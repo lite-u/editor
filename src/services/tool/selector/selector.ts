@@ -186,7 +186,6 @@ const selector: ToolType = {
     }
     this.cursor.set(selector.cursor)
     this.toolManager.subTool?.mouseUp.call(this)
-    // this.interaction._rotateData = null
     this.toolManager.subTool = null
   },
 }
