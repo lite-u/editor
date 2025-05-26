@@ -154,26 +154,28 @@ export function generateElementsClones(this: Editor) {
     toolManager.subTool = dragging
     this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values)
   }
+  /*
 
-  const handleTranslateMouseEnter = (ele) => {}
-  const handleTranslateMouseLeave = (ele) => {}
-  const handleRotateMouseEnter = (ele) => {}
-  const handleRotateMouseLeave = (ele) => {}
-  const handleRotateMouseDown = (ele) => {
-    const rects = selectedElements.map(ele => {
-      return ele.getBoundingRect(true)
-    })
-    const {cx: x, cy: y} = getBoundingRectFromBoundingRects(rects)
+    const handleTranslateMouseEnter = (ele) => {}
+    const handleTranslateMouseLeave = (ele) => {}
+    const handleRotateMouseEnter = (ele) => {}
+    const handleRotateMouseLeave = (ele) => {}
+    const handleRotateMouseDown = (ele) => {
+      const rects = selectedElements.map(ele => {
+        return ele.getBoundingRect(true)
+      })
+      const {cx: x, cy: y} = getBoundingRectFromBoundingRects(rects)
 
-    // console.log(interaction._hoveredElement)
-    // this.interaction._rotateData = {startRotation: interaction._outlineElement.rotation, targetPoint: {x, y}}
-    // this.subTool = rotating
-    console.log(sameRotation)
-    console.log(applyRotation)
-  }
-  const handleResizeMouseEnter = () => {}
-  const handleResizeMouseLeave = () => {}
-  const handleResizeMouseDown = () => {}
+      // console.log(interaction._hoveredElement)
+      // this.interaction._rotateData = {startRotation: interaction._outlineElement.rotation, targetPoint: {x, y}}
+      // this.subTool = rotating
+      console.log(sameRotation)
+      console.log(applyRotation)
+    }
+    const handleResizeMouseEnter = () => {}
+    const handleResizeMouseLeave = () => {}
+    const handleResizeMouseDown = () => {}
+  */
 
   visibleElements.forEach((ele) => {
     const id = ele.id
@@ -200,6 +202,7 @@ export function generateElementsClones(this: Editor) {
     }
 
     if (ele.type !== 'path1') {
+      console.log('point')
       const pointLen = 20 / ratio
       const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen)
       centerPoint.onmousedown = () => handleTranslateMouseDown(id)
@@ -209,7 +212,6 @@ export function generateElementsClones(this: Editor) {
       centerPoint.onmouseleave = () => {
         console.log(10)
       }
-      console.log('go')
 
       centerPoint.layer = 1
       centerPoint.stroke.enabled = false

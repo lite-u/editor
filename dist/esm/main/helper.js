@@ -1,11 +1,11 @@
-import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
-import dragging from '../services/tool/selector/dragging/dragging.js';
-import ElementRectangle from '../elements/rectangle/rectangle.js';
-import Rectangle from '../elements/rectangle/rectangle.js';
-import { getMinimalBoundingRect } from '../core/utils.js';
-import { DEFAULT_STROKE } from '../elements/defaultProps.js';
-import { rotatePointAroundPoint } from '../core/geometry.js';
-import Ellipse from '../elements/ellipse/ellipse.js';
+import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
+import dragging from '~/services/tool/selector/dragging/dragging';
+import ElementRectangle from '~/elements/rectangle/rectangle';
+import Rectangle from '~/elements/rectangle/rectangle';
+import { getMinimalBoundingRect } from '~/core/utils';
+import { DEFAULT_STROKE } from '~/elements/defaultProps';
+import { rotatePointAroundPoint } from '~/core/geometry';
+import Ellipse from '~/elements/ellipse/ellipse';
 export function generateTransformHandles(rect, ratio, rotation, specialLineSeg = false) {
     const result = [];
     const resizeLen = 30 / ratio;
@@ -130,24 +130,28 @@ export function generateElementsClones() {
         toolManager.subTool = dragging;
         this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values);
     };
-    const handleTranslateMouseEnter = (ele) => { };
-    const handleTranslateMouseLeave = (ele) => { };
-    const handleRotateMouseEnter = (ele) => { };
-    const handleRotateMouseLeave = (ele) => { };
-    const handleRotateMouseDown = (ele) => {
+    /*
+  
+      const handleTranslateMouseEnter = (ele) => {}
+      const handleTranslateMouseLeave = (ele) => {}
+      const handleRotateMouseEnter = (ele) => {}
+      const handleRotateMouseLeave = (ele) => {}
+      const handleRotateMouseDown = (ele) => {
         const rects = selectedElements.map(ele => {
-            return ele.getBoundingRect(true);
-        });
-        const { cx: x, cy: y } = getBoundingRectFromBoundingRects(rects);
+          return ele.getBoundingRect(true)
+        })
+        const {cx: x, cy: y} = getBoundingRectFromBoundingRects(rects)
+  
         // console.log(interaction._hoveredElement)
         // this.interaction._rotateData = {startRotation: interaction._outlineElement.rotation, targetPoint: {x, y}}
         // this.subTool = rotating
-        console.log(sameRotation);
-        console.log(applyRotation);
-    };
-    const handleResizeMouseEnter = () => { };
-    const handleResizeMouseLeave = () => { };
-    const handleResizeMouseDown = () => { };
+        console.log(sameRotation)
+        console.log(applyRotation)
+      }
+      const handleResizeMouseEnter = () => {}
+      const handleResizeMouseLeave = () => {}
+      const handleResizeMouseDown = () => {}
+    */
     visibleElements.forEach((ele) => {
         const id = ele.id;
         const clone = ele.clone();
@@ -169,6 +173,7 @@ export function generateElementsClones() {
             };
         }
         if (ele.type !== 'path1') {
+            console.log('point');
             const pointLen = 20 / ratio;
             const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen);
             centerPoint.onmousedown = () => handleTranslateMouseDown(id);
@@ -178,7 +183,6 @@ export function generateElementsClones() {
             centerPoint.onmouseleave = () => {
                 console.log(10);
             };
-            console.log('go');
             centerPoint.layer = 1;
             centerPoint.stroke.enabled = false;
             centerPoint.fill.enabled = false;
