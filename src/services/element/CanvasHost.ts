@@ -34,6 +34,7 @@ class CanvasHost {
   dpr = 2
   onmousedown?: CanvasHostEventHandler
   onmouseup?: CanvasHostEventHandler
+  mousemove?: CanvasHostEventHandler
 
   // _rqId: number = -1
 
@@ -68,7 +69,7 @@ class CanvasHost {
 
     container.addEventListener('pointermove', e => {
       this.dispatchEvent(e, 'mousemove')
-      this.onmouseup?.({
+      this.mousemove?.({
         element: this._hoveredElement,
         originalEvent: e,
       })
