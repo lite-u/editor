@@ -144,6 +144,7 @@ export function generateElementsClones(this: Editor) {
   const idSet = selection.values
   const visibleElements = mainHost.visibleElements
   const selectedElements = mainHost.getElementsByIdSet(idSet)
+  const pointLen = 20 / ratio
 
   // overlayHost.reset()
 
@@ -179,12 +180,6 @@ export function generateElementsClones(this: Editor) {
     const id = ele.id
     const clone = ele.clone()
     const elementSelected = idSet.has(id)
-    const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen)
-
-    centerPoint.stroke.enabled = false
-    centerPoint.fill.enabled = true
-    centerPoint.fill.color = 'orange'
-    overlayHost.append(centerPoint)
 
     clone.fill.enabled = false
     clone.stroke.enabled = true
@@ -206,6 +201,15 @@ export function generateElementsClones(this: Editor) {
     clone.onmousedown = () => handleTranslateMouseDown(id)
 
     overlayHost.append(clone)
+
+    if (ele.type !== 'path') {
+      const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen)
+
+      centerPoint.stroke.enabled = false
+      centerPoint.fill.enabled = false
+      centerPoint.fill.color = 'orange'
+      overlayHost.append(centerPoint)
+    }
   })
 
 }
