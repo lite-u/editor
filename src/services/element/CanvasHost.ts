@@ -20,6 +20,8 @@ const STYLE = {
   height: '100%',
   pointerEvents: 'none',
 }
+export type CanvasHostEvent = { element: ElementInstance | null, originalEvent: MouseEvent }
+export type CanvasHostEventHandler = (event: CanvasHostEvent) => void
 
 class CanvasHost {
   protected elementMap: ElementMap = new Map()
@@ -30,8 +32,8 @@ class CanvasHost {
   canvas: HTMLCanvasElement
   ctx: CanvasRenderingContext2D
   dpr = 2
-  onmousedown?: (event: { element: ElementInstance | null, originalEvent: MouseEvent }) => void
-  onmouseup?: (event: { element: ElementInstance | null, originalEvent: MouseEvent }) => void
+  onmousedown?: CanvasHostEventHandler
+  onmouseup?: CanvasHostEventHandler
 
   // _rqId: number = -1
 
@@ -44,8 +46,14 @@ class CanvasHost {
     this.ctx = this.canvas.getContext('2d')!
 
     container.appendChild(this.canvas)
-    container.addEventListener('pointerdown', e => this.dispatchEvent(e, 'mousedown'), {signal, passive: false})
-    container.addEventListener('pointerup', e => this.dispatchEvent(e, 'mouseup'), {signal})
+    container.addEventListener('pointerdown', e => {
+      container.setPointerCapture(e.pointerId)
+      this.dispatchEvent(e, 'mousedown')
+    }, {signal, passive: false})
+    container.addEventListener('pointerup', e => {
+      container.releasePointerCapture(e.pointerId)
+      this.dispatchEvent(e, 'mouseup')
+    }, {signal})
     container.addEventListener('pointermove', e => this.dispatchEvent(e, 'mousemove'), {signal})
     // this.startRender()
   }

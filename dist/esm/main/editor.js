@@ -47,7 +47,6 @@ class Editor {
         this.clipboard = new ClipboardManager();
         this.interaction = new InteractionState(this);
         this.world = new World(this);
-        this.toolManager = new ToolManager(this);
         this.cursor = new Cursor(this);
         this.history = new History(this);
         this.selection = new SelectionManager(this);
@@ -55,6 +54,7 @@ class Editor {
         this.mainHost = new CanvasHost(this);
         this.overlayHost = new CanvasHost(this);
         this.resizeObserver = new ResizeObserver(throttle(() => { this.action.dispatch('world-resized'); }, 200));
+        this.toolManager = new ToolManager(this);
         initEvents.call(this);
         const p1 = { x: 0, y: 0 };
         const p2 = { x: 0, y: 0 };

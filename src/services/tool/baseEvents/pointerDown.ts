@@ -1,8 +1,9 @@
 import ToolManager from '~/services/tool/toolManager'
 import snapTool from '~/services/tool/snap/snap'
+import {CanvasHostEvent, CanvasHostEventHandler} from '~/services/element/CanvasHost'
 
-function handleMouseDown(this: ToolManager, e: PointerEvent) {
-  const {button, target, shiftKey, metaKey, ctrlKey, altKey, clientX, clientY, movementX, movementY} = e
+function handleMouseDown(this: ToolManager, e: CanvasHostEvent) {
+  const {button, target, shiftKey, metaKey, ctrlKey, altKey, clientX, clientY, movementX, movementY} = e.originalEvent
 
   if (button !== 0 || target !== this.editor.container) return
 
@@ -17,10 +18,10 @@ function handleMouseDown(this: ToolManager, e: PointerEvent) {
   interaction.mouseWorldCurrent = world.getWorldPointByViewportPoint(x, y)
 
   // console.log(operator)
-  this.editor.container.setPointerCapture(e.pointerId)
+  // this.editor.container.setPointerCapture(e.pointerId)
   this.editor.interaction._modifier = modifiers
   this.editor.interaction._pointDown = true
-  e.preventDefault()
+  // e.preventDefault()
   if (button !== 0) return
 
   // this.editor.action.dispatch('clear-creation')
