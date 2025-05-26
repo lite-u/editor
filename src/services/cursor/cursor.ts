@@ -43,6 +43,7 @@ class Cursor {
       position: 'fixed',
       top: '0',
       left: '0',
+      zIndex: '10',
     })
     const {signal} = this.EC
     editor.container.appendChild(this.domRef)
@@ -52,6 +53,8 @@ class Cursor {
   }
 
   set(name: CursorName) {
+    console.log(name)
+    // if(name==='default') debugger
     this.domRef.setAttribute('date-current-cursor', name)
     // console.log(name)
     if (name === 'rotate') {

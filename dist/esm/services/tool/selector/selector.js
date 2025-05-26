@@ -166,7 +166,7 @@ const selector = {
                 // console.log(10)
             }
             else {
-                cursor.set(selector.cursor);
+                // cursor.set(selector.cursor)
             }
         }
         // if (!this.subTool) return

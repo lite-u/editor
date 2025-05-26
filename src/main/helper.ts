@@ -29,21 +29,42 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
     {name: 'bl', dx: -0.5, dy: 0.5},
     {name: 'l', dx: -0.5, dy: 0},
   ]
+  const handleRotateMouseEnter = (e) => {
+    console.log(e)
+    this.cursor.set('rotate')
+  }
+  const handleRotateMouseLeave = (e) => {
+    console.log(e)
+  }
+  const handleRotateMouseDown = (e) => {
+    /*  const rects = selectedElements.map(ele => {
+        return ele.getBoundingRect(true)
+      })
+      const {cx: x, cy: y} = getBoundingRectFromBoundingRects(rects)
+
+      // console.log(interaction._hoveredElement)
+      // this.interaction._rotateData = {startRotation: interaction._outlineElement.rotation, targetPoint: {x, y}}
+      // this.subTool = rotating
+      console.log(sameRotation)
+      console.log(applyRotation)*/
+  }
+  const handleResizeMouseEnter = () => {}
+  const handleResizeMouseLeave = () => {}
+  const handleResizeMouseDown = () => {}
 
   arr.map(({dx, dy, name}) => {
     if (specialLineSeg && name !== 't' && name !== 'b') return
 
     const {x, y} = rotatePointAroundPoint(cx + dx * width, cy + dy * height, cx, cy, rotation)
     const resizeEle = new Rectangle({
-        id: 'handle-resize-' + name,
-        layer: 1,
-        cx: x,
-        cy: y,
-        width: resizeLen,
-        height: resizeLen,
-        rotation,
-      },
-    )
+      id: 'handle-resize-' + name,
+      layer: 1,
+      cx: x,
+      cy: y,
+      width: resizeLen,
+      height: resizeLen,
+      rotation,
+    })
     const rotateEle = new Ellipse({
       id: 'handle-rotate-' + name,
       layer: 0,
@@ -57,6 +78,13 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
         weight: resizeStrokeWidth,
       },
     })
+
+    resizeEle.onmouseenter = handleResizeMouseEnter
+    resizeEle.onmouseleave = handleResizeMouseLeave
+    resizeEle.onmousedown = handleResizeMouseDown
+    rotateEle.onmouseenter = handleRotateMouseEnter
+    rotateEle.onmouseleave = handleRotateMouseLeave
+    rotateEle.onmousedown = handleRotateMouseDown
 
     // resizeEle.stroke.enabled = false
     resizeEle.stroke.weight = resizeStrokeWidth
@@ -83,7 +111,6 @@ export function getSelectedBoundingElement(this: Editor): ElementRectangle {
   const idSet = selection.values
   const visibleElements = mainHost.visibleElements
   const selectedElements = mainHost.getElementsByIdSet(idSet)
-
 
   selectedElements.forEach((ele: ElementInstance) => {
     rotations.push(ele.rotation)

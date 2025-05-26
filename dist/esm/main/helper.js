@@ -26,6 +26,28 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
         { name: 'bl', dx: -0.5, dy: 0.5 },
         { name: 'l', dx: -0.5, dy: 0 },
     ];
+    const handleRotateMouseEnter = (e) => {
+        console.log(e);
+        this.cursor.set('rotate');
+    };
+    const handleRotateMouseLeave = (e) => {
+        console.log(e);
+    };
+    const handleRotateMouseDown = (e) => {
+        /*  const rects = selectedElements.map(ele => {
+            return ele.getBoundingRect(true)
+          })
+          const {cx: x, cy: y} = getBoundingRectFromBoundingRects(rects)
+    
+          // console.log(interaction._hoveredElement)
+          // this.interaction._rotateData = {startRotation: interaction._outlineElement.rotation, targetPoint: {x, y}}
+          // this.subTool = rotating
+          console.log(sameRotation)
+          console.log(applyRotation)*/
+    };
+    const handleResizeMouseEnter = () => { };
+    const handleResizeMouseLeave = () => { };
+    const handleResizeMouseDown = () => { };
     arr.map(({ dx, dy, name }) => {
         if (specialLineSeg && name !== 't' && name !== 'b')
             return;
@@ -52,6 +74,12 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
                 weight: resizeStrokeWidth,
             },
         });
+        resizeEle.onmouseenter = handleResizeMouseEnter;
+        resizeEle.onmouseleave = handleResizeMouseLeave;
+        resizeEle.onmousedown = handleResizeMouseDown;
+        rotateEle.onmouseenter = handleRotateMouseEnter;
+        rotateEle.onmouseleave = handleRotateMouseLeave;
+        rotateEle.onmousedown = handleRotateMouseDown;
         // resizeEle.stroke.enabled = false
         resizeEle.stroke.weight = resizeStrokeWidth;
         resizeEle.stroke.color = '#435fb9';
