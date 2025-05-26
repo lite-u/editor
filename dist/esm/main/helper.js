@@ -179,6 +179,7 @@ export function generateElementsClones() {
                 console.log(10);
             };
             console.log('go');
+            centerPoint.layer = 1;
             centerPoint.stroke.enabled = false;
             centerPoint.fill.enabled = false;
             centerPoint.fill.color = 'orange';
