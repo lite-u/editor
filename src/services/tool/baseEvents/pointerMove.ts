@@ -1,12 +1,13 @@
 import ToolManager from '~/services/tool/toolManager'
 import snapTool from '~/services/tool/snap/snap'
+import {CanvasHostEvent} from '~/services/element/CanvasHost'
 
-export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
+export default function handlePointerMove(this: ToolManager, e: CanvasHostEvent) {
+  const {button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY,clientX,clientY} = e.originalEvent
   const {action, rect, cursor, interaction, world} = this.editor
   const {dpr, scale} = world
-  const x = e.clientX - rect!.x
-  const y = e.clientY - rect!.y
-  const {button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY} = e
+  const x = clientX - rect!.x
+  const y = clientY - rect!.y
   const stopSnap = this.currentToolName === 'zoomIn' || this.currentToolName === 'zoomOut' || this.currentToolName === 'panning'
 
   interaction.mouseCurrent = {x, y}
@@ -17,7 +18,7 @@ export default function handlePointerMove(this: ToolManager, e: PointerEvent) {
   interaction.mouseWorldMovement = {x: movementX * dpr / scale, y: movementY * dpr / scale}
   interaction._modifier = {button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY}
   // console.log(movementX,movementY)
-  cursor.move({x: e.clientX, y: e.clientY})
+  cursor.move({x: clientX, y: clientY})
 
   if (stopSnap) {
     interaction._snappedPoint = null

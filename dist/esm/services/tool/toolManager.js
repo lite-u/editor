@@ -28,10 +28,13 @@ class ToolManager {
         window.addEventListener('keydown', handleKeyDown.bind(this), { signal });
         window.addEventListener('keyup', handleKeyUp.bind(this), { signal });
         editor.overlayHost.onmousedown = handleMouseDown.bind(this);
+        editor.overlayHost.onmouseup = handleMouseUp.bind(this);
+        editor.overlayHost.onmousemove = handlePointerMove.bind(this);
+        editor.overlayHost.oncontextmenu = handleContextMenu.bind(this);
         // container.addEventListener('pointerdown', handleMouseDown.bind(this), {signal, passive: false})
-        container.addEventListener('pointerup', handleMouseUp.bind(this), { signal });
-        container.addEventListener('pointermove', handlePointerMove.bind(this), { signal });
-        container.addEventListener('contextmenu', handleContextMenu.bind(this), { signal });
+        // container.addEventListener('pointerup', handleMouseUp.bind(this), {signal})
+        // container.addEventListener('pointermove', handlePointerMove.bind(this), {signal})
+        // container.addEventListener('contextmenu', handleContextMenu.bind(this), {signal})
         this.toolMap.set('selector', selector);
         this.toolMap.set('dselector', dSelector);
         this.toolMap.set('panning', panning);

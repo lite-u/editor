@@ -48,13 +48,14 @@ class CanvasHost {
     container.appendChild(this.canvas)
 
     container.addEventListener('pointerdown', e => {
-      container.setPointerCapture(e.pointerId)
-      this.dispatchEvent(e, 'mousedown')
-
-      this.onmousedown?.({
-        element: this._hoveredElement,
-        originalEvent: e,
-      })
+      if (e.button === 0) {
+        container.setPointerCapture(e.pointerId)
+        this.dispatchEvent(e, 'mousedown')
+        this.onmousedown?.({
+          element: this._hoveredElement,
+          originalEvent: e,
+        })
+      }
     }, {signal, passive: false})
 
     container.addEventListener('pointerup', e => {

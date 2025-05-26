@@ -1,12 +1,10 @@
 import ToolManager from '~/services/tool/toolManager'
 // import {detectHoveredElement} from '~/services/tool/helper'
 import {UID} from '~/type'
+import {CanvasHostEvent} from '~/services/element/CanvasHost'
 
-function handleContextMenu(this: ToolManager, e: MouseEvent) {
+function handleContextMenu(this: ToolManager, e: CanvasHostEvent) {
   // const modifyKey = e.ctrlKey || e.metaKey || e.shiftKey
-
-  e.preventDefault()
-  e.stopPropagation()
 
   /*
   if  if (e.ctrlKey) {

@@ -6,7 +6,7 @@ const selector = {
     mouseDown: function () {
         console.log(9);
         if (!this.toolManager.subTool) {
-            this.toolManager.subTool = selecting;
+            // this.toolManager.subTool = selecting
         }
         /* const {interaction, elementManager, selection, cursor} = this
          // const {_hoveredElement} = interaction

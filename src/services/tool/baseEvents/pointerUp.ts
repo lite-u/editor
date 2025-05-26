@@ -1,12 +1,10 @@
 import ToolManager from '~/services/tool/toolManager'
+import {CanvasHostEvent} from '~/services/element/CanvasHost'
 
-function handleMouseUp(this: ToolManager, e: PointerEvent) {
-  const {button, target} = e
-
-  if (button !== 0 || target !== this.editor.container) return
+function handleMouseUp(this: ToolManager, e: CanvasHostEvent) {
+  // const {button, target} = e.originalEvent
 
   this.tool.mouseUp.call(this.editor)
-  this.editor.container.releasePointerCapture(e.pointerId)
   this.editor.interaction._pointDown = false
   // this.editor.action.dispatch('clear-creation')
   this.editor.action.dispatch('world-mouse-up')

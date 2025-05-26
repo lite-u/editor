@@ -1,3 +1,4 @@
 import ToolManager from '~/services/tool/toolManager';
-declare function handleContextMenu(this: ToolManager, e: MouseEvent): boolean;
+import { CanvasHostEvent } from '~/services/element/CanvasHost';
+declare function handleContextMenu(this: ToolManager, e: CanvasHostEvent): boolean;
 export default handleContextMenu;
