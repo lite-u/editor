@@ -86,10 +86,6 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
     rotateEle.onmouseleave = handleRotateMouseLeave
     rotateEle.onmousedown = handleRotateMouseDown
 
-    // resizeEle.stroke.enabled = false
-    // resizeEle.stroke.weight = resizeStrokeWidth
-    // resizeEle.stroke.color = '#435fb9'
-
     this.overlayHost.append(resizeEle, rotateEle)
   })
 
