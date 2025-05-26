@@ -1,12 +1,12 @@
-import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
-import dragging from '../services/tool/selector/dragging/dragging.js';
-import ElementRectangle from '../elements/rectangle/rectangle.js';
-import Rectangle from '../elements/rectangle/rectangle.js';
-import { getMinimalBoundingRect } from '../core/utils.js';
-import { DEFAULT_STROKE } from '../elements/defaultProps.js';
-import { rotatePointAroundPoint } from '../core/geometry.js';
-import Ellipse from '../elements/ellipse/ellipse.js';
-import { nid } from '../index.js';
+import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
+import dragging from '~/services/tool/selector/dragging/dragging';
+import ElementRectangle from '~/elements/rectangle/rectangle';
+import Rectangle from '~/elements/rectangle/rectangle';
+import { getMinimalBoundingRect } from '~/core/utils';
+import { DEFAULT_STROKE } from '~/elements/defaultProps';
+import { rotatePointAroundPoint } from '~/core/geometry';
+import Ellipse from '~/elements/ellipse/ellipse';
+import { nid } from '~/index';
 export function generateTransformHandles(ele, specialLineSeg = false) {
     const { world } = this;
     const { scale, dpr } = world;
@@ -166,20 +166,17 @@ export function generateElementsClones() {
         invisibleClone.fill.enabled = false;
         invisibleClone.stroke.enabled = true;
         invisibleClone.stroke.color = 'none';
-        invisibleClone.onmousedown = () => handleTranslateMouseDown(id);
-        cloneStrokeLine.onmousedown = () => handleTranslateMouseDown(id);
         cloneStrokeLine.id = 'stroke-line-clone-' + id;
         cloneStrokeLine.layer = 1;
         cloneStrokeLine.stroke.weight = strokeWidth;
+        invisibleClone.onmousedown = () => handleTranslateMouseDown(id);
+        cloneStrokeLine.onmousedown = () => handleTranslateMouseDown(id);
         overlayHost.append(invisibleClone, cloneStrokeLine);
         if (elementSelected) {
             cloneStrokeLine.stroke.color = boxColor;
         }
         else {
             cloneStrokeLine.stroke.color = 'none';
-            // const cloneStrokeLine = translateClone.clone()
-            // cloneStrokeLine.layer = 1
-            // overlayHost.append(translateClone)
             invisibleClone.onmouseenter = () => {
                 cloneStrokeLine.stroke.color = boxColor;
                 action.dispatch('rerender-overlay');
