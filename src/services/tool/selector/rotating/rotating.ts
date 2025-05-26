@@ -32,6 +32,7 @@ const rotating: SubToolType = {
     return rotationDiff
   },
   mouseUp() {
+    console.log(this)
     const {interaction, mainHost, action, cursor, selection} = this
     const elements = mainHost.getElementsByIdSet(selection.values)
 
@@ -48,6 +49,7 @@ const rotating: SubToolType = {
     // cursor.set(selector.cursor)
     action.dispatch('element-modified', changes)
     this.interaction._rotateData = null
+    console.log(this)
   },
 }
 

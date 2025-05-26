@@ -65,10 +65,12 @@ const selector = {
     },
     mouseUp() {
         if (this.interaction._rotateData) {
-            rotating.mouseMove.call(this);
+            rotating.mouseUp.call(this);
+        }
+        else {
+            this.toolManager.subTool?.mouseUp.call(this);
         }
         this.cursor.set(selector.cursor);
-        // this.toolManager.subTool?.mouseUp.call(this)
         this.toolManager.subTool = null;
     },
 };

@@ -42,6 +42,7 @@ const selector: ToolType = {
       rotating.mouseMove.call(this)
       return
     }
+
     if (!this.toolManager.subTool) {
       if (interaction._hoveredResizeManipulator) {
         cursor.set('nw-resize')
@@ -66,10 +67,11 @@ const selector: ToolType = {
   },
   mouseUp() {
     if (this.interaction._rotateData) {
-      rotating.mouseMove.call(this)
+      rotating.mouseUp.call(this)
+    } else {
+      this.toolManager.subTool?.mouseUp.call(this)
     }
     this.cursor.set(selector.cursor)
-    // this.toolManager.subTool?.mouseUp.call(this)
     this.toolManager.subTool = null
   },
 }
