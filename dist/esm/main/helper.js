@@ -1,12 +1,12 @@
-import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
-import dragging from '~/services/tool/selector/dragging/dragging';
-import ElementRectangle from '~/elements/rectangle/rectangle';
-import Rectangle from '~/elements/rectangle/rectangle';
-import { getMinimalBoundingRect } from '~/core/utils';
-import { DEFAULT_STROKE } from '~/elements/defaultProps';
-import { rotatePointAroundPoint } from '~/core/geometry';
-import Ellipse from '~/elements/ellipse/ellipse';
-import { nid } from '~/index';
+import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
+import dragging from '../services/tool/selector/dragging/dragging.js';
+import ElementRectangle from '../elements/rectangle/rectangle.js';
+import Rectangle from '../elements/rectangle/rectangle.js';
+import { getMinimalBoundingRect } from '../core/utils.js';
+import { DEFAULT_STROKE } from '../elements/defaultProps.js';
+import { rotatePointAroundPoint } from '../core/geometry.js';
+import Ellipse from '../elements/ellipse/ellipse.js';
+import { nid } from '../index.js';
 export function generateTransformHandles(ele, specialLineSeg = false) {
     const { world } = this;
     const { scale, dpr } = world;
@@ -166,11 +166,11 @@ export function generateElementsClones() {
         translateClone.stroke.enabled = true;
         translateClone.stroke.color = 'none';
         translateClone.onmousedown = () => handleTranslateMouseDown(id);
-        overlayHost.append(translateClone);
+        overlayHost.append(translateClone, cloneStrokeLine);
         if (!elementSelected) {
-            const cloneStrokeLine = translateClone.clone();
-            cloneStrokeLine.layer = 1;
-            overlayHost.append(translateClone);
+            // const cloneStrokeLine = translateClone.clone()
+            // cloneStrokeLine.layer = 1
+            // overlayHost.append(translateClone)
             translateClone.onmouseenter = () => {
                 cloneStrokeLine.stroke.color = boxColor;
                 action.dispatch('rerender-overlay');
