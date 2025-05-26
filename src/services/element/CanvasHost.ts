@@ -70,6 +70,7 @@ class CanvasHost {
           originalEvent: e,
         })
       }
+
       if (e.button === 2) {
         this.dispatchEvent(e, 'contextmenu')
         this.oncontextmenu?.({
