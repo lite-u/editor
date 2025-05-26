@@ -135,13 +135,6 @@ class CanvasHost {
       }
     }
 
-    if (type === 'mouseup') {
-      this.onmouseup?.({
-        element: _ele,
-        originalEvent: domEvent,
-      })
-    }
-
     if (!_ele) {
       return
     }
