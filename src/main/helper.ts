@@ -177,24 +177,28 @@ export function generateElementsClones(this: Editor) {
 
   visibleElements.forEach((ele) => {
     const id = ele.id
-    const clone = ele.clone()
+    const translateClone = ele.clone()
     const elementSelected = idSet.has(id)
 
-    clone.fill.enabled = false
-    clone.stroke.enabled = true
-    clone.stroke.weight = 2 / ratio
-    clone.stroke.color = elementSelected ? boxColor : 'none'
-    overlayHost.append(clone)
-    clone.onmousedown = () => handleTranslateMouseDown(id)
+    translateClone.fill.enabled = false
+    translateClone.stroke.enabled = true
+    translateClone.stroke.weight = 2 / ratio
+    translateClone.stroke.color = elementSelected ? boxColor : 'none'
+    translateClone.onmousedown = () => handleTranslateMouseDown(id)
+    overlayHost.append(translateClone)
 
     if (!elementSelected) {
-      clone.onmouseenter = () => {
-        clone.stroke.color = boxColor
+      const cloneStrokeLine = translateClone.clone()
+
+      overlayHost.append(translateClone)
+
+      translateClone.onmouseenter = () => {
+        cloneStrokeLine.stroke.color = boxColor
         action.dispatch('rerender-overlay')
       }
 
-      clone.onmouseleave = () => {
-        clone.stroke.color = 'none'
+      translateClone.onmouseleave = () => {
+        cloneStrokeLine.stroke.color = 'none'
         action.dispatch('rerender-overlay')
       }
     }
