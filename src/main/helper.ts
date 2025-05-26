@@ -203,7 +203,6 @@ export function generateElementsClones(this: Editor) {
     }
 
     if (ele.type !== 'path1') {
-      console.log('point')
       const pointLen = 20 / ratio
       const centerPoint = ElementRectangle.create(nid(), ele.cx, ele.cy, pointLen)
       centerPoint.onmousedown = () => handleTranslateMouseDown(id)
