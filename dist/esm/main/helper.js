@@ -7,12 +7,12 @@ import { DEFAULT_STROKE } from '../elements/defaultProps.js';
 import { rotatePointAroundPoint } from '../core/geometry.js';
 import Ellipse from '../elements/ellipse/ellipse.js';
 import { nid } from '../index.js';
-export function generateTransformHandles(rect, ratio, rotation, specialLineSeg = false) {
+export function generateTransformHandles(ele, ratio, specialLineSeg = false) {
     const result = [];
+    const { cx, cy, width, height, rotation } = ele;
     const resizeLen = 30 / ratio;
     const resizeStrokeWidth = 2 / ratio;
     const rotateRadius = 50 / ratio;
-    const { cx, cy, width, height } = rect;
     const arr = [
         { name: 'tl', dx: -0.5, dy: -0.5 },
         { name: 't', dx: 0.0, dy: -0.5 },
@@ -59,7 +59,7 @@ export function generateTransformHandles(rect, ratio, rotation, specialLineSeg =
     });
     return result;
 }
-export function getManipulationBox() {
+export function getSelectedBoundingElement() {
     const rectsWithRotation = [];
     const rectsWithoutRotation = [];
     let rotations = [];
@@ -74,12 +74,6 @@ export function getManipulationBox() {
     if (selectedElements.length === 0)
         return;
     selectedElements.forEach((ele) => {
-        // const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen)
-        /*
-            centerPoint.stroke.enabled = false
-            centerPoint.fill.enabled = true
-            centerPoint.fill.color = 'orange'*/
-        // overlayHost.append(centerPoint)
         rotations.push(ele.rotation);
         rectsWithRotation.push(ele.getBoundingRect());
         rectsWithoutRotation.push(ele.getBoundingRect(true));
@@ -113,7 +107,9 @@ export function getManipulationBox() {
             color: boxColor,
         },
     });
-    overlayHost.append(selectedOutlineElement, ...generateTransformHandles(rect, ratio, applyRotation, specialLineSeg));
+    // overlayHost.append(selectedOutlineElement, ...generateTransformHandles(rect, ratio, applyRotation, specialLineSeg))
+    overlayHost.append(selectedOutlineElement);
+    return selectedOutlineElement;
 }
 export function generateElementsClones() {
     const boxColor = '#435fb9';

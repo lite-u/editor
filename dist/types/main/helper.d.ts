@@ -1,10 +1,6 @@
 import { ElementInstance } from '~/type';
+import ElementRectangle from '~/elements/rectangle/rectangle';
 import Editor from '~/main/editor';
-export declare function generateTransformHandles(rect: {
-    cx: number;
-    cy: number;
-    width: number;
-    height: number;
-}, ratio: number, rotation: number, specialLineSeg?: boolean): ElementInstance[];
-export declare function getManipulationBox(this: Editor): void;
+export declare function generateTransformHandles(ele: ElementRectangle, ratio: number, specialLineSeg?: boolean): ElementInstance[];
+export declare function getSelectedBoundingElement(this: Editor): ElementRectangle | undefined;
 export declare function generateElementsClones(this: Editor): void;

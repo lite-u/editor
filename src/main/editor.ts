@@ -1,10 +1,10 @@
 import History from '~/services/history/history'
 import Action from '~/services/actions/actions'
-import {generateBoundingRectFromTwoPoints, getMinimalBoundingRect, throttle} from '~/core/utils'
+import {generateBoundingRectFromTwoPoints, throttle} from '~/core/utils'
 import {initEvents} from './events'
 import AssetsManager from '~/services/assets/AssetsManager'
 import ElementImage from '~/elements/image/image'
-import {ElementInstance, ElementProps} from '~/elements/type'
+import {ElementProps} from '~/elements/type'
 import nid from '~/core/nid'
 import ToolManager from '~/services/tool/toolManager'
 import CanvasHost from '~/services/element/CanvasHost'
@@ -18,11 +18,7 @@ import InteractionState from '~/services/interaction/InteractionState'
 import {VisionEditorAssetType} from '~/services/assets/asssetsManager'
 import {BoundingRect} from '~/type'
 import {EditorConfig, EventHandlers} from './type'
-import ElementRectangle from '~/elements/rectangle/rectangle'
-import dragging from '~/services/tool/selector/dragging/dragging'
-import {getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
-import {DEFAULT_STROKE} from '~/elements/defaultProps'
-import {getManipulationBox, generateElementsClones, generateTransformHandles} from '~/main/helper'
+import {generateElementsClones, generateTransformHandles, getSelectedBoundingElement} from '~/main/helper'
 
 class Editor {
   id = nid()
@@ -159,10 +155,12 @@ class Editor {
 
   regenerateOverlayElements() {
     generateElementsClones.call(this)
-    getManipulationBox.call(this)
-    // generateTransformHandles.call(this)
+    const ele = getSelectedBoundingElement.call(this)
+    console.log(ele)
+    generateTransformHandles.call(this, ele)
 
   }
+
   destroy() {
     // this.destroy()
     this.action.destroy()

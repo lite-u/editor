@@ -10,18 +10,12 @@ import {rotatePointAroundPoint} from '~/core/geometry'
 import Ellipse from '~/elements/ellipse/ellipse'
 import {nid} from '~/index'
 
-export function generateTransformHandles(rect: {
-  cx: number,
-  cy: number,
-  width: number,
-  height: number
-}, ratio: number, rotation: number, specialLineSeg = false) {
+export function generateTransformHandles(ele: ElementRectangle, ratio: number, specialLineSeg = false) {
   const result: ElementInstance[] = []
-
+  const {cx, cy, width, height, rotation} = ele
   const resizeLen = 30 / ratio
   const resizeStrokeWidth = 2 / ratio
   const rotateRadius = 50 / ratio
-  const {cx, cy, width, height} = rect
   const arr = [
     {name: 'tl', dx: -0.5, dy: -0.5},
     {name: 't', dx: 0.0, dy: -0.5},
@@ -74,7 +68,7 @@ export function generateTransformHandles(rect: {
   return result
 }
 
-export function getManipulationBox(this: Editor) {
+export function getSelectedBoundingElement(this: Editor) {
   const rectsWithRotation: BoundingRect[] = []
   const rectsWithoutRotation: BoundingRect[] = []
   let rotations: number[] = []

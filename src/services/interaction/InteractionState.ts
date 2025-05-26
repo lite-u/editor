@@ -13,7 +13,7 @@ import ElementEllipse from '~/elements/ellipse/ellipse'
 import LineSegment from '~/elements/lines/lineSegment'
 import ElementLineSegment from '~/elements/lines/lineSegment'
 import dragging from '~/services/tool/selector/dragging/dragging'
-import {getManipulationBox} from '~/main/helper'
+import {getSelectedBoundingElement} from '~/main/helper'
 
 export type EditorManipulationType =
   | 'static'
