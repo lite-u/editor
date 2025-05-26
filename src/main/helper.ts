@@ -70,7 +70,11 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
     resizeEle.layer = 1
     resizeEle.fill.enabled = true
     resizeEle.fill.color = '#000000'
+    resizeEle.stroke.weight = resizeStrokeWidth
+    resizeEle.stroke.color = '#435fb9'
+
     rotateEle.rotation = rotation
+    rotateEle.stroke.enabled = false
     rotateEle.stroke.weight = resizeStrokeWidth
     rotateEle.fill.enabled = true
     rotateEle.fill.color = 'blue'
@@ -83,11 +87,8 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
     rotateEle.onmousedown = handleRotateMouseDown
 
     // resizeEle.stroke.enabled = false
-    resizeEle.stroke.weight = resizeStrokeWidth
-    resizeEle.stroke.color = '#435fb9'
-    resizeEle.fill.enabled = true
-    resizeEle.fill.color = '#fff'
-    rotateEle.stroke.enabled = false
+    // resizeEle.stroke.weight = resizeStrokeWidth
+    // resizeEle.stroke.color = '#435fb9'
 
     this.overlayHost.append(resizeEle, rotateEle)
   })
