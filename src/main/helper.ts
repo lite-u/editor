@@ -10,6 +10,7 @@ import {rotatePointAroundPoint} from '~/core/geometry'
 import Ellipse from '~/elements/ellipse/ellipse'
 import {nid} from '~/index'
 import {getRotateAngle} from '~/services/tool/selector/helper'
+import {ResizeDirectionName} from '~/services/selection/type'
 
 export function generateTransformHandles(this: Editor, ele: ElementRectangle, specialLineSeg = false) {
   const {world} = this
@@ -89,7 +90,7 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
     rotateEle.fill.color = 'transparent'
 
     // Set rotateEle arc angles based on position (degrees, will convert to radians)
-    const angleMap = {
+    const angleMap: Record<ResizeDirectionName, number[]> = {
       't': [180, 360],
       'tr': [180, 90],
       'r': [270, 90],
@@ -98,7 +99,7 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
       'bl': [0, 270],
       'l': [90, 270],
       'tl': [90, 360],
-    } as const
+    }
 
     if (angleMap[name]) {
       const [startDeg, endDeg] = angleMap[name]
