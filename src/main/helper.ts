@@ -189,7 +189,8 @@ export function generateElementsClones(this: Editor) {
     invisibleClone.stroke.color = 'none'
     invisibleClone.onmousedown = () => handleTranslateMouseDown(id)
 
-    invisibleClone.id = 'stroke-line-clone-' + id
+    cloneStrokeLine.onmousedown = () => handleTranslateMouseDown(id)
+    cloneStrokeLine.id = 'stroke-line-clone-' + id
     cloneStrokeLine.layer = 1
     cloneStrokeLine.stroke.weight = strokeWidth
     overlayHost.append(invisibleClone, cloneStrokeLine)

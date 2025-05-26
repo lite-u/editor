@@ -171,9 +171,6 @@ class CanvasHost {
     sortedElements.forEach(element => {
       this.visible.set(element.id, element)
     })
-
-    console.log(this.visible)
-
   }
 
   public get getMaxLayerIndex(): number {
