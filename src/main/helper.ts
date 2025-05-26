@@ -144,7 +144,6 @@ export function generateElementsClones(this: Editor) {
   const idSet = selection.values
   const visibleElements = mainHost.visibleElements
   const selectedElements = mainHost.getElementsByIdSet(idSet)
-  const pointLen = 20 / ratio
 
   // overlayHost.reset()
 
@@ -185,6 +184,7 @@ export function generateElementsClones(this: Editor) {
     clone.stroke.enabled = true
     clone.stroke.weight = 2 / ratio
     clone.stroke.color = elementSelected ? boxColor : 'none'
+    overlayHost.append(clone)
     clone.onmousedown = () => handleTranslateMouseDown(id)
 
     if (!elementSelected) {
@@ -200,6 +200,7 @@ export function generateElementsClones(this: Editor) {
     }
 
     if (ele.type !== 'path1') {
+      const pointLen = 20 / ratio
       const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen)
       centerPoint.onmousedown = () => handleTranslateMouseDown(id)
       centerPoint.onmouseenter = () => {

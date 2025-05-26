@@ -1,11 +1,11 @@
-import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
-import dragging from '~/services/tool/selector/dragging/dragging';
-import ElementRectangle from '~/elements/rectangle/rectangle';
-import Rectangle from '~/elements/rectangle/rectangle';
-import { getMinimalBoundingRect } from '~/core/utils';
-import { DEFAULT_STROKE } from '~/elements/defaultProps';
-import { rotatePointAroundPoint } from '~/core/geometry';
-import Ellipse from '~/elements/ellipse/ellipse';
+import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
+import dragging from '../services/tool/selector/dragging/dragging.js';
+import ElementRectangle from '../elements/rectangle/rectangle.js';
+import Rectangle from '../elements/rectangle/rectangle.js';
+import { getMinimalBoundingRect } from '../core/utils.js';
+import { DEFAULT_STROKE } from '../elements/defaultProps.js';
+import { rotatePointAroundPoint } from '../core/geometry.js';
+import Ellipse from '../elements/ellipse/ellipse.js';
 export function generateTransformHandles(rect, ratio, rotation, specialLineSeg = false) {
     const result = [];
     const resizeLen = 30 / ratio;
@@ -122,7 +122,6 @@ export function generateElementsClones() {
     const idSet = selection.values;
     const visibleElements = mainHost.visibleElements;
     const selectedElements = mainHost.getElementsByIdSet(idSet);
-    const pointLen = 20 / ratio;
     // overlayHost.reset()
     const handleTranslateMouseDown = (id) => {
         if (!selection.has(id)) {
@@ -157,6 +156,7 @@ export function generateElementsClones() {
         clone.stroke.enabled = true;
         clone.stroke.weight = 2 / ratio;
         clone.stroke.color = elementSelected ? boxColor : 'none';
+        overlayHost.append(clone);
         clone.onmousedown = () => handleTranslateMouseDown(id);
         if (!elementSelected) {
             clone.onmouseenter = () => {
@@ -169,6 +169,7 @@ export function generateElementsClones() {
             };
         }
         if (ele.type !== 'path1') {
+            const pointLen = 20 / ratio;
             const centerPoint = ElementRectangle.create('handle-move-center', ele.cx, ele.cy, pointLen);
             centerPoint.onmousedown = () => handleTranslateMouseDown(id);
             centerPoint.onmouseenter = () => {
