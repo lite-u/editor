@@ -47,8 +47,8 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
     this.interaction._rotateData = {startRotation: rotation, targetPoint: {x: cx, y: cy}}
     const mouseCurrentRotation = getRotateAngle({x: cx, y: cy}, this.interaction.mouseWorldCurrent)
 
-    console.log('prev')
-    (e.originalEvent.stopPropagation())
+    // console.log('prev')
+    // (e.originalEvent.stopPropagation())
     this.cursor.rotate(mouseCurrentRotation)
   }
 
