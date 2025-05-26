@@ -19,14 +19,11 @@ function handleMouseDown(this: ToolManager, e: CanvasHostEvent) {
   interaction.mouseWorldStart = world.getWorldPointByViewportPoint(x, y)
   interaction.mouseWorldCurrent = world.getWorldPointByViewportPoint(x, y)
 
-  // console.log(operator)
-  // this.editor.container.setPointerCapture(e.pointerId)
   this.editor.interaction._modifier = modifiers
   this.editor.interaction._pointDown = true
 
   if (!element) {
     this.tool?.mouseDown?.call(this.editor)
-
   }
   // this.editor.action.dispatch('clear-creation')
 
