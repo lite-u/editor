@@ -161,12 +161,12 @@ export function generateElementsClones() {
         const invisibleClone = ele.clone();
         const cloneStrokeLine = ele.clone();
         const elementSelected = idSet.has(id);
-        invisibleClone.layer = 0;
+        invisibleClone.layer = 1;
         invisibleClone.fill.enabled = false;
         invisibleClone.stroke.enabled = true;
         invisibleClone.stroke.color = 'none';
         invisibleClone.onmousedown = () => handleTranslateMouseDown(id);
-        cloneStrokeLine.layer = 1;
+        cloneStrokeLine.layer = 0;
         cloneStrokeLine.stroke.weight = strokeWidth;
         overlayHost.append(invisibleClone, cloneStrokeLine);
         if (!elementSelected) {
