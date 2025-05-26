@@ -177,11 +177,11 @@ export function generateElementsClones() {
         }
         else {
             cloneStrokeLine.stroke.color = 'none';
-            invisibleClone.onmouseenter = () => {
+            invisibleClone.onmouseenter = cloneStrokeLine.onmouseenter = () => {
                 cloneStrokeLine.stroke.color = boxColor;
                 action.dispatch('rerender-overlay');
             };
-            invisibleClone.onmouseleave = () => {
+            invisibleClone.onmouseleave = cloneStrokeLine.onmouseleave = () => {
                 cloneStrokeLine.stroke.color = 'none';
                 action.dispatch('rerender-overlay');
             };
