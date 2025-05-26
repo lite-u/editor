@@ -1,4 +1,4 @@
-import snapTool from '~/services/tool/snap/snap';
+import snapTool from '../snap/snap.js';
 function handleMouseDown(e) {
     const { element, originalEvent } = e;
     const { button, target, shiftKey, metaKey, ctrlKey, altKey, clientX, clientY, movementX, movementY } = originalEvent;

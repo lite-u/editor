@@ -28,10 +28,10 @@ class CanvasHost {
   private visible: ElementMap = new Map()
   editor: Editor
   eventsController = new AbortController()
-  _hoveredElement: ElementInstance | null = null
   canvas: HTMLCanvasElement
   ctx: CanvasRenderingContext2D
   dpr = 2
+  _hoveredElement: ElementInstance | null = null
   onmousedown?: CanvasHostEventHandler
   onmouseup?: CanvasHostEventHandler
   onmousemove?: CanvasHostEventHandler
