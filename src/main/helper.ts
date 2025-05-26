@@ -170,12 +170,8 @@ export function generateElementsClones(this: Editor) {
   const {world, action, toolManager, selection, mainHost, overlayHost} = this
   const {scale, dpr} = world
   const ratio = scale * dpr
-  // const pointLen = 20 / ratio
   const idSet = selection.values
   const visibleElements = mainHost.visibleElements
-  const selectedElements = mainHost.getElementsByIdSet(idSet)
-
-  // overlayHost.reset()
 
   const handleTranslateMouseDown = (id: UID) => {
     if (!selection.has(id)) {
