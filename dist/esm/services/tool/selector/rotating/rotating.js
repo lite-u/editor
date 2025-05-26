@@ -1,5 +1,5 @@
-import { getRotateAngle } from '~/services/tool/selector/helper';
-import selector from '~/services/tool/selector/selector';
+import { getRotateAngle } from '../helper.js';
+import selector from '../selector.js';
 const rotating = {
     // cursor: 'default',
     mouseMove: function () {
