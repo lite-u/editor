@@ -60,7 +60,6 @@ class CanvasHost {
     }, {signal, passive: false})
 
     container.addEventListener('pointerup', e => {
-      console.log(e)
       container.releasePointerCapture(e.pointerId)
 
       if (e.button === 0) {
