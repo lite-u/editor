@@ -6,6 +6,7 @@ const selector: ToolType = {
   cursor: 'default',
   init: function () { },
   mouseDown: function () {
+    console.log(9)
     if (!this.toolManager.subTool) {
       this.toolManager.subTool = selecting
     }
