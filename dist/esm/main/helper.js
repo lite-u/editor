@@ -148,7 +148,7 @@ export function generateElementsClones() {
     const ratio = scale * dpr;
     const idSet = selection.values;
     const visibleElements = mainHost.visibleElements;
-    const strokeWidth = 2 / ratio;
+    const strokeWidth = 10 / ratio;
     const handleTranslateMouseDown = (id) => {
         if (!selection.has(id)) {
             action.dispatch('selection-modify', { mode: 'replace', idSet: new Set([id]) });
