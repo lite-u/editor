@@ -36,17 +36,18 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
         this.cursor.set(this.toolManager.tool.cursor);
         this.action.dispatch('rerender-overlay');
     };
-    const handleRotateMouseDown = () => {
+    const handleRotateMouseDown = (e) => {
         this.interaction._rotateData = { startRotation: rotation, targetPoint: { x: cx, y: cy } };
         const mouseCurrentRotation = getRotateAngle({ x: cx, y: cy }, this.interaction.mouseWorldCurrent);
+        console.log('prev')(e.originalEvent.stopPropagation());
         this.cursor.rotate(mouseCurrentRotation);
     };
-    const handleResizeMouseEnter = (e) => {
+    const handleResizeMouseEnter = () => {
         this.cursor.set('nw-resize');
         // console.log('Resize Enter')
         this.action.dispatch('rerender-overlay');
     };
-    const handleResizeMouseLeave = (e) => {
+    const handleResizeMouseLeave = () => {
         this.cursor.set('default');
         // e.target.fill.color = '#ffffff'
         this.action.dispatch('rerender-overlay');
