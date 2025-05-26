@@ -1,7 +1,5 @@
 function handleContextMenu(e) {
     // const modifyKey = e.ctrlKey || e.metaKey || e.shiftKey
-    e.preventDefault();
-    e.stopPropagation();
     /*
     if  if (e.ctrlKey) {
         return false
