@@ -72,23 +72,12 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
       height: resizeLen,
       rotation,
     })
-    const rotateEle = new Ellipse({
-      id: 'handle-rotate-' + name,
-      layer: 0,
-      cx: x,
-      cy: y,
-      r1: rotateRadius,
-      r2: rotateRadius,
-      rotation,
-      stroke: {
-        ...DEFAULT_STROKE,
-        weight: resizeStrokeWidth,
-      },
-      fill: {
-        enabled: true,
-        color: 'blue',
-      },
-    })
+    const rotateEle = Ellipse.create('handle-rotate-' + name, x, y, rotateRadius)
+
+    rotateEle.rotation = rotation
+    rotateEle.stroke.weight = resizeStrokeWidth
+    rotateEle.fill.enabled = true
+    rotateEle.fill.color = 'blue'
 
     resizeEle.onmouseenter = handleResizeMouseEnter
     resizeEle.onmouseleave = handleResizeMouseLeave
