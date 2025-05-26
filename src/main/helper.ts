@@ -30,14 +30,18 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
     {name: 'l', dx: -0.5, dy: 0},
   ]
   const handleRotateMouseEnter = (e) => {
-    this.cursor.set('rotate')
+    // this.cursor.set('rotate')
     console.log(e)
     console.log('Rotate Enter')
+    e.target.fill.color = 'red'
+    this.action.dispatch('rerender-overlay')
 
   }
   const handleRotateMouseLeave = (e) => {
+    // this.cursor.set('default')
     console.log('Rotate leave')
-    this.cursor.set('default')
+    e.target.fill.color = 'blue'
+    this.action.dispatch('rerender-overlay')
   }
   const handleRotateMouseDown = (e) => {
     /*  const rects = selectedElements.map(ele => {
@@ -52,14 +56,13 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
       console.log(applyRotation)*/
   }
   const handleResizeMouseEnter = () => {
-    this.cursor.set('nw-resize')
+    // this.cursor.set('nw-resize')
     console.log('Resize Enter')
 
   }
   const handleResizeMouseLeave = () => {
+    // this.cursor.set('default')
     console.log('Resize leave')
-
-    this.cursor.set('default')
   }
 
   const handleResizeMouseDown = () => {}

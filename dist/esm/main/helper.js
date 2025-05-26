@@ -1,12 +1,12 @@
-import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
-import dragging from '../services/tool/selector/dragging/dragging.js';
-import ElementRectangle from '../elements/rectangle/rectangle.js';
-import Rectangle from '../elements/rectangle/rectangle.js';
-import { getMinimalBoundingRect } from '../core/utils.js';
-import { DEFAULT_STROKE } from '../elements/defaultProps.js';
-import { rotatePointAroundPoint } from '../core/geometry.js';
-import Ellipse from '../elements/ellipse/ellipse.js';
-import { nid } from '../index.js';
+import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
+import dragging from '~/services/tool/selector/dragging/dragging';
+import ElementRectangle from '~/elements/rectangle/rectangle';
+import Rectangle from '~/elements/rectangle/rectangle';
+import { getMinimalBoundingRect } from '~/core/utils';
+import { DEFAULT_STROKE } from '~/elements/defaultProps';
+import { rotatePointAroundPoint } from '~/core/geometry';
+import Ellipse from '~/elements/ellipse/ellipse';
+import { nid } from '~/index';
 export function generateTransformHandles(ele, specialLineSeg = false) {
     const { world } = this;
     const { scale, dpr } = world;
@@ -27,13 +27,17 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
         { name: 'l', dx: -0.5, dy: 0 },
     ];
     const handleRotateMouseEnter = (e) => {
-        this.cursor.set('rotate');
+        // this.cursor.set('rotate')
         console.log(e);
         console.log('Rotate Enter');
+        e.target.fill.color = 'red';
+        this.action.dispatch('rerender-overlay');
     };
     const handleRotateMouseLeave = (e) => {
+        // this.cursor.set('default')
         console.log('Rotate leave');
-        this.cursor.set('default');
+        e.target.fill.color = 'blue';
+        this.action.dispatch('rerender-overlay');
     };
     const handleRotateMouseDown = (e) => {
         /*  const rects = selectedElements.map(ele => {
@@ -48,12 +52,12 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
           console.log(applyRotation)*/
     };
     const handleResizeMouseEnter = () => {
-        this.cursor.set('nw-resize');
+        // this.cursor.set('nw-resize')
         console.log('Resize Enter');
     };
     const handleResizeMouseLeave = () => {
+        // this.cursor.set('default')
         console.log('Resize leave');
-        this.cursor.set('default');
     };
     const handleResizeMouseDown = () => { };
     arr.map(({ dx, dy, name }) => {

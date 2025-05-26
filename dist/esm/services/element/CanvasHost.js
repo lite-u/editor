@@ -66,7 +66,7 @@ class CanvasHost {
                     x,
                     y,
                     pointerId,
-                    target: _ele,
+                    target: this._hoveredElement,
                     originalEvent: domEvent,
                     isPropagationStopped: false,
                     stopPropagation() { },
