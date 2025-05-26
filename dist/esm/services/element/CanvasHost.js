@@ -49,13 +49,16 @@ class CanvasHost {
         // console.log(elements)
         for (const el of elements) {
             const { path2D, fill } = el;
-            // console.log(ctx.lineWidth)
-            ctx.save();
-            // console.log(el.stroke.weight)
-            ctx.lineWidth = el.stroke.weight;
-            const f1 = ctx.isPointInStroke(path2D, vx, vy);
-            const f2 = ctx.isPointInPath(path2D, vx, vy);
-            ctx.restore();
+            let f1 = false;
+            let f2 = false;
+            if (el.stroke.enabled) {
+                ctx.save();
+                // console.log(el.stroke.weight)
+                ctx.lineWidth = el.stroke.weight;
+                f1 = ctx.isPointInStroke(path2D, vx, vy);
+                ctx.restore();
+            }
+            f2 = ctx.isPointInPath(path2D, vx, vy);
             if (f1 || (f2 && fill.enabled)) {
                 _ele = el;
                 break;

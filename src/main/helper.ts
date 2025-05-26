@@ -180,11 +180,13 @@ export function generateElementsClones(this: Editor) {
     const id = ele.id
     const translateClone = ele.clone()
     const elementSelected = idSet.has(id)
+    const cloneStrokeLine = translateClone.clone()
 
     translateClone.layer = 0
+    cloneStrokeLine.layer = 1
     translateClone.fill.enabled = false
-    translateClone.stroke.enabled = false
-    translateClone.stroke.color = elementSelected ? boxColor : 'none'
+    translateClone.stroke.enabled = true
+    translateClone.stroke.color = 'none'
     translateClone.onmousedown = () => handleTranslateMouseDown(id)
     overlayHost.append(translateClone)
 
