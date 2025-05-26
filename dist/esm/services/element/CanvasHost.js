@@ -1,13 +1,13 @@
-import deepClone from '~/core/deepClone';
-import nid from '~/core/nid';
-import ElementRectangle from '~/elements/rectangle/rectangle';
-import ElementEllipse from '~/elements/ellipse/ellipse';
-import ElementText from '~/elements/text/text';
-import ElementImage from '~/elements/image/image';
-import ElementLineSegment from '~/elements/lines/lineSegment';
-import ElementPath from '~/elements/path/path';
-import { createWith } from '~/lib/lib';
-import { rectsOverlap } from '~/core/utils';
+import deepClone from '../../core/deepClone.js';
+import nid from '../../core/nid.js';
+import ElementRectangle from '../../elements/rectangle/rectangle.js';
+import ElementEllipse from '../../elements/ellipse/ellipse.js';
+import ElementText from '../../elements/text/text.js';
+import ElementImage from '../../elements/image/image.js';
+import ElementLineSegment from '../../elements/lines/lineSegment.js';
+import ElementPath from '../../elements/path/path.js';
+import { createWith } from '../../lib/lib.js';
+import { rectsOverlap } from '../../core/utils.js';
 const STYLE = {
     position: 'absolute',
     left: '0',
@@ -43,12 +43,8 @@ class CanvasHost {
         const { ctx, dpr } = this;
         const { offsetX: x, offsetY: y, pointerId } = domEvent;
         const elements = this.visibleElements.sort((a, b) => b.layer - a.layer);
-        // const x = clientX - this.editor.rect!.x
-        // const y = clientY - this.editor.rect!.y
         const vx = x * dpr;
         const vy = y * dpr;
-        // console.log(x,offsetX)
-        // console.log(y,offsetY)
         let _ele = null;
         for (const el of elements) {
             // let stopped = false

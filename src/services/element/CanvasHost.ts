@@ -51,12 +51,8 @@ class CanvasHost {
     const {ctx, dpr} = this
     const {offsetX: x, offsetY: y, pointerId} = domEvent
     const elements = this.visibleElements.sort((a, b) => b.layer - a.layer)
-    // const x = clientX - this.editor.rect!.x
-    // const y = clientY - this.editor.rect!.y
     const vx = x * dpr
     const vy = y * dpr
-    // console.log(x,offsetX)
-    // console.log(y,offsetY)
     let _ele: ElementInstance | null = null
 
     for (const el of elements) {
