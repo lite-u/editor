@@ -200,6 +200,7 @@ export function generateElementsClones(this: Editor) {
       cloneStrokeLine.stroke.color = boxColor
     } else {
       cloneStrokeLine.stroke.color = 'none'
+
       invisibleClone.onmouseenter = () => {
         cloneStrokeLine.stroke.color = boxColor
         action.dispatch('rerender-overlay')
