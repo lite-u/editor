@@ -78,13 +78,15 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
     resizeEle.fill.color = '#ffffff'
     resizeEle.stroke.weight = resizeStrokeWidth
     resizeEle.stroke.color = '#435fb9'
+    resizeEle.updatePath2D()
+    resizeEle.updateBoundingRect()
 
     rotateEle.layer = 2
     rotateEle.rotation = rotation
     rotateEle.stroke.enabled = false
     rotateEle.stroke.weight = 0
     rotateEle.fill.enabled = true
-    rotateEle.fill.color = 'blue'
+    rotateEle.fill.color = 'transparent'
 
     // Set rotateEle arc angles based on position (degrees, will convert to radians)
     const angleMap = {
@@ -104,7 +106,6 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
       rotateEle.endAngle = endDeg
       rotateEle.updatePath2D()
       rotateEle.updateBoundingRect()
-
     }
 
     resizeEle.onmouseenter = handleResizeMouseEnter
