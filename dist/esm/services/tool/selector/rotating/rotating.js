@@ -1,10 +1,11 @@
-import { getRotateAngle } from '../helper.js';
-import selector from '../selector.js';
+import { getRotateAngle } from '~/services/tool/selector/helper';
+import selector from '~/services/tool/selector/selector';
 const rotating = {
     // cursor: 'default',
     mouseMove: function () {
-        const { interaction, elementManager, selection, cursor } = this;
-        const elements = elementManager.getElementsByIdSet(selection.values);
+        console.log(this);
+        const { interaction, mainHost, selection, cursor } = this;
+        const elements = mainHost.getElementsByIdSet(selection.values);
         const { _rotateData, _modifier, mouseWorldCurrent, mouseWorldStart } = interaction;
         const { shiftKey } = _modifier;
         if (!_rotateData)
@@ -16,8 +17,8 @@ const rotating = {
         if (shiftKey) {
             rotationDiff = Math.round(rotationDiff / 15) * 15;
         }
-        interaction._outlineElement?.rotateFrom(rotationDiff, targetPoint);
-        interaction._manipulationElements.forEach(ele => ele.rotateFrom(rotationDiff, targetPoint));
+        // interaction._outlineElement?.rotateFrom(rotationDiff, targetPoint)
+        // interaction._manipulationElements.forEach(ele => ele.rotateFrom(rotationDiff, targetPoint))
         elements.forEach(ele => ele.rotateFrom(rotationDiff, targetPoint));
         cursor.rotate(mouseCurrentRotation);
         this.action.dispatch('rerender-overlay');

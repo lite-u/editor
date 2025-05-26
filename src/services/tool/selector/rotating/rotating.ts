@@ -1,4 +1,4 @@
-import ToolManager, {SubToolType} from '~/services/tool/toolManager'
+import {SubToolType} from '~/services/tool/toolManager'
 import {getRotateAngle} from '~/services/tool/selector/helper'
 import {HistoryChangeItem} from '~/services/actions/type'
 import selector from '~/services/tool/selector/selector'
@@ -7,8 +7,9 @@ const rotating: SubToolType = {
   // cursor: 'default',
 
   mouseMove: function () {
-    const {interaction, elementManager, selection, cursor} = this
-    const elements = elementManager.getElementsByIdSet(selection.values)
+    console.log(this)
+    const {interaction, mainHost, selection, cursor} = this
+    const elements = mainHost.getElementsByIdSet(selection.values)
     const {_rotateData, _modifier, mouseWorldCurrent, mouseWorldStart} = interaction
     const {shiftKey} = _modifier
 
@@ -23,8 +24,8 @@ const rotating: SubToolType = {
       rotationDiff = Math.round(rotationDiff / 15) * 15
     }
 
-    interaction._outlineElement?.rotateFrom(rotationDiff, targetPoint)
-    interaction._manipulationElements.forEach(ele => ele.rotateFrom(rotationDiff, targetPoint))
+    // interaction._outlineElement?.rotateFrom(rotationDiff, targetPoint)
+    // interaction._manipulationElements.forEach(ele => ele.rotateFrom(rotationDiff, targetPoint))
     elements.forEach(ele => ele.rotateFrom(rotationDiff, targetPoint))
     cursor.rotate(mouseCurrentRotation)
 
