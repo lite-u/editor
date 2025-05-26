@@ -53,7 +53,7 @@ class Cursor {
   }
 
   set(name: CursorName) {
-    console.log(name)
+    // console.log(name)
     // if(name==='default') debugger
     this.domRef.setAttribute('date-current-cursor', name)
     // console.log(name)

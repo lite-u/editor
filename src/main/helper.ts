@@ -30,11 +30,11 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
     {name: 'l', dx: -0.5, dy: 0},
   ]
   const handleRotateMouseEnter = (e) => {
-    console.log(e)
     this.cursor.set('rotate')
   }
   const handleRotateMouseLeave = (e) => {
     console.log(e)
+    this.cursor.set('default')
   }
   const handleRotateMouseDown = (e) => {
     /*  const rects = selectedElements.map(ele => {
@@ -48,8 +48,15 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
       console.log(sameRotation)
       console.log(applyRotation)*/
   }
-  const handleResizeMouseEnter = () => {}
-  const handleResizeMouseLeave = () => {}
+  const handleResizeMouseEnter = () => {
+    this.cursor.set('nw-resize')
+
+  }
+  const handleResizeMouseLeave = () => {
+
+    this.cursor.set('default')
+  }
+
   const handleResizeMouseDown = () => {}
 
   arr.map(({dx, dy, name}) => {
@@ -76,6 +83,10 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
       stroke: {
         ...DEFAULT_STROKE,
         weight: resizeStrokeWidth,
+      },
+      fill: {
+        enabled: true,
+        color: 'blue',
       },
     })
 
@@ -149,7 +160,6 @@ export function getSelectedBoundingElement(this: Editor): ElementRectangle {
     },
   })
 
-  // overlayHost.append(selectedOutlineElement, ...generateTransformHandles(rect, ratio, applyRotation, specialLineSeg))
   overlayHost.append(selectedOutlineElement)
 
   return selectedOutlineElement
@@ -174,28 +184,6 @@ export function generateElementsClones(this: Editor) {
     toolManager.subTool = dragging
     this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values)
   }
-  /*
-
-    const handleTranslateMouseEnter = (ele) => {}
-    const handleTranslateMouseLeave = (ele) => {}
-    const handleRotateMouseEnter = (ele) => {}
-    const handleRotateMouseLeave = (ele) => {}
-    const handleRotateMouseDown = (ele) => {
-      const rects = selectedElements.map(ele => {
-        return ele.getBoundingRect(true)
-      })
-      const {cx: x, cy: y} = getBoundingRectFromBoundingRects(rects)
-
-      // console.log(interaction._hoveredElement)
-      // this.interaction._rotateData = {startRotation: interaction._outlineElement.rotation, targetPoint: {x, y}}
-      // this.subTool = rotating
-      console.log(sameRotation)
-      console.log(applyRotation)
-    }
-    const handleResizeMouseEnter = () => {}
-    const handleResizeMouseLeave = () => {}
-    const handleResizeMouseDown = () => {}
-  */
 
   visibleElements.forEach((ele) => {
     const id = ele.id

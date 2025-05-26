@@ -1,12 +1,12 @@
-import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
-import dragging from '../services/tool/selector/dragging/dragging.js';
-import ElementRectangle from '../elements/rectangle/rectangle.js';
-import Rectangle from '../elements/rectangle/rectangle.js';
-import { getMinimalBoundingRect } from '../core/utils.js';
-import { DEFAULT_STROKE } from '../elements/defaultProps.js';
-import { rotatePointAroundPoint } from '../core/geometry.js';
-import Ellipse from '../elements/ellipse/ellipse.js';
-import { nid } from '../index.js';
+import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
+import dragging from '~/services/tool/selector/dragging/dragging';
+import ElementRectangle from '~/elements/rectangle/rectangle';
+import Rectangle from '~/elements/rectangle/rectangle';
+import { getMinimalBoundingRect } from '~/core/utils';
+import { DEFAULT_STROKE } from '~/elements/defaultProps';
+import { rotatePointAroundPoint } from '~/core/geometry';
+import Ellipse from '~/elements/ellipse/ellipse';
+import { nid } from '~/index';
 export function generateTransformHandles(ele, specialLineSeg = false) {
     const { world } = this;
     const { scale, dpr } = world;
@@ -27,11 +27,11 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
         { name: 'l', dx: -0.5, dy: 0 },
     ];
     const handleRotateMouseEnter = (e) => {
-        console.log(e);
         this.cursor.set('rotate');
     };
     const handleRotateMouseLeave = (e) => {
         console.log(e);
+        this.cursor.set('default');
     };
     const handleRotateMouseDown = (e) => {
         /*  const rects = selectedElements.map(ele => {
@@ -45,8 +45,12 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
           console.log(sameRotation)
           console.log(applyRotation)*/
     };
-    const handleResizeMouseEnter = () => { };
-    const handleResizeMouseLeave = () => { };
+    const handleResizeMouseEnter = () => {
+        this.cursor.set('nw-resize');
+    };
+    const handleResizeMouseLeave = () => {
+        this.cursor.set('default');
+    };
     const handleResizeMouseDown = () => { };
     arr.map(({ dx, dy, name }) => {
         if (specialLineSeg && name !== 't' && name !== 'b')
@@ -72,6 +76,10 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
             stroke: {
                 ...DEFAULT_STROKE,
                 weight: resizeStrokeWidth,
+            },
+            fill: {
+                enabled: true,
+                color: 'blue',
             },
         });
         resizeEle.onmouseenter = handleResizeMouseEnter;
@@ -136,7 +144,6 @@ export function getSelectedBoundingElement() {
             color: boxColor,
         },
     });
-    // overlayHost.append(selectedOutlineElement, ...generateTransformHandles(rect, ratio, applyRotation, specialLineSeg))
     overlayHost.append(selectedOutlineElement);
     return selectedOutlineElement;
 }
@@ -157,28 +164,6 @@ export function generateElementsClones() {
         toolManager.subTool = dragging;
         this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values);
     };
-    /*
-  
-      const handleTranslateMouseEnter = (ele) => {}
-      const handleTranslateMouseLeave = (ele) => {}
-      const handleRotateMouseEnter = (ele) => {}
-      const handleRotateMouseLeave = (ele) => {}
-      const handleRotateMouseDown = (ele) => {
-        const rects = selectedElements.map(ele => {
-          return ele.getBoundingRect(true)
-        })
-        const {cx: x, cy: y} = getBoundingRectFromBoundingRects(rects)
-  
-        // console.log(interaction._hoveredElement)
-        // this.interaction._rotateData = {startRotation: interaction._outlineElement.rotation, targetPoint: {x, y}}
-        // this.subTool = rotating
-        console.log(sameRotation)
-        console.log(applyRotation)
-      }
-      const handleResizeMouseEnter = () => {}
-      const handleResizeMouseLeave = () => {}
-      const handleResizeMouseDown = () => {}
-    */
     visibleElements.forEach((ele) => {
         const id = ele.id;
         const clone = ele.clone();

@@ -41,7 +41,7 @@ class Cursor {
         editor.container.addEventListener('mousemove', e => { this.move(e); }, { signal });
     }
     set(name) {
-        console.log(name);
+        // console.log(name)
         // if(name==='default') debugger
         this.domRef.setAttribute('date-current-cursor', name);
         // console.log(name)
