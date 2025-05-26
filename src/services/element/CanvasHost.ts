@@ -53,18 +53,17 @@ class CanvasHost {
     const elements = this.visibleElements.sort((a, b) => b.layer - a.layer)
     const x = clientX - this.editor.rect!.x
     const y = clientY - this.editor.rect!.y
-    const viewPoint = {
-      x: x * dpr,
-      y: y * dpr,
-    }
+    const vx = x * dpr
+    const vy = y * dpr
+
     let _ele: ElementInstance | null = null
 
     for (const el of elements) {
       // let stopped = false
       const {path2D, fill} = el
 
-      const f1 = ctx.isPointInStroke(path2D, viewPoint.x, viewPoint.y)
-      const f2 = ctx.isPointInPath(path2D, viewPoint.x, viewPoint.y)
+      const f1 = ctx.isPointInStroke(path2D, vx, vy)
+      const f2 = ctx.isPointInPath(path2D, vx, vy)
 
       if (f1 || (f2 && fill.enabled)) {
         _ele = el
