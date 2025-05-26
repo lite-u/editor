@@ -29,7 +29,6 @@ class CanvasHost {
     onmouseup;
     onmousemove;
     oncontextmenu;
-    // _rqId: number = -1
     constructor(editor) {
         this.editor = editor;
         const { signal } = this.eventsController;
@@ -47,7 +46,6 @@ class CanvasHost {
             });
         }, { signal, passive: false });
         container.addEventListener('pointerup', e => {
-            console.log(e);
             container.releasePointerCapture(e.pointerId);
             if (e.button === 0) {
                 this.dispatchEvent(e, 'mouseup');
