@@ -28,9 +28,10 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
     ];
     const handleRotateMouseEnter = (e) => {
         this.cursor.set('rotate');
+        console.log('Rotate Enter');
     };
     const handleRotateMouseLeave = (e) => {
-        console.log(e);
+        console.log('Rotate leave');
         this.cursor.set('default');
     };
     const handleRotateMouseDown = (e) => {
@@ -47,8 +48,10 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
     };
     const handleResizeMouseEnter = () => {
         this.cursor.set('nw-resize');
+        console.log('Resize Enter');
     };
     const handleResizeMouseLeave = () => {
+        console.log('Resize leave');
         this.cursor.set('default');
     };
     const handleResizeMouseDown = () => { };
@@ -61,8 +64,11 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
         resizeEle.rotation = rotation;
         resizeEle.layer = 1;
         resizeEle.fill.enabled = true;
-        resizeEle.fill.color = '#000000';
+        resizeEle.fill.color = '#ffffff';
+        resizeEle.stroke.weight = resizeStrokeWidth;
+        resizeEle.stroke.color = '#435fb9';
         rotateEle.rotation = rotation;
+        rotateEle.stroke.enabled = false;
         rotateEle.stroke.weight = resizeStrokeWidth;
         rotateEle.fill.enabled = true;
         rotateEle.fill.color = 'blue';
@@ -72,12 +78,6 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
         rotateEle.onmouseenter = handleRotateMouseEnter;
         rotateEle.onmouseleave = handleRotateMouseLeave;
         rotateEle.onmousedown = handleRotateMouseDown;
-        // resizeEle.stroke.enabled = false
-        resizeEle.stroke.weight = resizeStrokeWidth;
-        resizeEle.stroke.color = '#435fb9';
-        resizeEle.fill.enabled = true;
-        resizeEle.fill.color = '#fff';
-        rotateEle.stroke.enabled = false;
         this.overlayHost.append(resizeEle, rotateEle);
     });
     return result;

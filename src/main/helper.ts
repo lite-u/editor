@@ -31,9 +31,11 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
   ]
   const handleRotateMouseEnter = (e) => {
     this.cursor.set('rotate')
+    console.log('Rotate Enter')
+
   }
   const handleRotateMouseLeave = (e) => {
-    console.log(e)
+    console.log('Rotate leave')
     this.cursor.set('default')
   }
   const handleRotateMouseDown = (e) => {
@@ -50,9 +52,11 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
   }
   const handleResizeMouseEnter = () => {
     this.cursor.set('nw-resize')
+    console.log('Resize Enter')
 
   }
   const handleResizeMouseLeave = () => {
+    console.log('Resize leave')
 
     this.cursor.set('default')
   }
@@ -69,7 +73,7 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
     resizeEle.rotation = rotation
     resizeEle.layer = 1
     resizeEle.fill.enabled = true
-    resizeEle.fill.color = '#000000'
+    resizeEle.fill.color = '#ffffff'
     resizeEle.stroke.weight = resizeStrokeWidth
     resizeEle.stroke.color = '#435fb9'
 
