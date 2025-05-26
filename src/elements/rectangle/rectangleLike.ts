@@ -49,7 +49,7 @@ class RectangleLike extends ElementBase {
     this.updateBoundingRect()
   }
 
-  protected updatePath2D() {
+  public updatePath2D() {
     const {cx, cy, borderRadius, rotation} = this
     const [tl, tr, br, bl] = borderRadius
     const {top, right, bottom, left} = this.getBoundingRect(true)

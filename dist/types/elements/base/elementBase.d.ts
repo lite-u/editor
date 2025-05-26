@@ -3,19 +3,19 @@ import { BezierPoint, Fill, Gradient, Shadow, Stroke, Transform } from '~/elemen
 import { HistoryChangeItem } from '~/services/actions/type';
 type ElementEventHandler<T = any> = (payload: T) => void;
 interface ElementEventMap {
-    move: {
+    onmouseenter: {
         dx: number;
         dy: number;
     };
-    translate: {
+    onmouseleave: {
         dx: number;
         dy: number;
     };
-    resize: {
+    onmousedown: {
         scaleX: number;
         scaleY: number;
     };
-    rotate: {
+    onmousemove: {
         angle: number;
     };
     [key: string]: any;
@@ -67,11 +67,11 @@ declare class ElementBase {
     protected eventListeners: {
         [K in keyof ElementEventMap]?: ElementEventHandler<ElementEventMap[K]>[];
     };
-    onmouseenter: () => void;
-    onmouseleave: () => void;
-    onmousedown: () => void;
-    onmousemove: () => void;
-    onmouseup: () => void;
+    onmouseenter?: () => void;
+    onmouseleave?: () => void;
+    onmousedown?: () => void;
+    onmousemove?: () => void;
+    onmouseup?: () => void;
     constructor({ id, layer, cx, cy, gradient, stroke, fill, opacity, shadow, rotation, transform, show, }: ElementBaseProps);
     static transformPoint(x: number, y: number, matrix: DOMMatrix): Point;
     on<K extends keyof ElementEventMap>(event: K, handler: ElementEventHandler<ElementEventMap[K]>): void;
@@ -88,7 +88,7 @@ declare class ElementBase {
     protected toMinimalJSON(): ElementBaseProps;
     protected getBoundingRect(): BoundingRect;
     updateTransform(): void;
-    protected updatePath2D(): void;
+    updatePath2D(): void;
     restore(props: Partial<ElementProps>): void;
     protected getTransformedPoints(): Point[];
     protected getCenter(): Point;

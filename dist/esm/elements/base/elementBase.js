@@ -104,7 +104,7 @@ class ElementBase {
         this.rotation = angle
         this.updatePath2D()
         this.updateBoundingRect()
-    
+  
         // this.updateTransform()
       }*/
     rotateFrom(rotation, anchor, f) {

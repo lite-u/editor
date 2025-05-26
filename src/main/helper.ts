@@ -21,7 +21,7 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
   const resizeLen = 30 / ratio
   const resizeStrokeWidth = 2 / ratio
   const rotateRadius = 50 / ratio
-  const arr = [
+  const arr: { name: ResizeDirectionName, dx: number, dy: number }[] = [
     {name: 'tl', dx: -0.5, dy: -0.5},
     {name: 't', dx: 0.0, dy: -0.5},
     {name: 'tr', dx: 0.5, dy: -0.5},

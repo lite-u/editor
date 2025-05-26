@@ -18,11 +18,22 @@ import {HistoryChangeItem} from '~/services/actions/type'
 
 type ElementEventHandler<T = any> = (payload: T) => void;
 
+/*{
+    type: 'mouseleave',
+    x,
+    y,
+    pointerId,
+    target: this._hoveredElement,
+  originalEvent: domEvent,
+  isPropagationStopped: false,
+  stopPropagation() {},
+}*/
+
 interface ElementEventMap {
-  move: { dx: number; dy: number };
-  translate: { dx: number; dy: number };
-  resize: { scaleX: number; scaleY: number };
-  rotate: { angle: number };
+  onmouseenter: { dx: number; dy: number };
+  onmouseleave: { dx: number; dy: number };
+  onmousedown: { scaleX: number; scaleY: number };
+  onmousemove: { angle: number };
 
   [key: string]: any; // For extensibility
 }
@@ -80,11 +91,11 @@ class ElementBase {
   protected eventListeners: {
     [K in keyof ElementEventMap]?: ElementEventHandler<ElementEventMap[K]>[]
   } = {}
-  onmouseenter: () => void
-  onmouseleave: () => void
-  onmousedown: () => void
-  onmousemove: () => void
-  onmouseup: () => void
+  onmouseenter?: () => void
+  onmouseleave?: () => void
+  onmousedown?: () => void
+  onmousemove?: () => void
+  onmouseup?: () => void
 
   constructor({
                 id,
@@ -184,13 +195,13 @@ class ElementBase {
     this.boundingRect = this.getBoundingRect()
   }
 
-/*  protected rotate(angle: number) {
-    this.rotation = angle
-    this.updatePath2D()
-    this.updateBoundingRect()
+  /*  protected rotate(angle: number) {
+      this.rotation = angle
+      this.updatePath2D()
+      this.updateBoundingRect()
 
-    // this.updateTransform()
-  }*/
+      // this.updateTransform()
+    }*/
 
   protected rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined {
     // if (rotation !== 0) {
@@ -324,7 +335,7 @@ class ElementBase {
     }
   }
 
-  protected updatePath2D() { }
+  public updatePath2D() { }
 
   public restore(props: Partial<ElementProps>) {
     Object.assign(this, props)
