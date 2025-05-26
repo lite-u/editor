@@ -23,8 +23,6 @@ const rotating: SubToolType = {
       rotationDiff = Math.round(rotationDiff / 15) * 15
     }
 
-    // interaction._outlineElement?.rotateFrom(rotationDiff, targetPoint)
-    // interaction._manipulationElements.forEach(ele => ele.rotateFrom(rotationDiff, targetPoint))
     elements.forEach(ele => ele.rotateFrom(rotationDiff, targetPoint))
     cursor.rotate(mouseCurrentRotation)
 
