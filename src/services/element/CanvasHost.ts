@@ -56,7 +56,6 @@ class CanvasHost {
     let _ele: ElementInstance | null = null
 
     for (const el of elements) {
-      // let stopped = false
       const {path2D, fill} = el
 
       const f1 = ctx.isPointInStroke(path2D, vx, vy)

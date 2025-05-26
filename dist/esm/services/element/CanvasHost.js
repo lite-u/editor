@@ -47,7 +47,6 @@ class CanvasHost {
         const vy = y * dpr;
         let _ele = null;
         for (const el of elements) {
-            // let stopped = false
             const { path2D, fill } = el;
             const f1 = ctx.isPointInStroke(path2D, vx, vy);
             const f2 = ctx.isPointInPath(path2D, vx, vy);
