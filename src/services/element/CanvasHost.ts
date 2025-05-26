@@ -37,8 +37,6 @@ class CanvasHost {
   onmousemove?: CanvasHostEventHandler
   oncontextmenu?: CanvasHostEventHandler
 
-  // _rqId: number = -1
-
   constructor(editor: Editor) {
     this.editor = editor
     const {signal} = this.eventsController
