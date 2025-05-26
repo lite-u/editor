@@ -3,7 +3,6 @@ import selector from '../selector.js';
 const rotating = {
     // cursor: 'default',
     mouseMove: function () {
-        console.log(this);
         const { interaction, mainHost, selection, cursor } = this;
         const elements = mainHost.getElementsByIdSet(selection.values);
         const { _rotateData, _modifier, mouseWorldCurrent, mouseWorldStart } = interaction;
@@ -37,7 +36,7 @@ const rotating = {
         });
         cursor.set(selector.cursor);
         action.dispatch('element-modified', changes);
-        this.subTool = null;
+        this.interaction.subTool = null;
     },
 };
 export default rotating;
