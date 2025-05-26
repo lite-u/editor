@@ -174,8 +174,7 @@ export function generateElementsClones() {
                 action.dispatch('rerender-overlay');
             };
         }
-        if (ele.type !== 'path1') {
-            console.log('point');
+        if (ele.type !== 'path') {
             const pointLen = 20 / ratio;
             const centerPoint = ElementRectangle.create(nid(), ele.cx, ele.cy, pointLen);
             centerPoint.onmousedown = () => handleTranslateMouseDown(id);
