@@ -16,7 +16,7 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
   const {scale, dpr} = world
   const ratio = scale * dpr
   const result: ElementInstance[] = []
-  const {cx: x, cy: y, width, height, rotation} = ele
+  const {cx, cy, width, height, rotation} = ele
   const resizeLen = 30 / ratio
   const resizeStrokeWidth = 2 / ratio
   const rotateRadius = 50 / ratio
@@ -31,7 +31,7 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
     {name: 'l', dx: -0.5, dy: 0},
   ]
   const handleRotateMouseEnter = (e) => {
-    const mouseCurrentRotation = getRotateAngle({x, y}, this.interaction.mouseWorldCurrent)
+    const mouseCurrentRotation = getRotateAngle({x: cx, y: cy}, this.interaction.mouseWorldCurrent)
 
     this.cursor.set('rotate')
     this.cursor.rotate(mouseCurrentRotation)
@@ -43,8 +43,8 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
   }
 
   const handleRotateMouseDown = (e) => {
-    this.interaction._rotateData = {startRotation: rotation, targetPoint: {x, y}}
-    const mouseCurrentRotation = getRotateAngle({x, y}, this.interaction.mouseWorldCurrent)
+    this.interaction._rotateData = {startRotation: rotation, targetPoint: {x: cx, y: cy}}
+    const mouseCurrentRotation = getRotateAngle({x: cx, y: cy}, this.interaction.mouseWorldCurrent)
 
     this.cursor.rotate(mouseCurrentRotation)
 
