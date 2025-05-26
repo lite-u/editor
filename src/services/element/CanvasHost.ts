@@ -25,13 +25,13 @@ export type CanvasHostEventHandler = (event: CanvasHostEvent) => void
 
 class CanvasHost {
   protected elementMap: ElementMap = new Map()
-  private visible: ElementMap = new Map()
-  editor: Editor
-  eventsController = new AbortController()
-  canvas: HTMLCanvasElement
-  ctx: CanvasRenderingContext2D
-  dpr = 2
-  _hoveredElement: ElementInstance | null = null
+  protected visible: ElementMap = new Map()
+  protected editor: Editor
+  protected eventsController = new AbortController()
+  protected canvas: HTMLCanvasElement
+  protected ctx: CanvasRenderingContext2D
+  protected dpr = 2
+  protected _hoveredElement: ElementInstance | null = null
   onmousedown?: CanvasHostEventHandler
   onmouseup?: CanvasHostEventHandler
   onmousemove?: CanvasHostEventHandler
