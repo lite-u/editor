@@ -1,6 +1,6 @@
-import ElementBase from '~/elements/base/elementBase';
-import deepClone from '~/core/deepClone';
-import { getBoundingRectFromBezierPoints } from '~/core/geometry';
+import ElementBase from '../base/elementBase.js';
+import deepClone from '../../core/deepClone.js';
+import { getBoundingRectFromBezierPoints } from '../../core/geometry.js';
 class ElementPath extends ElementBase {
     type = 'path';
     points = [];
