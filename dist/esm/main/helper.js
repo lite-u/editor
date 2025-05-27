@@ -15,7 +15,7 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
     const { cx, cy, width, height, rotation } = ele;
     const resizeLen = 8 * ratio;
     const resizeStrokeWidth = 1 * ratio;
-    const rotateRadius = 50 * ratio;
+    const rotateRadius = 15 * ratio;
     const arr = [
         { name: 'tl', dx: -0.5, dy: -0.5 },
         { name: 't', dx: 0.0, dy: -0.5 },
