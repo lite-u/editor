@@ -5,20 +5,20 @@ const selector = {
     cursor: 'default',
     init: function () { },
     mouseDown: function (event) {
-        const { interaction, selection, cursor } = this;
+        const { interaction, selection, cursor } = this.editor;
         // console.log(event)
         if (interaction._rotateData) {
-            this.toolManager.subTool = rotating;
+            this.subTool = rotating;
             return;
         }
         else if (interaction._draggingElements.length > 0) {
-            this.toolManager.subTool = dragging;
+            this.subTool = dragging;
             return;
         }
-        // console.log(this.toolManager.subTool)
+        // console.log(this.subTool)
         // selecting.mouseDown(event)
         // console.log(event.element)
-        this.toolManager.subTool = selecting;
+        this.subTool = selecting;
         cursor.lock();
         /*
             // const {_hoveredElement} = interaction
@@ -49,9 +49,10 @@ const selector = {
     },
     mouseMove: function () {
         // console.log('moving')
-        const { interaction, cursor } = this;
+        const { interaction, cursor } = this.editor;
+        // console.log(this)
         // console.log('m')
-        this.toolManager.subTool?.mouseMove.call(this);
+        this.subTool?.mouseMove.call(this);
         /* if (interaction._rotateData) {
            rotating.mouseMove.call(this)
            return
@@ -79,10 +80,10 @@ const selector = {
         // if (!this.subTool) return
     },
     mouseUp() {
-        this.cursor.unlock();
-        this.toolManager.subTool?.mouseUp.call(this);
-        this.cursor.set(selector.cursor);
-        this.toolManager.subTool = null;
+        this.editor.cursor.unlock();
+        this.editor.toolManager.subTool?.mouseUp.call(this);
+        this.editor.cursor.set(selector.cursor);
+        this.editor.toolManager.subTool = null;
     },
 };
 export default selector;

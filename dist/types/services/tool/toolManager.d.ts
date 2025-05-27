@@ -3,10 +3,10 @@ import { CursorName } from '~/services/cursor/cursor';
 import { CanvasHostEvent } from '~/services/element/CanvasHost';
 export type ToolType = {
     cursor: CursorName;
-    init: (this: Editor) => unknown;
-    mouseDown?: (this: Editor, event: CanvasHostEvent) => void;
-    mouseMove: (this: Editor, event: CanvasHostEvent) => unknown;
-    mouseUp: (this: Editor, event: CanvasHostEvent) => void;
+    init: (this: ToolManager) => unknown;
+    mouseDown?: (this: ToolManager, event: CanvasHostEvent) => void;
+    mouseMove: (this: ToolManager, event: CanvasHostEvent) => unknown;
+    mouseUp: (this: ToolManager, event: CanvasHostEvent) => void;
 };
 export type SubToolType = Omit<ToolType, 'mouseDown' | 'cursor'> & {
     cursor?: CursorName;

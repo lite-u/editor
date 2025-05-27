@@ -11,7 +11,7 @@ function handleContextMenu(this: ToolManager, e: CanvasHostEvent) {
       return false
     }
   */
-  const {action, clipboard, interaction, selection} = this
+  const {action, clipboard, interaction, selection} = this.editor
   // detectHoveredElement.call(this)
   const lastId = interaction._hoveredElement
   const selectedIdSet = selection.values

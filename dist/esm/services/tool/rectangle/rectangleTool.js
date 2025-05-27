@@ -1,34 +1,31 @@
+import ElementRectangle from '../../../elements/rectangle/rectangle.js';
 import resizeFunc from '../resize/resizeFunc.js';
 const rectangleTool = {
     cursor: 'crosshair',
     mouseDown() {
-        const { mainHost, interaction, world } = this;
-        const { x, y } = this.interaction.mouseWorldCurrent;
+        const { interaction, world } = this.editor;
+        const { x, y } = interaction.mouseWorldCurrent;
         const width = 1;
         const height = 1;
-        const rectProps = {
-            type: 'rectangle',
-            cx: x - width / 2,
-            cy: y - height / 2,
-            width,
-            height,
-        };
-        const ele = mainHost.create(rectProps);
+        const cx = x - width / 2;
+        const cy = y - height / 2;
+        const ele = ElementRectangle.create('rectangle-creating', cx, cy, width, height);
         ele.render(world.creationCanvasContext);
         interaction._ele = ele;
     },
     mouseMove() {
-        if (!this.interaction._ele)
+        const { action, interaction, world } = this.editor;
+        if (!interaction._ele)
             return;
-        this.action.dispatch('clear-creation');
-        resizeFunc.call(this, [this.interaction._ele], 'br');
-        this.interaction._ele.render(this.world.creationCanvasContext);
+        action.dispatch('clear-creation');
+        resizeFunc.call(this, [interaction._ele], 'br');
+        interaction._ele.render(world.creationCanvasContext);
     },
     mouseUp() {
-        const eleProps = this.interaction._ele.toMinimalJSON();
-        console.log(eleProps);
-        this.action.dispatch('element-add', [eleProps]);
-        this.interaction._ele = null;
+        const { action, interaction } = this.editor;
+        const eleProps = interaction._ele.toMinimalJSON();
+        action.dispatch('element-add', [eleProps]);
+        interaction._ele = null;
     },
 };
 export default rectangleTool;

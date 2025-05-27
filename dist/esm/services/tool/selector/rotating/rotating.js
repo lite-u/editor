@@ -2,7 +2,7 @@ import { getRotateAngle } from '../helper.js';
 const rotating = {
     // cursor: 'default',
     mouseMove: function () {
-        const { interaction, mainHost, selection, cursor } = this;
+        const { interaction, mainHost, action, selection, cursor } = this.editor;
         const elements = mainHost.getElementsByIdSet(selection.values);
         const { _rotateData, _modifier, mouseWorldCurrent, mouseWorldStart } = interaction;
         const { shiftKey } = _modifier;
@@ -19,13 +19,13 @@ const rotating = {
         cursor.rotate(mouseCurrentRotation);
         console.log('rotate reset');
         // this.overlayHost.reset()
-        this.action.dispatch('reset-overlay');
-        this.action.dispatch('rerender-main-host');
+        action.dispatch('reset-overlay');
+        action.dispatch('rerender-main-host');
         return rotationDiff;
     },
     mouseUp() {
         console.log(this);
-        const { interaction, mainHost, action, cursor, selection } = this;
+        const { interaction, mainHost, action, cursor, selection } = this.editor;
         const elements = mainHost.getElementsByIdSet(selection.values);
         const changes = [];
         const rotation = rotating.mouseMove.call(this);
@@ -35,7 +35,7 @@ const rotating = {
             changes.push(change);
         });
         // cursor.set(selector.cursor)
-        this.interaction._rotateData = null;
+        interaction._rotateData = null;
         action.dispatch('element-modified', changes);
     },
 };

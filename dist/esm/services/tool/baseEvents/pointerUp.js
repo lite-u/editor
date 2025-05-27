@@ -1,8 +1,8 @@
 function handleMouseUp(e) {
     // const {button, target} = e.originalEvent
     this.tool.mouseUp.call(this);
-    this.interaction._pointDown = false;
+    this.editor.interaction._pointDown = false;
     // this.action.dispatch('clear-creation')
-    this.action.dispatch('world-mouse-up');
+    this.editor.action.dispatch('world-mouse-up');
 }
 export default handleMouseUp;
