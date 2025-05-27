@@ -58,14 +58,11 @@ class ElementPath extends ElementBase {
     this.updateBoundingRect()
   }
 
-  /**
-   * Return absolute position points
-   */
   getBezierPoints(): BezierPoint[] {
     const {cx, cy} = this
     const transform = new DOMMatrix()
       .translate(cx, cy)
-      .rotate(this.rotation)
+      // .rotate(this.rotation)
       .translate(-cx, -cy)
 
     return this.points.map(({anchor, cp1, cp2, type}) => {
