@@ -98,7 +98,7 @@ export function convertPointsToBezierPoints(points: Point[], tension = 0.3): {
 
 export function drawLine(ctx: CanvasRenderingContext2D, p1: Point, p2: Point,  lineWidth = 1) {
   ctx.save()
-  ctx.strokeStyle = '#000'
+  ctx.strokeStyle = '#000000'
   ctx.lineWidth = lineWidth
   ctx.lineWidth = 100
   ctx.beginPath()

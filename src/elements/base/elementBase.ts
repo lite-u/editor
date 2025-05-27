@@ -92,11 +92,11 @@ class ElementBase {
   protected eventListeners: {
     [K in keyof ElementEventMap]?: ElementEventHandler<ElementEventMap[K]>[]
   } = {}
-  onmouseenter?: (event:CanvasHostEvent) => void
-  onmouseleave?: (event:CanvasHostEvent) => void
-  onmousedown?: (event:CanvasHostEvent) => void
-  onmousemove?: (event:CanvasHostEvent) => void
-  onmouseup?: (event:CanvasHostEvent) => void
+  onmouseenter?: (event: CanvasHostEvent) => void
+  onmouseleave?: (event: CanvasHostEvent) => void
+  onmousedown?: (event: CanvasHostEvent) => void
+  onmousemove?: (event: CanvasHostEvent) => void
+  onmouseup?: (event: CanvasHostEvent) => void
 
   constructor({
                 id,
@@ -355,18 +355,6 @@ class ElementBase {
     const ctor = this.constructor as new (data: any) => this
     return new ctor(data)
   }
-
-  /*protected resetTransform() {
-    this.matrix = new DOMMatrix()
-  }*/
-
-  /*  protected applyTransform(matrix: DOMMatrix): void {
-      this.matrix = matrix.multiply(this.matrix)
-    }*/
-
-  /*  protected getTransformMatrix(): DOMMatrix {
-      return this.matrix
-    }*/
 
   public render(ctx: CanvasRenderingContext2D): void {
     if (!this.path2D) return
