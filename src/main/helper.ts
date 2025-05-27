@@ -20,7 +20,7 @@ export function generateElementsClones(this: Editor) {
   const ratio = dpr / scale
   const idSet = selection.values
   const visibleElements = mainHost.visibleElements
-  const strokeWidth = 1 * ratio
+  const strokeWidth = 2 * ratio
 
   const handleTranslateMouseDown = (event: CanvasHostEvent, id: UID) => {
     const _shift = event.originalEvent.shiftKey

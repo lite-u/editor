@@ -15,7 +15,7 @@ export function generateElementsClones() {
     const ratio = dpr / scale;
     const idSet = selection.values;
     const visibleElements = mainHost.visibleElements;
-    const strokeWidth = 1 * ratio;
+    const strokeWidth = 2 * ratio;
     const handleTranslateMouseDown = (event, id) => {
         const _shift = event.originalEvent.shiftKey;
         if (!selection.has(id)) {
