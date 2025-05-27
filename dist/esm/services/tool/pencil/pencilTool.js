@@ -20,7 +20,7 @@ const pencilTool = {
         const point = { ...interaction.mouseWorldCurrent };
         const { scale, dpr, offset } = world;
         _drawingPoints.push(point);
-        drawLine(overlayHost.ctx, point, point, offset, 1 * dpr / scale);
+        drawLine(overlayHost.ctx, point, point, 1 * dpr / scale);
         _lastPoint = point;
     },
     mouseUp: function () {

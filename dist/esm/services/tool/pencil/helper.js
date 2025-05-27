@@ -76,11 +76,11 @@ export function convertPointsToBezierPoints(points, tension = 0.3) {
         closed: isClosed,
     };
 }
-export function drawLine(ctx, p1, p2, offset, lineWidth = 1) {
+export function drawLine(ctx, p1, p2, lineWidth = 1) {
     ctx.save();
-    ctx.translate(offset.x, offset.y);
     ctx.strokeStyle = '#000';
     ctx.lineWidth = lineWidth;
+    ctx.lineWidth = 100;
     ctx.beginPath();
     ctx.moveTo(p1.x, p1.y);
     ctx.lineTo(p2.x, p2.y);

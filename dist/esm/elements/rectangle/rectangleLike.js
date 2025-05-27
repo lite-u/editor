@@ -115,7 +115,7 @@ class RectangleLike extends ElementBase {
         const pTR = matrix.transformPoint(topRight);
         const pBR = matrix.transformPoint(bottomRight);
         const pBL = matrix.transformPoint(bottomLeft);
-        console.log('topLeft', topLeft, pTL);
+        // console.log('topLeft', topLeft, pTL)
         // New center is average of opposite corners (or all four)
         const newCX = (pTL.x + pBR.x) / 2;
         const newCY = (pTL.y + pBR.y) / 2;
