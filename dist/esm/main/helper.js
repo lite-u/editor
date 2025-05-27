@@ -10,12 +10,12 @@ import { getRotateAngle } from '../services/tool/selector/helper.js';
 export function generateTransformHandles(ele, specialLineSeg = false) {
     const { world } = this;
     const { scale, dpr } = world;
-    const ratio = scale * dpr;
+    const ratio = dpr / scale;
     const result = [];
     const { cx, cy, width, height, rotation } = ele;
-    const resizeLen = 8 * dpr / scale;
-    const resizeStrokeWidth = 2 / ratio;
-    const rotateRadius = 50 / ratio;
+    const resizeLen = 8 * ratio;
+    const resizeStrokeWidth = 1 * ratio;
+    const rotateRadius = 50 * ratio;
     const arr = [
         { name: 'tl', dx: -0.5, dy: -0.5 },
         { name: 't', dx: 0.0, dy: -0.5 },
@@ -108,8 +108,8 @@ export function getSelectedBoundingElement() {
     const boxColor = '#435fb9';
     const { world, action, toolManager, selection, mainHost, overlayHost } = this;
     const { scale, dpr } = world;
-    const ratio = scale * dpr;
-    const pointLen = 20 / ratio;
+    const ratio = dpr / scale;
+    const pointLen = 2 / ratio;
     const idSet = selection.values;
     const visibleElements = mainHost.visibleElements;
     const selectedElements = mainHost.getElementsByIdSet(idSet);

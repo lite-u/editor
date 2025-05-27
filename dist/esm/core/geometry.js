@@ -110,10 +110,10 @@ export function getBoundingRectFromBezierPoints(points) {
     }
     const xs = samplePoints.map(p => p.x);
     const ys = samplePoints.map(p => p.y);
-    const left = Math.min(...xs);
-    const right = Math.max(...xs);
-    const top = Math.min(...ys);
-    const bottom = Math.max(...ys);
+    const left = xs.reduce((min, x) => Math.min(min, x), Infinity);
+    const right = xs.reduce((max, x) => Math.max(max, x), -Infinity);
+    const top = ys.reduce((min, y) => Math.min(min, y), Infinity);
+    const bottom = ys.reduce((max, y) => Math.max(max, y), -Infinity);
     const width = right - left;
     const height = bottom - top;
     const x = left;

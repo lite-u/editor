@@ -21,7 +21,6 @@ declare class ElementPath extends ElementBase {
     updatePath2D(): void;
     translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined;
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
-    static _getBoundingRect(points: BezierPoint[]): BoundingRect;
     static _rotatePoints(cx: number, cy: number, rotation: number, points: BezierPoint[]): BoundingRect;
     getBoundingRectFromOriginal(): BoundingRect;
     getBoundingRect(withoutRotation?: boolean): BoundingRect;

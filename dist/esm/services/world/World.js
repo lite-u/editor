@@ -40,7 +40,7 @@ class World {
         this.scale = 1;
         this.offset = { x: 0, y: 0 };
         this.worldRect = generateBoundingRectFromTwoPoints(this.offset, this.offset);
-        this.dpr = 4;
+        this.dpr = editor.config.dpr;
         // this.selectionBox.style.pointerEvents = 'none'
         this.editor.container.append(/*this.baseCanvas, this.overlayCanvas, */ this.creationCanvas);
     }

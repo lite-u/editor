@@ -203,6 +203,7 @@ class ElementPath extends ElementBase {
     // console.log(this.cx, this.cy, this.width, this.height)
   }
 
+/*
   static _getBoundingRect(points: BezierPoint[]): BoundingRect {
     const samplePoints: Point[] = []
 
@@ -240,6 +241,7 @@ class ElementPath extends ElementBase {
 
     return {x, y, width, height, left, right, top, bottom, cx, cy}
   }
+*/
 
   static _rotatePoints(cx: number, cy: number, rotation: number, points: BezierPoint[]): BoundingRect {
     const matrix = new DOMMatrix()

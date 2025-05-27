@@ -1,6 +1,6 @@
 import ElementBase from '../base/elementBase.js';
 import deepClone from '../../core/deepClone.js';
-import { cubicBezier, getBoundingRectFromBezierPoints } from '../../core/geometry.js';
+import { getBoundingRectFromBezierPoints } from '../../core/geometry.js';
 class ElementPath extends ElementBase {
     type = 'path';
     points = [];
@@ -160,36 +160,45 @@ class ElementPath extends ElementBase {
         this.updatePath2D()*/
         // console.log(this.cx, this.cy, this.width, this.height)
     }
-    static _getBoundingRect(points) {
-        const samplePoints = [];
+    /*
+      static _getBoundingRect(points: BezierPoint[]): BoundingRect {
+        const samplePoints: Point[] = []
+    
         for (let i = 1; i < points.length; i++) {
-            const prev = points[i - 1];
-            const curr = points[i];
-            const p0 = prev.anchor;
-            const p1 = prev.cp2 ?? prev.anchor;
-            const p2 = curr.cp1 ?? curr.anchor;
-            const p3 = curr.anchor;
-            for (let t = 0; t <= 1; t += 0.05) {
-                samplePoints.push(cubicBezier(t, p0, p1, p2, p3));
-            }
+          const prev = points[i - 1]
+          const curr = points[i]
+    
+          const p0 = prev.anchor
+          const p1 = prev.cp2 ?? prev.anchor
+          const p2 = curr.cp1 ?? curr.anchor
+          const p3 = curr.anchor
+    
+          for (let t = 0; t <= 1; t += 0.05) {
+            samplePoints.push(cubicBezier(t, p0, p1, p2, p3))
+          }
         }
+    
         if (points.length === 1) {
-            samplePoints.push(points[0].anchor);
+          samplePoints.push(points[0].anchor)
         }
-        const xs = samplePoints.map(p => p.x);
-        const ys = samplePoints.map(p => p.y);
-        const left = Math.min(...xs);
-        const right = Math.max(...xs);
-        const top = Math.min(...ys);
-        const bottom = Math.max(...ys);
-        const width = right - left;
-        const height = bottom - top;
-        const x = left;
-        const y = top;
-        const cx = x + width / 2;
-        const cy = y + height / 2;
-        return { x, y, width, height, left, right, top, bottom, cx, cy };
-    }
+    
+        const xs = samplePoints.map(p => p.x)
+        const ys = samplePoints.map(p => p.y)
+    
+        const left = Math.min(...xs)
+        const right = Math.max(...xs)
+        const top = Math.min(...ys)
+        const bottom = Math.max(...ys)
+        const width = right - left
+        const height = bottom - top
+        const x = left
+        const y = top
+        const cx = x + width / 2
+        const cy = y + height / 2
+    
+        return {x, y, width, height, left, right, top, bottom, cx, cy}
+      }
+    */
     static _rotatePoints(cx, cy, rotation, points) {
         const matrix = new DOMMatrix()
             .translate(cx, cy)
