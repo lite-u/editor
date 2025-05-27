@@ -1,6 +1,6 @@
-import ElementBase from '../base/elementBase.js';
-import deepClone from '../../core/deepClone.js';
-import { getBoundingRectFromBezierPoints, rotatePointAroundPoint } from '../../core/geometry.js';
+import ElementBase from '~/elements/base/elementBase';
+import deepClone from '~/core/deepClone';
+import { getBoundingRectFromBezierPoints, rotatePointAroundPoint } from '~/core/geometry';
 class ElementPath extends ElementBase {
     type = 'path';
     points = [];
@@ -135,16 +135,18 @@ class ElementPath extends ElementBase {
         }
     }
     rotateFrom(rotation, anchor, f) {
-        console.log(anchor.x, anchor.y, this.cx, this.cy);
+        // for same anchor rotation
+        // hand up to super method
         if (anchor.x.toFixed(2) === this.cx.toFixed(2) && anchor.y.toFixed(2) === this.cy.toFixed(2)) {
             super.rotateFrom(rotation, anchor);
             return;
         }
         const { cx, cy, points } = this;
         // rotate points to theirs real position
+        const newRotation = rotation;
         const realPositionPoints = ElementPath._rotateBezierPointsFrom(cx, cy, this.rotation, points);
         const transformedPoints = ElementPath._rotateBezierPointsFrom(anchor.x, anchor.y, rotation, realPositionPoints);
-        const newPoints = ElementPath._rotateBezierPointsFrom(anchor.x, anchor.y, this.rotation - rotation, transformedPoints);
+        const newPoints = ElementPath._rotateBezierPointsFrom(anchor.x, anchor.y, -rotation, transformedPoints);
         const { x, y } = rotatePointAroundPoint(cx, cy, anchor.x, anchor.y, rotation);
         this.cx = x;
         this.cy = y;
