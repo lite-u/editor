@@ -151,10 +151,10 @@ class ElementPath extends ElementBase {
         point.cp2.y += dy
       }
     })
-    // console.time('translate')
+
     this.updatePath2D()
     this.updateBoundingRect()
-    // console.timeEnd('translate')
+
     this.transform.cx = this.cx
     this.transform.cy = this.cy
 
