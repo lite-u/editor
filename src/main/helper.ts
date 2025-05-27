@@ -179,7 +179,7 @@ export function getSelectedBoundingElement(this: Editor): ElementRectangle {
 
 export function generateElementsClones(this: Editor) {
   const boxColor = '#435fb9'
-  const {world, action, toolManager, selection, mainHost, overlayHost} = this
+  const {world, action, selection, mainHost, overlayHost} = this
   const {scale, dpr} = world
   const ratio = scale * dpr
   const idSet = selection.values
