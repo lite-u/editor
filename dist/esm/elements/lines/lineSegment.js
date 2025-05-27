@@ -3,7 +3,6 @@ import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } fro
 import deepClone from '../../core/deepClone.js';
 class ElementLineSegment extends ElementBase {
     type = 'lineSegment';
-    // points: [{ id: 'start' } & Point, { id: 'end' } & Point]
     start;
     end;
     constructor({ start, end, ...rest }) {
@@ -67,11 +66,6 @@ class ElementLineSegment extends ElementBase {
         this.original.rotation = this.rotation;
         this.updatePath2D();
     }
-    /*
-      public get getPoints(): Point[] {
-        return this.points.map(p => ({x: p.x, y: p.y}))
-      }
-    */
     getBoundingRect(withoutRotation = false) {
         const { start, end, rotation } = this;
         const r = withoutRotation ? -rotation : 0;
@@ -117,7 +111,6 @@ class ElementLineSegment extends ElementBase {
         // Adjust to absolute coordinates for transformation
         const newStart = ElementBase.transformPoint(start.x, start.y, matrix);
         const newEnd = ElementBase.transformPoint(end.x, end.y, matrix);
-        // Store back as relative to cx, cy
         this.start.x = newStart.x;
         this.start.y = newStart.y;
         this.end.x = newEnd.x;
