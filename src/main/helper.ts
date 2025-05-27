@@ -96,12 +96,12 @@ export function generateElementsClones(this: Editor) {
 
       if (!isSelected) {
         centerPoint.onmouseenter = () => {
-          centerPoint.fill.color = 'blue'
+          if (centerPoint) {centerPoint.fill.color = 'blue'}
           cloneStrokeLine.stroke.color = boxColor
           this.action.dispatch('rerender-overlay')
         }
         centerPoint.onmouseleave = () => {
-          centerPoint.fill.color = 'transparent'
+          if (centerPoint) {centerPoint.fill.color = 'transparent'}
           cloneStrokeLine.stroke.color = 'transparent'
           this.action.dispatch('rerender-overlay')
         }
