@@ -241,7 +241,7 @@ class ElementPath extends ElementBase {
     // console.log(this.cx, this.cy, this.width, this.height)
   }
 
-  static _rotatePoints(cx: number, cy: number, rotation: number, points: BezierPoint[]): BoundingRect {
+  static _rotatePoints(cx: number, cy: number, rotation: number, points: BezierPoint[]): BezierPoint[] {
     const matrix = new DOMMatrix()
       .translate(cx, cy)
       .rotate(rotation)
@@ -268,19 +268,17 @@ class ElementPath extends ElementBase {
 
   getBoundingRectFromOriginal() {
     const {cx, cy, rotation, points} = this.original
+    const transformedPoints = ElementPath._rotatePoints(cx, cy, rotation, points!)
 
-    return ElementPath._rotatePoints(cx, cy, rotation, points!)
+    return getBoundingRectFromBezierPoints(transformedPoints)
   }
 
   public getBoundingRect(withoutRotation: boolean = false): BoundingRect {
     const {cx, cy, rotation, points} = this
     const r = withoutRotation ? 0 : rotation
+    const transformedPoints = ElementPath._rotatePoints(cx, cy, r, points)
 
-    // console.time('path-bound')
-    const p = ElementPath._rotatePoints(cx, cy, r, points)
-    // console.timeEnd('path-bound')
-
-    return p
+    return getBoundingRectFromBezierPoints(transformedPoints)
   }
 
   public toJSON(): RequiredShapeProps {

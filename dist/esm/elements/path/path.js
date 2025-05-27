@@ -216,15 +216,14 @@ class ElementPath extends ElementBase {
     }
     getBoundingRectFromOriginal() {
         const { cx, cy, rotation, points } = this.original;
-        return ElementPath._rotatePoints(cx, cy, rotation, points);
+        const transformedPoints = ElementPath._rotatePoints(cx, cy, rotation, points);
+        return getBoundingRectFromBezierPoints(transformedPoints);
     }
     getBoundingRect(withoutRotation = false) {
         const { cx, cy, rotation, points } = this;
         const r = withoutRotation ? 0 : rotation;
-        // console.time('path-bound')
-        const p = ElementPath._rotatePoints(cx, cy, r, points);
-        // console.timeEnd('path-bound')
-        return p;
+        const transformedPoints = ElementPath._rotatePoints(cx, cy, r, points);
+        return getBoundingRectFromBezierPoints(transformedPoints);
     }
     toJSON() {
         return {
