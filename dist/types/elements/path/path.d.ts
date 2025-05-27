@@ -22,7 +22,7 @@ declare class ElementPath extends ElementBase {
     translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined;
     protected rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined;
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
-    static _rotateBezierPoints(cx: number, cy: number, rotation: number, points: BezierPoint[]): BezierPoint[];
+    static _rotateBezierPointsFrom(cx: number, cy: number, rotation: number, points: BezierPoint[]): BezierPoint[];
     getBoundingRectFromOriginal(): BoundingRect;
     getBoundingRect(withoutRotation?: boolean): BoundingRect;
     toJSON(): RequiredShapeProps;
