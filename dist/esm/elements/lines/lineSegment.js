@@ -1,6 +1,6 @@
-import ElementBase from '~/elements/base/elementBase';
-import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '~/core/utils';
-import deepClone from '~/core/deepClone';
+import ElementBase from '../base/elementBase.js';
+import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '../../core/utils.js';
+import deepClone from '../../core/deepClone.js';
 class ElementLineSegment extends ElementBase {
     type = 'lineSegment';
     // points: [{ id: 'start' } & Point, { id: 'end' } & Point]
@@ -125,6 +125,7 @@ class ElementLineSegment extends ElementBase {
         this.cx = (newStart.x + newEnd.x) / 2;
         this.cy = (newStart.y + newEnd.y) / 2;
         this.updatePath2D();
+        this.updateBoundingRect();
     }
     toJSON() {
         return {

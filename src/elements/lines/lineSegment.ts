@@ -166,6 +166,7 @@ class ElementLineSegment extends ElementBase {
     this.cx = (newStart.x + newEnd.x) / 2
     this.cy = (newStart.y + newEnd.y) / 2
     this.updatePath2D()
+    this.updateBoundingRect()
   }
 
   public toJSON(): RequiredLineSegmentProps {
