@@ -6,8 +6,8 @@ import {PropsWithoutIdentifiers} from '~/elements/type'
 const textTool: ToolType = {
   cursor: 'text',
   mouseDown: function () {
-    const {mainHost, interaction, world} = this
-    const {x, y} = this.interaction.mouseWorldCurrent
+    const {mainHost, interaction, world} = this.editor
+    const {x, y} = interaction.mouseWorldCurrent
     const width = 1
     const height = 1
     const eleProps: PropsWithoutIdentifiers<'text'> = {
@@ -31,17 +31,21 @@ const textTool: ToolType = {
     }
   },
   mouseMove: function () {
-    if (!this.interaction._ele) return
-    this.action.dispatch('clear-creation')
+    const {action, mainHost, interaction, world} = this.editor
 
-    resizeFunc.call(this, [this.interaction._ele], 'br')
-    this.interaction._ele.render(this.world.creationCanvasContext)
+    if (!interaction._ele) return
+    action.dispatch('clear-creation')
+
+    resizeFunc.call(this, [interaction._ele], 'br')
+    interaction._ele.render(world.creationCanvasContext)
   },
   mouseUp: function () {
-    const eleProps = this.interaction._ele.toMinimalJSON()
+    const {action, mainHost, interaction, world} = this.editor
 
-    this.action.dispatch('element-add', [eleProps])
-    this.interaction._ele = null!
+    const eleProps = interaction._ele.toMinimalJSON()
+
+    action.dispatch('element-add', [eleProps])
+    interaction._ele = null!
   },
 }
 
