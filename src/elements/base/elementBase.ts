@@ -357,13 +357,11 @@ class ElementBase {
   }
 
   public render(ctx: CanvasRenderingContext2D): void {
-    if (!this.path2D) return
-
-    let {show, opacity, fill, stroke} = this
+    let {show, opacity, fill, stroke, path2D} = this
     const {enabled: enabledFill, color: fillColor} = fill
     const {enabled: enabledStroke, color: strokeColor, weight /*join, cap*/} = stroke
 
-    if (!show || opacity <= 0) return
+    if (!path2D || !show || opacity <= 0) return
 
     ctx.save()
 
