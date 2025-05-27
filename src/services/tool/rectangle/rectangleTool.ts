@@ -5,7 +5,7 @@ import resizeFunc from '~/services/tool/resize/resizeFunc'
 const rectangleTool: ToolType = {
   cursor: 'crosshair',
   mouseDown() {
-    const {mainHost, action, cursor, overlayHost, interaction, world} = this.editor
+    const {action, cursor, overlayHost, interaction} = this.editor
     const {x, y} = interaction.mouseWorldCurrent
     const width = 1
     const height = 1
@@ -20,7 +20,7 @@ const rectangleTool: ToolType = {
     interaction._ele = ele
   },
   mouseMove() {
-    const {action, interaction, cursor, overlayHost, world} = this.editor
+    const {action, interaction, overlayHost} = this.editor
 
     if (!interaction._ele) return
 
@@ -29,7 +29,7 @@ const rectangleTool: ToolType = {
     interaction._ele.render(overlayHost.ctx)
   },
   mouseUp() {
-    const {action, interaction, cursor, overlayHost, world} = this.editor
+    const {action, interaction} = this.editor
 
     const eleProps = interaction._ele.toMinimalJSON()
     action.dispatch('element-add', [eleProps])
