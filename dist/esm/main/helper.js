@@ -69,10 +69,12 @@ export function generateElementsClones() {
             if (!isSelected) {
                 centerPoint.onmouseenter = (e) => {
                     centerPoint.fill.color = 'blue';
+                    cloneStrokeLine.stroke.color = boxColor;
                     this.action.dispatch('rerender-overlay');
                 };
                 centerPoint.onmouseleave = (e) => {
                     centerPoint.fill.color = 'transparent';
+                    cloneStrokeLine.stroke.color = 'transparent';
                     this.action.dispatch('rerender-overlay');
                 };
             }
