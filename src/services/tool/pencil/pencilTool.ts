@@ -16,7 +16,7 @@ const pencilTool: ToolType = {
     action.dispatch('clear-creation')
     _drawingPoints.push(point)
     _lastPoint = {...point}
-    drawLine(ctx, _lastPoint, point, 1 / scale * dpr)
+    drawLine(overlayHost.ctx, _lastPoint, point, 1 * dpr / scale)
   },
   mouseMove: function () {
     if (!interaction._pointDown) return
