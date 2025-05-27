@@ -16,6 +16,7 @@ export function generateElementsClones() {
     const idSet = selection.values;
     const visibleElements = mainHost.visibleElements;
     const strokeWidth = 1 * ratio;
+    let centerPoint = null;
     const handleTranslateMouseDown = (event, id) => {
         const _shift = event.originalEvent.shiftKey;
         if (!selection.has(id)) {
@@ -49,17 +50,23 @@ export function generateElementsClones() {
             cloneStrokeLine.stroke.color = 'none';
             invisibleClone.onmouseenter = cloneStrokeLine.onmouseenter = () => {
                 cloneStrokeLine.stroke.color = boxColor;
+                if (centerPoint) {
+                    centerPoint.stroke.color = boxColor;
+                }
                 action.dispatch('rerender-overlay');
             };
             invisibleClone.onmouseleave = cloneStrokeLine.onmouseleave = () => {
                 cloneStrokeLine.stroke.color = 'transparent';
+                if (centerPoint) {
+                    centerPoint.stroke.color = 'transparent';
+                }
                 action.dispatch('rerender-overlay');
             };
         }
         // centerPoint
         if (ele.type !== 'path') {
             const pointLen = idSet.size === 1 ? 3 * ratio : 6 * ratio;
-            const centerPoint = idSet.size === 1
+            centerPoint = idSet.size === 1
                 ? ElementEllipse.create(nid(), ele.cx, ele.cy, pointLen)
                 : ElementRectangle.create(nid(), ele.cx, ele.cy, pointLen);
             centerPoint.layer = 1;
