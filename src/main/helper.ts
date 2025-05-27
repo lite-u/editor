@@ -21,7 +21,6 @@ export function generateElementsClones(this: Editor) {
   const idSet = selection.values
   const visibleElements = mainHost.visibleElements
   const strokeWidth = 1 * ratio
-  let centerPoint: ElementEllipse | ElementRectangle | null = null
 
   const handleTranslateMouseDown = (event: CanvasHostEvent, id: UID) => {
     const _shift = event.originalEvent.shiftKey
@@ -39,6 +38,7 @@ export function generateElementsClones(this: Editor) {
     const invisibleClone = ele.clone()
     const cloneStrokeLine = ele.clone()
     const isSelected = idSet.has(id)
+    let centerPoint: ElementEllipse | ElementRectangle | null = null
 
     invisibleClone.id = 'invisible-clone-' + id
     invisibleClone.layer = 0
@@ -50,7 +50,9 @@ export function generateElementsClones(this: Editor) {
 
     cloneStrokeLine.id = 'stroke-line-clone-' + id
     cloneStrokeLine.layer = 1
+    cloneStrokeLine.stroke.enabled = true
     cloneStrokeLine.stroke.weight = strokeWidth
+    cloneStrokeLine.stroke.color = 'transparent'
 
     invisibleClone.onmousedown = (e) => handleTranslateMouseDown(e, id)
     cloneStrokeLine.onmousedown = (e) => handleTranslateMouseDown(e, id)
@@ -59,7 +61,7 @@ export function generateElementsClones(this: Editor) {
     if (isSelected) {
       cloneStrokeLine.stroke.color = boxColor
     } else {
-      cloneStrokeLine.stroke.color = 'none'
+      cloneStrokeLine.stroke.color = 'transparent'
 
       invisibleClone.onmouseenter = cloneStrokeLine.onmouseenter = () => {
         cloneStrokeLine.stroke.color = boxColor

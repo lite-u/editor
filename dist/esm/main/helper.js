@@ -16,7 +16,6 @@ export function generateElementsClones() {
     const idSet = selection.values;
     const visibleElements = mainHost.visibleElements;
     const strokeWidth = 1 * ratio;
-    let centerPoint = null;
     const handleTranslateMouseDown = (event, id) => {
         const _shift = event.originalEvent.shiftKey;
         if (!selection.has(id)) {
@@ -30,6 +29,7 @@ export function generateElementsClones() {
         const invisibleClone = ele.clone();
         const cloneStrokeLine = ele.clone();
         const isSelected = idSet.has(id);
+        let centerPoint = null;
         invisibleClone.id = 'invisible-clone-' + id;
         invisibleClone.layer = 0;
         invisibleClone.fill.enabled = false;
@@ -39,7 +39,9 @@ export function generateElementsClones() {
         // invisibleClone.stroke.color = 'red'
         cloneStrokeLine.id = 'stroke-line-clone-' + id;
         cloneStrokeLine.layer = 1;
+        cloneStrokeLine.stroke.enabled = true;
         cloneStrokeLine.stroke.weight = strokeWidth;
+        cloneStrokeLine.stroke.color = 'transparent';
         invisibleClone.onmousedown = (e) => handleTranslateMouseDown(e, id);
         cloneStrokeLine.onmousedown = (e) => handleTranslateMouseDown(e, id);
         overlayHost.append(invisibleClone, cloneStrokeLine);
@@ -47,7 +49,7 @@ export function generateElementsClones() {
             cloneStrokeLine.stroke.color = boxColor;
         }
         else {
-            cloneStrokeLine.stroke.color = 'none';
+            cloneStrokeLine.stroke.color = 'transparent';
             invisibleClone.onmouseenter = cloneStrokeLine.onmouseenter = () => {
                 cloneStrokeLine.stroke.color = boxColor;
                 if (centerPoint) {
