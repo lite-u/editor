@@ -100,7 +100,6 @@ export function drawLine(ctx: CanvasRenderingContext2D, p1: Point, p2: Point,  l
   ctx.save()
   ctx.strokeStyle = '#000000'
   ctx.lineWidth = lineWidth
-  ctx.lineWidth = 100
   ctx.beginPath()
   ctx.moveTo(p1.x, p1.y)
   ctx.lineTo(p2.x, p2.y)
