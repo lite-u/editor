@@ -36,17 +36,6 @@ class ElementPath extends ElementBase {
     this.updateBoundingRect()
   }
 
-  /*  static cubicBezier(t: number, p0: Point, p1: Point, p2: Point, p3: Point): Point {
-      const mt = 1 - t
-      const mt2 = mt * mt
-      const t2 = t * t
-
-      return {
-        x: mt2 * mt * p0.x + 3 * mt2 * t * p1.x + 3 * mt * t2 * p2.x + t2 * t * p3.x,
-        y: mt2 * mt * p0.y + 3 * mt2 * t * p1.y + 3 * mt * t2 * p2.y + t2 * t * p3.y,
-      }
-    }*/
-
   public updateOriginal() {
     this.original.cx = this.cx
     this.original.cy = this.cy
