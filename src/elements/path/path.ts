@@ -188,7 +188,7 @@ class ElementPath extends ElementBase {
     // rotate points to theirs real position
     const realPositionPoints = ElementPath._rotateBezierPointsFrom(cx, cy, this.rotation, points)
     const transformedPoints = ElementPath._rotateBezierPointsFrom(anchor.x, anchor.y, rotation, realPositionPoints)
-    const newPoints = ElementPath._rotateBezierPointsFrom(anchor.x, anchor.y, this.rotation - rotation, transformedPoints)
+    const newPoints = ElementPath._rotateBezierPointsFrom(anchor.x, anchor.y, -rotation, transformedPoints)
 
     const {x, y} = rotatePointAroundPoint(cx, cy, anchor.x, anchor.y, rotation)
 
