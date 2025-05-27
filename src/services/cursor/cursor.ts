@@ -74,6 +74,7 @@ class Cursor {
       this.domRef.style.display = 'block'
       this.domRef.style.rotate = `0deg`
       this.domRef.style.stroke = '#808080'
+      this.domRef.style.fill = '#fff'
       this.domRef.innerHTML = CURSORS[name]
       this.editor.container.style.cursor = 'none'
     } else {
