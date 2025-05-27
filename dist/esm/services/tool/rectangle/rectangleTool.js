@@ -24,8 +24,9 @@ const rectangleTool = {
         interaction._ele.render(overlayHost.ctx);
     },
     mouseUp() {
-        const { action, interaction } = this.editor;
+        const { cursor, action, interaction } = this.editor;
         const eleProps = interaction._ele.toMinimalJSON();
+        cursor.unlock();
         action.dispatch('element-add', [eleProps]);
         interaction._ele = null;
     },

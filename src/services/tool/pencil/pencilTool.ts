@@ -8,25 +8,27 @@ let _lastPoint = null
 const pencilTool: ToolType = {
   cursor: 'crosshair',
   mouseDown: function () {
-    const {creationCanvasContext: ctx, scale, dpr} = this.world
-    const point = {...this.interaction.mouseWorldCurrent}
+    const {action, cursor, overlayHost, world, interaction} = this.editor
+    const {creationCanvasContext: ctx, scale, dpr} = world
+    const point = {...interaction.mouseWorldCurrent}
 
-    this.action.dispatch('clear-creation')
+    cursor.lock()
+    action.dispatch('clear-creation')
     _drawingPoints.push(point)
     _lastPoint = {...point}
     drawLine(ctx, _lastPoint, point, 1 / scale * dpr)
   },
   mouseMove: function () {
-    if (!this.interaction._pointDown) return
-    const point = {...this.interaction.mouseWorldCurrent}
-    const {creationCanvasContext: ctx, scale, dpr} = this.world
+    if (!interaction._pointDown) return
+    const point = {...interaction.mouseWorldCurrent}
+    const {creationCanvasContext: ctx, scale, dpr} = world
 
     _drawingPoints.push(point)
     drawLine(ctx, _lastPoint!, point, 1 / scale * dpr)
     _lastPoint = point
   },
   mouseUp: function () {
-    const {interaction, action} = this
+    const {interaction, cursor, action} = this.editor
     const {center, points, closed} = convertPointsToBezierPoints(_drawingPoints)
 
     const eleProps: PropsWithoutIdentifiers<'path'> = {
@@ -34,8 +36,10 @@ const pencilTool: ToolType = {
       cx: center.x,
       cy: center.y,
       points,
+
       closed,
     }
+    cursor.unlock()
 
     action.dispatch('element-add', [eleProps])
     // console.log(points,_lastPoint)
