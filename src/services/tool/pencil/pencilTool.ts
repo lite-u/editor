@@ -19,12 +19,16 @@ const pencilTool: ToolType = {
     drawLine(overlayHost.ctx, _lastPoint, point, 1 * dpr / scale)
   },
   mouseMove: function () {
+    const {action, cursor, overlayHost, world, interaction} = this.editor
+
     if (!interaction._pointDown) return
+
     const point = {...interaction.mouseWorldCurrent}
-    const {creationCanvasContext: ctx, scale, dpr} = world
+    const {scale, dpr} = world
 
     _drawingPoints.push(point)
-    drawLine(ctx, _lastPoint!, point, 1 / scale * dpr)
+    drawLine(overlayHost.ctx, point, point, 1 * dpr / scale)
+
     _lastPoint = point
   },
   mouseUp: function () {
