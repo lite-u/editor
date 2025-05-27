@@ -1,5 +1,4 @@
 import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
-import dragging from '../services/tool/selector/dragging/dragging.js';
 import ElementRectangle from '../elements/rectangle/rectangle.js';
 import Rectangle from '../elements/rectangle/rectangle.js';
 import { getMinimalBoundingRect } from '../core/utils.js';
@@ -163,7 +162,7 @@ export function generateElementsClones() {
         if (!selection.has(id)) {
             action.dispatch('selection-modify', { mode: 'replace', idSet: new Set([id]) });
         }
-        toolManager.subTool = dragging;
+        // toolManager.subTool = dragging
         this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values);
     };
     visibleElements.forEach((ele) => {

@@ -166,7 +166,7 @@ class CanvasHost {
         event.isPropagationStopped = true
       },
     }
-
+    console.log(type,this._hoveredElement)
     _ele.dispatchEvent?.(event)
   }
 
@@ -445,6 +445,7 @@ class CanvasHost {
   }
 
   reset() {
+    // console.log('de')
     this.elementMap.clear()
     this.visible.clear()
     this._hoveredElement = null

@@ -1,4 +1,3 @@
-import { getRotateAngle } from './helper.js';
 import rotating from './rotating/rotating.js';
 import selecting from './selecting/selecting.js';
 import dragging from './dragging/dragging.js';
@@ -6,7 +5,8 @@ const selector = {
     cursor: 'default',
     init: function () { },
     mouseDown: function (event) {
-        const { interaction, elementManager, selection, cursor } = this;
+        const { interaction, selection, cursor } = this;
+        console.log(event);
         if (event.element) {
             if (interaction._rotateData) {
                 this.toolManager.subTool = rotating;
@@ -14,12 +14,13 @@ const selector = {
             else if (interaction._draggingElements.length > 0) {
                 this.toolManager.subTool = dragging;
             }
+            console.log(this.toolManager.subTool);
             return;
         }
         // selecting.mouseDown(event)
         // console.log(event.element)
         this.toolManager.subTool = selecting;
-        this.cursor.lock();
+        cursor.lock();
         /*
             // const {_hoveredElement} = interaction
     
@@ -48,42 +49,39 @@ const selector = {
             } */
     },
     mouseMove: function () {
+        console.log('moving');
         const { interaction, cursor } = this;
-        if (interaction._rotateData) {
-            rotating.mouseMove.call(this);
-            return;
-        }
-        if (!this.toolManager.subTool) {
-            if (interaction._hoveredResizeManipulator) {
-                cursor.set('nw-resize');
-                // console.log(10)
-            }
-            else if (interaction._hoveredRotateManipulator) {
-                // console.log(interaction._hoveredRotateManipulator.id)
-                const centerPoint = {
-                    x: interaction.selectedOutlineElement.cx,
-                    y: interaction.selectedOutlineElement.cy,
-                };
-                const rotation = getRotateAngle(centerPoint, interaction.mouseWorldCurrent);
-                cursor.set('rotate');
-                cursor.rotate(rotation);
-                // console.log(10)
-            }
-            else {
-                // cursor.set(selector.cursor)
-            }
-        }
-        // if (!this.subTool) return
+        // console.log('m')
         this.toolManager.subTool?.mouseMove.call(this);
+        /* if (interaction._rotateData) {
+           rotating.mouseMove.call(this)
+           return
+         }
+     
+         if (!this.toolManager.subTool) {
+           if (interaction._hoveredResizeManipulator) {
+             cursor.set('nw-resize')
+             // console.log(10)
+           } else if (interaction._hoveredRotateManipulator) {
+             // console.log(interaction._hoveredRotateManipulator.id)
+             const centerPoint = {
+               x: interaction.selectedOutlineElement.cx,
+               y: interaction.selectedOutlineElement.cy,
+             }
+     
+             const rotation = getRotateAngle(centerPoint, interaction.mouseWorldCurrent)
+             cursor.set('rotate')
+             cursor.rotate(rotation)
+             // console.log(10)
+           } else {
+             // cursor.set(selector.cursor)
+           }
+         }*/
+        // if (!this.subTool) return
     },
     mouseUp() {
         this.cursor.unlock();
-        if (this.interaction._rotateData) {
-            rotating.mouseUp.call(this);
-        }
-        else {
-            this.toolManager.subTool?.mouseUp.call(this);
-        }
+        this.toolManager.subTool?.mouseUp.call(this);
         this.cursor.set(selector.cursor);
         this.toolManager.subTool = null;
     },

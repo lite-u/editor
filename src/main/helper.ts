@@ -189,7 +189,7 @@ export function generateElementsClones(this: Editor) {
     if (!selection.has(id)) {
       action.dispatch('selection-modify', {mode: 'replace', idSet: new Set([id])})
     }
-    toolManager.subTool = dragging
+    // toolManager.subTool = dragging
     this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values)
   }
 

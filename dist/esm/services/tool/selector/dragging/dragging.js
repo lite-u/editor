@@ -3,6 +3,7 @@ const dragging = {
     mouseMove: function () {
         const { interaction } = this;
         const dp = interaction.mouseWorldMovement;
+        console.log('drag');
         // interaction.selectedOutlineElement?.translate(dp.x, dp.y, false)
         // const start = performance.now();
         interaction._draggingElements.forEach(ele => ele.translate(dp.x, dp.y, false));

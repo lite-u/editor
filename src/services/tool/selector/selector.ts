@@ -10,6 +10,7 @@ const selector: ToolType = {
   mouseDown: function (event) {
     const {interaction, selection, cursor} = this
 
+    console.log(event)
     if (event.element) {
       if (interaction._rotateData) {
         this.toolManager.subTool = rotating
@@ -17,6 +18,7 @@ const selector: ToolType = {
         this.toolManager.subTool = dragging
       }
 
+      console.log(this.toolManager.subTool)
       return
     }
 
@@ -53,9 +55,13 @@ const selector: ToolType = {
         } */
   },
   mouseMove: function () {
+    console.log('moving')
     const {interaction, cursor} = this
 
-    if (interaction._rotateData) {
+    // console.log('m')
+    this.toolManager.subTool?.mouseMove.call(this)
+
+   /* if (interaction._rotateData) {
       rotating.mouseMove.call(this)
       return
     }
@@ -78,18 +84,13 @@ const selector: ToolType = {
       } else {
         // cursor.set(selector.cursor)
       }
-    }
+    }*/
     // if (!this.subTool) return
-    this.toolManager.subTool?.mouseMove.call(this)
   },
   mouseUp() {
     this.cursor.unlock()
 
-    if (this.interaction._rotateData) {
-      rotating.mouseUp.call(this)
-    } else {
-      this.toolManager.subTool?.mouseUp.call(this)
-    }
+    this.toolManager.subTool?.mouseUp.call(this)
 
     this.cursor.set(selector.cursor)
     this.toolManager.subTool = null

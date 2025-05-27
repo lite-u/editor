@@ -5,7 +5,7 @@ const dragging: SubToolType = {
   mouseMove: function () {
     const {interaction} = this
     const dp = interaction.mouseWorldMovement
-
+    console.log('drag')
     // interaction.selectedOutlineElement?.translate(dp.x, dp.y, false)
 
     // const start = performance.now();

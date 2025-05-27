@@ -141,6 +141,7 @@ class CanvasHost {
                 event.isPropagationStopped = true;
             },
         };
+        console.log(type, this._hoveredElement);
         _ele.dispatchEvent?.(event);
     }
     has(id) {
@@ -357,6 +358,7 @@ class CanvasHost {
         // console.timeEnd('element render')
     }
     reset() {
+        // console.log('de')
         this.elementMap.clear();
         this.visible.clear();
         this._hoveredElement = null;
