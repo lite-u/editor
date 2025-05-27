@@ -4,24 +4,27 @@ let _lastPoint = null;
 const pencilTool = {
     cursor: 'crosshair',
     mouseDown: function () {
-        const { creationCanvasContext: ctx, scale, dpr } = this.world;
-        const point = { ...this.interaction.mouseWorldCurrent };
-        this.action.dispatch('clear-creation');
+        const { action, cursor, overlayHost, world, interaction } = this.editor;
+        const { scale, dpr } = world;
+        const point = { ...interaction.mouseWorldCurrent };
+        cursor.lock();
+        // action.dispatch('clear-creation')
         _drawingPoints.push(point);
         _lastPoint = { ...point };
-        drawLine(ctx, _lastPoint, point, 1 / scale * dpr);
+        drawLine(overlayHost.ctx, _lastPoint, point, 1 * dpr / scale);
     },
     mouseMove: function () {
-        if (!this.interaction._pointDown)
+        const { action, cursor, overlayHost, world, interaction } = this.editor;
+        if (!interaction._pointDown)
             return;
-        const point = { ...this.interaction.mouseWorldCurrent };
-        const { creationCanvasContext: ctx, scale, dpr } = this.world;
+        const point = { ...interaction.mouseWorldCurrent };
+        const { scale, dpr } = world;
         _drawingPoints.push(point);
-        drawLine(ctx, _lastPoint, point, 1 / scale * dpr);
+        drawLine(overlayHost.ctx, point, point, 1 * dpr / scale);
         _lastPoint = point;
     },
     mouseUp: function () {
-        const { interaction, action } = this;
+        const { interaction, cursor, action } = this.editor;
         const { center, points, closed } = convertPointsToBezierPoints(_drawingPoints);
         const eleProps = {
             type: 'path',
@@ -30,12 +33,12 @@ const pencilTool = {
             points,
             closed,
         };
+        cursor.unlock();
         action.dispatch('element-add', [eleProps]);
-        // console.log(points,_lastPoint)
         _drawingPoints.length = 0;
         _lastPoint = null;
         interaction._ele = null;
-        action.dispatch('clear-creation');
+        // action.dispatch('clear-creation')
     },
 };
 export default pencilTool;

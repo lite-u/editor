@@ -13,7 +13,7 @@ const pencilTool: ToolType = {
     const point = {...interaction.mouseWorldCurrent}
 
     cursor.lock()
-    action.dispatch('clear-creation')
+    // action.dispatch('clear-creation')
     _drawingPoints.push(point)
     _lastPoint = {...point}
     drawLine(overlayHost.ctx, _lastPoint, point, 1 * dpr / scale)
