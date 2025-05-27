@@ -19,7 +19,7 @@ import {CanvasHostEvent} from '~/services/element/CanvasHost'
 
 export type ToolType = {
   cursor: CursorName
-  init: (this: ToolManager) => unknown
+  init?: (this: ToolManager) => unknown
   mouseDown?: (this: ToolManager, event: CanvasHostEvent) => void
   mouseMove: (this: ToolManager, event: CanvasHostEvent) => unknown
   mouseUp: (this: ToolManager, event: CanvasHostEvent) => void

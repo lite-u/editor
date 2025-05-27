@@ -21,6 +21,7 @@ const lineSegmentTool: ToolType = {
     const {action, interaction, world} = this.editor
 
     if (!interaction._ele) return
+
     action.dispatch('clear-creation')
 
     resizeFunc.call(this, [interaction._ele], 'br')
