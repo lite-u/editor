@@ -6,6 +6,7 @@ const resizing: SubToolType = {
   mouseMove(this: ToolManager) {
     const {interaction, mainHost, action, selection, cursor} = this.editor
 
+    if (!interaction._resizingData) return
     resizeFunc.call(this, mainHost.getElementsByIdSet(selection.values), interaction._resizingData.placement)
 
     action.dispatch('element-updated')
