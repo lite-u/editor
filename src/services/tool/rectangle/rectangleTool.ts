@@ -34,8 +34,8 @@ const rectangleTool: ToolType = {
     const eleProps = interaction._ele.toMinimalJSON()
 
     cursor.unlock()
-    interaction._ele = null!
     action.dispatch('element-add', [eleProps])
+    interaction._ele = null!
   },
 }
 
