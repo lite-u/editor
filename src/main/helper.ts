@@ -184,9 +184,13 @@ export function generateElementsClones(this: Editor) {
   const idSet = selection.values
   const visibleElements = mainHost.visibleElements
   const strokeWidth = 10 / ratio
+
   const handleTranslateMouseDown = (event, id: UID) => {
     // console.log(event.element)
+    const _shift = event.originalEvent.shiftKey
+
     if (!selection.has(id)) {
+
       action.dispatch('selection-modify', {mode: 'replace', idSet: new Set([id])})
     }
     // toolManager.subTool = dragging
