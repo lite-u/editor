@@ -8,6 +8,7 @@ const pencilTool = {
         const { scale, dpr, offset } = world;
         const point = { ...interaction.mouseWorldCurrent };
         cursor.lock();
+        overlayHost.lock();
         console.log(interaction.mouseWorldCurrent);
         _drawingPoints.push(point);
         _lastPoint = { ...point };
@@ -27,7 +28,7 @@ const pencilTool = {
         _lastPoint = point;
     },
     mouseUp: function () {
-        const { interaction, cursor, action } = this.editor;
+        const { interaction, cursor, action, overlayHost } = this.editor;
         const { center, points, closed } = convertPointsToBezierPoints(_drawingPoints);
         const eleProps = {
             type: 'path',
@@ -37,6 +38,7 @@ const pencilTool = {
             closed,
         };
         cursor.unlock();
+        overlayHost.unlock();
         action.dispatch('element-add', [eleProps]);
         _drawingPoints.length = 0;
         _lastPoint = null;

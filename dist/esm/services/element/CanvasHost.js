@@ -25,6 +25,7 @@ class CanvasHost {
     _ctx;
     dpr = 4;
     _hoveredElement = null;
+    _locked = false;
     onmousedown;
     onmouseup;
     onmousemove;
@@ -36,6 +37,7 @@ class CanvasHost {
         this.editor = editor;
         this.canvas = createWith('canvas', { ...STYLE });
         this._ctx = this.canvas.getContext('2d');
+        this._locked = false;
         // this.canvas.style.imageRendering = 'pixelate'
         container.appendChild(this.canvas);
         container.addEventListener('pointerdown', e => {
@@ -77,6 +79,8 @@ class CanvasHost {
             e.stopPropagation();
         }, { signal });
     }
+    lock() { this._locked = true; }
+    unlock() { this._locked = false; }
     dispatchEvent(domEvent, type, options) {
         const { _ctx } = this;
         const dpr = this.editor.config.dpr;
@@ -366,11 +370,9 @@ class CanvasHost {
         });
     }
     render() {
-        // console.time('element render')
         this.visibleElements.forEach((element) => {
             element.render(this._ctx);
         });
-        // console.timeEnd('element render')
     }
     reset() {
         // console.log('de')

@@ -15,11 +15,14 @@ declare class CanvasHost {
     protected _ctx: CanvasRenderingContext2D;
     protected dpr: number;
     protected _hoveredElement: ElementInstance | null;
+    readonly _locked = false;
     onmousedown?: CanvasHostEventHandler;
     onmouseup?: CanvasHostEventHandler;
     onmousemove?: CanvasHostEventHandler;
     oncontextmenu?: CanvasHostEventHandler;
     constructor(editor: Editor);
+    lock(): void;
+    unlock(): void;
     dispatchEvent(domEvent: PointerEvent, type: PointerEvent['type'], options?: {
         tolerance?: number;
     }): void;
