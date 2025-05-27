@@ -6,6 +6,7 @@ function resizeFunc(elements, placement = 'br') {
     const { altKey, shiftKey } = _modifier;
     const rect = getBoundingRectFromBoundingRects(elements.map(el => el.getBoundingRectFromOriginal()));
     const { anchor, opposite } = getAnchorsByResizeDirection(rect, placement);
+    console.log(anchor, opposite);
     // const startPoint
     const centerX = rect.cx;
     const centerY = rect.cy;
@@ -19,6 +20,8 @@ function resizeFunc(elements, placement = 'br') {
         x: mouseWorldCurrent.x - anchor.x,
         y: mouseWorldCurrent.y - anchor.y,
     };
+    console.log('startVec', startVec);
+    console.log('currentVec', currentVec);
     // console.log(startVec, currentVec)
     let scaleX = startVec.x !== 0 ? currentVec.x / startVec.x : 1;
     let scaleY = startVec.y !== 0 ? currentVec.y / startVec.y : 1;

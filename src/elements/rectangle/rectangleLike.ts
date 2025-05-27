@@ -133,7 +133,8 @@ class RectangleLike extends ElementBase {
     console.log(scaleX, scaleY)
     const matrix = new DOMMatrix()
       .rotate(-rotation)
-      .scale(scaleX, scaleY, 1, anchor.x, anchor.y)
+      // .scale(scaleX, scaleY, 1, anchor.x, anchor.y)
+      .scale(scaleX, scaleY, 1, 50, 50)
       .scale(scaleX, scaleY)
     // .rotate(rotation)
     const halfW = width! / 2
