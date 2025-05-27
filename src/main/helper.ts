@@ -107,10 +107,9 @@ export function getSelectedBoundingElement(this: Editor): ElementRectangle {
   const rectsWithoutRotation: BoundingRect[] = []
   let rotations: number[] = []
   const boxColor = '#4f80ff'
-  const {world, action, toolManager, selection, mainHost, overlayHost} = this
+  const {world, selection, mainHost, overlayHost} = this
   const {scale, dpr} = world
   const ratio = dpr / scale
-  // const pointLen = 2 / ratio
   const idSet = selection.values
 
   const selectedElements = mainHost.getVisibleElementsByIdSet(idSet)
@@ -146,7 +145,7 @@ export function getSelectedBoundingElement(this: Editor): ElementRectangle {
     rotation: applyRotation,
     stroke: {
       ...DEFAULT_STROKE,
-      weight: 2 / scale,
+      weight: 2 * ratio,
       color: boxColor,
     },
   })

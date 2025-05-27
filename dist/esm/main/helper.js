@@ -69,12 +69,12 @@ export function generateElementsClones() {
             overlayHost.append(centerPoint);
             centerPoint.onmousedown = (e) => handleTranslateMouseDown(e, id);
             if (!isSelected) {
-                centerPoint.onmouseenter = (e) => {
+                centerPoint.onmouseenter = () => {
                     centerPoint.fill.color = 'blue';
                     cloneStrokeLine.stroke.color = boxColor;
                     this.action.dispatch('rerender-overlay');
                 };
-                centerPoint.onmouseleave = (e) => {
+                centerPoint.onmouseleave = () => {
                     centerPoint.fill.color = 'transparent';
                     cloneStrokeLine.stroke.color = 'transparent';
                     this.action.dispatch('rerender-overlay');
@@ -88,10 +88,9 @@ export function getSelectedBoundingElement() {
     const rectsWithoutRotation = [];
     let rotations = [];
     const boxColor = '#4f80ff';
-    const { world, action, toolManager, selection, mainHost, overlayHost } = this;
+    const { world, selection, mainHost, overlayHost } = this;
     const { scale, dpr } = world;
     const ratio = dpr / scale;
-    // const pointLen = 2 / ratio
     const idSet = selection.values;
     const selectedElements = mainHost.getVisibleElementsByIdSet(idSet);
     selectedElements.forEach((ele) => {
@@ -123,7 +122,7 @@ export function getSelectedBoundingElement() {
         rotation: applyRotation,
         stroke: {
             ...DEFAULT_STROKE,
-            weight: 2 / scale,
+            weight: 2 * ratio,
             color: boxColor,
         },
     });
