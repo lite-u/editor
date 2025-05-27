@@ -1,7 +1,7 @@
 const dragging = {
     cursor: 'drag',
     mouseMove: function () {
-        const { interaction } = this;
+        const { interaction, action } = this.editor;
         const dp = interaction.mouseWorldMovement;
         console.log('drag');
         // interaction.selectedOutlineElement?.translate(dp.x, dp.y, false)
@@ -10,13 +10,14 @@ const dragging = {
         // const end = performance.now();
         // console.log(`Canvas render took ${end - start}ms`);
         // this.overlayHost.reset()
-        this.action.dispatch('element-updated');
+        action.dispatch('element-updated');
     },
     mouseUp() {
+        const { interaction, action } = this.editor;
         // this.action.dispatch('rerender-overlay')
         // this.action.dispatch('rerender-main-host')
-        this.interaction._draggingElements = [];
-        this.action.dispatch('element-move', { delta: { x: 0, y: 0 } });
+        interaction._draggingElements = [];
+        action.dispatch('element-move', { delta: { x: 0, y: 0 } });
         // this.action.dispatch('refresh-overlay')
     },
 };

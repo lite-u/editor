@@ -6,8 +6,8 @@ import {PropsWithoutIdentifiers} from '~/elements/type'
 const lineSegmentTool: ToolType = {
   cursor: 'crosshair',
   mouseDown(this: ToolManager) {
-    const {mainHost, interaction, world} = this
-    const {x, y} = this.interaction.mouseWorldCurrent
+    const {mainHost, interaction, world} = this.editor
+    const {x, y} = interaction.mouseWorldCurrent
     let initialLineLen = 1
     const cx = x + initialLineLen / 2
     const cy = y + initialLineLen / 2
@@ -29,17 +29,21 @@ const lineSegmentTool: ToolType = {
     interaction._ele = ele
   },
   mouseMove(this: ToolManager) {
-    if (!this.interaction._ele) return
-    this.action.dispatch('clear-creation')
+    const {action, interaction, world} = this.editor
 
-    resizeFunc.call(this, [this.interaction._ele], 'br')
-    this.interaction._ele.render(this.world.creationCanvasContext)
+    if (!interaction._ele) return
+    action.dispatch('clear-creation')
+
+    resizeFunc.call(this, [interaction._ele], 'br')
+    interaction._ele.render(world.creationCanvasContext)
   },
   mouseUp(this: ToolManager) {
-    const eleProps = this.interaction._ele.toMinimalJSON()
+    const {action, interaction} = this.editor
 
-    this.action.dispatch('element-add', [eleProps])
-    this.interaction._ele = null
+    const eleProps = interaction._ele.toMinimalJSON()
+
+    action.dispatch('element-add', [eleProps])
+    interaction._ele = null!
   },
 }
 
