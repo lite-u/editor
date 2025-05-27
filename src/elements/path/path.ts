@@ -193,6 +193,10 @@ class ElementPath extends ElementBase {
 
     const {x, y} = rotatePointAroundPoint(cx, cy, anchor.x, anchor.y, rotation)
 
+    let newRotation = (this.original.rotation + rotation) % 360
+
+    if (newRotation < 0) newRotation += 360
+
     this.cx = x
     this.cy = y
     this.rotation = newRotation

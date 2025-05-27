@@ -122,7 +122,6 @@ class ElementBase {
         this.cy = transformed.y;
         this.updatePath2D();
         this.updateBoundingRect();
-        // this.updateTransform()
         if (f) {
             return {
                 id: this.id,
