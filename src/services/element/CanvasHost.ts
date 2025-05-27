@@ -32,7 +32,7 @@ class CanvasHost {
   protected _ctx: CanvasRenderingContext2D
   protected dpr = 4
   protected _hoveredElement: ElementInstance | null = null
-  protected _locked = false
+  readonly _locked = false
   onmousedown?: CanvasHostEventHandler
   onmouseup?: CanvasHostEventHandler
   onmousemove?: CanvasHostEventHandler
