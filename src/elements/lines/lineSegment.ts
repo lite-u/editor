@@ -106,8 +106,9 @@ class ElementLineSegment extends ElementBase {
 
   public getBoundingRect(withoutRotation: boolean = false): BoundingRect {
     const {start, end, rotation} = this
+    const r = withoutRotation ? -rotation : 0
 
-    return ElementLineSegment._getBoundingRect(start, end, rotation)
+    return ElementLineSegment._getBoundingRect(start, end, r)
   }
 
   public getBoundingRectFromOriginal() {
@@ -154,8 +155,8 @@ class ElementLineSegment extends ElementBase {
 
     const {start, end} = this.original
     // Adjust to absolute coordinates for transformation
-    const newStart = ElementBase.transformPoint(start.x, start.y, matrix)
-    const newEnd = ElementBase.transformPoint(end.x, end.y, matrix)
+    const newStart = ElementBase.transformPoint(start!.x, start!.y, matrix)
+    const newEnd = ElementBase.transformPoint(end!.x, end!.y, matrix)
 
     // Store back as relative to cx, cy
     this.start.x = newStart.x
