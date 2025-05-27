@@ -72,6 +72,13 @@ export function generateElementsClones(this: Editor) {
     if (ele.type !== 'path') {
       const pointLen = 6 * ratio
       const centerPoint = ElementRectangle.create(nid(), ele.cx, ele.cy, pointLen)
+
+      centerPoint.layer = 1
+      centerPoint.stroke.enabled = false
+      centerPoint.fill.enabled = true
+      centerPoint.fill.color = isSelected ? boxColor : 'transparent'
+      overlayHost.append(centerPoint)
+
       centerPoint.onmousedown = (e) => handleTranslateMouseDown(e, id)
       centerPoint.onmouseenter = (e) => {
         centerPoint.fill.color = 'blue'
@@ -81,12 +88,6 @@ export function generateElementsClones(this: Editor) {
         centerPoint.fill.color = 'transparent'
         this.action.dispatch('rerender-overlay')
       }
-
-      centerPoint.layer = 1
-      centerPoint.stroke.enabled = false
-      centerPoint.fill.enabled = true
-      centerPoint.fill.color = isSelected ? boxColor : 'transparent'
-      overlayHost.append(centerPoint)
     }
   })
 }
