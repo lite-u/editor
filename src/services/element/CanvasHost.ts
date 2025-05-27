@@ -45,6 +45,7 @@ class CanvasHost {
     this.canvas = createWith('canvas', {...STYLE})
     this.ctx = this.canvas.getContext('2d')!
 
+    // this.canvas.style.imageRendering = 'pixelate'
     container.appendChild(this.canvas)
 
     container.addEventListener('pointerdown', e => {
