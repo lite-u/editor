@@ -46,11 +46,10 @@ const pencilTool: ToolType = {
     cursor.unlock()
 
     action.dispatch('element-add', [eleProps])
-    // console.log(points,_lastPoint)
     _drawingPoints.length = 0
     _lastPoint = null
     interaction._ele = null!
-    action.dispatch('clear-creation')
+    // action.dispatch('clear-creation')
   },
 }
 
