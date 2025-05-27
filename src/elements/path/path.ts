@@ -55,6 +55,7 @@ class ElementPath extends ElementBase {
     this.original.rotation = this.rotation
 
     this.updatePath2D()
+    this.updateBoundingRect()
   }
 
   /**
@@ -86,14 +87,14 @@ class ElementPath extends ElementBase {
 
     this.path2D = new Path2D()
 
-    const {cx, cy} = this
-    const transform = new DOMMatrix()
+    // const {cx, cy} = this
+/*    const transform = new DOMMatrix()
       .translate(cx, cy)
-      .rotate(this.rotation)
-      .translate(-cx, -cy)
+      // .rotate(this.rotation)
+      .translate(-cx, -cy)*/
 
-    const startAnchor = this.points[0].anchor
-    const start = ElementBase.transformPoint(startAnchor.x, startAnchor.y, transform)
+    const start = this.points[0].anchor
+    // const start = ElementBase.transformPoint(startAnchor.x, startAnchor.y, transform)
     this.path2D.moveTo(start.x, start.y)
 
     for (let i = 1; i < this.points.length; i++) {
@@ -107,11 +108,11 @@ class ElementPath extends ElementBase {
       const cp2 = currType === 'corner' ? curr.anchor : (curr.cp1 ?? curr.anchor)
       const anchor = curr.anchor
 
-      const t_cp1 = ElementBase.transformPoint(cp1.x, cp1.y, transform)
-      const t_cp2 = ElementBase.transformPoint(cp2.x, cp2.y, transform)
-      const t_anchor = ElementBase.transformPoint(anchor.x, anchor.y, transform)
+      // const t_cp1 = ElementBase.transformPoint(cp1.x, cp1.y, transform)
+      // const t_cp2 = ElementBase.transformPoint(cp2.x, cp2.y, transform)
+      // const t_anchor = ElementBase.transformPoint(anchor.x, anchor.y, transform)
 
-      this.path2D.bezierCurveTo(t_cp1.x, t_cp1.y, t_cp2.x, t_cp2.y, t_anchor.x, t_anchor.y)
+      this.path2D.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, anchor.x, anchor.y)
     }
 
     if (this.closed && this.points.length > 1) {
@@ -125,11 +126,11 @@ class ElementPath extends ElementBase {
       const cp2 = firstType === 'corner' ? first.anchor : (first.cp1 ?? first.anchor)
       const anchor = first.anchor
 
-      const t_cp1 = ElementBase.transformPoint(cp1.x, cp1.y, transform)
-      const t_cp2 = ElementBase.transformPoint(cp2.x, cp2.y, transform)
-      const t_anchor = ElementBase.transformPoint(anchor.x, anchor.y, transform)
+      // const t_cp1 = ElementBase.transformPoint(cp1.x, cp1.y, transform)
+      // const t_cp2 = ElementBase.transformPoint(cp2.x, cp2.y, transform)
+      // const t_anchor = ElementBase.transformPoint(anchor.x, anchor.y, transform)
 
-      this.path2D.bezierCurveTo(t_cp1.x, t_cp1.y, t_cp2.x, t_cp2.y, t_anchor.x, t_anchor.y)
+      this.path2D.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, anchor.x, anchor.y)
       this.path2D.closePath()
     }
   }
@@ -191,7 +192,7 @@ class ElementPath extends ElementBase {
     // const newRotation = this.original.rotation - rotation
     // const realPositionPoints = ElementPath._rotateBezierPointsFrom(cx, cy, this.original.rotation, points)
     const transformedPoints = ElementPath._rotateBezierPointsFrom(anchor.x, anchor.y, rotation, points!)
-    const newPoints = ElementPath._rotateBezierPointsFrom(anchor.x, anchor.y, rotation, transformedPoints)
+    // const newPoints = ElementPath._rotateBezierPointsFrom(anchor.x, anchor.y, rotation, transformedPoints)
 
     const {x, y} = rotatePointAroundPoint(cx, cy, anchor.x, anchor.y, rotation)
 
@@ -201,7 +202,7 @@ class ElementPath extends ElementBase {
     this.cx = x
     this.cy = y
     this.rotation = newRotation
-    this.points = newPoints
+    this.points = transformedPoints
     /*
         const matrix = new DOMMatrix()
           .translate(anchor.x, anchor.y)
