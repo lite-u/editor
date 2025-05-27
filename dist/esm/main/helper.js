@@ -111,13 +111,15 @@ export function getSelectedBoundingElement() {
     const ratio = dpr / scale;
     const pointLen = 2 / ratio;
     const idSet = selection.values;
-    const visibleElements = mainHost.visibleElements;
-    const selectedElements = mainHost.getElementsByIdSet(idSet);
+    // const visibleElements = mainHost.visibleElements
+    const selectedElements = mainHost.getVisibleElementsByIdSet(idSet);
+    // console.log(idSet)
     selectedElements.forEach((ele) => {
         rotations.push(ele.rotation);
         rectsWithRotation.push(ele.getBoundingRect());
         rectsWithoutRotation.push(ele.getBoundingRect(true));
     });
+    // console.log(selectedElements)
     // selectedOutlineElement
     const sameRotation = rotations.every(val => val === rotations[0]);
     let applyRotation = sameRotation ? rotations[0] : 0;
@@ -159,7 +161,7 @@ export function generateElementsClones() {
     const visibleElements = mainHost.visibleElements;
     const strokeWidth = 10 / ratio;
     const handleTranslateMouseDown = (event, id) => {
-        console.log(event.element);
+        // console.log(event.element)
         if (!selection.has(id)) {
             action.dispatch('selection-modify', { mode: 'replace', idSet: new Set([id]) });
         }
@@ -170,7 +172,7 @@ export function generateElementsClones() {
         const id = ele.id;
         const invisibleClone = ele.clone();
         const cloneStrokeLine = ele.clone();
-        const elementSelected = idSet.has(id);
+        const isSelected = idSet.has(id);
         invisibleClone.id = 'invisible-clone-' + id;
         invisibleClone.layer = 0;
         invisibleClone.fill.enabled = false;
@@ -182,7 +184,7 @@ export function generateElementsClones() {
         invisibleClone.onmousedown = (e) => handleTranslateMouseDown(e, id);
         cloneStrokeLine.onmousedown = (e) => handleTranslateMouseDown(e, id);
         overlayHost.append(invisibleClone, cloneStrokeLine);
-        if (elementSelected) {
+        if (isSelected) {
             cloneStrokeLine.stroke.color = boxColor;
         }
         else {
@@ -199,11 +201,11 @@ export function generateElementsClones() {
         if (ele.type !== 'path') {
             const pointLen = 20 / ratio;
             const centerPoint = ElementRectangle.create(nid(), ele.cx, ele.cy, pointLen);
-            centerPoint.onmousedown = () => handleTranslateMouseDown(id);
+            centerPoint.onmousedown = (e) => handleTranslateMouseDown(e, id);
             centerPoint.layer = 1;
             centerPoint.stroke.enabled = false;
             centerPoint.fill.enabled = true;
-            centerPoint.fill.color = 'orange';
+            centerPoint.fill.color = isSelected ? boxColor : 'transparent';
             overlayHost.append(centerPoint);
         }
     });

@@ -34,6 +34,7 @@ declare class CanvasHost {
     setSize(width: number, height: number): void;
     getElementById(id: string): ElementInstance | undefined;
     getElementsByIdSet(idSet: Set<UID>): ElementInstance[];
+    getVisibleElementsByIdSet(idSet: Set<UID>): ElementInstance[];
     getElementMapByIdSet(idSet: Set<UID>): ElementMap;
     create(data: OptionalIdentifiersProps): ElementInstance | false;
     batchCreate(elementDataList: ElementProps[]): ElementMap;
