@@ -189,10 +189,9 @@ export function generateElementsClones(this: Editor) {
     // console.log(event.element)
     const _shift = event.originalEvent.shiftKey
 
-    if (selection.has(id)) {
+    if (!selection.has(id)) {
 
-    } else {
-      action.dispatch('selection-modify', {mode: 'replace', idSet: new Set([id])})
+      action.dispatch('selection-modify', {mode: _shift ? 'add' : 'replace', idSet: new Set([id])})
     }
     // toolManager.subTool = dragging
     this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values)

@@ -1,12 +1,12 @@
-import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
-import ElementRectangle from '~/elements/rectangle/rectangle';
-import Rectangle from '~/elements/rectangle/rectangle';
-import { getMinimalBoundingRect } from '~/core/utils';
-import { DEFAULT_STROKE } from '~/elements/defaultProps';
-import { rotatePointAroundPoint } from '~/core/geometry';
-import Ellipse from '~/elements/ellipse/ellipse';
-import { nid } from '~/index';
-import { getRotateAngle } from '~/services/tool/selector/helper';
+import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
+import ElementRectangle from '../elements/rectangle/rectangle.js';
+import Rectangle from '../elements/rectangle/rectangle.js';
+import { getMinimalBoundingRect } from '../core/utils.js';
+import { DEFAULT_STROKE } from '../elements/defaultProps.js';
+import { rotatePointAroundPoint } from '../core/geometry.js';
+import Ellipse from '../elements/ellipse/ellipse.js';
+import { nid } from '../index.js';
+import { getRotateAngle } from '../services/tool/selector/helper.js';
 export function generateTransformHandles(ele, specialLineSeg = false) {
     const { world } = this;
     const { scale, dpr } = world;
@@ -163,10 +163,8 @@ export function generateElementsClones() {
     const handleTranslateMouseDown = (event, id) => {
         // console.log(event.element)
         const _shift = event.originalEvent.shiftKey;
-        if (selection.has(id)) {
-        }
-        else {
-            action.dispatch('selection-modify', { mode: 'replace', idSet: new Set([id]) });
+        if (!selection.has(id)) {
+            action.dispatch('selection-modify', { mode: _shift ? 'add' : 'replace', idSet: new Set([id]) });
         }
         // toolManager.subTool = dragging
         this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values);
