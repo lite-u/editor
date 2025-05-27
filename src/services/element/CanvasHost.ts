@@ -168,7 +168,7 @@ class CanvasHost {
         event.isPropagationStopped = true
       },
     }
-    console.log(type, this._hoveredElement)
+    // console.log(type, this._hoveredElement)
     _ele.dispatchEvent?.(event)
   }
 
@@ -246,6 +246,20 @@ class CanvasHost {
 
     ;[...idSet.values()].map(id => {
       const mod = this.elementMap.get(id)
+
+      if (mod) {
+        result.push(mod)
+      }
+    })
+
+    return result
+  }
+
+  public getVisibleElementsByIdSet(idSet: Set<UID>): ElementInstance[] {
+    const result: ElementInstance[] = []
+
+    idSet.forEach(id => {
+      const mod = this.visible.get(id)
 
       if (mod) {
         result.push(mod)

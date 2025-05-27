@@ -143,7 +143,7 @@ class CanvasHost {
                 event.isPropagationStopped = true;
             },
         };
-        console.log(type, this._hoveredElement);
+        // console.log(type, this._hoveredElement)
         _ele.dispatchEvent?.(event);
     }
     has(id) {
@@ -203,6 +203,16 @@ class CanvasHost {
         const result = [];
         [...idSet.values()].map(id => {
             const mod = this.elementMap.get(id);
+            if (mod) {
+                result.push(mod);
+            }
+        });
+        return result;
+    }
+    getVisibleElementsByIdSet(idSet) {
+        const result = [];
+        idSet.forEach(id => {
+            const mod = this.visible.get(id);
             if (mod) {
                 result.push(mod);
             }

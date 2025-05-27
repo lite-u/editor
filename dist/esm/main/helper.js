@@ -158,7 +158,8 @@ export function generateElementsClones() {
     const idSet = selection.values;
     const visibleElements = mainHost.visibleElements;
     const strokeWidth = 10 / ratio;
-    const handleTranslateMouseDown = (id) => {
+    const handleTranslateMouseDown = (event, id) => {
+        console.log(event.element);
         if (!selection.has(id)) {
             action.dispatch('selection-modify', { mode: 'replace', idSet: new Set([id]) });
         }
@@ -178,8 +179,8 @@ export function generateElementsClones() {
         cloneStrokeLine.id = 'stroke-line-clone-' + id;
         cloneStrokeLine.layer = 1;
         cloneStrokeLine.stroke.weight = strokeWidth;
-        invisibleClone.onmousedown = () => handleTranslateMouseDown(id);
-        cloneStrokeLine.onmousedown = () => handleTranslateMouseDown(id);
+        invisibleClone.onmousedown = (e) => handleTranslateMouseDown(e, id);
+        cloneStrokeLine.onmousedown = (e) => handleTranslateMouseDown(e, id);
         overlayHost.append(invisibleClone, cloneStrokeLine);
         if (elementSelected) {
             cloneStrokeLine.stroke.color = boxColor;

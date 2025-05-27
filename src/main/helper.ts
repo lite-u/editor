@@ -184,7 +184,8 @@ export function generateElementsClones(this: Editor) {
   const idSet = selection.values
   const visibleElements = mainHost.visibleElements
   const strokeWidth = 10 / ratio
-  const handleTranslateMouseDown = (id: UID) => {
+  const handleTranslateMouseDown = (event, id: UID) => {
+    console.log(event.element)
     if (!selection.has(id)) {
       action.dispatch('selection-modify', {mode: 'replace', idSet: new Set([id])})
     }
@@ -208,8 +209,8 @@ export function generateElementsClones(this: Editor) {
     cloneStrokeLine.layer = 1
     cloneStrokeLine.stroke.weight = strokeWidth
 
-    invisibleClone.onmousedown = () => handleTranslateMouseDown(id)
-    cloneStrokeLine.onmousedown = () => handleTranslateMouseDown(id)
+    invisibleClone.onmousedown = (e) => handleTranslateMouseDown(e, id)
+    cloneStrokeLine.onmousedown = (e) => handleTranslateMouseDown(e, id)
     overlayHost.append(invisibleClone, cloneStrokeLine)
 
     if (elementSelected) {

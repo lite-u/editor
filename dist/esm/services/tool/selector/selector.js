@@ -6,17 +6,16 @@ const selector = {
     init: function () { },
     mouseDown: function (event) {
         const { interaction, selection, cursor } = this;
-        console.log(event);
-        if (event.element) {
-            if (interaction._rotateData) {
-                this.toolManager.subTool = rotating;
-            }
-            else if (interaction._draggingElements.length > 0) {
-                this.toolManager.subTool = dragging;
-            }
-            console.log(this.toolManager.subTool);
+        // console.log(event)
+        if (interaction._rotateData) {
+            this.toolManager.subTool = rotating;
             return;
         }
+        else if (interaction._draggingElements.length > 0) {
+            this.toolManager.subTool = dragging;
+            return;
+        }
+        // console.log(this.toolManager.subTool)
         // selecting.mouseDown(event)
         // console.log(event.element)
         this.toolManager.subTool = selecting;
@@ -49,7 +48,7 @@ const selector = {
             } */
     },
     mouseMove: function () {
-        console.log('moving');
+        // console.log('moving')
         const { interaction, cursor } = this;
         // console.log('m')
         this.toolManager.subTool?.mouseMove.call(this);
@@ -57,7 +56,7 @@ const selector = {
            rotating.mouseMove.call(this)
            return
          }
-     
+    
          if (!this.toolManager.subTool) {
            if (interaction._hoveredResizeManipulator) {
              cursor.set('nw-resize')
@@ -68,7 +67,7 @@ const selector = {
                x: interaction.selectedOutlineElement.cx,
                y: interaction.selectedOutlineElement.cy,
              }
-     
+    
              const rotation = getRotateAngle(centerPoint, interaction.mouseWorldCurrent)
              cursor.set('rotate')
              cursor.rotate(rotation)

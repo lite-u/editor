@@ -1,5 +1,4 @@
 import {ToolType} from '~/services/tool/toolManager'
-import {getRotateAngle} from '~/services/tool/selector/helper'
 import rotating from '~/services/tool/selector/rotating/rotating'
 import selecting from '~/services/tool/selector/selecting/selecting'
 import dragging from '~/services/tool/selector/dragging/dragging'
@@ -10,17 +9,19 @@ const selector: ToolType = {
   mouseDown: function (event) {
     const {interaction, selection, cursor} = this
 
-    console.log(event)
-    if (event.element) {
-      if (interaction._rotateData) {
-        this.toolManager.subTool = rotating
-      } else if (interaction._draggingElements.length > 0) {
-        this.toolManager.subTool = dragging
-      }
+    // console.log(event)
 
-      console.log(this.toolManager.subTool)
-      return
+    if (interaction._rotateData) {
+      this.toolManager.subTool = rotating
+    return
+
+    } else if (interaction._draggingElements.length > 0) {
+      this.toolManager.subTool = dragging
+    return
+
     }
+
+    // console.log(this.toolManager.subTool)
 
     // selecting.mouseDown(event)
     // console.log(event.element)
@@ -55,36 +56,36 @@ const selector: ToolType = {
         } */
   },
   mouseMove: function () {
-    console.log('moving')
+    // console.log('moving')
     const {interaction, cursor} = this
 
     // console.log('m')
     this.toolManager.subTool?.mouseMove.call(this)
 
-   /* if (interaction._rotateData) {
-      rotating.mouseMove.call(this)
-      return
-    }
+    /* if (interaction._rotateData) {
+       rotating.mouseMove.call(this)
+       return
+     }
 
-    if (!this.toolManager.subTool) {
-      if (interaction._hoveredResizeManipulator) {
-        cursor.set('nw-resize')
-        // console.log(10)
-      } else if (interaction._hoveredRotateManipulator) {
-        // console.log(interaction._hoveredRotateManipulator.id)
-        const centerPoint = {
-          x: interaction.selectedOutlineElement.cx,
-          y: interaction.selectedOutlineElement.cy,
-        }
+     if (!this.toolManager.subTool) {
+       if (interaction._hoveredResizeManipulator) {
+         cursor.set('nw-resize')
+         // console.log(10)
+       } else if (interaction._hoveredRotateManipulator) {
+         // console.log(interaction._hoveredRotateManipulator.id)
+         const centerPoint = {
+           x: interaction.selectedOutlineElement.cx,
+           y: interaction.selectedOutlineElement.cy,
+         }
 
-        const rotation = getRotateAngle(centerPoint, interaction.mouseWorldCurrent)
-        cursor.set('rotate')
-        cursor.rotate(rotation)
-        // console.log(10)
-      } else {
-        // cursor.set(selector.cursor)
-      }
-    }*/
+         const rotation = getRotateAngle(centerPoint, interaction.mouseWorldCurrent)
+         cursor.set('rotate')
+         cursor.rotate(rotation)
+         // console.log(10)
+       } else {
+         // cursor.set(selector.cursor)
+       }
+     }*/
     // if (!this.subTool) return
   },
   mouseUp() {
