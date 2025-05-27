@@ -90,6 +90,7 @@ const selector: ToolType = {
   },
   mouseUp() {
     this.editor.cursor.unlock()
+    this.editor.cursor.set(selector.cursor)
 
     this.editor.toolManager.subTool?.mouseUp.call(this)
 

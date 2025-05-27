@@ -81,6 +81,7 @@ const selector = {
     },
     mouseUp() {
         this.editor.cursor.unlock();
+        this.editor.cursor.set(selector.cursor);
         this.editor.toolManager.subTool?.mouseUp.call(this);
         this.editor.cursor.set(selector.cursor);
         this.editor.toolManager.subTool = null;
