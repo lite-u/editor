@@ -87,12 +87,12 @@ export function generateElementsClones(this: Editor) {
       centerPoint.onmousedown = (e) => handleTranslateMouseDown(e, id)
 
       if (!isSelected) {
-        centerPoint.onmouseenter = (e) => {
+        centerPoint.onmouseenter = () => {
           centerPoint.fill.color = 'blue'
           cloneStrokeLine.stroke.color = boxColor
           this.action.dispatch('rerender-overlay')
         }
-        centerPoint.onmouseleave = (e) => {
+        centerPoint.onmouseleave = () => {
           centerPoint.fill.color = 'transparent'
           cloneStrokeLine.stroke.color = 'transparent'
           this.action.dispatch('rerender-overlay')

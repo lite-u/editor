@@ -15,6 +15,7 @@ import deepClone from '~/core/deepClone'
 import {isEqual} from '~/lib/lib'
 import {BezierPoint, Fill, Gradient, Shadow, Stroke, Transform} from '~/elements/props'
 import {HistoryChangeItem} from '~/services/actions/type'
+import {CanvasHostEvent} from '~/services/element/CanvasHost'
 
 type ElementEventHandler<T = any> = (payload: T) => void;
 
@@ -91,11 +92,11 @@ class ElementBase {
   protected eventListeners: {
     [K in keyof ElementEventMap]?: ElementEventHandler<ElementEventMap[K]>[]
   } = {}
-  onmouseenter?: () => void
-  onmouseleave?: () => void
-  onmousedown?: () => void
-  onmousemove?: () => void
-  onmouseup?: () => void
+  onmouseenter?: (event:CanvasHostEvent) => void
+  onmouseleave?: (event:CanvasHostEvent) => void
+  onmousedown?: (event:CanvasHostEvent) => void
+  onmousemove?: (event:CanvasHostEvent) => void
+  onmouseup?: (event:CanvasHostEvent) => void
 
   constructor({
                 id,
