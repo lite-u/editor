@@ -34,7 +34,7 @@ declare class InteractionState {
     _draggingElements: ElementInstance[];
     _resizingElements: ElementInstance[];
     _resizingData: {
-        targetPoint: {
+        targetPoint?: {
             x: number;
             y: number;
         };

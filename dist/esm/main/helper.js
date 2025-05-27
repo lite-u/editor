@@ -184,7 +184,12 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
         this.cursor.set('default');
         this.action.dispatch('rerender-overlay');
     };
-    const handleResizeMouseDown = () => { };
+    const handleResizeMouseDown = (placement) => {
+        this.cursor.set('resize');
+        // this.subTool = resizing
+        this.interaction._resizingData = { placement };
+        // this.interaction._resizingData = {}
+    };
     arr.map(({ dx, dy, name }) => {
         if (specialLineSeg && name !== 't' && name !== 'b')
             return;
@@ -225,7 +230,7 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
         }
         resizeEle.onmouseenter = handleResizeMouseEnter;
         resizeEle.onmouseleave = handleResizeMouseLeave;
-        resizeEle.onmousedown = handleResizeMouseDown;
+        resizeEle.onmousedown = () => handleResizeMouseDown(name);
         rotateEle.onmouseenter = handleRotateMouseEnter;
         rotateEle.onmouseleave = handleRotateMouseLeave;
         rotateEle.onmousedown = handleRotateMouseDown;

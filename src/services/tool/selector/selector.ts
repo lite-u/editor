@@ -2,6 +2,7 @@ import {ToolType} from '~/services/tool/toolManager'
 import rotating from '~/services/tool/selector/rotating/rotating'
 import selecting from '~/services/tool/selector/selecting/selecting'
 import dragging from '~/services/tool/selector/dragging/dragging'
+import resizing from '~/services/tool/selector/resizing/resizing'
 
 const selector: ToolType = {
   cursor: 'default',
@@ -17,6 +18,10 @@ const selector: ToolType = {
 
     } else if (interaction._draggingElements.length > 0) {
       this.subTool = dragging
+      return
+
+    } else if (interaction._resizingData) {
+      this.subTool = resizing
       return
 
     }

@@ -1,6 +1,7 @@
 import rotating from './rotating/rotating.js';
 import selecting from './selecting/selecting.js';
 import dragging from './dragging/dragging.js';
+import resizing from './resizing/resizing.js';
 const selector = {
     cursor: 'default',
     init: function () { },
@@ -13,6 +14,10 @@ const selector = {
         }
         else if (interaction._draggingElements.length > 0) {
             this.subTool = dragging;
+            return;
+        }
+        else if (interaction._resizingData) {
+            this.subTool = resizing;
             return;
         }
         // console.log(this.subTool)
