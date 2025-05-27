@@ -135,8 +135,8 @@ class RectangleLike extends ElementBase {
       // .scale(scaleX, scaleY, 1, anchor.x, anchor.y)
       .scale(scaleX, scaleY)
     // .rotate(rotation)
-    const halfW = width / 2
-    const halfH = height / 2
+    const halfW = width! / 2
+    const halfH = height! / 2
 
     const topLeft = {x: cx - halfW, y: cy - halfH}
     const topRight = {x: cx + halfW, y: cy - halfH}
@@ -162,8 +162,23 @@ class RectangleLike extends ElementBase {
     this.width = newWidth
     this.height = newHeight
     this.updatePath2D()
+    this.updateBoundingRect()
 
-    return {}
+    return {
+      id: this.id,
+      from: {
+        cx: this.original.cx,
+        cy: this.original.cy,
+        width: this.original.width,
+        height: this.original.height,
+      },
+      to: {
+        cx: this.cx,
+        cy: this.cy,
+        width: this.width,
+        height: this.height,
+      },
+    }
   }
 
   toJSON(): RequiredRectangleLikeProps {

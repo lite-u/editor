@@ -126,7 +126,22 @@ class RectangleLike extends ElementBase {
         this.width = newWidth;
         this.height = newHeight;
         this.updatePath2D();
-        return {};
+        this.updateBoundingRect();
+        return {
+            id: this.id,
+            from: {
+                cx: this.original.cx,
+                cy: this.original.cy,
+                width: this.original.width,
+                height: this.original.height,
+            },
+            to: {
+                cx: this.cx,
+                cy: this.cy,
+                width: this.width,
+                height: this.height,
+            },
+        };
     }
     toJSON() {
         const { borderRadius, width, height, } = this;
