@@ -1,5 +1,6 @@
 import snapTool from '../snap/snap.js';
 function handleMouseDown(e) {
+    console.log(this);
     const { element, originalEvent } = e;
     const { button, shiftKey, metaKey, ctrlKey, altKey, clientX, clientY, movementX, movementY } = originalEvent;
     const modifiers = { shiftKey, metaKey, ctrlKey, altKey, button, movementX, movementY };
@@ -12,8 +13,8 @@ function handleMouseDown(e) {
     interaction.mouseWorldCurrent = world.getWorldPointByViewportPoint(x, y);
     this.editor.interaction._modifier = modifiers;
     this.editor.interaction._pointDown = true;
-    this.tool?.mouseDown?.call(this.editor, e);
-    // this.editor.action.dispatch('clear-creation')
+    this.tool?.mouseDown?.call(this, e);
+    // this.action.dispatch('clear-creation')
     snapTool.call(this);
 }
 export default handleMouseDown;

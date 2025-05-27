@@ -5,11 +5,11 @@ import ToolManager from '~/services/tool/toolManager'
 
 function handleKeyDown(this: ToolManager, e: KeyboardEvent) {
   const {shiftKey, metaKey, ctrlKey, altKey} = e
-  const {interaction} = this.editor
+  const {interaction} = this
 
   if (e.code !== 'Space') {
     interaction._modifier = {...interaction._modifier, shiftKey, metaKey, ctrlKey, altKey}
-    this.tool.mouseMove.call(this.editor)
+    this.tool.mouseMove.call(this)
   }
 
 }

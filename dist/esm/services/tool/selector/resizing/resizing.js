@@ -4,9 +4,9 @@ const resizing = {
     mouseMove() {
         // console.log(111)
         // interaction._resizingElements = elementManager.getElementsByIdSet(selection.values)
-        const { interaction, mainHost, action, selection, cursor } = this.editor;
+        const { interaction, mainHost, action, selection, cursor } = this;
         resizeFunc.call(this, mainHost.getElementsByIdSet(selection.values), interaction._resizingData.placement);
-        this.editor.action.dispatch('element-updated');
+        this.action.dispatch('element-updated');
         /*
             interaction._outlineElement?.rotateFrom(rotationDiff, targetPoint)
             interaction._manipulationElements.forEach(ele => {
@@ -16,8 +16,8 @@ const resizing = {
               ele.rotateFrom(rotationDiff, targetPoint)
             })
         
-            this.editor.action.dispatch('render-overlay')
-            this.editor.action.dispatch('render-main-host')*/
+            this.action.dispatch('render-overlay')
+            this.action.dispatch('render-main-host')*/
         // this.subTool.mouseMove.call(this)
     },
     mouseUp() {

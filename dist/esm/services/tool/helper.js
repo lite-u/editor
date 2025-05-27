@@ -1,5 +1,5 @@
 export function applyRotating(shiftKey) {
-    const { interaction, world } = this.editor;
+    const { interaction, world } = this;
     const { mouseStart, mouseCurrent, _rotatingOperator } = interaction;
     const { scale, dpr, offset } = world;
     const { element: { rotation }, elementOrigin } = _rotatingOperator;
@@ -20,7 +20,7 @@ export function applyRotating(shiftKey) {
     return newRotation;
 }
 /*export function detectHoveredElement(this: ToolManager) {
-  const {interaction, action, world, visible} = this.editor
+  const {interaction, action, world, visible} = this
   const {baseCanvasContext: ctx, dpr} = world
   /!*const WP = world.getWorldPointByViewportPoint(
     interaction.mouseCurrent.x,

@@ -1,6 +1,6 @@
 import { isPointNearStroke2 } from './helper.js';
 function detectTool() {
-    const { interaction, world, visible } = this.editor;
+    const { interaction, world, visible } = this;
     const { baseCanvasContext: ctx, scale, dpr } = world;
     const { x, y } = interaction.mouseCurrent;
     const viewPoint = {

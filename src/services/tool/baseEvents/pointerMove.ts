@@ -33,5 +33,5 @@ export default function handlePointerMove(this: ToolManager, e: CanvasHostEvent)
   // action.dispatch('render-overlay')
 
   // console.log('this.tool',this.tool)
-  this.tool.mouseMove.call(this.editor)
+  this.tool.mouseMove.call(this)
 }

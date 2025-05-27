@@ -2,33 +2,33 @@ import { isNegativeZero } from '../../../core/utils.js';
 function handleWheel(event) {
     console.log('wheel');
     // Prevent page zoom
-    if (event.target !== this.editor.container)
+    if (event.target !== this.container)
         return;
     // console.log(this.state)
     event.preventDefault();
     event.stopPropagation();
-    if (this.editor.interaction.state !== 'static')
+    if (this.interaction.state !== 'static')
         return;
     const { trackpad, zooming, panning, scrolling, zoomFactor, translateX, translateY } = detectGestures(event);
     console.log(trackpad);
     // console.log(`${zooming ? 'zooming' : ''} ${panning ? 'panning' : ''} ${scrolling ? 'scrolling' : ''} `)
-    // this.editor.interaction.zooming = zooming
+    // this.interaction.zooming = zooming
     if (zooming) {
         // console.log(zoomFactor)
-        this.editor.action.dispatch('world-zoom', {
+        this.action.dispatch('world-zoom', {
             zoomBy: true,
             zoomFactor,
-            physicalPoint: this.editor.interaction.mouseCurrent,
+            physicalPoint: this.interaction.mouseCurrent,
         });
     }
     else if (panning || scrolling) {
-        this.editor.action.dispatch('world-shift', {
+        this.action.dispatch('world-shift', {
             x: translateX,
             y: translateY,
         });
         // this.translateViewport(translateX, translateY)
     }
-    this.editor.world.updateWorldRect();
+    this.world.updateWorldRect();
 }
 const detectGestures = (() => {
     let _timer;

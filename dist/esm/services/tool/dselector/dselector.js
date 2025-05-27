@@ -13,7 +13,7 @@ const dSelector = {
     },
     mouseUp: function () {
         this.interaction._movingHandle = null;
-        // this.editor.cursor.set('grab')
+        // this.cursor.set('grab')
     },
 };
 export default dSelector;

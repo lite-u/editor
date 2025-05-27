@@ -4,7 +4,7 @@ import {Point} from '~/type'
 /*
 
 export function applyResize(this: ToolManager, altKey: boolean, shiftKey: boolean) {
-  const {elementManager, interaction, world} = this.editor
+  const {elementManager, interaction, world} = this
   const {mouseStart, mouseMove, _resizingOperator} = interaction
   const {scale, dpr} = world
   const {

@@ -102,8 +102,8 @@ const selecting: SubToolType = {
 
   },
   mouseUp() {
-    /*const {shiftKey, metaKey, ctrlKey} = this.editor.interaction._modifier
-    const {interaction, action, selection, cursor} = this.editor
+    /*const {shiftKey, metaKey, ctrlKey} = this.interaction._modifier
+    const {interaction, action, selection, cursor} = this
     interaction.hideSelectionBox()*/
     this.interaction.hideSelectionBox()
     // this.tool = selector

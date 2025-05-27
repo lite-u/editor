@@ -4,35 +4,35 @@ import ToolManager from '~/services/tool/toolManager'
 function handleWheel(this: ToolManager, event: WheelEvent) {
   console.log('wheel')
   // Prevent page zoom
-  if ((event.target as HTMLElement) !== this.editor.container) return
+  if ((event.target as HTMLElement) !== this.container) return
   // console.log(this.state)
   event.preventDefault()
   event.stopPropagation()
-  if (this.editor.interaction.state !== 'static') return
+  if (this.interaction.state !== 'static') return
   const {trackpad, zooming, panning, scrolling, zoomFactor, translateX, translateY} =
     detectGestures(event)
 
   console.log(trackpad)
   // console.log(`${zooming ? 'zooming' : ''} ${panning ? 'panning' : ''} ${scrolling ? 'scrolling' : ''} `)
 
-  // this.editor.interaction.zooming = zooming
+  // this.interaction.zooming = zooming
 
   if (zooming) {
     // console.log(zoomFactor)
-    this.editor.action.dispatch('world-zoom', {
+    this.action.dispatch('world-zoom', {
       zoomBy: true,
       zoomFactor,
-      physicalPoint: this.editor.interaction.mouseCurrent,
+      physicalPoint: this.interaction.mouseCurrent,
     })
   } else if (panning || scrolling) {
-    this.editor.action.dispatch('world-shift', {
+    this.action.dispatch('world-shift', {
       x: translateX,
       y: translateY,
     })
     // this.translateViewport(translateX, translateY)
   }
 
-  this.editor.world.updateWorldRect()
+  this.world.updateWorldRect()
 }
 
 const detectGestures = (() => {

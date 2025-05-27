@@ -16,7 +16,7 @@ const dSelector: ToolType = {
   },
   mouseUp:function() {
     this.interaction._movingHandle = null
-    // this.editor.cursor.set('grab')
+    // this.cursor.set('grab')
   },
 }
 

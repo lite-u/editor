@@ -22,7 +22,7 @@ class ToolManager {
     currentToolName;
     constructor(editor) {
         const { signal } = this.eventsController;
-        const { container } = editor;
+        // const {container} = editor
         this.editor = editor;
         // window.addEventListener('wheel', handleWheel.bind(this), {signal, passive: false})
         window.addEventListener('keydown', handleKeyDown.bind(this), { signal });

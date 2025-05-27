@@ -3,6 +3,7 @@ import snapTool from '~/services/tool/snap/snap'
 import {CanvasHostEvent} from '~/services/element/CanvasHost'
 
 function handleMouseDown(this: ToolManager, e: CanvasHostEvent) {
+  console.log(this)
   const {element, originalEvent} = e
   const {button, shiftKey, metaKey, ctrlKey, altKey, clientX, clientY, movementX, movementY} = originalEvent
 
@@ -19,9 +20,9 @@ function handleMouseDown(this: ToolManager, e: CanvasHostEvent) {
   this.editor.interaction._modifier = modifiers
   this.editor.interaction._pointDown = true
 
-  this.tool?.mouseDown?.call(this.editor, e)
+  this.tool?.mouseDown?.call(this, e)
 
-  // this.editor.action.dispatch('clear-creation')
+  // this.action.dispatch('clear-creation')
 
   snapTool.call(this)
 }

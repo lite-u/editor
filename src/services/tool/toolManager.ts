@@ -48,7 +48,7 @@ class ToolManager {
 
   constructor(editor: Editor) {
     const {signal} = this.eventsController
-    const {container} = editor
+    // const {container} = editor
 
     this.editor = editor
 
