@@ -1,13 +1,13 @@
-import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
-import ElementRectangle from '~/elements/rectangle/rectangle';
-import Rectangle from '~/elements/rectangle/rectangle';
-import { getMinimalBoundingRect } from '~/core/utils';
-import { DEFAULT_STROKE } from '~/elements/defaultProps';
-import { rotatePointAroundPoint } from '~/core/geometry';
-import Ellipse from '~/elements/ellipse/ellipse';
-import ElementEllipse from '~/elements/ellipse/ellipse';
-import { nid } from '~/index';
-import { getRotateAngle } from '~/services/tool/selector/helper';
+import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
+import ElementRectangle from '../elements/rectangle/rectangle.js';
+import Rectangle from '../elements/rectangle/rectangle.js';
+import { getMinimalBoundingRect } from '../core/utils.js';
+import { DEFAULT_STROKE } from '../elements/defaultProps.js';
+import { rotatePointAroundPoint } from '../core/geometry.js';
+import Ellipse from '../elements/ellipse/ellipse.js';
+import ElementEllipse from '../elements/ellipse/ellipse.js';
+import { nid } from '../index.js';
+import { getRotateAngle } from '../services/tool/selector/helper.js';
 export function generateElementsClones() {
     const boxColor = '#435fb9';
     const { world, action, selection, mainHost, overlayHost } = this;
@@ -56,8 +56,10 @@ export function generateElementsClones() {
         }
         // centerPoint
         if (ele.type !== 'path') {
-            const pointLen = 6 * ratio;
-            const centerPoint = visibleElements.length === 1 ? ElementRectangle.create(nid(), ele.cx, ele.cy, pointLen) : ElementEllipse.create(nid(), ele.cx, ele.cy, pointLen);
+            const pointLen = idSet.size === 1 ? 3 * ratio : 6 * ratio;
+            const centerPoint = idSet.size === 1
+                ? ElementEllipse.create(nid(), ele.cx, ele.cy, pointLen)
+                : ElementRectangle.create(nid(), ele.cx, ele.cy, pointLen);
             centerPoint.layer = 1;
             centerPoint.stroke.enabled = false;
             centerPoint.fill.enabled = true;

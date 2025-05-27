@@ -71,8 +71,10 @@ export function generateElementsClones(this: Editor) {
 
     // centerPoint
     if (ele.type !== 'path') {
-      const pointLen = 6 * ratio
-      const centerPoint = visibleElements.length === 1 ? ElementRectangle.create(nid(), ele.cx, ele.cy, pointLen) : ElementEllipse.create(nid(), ele.cx, ele.cy, pointLen)
+      const pointLen = idSet.size === 1 ? 3 * ratio : 6 * ratio
+      const centerPoint = idSet.size === 1
+        ? ElementEllipse.create(nid(), ele.cx, ele.cy, pointLen)
+        : ElementRectangle.create(nid(), ele.cx, ele.cy, pointLen)
 
       centerPoint.layer = 1
       centerPoint.stroke.enabled = false
