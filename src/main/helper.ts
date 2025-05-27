@@ -43,8 +43,9 @@ export function generateElementsClones(this: Editor) {
     invisibleClone.layer = 0
     invisibleClone.fill.enabled = false
     invisibleClone.stroke.enabled = true
-    invisibleClone.stroke.weight = ele.stroke.weight * 2
+    invisibleClone.stroke.weight = 2
     invisibleClone.stroke.color = 'transparent'
+    // invisibleClone.stroke.color = 'red'
 
     cloneStrokeLine.id = 'stroke-line-clone-' + id
     cloneStrokeLine.layer = 1
