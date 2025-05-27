@@ -154,15 +154,16 @@ class ElementLineSegment extends ElementBase {
 
     const {start, end} = this.original
     // Adjust to absolute coordinates for transformation
-    const newStart = ElementBase.transformPoint(start.x + this.cx, start.y + this.cy, matrix)
-    const newEnd = ElementBase.transformPoint(end.x + this.cx, end.y + this.cy, matrix)
+    const newStart = ElementBase.transformPoint(start.x, start.y, matrix)
+    const newEnd = ElementBase.transformPoint(end.x, end.y, matrix)
 
     // Store back as relative to cx, cy
-    this.start.x = newStart.x - this.cx
-    this.start.y = newStart.y - this.cy
-    this.end.x = newEnd.x - this.cx
-    this.end.y = newEnd.y - this.cy
-
+    this.start.x = newStart.x
+    this.start.y = newStart.y
+    this.end.x = newEnd.x
+    this.end.y = newEnd.y
+    this.cx = (newStart.x + newEnd.x) / 2
+    this.cy = (newStart.y + newEnd.y) / 2
     this.updatePath2D()
   }
 
