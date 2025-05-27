@@ -10,6 +10,7 @@ import Ellipse from '~/elements/ellipse/ellipse'
 import {nid} from '~/index'
 import {getRotateAngle} from '~/services/tool/selector/helper'
 import {ResizeDirectionName} from '~/services/selection/type'
+import {CanvasHostEvent} from '~/services/element/CanvasHost'
 
 export function generateTransformHandles(this: Editor, ele: ElementRectangle, specialLineSeg = false) {
   const {world} = this
@@ -185,8 +186,7 @@ export function generateElementsClones(this: Editor) {
   const visibleElements = mainHost.visibleElements
   const strokeWidth = 10 / ratio
 
-  const handleTranslateMouseDown = (event, id: UID) => {
-    // console.log(event.element)
+  const handleTranslateMouseDown = (event: CanvasHostEvent, id: UID) => {
     const _shift = event.originalEvent.shiftKey
 
     if (!selection.has(id)) {
