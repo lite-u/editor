@@ -1,5 +1,5 @@
-import resizeFunc from '~/services/tool/resize/resizeFunc';
-import ElementLineSegment from '~/elements/lines/lineSegment';
+import resizeFunc from './resize/resizeFunc.js';
+import ElementLineSegment from '../../elements/lines/lineSegment.js';
 const lineSegmentTool = {
     cursor: 'crosshair',
     mouseDown() {
