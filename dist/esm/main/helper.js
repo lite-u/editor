@@ -122,7 +122,7 @@ export function getSelectedBoundingElement() {
         rotation: applyRotation,
         stroke: {
             ...DEFAULT_STROKE,
-            weight: 2 * ratio,
+            weight: 1 * ratio,
             color: boxColor,
         },
     });
