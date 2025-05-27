@@ -8,7 +8,7 @@ const selector: ToolType = {
   cursor: 'default',
   init: function () { },
   mouseDown: function (event) {
-    const {interaction, elementManager, selection, cursor} = this
+    const {interaction, selection, cursor} = this
 
     if (event.element) {
       if (interaction._rotateData) {
@@ -23,7 +23,7 @@ const selector: ToolType = {
     // selecting.mouseDown(event)
     // console.log(event.element)
     this.toolManager.subTool = selecting
-    this.cursor.lock()
+    cursor.lock()
 
     /*
         // const {_hoveredElement} = interaction
