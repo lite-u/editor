@@ -119,7 +119,8 @@ class Editor {
     }
     regenerateOverlayElements() {
         generateElementsClones.call(this);
-        if (this.selection.size > 0 && this.mainHost.visibleElements.length > 0) {
+        const selectedElements = this.mainHost.getVisibleElementsByIdSet(this.selection.values);
+        if (selectedElements.length > 0) {
             const ele = getSelectedBoundingElement.call(this);
             generateTransformHandles.call(this, ele);
         }

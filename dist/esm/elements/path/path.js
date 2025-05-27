@@ -138,18 +138,18 @@ class ElementPath extends ElementBase {
         // for same anchor rotation
         // hand up to super method
         if (anchor.x.toFixed(2) === this.cx.toFixed(2) && anchor.y.toFixed(2) === this.cy.toFixed(2)) {
-            super.rotateFrom(rotation, anchor);
-            return;
+            return super.rotateFrom(rotation, anchor);
         }
         const { cx, cy, points } = this;
         // rotate points to theirs real position
-        const newRotation = rotation;
-        const realPositionPoints = ElementPath._rotateBezierPointsFrom(cx, cy, this.rotation, points);
+        const newRotation = this.rotation + rotation;
+        const realPositionPoints = ElementPath._rotateBezierPointsFrom(cx, cy, this.original.rotation, points);
         const transformedPoints = ElementPath._rotateBezierPointsFrom(anchor.x, anchor.y, rotation, realPositionPoints);
-        const newPoints = ElementPath._rotateBezierPointsFrom(anchor.x, anchor.y, -rotation, transformedPoints);
+        const newPoints = ElementPath._rotateBezierPointsFrom(anchor.x, anchor.y, newRotation, transformedPoints);
         const { x, y } = rotatePointAroundPoint(cx, cy, anchor.x, anchor.y, rotation);
         this.cx = x;
         this.cy = y;
+        this.rotation = newRotation;
         this.points = newPoints;
         /*
             const matrix = new DOMMatrix()
