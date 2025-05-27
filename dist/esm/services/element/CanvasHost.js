@@ -22,7 +22,7 @@ class CanvasHost {
     editor;
     eventsController = new AbortController();
     canvas;
-    ctx;
+    _ctx;
     dpr = 4;
     _hoveredElement = null;
     onmousedown;
@@ -35,7 +35,7 @@ class CanvasHost {
         const { container } = editor;
         this.editor = editor;
         this.canvas = createWith('canvas', { ...STYLE });
-        this.ctx = this.canvas.getContext('2d');
+        this._ctx = this.canvas.getContext('2d');
         // this.canvas.style.imageRendering = 'pixelate'
         container.appendChild(this.canvas);
         container.addEventListener('pointerdown', e => {
@@ -78,7 +78,7 @@ class CanvasHost {
         }, { signal });
     }
     dispatchEvent(domEvent, type, options) {
-        const { ctx } = this;
+        const { _ctx } = this;
         const dpr = this.editor.config.dpr;
         const { offsetX: x, offsetY: y, pointerId } = domEvent;
         const elements = this.visibleElements.sort((a, b) => b.layer - a.layer);
@@ -90,13 +90,13 @@ class CanvasHost {
             let f1 = false;
             let f2 = false;
             if (el.stroke.enabled) {
-                ctx.save();
+                _ctx.save();
                 // console.log(el.stroke.weight)
-                ctx.lineWidth = el.stroke.weight;
-                f1 = ctx.isPointInStroke(path2D, vx, vy);
-                ctx.restore();
+                _ctx.lineWidth = el.stroke.weight;
+                f1 = _ctx.isPointInStroke(path2D, vx, vy);
+                _ctx.restore();
             }
-            f2 = ctx.isPointInPath(path2D, vx, vy);
+            f2 = _ctx.isPointInPath(path2D, vx, vy);
             if (f1 || (f2 && fill.enabled)) {
                 _ele = el;
                 break;
@@ -148,6 +148,9 @@ class CanvasHost {
     }
     has(id) {
         return this.elementMap.has(id);
+    }
+    get ctx() {
+        return this._ctx;
     }
     get size() {
         return this.elementMap.size;
@@ -365,7 +368,7 @@ class CanvasHost {
     render() {
         // console.time('element render')
         this.visibleElements.forEach((element) => {
-            element.render(this.ctx);
+            element.render(this._ctx);
         });
         // console.timeEnd('element render')
     }

@@ -12,7 +12,7 @@ declare class CanvasHost {
     protected editor: Editor;
     protected eventsController: AbortController;
     protected canvas: HTMLCanvasElement;
-    protected ctx: CanvasRenderingContext2D;
+    protected _ctx: CanvasRenderingContext2D;
     protected dpr: number;
     protected _hoveredElement: ElementInstance | null;
     onmousedown?: CanvasHostEventHandler;
@@ -24,6 +24,7 @@ declare class CanvasHost {
         tolerance?: number;
     }): void;
     has(id: string): boolean;
+    get ctx(): CanvasRenderingContext2D;
     get size(): number;
     get allIds(): Set<UID>;
     get elements(): ElementInstance[];

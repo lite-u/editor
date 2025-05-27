@@ -29,7 +29,7 @@ class CanvasHost {
   protected editor: Editor
   protected eventsController = new AbortController()
   protected canvas: HTMLCanvasElement
-  protected ctx: CanvasRenderingContext2D
+  protected _ctx: CanvasRenderingContext2D
   protected dpr = 4
   protected _hoveredElement: ElementInstance | null = null
   onmousedown?: CanvasHostEventHandler
@@ -43,7 +43,7 @@ class CanvasHost {
     const {container} = editor
     this.editor = editor
     this.canvas = createWith('canvas', {...STYLE})
-    this.ctx = this.canvas.getContext('2d')!
+    this._ctx = this.canvas.getContext('2d')!
 
     // this.canvas.style.imageRendering = 'pixelate'
     container.appendChild(this.canvas)
@@ -95,7 +95,7 @@ class CanvasHost {
   }
 
   public dispatchEvent(domEvent: PointerEvent, type: PointerEvent['type'], options?: { tolerance?: number }) {
-    const {ctx} = this
+    const {_ctx} = this
     const dpr = this.editor.config.dpr
     const {offsetX: x, offsetY: y, pointerId} = domEvent
     const elements = this.visibleElements.sort((a, b) => b.layer - a.layer)
@@ -109,14 +109,14 @@ class CanvasHost {
       let f2 = false
 
       if (el.stroke.enabled) {
-        ctx.save()
+        _ctx.save()
         // console.log(el.stroke.weight)
-        ctx.lineWidth = el.stroke.weight
-        f1 = ctx.isPointInStroke(path2D, vx, vy)
-        ctx.restore()
+        _ctx.lineWidth = el.stroke.weight
+        f1 = _ctx.isPointInStroke(path2D, vx, vy)
+        _ctx.restore()
       }
 
-      f2 = ctx.isPointInPath(path2D, vx, vy)
+      f2 = _ctx.isPointInPath(path2D, vx, vy)
 
       if (f1 || (f2 && fill.enabled)) {
         _ele = el
@@ -174,6 +174,10 @@ class CanvasHost {
 
   public has(id: string): boolean {
     return this.elementMap.has(id)
+  }
+
+  public get ctx(): CanvasRenderingContext2D {
+    return this._ctx
   }
 
   public get size(): number {
@@ -455,7 +459,7 @@ class CanvasHost {
   render() {
     // console.time('element render')
     this.visibleElements.forEach((element) => {
-      element.render(this.ctx)
+      element.render(this._ctx)
     })
     // console.timeEnd('element render')
   }
