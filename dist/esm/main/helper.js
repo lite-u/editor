@@ -57,20 +57,22 @@ export function generateElementsClones() {
         if (ele.type !== 'path') {
             const pointLen = 6 * ratio;
             const centerPoint = ElementRectangle.create(nid(), ele.cx, ele.cy, pointLen);
-            centerPoint.onmousedown = (e) => handleTranslateMouseDown(e, id);
-            centerPoint.onmouseenter = (e) => {
-                centerPoint.fill.color = 'blue';
-                this.action.dispatch('rerender-overlay');
-            };
-            centerPoint.onmouseleave = (e) => {
-                centerPoint.fill.color = 'transparent';
-                this.action.dispatch('rerender-overlay');
-            };
             centerPoint.layer = 1;
             centerPoint.stroke.enabled = false;
             centerPoint.fill.enabled = true;
             centerPoint.fill.color = isSelected ? boxColor : 'transparent';
             overlayHost.append(centerPoint);
+            centerPoint.onmousedown = (e) => handleTranslateMouseDown(e, id);
+            if (!isSelected) {
+                centerPoint.onmouseenter = (e) => {
+                    centerPoint.fill.color = 'blue';
+                    this.action.dispatch('rerender-overlay');
+                };
+                centerPoint.onmouseleave = (e) => {
+                    centerPoint.fill.color = 'transparent';
+                    this.action.dispatch('rerender-overlay');
+                };
+            }
         }
     });
 }

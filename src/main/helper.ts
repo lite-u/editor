@@ -80,13 +80,16 @@ export function generateElementsClones(this: Editor) {
       overlayHost.append(centerPoint)
 
       centerPoint.onmousedown = (e) => handleTranslateMouseDown(e, id)
-      centerPoint.onmouseenter = (e) => {
-        centerPoint.fill.color = 'blue'
-        this.action.dispatch('rerender-overlay')
-      }
-      centerPoint.onmouseleave = (e) => {
-        centerPoint.fill.color = 'transparent'
-        this.action.dispatch('rerender-overlay')
+
+      if (!isSelected) {
+        centerPoint.onmouseenter = (e) => {
+          centerPoint.fill.color = 'blue'
+          this.action.dispatch('rerender-overlay')
+        }
+        centerPoint.onmouseleave = (e) => {
+          centerPoint.fill.color = 'transparent'
+          this.action.dispatch('rerender-overlay')
+        }
       }
     }
   })
