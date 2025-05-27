@@ -60,9 +60,8 @@ class Cursor {
       return
     }
 
-    // if(name==='default') debugger
     this.domRef.setAttribute('date-current-cursor', name)
-    // console.log(name)
+
     if (name === 'rotate') {
       this.domRef.style.display = 'block'
       this.editor.container.style.cursor = 'none'
