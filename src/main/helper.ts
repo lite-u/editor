@@ -7,6 +7,7 @@ import {DEFAULT_STROKE} from '~/elements/defaultProps'
 import Editor from '~/main/editor'
 import {rotatePointAroundPoint} from '~/core/geometry'
 import Ellipse from '~/elements/ellipse/ellipse'
+import ElementEllipse from '~/elements/ellipse/ellipse'
 import {nid} from '~/index'
 import {getRotateAngle} from '~/services/tool/selector/helper'
 import {ResizeDirectionName} from '~/services/selection/type'
@@ -71,7 +72,7 @@ export function generateElementsClones(this: Editor) {
     // centerPoint
     if (ele.type !== 'path') {
       const pointLen = 6 * ratio
-      const centerPoint = ElementRectangle.create(nid(), ele.cx, ele.cy, pointLen)
+      const centerPoint = visibleElements.length === 1 ? ElementRectangle.create(nid(), ele.cx, ele.cy, pointLen) : ElementEllipse.create(nid(), ele.cx, ele.cy, pointLen)
 
       centerPoint.layer = 1
       centerPoint.stroke.enabled = false
