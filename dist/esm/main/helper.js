@@ -154,14 +154,13 @@ export function getSelectedBoundingElement() {
 }
 export function generateElementsClones() {
     const boxColor = '#435fb9';
-    const { world, action, toolManager, selection, mainHost, overlayHost } = this;
+    const { world, action, selection, mainHost, overlayHost } = this;
     const { scale, dpr } = world;
     const ratio = scale * dpr;
     const idSet = selection.values;
     const visibleElements = mainHost.visibleElements;
     const strokeWidth = 10 / ratio;
     const handleTranslateMouseDown = (event, id) => {
-        // console.log(event.element)
         const _shift = event.originalEvent.shiftKey;
         if (!selection.has(id)) {
             action.dispatch('selection-modify', { mode: _shift ? 'add' : 'replace', idSet: new Set([id]) });
