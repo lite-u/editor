@@ -9,7 +9,7 @@ const pencilTool: ToolType = {
   cursor: 'crosshair',
   mouseDown: function () {
     const {action, cursor, overlayHost, world, interaction} = this.editor
-    const {creationCanvasContext: ctx, scale, dpr} = world
+    const {scale, dpr} = world
     const point = {...interaction.mouseWorldCurrent}
 
     cursor.lock()
