@@ -9,7 +9,7 @@ let _selectedCopy: Set<string> | null = null
 const selecting: SubToolType = {
   cursor: 'default',
   mouseMove: function () {
-    const {interaction, action, mainHost, selection} = this
+    const {interaction, action, mainHost, selection} = this.editor
     const {
       mouseStart,
       mouseCurrent,
@@ -105,11 +105,11 @@ const selecting: SubToolType = {
     /*const {shiftKey, metaKey, ctrlKey} = this.interaction._modifier
     const {interaction, action, selection, cursor} = this
     interaction.hideSelectionBox()*/
-    this.interaction.hideSelectionBox()
+    this.editor.interaction.hideSelectionBox()
     // this.tool = selector
 
     if (!_mouseMoved) {
-      this.action.dispatch('selection-clear')
+      this.editor.action.dispatch('selection-clear')
     }
 
     _mouseMoved = false

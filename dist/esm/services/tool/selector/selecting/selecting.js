@@ -6,7 +6,7 @@ let _selectedCopy = null;
 const selecting = {
     cursor: 'default',
     mouseMove: function () {
-        const { interaction, action, mainHost, selection } = this;
+        const { interaction, action, mainHost, selection } = this.editor;
         const { mouseStart, mouseCurrent, mouseWorldStart, mouseWorldCurrent, _modifier: { shiftKey, metaKey, ctrlKey }, } = interaction;
         const rect = generateBoundingRectFromTwoPoints(mouseStart, mouseCurrent);
         const _selected = selection.values;
@@ -86,10 +86,10 @@ const selecting = {
         /*const {shiftKey, metaKey, ctrlKey} = this.interaction._modifier
         const {interaction, action, selection, cursor} = this
         interaction.hideSelectionBox()*/
-        this.interaction.hideSelectionBox();
+        this.editor.interaction.hideSelectionBox();
         // this.tool = selector
         if (!_mouseMoved) {
-            this.action.dispatch('selection-clear');
+            this.editor.action.dispatch('selection-clear');
         }
         _mouseMoved = false;
         _selecting.clear();
