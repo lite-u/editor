@@ -86,15 +86,7 @@ class ElementPath extends ElementBase {
     if (this.points.length === 0) return
 
     this.path2D = new Path2D()
-
-    // const {cx, cy} = this
-    /*    const transform = new DOMMatrix()
-          .translate(cx, cy)
-          // .rotate(this.rotation)
-          .translate(-cx, -cy)*/
-
     const start = this.points[0].anchor
-    // const start = ElementBase.transformPoint(startAnchor.x, startAnchor.y, transform)
     this.path2D.moveTo(start.x, start.y)
 
     for (let i = 1; i < this.points.length; i++) {
