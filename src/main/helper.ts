@@ -14,7 +14,7 @@ import {ResizeDirectionName} from '~/services/selection/type'
 import {CanvasHostEvent} from '~/services/element/CanvasHost'
 
 export function generateElementsClones(this: Editor) {
-  const boxColor = '#435fb9'
+  const boxColor = '#4f80ff'
   const {world, action, selection, mainHost, overlayHost} = this
   const {scale, dpr} = world
   const ratio = dpr / scale
@@ -43,7 +43,8 @@ export function generateElementsClones(this: Editor) {
     invisibleClone.layer = 0
     invisibleClone.fill.enabled = false
     invisibleClone.stroke.enabled = true
-    invisibleClone.stroke.color = 'none'
+    invisibleClone.stroke.weight = ele.stroke.weight * 2
+    invisibleClone.stroke.color = 'transparent'
 
     cloneStrokeLine.id = 'stroke-line-clone-' + id
     cloneStrokeLine.layer = 1
@@ -64,7 +65,7 @@ export function generateElementsClones(this: Editor) {
       }
 
       invisibleClone.onmouseleave = cloneStrokeLine.onmouseleave = () => {
-        cloneStrokeLine.stroke.color = 'none'
+        cloneStrokeLine.stroke.color = 'transparent'
         action.dispatch('rerender-overlay')
       }
     }
@@ -104,7 +105,7 @@ export function getSelectedBoundingElement(this: Editor): ElementRectangle {
   const rectsWithRotation: BoundingRect[] = []
   const rectsWithoutRotation: BoundingRect[] = []
   let rotations: number[] = []
-  const boxColor = '#435fb9'
+  const boxColor = '#4f80ff'
   const {world, action, toolManager, selection, mainHost, overlayHost} = this
   const {scale, dpr} = world
   const ratio = dpr / scale
@@ -156,6 +157,7 @@ export function getSelectedBoundingElement(this: Editor): ElementRectangle {
 
 export function generateTransformHandles(this: Editor, ele: ElementRectangle, specialLineSeg = false) {
   const {world} = this
+  const boxColor = '#4f80ff'
   const {scale, dpr} = world
   const ratio = dpr / scale
   const result: ElementInstance[] = []
@@ -190,19 +192,15 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
     this.interaction._rotateData = {startRotation: rotation, targetPoint: {x: cx, y: cy}}
     const mouseCurrentRotation = getRotateAngle({x: cx, y: cy}, this.interaction.mouseWorldCurrent)
 
-    // console.log('prev')
-    // (e.originalEvent.stopPropagation())
     this.cursor.rotate(mouseCurrentRotation)
   }
 
   const handleResizeMouseEnter = () => {
     this.cursor.set('nw-resize')
-    // console.log('Resize Enter')
     this.action.dispatch('rerender-overlay')
   }
   const handleResizeMouseLeave = () => {
     this.cursor.set('default')
-    // e.target.fill.color = '#ffffff'
     this.action.dispatch('rerender-overlay')
   }
 
@@ -220,7 +218,7 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
     resizeEle.fill.enabled = true
     resizeEle.fill.color = '#ffffff'
     resizeEle.stroke.weight = resizeStrokeWidth
-    resizeEle.stroke.color = '#435fb9'
+    resizeEle.stroke.color = boxColor
     resizeEle.updatePath2D()
     resizeEle.updateBoundingRect()
 
