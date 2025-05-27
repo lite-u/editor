@@ -32,6 +32,7 @@ class CanvasHost {
   protected _ctx: CanvasRenderingContext2D
   protected dpr = 4
   protected _hoveredElement: ElementInstance | null = null
+  protected _locked = false
   onmousedown?: CanvasHostEventHandler
   onmouseup?: CanvasHostEventHandler
   onmousemove?: CanvasHostEventHandler
@@ -44,7 +45,7 @@ class CanvasHost {
     this.editor = editor
     this.canvas = createWith('canvas', {...STYLE})
     this._ctx = this.canvas.getContext('2d')!
-
+    this._locked = false
     // this.canvas.style.imageRendering = 'pixelate'
     container.appendChild(this.canvas)
 
