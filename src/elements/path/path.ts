@@ -155,8 +155,8 @@ class ElementPath extends ElementBase {
     this.updatePath2D()
     this.updateBoundingRect()
 
-    this.transform.cx = this.cx
-    this.transform.cy = this.cy
+    // this.transform.cx = this.cx
+    // this.transform.cy = this.cy
 
     this.eventListeners['move']?.forEach(handler => handler({dx, dy}))
 
@@ -185,14 +185,16 @@ class ElementPath extends ElementBase {
       return
     }
     const {cx, cy, points} = this
-    // const r = withoutRotation ? 0 : rotation
-    const _points = ElementPath._rotateBezierPointsFrom(cx, cy, this.rotation, points)
-    const transformedPoints = ElementPath._rotateBezierPointsFrom(anchor.x, anchor.y, rotation, _points)
+    // rotate points to theirs real position
+    const realPositionPoints = ElementPath._rotateBezierPointsFrom(cx, cy, this.rotation, points)
+    const transformedPoints = ElementPath._rotateBezierPointsFrom(anchor.x, anchor.y, rotation, realPositionPoints)
+    const newPoints = ElementPath._rotateBezierPointsFrom(anchor.x, anchor.y, this.rotation - rotation, transformedPoints)
+
     const {x, y} = rotatePointAroundPoint(cx, cy, anchor.x, anchor.y, rotation)
 
     this.cx = x
     this.cy = y
-
+    this.points = newPoints
     /*
         const matrix = new DOMMatrix()
           .translate(anchor.x, anchor.y)
