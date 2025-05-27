@@ -164,14 +164,6 @@ class ElementPath extends ElementBase {
   }
 
   protected rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined {
-    // for same anchor rotation
-    // hand up to super method
-    /*
-        if (anchor.x.toFixed(2) === this.cx.toFixed(2) && anchor.y.toFixed(2) === this.cy.toFixed(2)) {
-          return super.rotateFrom(rotation, anchor)
-        }
-    */
-
     const {cx, cy, points} = this.original
     // rotate points to theirs real position
     // const newRotation = this.original.rotation - rotation
