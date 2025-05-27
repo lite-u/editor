@@ -219,22 +219,11 @@ class ElementBase {
         const ctor = this.constructor;
         return new ctor(data);
     }
-    /*protected resetTransform() {
-      this.matrix = new DOMMatrix()
-    }*/
-    /*  protected applyTransform(matrix: DOMMatrix): void {
-        this.matrix = matrix.multiply(this.matrix)
-      }*/
-    /*  protected getTransformMatrix(): DOMMatrix {
-        return this.matrix
-      }*/
     render(ctx) {
-        if (!this.path2D)
-            return;
-        let { show, opacity, fill, stroke } = this;
+        let { show, opacity, fill, stroke, path2D } = this;
         const { enabled: enabledFill, color: fillColor } = fill;
         const { enabled: enabledStroke, color: strokeColor, weight /*join, cap*/ } = stroke;
-        if (!show || opacity <= 0)
+        if (!path2D || !show || opacity <= 0)
             return;
         ctx.save();
         if (opacity < 100) {
@@ -246,7 +235,6 @@ class ElementBase {
         }
         if (enabledStroke && weight > 0) {
             ctx.lineWidth = weight;
-            // console.log(weight,strokeColor)
             ctx.strokeStyle = strokeColor;
             // ctx.lineJoin = 'round'
             ctx.lineCap = 'round';
