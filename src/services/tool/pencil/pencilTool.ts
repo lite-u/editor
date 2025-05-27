@@ -6,7 +6,7 @@ import {PropsWithoutIdentifiers} from '~/elements/type'
 const _drawingPoints: Point[] = []
 let _lastPoint: { x: number, y: number } | null = null
 const pencilTool: ToolType = {
-  cursor: 'crosshair',
+  cursor: 'pencil',
   mouseDown: function () {
     const {action, cursor, overlayHost, world, interaction} = this.editor
     const {scale, dpr, offset} = world

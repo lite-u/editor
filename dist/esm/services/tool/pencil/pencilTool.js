@@ -2,7 +2,7 @@ import { convertPointsToBezierPoints, drawLine } from './helper.js';
 const _drawingPoints = [];
 let _lastPoint = null;
 const pencilTool = {
-    cursor: 'crosshair',
+    cursor: 'pencil',
     mouseDown: function () {
         const { action, cursor, overlayHost, world, interaction } = this.editor;
         const { scale, dpr, offset } = world;
