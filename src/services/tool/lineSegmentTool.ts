@@ -1,29 +1,29 @@
 import ToolManager, {ToolType} from '~/services/tool/toolManager'
-import ElementRectangle from '~/elements/rectangle/rectangle'
 import resizeFunc from '~/services/tool/resize/resizeFunc'
-import {PropsWithoutIdentifiers} from '~/elements/type'
+import ElementLineSegment from '~/elements/lines/lineSegment'
 
 const lineSegmentTool: ToolType = {
   cursor: 'crosshair',
   mouseDown(this: ToolManager) {
     const {mainHost, interaction, world} = this.editor
     const {x, y} = interaction.mouseWorldCurrent
-    let initialLineLen = 1
-    const cx = x + initialLineLen / 2
-    const cy = y + initialLineLen / 2
+    let lineLen = 1
+    const cx = x + lineLen / 2
+    const cy = y + lineLen / 2
     // const startPoint = {x, y}
     // const endPoint = {x: x + initialLineLen, y: y + initialLineLen}
-    const eleProps: PropsWithoutIdentifiers<'lineSegment'> = {
-      type: 'lineSegment',
-      cx,
-      cy,
-      points: [
-        {id: 'start', x: x - cx, y: y - cy},
-        {id: 'end', x: x - cx + initialLineLen, y: y - cy + initialLineLen},
-      ],
-    }
-
-    const ele: ElementRectangle = mainHost.create(eleProps)
+    /* const eleProps: PropsWithoutIdentifiers<'lineSegment'> = {
+       type: 'lineSegment',
+       cx,
+       cy,
+       points: [
+         {id: 'start', x: x - cx, y: y - cy},
+         {id: 'end', x: x - cx + lineLen, y: y - cy + lineLen},
+       ],
+     }
+ */
+    const ele = ElementLineSegment.create('lineSegment-creating', x - cx, y - cy, x - cx + lineLen, y - cy + lineLen)
+    // const ele: ElementRectangle = mainHost.create(eleProps)
 
     ele.render(world.creationCanvasContext)
     interaction._ele = ele
