@@ -203,7 +203,7 @@ class ElementBase {
       // this.updateTransform()
     }*/
 
-  protected rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined {
+  protected rotateFrom(rotation: number, anchor: Point, f: boolean=false): HistoryChangeItem | undefined {
     const matrix = new DOMMatrix()
       .translate(anchor.x, anchor.y)
       .rotate(rotation)

@@ -177,6 +177,50 @@ class ElementPath extends ElementBase {
     }
   }
 
+  protected rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined {
+    console.log(anchor.x, anchor.y, this.cx, this.cy)
+
+    if (anchor.x.toFixed(2) === this.cx.toFixed(2) && anchor.y.toFixed(2) === this.cy.toFixed(2)) {
+      super.rotateFrom(rotation, anchor)
+      return
+    }
+
+    const matrix = new DOMMatrix()
+      .translate(anchor.x, anchor.y)
+      .rotate(rotation)
+      .translate(-anchor.x, -anchor.y)
+    const {cx, cy} = this.original
+    const transformed = matrix.transformPoint({x: cx, y: cy})
+    let newRotation = (this.original.rotation + rotation) % 360
+
+    if (newRotation < 0) newRotation += 360
+
+    this.rotation = newRotation
+    this.cx = transformed.x
+    this.cy = transformed.y
+
+    this.updatePath2D()
+    this.updateBoundingRect()
+
+    // this.updateTransform()
+
+    if (f) {
+      return {
+        id: this.id,
+        from: {
+          cx: this.original.cx,
+          cy: this.original.cy,
+          rotation: this.original.rotation,
+        },
+        to: {
+          cx: this.cx,
+          cy: this.cy,
+          rotation: this.rotation,
+        },
+      }
+    }
+  }
+
   scaleFrom(scaleX: number, scaleY: number, anchor: Point) {
     /*// console.log(scaleX, scaleY, anchor)
     const matrix = new DOMMatrix()
