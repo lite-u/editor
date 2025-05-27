@@ -1,6 +1,6 @@
-import ElementBase from '../base/elementBase.js';
-import deepClone from '../../core/deepClone.js';
-import { getBoundingRectFromBezierPoints } from '../../core/geometry.js';
+import ElementBase from '~/elements/base/elementBase';
+import deepClone from '~/core/deepClone';
+import { getBoundingRectFromBezierPoints, rotatePointAroundPoint } from '~/core/geometry';
 class ElementPath extends ElementBase {
     type = 'path';
     points = [];
@@ -142,18 +142,25 @@ class ElementPath extends ElementBase {
             super.rotateFrom(rotation, anchor);
             return;
         }
-        const matrix = new DOMMatrix()
-            .translate(anchor.x, anchor.y)
-            .rotate(rotation)
-            .translate(-anchor.x, -anchor.y);
-        const { cx, cy } = this.original;
-        const transformed = matrix.transformPoint({ x: cx, y: cy });
-        let newRotation = (this.original.rotation + rotation) % 360;
-        if (newRotation < 0)
-            newRotation += 360;
-        this.rotation = newRotation;
-        this.cx = transformed.x;
-        this.cy = transformed.y;
+        const { cx, cy, points } = this;
+        // const r = withoutRotation ? 0 : rotation
+        const transformedPoints = ElementPath._rotateBezierPoints(anchor.x, anchor.y, rotation, points);
+        const { x, y } = rotatePointAroundPoint(cx, cy, anchor.x, anchor.y);
+        this.cx = x;
+        this.cy = y;
+        /*
+            const matrix = new DOMMatrix()
+              .translate(anchor.x, anchor.y)
+              .rotate(rotation)
+              .translate(-anchor.x, -anchor.y)
+            const {cx, cy} = this.original
+            const transformed = matrix.transformPoint({x: cx, y: cy})
+            let newRotation = (this.original.rotation + rotation) % 360
+    
+            if (newRotation < 0) newRotation += 360*/
+        // this.rotation = newRotation
+        // this.cx = transformed.x
+        // this.cy = transformed.y
         this.updatePath2D();
         this.updateBoundingRect();
         // this.updateTransform()
@@ -192,7 +199,7 @@ class ElementPath extends ElementBase {
         this.updatePath2D()*/
         // console.log(this.cx, this.cy, this.width, this.height)
     }
-    static _rotatePoints(cx, cy, rotation, points) {
+    static _rotateBezierPoints(cx, cy, rotation, points) {
         const matrix = new DOMMatrix()
             .translate(cx, cy)
             .rotate(rotation)
@@ -212,17 +219,17 @@ class ElementPath extends ElementBase {
                     : { x: p.cp2.x, y: p.cp2.y })
                 : undefined,
         }));
-        return getBoundingRectFromBezierPoints(transformedPoints);
+        return transformedPoints;
     }
     getBoundingRectFromOriginal() {
         const { cx, cy, rotation, points } = this.original;
-        const transformedPoints = ElementPath._rotatePoints(cx, cy, rotation, points);
+        const transformedPoints = ElementPath._rotateBezierPoints(cx, cy, rotation, points);
         return getBoundingRectFromBezierPoints(transformedPoints);
     }
     getBoundingRect(withoutRotation = false) {
         const { cx, cy, rotation, points } = this;
         const r = withoutRotation ? 0 : rotation;
-        const transformedPoints = ElementPath._rotatePoints(cx, cy, r, points);
+        const transformedPoints = ElementPath._rotateBezierPoints(cx, cy, r, points);
         return getBoundingRectFromBezierPoints(transformedPoints);
     }
     toJSON() {
