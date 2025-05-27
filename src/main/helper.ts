@@ -12,6 +12,139 @@ import {getRotateAngle} from '~/services/tool/selector/helper'
 import {ResizeDirectionName} from '~/services/selection/type'
 import {CanvasHostEvent} from '~/services/element/CanvasHost'
 
+export function generateElementsClones(this: Editor) {
+  const boxColor = '#435fb9'
+  const {world, action, selection, mainHost, overlayHost} = this
+  const {scale, dpr} = world
+  const ratio = scale * dpr
+  const idSet = selection.values
+  const visibleElements = mainHost.visibleElements
+  const strokeWidth = 10 / ratio
+
+  const handleTranslateMouseDown = (event: CanvasHostEvent, id: UID) => {
+    const _shift = event.originalEvent.shiftKey
+
+    if (!selection.has(id)) {
+
+      action.dispatch('selection-modify', {mode: _shift ? 'add' : 'replace', idSet: new Set([id])})
+    }
+    // toolManager.subTool = dragging
+    this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values)
+  }
+
+  visibleElements.forEach((ele) => {
+    const id = ele.id
+    const invisibleClone = ele.clone()
+    const cloneStrokeLine = ele.clone()
+    const isSelected = idSet.has(id)
+
+    invisibleClone.id = 'invisible-clone-' + id
+    invisibleClone.layer = 0
+    invisibleClone.fill.enabled = false
+    invisibleClone.stroke.enabled = true
+    invisibleClone.stroke.color = 'none'
+
+    cloneStrokeLine.id = 'stroke-line-clone-' + id
+    cloneStrokeLine.layer = 1
+    cloneStrokeLine.stroke.weight = strokeWidth
+
+    invisibleClone.onmousedown = (e) => handleTranslateMouseDown(e, id)
+    cloneStrokeLine.onmousedown = (e) => handleTranslateMouseDown(e, id)
+    overlayHost.append(invisibleClone, cloneStrokeLine)
+
+    if (isSelected) {
+      cloneStrokeLine.stroke.color = boxColor
+    } else {
+      cloneStrokeLine.stroke.color = 'none'
+
+      invisibleClone.onmouseenter = cloneStrokeLine.onmouseenter = () => {
+        cloneStrokeLine.stroke.color = boxColor
+        action.dispatch('rerender-overlay')
+      }
+
+      invisibleClone.onmouseleave = cloneStrokeLine.onmouseleave = () => {
+        cloneStrokeLine.stroke.color = 'none'
+        action.dispatch('rerender-overlay')
+      }
+    }
+
+    // centerPoint
+    if (ele.type !== 'path') {
+      const pointLen = 20 / ratio
+      const centerPoint = ElementRectangle.create(nid(), ele.cx, ele.cy, pointLen)
+      centerPoint.onmousedown = (e) => handleTranslateMouseDown(e, id)
+      centerPoint.onmouseenter = (e) => {
+        centerPoint.fill.color = 'blue'
+        this.action.dispatch('rerender-overlay')
+      }
+      centerPoint.onmouseleave = (e) => {
+        centerPoint.fill.color = 'transparent'
+        this.action.dispatch('rerender-overlay')
+      }
+
+      centerPoint.layer = 1
+      centerPoint.stroke.enabled = false
+      centerPoint.fill.enabled = true
+      centerPoint.fill.color = isSelected ? boxColor : 'transparent'
+      overlayHost.append(centerPoint)
+    }
+  })
+}
+
+export function getSelectedBoundingElement(this: Editor): ElementRectangle {
+  const rectsWithRotation: BoundingRect[] = []
+  const rectsWithoutRotation: BoundingRect[] = []
+  let rotations: number[] = []
+  const boxColor = '#435fb9'
+  const {world, action, toolManager, selection, mainHost, overlayHost} = this
+  const {scale, dpr} = world
+  const ratio = dpr / scale
+  const pointLen = 2 / ratio
+  const idSet = selection.values
+
+  const selectedElements = mainHost.getVisibleElementsByIdSet(idSet)
+
+  selectedElements.forEach((ele: ElementInstance) => {
+    rotations.push(ele.rotation)
+    rectsWithRotation.push(ele.getBoundingRect())
+    rectsWithoutRotation.push(ele.getBoundingRect(true))
+  })
+
+  const sameRotation = rotations.every(val => val === rotations[0])
+  let applyRotation = sameRotation ? rotations[0] : 0
+  let rect: { cx: number, cy: number, width: number, height: number }
+  const specialLineSeg = idSet.size === 1 && selectedElements[0].type === 'lineSegment'
+
+  if (sameRotation) {
+    rect = getMinimalBoundingRect(rectsWithoutRotation, applyRotation)
+    if (specialLineSeg) {
+      rect.width = 1
+      rect.cx = selectedElements[0].cx
+    }
+  } else {
+    rect = getBoundingRectFromBoundingRects(rectsWithRotation)
+    applyRotation = 0
+  }
+
+  const selectedOutlineElement = new ElementRectangle({
+    id: 'selected-elements-outline',
+    layer: 0,
+    show: !specialLineSeg,
+    type: 'rectangle',
+    ...rect,
+    rotation: applyRotation,
+    stroke: {
+      ...DEFAULT_STROKE,
+      weight: 2 / scale,
+      color: boxColor,
+    },
+  })
+
+  overlayHost.append(selectedOutlineElement)
+
+  return selectedOutlineElement
+}
+
 export function generateTransformHandles(this: Editor, ele: ElementRectangle, specialLineSeg = false) {
   const {world} = this
   const {scale, dpr} = world
@@ -120,130 +253,5 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
   })
 
   return result
-}
-
-export function getSelectedBoundingElement(this: Editor): ElementRectangle {
-  const rectsWithRotation: BoundingRect[] = []
-  const rectsWithoutRotation: BoundingRect[] = []
-  let rotations: number[] = []
-  const boxColor = '#435fb9'
-  const {world, action, toolManager, selection, mainHost, overlayHost} = this
-  const {scale, dpr} = world
-  const ratio = dpr / scale
-  const pointLen = 2 / ratio
-  const idSet = selection.values
-
-  const selectedElements = mainHost.getVisibleElementsByIdSet(idSet)
-
-  selectedElements.forEach((ele: ElementInstance) => {
-    rotations.push(ele.rotation)
-    rectsWithRotation.push(ele.getBoundingRect())
-    rectsWithoutRotation.push(ele.getBoundingRect(true))
-  })
-
-  const sameRotation = rotations.every(val => val === rotations[0])
-  let applyRotation = sameRotation ? rotations[0] : 0
-  let rect: { cx: number, cy: number, width: number, height: number }
-  const specialLineSeg = idSet.size === 1 && selectedElements[0].type === 'lineSegment'
-
-  if (sameRotation) {
-    rect = getMinimalBoundingRect(rectsWithoutRotation, applyRotation)
-    if (specialLineSeg) {
-      rect.width = 1
-      rect.cx = selectedElements[0].cx
-    }
-  } else {
-    rect = getBoundingRectFromBoundingRects(rectsWithRotation)
-    applyRotation = 0
-  }
-
-  const selectedOutlineElement = new ElementRectangle({
-    id: 'selected-elements-outline',
-    layer: 0,
-    show: !specialLineSeg,
-    type: 'rectangle',
-    ...rect,
-    rotation: applyRotation,
-    stroke: {
-      ...DEFAULT_STROKE,
-      weight: 2 / scale,
-      color: boxColor,
-    },
-  })
-
-  overlayHost.append(selectedOutlineElement)
-
-  return selectedOutlineElement
-}
-
-export function generateElementsClones(this: Editor) {
-  const boxColor = '#435fb9'
-  const {world, action, selection, mainHost, overlayHost} = this
-  const {scale, dpr} = world
-  const ratio = scale * dpr
-  const idSet = selection.values
-  const visibleElements = mainHost.visibleElements
-  const strokeWidth = 10 / ratio
-
-  const handleTranslateMouseDown = (event: CanvasHostEvent, id: UID) => {
-    const _shift = event.originalEvent.shiftKey
-
-    if (!selection.has(id)) {
-
-      action.dispatch('selection-modify', {mode: _shift ? 'add' : 'replace', idSet: new Set([id])})
-    }
-    // toolManager.subTool = dragging
-    this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values)
-  }
-
-  visibleElements.forEach((ele) => {
-    const id = ele.id
-    const invisibleClone = ele.clone()
-    const cloneStrokeLine = ele.clone()
-    const isSelected = idSet.has(id)
-
-    invisibleClone.id = 'invisible-clone-' + id
-    invisibleClone.layer = 0
-    invisibleClone.fill.enabled = false
-    invisibleClone.stroke.enabled = true
-    invisibleClone.stroke.color = 'none'
-
-    cloneStrokeLine.id = 'stroke-line-clone-' + id
-    cloneStrokeLine.layer = 1
-    cloneStrokeLine.stroke.weight = strokeWidth
-
-    invisibleClone.onmousedown = (e) => handleTranslateMouseDown(e, id)
-    cloneStrokeLine.onmousedown = (e) => handleTranslateMouseDown(e, id)
-    overlayHost.append(invisibleClone, cloneStrokeLine)
-
-    if (isSelected) {
-      cloneStrokeLine.stroke.color = boxColor
-    } else {
-      cloneStrokeLine.stroke.color = 'none'
-
-      invisibleClone.onmouseenter = cloneStrokeLine.onmouseenter = () => {
-        cloneStrokeLine.stroke.color = boxColor
-        action.dispatch('rerender-overlay')
-      }
-
-      invisibleClone.onmouseleave = cloneStrokeLine.onmouseleave = () => {
-        cloneStrokeLine.stroke.color = 'none'
-        action.dispatch('rerender-overlay')
-      }
-    }
-
-    if (ele.type !== 'path') {
-      const pointLen = 20 / ratio
-      const centerPoint = ElementRectangle.create(nid(), ele.cx, ele.cy, pointLen)
-      centerPoint.onmousedown = (e) => handleTranslateMouseDown(e, id)
-
-      centerPoint.layer = 1
-      centerPoint.stroke.enabled = false
-      centerPoint.fill.enabled = true
-      centerPoint.fill.color = isSelected ? boxColor : 'transparent'
-      overlayHost.append(centerPoint)
-    }
-  })
-
 }
 

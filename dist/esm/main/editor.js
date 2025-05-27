@@ -121,7 +121,8 @@ class Editor {
         generateElementsClones.call(this);
         const selectedElements = this.mainHost.getVisibleElementsByIdSet(this.selection.values);
         const noHandles = this.interaction._rotateData || this.interaction._draggingElements.length > 0;
-        // if(noHandles)return
+        if (noHandles)
+            return;
         if (selectedElements.length > 0) {
             const ele = getSelectedBoundingElement.call(this);
             generateTransformHandles.call(this, ele);
