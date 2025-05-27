@@ -107,7 +107,7 @@ class ElementBase {
   
         // this.updateTransform()
       }*/
-    rotateFrom(rotation, anchor, f) {
+    rotateFrom(rotation, anchor, f = false) {
         const matrix = new DOMMatrix()
             .translate(anchor.x, anchor.y)
             .rotate(rotation)

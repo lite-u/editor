@@ -82,7 +82,7 @@ declare class ElementBase {
     translate(dx: number, dy: number, f?: boolean): HistoryChangeItem | undefined;
     updateOriginal(): void;
     updateBoundingRect(): void;
-    protected rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined;
+    protected rotateFrom(rotation: number, anchor: Point, f?: boolean): HistoryChangeItem | undefined;
     protected get center(): Point;
     toJSON(): RequiredBaseProps;
     protected toMinimalJSON(): ElementBaseProps;
