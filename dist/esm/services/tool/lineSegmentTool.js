@@ -8,19 +8,7 @@ const lineSegmentTool = {
         let lineLen = 1;
         const cx = x + lineLen / 2;
         const cy = y + lineLen / 2;
-        // const startPoint = {x, y}
-        // const endPoint = {x: x + initialLineLen, y: y + initialLineLen}
-        /* const eleProps: PropsWithoutIdentifiers<'lineSegment'> = {
-           type: 'lineSegment',
-           cx,
-           cy,
-           points: [
-             {id: 'start', x: x - cx, y: y - cy},
-             {id: 'end', x: x - cx + lineLen, y: y - cy + lineLen},
-           ],
-         }
-     */
-        const ele = ElementLineSegment.create('lineSegment-creating', x - cx, y - cy, x - cx + lineLen, y - cy + lineLen);
+        const ele = ElementLineSegment.create('lineSegment-creating', cx, cy, x - cx + lineLen, y - cy + lineLen);
         // const ele: ElementRectangle = mainHost.create(eleProps)
         ele.render(world.creationCanvasContext);
         interaction._ele = ele;
