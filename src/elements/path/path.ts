@@ -186,11 +186,13 @@ class ElementPath extends ElementBase {
     }
     const {cx, cy, points} = this
     // const r = withoutRotation ? 0 : rotation
-    const transformedPoints = ElementPath._rotateBezierPoints(anchor.x, anchor.y, rotation, points)
-    const {x, y} = rotatePointAroundPoint(cx, cy, anchor.x, anchor.y)
+    const _points = ElementPath._rotateBezierPointsFrom(cx, cy, this.rotation, points)
+    const transformedPoints = ElementPath._rotateBezierPointsFrom(anchor.x, anchor.y, rotation, _points)
+    const {x, y} = rotatePointAroundPoint(cx, cy, anchor.x, anchor.y, rotation)
 
     this.cx = x
     this.cy = y
+
     /*
         const matrix = new DOMMatrix()
           .translate(anchor.x, anchor.y)
@@ -248,7 +250,7 @@ class ElementPath extends ElementBase {
     // console.log(this.cx, this.cy, this.width, this.height)
   }
 
-  static _rotateBezierPoints(cx: number, cy: number, rotation: number, points: BezierPoint[]): BezierPoint[] {
+  static _rotateBezierPointsFrom(cx: number, cy: number, rotation: number, points: BezierPoint[]): BezierPoint[] {
     const matrix = new DOMMatrix()
       .translate(cx, cy)
       .rotate(rotation)
@@ -275,7 +277,7 @@ class ElementPath extends ElementBase {
 
   getBoundingRectFromOriginal() {
     const {cx, cy, rotation, points} = this.original
-    const transformedPoints = ElementPath._rotateBezierPoints(cx, cy, rotation, points!)
+    const transformedPoints = ElementPath._rotateBezierPointsFrom(cx, cy, rotation, points!)
 
     return getBoundingRectFromBezierPoints(transformedPoints)
   }
@@ -283,7 +285,7 @@ class ElementPath extends ElementBase {
   public getBoundingRect(withoutRotation: boolean = false): BoundingRect {
     const {cx, cy, rotation, points} = this
     const r = withoutRotation ? 0 : rotation
-    const transformedPoints = ElementPath._rotateBezierPoints(cx, cy, r, points)
+    const transformedPoints = ElementPath._rotateBezierPointsFrom(cx, cy, r, points)
 
     return getBoundingRectFromBezierPoints(transformedPoints)
   }
