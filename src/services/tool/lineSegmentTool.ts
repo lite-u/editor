@@ -8,11 +8,8 @@ const lineSegmentTool: ToolType = {
     const {mainHost, action, cursor, overlayHost, interaction, world} = this.editor
     const {x, y} = interaction.mouseWorldCurrent
     let lineLen = 1
-    const cx = x + lineLen / 2
-    const cy = y + lineLen / 2
 
-    const ele = ElementLineSegment.create('lineSegment-creating', cx, cy, x - cx + lineLen, y - cy + lineLen)
-    // const ele: ElementRectangle = mainHost.create(eleProps)
+    const ele = ElementLineSegment.create('lineSegment-creating', x, y, x + lineLen, y + lineLen)
 
     cursor.lock()
     action.dispatch('rerender-overlay')

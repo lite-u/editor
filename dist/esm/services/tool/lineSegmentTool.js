@@ -1,15 +1,12 @@
-import resizeFunc from './resize/resizeFunc.js';
-import ElementLineSegment from '../../elements/lines/lineSegment.js';
+import resizeFunc from '~/services/tool/resize/resizeFunc';
+import ElementLineSegment from '~/elements/lines/lineSegment';
 const lineSegmentTool = {
     cursor: 'crosshair',
     mouseDown() {
         const { mainHost, action, cursor, overlayHost, interaction, world } = this.editor;
         const { x, y } = interaction.mouseWorldCurrent;
         let lineLen = 1;
-        const cx = x + lineLen / 2;
-        const cy = y + lineLen / 2;
-        const ele = ElementLineSegment.create('lineSegment-creating', cx, cy, x - cx + lineLen, y - cy + lineLen);
-        // const ele: ElementRectangle = mainHost.create(eleProps)
+        const ele = ElementLineSegment.create('lineSegment-creating', x, y, x + lineLen, y + lineLen);
         cursor.lock();
         action.dispatch('rerender-overlay');
         ele.render(overlayHost.ctx);
