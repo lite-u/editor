@@ -165,12 +165,7 @@ class ElementPath extends ElementBase {
 
   protected rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined {
     const {cx, cy, points} = this.original
-    // rotate points to theirs real position
-    // const newRotation = this.original.rotation - rotation
-    // const realPositionPoints = ElementPath._rotateBezierPointsFrom(cx, cy, this.original.rotation, points)
-    const transformedPoints = ElementPath._rotateBezierPointsFrom(anchor.x, anchor.y, rotation, points!)
-    // const newPoints = ElementPath._rotateBezierPointsFrom(anchor.x, anchor.y, rotation, transformedPoints)
-
+    const newPoints = ElementPath._rotateBezierPointsFrom(anchor.x, anchor.y, rotation, points!)
     const {x, y} = rotatePointAroundPoint(cx, cy, anchor.x, anchor.y, rotation)
 
     let newRotation = (this.original.rotation + rotation) % 360
@@ -179,7 +174,7 @@ class ElementPath extends ElementBase {
     this.cx = x
     this.cy = y
     this.rotation = newRotation
-    this.points = transformedPoints
+    this.points = newPoints
     /*
         const matrix = new DOMMatrix()
           .translate(anchor.x, anchor.y)
