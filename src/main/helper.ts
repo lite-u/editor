@@ -16,10 +16,10 @@ export function generateElementsClones(this: Editor) {
   const boxColor = '#435fb9'
   const {world, action, selection, mainHost, overlayHost} = this
   const {scale, dpr} = world
-  const ratio = scale * dpr
+  const ratio = dpr / scale
   const idSet = selection.values
   const visibleElements = mainHost.visibleElements
-  const strokeWidth = 10 / ratio
+  const strokeWidth = 2 * ratio
 
   const handleTranslateMouseDown = (event: CanvasHostEvent, id: UID) => {
     const _shift = event.originalEvent.shiftKey
@@ -70,7 +70,7 @@ export function generateElementsClones(this: Editor) {
 
     // centerPoint
     if (ele.type !== 'path') {
-      const pointLen = 20 / ratio
+      const pointLen = 6 * ratio
       const centerPoint = ElementRectangle.create(nid(), ele.cx, ele.cy, pointLen)
       centerPoint.onmousedown = (e) => handleTranslateMouseDown(e, id)
       centerPoint.onmouseenter = (e) => {
@@ -99,7 +99,7 @@ export function getSelectedBoundingElement(this: Editor): ElementRectangle {
   const {world, action, toolManager, selection, mainHost, overlayHost} = this
   const {scale, dpr} = world
   const ratio = dpr / scale
-  const pointLen = 2 / ratio
+  // const pointLen = 2 / ratio
   const idSet = selection.values
 
   const selectedElements = mainHost.getVisibleElementsByIdSet(idSet)

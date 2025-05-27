@@ -11,10 +11,10 @@ export function generateElementsClones() {
     const boxColor = '#435fb9';
     const { world, action, selection, mainHost, overlayHost } = this;
     const { scale, dpr } = world;
-    const ratio = scale * dpr;
+    const ratio = dpr / scale;
     const idSet = selection.values;
     const visibleElements = mainHost.visibleElements;
-    const strokeWidth = 10 / ratio;
+    const strokeWidth = 2 * ratio;
     const handleTranslateMouseDown = (event, id) => {
         const _shift = event.originalEvent.shiftKey;
         if (!selection.has(id)) {
@@ -55,7 +55,7 @@ export function generateElementsClones() {
         }
         // centerPoint
         if (ele.type !== 'path') {
-            const pointLen = 20 / ratio;
+            const pointLen = 6 * ratio;
             const centerPoint = ElementRectangle.create(nid(), ele.cx, ele.cy, pointLen);
             centerPoint.onmousedown = (e) => handleTranslateMouseDown(e, id);
             centerPoint.onmouseenter = (e) => {
@@ -82,7 +82,7 @@ export function getSelectedBoundingElement() {
     const { world, action, toolManager, selection, mainHost, overlayHost } = this;
     const { scale, dpr } = world;
     const ratio = dpr / scale;
-    const pointLen = 2 / ratio;
+    // const pointLen = 2 / ratio
     const idSet = selection.values;
     const selectedElements = mainHost.getVisibleElementsByIdSet(idSet);
     selectedElements.forEach((ele) => {
