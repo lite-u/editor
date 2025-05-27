@@ -67,6 +67,7 @@ class Cursor {
       this.domRef.style.display = 'block'
       this.editor.container.style.cursor = 'none'
 
+      this.domRef.style.stroke = '#808080'
       this.domRef.innerHTML = CURSORS[name]
     } else {
       this.domRef.style.display = 'none'
