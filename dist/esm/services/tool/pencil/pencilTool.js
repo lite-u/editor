@@ -15,7 +15,7 @@ const pencilTool = {
     },
     mouseMove: function () {
         const { action, cursor, overlayHost, world, interaction } = this.editor;
-        if (!interaction._pointDown)
+        if (!_lastPoint)
             return;
         const point = { ...interaction.mouseWorldCurrent };
         const { scale, dpr, offset } = world;
