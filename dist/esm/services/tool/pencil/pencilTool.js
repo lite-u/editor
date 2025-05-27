@@ -5,22 +5,22 @@ const pencilTool = {
     cursor: 'crosshair',
     mouseDown: function () {
         const { action, cursor, overlayHost, world, interaction } = this.editor;
-        const { scale, dpr } = world;
+        const { scale, dpr, offset } = world;
         const point = { ...interaction.mouseWorldCurrent };
         cursor.lock();
         // action.dispatch('clear-creation')
         _drawingPoints.push(point);
         _lastPoint = { ...point };
-        drawLine(overlayHost.ctx, _lastPoint, point, 1 * dpr / scale);
+        drawLine(overlayHost.ctx, _lastPoint, point, offset, 1 * dpr / scale);
     },
     mouseMove: function () {
         const { action, cursor, overlayHost, world, interaction } = this.editor;
         if (!interaction._pointDown)
             return;
         const point = { ...interaction.mouseWorldCurrent };
-        const { scale, dpr } = world;
+        const { scale, dpr, offset } = world;
         _drawingPoints.push(point);
-        drawLine(overlayHost.ctx, point, point, 1 * dpr / scale);
+        drawLine(overlayHost.ctx, point, point, offset, 1 * dpr / scale);
         _lastPoint = point;
     },
     mouseUp: function () {
