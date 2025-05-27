@@ -1,6 +1,6 @@
-import ElementBase from '~/elements/base/elementBase';
-import deepClone from '~/core/deepClone';
-import { getBoundingRectFromBezierPoints, rotatePointAroundPoint } from '~/core/geometry';
+import ElementBase from '../base/elementBase.js';
+import deepClone from '../../core/deepClone.js';
+import { getBoundingRectFromBezierPoints, rotatePointAroundPoint } from '../../core/geometry.js';
 class ElementPath extends ElementBase {
     type = 'path';
     points = [];
@@ -142,7 +142,7 @@ class ElementPath extends ElementBase {
         }
         const { cx, cy, points } = this;
         // rotate points to theirs real position
-        const newRotation = this.rotation + rotation;
+        const newRotation = this.original.rotation - rotation;
         const realPositionPoints = ElementPath._rotateBezierPointsFrom(cx, cy, this.original.rotation, points);
         const transformedPoints = ElementPath._rotateBezierPointsFrom(anchor.x, anchor.y, rotation, realPositionPoints);
         const newPoints = ElementPath._rotateBezierPointsFrom(anchor.x, anchor.y, newRotation, transformedPoints);
