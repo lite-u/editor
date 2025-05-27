@@ -21,6 +21,7 @@ export function generateElementsClones(this: Editor) {
   const idSet = selection.values
   const visibleElements = mainHost.visibleElements
   const strokeWidth = 1 * ratio
+  let centerPoint: ElementEllipse | ElementRectangle | null = null
 
   const handleTranslateMouseDown = (event: CanvasHostEvent, id: UID) => {
     const _shift = event.originalEvent.shiftKey
@@ -74,7 +75,8 @@ export function generateElementsClones(this: Editor) {
     // centerPoint
     if (ele.type !== 'path') {
       const pointLen = idSet.size === 1 ? 3 * ratio : 6 * ratio
-      const centerPoint = idSet.size === 1
+
+      centerPoint = idSet.size === 1
         ? ElementEllipse.create(nid(), ele.cx, ele.cy, pointLen)
         : ElementRectangle.create(nid(), ele.cx, ele.cy, pointLen)
 
