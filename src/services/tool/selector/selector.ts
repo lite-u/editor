@@ -2,49 +2,59 @@ import {ToolType} from '~/services/tool/toolManager'
 import {getRotateAngle} from '~/services/tool/selector/helper'
 import rotating from '~/services/tool/selector/rotating/rotating'
 import selecting from '~/services/tool/selector/selecting/selecting'
+import dragging from '~/services/tool/selector/dragging/dragging'
 
 const selector: ToolType = {
   cursor: 'default',
   init: function () { },
   mouseDown: function (event) {
-    if (event.element) return
+    const {interaction, elementManager, selection, cursor} = this
+
+    if (event.element) {
+      if (interaction._rotateData) {
+        this.toolManager.subTool = rotating
+      } else if (interaction._draggingElements.length > 0) {
+        this.toolManager.subTool = dragging
+      }
+
+      return
+    }
 
     // selecting.mouseDown(event)
     // console.log(event.element)
     this.toolManager.subTool = selecting
-    if (!this.toolManager.subTool) {
+    this.cursor.lock()
 
-      // this.toolManager.subTool = selecting
-    }
-    /* const {interaction, elementManager, selection, cursor} = this
-     // const {_hoveredElement} = interaction
+    /*
+        // const {_hoveredElement} = interaction
 
-     const rotateMode = !!interaction._hoveredRotateManipulator
-     const resizeMode = !!interaction._hoveredResizeManipulator
+        const rotateMode = !!interaction._hoveredRotateManipulator
+        const resizeMode = !!interaction._hoveredResizeManipulator
 
-     if (resizeMode) {
-       const placement = interaction._hoveredResizeManipulator.id.replace('handle-resize-', '')
-       cursor.set('resize')
-       this.subTool = resizing
+        if (resizeMode) {
+          const placement = interaction._hoveredResizeManipulator.id.replace('handle-resize-', '')
+          cursor.set('resize')
+          this.subTool = resizing
 
-       interaction._resizingData = {placement}
+          interaction._resizingData = {placement}
 
-       cursor.set('resize')
-       this.subTool = resizing
-     } else if (rotateMode) {
-       const rects = elementManager.getElementsByIdSet(selection.values).map(ele => {
-         return ele.getBoundingRect(true)
-       })
-       const center = getBoundingRectFromBoundingRects(rects)
-       const {cx: x, cy: y} = center
+          cursor.set('resize')
+          this.subTool = resizing
+        } else if (rotateMode) {
+          const rects = elementManager.getElementsByIdSet(selection.values).map(ele => {
+            return ele.getBoundingRect(true)
+          })
+          const center = getBoundingRectFromBoundingRects(rects)
+          const {cx: x, cy: y} = center
 
-       console.log(interaction._hoveredElement)
-       interaction._rotateData = {startRotation: interaction._outlineElement.rotation, targetPoint: {x, y}}
-       this.subTool = rotating
-     } */
+          console.log(interaction._hoveredElement)
+          interaction._rotateData = {startRotation: interaction._outlineElement.rotation, targetPoint: {x, y}}
+          this.subTool = rotating
+        } */
   },
   mouseMove: function () {
     const {interaction, cursor} = this
+
     if (interaction._rotateData) {
       rotating.mouseMove.call(this)
       return
@@ -73,11 +83,14 @@ const selector: ToolType = {
     this.toolManager.subTool?.mouseMove.call(this)
   },
   mouseUp() {
+    this.cursor.unlock()
+
     if (this.interaction._rotateData) {
       rotating.mouseUp.call(this)
     } else {
       this.toolManager.subTool?.mouseUp.call(this)
     }
+
     this.cursor.set(selector.cursor)
     this.toolManager.subTool = null
   },

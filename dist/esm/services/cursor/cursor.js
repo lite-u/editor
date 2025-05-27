@@ -1,4 +1,4 @@
-import { createWith } from '~/lib/lib';
+import { createWith } from '../../lib/lib.js';
 /* | 'default'
  | 'crosshair'
  | 'text'

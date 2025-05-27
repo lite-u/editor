@@ -19,7 +19,7 @@ function handleMouseDown(this: ToolManager, e: CanvasHostEvent) {
   this.editor.interaction._modifier = modifiers
   this.editor.interaction._pointDown = true
 
-  this.tool?.mouseDown?.call(this.editor,e)
+  this.tool?.mouseDown?.call(this.editor, e)
 
   // this.editor.action.dispatch('clear-creation')
 
