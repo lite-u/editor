@@ -85,8 +85,9 @@ class ElementPath extends ElementBase {
   public updatePath2D() {
     if (this.points.length === 0) return
 
-    this.path2D = new Path2D()
     const start = this.points[0].anchor
+
+    this.path2D = new Path2D()
     this.path2D.moveTo(start.x, start.y)
 
     for (let i = 1; i < this.points.length; i++) {
