@@ -531,7 +531,7 @@ export function initEvents(this: Editor) {
 
   on('rerender-overlay', () => {
     if (this.overlayHost._locked) return
-    console.log('rerender-overlay')
+    // console.log('rerender-overlay')
     resetCanvas(
       this.overlayHost.ctx,
       this.world.scale,

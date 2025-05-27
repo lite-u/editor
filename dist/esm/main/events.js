@@ -445,7 +445,7 @@ export function initEvents() {
     on('rerender-overlay', () => {
         if (this.overlayHost._locked)
             return;
-        console.log('rerender-overlay');
+        // console.log('rerender-overlay')
         resetCanvas(this.overlayHost.ctx, this.world.scale, this.world.offset, this.world.dpr);
         this.overlayHost.render();
     });

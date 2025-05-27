@@ -130,7 +130,7 @@ class RectangleLike extends ElementBase {
     const {cx, cy, width, height, rotation} = this.original
 
     console.log(anchor)
-    // console.log(scaleX, scaleY)
+    console.log(scaleX, scaleY)
     const matrix = new DOMMatrix()
       .rotate(-rotation)
       .scale(scaleX, scaleY, 1, anchor.x, anchor.y)
@@ -236,8 +236,8 @@ class RectangleLike extends ElementBase {
   public getBoundingRectFromOriginal() {
     const {cx, cy, width, height, rotation} = this.original
 
-    const x = cx - width / 2
-    const y = cy - height / 2
+    const x = cx - width! / 2
+    const y = cy - height! / 2
 
     if (rotation === 0) {
       return generateBoundingRectFromRect({x, y, width, height})
