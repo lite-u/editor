@@ -88,10 +88,10 @@ class ElementPath extends ElementBase {
     this.path2D = new Path2D()
 
     // const {cx, cy} = this
-/*    const transform = new DOMMatrix()
-      .translate(cx, cy)
-      // .rotate(this.rotation)
-      .translate(-cx, -cy)*/
+    /*    const transform = new DOMMatrix()
+          .translate(cx, cy)
+          // .rotate(this.rotation)
+          .translate(-cx, -cy)*/
 
     const start = this.points[0].anchor
     // const start = ElementBase.transformPoint(startAnchor.x, startAnchor.y, transform)
@@ -108,10 +108,6 @@ class ElementPath extends ElementBase {
       const cp2 = currType === 'corner' ? curr.anchor : (curr.cp1 ?? curr.anchor)
       const anchor = curr.anchor
 
-      // const t_cp1 = ElementBase.transformPoint(cp1.x, cp1.y, transform)
-      // const t_cp2 = ElementBase.transformPoint(cp2.x, cp2.y, transform)
-      // const t_anchor = ElementBase.transformPoint(anchor.x, anchor.y, transform)
-
       this.path2D.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, anchor.x, anchor.y)
     }
 
@@ -125,10 +121,6 @@ class ElementPath extends ElementBase {
       const cp1 = lastType === 'corner' ? last.anchor : (last.cp2 ?? last.anchor)
       const cp2 = firstType === 'corner' ? first.anchor : (first.cp1 ?? first.anchor)
       const anchor = first.anchor
-
-      // const t_cp1 = ElementBase.transformPoint(cp1.x, cp1.y, transform)
-      // const t_cp2 = ElementBase.transformPoint(cp2.x, cp2.y, transform)
-      // const t_anchor = ElementBase.transformPoint(anchor.x, anchor.y, transform)
 
       this.path2D.bezierCurveTo(cp1.x, cp1.y, cp2.x, cp2.y, anchor.x, anchor.y)
       this.path2D.closePath()
