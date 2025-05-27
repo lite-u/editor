@@ -3,8 +3,8 @@ import rotating from './rotating/rotating.js';
 const selector = {
     cursor: 'default',
     init: function () { },
-    mouseDown: function () {
-        // console.log(9)
+    mouseDown: function (event) {
+        console.log(9);
         if (!this.toolManager.subTool) {
             // this.toolManager.subTool = selecting
         }

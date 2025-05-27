@@ -4,10 +4,7 @@ import {CanvasHostEvent} from '~/services/element/CanvasHost'
 
 function handleMouseDown(this: ToolManager, e: CanvasHostEvent) {
   const {element, originalEvent} = e
-  const {button, target, shiftKey, metaKey, ctrlKey, altKey, clientX, clientY, movementX, movementY} = originalEvent
-
-  // console.log(e)
-  // if (button !== 0 || target !== this.editor.container) return
+  const {button, shiftKey, metaKey, ctrlKey, altKey, clientX, clientY, movementX, movementY} = originalEvent
 
   const modifiers = {shiftKey, metaKey, ctrlKey, altKey, button, movementX, movementY}
   const x = clientX - this.editor.rect!.x

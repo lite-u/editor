@@ -5,8 +5,8 @@ import rotating from '~/services/tool/selector/rotating/rotating'
 const selector: ToolType = {
   cursor: 'default',
   init: function () { },
-  mouseDown: function () {
-    // console.log(9)
+  mouseDown: function (event) {
+    console.log(9)
     if (!this.toolManager.subTool) {
       // this.toolManager.subTool = selecting
     }
