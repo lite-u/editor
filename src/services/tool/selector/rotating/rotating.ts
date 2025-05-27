@@ -26,8 +26,8 @@ const rotating: SubToolType = {
     cursor.rotate(mouseCurrentRotation)
 
     console.log('rotate reset')
-    this.overlayHost.reset()
-    this.action.dispatch('rerender-overlay')
+    // this.overlayHost.reset()
+    this.action.dispatch('reset-overlay')
     this.action.dispatch('rerender-main-host')
 
     return rotationDiff

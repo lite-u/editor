@@ -108,7 +108,6 @@ class ElementBase {
         // this.updateTransform()
       }*/
     rotateFrom(rotation, anchor, f) {
-        // if (rotation !== 0) {
         const matrix = new DOMMatrix()
             .translate(anchor.x, anchor.y)
             .rotate(rotation)

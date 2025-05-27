@@ -111,16 +111,12 @@ export function getSelectedBoundingElement() {
     const ratio = dpr / scale;
     const pointLen = 2 / ratio;
     const idSet = selection.values;
-    // const visibleElements = mainHost.visibleElements
     const selectedElements = mainHost.getVisibleElementsByIdSet(idSet);
-    // console.log(idSet)
     selectedElements.forEach((ele) => {
         rotations.push(ele.rotation);
         rectsWithRotation.push(ele.getBoundingRect());
         rectsWithoutRotation.push(ele.getBoundingRect(true));
     });
-    // console.log(selectedElements)
-    // selectedOutlineElement
     const sameRotation = rotations.every(val => val === rotations[0]);
     let applyRotation = sameRotation ? rotations[0] : 0;
     let rect;

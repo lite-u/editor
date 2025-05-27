@@ -204,7 +204,6 @@ class ElementBase {
     }*/
 
   protected rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined {
-    // if (rotation !== 0) {
     const matrix = new DOMMatrix()
       .translate(anchor.x, anchor.y)
       .rotate(rotation)
