@@ -95,6 +95,10 @@ class CanvasHost {
     }, {signal})
   }
 
+  lock() {this._locked = true}
+
+  unlock() {this._locked = false}
+
   public dispatchEvent(domEvent: PointerEvent, type: PointerEvent['type'], options?: { tolerance?: number }) {
     const {_ctx} = this
     const dpr = this.editor.config.dpr
@@ -458,11 +462,9 @@ class CanvasHost {
   }
 
   render() {
-    // console.time('element render')
     this.visibleElements.forEach((element) => {
       element.render(this._ctx)
     })
-    // console.timeEnd('element render')
   }
 
   reset() {
