@@ -84,6 +84,10 @@ class Cursor {
         this.domRef.style.translate = `${p.x - SVG_SIZE / 2}px ${p.y - SVG_SIZE / 2}px`;
     }
     rotate(rotation) {
+        if (this.locked) {
+            console.info(`Cursor has been locked.`);
+            return;
+        }
         // const size = 24
         // const offset = size / 2
         // const {x, y} = position as Point

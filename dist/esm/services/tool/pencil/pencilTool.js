@@ -11,7 +11,7 @@ const pencilTool = {
         console.log(interaction.mouseWorldCurrent);
         _drawingPoints.push(point);
         _lastPoint = { ...point };
-        drawLine(overlayHost.ctx, _lastPoint, point, offset, 1 * dpr / scale);
+        drawLine(overlayHost.ctx, _lastPoint, point, 1 * dpr / scale);
     },
     mouseMove: function () {
         const { action, cursor, overlayHost, world, interaction } = this.editor;

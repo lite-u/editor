@@ -101,6 +101,10 @@ class Cursor {
   }
 
   rotate(rotation: number) {
+    if (this.locked) {
+      console.info(`Cursor has been locked.`)
+      return
+    }
     // const size = 24
     // const offset = size / 2
     // const {x, y} = position as Point
