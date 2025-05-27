@@ -196,7 +196,7 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
     this.action.dispatch('rerender-overlay')
   }
 
-  const handleRotateMouseDown = (e) => {
+  const handleRotateMouseDown = () => {
     this.interaction._rotateData = {startRotation: rotation, targetPoint: {x: cx, y: cy}}
     const mouseCurrentRotation = getRotateAngle({x: cx, y: cy}, this.interaction.mouseWorldCurrent)
 
