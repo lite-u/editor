@@ -35,9 +35,8 @@ const rotating = {
             changes.push(change);
         });
         // cursor.set(selector.cursor)
-        action.dispatch('element-modified', changes);
         this.interaction._rotateData = null;
-        console.log(this);
+        action.dispatch('element-modified', changes);
     },
 };
 export default rotating;
