@@ -59,6 +59,7 @@ class Cursor {
       console.info(`Cursor has been locked.`)
       return
     }
+
     // if(name==='default') debugger
     this.domRef.setAttribute('date-current-cursor', name)
     // console.log(name)
