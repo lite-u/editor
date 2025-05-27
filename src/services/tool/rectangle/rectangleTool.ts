@@ -11,7 +11,6 @@ const rectangleTool: ToolType = {
     const height = 1
     const cx = x - width / 2
     const cy = y - height / 2
-
     const ele: ElementRectangle = ElementRectangle.create('rectangle-creating', cx, cy, width, height)
 
     cursor.lock()
