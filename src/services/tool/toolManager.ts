@@ -15,13 +15,14 @@ import textTool from '~/services/tool/textTool'
 import lineSegmentTool from '~/services/tool/lineSegmentTool'
 import pencilTool from '~/services/tool/pencil/pencilTool'
 import {zoomInTool, zoomOutTool} from '~/services/tool/zoomTool'
+import {CanvasHostEvent} from '~/services/element/CanvasHost'
 
 export type ToolType = {
   cursor: CursorName
   init: (this: Editor) => unknown
-  mouseDown?: (this: Editor) => void
-  mouseMove: (this: Editor) => unknown
-  mouseUp: (this: Editor) => void
+  mouseDown?: (this: Editor, event: CanvasHostEvent) => void
+  mouseMove: (this: Editor, event: CanvasHostEvent) => unknown
+  mouseUp: (this: Editor, event: CanvasHostEvent) => void
 }
 export type SubToolType = Omit<ToolType, 'mouseDown' | 'cursor'> & { cursor?: CursorName }
 export type ToolName =

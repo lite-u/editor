@@ -8,8 +8,11 @@ declare class Cursor {
     editor: Editor;
     EC: AbortController;
     _cursorForRecover: null;
+    private locked;
     constructor(editor: Editor);
     set(name: CursorName): void;
+    lock(): void;
+    unlock(): void;
     move(p: Point): void;
     rotate(rotation: number): void;
     show(): void;

@@ -1,4 +1,4 @@
-import { createWith } from '../../lib/lib.js';
+import { createWith } from '~/lib/lib';
 /* | 'default'
  | 'crosshair'
  | 'text'
@@ -23,6 +23,7 @@ class Cursor {
     editor;
     EC;
     _cursorForRecover = null;
+    locked = false;
     constructor(editor) {
         this.EC = new AbortController();
         this.editor = editor;
@@ -42,6 +43,10 @@ class Cursor {
         editor.container.addEventListener('mousemove', e => { this.move(e); }, { signal });
     }
     set(name) {
+        if (this.locked) {
+            console.info(`Cursor has been locked.`);
+            return;
+        }
         // if(name==='default') debugger
         this.domRef.setAttribute('date-current-cursor', name);
         // console.log(name)
@@ -54,6 +59,14 @@ class Cursor {
             this.domRef.style.display = 'none';
             this.editor.container.style.cursor = name;
         }
+    }
+    // Lock method
+    // Certain circumstance need to set cursor to immutable
+    lock() {
+        this.locked = true;
+    }
+    unlock() {
+        this.locked = false;
     }
     move(p) {
         // console.log('set cursor', p)

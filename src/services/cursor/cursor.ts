@@ -33,6 +33,7 @@ class Cursor {
   editor: Editor
   EC: AbortController
   _cursorForRecover = null
+  private locked: boolean = false
 
   constructor(editor: Editor) {
     this.EC = new AbortController()
@@ -54,6 +55,10 @@ class Cursor {
   }
 
   set(name: CursorName) {
+    if (this.locked) {
+      console.info(`Cursor has been locked.`)
+      return
+    }
     // if(name==='default') debugger
     this.domRef.setAttribute('date-current-cursor', name)
     // console.log(name)
@@ -66,6 +71,16 @@ class Cursor {
       this.domRef.style.display = 'none'
       this.editor.container.style.cursor = name
     }
+  }
+
+  // Lock method
+  // Certain circumstance need to set cursor to immutable
+  lock() {
+    this.locked = true
+  }
+
+  unlock() {
+    this.locked = false
   }
 
   move(p: Point) {

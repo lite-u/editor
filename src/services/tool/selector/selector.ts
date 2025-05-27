@@ -1,13 +1,19 @@
 import {ToolType} from '~/services/tool/toolManager'
 import {getRotateAngle} from '~/services/tool/selector/helper'
 import rotating from '~/services/tool/selector/rotating/rotating'
+import selecting from '~/services/tool/selector/selecting/selecting'
 
 const selector: ToolType = {
   cursor: 'default',
   init: function () { },
   mouseDown: function (event) {
-    console.log(9)
+    if (event.element) return
+
+    // selecting.mouseDown(event)
+    // console.log(event.element)
+    this.toolManager.subTool = selecting
     if (!this.toolManager.subTool) {
+
       // this.toolManager.subTool = selecting
     }
     /* const {interaction, elementManager, selection, cursor} = this

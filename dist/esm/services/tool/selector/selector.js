@@ -1,10 +1,15 @@
 import { getRotateAngle } from './helper.js';
 import rotating from './rotating/rotating.js';
+import selecting from './selecting/selecting.js';
 const selector = {
     cursor: 'default',
     init: function () { },
     mouseDown: function (event) {
-        console.log(9);
+        if (event.element)
+            return;
+        // selecting.mouseDown(event)
+        // console.log(event.element)
+        this.toolManager.subTool = selecting;
         if (!this.toolManager.subTool) {
             // this.toolManager.subTool = selecting
         }
