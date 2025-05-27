@@ -151,7 +151,6 @@ class ElementLineSegment extends ElementBase {
     const newStart = ElementBase.transformPoint(start!.x, start!.y, matrix)
     const newEnd = ElementBase.transformPoint(end!.x, end!.y, matrix)
 
-    // Store back as relative to cx, cy
     this.start.x = newStart.x
     this.start.y = newStart.y
     this.end.x = newEnd.x
