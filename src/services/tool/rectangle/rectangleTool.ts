@@ -29,11 +29,13 @@ const rectangleTool: ToolType = {
     interaction._ele.render(overlayHost.ctx)
   },
   mouseUp() {
-    const {action, interaction} = this.editor
+    const {cursor, action, interaction} = this.editor
 
     const eleProps = interaction._ele.toMinimalJSON()
-    action.dispatch('element-add', [eleProps])
+
+    cursor.unlock()
     interaction._ele = null!
+    action.dispatch('element-add', [eleProps])
   },
 }
 
