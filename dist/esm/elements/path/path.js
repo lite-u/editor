@@ -137,15 +137,17 @@ class ElementPath extends ElementBase {
     rotateFrom(rotation, anchor, f) {
         // for same anchor rotation
         // hand up to super method
-        if (anchor.x.toFixed(2) === this.cx.toFixed(2) && anchor.y.toFixed(2) === this.cy.toFixed(2)) {
-            return super.rotateFrom(rotation, anchor);
-        }
-        const { cx, cy, points } = this;
+        /*
+            if (anchor.x.toFixed(2) === this.cx.toFixed(2) && anchor.y.toFixed(2) === this.cy.toFixed(2)) {
+              return super.rotateFrom(rotation, anchor)
+            }
+        */
+        const { cx, cy, points } = this.original;
         // rotate points to theirs real position
-        const newRotation = this.original.rotation - rotation;
-        const realPositionPoints = ElementPath._rotateBezierPointsFrom(cx, cy, this.original.rotation, points);
-        const transformedPoints = ElementPath._rotateBezierPointsFrom(anchor.x, anchor.y, rotation, realPositionPoints);
-        const newPoints = ElementPath._rotateBezierPointsFrom(anchor.x, anchor.y, newRotation, transformedPoints);
+        // const newRotation = this.original.rotation - rotation
+        // const realPositionPoints = ElementPath._rotateBezierPointsFrom(cx, cy, this.original.rotation, points)
+        const transformedPoints = ElementPath._rotateBezierPointsFrom(anchor.x, anchor.y, rotation, points);
+        const newPoints = ElementPath._rotateBezierPointsFrom(anchor.x, anchor.y, rotation, transformedPoints);
         const { x, y } = rotatePointAroundPoint(cx, cy, anchor.x, anchor.y, rotation);
         let newRotation = (this.original.rotation + rotation) % 360;
         if (newRotation < 0)
