@@ -163,7 +163,9 @@ export function generateElementsClones() {
     const handleTranslateMouseDown = (event, id) => {
         // console.log(event.element)
         const _shift = event.originalEvent.shiftKey;
-        if (!selection.has(id)) {
+        if (selection.has(id)) {
+        }
+        else {
             action.dispatch('selection-modify', { mode: 'replace', idSet: new Set([id]) });
         }
         // toolManager.subTool = dragging
