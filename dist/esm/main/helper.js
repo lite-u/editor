@@ -13,9 +13,10 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
     const ratio = scale * dpr;
     const result = [];
     const { cx, cy, width, height, rotation } = ele;
-    const resizeLen = 30 / ratio;
-    const resizeStrokeWidth = 2 / ratio;
-    const rotateRadius = 50 / ratio;
+    const resizeLen = 10 * dpr / scale;
+    // const resizeStrokeWidth = 1
+    const resizeStrokeWidth = .5 * dpr / ratio;
+    const rotateRadius = 50 * dpr / ratio;
     const arr = [
         { name: 'tl', dx: -0.5, dy: -0.5 },
         { name: 't', dx: 0.0, dy: -0.5 },
@@ -157,7 +158,7 @@ export function generateElementsClones() {
     const ratio = scale * dpr;
     const idSet = selection.values;
     const visibleElements = mainHost.visibleElements;
-    const strokeWidth = 10 / ratio;
+    const strokeWidth = 10 * dpr / scale;
     const handleTranslateMouseDown = (id) => {
         if (!selection.has(id)) {
             action.dispatch('selection-modify', { mode: 'replace', idSet: new Set([id]) });

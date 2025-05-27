@@ -48,7 +48,7 @@ class World {
       this.offset,
       this.offset,
     )
-    this.dpr = 2
+    this.dpr = 4
 
     // this.selectionBox.style.pointerEvents = 'none'
     this.editor.container.append(/*this.baseCanvas, this.overlayCanvas, */this.creationCanvas)

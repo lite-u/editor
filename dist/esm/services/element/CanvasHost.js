@@ -23,7 +23,7 @@ class CanvasHost {
     eventsController = new AbortController();
     canvas;
     ctx;
-    dpr = 2;
+    dpr = 4;
     _hoveredElement = null;
     onmousedown;
     onmouseup;
@@ -77,7 +77,8 @@ class CanvasHost {
         }, { signal });
     }
     dispatchEvent(domEvent, type, options) {
-        const { ctx, dpr } = this;
+        const { ctx } = this;
+        const dpr = this.editor.config.dpr;
         const { offsetX: x, offsetY: y, pointerId } = domEvent;
         const elements = this.visibleElements.sort((a, b) => b.layer - a.layer);
         const vx = x * dpr;

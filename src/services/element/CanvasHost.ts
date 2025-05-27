@@ -30,7 +30,7 @@ class CanvasHost {
   protected eventsController = new AbortController()
   protected canvas: HTMLCanvasElement
   protected ctx: CanvasRenderingContext2D
-  protected dpr = 2
+  protected dpr = 4
   protected _hoveredElement: ElementInstance | null = null
   onmousedown?: CanvasHostEventHandler
   onmouseup?: CanvasHostEventHandler
@@ -94,7 +94,8 @@ class CanvasHost {
   }
 
   public dispatchEvent(domEvent: PointerEvent, type: PointerEvent['type'], options?: { tolerance?: number }) {
-    const {ctx, dpr} = this
+    const {ctx} = this
+    const dpr = this.editor.config.dpr
     const {offsetX: x, offsetY: y, pointerId} = domEvent
     const elements = this.visibleElements.sort((a, b) => b.layer - a.layer)
     const vx = x * dpr
@@ -166,7 +167,7 @@ class CanvasHost {
         event.isPropagationStopped = true
       },
     }
-    console.log(type,this._hoveredElement)
+    console.log(type, this._hoveredElement)
     _ele.dispatchEvent?.(event)
   }
 
