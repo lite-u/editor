@@ -98,12 +98,6 @@ class ElementLineSegment extends ElementBase {
     this.updatePath2D()
   }
 
-  /*
-    public get getPoints(): Point[] {
-      return this.points.map(p => ({x: p.x, y: p.y}))
-    }
-  */
-
   public getBoundingRect(withoutRotation: boolean = false): BoundingRect {
     const {start, end, rotation} = this
     const r = withoutRotation ? -rotation : 0

@@ -16,6 +16,7 @@ const lineSegmentTool = {
         const { action, interaction, cursor, overlayHost, world } = this.editor;
         if (!interaction._ele)
             return;
+        console.log('move');
         action.dispatch('clear-creation');
         resizeFunc.call(this, [interaction._ele], 'br');
         action.dispatch('rerender-overlay');
