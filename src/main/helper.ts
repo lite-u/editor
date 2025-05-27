@@ -64,7 +64,7 @@ export function generateElementsClones(this: Editor) {
       invisibleClone.onmouseenter = cloneStrokeLine.onmouseenter = () => {
         cloneStrokeLine.stroke.color = boxColor
         if (centerPoint) {
-          centerPoint.stroke.color = boxColor
+          centerPoint.fill.color = boxColor
         }
         action.dispatch('rerender-overlay')
       }
@@ -72,7 +72,7 @@ export function generateElementsClones(this: Editor) {
       invisibleClone.onmouseleave = cloneStrokeLine.onmouseleave = () => {
         cloneStrokeLine.stroke.color = 'transparent'
         if (centerPoint) {
-          centerPoint.stroke.color = 'transparent'
+          centerPoint.fill.color = 'transparent'
         }
         action.dispatch('rerender-overlay')
       }

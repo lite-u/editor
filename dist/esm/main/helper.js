@@ -51,14 +51,14 @@ export function generateElementsClones() {
             invisibleClone.onmouseenter = cloneStrokeLine.onmouseenter = () => {
                 cloneStrokeLine.stroke.color = boxColor;
                 if (centerPoint) {
-                    centerPoint.stroke.color = boxColor;
+                    centerPoint.fill.color = boxColor;
                 }
                 action.dispatch('rerender-overlay');
             };
             invisibleClone.onmouseleave = cloneStrokeLine.onmouseleave = () => {
                 cloneStrokeLine.stroke.color = 'transparent';
                 if (centerPoint) {
-                    centerPoint.stroke.color = 'transparent';
+                    centerPoint.fill.color = 'transparent';
                 }
                 action.dispatch('rerender-overlay');
             };
