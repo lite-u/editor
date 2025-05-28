@@ -23,6 +23,6 @@ declare class RectangleLike extends ElementBase {
     toJSON(): RequiredRectangleLikeProps;
     toMinimalJSON(): RectangleLikeProps;
     getBoundingRect(withoutRotation?: boolean): import("~/type").BoundingRect;
-    getBoundingRectFromOriginal(): import("~/type").BoundingRect;
+    getBoundingRectFromOriginal(withoutRotation?: boolean): import("~/type").BoundingRect;
 }
 export default RectangleLike;

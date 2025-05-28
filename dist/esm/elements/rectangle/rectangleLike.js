@@ -184,11 +184,11 @@ class RectangleLike extends ElementBase {
         }
         return generateBoundingRectFromRotatedRect({ x, y, width, height }, rotation);
     }
-    getBoundingRectFromOriginal() {
+    getBoundingRectFromOriginal(withoutRotation = false) {
         const { cx, cy, width, height, rotation } = this.original;
         const x = cx - width / 2;
         const y = cy - height / 2;
-        if (rotation === 0) {
+        if (rotation === 0 || withoutRotation) {
             return generateBoundingRectFromRect({ x, y, width, height });
         }
         return generateBoundingRectFromRotatedRect({ x, y, width, height }, rotation);

@@ -3,6 +3,7 @@ import {ResizeDirectionName} from '~/services/selection/type'
 import {getAnchorsByResizeDirection, getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
 import ToolManager from '~/services/tool/toolManager'
 import {HistoryChangeItem} from '~/services/actions/type'
+import {getMinimalBoundingRect} from '~/core/utils'
 
 // import Editor from '~/main/editor'
 
@@ -11,6 +12,9 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
   const {interaction /*action*/} = this.editor
   const {mouseWorldCurrent, _modifier} = interaction
   const {altKey, shiftKey} = _modifier
+  const sameRotation = !elements.some(element => {return element.rotation !== elements[0].rotation})
+  console.log(sameRotation)
+  const r = getMinimalBoundingRect()
   const rect = getBoundingRectFromBoundingRects(elements.map(el => el.getBoundingRectFromOriginal()))
   const {anchor, opposite} = getAnchorsByResizeDirection(rect, placement)
   const centerX = rect.cx

@@ -1,10 +1,14 @@
 import { getAnchorsByResizeDirection, getBoundingRectFromBoundingRects } from './helper.js';
+import { getMinimalBoundingRect } from '../../../core/utils.js';
 // import Editor from '../../../main/editor.js'
 function resizeFunc(elements, placement = 'br') {
     const changes = [];
     const { interaction /*action*/ } = this.editor;
     const { mouseWorldCurrent, _modifier } = interaction;
     const { altKey, shiftKey } = _modifier;
+    const sameRotation = !elements.some(element => { return element.rotation !== elements[0].rotation; });
+    console.log(sameRotation);
+    const r = getMinimalBoundingRect();
     const rect = getBoundingRectFromBoundingRects(elements.map(el => el.getBoundingRectFromOriginal()));
     const { anchor, opposite } = getAnchorsByResizeDirection(rect, placement);
     const centerX = rect.cx;
