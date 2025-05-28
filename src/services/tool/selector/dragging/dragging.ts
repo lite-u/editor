@@ -14,7 +14,7 @@ const dragging: SubToolType = {
   },
   mouseUp() {
     const {interaction, action, cursor} = this.editor
-    // this.action.dispatch('rerender-overlay')
+
     cursor.unlock()
 
     // this.action.dispatch('rerender-main-host')
