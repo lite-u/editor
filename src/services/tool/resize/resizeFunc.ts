@@ -48,6 +48,7 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
       // el.scaleFrom(scaleX, scaleY, scalingAnchor)
     })*/
   elements.forEach((el: ElementInstance) => {
+    console.log(scalingAnchor)
     el.scaleFrom(scaleX, scaleY, scalingAnchor)
   })
 

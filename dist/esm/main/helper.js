@@ -30,11 +30,12 @@ export function generateElementsClones() {
         const cloneStrokeLine = ele.clone();
         const isSelected = idSet.has(id);
         let centerPoint = null;
+        console.log('ratio!!!', ratio);
         invisibleClone.id = 'invisible-clone-' + id;
         invisibleClone.layer = 0;
         invisibleClone.fill.enabled = false;
         invisibleClone.stroke.enabled = true;
-        invisibleClone.stroke.weight = 2;
+        invisibleClone.stroke.weight = 10 * ratio;
         invisibleClone.stroke.color = 'transparent';
         // invisibleClone.stroke.color = 'red'
         cloneStrokeLine.id = 'stroke-line-clone-' + id;

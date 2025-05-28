@@ -39,6 +39,7 @@ function resizeFunc(elements, placement = 'br') {
         // el.scaleFrom(scaleX, scaleY, scalingAnchor)
       })*/
     elements.forEach((el) => {
+        console.log(scalingAnchor);
         el.scaleFrom(scaleX, scaleY, scalingAnchor);
     });
 }

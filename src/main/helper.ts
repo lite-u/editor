@@ -40,11 +40,12 @@ export function generateElementsClones(this: Editor) {
     const isSelected = idSet.has(id)
     let centerPoint: ElementEllipse | ElementRectangle | null = null
 
+    console.log('ratio!!!',ratio)
     invisibleClone.id = 'invisible-clone-' + id
     invisibleClone.layer = 0
     invisibleClone.fill.enabled = false
     invisibleClone.stroke.enabled = true
-    invisibleClone.stroke.weight = 2
+    invisibleClone.stroke.weight = 10 * ratio
     invisibleClone.stroke.color = 'transparent'
     // invisibleClone.stroke.color = 'red'
 
