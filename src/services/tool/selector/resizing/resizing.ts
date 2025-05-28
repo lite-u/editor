@@ -1,5 +1,6 @@
 import ToolManager, {SubToolType} from '~/services/tool/toolManager'
 import resizeFunc from '~/services/tool/resize/resizeFunc'
+import {HistoryChangeItem} from '~/services/actions/type'
 
 const resizing: SubToolType = {
   // cursor: 'default',
@@ -31,10 +32,22 @@ const resizing: SubToolType = {
 
     cursor.unlock()
 
-    resizeFunc.call(this, mainHost.getElementsByIdSet(selection.values), interaction._resizingData.placement)
+    const changes = resizeFunc.call(this, mainHost.getElementsByIdSet(selection.values), interaction._resizingData.placement)
+    const elements = mainHost.getElementsByIdSet(selection.values)
+
+    // const changes: HistoryChangeItem[] = []
+    // const rotation = resizing.mouseMove.call(this)
+
+    elements.forEach(ele => {
+      // const change = ele.rotateFrom(rotation, interaction._rotateData?.targetPoint, true)
+      ele.updateOriginal()
+      // changes.push(change)
+    })
+
+    // cursor.set(selector.cursor)
 
     interaction._resizingData = null
-    // this.subTool.mouseUp.call(this)
+    action.dispatch('element-modified', changes)
     this.subTool = null
   },
 }

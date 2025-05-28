@@ -5,6 +5,7 @@ const resizing = {
         const { interaction, mainHost, action, selection, cursor } = this.editor;
         if (!interaction._resizingData)
             return;
+        cursor.lock();
         resizeFunc.call(this, mainHost.getElementsByIdSet(selection.values), interaction._resizingData.placement);
         action.dispatch('element-updated');
         /*
@@ -23,7 +24,20 @@ const resizing = {
     mouseUp() {
         if (!this.subTool)
             return;
-        // this.subTool.mouseUp.call(this)
+        const { interaction, mainHost, action, selection, cursor } = this.editor;
+        cursor.unlock();
+        const changes = resizeFunc.call(this, mainHost.getElementsByIdSet(selection.values), interaction._resizingData.placement);
+        const elements = mainHost.getElementsByIdSet(selection.values);
+        // const changes: HistoryChangeItem[] = []
+        // const rotation = resizing.mouseMove.call(this)
+        elements.forEach(ele => {
+            // const change = ele.rotateFrom(rotation, interaction._rotateData?.targetPoint, true)
+            ele.updateOriginal();
+            // changes.push(change)
+        });
+        // cursor.set(selector.cursor)
+        interaction._resizingData = null;
+        action.dispatch('element-modified', changes);
         this.subTool = null;
     },
 };

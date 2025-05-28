@@ -2,16 +2,18 @@ import {ElementInstance} from '~/elements/type'
 import {ResizeDirectionName} from '~/services/selection/type'
 import {getAnchorsByResizeDirection, getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
 import ToolManager from '~/services/tool/toolManager'
+import {HistoryChangeItem} from '~/services/actions/type'
 
 // import Editor from '~/main/editor'
 
-function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: ResizeDirectionName = 'br') {
+function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: ResizeDirectionName = 'br'):  HistoryChangeItem[] {
+  const changes: HistoryChangeItem = []
   const {interaction /*action*/} = this.editor
   const {mouseWorldCurrent, _modifier} = interaction
   const {altKey, shiftKey} = _modifier
   const rect = getBoundingRectFromBoundingRects(elements.map(el => el.getBoundingRectFromOriginal()))
   const {anchor, opposite} = getAnchorsByResizeDirection(rect, placement)
-  console.log(anchor, opposite)
+  // console.log(anchor, opposite)
   // const startPoint
   const centerX = rect.cx
   const centerY = rect.cy
@@ -49,9 +51,11 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
     })*/
   elements.forEach((el: ElementInstance) => {
     console.log(scaleX, scaleY, opposite)
-    el.scaleFrom(scaleX, scaleY, opposite)
+    const change = el.scaleFrom(scaleX, scaleY, opposite)
+    changes.push(change)
   })
 
+  return changes
 }
 
 export default resizeFunc
