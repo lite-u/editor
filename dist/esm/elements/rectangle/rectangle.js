@@ -3,6 +3,8 @@ class ElementRectangle extends RectangleLike {
     type = 'rectangle';
     constructor(props) {
         super(props);
+        this.updatePath2D();
+        this.updateBoundingRect();
     }
     static create(id, cx, cy, width = 10, height) {
         const _height = height || width;

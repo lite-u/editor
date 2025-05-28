@@ -12,6 +12,8 @@ class ElementRectangle extends RectangleLike {
 
   constructor(props: RectangleProps) {
     super(props)
+    this.updatePath2D()
+    this.updateBoundingRect()
   }
 
   static create(id: UID, cx: number, cy: number, width: number = 10, height?: number) {

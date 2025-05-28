@@ -101,7 +101,7 @@ class RectangleLike extends ElementBase {
         const { cx, cy, width, height, rotation } = this.original;
         const matrix = new DOMMatrix().rotate(-rotation);
         const unRotatedAnchor = rotatePointAroundPoint(anchor.x, anchor.y, cx, cy, -rotation);
-        console.log(unRotatedAnchor);
+        console.log(anchor, unRotatedAnchor);
         matrix.scaleSelf(scaleX, scaleY, 1, unRotatedAnchor.x, unRotatedAnchor.y);
         // .scale(scaleX, scaleY, 1, 50, 50)
         // .scale(scaleX, scaleY)

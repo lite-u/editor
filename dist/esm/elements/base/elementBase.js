@@ -26,7 +26,7 @@ class ElementBase {
     onmousedown;
     onmousemove;
     onmouseup;
-    constructor({ id, layer, cx = DEFAULT_CX, cy = DEFAULT_CY, gradient = DEFAULT_GRADIENT, stroke = deepClone(DEFAULT_STROKE), fill = deepClone(DEFAULT_FILL), opacity = deepClone(DEFAULT_OPACITY), shadow = deepClone(DEFAULT_SHADOW), rotation = deepClone(DEFAULT_ROTATION), transform = deepClone(DEFAULT_TRANSFORM), show = true, }) {
+    constructor({ id, layer, cx = DEFAULT_CX, cy = DEFAULT_CY, gradient = DEFAULT_GRADIENT, stroke = deepClone(DEFAULT_STROKE), fill = deepClone(DEFAULT_FILL), opacity = DEFAULT_OPACITY, rotation = DEFAULT_ROTATION, shadow = deepClone(DEFAULT_SHADOW), transform = deepClone(DEFAULT_TRANSFORM), show = true, }) {
         this.id = id;
         this.layer = layer;
         this.cx = cx;

@@ -73,7 +73,7 @@ declare class ElementBase {
     onmousedown?: (event: CanvasHostEvent) => void;
     onmousemove?: (event: CanvasHostEvent) => void;
     onmouseup?: (event: CanvasHostEvent) => void;
-    constructor({ id, layer, cx, cy, gradient, stroke, fill, opacity, shadow, rotation, transform, show, }: ElementBaseProps);
+    constructor({ id, layer, cx, cy, gradient, stroke, fill, opacity, rotation, shadow, transform, show, }: ElementBaseProps);
     static transformPoint(x: number, y: number, matrix: DOMMatrix): Point;
     on<K extends keyof ElementEventMap>(event: K, handler: ElementEventHandler<ElementEventMap[K]>): void;
     dispatchEvent(eventData: {
