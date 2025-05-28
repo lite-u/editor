@@ -7,7 +7,7 @@ import {HistoryChangeItem} from '~/services/actions/type'
 // import Editor from '~/main/editor'
 
 function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: ResizeDirectionName = 'br'):  HistoryChangeItem[] {
-  const changes: HistoryChangeItem = []
+  const changes: HistoryChangeItem[] = []
   const {interaction /*action*/} = this.editor
   const {mouseWorldCurrent, _modifier} = interaction
   const {altKey, shiftKey} = _modifier
@@ -50,9 +50,9 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
       // el.scaleFrom(scaleX, scaleY, scalingAnchor)
     })*/
   elements.forEach((el: ElementInstance) => {
-    console.log(scaleX, scaleY, opposite)
+    // console.log(scaleX, scaleY, opposite)
     const change = el.scaleFrom(scaleX, scaleY, opposite)
-    changes.push(change)
+    changes.push(change!)
   })
 
   return changes
