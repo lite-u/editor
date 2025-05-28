@@ -39,9 +39,7 @@ const resizing: SubToolType = {
     // const rotation = resizing.mouseMove.call(this)
 
     elements.forEach(ele => {
-      // const change = ele.rotateFrom(rotation, interaction._rotateData?.targetPoint, true)
       ele.updateOriginal()
-      // changes.push(change)
     })
 
     // cursor.set(selector.cursor)
