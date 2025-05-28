@@ -30,7 +30,7 @@ export function generateElementsClones() {
         const cloneStrokeLine = ele.clone();
         const isSelected = idSet.has(id);
         let centerPoint = null;
-        console.log('ratio!!!', ratio);
+        // console.log('ratio!!!',ratio)
         invisibleClone.id = 'invisible-clone-' + id;
         invisibleClone.layer = 0;
         invisibleClone.fill.enabled = false;

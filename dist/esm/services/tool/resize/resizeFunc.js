@@ -12,16 +12,16 @@ function resizeFunc(elements, placement = 'br') {
     const centerY = rect.cy;
     // console.log(anchor)
     const startVec = {
-        x: opposite.x - anchor.x,
-        y: opposite.y - anchor.y,
+        x: anchor.x - opposite.x,
+        y: anchor.y - opposite.y,
     };
     // console.log(rect)
     const currentVec = {
-        x: mouseWorldCurrent.x - anchor.x,
-        y: mouseWorldCurrent.y - anchor.y,
+        x: mouseWorldCurrent.x - opposite.x,
+        y: mouseWorldCurrent.y - opposite.y,
     };
-    console.log('startVec', startVec);
-    console.log('currentVec', currentVec);
+    // console.log('startVec',startVec)
+    // console.log('currentVec',currentVec)
     // console.log(startVec, currentVec)
     let scaleX = startVec.x !== 0 ? currentVec.x / startVec.x : 1;
     let scaleY = startVec.y !== 0 ? currentVec.y / startVec.y : 1;
@@ -39,8 +39,8 @@ function resizeFunc(elements, placement = 'br') {
         // el.scaleFrom(scaleX, scaleY, scalingAnchor)
       })*/
     elements.forEach((el) => {
-        console.log(scalingAnchor);
-        el.scaleFrom(scaleX, scaleY, scalingAnchor);
+        console.log(scaleX, scaleY, opposite);
+        el.scaleFrom(scaleX, scaleY, opposite);
     });
 }
 export default resizeFunc;

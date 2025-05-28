@@ -129,13 +129,13 @@ class RectangleLike extends ElementBase {
   scaleFrom(scaleX: number, scaleY: number, anchor: Point): HistoryChangeItem | undefined {
     const {cx, cy, width, height, rotation} = this.original
 
-    console.log(anchor)
-    console.log(scaleX, scaleY)
+    // console.log(anchor)
+    // console.log(scaleX, scaleY)
     const matrix = new DOMMatrix()
       .rotate(-rotation)
-      // .scale(scaleX, scaleY, 1, anchor.x, anchor.y)
-      .scale(scaleX, scaleY, 1, 50, 50)
-      .scale(scaleX, scaleY)
+      .scale(scaleX, scaleY, 1, anchor.x, anchor.y)
+      // .scale(scaleX, scaleY, 1, 50, 50)
+      // .scale(scaleX, scaleY)
     // .rotate(rotation)
     const halfW = width! / 2
     const halfH = height! / 2
