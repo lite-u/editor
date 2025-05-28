@@ -29,13 +29,10 @@ const resizing: SubToolType = {
     const {interaction, mainHost, action, selection, cursor} = this.editor
     if (!interaction._resizingData) return
 
-    cursor.unlock()
-
     const changes = resizeFunc.call(this, mainHost.getElementsByIdSet(selection.values), interaction._resizingData.placement)
     const elements = mainHost.getElementsByIdSet(selection.values)
 
-    // const changes: HistoryChangeItem[] = []
-    // const rotation = resizing.mouseMove.call(this)
+    cursor.unlock()
 
     elements.forEach(ele => {
       ele.updateOriginal()
