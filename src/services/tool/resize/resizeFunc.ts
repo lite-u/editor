@@ -37,9 +37,7 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
     scaleY = Math.sign(scaleY) * uniformScale
   }
 
-  const scalingAnchor = altKey
-    ? {x: centerX, y: centerY}
-    : anchor
+  const scalingAnchor = altKey ? {x: centerX, y: centerY} : opposite
   // console.log(scaleX, scaleY,scalingAnchor)
 
   /*  elements.forEach((el: ElementInstance) => {
@@ -48,7 +46,7 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
     })*/
   elements.forEach((el: ElementInstance) => {
     // console.log(scaleX, scaleY, opposite)
-    const change = el.scaleFrom(scaleX, scaleY, opposite)
+    const change = el.scaleFrom(scaleX, scaleY, scalingAnchor)
     changes.push(change!)
   })
 

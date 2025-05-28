@@ -28,9 +28,7 @@ function resizeFunc(elements, placement = 'br') {
         scaleX = Math.sign(scaleX) * uniformScale;
         scaleY = Math.sign(scaleY) * uniformScale;
     }
-    const scalingAnchor = altKey
-        ? { x: centerX, y: centerY }
-        : anchor;
+    const scalingAnchor = altKey ? { x: centerX, y: centerY } : opposite;
     // console.log(scaleX, scaleY,scalingAnchor)
     /*  elements.forEach((el: ElementInstance) => {
         scaleElementFrom(el, scaleX, scaleY, opposite)
@@ -38,7 +36,7 @@ function resizeFunc(elements, placement = 'br') {
       })*/
     elements.forEach((el) => {
         // console.log(scaleX, scaleY, opposite)
-        const change = el.scaleFrom(scaleX, scaleY, opposite);
+        const change = el.scaleFrom(scaleX, scaleY, scalingAnchor);
         changes.push(change);
     });
     return changes;

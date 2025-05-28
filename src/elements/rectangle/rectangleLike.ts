@@ -133,7 +133,7 @@ class RectangleLike extends ElementBase {
     const matrix = new DOMMatrix().rotate(-rotation)
     const unRotatedAnchor = rotatePointAroundPoint(anchor.x, anchor.y, cx, cy, -rotation)
 
-    console.log(anchor,unRotatedAnchor)
+    console.log(anchor, unRotatedAnchor)
     matrix.scaleSelf(scaleX, scaleY, 1, unRotatedAnchor.x, unRotatedAnchor.y)
 
     // .scale(scaleX, scaleY, 1, 50, 50)
@@ -239,13 +239,13 @@ class RectangleLike extends ElementBase {
     return generateBoundingRectFromRotatedRect({x, y, width, height}, rotation)
   }
 
-  public getBoundingRectFromOriginal() {
+  public getBoundingRectFromOriginal(withoutRotation: boolean = false) {
     const {cx, cy, width, height, rotation} = this.original
 
     const x = cx - width! / 2
     const y = cy - height! / 2
 
-    if (rotation === 0) {
+    if (rotation === 0 || withoutRotation) {
       return generateBoundingRectFromRect({x, y, width, height})
     }
 
