@@ -5,16 +5,11 @@ const dragging: SubToolType = {
   mouseMove: function () {
     const {interaction, action, cursor} = this.editor
     const dp = interaction.mouseWorldMovement
-    console.log('drag')
-    // interaction.selectedOutlineElement?.translate(dp.x, dp.y, false)
+
     cursor.set(dragging.cursor!)
     cursor.lock()
-    // const start = performance.now();
-    interaction._draggingElements.forEach(ele => ele.translate(dp.x, dp.y, false))
-    // const end = performance.now();
-    // console.log(`Canvas render took ${end - start}ms`);
 
-    // this.overlayHost.reset()
+    interaction._draggingElements.forEach(ele => ele.translate(dp.x, dp.y, false))
     action.dispatch('element-updated')
   },
   mouseUp() {
