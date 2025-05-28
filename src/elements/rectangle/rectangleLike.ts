@@ -5,6 +5,7 @@ import {DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH} from '~/elements/d
 import {isEqual} from '~/lib/lib'
 import {HistoryChangeItem} from '~/services/actions/type'
 import ElementBase, {ElementBaseProps} from '~/elements/base/elementBase'
+import {rotatePointAroundPoint} from '~/core/geometry'
 
 export interface RectangleLikeProps extends ElementBaseProps {
   id: string
@@ -130,8 +131,9 @@ class RectangleLike extends ElementBase {
     const {cx, cy, width, height, rotation} = this.original
 
     const matrix = new DOMMatrix().rotate(-rotation)
-    const unRotatedAnchor = matrix.transformPoint(anchor)
+    const unRotatedAnchor = rotatePointAroundPoint(anchor.x, anchor.y, cx, cy, -rotation)
 
+    console.log(unRotatedAnchor)
     matrix.scaleSelf(scaleX, scaleY, 1, unRotatedAnchor.x, unRotatedAnchor.y)
 
     // .scale(scaleX, scaleY, 1, 50, 50)
