@@ -1,6 +1,5 @@
-import ToolManager, {SubToolType} from '~/services/tool/toolManager'
+import {SubToolType} from '~/services/tool/toolManager'
 import resizeFunc from '~/services/tool/resize/resizeFunc'
-import {HistoryChangeItem} from '~/services/actions/type'
 
 const resizing: SubToolType = {
   // cursor: 'default',
@@ -27,8 +26,8 @@ const resizing: SubToolType = {
     // this.subTool.mouseMove.call(this)
   },
   mouseUp() {
-    if (!this.interaction._resizingData) return
     const {interaction, mainHost, action, selection, cursor} = this.editor
+    if (!interaction._resizingData) return
 
     cursor.unlock()
 
