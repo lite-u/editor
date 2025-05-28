@@ -207,6 +207,7 @@ class ElementBase {
         Object.assign(this, props);
         Object.assign(this.original, props);
         this.updatePath2D();
+        this.updateBoundingRect();
     }
     getTransformedPoints() {
         return [];

@@ -340,6 +340,7 @@ class ElementBase {
     Object.assign(this.original, props)
 
     this.updatePath2D()
+    this.updateBoundingRect()
   }
 
   protected getTransformedPoints(): Point[] {
