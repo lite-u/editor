@@ -15,7 +15,6 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
   const {anchor, opposite} = getAnchorsByResizeDirection(rect, placement)
   const centerX = rect.cx
   const centerY = rect.cy
-  // console.log(anchor)
   const startVec = {
     x: anchor.x - opposite.x,
     y: anchor.y - opposite.y,

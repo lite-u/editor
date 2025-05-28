@@ -1,5 +1,5 @@
-import { getAnchorsByResizeDirection, getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
-// import Editor from '~/main/editor'
+import { getAnchorsByResizeDirection, getBoundingRectFromBoundingRects } from './helper.js';
+// import Editor from '../../../main/editor.js'
 function resizeFunc(elements, placement = 'br') {
     const changes = [];
     const { interaction /*action*/ } = this.editor;
@@ -9,7 +9,6 @@ function resizeFunc(elements, placement = 'br') {
     const { anchor, opposite } = getAnchorsByResizeDirection(rect, placement);
     const centerX = rect.cx;
     const centerY = rect.cy;
-    // console.log(anchor)
     const startVec = {
         x: anchor.x - opposite.x,
         y: anchor.y - opposite.y,
