@@ -10,7 +10,6 @@ const dragging = {
     },
     mouseUp() {
         const { interaction, action, cursor } = this.editor;
-        // this.action.dispatch('rerender-overlay')
         cursor.unlock();
         // this.action.dispatch('rerender-main-host')
         interaction._draggingElements = [];

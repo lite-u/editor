@@ -17,14 +17,14 @@ const rotating = {
         }
         elements.forEach(ele => ele.rotateFrom(rotationDiff, targetPoint));
         cursor.rotate(mouseCurrentRotation);
-        console.log('rotate reset');
+        // console.log('rotate reset')
         // this.overlayHost.reset()
         action.dispatch('reset-overlay');
         action.dispatch('rerender-main-host');
         return rotationDiff;
     },
     mouseUp() {
-        console.log(this);
+        // console.log(this)
         const { interaction, mainHost, action, cursor, selection } = this.editor;
         const elements = mainHost.getElementsByIdSet(selection.values);
         const changes = [];
