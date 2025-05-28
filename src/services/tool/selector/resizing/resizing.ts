@@ -38,8 +38,6 @@ const resizing: SubToolType = {
       ele.updateOriginal()
     })
 
-    // cursor.set(selector.cursor)
-
     interaction._resizingData = null
     action.dispatch('element-modified', changes)
     this.subTool = null
