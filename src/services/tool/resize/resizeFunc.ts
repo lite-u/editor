@@ -6,15 +6,13 @@ import {HistoryChangeItem} from '~/services/actions/type'
 
 // import Editor from '~/main/editor'
 
-function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: ResizeDirectionName = 'br'):  HistoryChangeItem[] {
+function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: ResizeDirectionName = 'br'): HistoryChangeItem[] {
   const changes: HistoryChangeItem[] = []
   const {interaction /*action*/} = this.editor
   const {mouseWorldCurrent, _modifier} = interaction
   const {altKey, shiftKey} = _modifier
   const rect = getBoundingRectFromBoundingRects(elements.map(el => el.getBoundingRectFromOriginal()))
   const {anchor, opposite} = getAnchorsByResizeDirection(rect, placement)
-  // console.log(anchor, opposite)
-  // const startPoint
   const centerX = rect.cx
   const centerY = rect.cy
   // console.log(anchor)

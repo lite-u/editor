@@ -1,5 +1,5 @@
-import { getAnchorsByResizeDirection, getBoundingRectFromBoundingRects } from './helper.js';
-// import Editor from '../../../main/editor.js'
+import { getAnchorsByResizeDirection, getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
+// import Editor from '~/main/editor'
 function resizeFunc(elements, placement = 'br') {
     const changes = [];
     const { interaction /*action*/ } = this.editor;
@@ -7,8 +7,6 @@ function resizeFunc(elements, placement = 'br') {
     const { altKey, shiftKey } = _modifier;
     const rect = getBoundingRectFromBoundingRects(elements.map(el => el.getBoundingRectFromOriginal()));
     const { anchor, opposite } = getAnchorsByResizeDirection(rect, placement);
-    // console.log(anchor, opposite)
-    // const startPoint
     const centerX = rect.cx;
     const centerY = rect.cy;
     // console.log(anchor)
@@ -40,7 +38,7 @@ function resizeFunc(elements, placement = 'br') {
         // el.scaleFrom(scaleX, scaleY, scalingAnchor)
       })*/
     elements.forEach((el) => {
-        console.log(scaleX, scaleY, opposite);
+        // console.log(scaleX, scaleY, opposite)
         const change = el.scaleFrom(scaleX, scaleY, opposite);
         changes.push(change);
     });
