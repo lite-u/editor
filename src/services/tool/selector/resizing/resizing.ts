@@ -7,6 +7,7 @@ const resizing: SubToolType = {
     const {interaction, mainHost, action, selection, cursor} = this.editor
 
     if (!interaction._resizingData) return
+    cursor.lock()
     resizeFunc.call(this, mainHost.getElementsByIdSet(selection.values), interaction._resizingData.placement)
 
     action.dispatch('element-updated')
@@ -26,7 +27,13 @@ const resizing: SubToolType = {
   },
   mouseUp(this: ToolManager) {
     if (!this.subTool) return
+    const {interaction, mainHost, action, selection, cursor} = this.editor
 
+    cursor.unlock()
+
+    resizeFunc.call(this, mainHost.getElementsByIdSet(selection.values), interaction._resizingData.placement)
+
+    interaction._resizingData = null
     // this.subTool.mouseUp.call(this)
     this.subTool = null
   },

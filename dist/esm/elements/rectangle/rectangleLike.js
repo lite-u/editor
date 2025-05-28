@@ -2,6 +2,7 @@ import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } fro
 import { DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../defaultProps.js';
 import { isEqual } from '../../lib/lib.js';
 import ElementBase from '../base/elementBase.js';
+import { rotatePointAroundPoint } from '../../core/geometry.js';
 class RectangleLike extends ElementBase {
     // id: string
     // layer: number
@@ -123,8 +124,9 @@ class RectangleLike extends ElementBase {
         const newCY = (pTL.y + pBR.y) / 2;
         const newWidth = Math.hypot(pTR.x - pTL.x, pTR.y - pTL.y);
         const newHeight = Math.hypot(pBL.x - pTL.x, pBL.y - pTL.y);
-        this.cx = newCX;
-        this.cy = newCY;
+        const _p = rotatePointAroundPoint(newCX, newCY, cx, cy, rotation);
+        this.cx = _p.x;
+        this.cy = _p.y;
         this.width = newWidth;
         this.height = newHeight;
         this.updatePath2D();
