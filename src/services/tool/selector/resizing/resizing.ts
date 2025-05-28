@@ -4,7 +4,7 @@ import {HistoryChangeItem} from '~/services/actions/type'
 
 const resizing: SubToolType = {
   // cursor: 'default',
-  mouseMove(this: ToolManager) {
+  mouseMove() {
     const {interaction, mainHost, action, selection, cursor} = this.editor
 
     if (!interaction._resizingData) return
@@ -26,8 +26,8 @@ const resizing: SubToolType = {
         this.action.dispatch('render-main-host')*/
     // this.subTool.mouseMove.call(this)
   },
-  mouseUp(this: ToolManager) {
-    if (!this.subTool) return
+  mouseUp() {
+    if (!this.interaction._resizingData) return
     const {interaction, mainHost, action, selection, cursor} = this.editor
 
     cursor.unlock()
