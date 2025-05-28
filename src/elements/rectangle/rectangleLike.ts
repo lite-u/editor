@@ -5,7 +5,6 @@ import {DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH} from '~/elements/d
 import {isEqual} from '~/lib/lib'
 import {HistoryChangeItem} from '~/services/actions/type'
 import ElementBase, {ElementBaseProps} from '~/elements/base/elementBase'
-import {rotatePointAroundPoint} from '~/core/geometry'
 
 export interface RectangleLikeProps extends ElementBaseProps {
   id: string
@@ -134,7 +133,10 @@ class RectangleLike extends ElementBase {
     // console.log(scaleX, scaleY)
     const matrix = new DOMMatrix()
       .rotate(-rotation)
-      .scale(scaleX, scaleY, 1, anchor.x, anchor.y)
+    const unRotatedAnchor = matrix.transformPoint(anchor)
+
+    matrix.scaleSelf(scaleX, scaleY, 1, unRotatedAnchor.x, unRotatedAnchor.y)
+
     // .scale(scaleX, scaleY, 1, 50, 50)
     // .scale(scaleX, scaleY)
     // .rotate(rotation)
@@ -159,9 +161,12 @@ class RectangleLike extends ElementBase {
 
     const newWidth = Math.hypot(pTR.x - pTL.x, pTR.y - pTL.y)
     const newHeight = Math.hypot(pBL.x - pTL.x, pBL.y - pTL.y)
-    const _p = rotatePointAroundPoint(newCX, newCY, cx, cy, rotation)
-    this.cx = _p.x
-    this.cy = _p.y
+
+    this.cx = newCX
+    this.cy = newCY
+    // const _p = rotatePointAroundPoint(newCX, newCY, cx, cy, rotation)
+    // this.cx = _p.x
+    // this.cy = _p.y
     this.width = newWidth
     this.height = newHeight
     this.updatePath2D()
