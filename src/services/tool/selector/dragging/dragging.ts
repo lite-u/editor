@@ -1,13 +1,14 @@
-import {SubToolType, ToolType} from '~/services/tool/toolManager'
+import {SubToolType} from '~/services/tool/toolManager'
 
 const dragging: SubToolType = {
   cursor: 'drag',
   mouseMove: function () {
-    const {interaction,action} = this.editor
+    const {interaction, action, cursor} = this.editor
     const dp = interaction.mouseWorldMovement
     console.log('drag')
     // interaction.selectedOutlineElement?.translate(dp.x, dp.y, false)
-
+    cursor.set(dragging.cursor!)
+    cursor.lock()
     // const start = performance.now();
     interaction._draggingElements.forEach(ele => ele.translate(dp.x, dp.y, false))
     // const end = performance.now();
@@ -17,8 +18,9 @@ const dragging: SubToolType = {
     action.dispatch('element-updated')
   },
   mouseUp() {
-    const {interaction,action} = this.editor
+    const {interaction, action, cursor} = this.editor
     // this.action.dispatch('rerender-overlay')
+    cursor.unlock()
 
     // this.action.dispatch('rerender-main-host')
     interaction._draggingElements = []
