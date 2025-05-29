@@ -145,9 +145,15 @@ export function getDirectedBoundingBox(rects, rotation) {
         height: maxY - minY,
     }, rotation);
 }
-export function getMinimalBoundingRect(rects, angle) {
+// generate unRotated BoundingRect from unRotated BoundingRect(s) and unified rotation
+export function getMinimalBoundingRect(rects, rotation) {
     if (rects.length === 0) {
         throw new Error('No rectangles provided');
+    }
+    if (rects.length === 1) {
+        // debugger
+        return rects[0];
+        return generateBoundingRectFromRotatedRect(rects[0], rotation);
     }
     const normalizeAngle = (angle) => ((angle % 360) + 360) % 360;
     const degToRad = (deg) => (deg * Math.PI) / 180;
@@ -164,7 +170,7 @@ export function getMinimalBoundingRect(rects, angle) {
         return rotatePoint([x, y], -angleDeg);
     };
     const allPoints = [];
-    const normalizedAngle = normalizeAngle(angle);
+    const normalizedAngle = normalizeAngle(rotation);
     for (const rect of rects) {
         const rad = degToRad(normalizedAngle);
         const cos = Math.cos(rad);

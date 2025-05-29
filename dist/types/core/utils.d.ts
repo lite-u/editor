@@ -7,4 +7,4 @@ export declare const isInsideRotatedRect: ({ x: mouseX, y: mouseY }: Point, rect
 export declare const isNegativeZero: (x: number) => boolean;
 export declare function throttle<T extends (...args: unknown[]) => void>(func: T, delay: number): (...args: Parameters<T>) => void;
 export declare function getDirectedBoundingBox(rects: BoundingRect[], rotation: number): BoundingRect;
-export declare function getMinimalBoundingRect(rects: BoundingRect[], angle: number): BoundingRect;
+export declare function getMinimalBoundingRect(rects: BoundingRect[], rotation: number): BoundingRect;

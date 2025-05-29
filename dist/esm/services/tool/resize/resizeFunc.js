@@ -18,14 +18,18 @@ function resizeFunc(elements, placement = 'br') {
         }
         rectsWithRotation.push(element.getBoundingRectFromOriginal());
         rectsWithoutRotation.push(element.getBoundingRectFromOriginal(true));
+        // debugger
     });
     applyRotation = sameRotation ? applyRotation : 0;
     if (sameRotation) {
+        // debugger
         rect = getMinimalBoundingRect(rectsWithoutRotation, applyRotation);
+        console.log(rect);
     }
     else {
         rect = getBoundingRectFromBoundingRects(rectsWithRotation);
     }
+    console.log(sameRotation, rect);
     const { anchor, opposite } = getAnchorsByResizeDirection(rect, placement);
     const centerX = rect.cx;
     const centerY = rect.cy;
@@ -33,7 +37,7 @@ function resizeFunc(elements, placement = 'br') {
         x: anchor.x - opposite.x,
         y: anchor.y - opposite.y,
     };
-    // console.log(anchor, opposite)
+    console.log('anchor op', sameRotation, anchor, opposite);
     const currentVec = {
         x: mouseWorldCurrent.x - opposite.x,
         y: mouseWorldCurrent.y - opposite.y,
