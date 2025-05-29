@@ -23,6 +23,6 @@ declare class ElementEllipse extends ElementBase {
     toMinimalJSON(): EllipseProps;
     toJSON(): RequiredEllipseProps;
     getBoundingRect(withoutRotation?: boolean): import("~/type").BoundingRect;
-    getBoundingRectFromOriginal(): import("~/type").BoundingRect;
+    getBoundingRectFromOriginal(withoutRotation?: boolean): import("~/type").BoundingRect;
 }
 export default ElementEllipse;

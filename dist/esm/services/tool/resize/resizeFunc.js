@@ -6,10 +6,27 @@ function resizeFunc(elements, placement = 'br') {
     const { interaction /*action*/ } = this.editor;
     const { mouseWorldCurrent, _modifier } = interaction;
     const { altKey, shiftKey } = _modifier;
-    const sameRotation = !elements.some(element => { return element.rotation !== elements[0].rotation; });
-    console.log(sameRotation);
-    const r = getMinimalBoundingRect();
-    const rect = getBoundingRectFromBoundingRects(elements.map(el => el.getBoundingRectFromOriginal()));
+    let sameRotation = true;
+    const rectsWithRotation = [];
+    const rectsWithoutRotation = [];
+    let rect;
+    let applyRotation = elements[0].rotation;
+    elements.forEach(element => {
+        if (sameRotation && element.rotation !== elements[0].rotation) {
+            sameRotation = false;
+        }
+        rectsWithRotation.push(element.getBoundingRectFromOriginal());
+        rectsWithoutRotation.push(element.getBoundingRectFromOriginal(true));
+    });
+    applyRotation = sameRotation ? applyRotation : 0;
+    if (sameRotation) {
+        rect = getMinimalBoundingRect(rectsWithoutRotation, applyRotation);
+    }
+    else {
+        rect = getBoundingRectFromBoundingRects(rectsWithRotation);
+    }
+    //
+    // const rect = getBoundingRectFromBoundingRects(elements.map(el => el.getBoundingRectFromOriginal()))
     const { anchor, opposite } = getAnchorsByResizeDirection(rect, placement);
     const centerX = rect.cx;
     const centerY = rect.cy;

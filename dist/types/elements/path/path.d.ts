@@ -20,8 +20,8 @@ declare class ElementPath extends ElementBase {
     translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined;
     rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined;
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
-    getBoundingRectFromOriginal(): BoundingRect;
     getBoundingRect(withoutRotation?: boolean): BoundingRect;
+    getBoundingRectFromOriginal(withoutRotation?: boolean): BoundingRect;
     toJSON(): RequiredShapeProps;
     toMinimalJSON(): PathProps;
 }

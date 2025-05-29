@@ -71,9 +71,10 @@ class ElementLineSegment extends ElementBase {
         const r = withoutRotation ? -rotation : 0;
         return ElementLineSegment._getBoundingRect(start, end, r);
     }
-    getBoundingRectFromOriginal() {
+    getBoundingRectFromOriginal(withoutRotation = false) {
         const { start, end, rotation } = this.original;
-        return ElementLineSegment._getBoundingRect(start, end, rotation);
+        const r = withoutRotation ? -rotation : 0;
+        return ElementLineSegment._getBoundingRect(start, end, r);
     }
     translate(dx, dy, f = false) {
         this.cx = this.cx + dx;

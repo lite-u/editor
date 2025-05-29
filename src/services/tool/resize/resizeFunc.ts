@@ -13,18 +13,23 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
   const {interaction /*action*/} = this.editor
   const {mouseWorldCurrent, _modifier} = interaction
   const {altKey, shiftKey} = _modifier
+  let sameRotation = true
   const rectsWithRotation: BoundingRect[] = []
   const rectsWithoutRotation: BoundingRect[] = []
-  let sameRotation = true
+  let rect:BoundingRect
+  let applyRotation = elements[0].rotation
 
   elements.forEach(element => {
     if (sameRotation && element.rotation !== elements[0].rotation) {
       sameRotation = false
     }
 
+    rectsWithRotation.push(element.getBoundingRectFromOriginal())
+    rectsWithoutRotation.push(element.getBoundingRectFromOriginal(true))
   })
-  let rect: { cx: number; cy: number; width: number; height: number }
-  //
+
+  applyRotation = sameRotation ? applyRotation : 0
+
   if (sameRotation) {
     rect = getMinimalBoundingRect(rectsWithoutRotation, applyRotation)
   } else {
@@ -32,7 +37,7 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
   }
 
   //
-  const rect = getBoundingRectFromBoundingRects(elements.map(el => el.getBoundingRectFromOriginal()))
+  // const rect = getBoundingRectFromBoundingRects(elements.map(el => el.getBoundingRectFromOriginal()))
   const {anchor, opposite} = getAnchorsByResizeDirection(rect, placement)
   const centerX = rect.cx
   const centerY = rect.cy

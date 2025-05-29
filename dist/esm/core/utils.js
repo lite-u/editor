@@ -191,10 +191,20 @@ export function getMinimalBoundingRect(rects, angle) {
     const minY = Math.min(...ys);
     const maxY = Math.max(...ys);
     const [centerX, centerY] = rotatePoint([(minX + maxX) / 2, (minY + maxY) / 2], normalizedAngle);
+    const width = maxX - minX;
+    const height = maxY - minY;
+    // The top-left corner of the bounding rect in unrotated space:
+    const [rotatedX, rotatedY] = rotatePoint([minX, minY], normalizedAngle);
     return {
+        x: rotatedX,
+        y: rotatedY,
+        width,
+        height,
+        top: rotatedY,
+        bottom: rotatedY + height,
+        left: rotatedX,
+        right: rotatedX + width,
         cx: centerX,
         cy: centerY,
-        width: maxX - minX,
-        height: maxY - minY,
     };
 }

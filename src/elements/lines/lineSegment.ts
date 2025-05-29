@@ -104,10 +104,11 @@ class ElementLineSegment extends ElementBase {
     return ElementLineSegment._getBoundingRect(start, end, r)
   }
 
-  public getBoundingRectFromOriginal() {
+  public getBoundingRectFromOriginal(withoutRotation: boolean = false) {
     const {start, end, rotation} = this.original
+    const r = withoutRotation ? -rotation : 0
 
-    return ElementLineSegment._getBoundingRect(start!, end!, rotation)
+    return ElementLineSegment._getBoundingRect(start!, end!, r)
   }
 
   public translate(dx: number, dy: number, f: boolean = false): HistoryChangeItem | undefined {

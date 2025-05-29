@@ -145,15 +145,16 @@ class ElementEllipse extends ElementBase {
     return generateBoundingRectFromRotatedRect(rect, rotation)
   }
 
-  public getBoundingRectFromOriginal() {
+  public getBoundingRectFromOriginal(withoutRotation: boolean = false) {
     const {cx: cx, cy: cy, r1, r2, rotation} = this.original
+    const r = withoutRotation ? -rotation : 0
 
     return generateBoundingRectFromRotatedRect({
       x: cx - r1!,
       y: cy - r2!,
       width: r1! * 2,
       height: r2! * 2,
-    }, rotation)
+    }, r)
   }
 
   /*

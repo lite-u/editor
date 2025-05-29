@@ -17,7 +17,7 @@ declare class ElementLineSegment extends ElementBase {
     updatePath2D(): void;
     updateOriginal(): void;
     getBoundingRect(withoutRotation?: boolean): BoundingRect;
-    getBoundingRectFromOriginal(): BoundingRect;
+    getBoundingRectFromOriginal(withoutRotation?: boolean): BoundingRect;
     translate(dx: number, dy: number, f?: boolean): HistoryChangeItem | undefined;
     scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
     toJSON(): RequiredLineSegmentProps;

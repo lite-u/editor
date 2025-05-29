@@ -182,13 +182,14 @@ class ElementPath extends ElementBase {
         this.updatePath2D()*/
         // console.log(this.cx, this.cy, this.width, this.height)
     }
-    getBoundingRectFromOriginal() {
-        const { cx, cy, rotation, points } = this.original;
-        const transformedPoints = ElementPath._rotateBezierPointsFrom(cx, cy, rotation, points);
-        return getBoundingRectFromBezierPoints(transformedPoints);
-    }
     getBoundingRect(withoutRotation = false) {
         const { cx, cy, rotation, points } = this;
+        const r = withoutRotation ? -rotation : 0;
+        const transformedPoints = ElementPath._rotateBezierPointsFrom(cx, cy, r, points);
+        return getBoundingRectFromBezierPoints(transformedPoints);
+    }
+    getBoundingRectFromOriginal(withoutRotation = false) {
+        const { cx, cy, rotation, points } = this.original;
         const r = withoutRotation ? -rotation : 0;
         const transformedPoints = ElementPath._rotateBezierPointsFrom(cx, cy, r, points);
         return getBoundingRectFromBezierPoints(transformedPoints);
