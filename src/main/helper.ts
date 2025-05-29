@@ -2,7 +2,7 @@ import {BoundingRect, ElementInstance, UID} from '~/type'
 import {getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
 import ElementRectangle from '~/elements/rectangle/rectangle'
 import Rectangle from '~/elements/rectangle/rectangle'
-import {getMinimalBoundingRect} from '~/core/utils'
+import {getSameRotationRectsBoundingRect} from '~/core/utils'
 import {DEFAULT_STROKE} from '~/elements/defaultProps'
 import Editor from '~/main/editor'
 import {rotatePointAroundPoint} from '~/core/geometry'
@@ -19,7 +19,7 @@ export function generateElementsClones(this: Editor) {
   const {scale, dpr} = world
   const ratio = dpr / scale
   const idSet = selection.values
-  const visibleElements = mainHost.visibleElements
+  const visibleElements = mainHost.visibleElements.sort((a, b) => a.layer - b.layer)
   const strokeWidth = 1 * ratio
 
   const handleTranslateMouseDown = (event: CanvasHostEvent, id: UID) => {
@@ -42,7 +42,7 @@ export function generateElementsClones(this: Editor) {
 
     // console.log('ratio!!!',ratio)
     invisibleClone.id = 'invisible-clone-' + id
-    invisibleClone.layer = 0
+    // invisibleClone.layer += 1
     invisibleClone.fill.enabled = false
     invisibleClone.stroke.enabled = true
     invisibleClone.stroke.weight = 10 * ratio
@@ -50,7 +50,7 @@ export function generateElementsClones(this: Editor) {
     // invisibleClone.stroke.color = 'red'
 
     cloneStrokeLine.id = 'stroke-line-clone-' + id
-    cloneStrokeLine.layer = 1
+    cloneStrokeLine.layer += 1
     cloneStrokeLine.stroke.enabled = true
     cloneStrokeLine.stroke.weight = strokeWidth
     cloneStrokeLine.stroke.color = 'transparent'
@@ -123,7 +123,7 @@ export function getSelectedBoundingElement(this: Editor): ElementRectangle {
   const ratio = dpr / scale
   const idSet = selection.values
 
-  const selectedElements = mainHost.getVisibleElementsByIdSet(idSet)
+  const selectedElements = mainHost.getVisibleElementsByIdSet(idSet).sort((a, b) => a.layer - b.layer)
 
   selectedElements.forEach((ele: ElementInstance) => {
     rotations.push(ele.rotation)
@@ -137,7 +137,7 @@ export function getSelectedBoundingElement(this: Editor): ElementRectangle {
   const specialLineSeg = idSet.size === 1 && selectedElements[0].type === 'lineSegment'
 
   if (sameRotation) {
-    rect = getMinimalBoundingRect(rectsWithoutRotation, applyRotation)
+    rect = getSameRotationRectsBoundingRect(rectsWithoutRotation, applyRotation)
     if (specialLineSeg) {
       rect.width = 1
       rect.cx = selectedElements[0].cx

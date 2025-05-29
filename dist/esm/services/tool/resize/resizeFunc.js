@@ -1,5 +1,5 @@
 import { getAnchorsByResizeDirection, getBoundingRectFromBoundingRects } from './helper.js';
-import { getMinimalBoundingRect } from '../../../core/utils.js';
+import { getSameRotationRectsBoundingRect } from '../../../core/utils.js';
 import { rotatePointAroundPoint } from '../../../core/geometry.js';
 // import Editor from '../../../main/editor.js'
 function resizeFunc(elements, placement = 'br') {
@@ -22,7 +22,8 @@ function resizeFunc(elements, placement = 'br') {
     });
     applyRotation = sameRotation ? applyRotation : 0;
     if (sameRotation) {
-        rect = getMinimalBoundingRect(rectsWithoutRotation, applyRotation);
+        rect = getSameRotationRectsBoundingRect(rectsWithoutRotation, applyRotation);
+        console.log({ ...rect });
     }
     else {
         rect = getBoundingRectFromBoundingRects(rectsWithRotation);
@@ -57,9 +58,13 @@ function resizeFunc(elements, placement = 'br') {
         scaleY = Math.sign(scaleY) * uniformScale;
     }
     const scalingAnchor = altKey ? { x: centerX, y: centerY } : opposite;
+    /*  if(altKey){
+        scaleX/=2
+        scaleY/=2
+      }*/
     console.log(scaleX, scaleY, scalingAnchor);
     elements.forEach((el) => {
-        const change = el.scaleFrom(scaleX, scaleY, scalingAnchor);
+        const change = el.scaleFrom(scaleX, scaleY, scalingAnchor, { x: rect.cx, y: rect.cy });
         changes.push(change);
     });
     return changes;

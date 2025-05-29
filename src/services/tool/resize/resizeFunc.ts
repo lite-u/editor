@@ -3,7 +3,7 @@ import {ResizeDirectionName} from '~/services/selection/type'
 import {getAnchorsByResizeDirection, getBoundingRectFromBoundingRects} from '~/services/tool/resize/helper'
 import ToolManager from '~/services/tool/toolManager'
 import {HistoryChangeItem} from '~/services/actions/type'
-import {getMinimalBoundingRect} from '~/core/utils'
+import {getSameRotationRectsBoundingRect} from '~/core/utils'
 import {BoundingRect, Point} from '~/type'
 import {rotatePointAroundPoint} from '~/core/geometry'
 
@@ -33,7 +33,8 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
   applyRotation = sameRotation ? applyRotation : 0
 
   if (sameRotation) {
-    rect = getMinimalBoundingRect(rectsWithoutRotation, applyRotation)
+    rect = getSameRotationRectsBoundingRect(rectsWithoutRotation, applyRotation)
+    console.log({...rect})
   } else {
     rect = getBoundingRectFromBoundingRects(rectsWithRotation)
   }
@@ -69,11 +70,15 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
   }
 
   const scalingAnchor = altKey ? {x: centerX, y: centerY} : opposite
+
+/*  if(altKey){
+    scaleX/=2
+    scaleY/=2
+  }*/
   console.log(scaleX, scaleY, scalingAnchor)
 
   elements.forEach((el: ElementInstance) => {
-    // console.log(scaleX, scaleY, opposite)
-    const change = el.scaleFrom(scaleX, scaleY, scalingAnchor)
+    const change = el.scaleFrom(scaleX, scaleY, scalingAnchor, {x: rect.cx, y: rect.cy})
     changes.push(change!)
   })
 

@@ -103,7 +103,7 @@ class ElementLineSegment extends ElementBase {
             };
         }
     }
-    scaleFrom(scaleX, scaleY, anchor) {
+    scaleFrom(scaleX, scaleY, anchor, center) {
         const matrix = new DOMMatrix()
             .translate(anchor.x, anchor.y)
             .scale(scaleX, scaleY)

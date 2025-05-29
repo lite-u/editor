@@ -190,15 +190,15 @@ export function getDirectedBoundingBox(rects: BoundingRect[], rotation: number):
 }
 
 // generate unRotated BoundingRect from unRotated BoundingRect(s) and unified rotation
-export function getMinimalBoundingRect(rects: BoundingRect[], rotation: number): BoundingRect {
+export function getSameRotationRectsBoundingRect(rects: BoundingRect[], rotation: number): BoundingRect {
   if (rects.length === 0) {
     throw new Error('No rectangles provided')
   }
 
-  if(rects.length === 1) {
+  if (rects.length === 1) {
     // debugger
     return rects[0]
-    return generateBoundingRectFromRotatedRect(rects[0], rotation)
+    // return generateBoundingRectFromRotatedRect(rects[0], rotation)
   }
 
   const normalizeAngle = (angle: number): number => ((angle % 360) + 360) % 360
@@ -254,18 +254,20 @@ export function getMinimalBoundingRect(rects: BoundingRect[], rotation: number):
 
   const width = maxX - minX
   const height = maxY - minY
-  // The top-left corner of the bounding rect in unrotated space:
-  const [rotatedX, rotatedY] = rotatePoint([minX, minY], normalizedAngle)
+  const halfW = width / 2
+  const halfH = height / 2
+  
   return {
-    x: rotatedX,
-    y: rotatedY,
-    width,
-    height,
-    top: rotatedY,
-    bottom: rotatedY + height,
-    left: rotatedX,
-    right: rotatedX + width,
     cx: centerX,
     cy: centerY,
+    width,
+    height,
+    x: centerX - halfW,
+    y: centerY - halfH,
+    top: centerY - halfH,
+    bottom: centerY + halfH,
+    left: centerX - halfW,
+    right: centerX + halfW,
+
   }
 }
