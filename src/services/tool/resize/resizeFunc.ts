@@ -44,7 +44,7 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
     x: anchor.x - opposite.x,
     y: anchor.y - opposite.y,
   }
-  console.log(anchor, opposite)
+  // console.log(anchor, opposite)
   const currentVec = {
     x: mouseWorldCurrent.x - opposite.x,
     y: mouseWorldCurrent.y - opposite.y,
