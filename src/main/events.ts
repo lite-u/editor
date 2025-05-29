@@ -592,4 +592,12 @@ export function initEvents(this: Editor) {
     console.log(toolName)
   })
 
+  on('escape-action', () => {
+
+    if (this.toolManager.tool && this.toolManager.currentToolName !== 'selector') {
+      // this.toolManager.tool.finish()
+    } else {
+      dispatch('selection-clear')
+    }
+  })
 }

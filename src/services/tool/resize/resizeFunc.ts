@@ -9,7 +9,7 @@ import {BoundingRect} from '~/type'
 // import Editor from '~/main/editor'
 
 function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: ResizeDirectionName = 'br'): HistoryChangeItem[] {
-  console.log(placement)
+  // console.log(placement)
   const changes: HistoryChangeItem[] = []
   const {interaction /*action*/} = this.editor
   const {mouseWorldCurrent, _modifier} = interaction

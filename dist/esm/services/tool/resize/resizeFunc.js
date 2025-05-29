@@ -2,7 +2,7 @@ import { getAnchorsByResizeDirection, getBoundingRectFromBoundingRects } from '.
 import { getMinimalBoundingRect } from '../../../core/utils.js';
 // import Editor from '../../../main/editor.js'
 function resizeFunc(elements, placement = 'br') {
-    console.log(placement);
+    // console.log(placement)
     const changes = [];
     const { interaction /*action*/ } = this.editor;
     const { mouseWorldCurrent, _modifier } = interaction;
