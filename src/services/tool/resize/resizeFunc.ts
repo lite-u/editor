@@ -9,6 +9,7 @@ import {BoundingRect} from '~/type'
 // import Editor from '~/main/editor'
 
 function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: ResizeDirectionName = 'br'): HistoryChangeItem[] {
+  console.log(placement)
   const changes: HistoryChangeItem[] = []
   const {interaction /*action*/} = this.editor
   const {mouseWorldCurrent, _modifier} = interaction
@@ -16,7 +17,7 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
   let sameRotation = true
   const rectsWithRotation: BoundingRect[] = []
   const rectsWithoutRotation: BoundingRect[] = []
-  let rect:BoundingRect
+  let rect: BoundingRect
   let applyRotation = elements[0].rotation
 
   elements.forEach(element => {
@@ -36,8 +37,6 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
     rect = getBoundingRectFromBoundingRects(rectsWithRotation)
   }
 
-  //
-  // const rect = getBoundingRectFromBoundingRects(elements.map(el => el.getBoundingRectFromOriginal()))
   const {anchor, opposite} = getAnchorsByResizeDirection(rect, placement)
   const centerX = rect.cx
   const centerY = rect.cy
@@ -45,7 +44,7 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
     x: anchor.x - opposite.x,
     y: anchor.y - opposite.y,
   }
-  // console.log(rect)
+  console.log(anchor, opposite)
   const currentVec = {
     x: mouseWorldCurrent.x - opposite.x,
     y: mouseWorldCurrent.y - opposite.y,
