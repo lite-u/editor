@@ -6,7 +6,7 @@ function resizeFunc(elements, placement = 'br') {
     // console.log(placement)
     const changes = [];
     const { interaction /*action*/ } = this.editor;
-    const { mouseWorldCurrent, _modifier } = interaction;
+    const { mouseWorldCurrent, mouseWorldStart, _modifier } = interaction;
     const { altKey, shiftKey } = _modifier;
     let sameRotation = true;
     const rectsWithRotation = [];
@@ -31,7 +31,7 @@ function resizeFunc(elements, placement = 'br') {
     const { anchor, opposite } = getAnchorsByResizeDirection(rect, placement);
     const centerX = rect.cx;
     const centerY = rect.cy;
-    const startVec = {
+    let startVec = {
         x: anchor.x - opposite.x,
         y: anchor.y - opposite.y,
     };
@@ -50,8 +50,20 @@ function resizeFunc(elements, placement = 'br') {
             y: mouseWorldCurrent.y - opposite.y,
         };
     }
+    if (altKey) {
+        /* startVec = {
+           x: mouseWorldStart.x - centerX,
+           y: mouseWorldStart.y - centerY,
+         }*/
+        currentVec = {
+            x: mouseWorldCurrent.x - centerX,
+            y: mouseWorldCurrent.y - centerY,
+        };
+    }
     let scaleX = startVec.x !== 0 ? currentVec.x / startVec.x : 1;
     let scaleY = startVec.y !== 0 ? currentVec.y / startVec.y : 1;
+    // let scaleX = currentVec.x / startVec.x
+    // let scaleY = currentVec.y / startVec.y
     if (shiftKey) {
         const uniformScale = Math.max(Math.abs(scaleX), Math.abs(scaleY));
         scaleX = Math.sign(scaleX) * uniformScale;
