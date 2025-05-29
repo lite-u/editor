@@ -97,8 +97,10 @@ class RectangleLike extends ElementBase {
         ];
     }
     scaleFrom(scaleX, scaleY, anchor) {
-        const { cx, cy, width, height, rotation } = this.original;
-        const matrix = new DOMMatrix().rotate(rotation).scale(scaleX, scaleY, 1, anchor.x, anchor.y);
+        // const {rotation} = this.original
+        console.log('scaleX', scaleX, scaleY, anchor);
+        const { cx, cy, width, height, top, right, bottom, left } = this.getBoundingRectFromOriginal(true);
+        const matrix = new DOMMatrix().scale(scaleX, scaleY, 1, anchor.x, anchor.y);
         /*.rotate(-rotation)*/
         // const unRotatedAnchor1 = matrix.transformPoint(anchor)
         // const unRotatedAnchor = rotatePointAroundPoint(anchor.x, anchor.y, cx, cy, -rotation)
@@ -109,25 +111,21 @@ class RectangleLike extends ElementBase {
         // .scale(scaleX, scaleY, 1, 50, 50)
         // .scale(scaleX, scaleY)
         // .rotate(rotation)
-        const halfW = width / 2;
-        const halfH = height / 2;
-        const topLeft = { x: cx - halfW, y: cy - halfH };
-        const topRight = { x: cx + halfW, y: cy - halfH };
-        const bottomRight = { x: cx + halfW, y: cy + halfH };
-        const bottomLeft = { x: cx - halfW, y: cy + halfH };
+        // const halfW = width! / 2
+        // const halfH = height! / 2
+        const topLeft = { x: left, y: top };
+        const topRight = { x: right, y: top };
+        const bottomRight = { x: right, y: bottom };
+        const bottomLeft = { x: left, y: bottom };
+        console.log('topLeft', topLeft, topRight, bottomRight, bottomLeft);
+        // matrix.rotateSelf(rotation)
         // Transform all four corners
         const pTL = matrix.transformPoint(topLeft);
         const pTR = matrix.transformPoint(topRight);
         const pBR = matrix.transformPoint(bottomRight);
         const pBL = matrix.transformPoint(bottomLeft);
         // debugger
-        /*
-            console.log('topLeft',
-            pTL,
-            pTR,
-            pBR,
-            pBL,
-              )*/
+        console.log('pTL', pTL, pTR, pBR, pBL);
         // New center is average of opposite corners (or all four)
         const newCX = (pTL.x + pBR.x) / 2;
         const newCY = (pTL.y + pBR.y) / 2;
