@@ -1,6 +1,6 @@
-import { getAnchorsByResizeDirection, getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
-import { getMinimalBoundingRect } from '~/core/utils';
-// import Editor from '~/main/editor'
+import { getAnchorsByResizeDirection, getBoundingRectFromBoundingRects } from './helper.js';
+import { getMinimalBoundingRect } from '../../../core/utils.js';
+// import Editor from '../../../main/editor.js'
 function resizeFunc(elements, placement = 'br') {
     console.log(placement);
     const changes = [];
@@ -33,7 +33,7 @@ function resizeFunc(elements, placement = 'br') {
         x: anchor.x - opposite.x,
         y: anchor.y - opposite.y,
     };
-    // console.log(rect)
+    console.log(anchor, opposite);
     const currentVec = {
         x: mouseWorldCurrent.x - opposite.x,
         y: mouseWorldCurrent.y - opposite.y,
