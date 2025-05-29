@@ -1,5 +1,6 @@
 import { getAnchorsByResizeDirection, getBoundingRectFromBoundingRects } from './helper.js';
 import { getMinimalBoundingRect } from '../../../core/utils.js';
+import { rotatePointAroundPoint } from '../../../core/geometry.js';
 // import Editor from '../../../main/editor.js'
 function resizeFunc(elements, placement = 'br') {
     // console.log(placement)
@@ -18,17 +19,14 @@ function resizeFunc(elements, placement = 'br') {
         }
         rectsWithRotation.push(element.getBoundingRectFromOriginal());
         rectsWithoutRotation.push(element.getBoundingRectFromOriginal(true));
-        // debugger
     });
     applyRotation = sameRotation ? applyRotation : 0;
     if (sameRotation) {
-        // debugger
         rect = getMinimalBoundingRect(rectsWithoutRotation, applyRotation);
     }
     else {
         rect = getBoundingRectFromBoundingRects(rectsWithRotation);
     }
-    console.log(sameRotation, rect);
     const { anchor, opposite } = getAnchorsByResizeDirection(rect, placement);
     const centerX = rect.cx;
     const centerY = rect.cy;
@@ -36,11 +34,22 @@ function resizeFunc(elements, placement = 'br') {
         x: anchor.x - opposite.x,
         y: anchor.y - opposite.y,
     };
-    console.log('anchor op', sameRotation, anchor, opposite);
-    const currentVec = {
-        x: mouseWorldCurrent.x - opposite.x,
-        y: mouseWorldCurrent.y - opposite.y,
-    };
+    let currentVec;
+    // console.log('anchor op', rect, sameRotation, anchor, opposite)
+    if (applyRotation > 0) {
+        const rotatedMouseCurrent = rotatePointAroundPoint(mouseWorldCurrent.x, mouseWorldCurrent.y, centerX, centerY, -applyRotation);
+        currentVec = {
+            x: rotatedMouseCurrent.x - opposite.x,
+            y: rotatedMouseCurrent.y - opposite.y,
+        };
+        // debugger
+    }
+    else {
+        currentVec = {
+            x: mouseWorldCurrent.x - opposite.x,
+            y: mouseWorldCurrent.y - opposite.y,
+        };
+    }
     // console.log('startVec',startVec)
     // console.log('currentVec',currentVec)
     // console.log(startVec, currentVec)

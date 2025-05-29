@@ -5,7 +5,6 @@ import {DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH} from '~/elements/d
 import {isEqual} from '~/lib/lib'
 import {HistoryChangeItem} from '~/services/actions/type'
 import ElementBase, {ElementBaseProps} from '~/elements/base/elementBase'
-import {rotatePointAroundPoint} from '~/core/geometry'
 
 export interface RectangleLikeProps extends ElementBaseProps {
   id: string
@@ -130,13 +129,14 @@ class RectangleLike extends ElementBase {
   scaleFrom(scaleX: number, scaleY: number, anchor: Point): HistoryChangeItem | undefined {
     const {cx, cy, width, height, rotation} = this.original
 
-    const matrix = new DOMMatrix().rotate(-rotation)
-    const unRotatedAnchor1 = matrix.transformPoint(anchor)
-    const unRotatedAnchor = rotatePointAroundPoint(anchor.x, anchor.y, cx, cy, -rotation)
+    const matrix = new DOMMatrix().rotate(rotation).scale(scaleX, scaleY, 1, anchor.x, anchor.y)
+    /*.rotate(-rotation)*/
+    // const unRotatedAnchor1 = matrix.transformPoint(anchor)
+    // const unRotatedAnchor = rotatePointAroundPoint(anchor.x, anchor.y, cx, cy, -rotation)
     // console.log(unRotatedAnchor1,unRotatedAnchor)
     // console.log(anchor, unRotatedAnchor)
-    matrix.scaleSelf(scaleX, scaleY, 1, unRotatedAnchor.x, unRotatedAnchor.y)
-
+    // matrix.scaleSelf(scaleX, scaleY, 1, anchor.x, anchor.y)
+    // matrix.rotate(rotation)
     // .scale(scaleX, scaleY, 1, 50, 50)
     // .scale(scaleX, scaleY)
     // .rotate(rotation)
@@ -153,7 +153,14 @@ class RectangleLike extends ElementBase {
     const pTR = matrix.transformPoint(topRight)
     const pBR = matrix.transformPoint(bottomRight)
     const pBL = matrix.transformPoint(bottomLeft)
-    // console.log('topLeft', topLeft, pTL)
+    // debugger
+    /*
+        console.log('topLeft',
+        pTL,
+        pTR,
+        pBR,
+        pBL,
+          )*/
 
     // New center is average of opposite corners (or all four)
     const newCX = (pTL.x + pBR.x) / 2
@@ -162,6 +169,7 @@ class RectangleLike extends ElementBase {
     const newWidth = Math.hypot(pTR.x - pTL.x, pTR.y - pTL.y)
     const newHeight = Math.hypot(pBL.x - pTL.x, pBL.y - pTL.y)
 
+    console.log('new', newCX, newCY, newWidth, newHeight)
     this.cx = newCX
     this.cy = newCY
     // const _p = rotatePointAroundPoint(newCX, newCY, cx, cy, rotation)
@@ -247,10 +255,10 @@ class RectangleLike extends ElementBase {
     const y = cy - height! / 2
 
     if (rotation === 0 || withoutRotation) {
-      return generateBoundingRectFromRect({x, y, width:width!, height:height!})
+      return generateBoundingRectFromRect({x, y, width: width!, height: height!})
     }
 
-    return generateBoundingRectFromRotatedRect({x, y, width:width!, height:height!}, rotation)
+    return generateBoundingRectFromRotatedRect({x, y, width: width!, height: height!}, rotation)
   }
 }
 
