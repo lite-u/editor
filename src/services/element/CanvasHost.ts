@@ -403,7 +403,7 @@ class CanvasHost {
     return elements
   }
 
-  batchCopy(idSet: Set<UID>, includeIdentifiers: boolean = true): ElementProps[] {
+  batchCopy(idSet: Set<UID>, includeIdentifiers: boolean = true): ElementProps[] | OptionalIdentifiersProps[] {
     // const elementsMap: ElementMap = new Map()
     const elementArr: ElementInstance[] = []
 
@@ -418,10 +418,10 @@ class CanvasHost {
     elementArr.sort((a, b) => a.layer - b.layer)
 
     return elementArr.map(mod => {
-      let {id, ...rest} = mod.toMinimalJSON()
+      let {id, layer, ...rest} = mod.toMinimalJSON()
 
       if (includeIdentifiers) {
-        return {id, ...rest}
+        return {id, layer, ...rest}
       }
 
       return rest

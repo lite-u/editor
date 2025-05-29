@@ -32,14 +32,17 @@ export function generateElementsClones() {
         let centerPoint = null;
         // console.log('ratio!!!',ratio)
         invisibleClone.id = 'invisible-clone-' + id;
-        // invisibleClone.layer += 1
-        invisibleClone.fill.enabled = false;
+        invisibleClone.fill.enabled = true;
+        invisibleClone.fill.color = 'transparent';
         invisibleClone.stroke.enabled = true;
         invisibleClone.stroke.weight = 10 * ratio;
         invisibleClone.stroke.color = 'transparent';
         // invisibleClone.stroke.color = 'red'
+        console.log(invisibleClone.layer);
         cloneStrokeLine.id = 'stroke-line-clone-' + id;
         cloneStrokeLine.layer += 1;
+        cloneStrokeLine.fill.enabled = false;
+        cloneStrokeLine.fill.color = 'transparent';
         cloneStrokeLine.stroke.enabled = true;
         cloneStrokeLine.stroke.weight = strokeWidth;
         cloneStrokeLine.stroke.color = 'transparent';

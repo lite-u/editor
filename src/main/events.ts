@@ -301,7 +301,7 @@ export function initEvents(this: Editor) {
 
     const newElements = this.mainHost.batchCreate(temp)
     const savedSelected = new Set(newElements.keys())
-
+    console.log(newElements)
     newElements.forEach((el) => {
       el.translate(copyDeltaX, copyDeltaY)
       el.updateOriginal()

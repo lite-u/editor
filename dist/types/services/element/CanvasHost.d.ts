@@ -44,7 +44,7 @@ declare class CanvasHost {
     batchCreate(elementDataList: ElementProps[]): ElementMap;
     append(...args: ElementInstance[]): void;
     batchAdd(elements: ElementMap, callback?: VoidFunction): ElementMap;
-    batchCopy(idSet: Set<UID>, includeIdentifiers?: boolean): ElementProps[];
+    batchCopy(idSet: Set<UID>, includeIdentifiers?: boolean): ElementProps[] | OptionalIdentifiersProps[];
     batchDelete(idSet: Set<UID>): ElementProps[];
     batchMove(from: Set<UID>, delta: Point): void;
     batchModify(idSet: Set<UID>, data: Partial<ElementProps>): void;
