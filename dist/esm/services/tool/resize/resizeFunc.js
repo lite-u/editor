@@ -1,7 +1,8 @@
-import { getAnchorsByResizeDirection, getBoundingRectFromBoundingRects } from './helper.js';
-import { getMinimalBoundingRect } from '../../../core/utils.js';
-// import Editor from '../../../main/editor.js'
+import { getAnchorsByResizeDirection, getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
+import { getMinimalBoundingRect } from '~/core/utils';
+// import Editor from '~/main/editor'
 function resizeFunc(elements, placement = 'br') {
+    console.log(placement);
     const changes = [];
     const { interaction /*action*/ } = this.editor;
     const { mouseWorldCurrent, _modifier } = interaction;
@@ -25,8 +26,6 @@ function resizeFunc(elements, placement = 'br') {
     else {
         rect = getBoundingRectFromBoundingRects(rectsWithRotation);
     }
-    //
-    // const rect = getBoundingRectFromBoundingRects(elements.map(el => el.getBoundingRectFromOriginal()))
     const { anchor, opposite } = getAnchorsByResizeDirection(rect, placement);
     const centerX = rect.cx;
     const centerY = rect.cy;
