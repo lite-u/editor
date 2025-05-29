@@ -4,6 +4,7 @@ import {getAnchorsByResizeDirection, getBoundingRectFromBoundingRects} from '~/s
 import ToolManager from '~/services/tool/toolManager'
 import {HistoryChangeItem} from '~/services/actions/type'
 import {getMinimalBoundingRect} from '~/core/utils'
+import {BoundingRect} from '~/type'
 
 // import Editor from '~/main/editor'
 
@@ -12,9 +13,25 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
   const {interaction /*action*/} = this.editor
   const {mouseWorldCurrent, _modifier} = interaction
   const {altKey, shiftKey} = _modifier
-  const sameRotation = !elements.some(element => {return element.rotation !== elements[0].rotation})
-  console.log(sameRotation)
-  const r = getMinimalBoundingRect()
+  const rectsWithRotation: BoundingRect[] = []
+  const rectsWithoutRotation: BoundingRect[] = []
+  let sameRotation = true
+
+  elements.forEach(element => {
+    if (sameRotation && element.rotation !== elements[0].rotation) {
+      sameRotation = false
+    }
+
+  })
+  let rect: { cx: number; cy: number; width: number; height: number }
+  //
+  if (sameRotation) {
+    rect = getMinimalBoundingRect(rectsWithoutRotation, applyRotation)
+  } else {
+    rect = getBoundingRectFromBoundingRects(rectsWithRotation)
+  }
+
+  //
   const rect = getBoundingRectFromBoundingRects(elements.map(el => el.getBoundingRectFromOriginal()))
   const {anchor, opposite} = getAnchorsByResizeDirection(rect, placement)
   const centerX = rect.cx
