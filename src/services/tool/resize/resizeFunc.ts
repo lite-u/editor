@@ -35,7 +35,6 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
   if (sameRotation) {
     // debugger
     rect = getMinimalBoundingRect(rectsWithoutRotation, applyRotation)
-    console.log(rect)
   } else {
     rect = getBoundingRectFromBoundingRects(rectsWithRotation)
   }

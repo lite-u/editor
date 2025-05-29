@@ -24,7 +24,6 @@ function resizeFunc(elements, placement = 'br') {
     if (sameRotation) {
         // debugger
         rect = getMinimalBoundingRect(rectsWithoutRotation, applyRotation);
-        console.log(rect);
     }
     else {
         rect = getBoundingRectFromBoundingRects(rectsWithRotation);
