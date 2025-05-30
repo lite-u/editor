@@ -41,6 +41,7 @@ export function generateElementsClones(this: Editor) {
     const id = ele.id
     const invisibleClone = ele.clone()
     const cloneStrokeLine = ele.clone()
+    let cloneStrokeWiderLine: ElementInstance
     const isSelected = idSet.has(id)
     let centerPoint: ElementEllipse | ElementRectangle | null = null
 
@@ -55,19 +56,23 @@ export function generateElementsClones(this: Editor) {
     console.log(invisibleClone.layer)
 
     cloneStrokeLine.id = 'stroke-line-clone-' + id
-    cloneStrokeLine.layer = maxLayer + 1
     cloneStrokeLine.fill.enabled = false
     cloneStrokeLine.fill.color = 'transparent'
     cloneStrokeLine.stroke.enabled = true
     cloneStrokeLine.stroke.weight = strokeWidth
     cloneStrokeLine.stroke.color = 'transparent'
 
+    cloneStrokeWiderLine = cloneStrokeLine.clone()
+
     invisibleClone.onmousedown = (e) => handleTranslateMouseDown(e, id)
     cloneStrokeLine.onmousedown = (e) => handleTranslateMouseDown(e, id)
-    overlayHost.append(invisibleClone, cloneStrokeLine)
+    cloneStrokeWiderLine.onmousedown = (e) => handleTranslateMouseDown(e, id)
+    overlayHost.append(invisibleClone, cloneStrokeLine,cloneStrokeWiderLine)
 
     if (isSelected) {
       cloneStrokeLine.stroke.color = boxColor
+      cloneStrokeLine.layer = maxLayer + 1
+      cloneStrokeWiderLine.layer = maxLayer + 1
     } else {
       cloneStrokeLine.stroke.color = 'transparent'
 
@@ -96,7 +101,9 @@ export function generateElementsClones(this: Editor) {
         ? ElementEllipse.create(nid(), ele.cx, ele.cy, pointLen)
         : ElementRectangle.create(nid(), ele.cx, ele.cy, pointLen)
 
-      centerPoint.layer = maxLayer + 1
+      if (isSelected) {
+        centerPoint.layer = maxLayer + 1
+      }
       centerPoint.stroke.enabled = false
       centerPoint.fill.enabled = true
       centerPoint.fill.color = isSelected ? boxColor : 'transparent'
