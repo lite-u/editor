@@ -39,53 +39,53 @@ export function generateElementsClones(this: Editor) {
 
   visibleElements.forEach((ele) => {
     const id = ele.id
-    const invisibleClone = ele.clone()
-    const cloneStrokeLine = ele.clone()
-    let cloneStrokeWiderLine: ElementInstance
+    const fillDetectArea = ele.clone()
+    const strokeDetectArea = ele.clone()
+    let strokeLine: ElementInstance
     const isSelected = idSet.has(id)
     let centerPoint: ElementEllipse | ElementRectangle | null = null
 
-    // console.log('ratio!!!',ratio)
-    invisibleClone.id = 'invisible-clone-' + id
-    invisibleClone.fill.enabled = true
-    invisibleClone.fill.color = 'transparent'
-    invisibleClone.stroke.enabled = true
-    invisibleClone.stroke.weight = 10 * ratio
-    invisibleClone.stroke.color = 'transparent'
-    // invisibleClone.stroke.color = 'red'
-    console.log(invisibleClone.layer)
+    fillDetectArea.id = 'invisible-clone-' + id
+    fillDetectArea.fill.enabled = true
+    fillDetectArea.fill.color = 'transparent'
+    fillDetectArea.stroke.color = 'transparent'
 
-    cloneStrokeLine.id = 'stroke-line-clone-' + id
-    cloneStrokeLine.fill.enabled = false
-    cloneStrokeLine.fill.color = 'transparent'
-    cloneStrokeLine.stroke.enabled = true
-    cloneStrokeLine.stroke.weight = strokeWidth
-    cloneStrokeLine.stroke.color = 'transparent'
+    strokeDetectArea.id = 'stroke-line-clone-' + id
+    strokeDetectArea.fill.enabled = false
+    strokeDetectArea.fill.color = 'transparent'
+    strokeDetectArea.stroke.enabled = true
+    strokeDetectArea.stroke.weight = 10 * ratio
+    strokeDetectArea.stroke.color = 'transparent'
 
-    cloneStrokeWiderLine = cloneStrokeLine.clone()
+    strokeLine = strokeDetectArea.clone()
+    strokeDetectArea.stroke.weight = strokeWidth
 
-    invisibleClone.onmousedown = (e) => handleTranslateMouseDown(e, id)
-    cloneStrokeLine.onmousedown = (e) => handleTranslateMouseDown(e, id)
-    cloneStrokeWiderLine.onmousedown = (e) => handleTranslateMouseDown(e, id)
-    overlayHost.append(invisibleClone, cloneStrokeLine,cloneStrokeWiderLine)
+    fillDetectArea.onmousedown = (e) => handleTranslateMouseDown(e, id)
+    strokeDetectArea.onmousedown = (e) => handleTranslateMouseDown(e, id)
+    strokeLine.onmousedown = (e) => handleTranslateMouseDown(e, id)
+    overlayHost.append(fillDetectArea, strokeDetectArea, strokeLine)
 
     if (isSelected) {
-      cloneStrokeLine.stroke.color = boxColor
-      cloneStrokeLine.layer = maxLayer + 1
-      cloneStrokeWiderLine.layer = maxLayer + 1
+      strokeDetectArea.layer = maxLayer + 2
+      strokeDetectArea.stroke.color = boxColor
+      strokeLine.layer = maxLayer + 1
+      strokeLine.stroke.color = 'transparent'
     } else {
-      cloneStrokeLine.stroke.color = 'transparent'
+      strokeDetectArea.layer += 2
+      strokeLine.layer += 1
 
-      invisibleClone.onmouseenter = cloneStrokeLine.onmouseenter = () => {
-        cloneStrokeLine.stroke.color = boxColor
+      strokeDetectArea.stroke.color = 'transparent'
+
+      fillDetectArea.onmouseenter = strokeDetectArea.onmouseenter = () => {
+        strokeDetectArea.stroke.color = boxColor
         if (centerPoint) {
           centerPoint.fill.color = boxColor
         }
         action.dispatch('rerender-overlay')
       }
 
-      invisibleClone.onmouseleave = cloneStrokeLine.onmouseleave = () => {
-        cloneStrokeLine.stroke.color = 'transparent'
+      fillDetectArea.onmouseleave = strokeDetectArea.onmouseleave = () => {
+        strokeDetectArea.stroke.color = 'transparent'
         if (centerPoint) {
           centerPoint.fill.color = 'transparent'
         }
@@ -114,12 +114,12 @@ export function generateElementsClones(this: Editor) {
       if (!isSelected) {
         centerPoint.onmouseenter = () => {
           if (centerPoint) {centerPoint.fill.color = 'blue'}
-          cloneStrokeLine.stroke.color = boxColor
+          strokeDetectArea.stroke.color = boxColor
           this.action.dispatch('rerender-overlay')
         }
         centerPoint.onmouseleave = () => {
           if (centerPoint) {centerPoint.fill.color = 'transparent'}
-          cloneStrokeLine.stroke.color = 'transparent'
+          strokeDetectArea.stroke.color = 'transparent'
           this.action.dispatch('rerender-overlay')
         }
       }
