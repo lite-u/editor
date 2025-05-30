@@ -57,8 +57,8 @@ export function generateElementsClones() {
             strokeLine.stroke.color = boxColor;
         }
         else {
-            strokeDetectArea.layer += 1;
-            strokeLine.layer += 2;
+            // strokeDetectArea.layer += 1
+            // strokeLine.layer += 2
             strokeLine.stroke.color = 'transparent';
             fillDetectArea.onmouseenter = strokeDetectArea.onmouseenter = strokeLine.onmouseenter = () => {
                 // strokeDetectArea.stroke.color = boxColor
