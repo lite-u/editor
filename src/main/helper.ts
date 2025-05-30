@@ -50,18 +50,19 @@ export function generateElementsClones(this: Editor) {
     fillDetectArea.fill.color = 'transparent'
     fillDetectArea.stroke.enabled = false
 
-    strokeDetectArea.id = 'stroke-line-clone-' + id
+    strokeDetectArea.id = 'stroke-detect-area-' + id
     strokeDetectArea.fill.enabled = false
     strokeDetectArea.stroke.enabled = true
     strokeDetectArea.stroke.color = 'transparent'
     strokeDetectArea.stroke.weight = 10 * ratio
 
     strokeLine = strokeDetectArea.clone()
+    strokeLine.id = 'stroke-line-clone-' + id
     strokeLine.stroke.weight = strokeWidth
 
-    fillDetectArea.onmousedown = (e) => handleTranslateMouseDown(e, id)
-    strokeDetectArea.onmousedown = (e) => handleTranslateMouseDown(e, id)
-    strokeLine.onmousedown = (e) => handleTranslateMouseDown(e, id)
+    // fillDetectArea.onmousedown = (e) => handleTranslateMouseDown(e, id)
+    // strokeLine.onmousedown = (e) => handleTranslateMouseDown(e, id)
+    strokeLine.onmousedown = fillDetectArea.onmousedown = strokeDetectArea.onmousedown = (e) => handleTranslateMouseDown(e, id)
     overlayHost.append(fillDetectArea, strokeDetectArea, strokeLine)
 
     if (isSelected) {

@@ -181,9 +181,9 @@ class RectangleLike extends ElementBase {
     // console.log('new', newCX, newCY, newWidth, newHeight)
     this.cx = newCX
     this.cy = newCY
-    const _p = rotatePointAroundPoint(newCX, newCY, cx, cy, rotation)
-    this.cx = _p.x
-    this.cy = _p.y
+    // const _p = rotatePointAroundPoint(newCX, newCY, center.x, center.y, rotation)
+    // this.cx = _p.x
+    // this.cy = _p.y
     this.width = Math.abs(newWidth)
     this.height = Math.abs(newHeight)
     this.updatePath2D()
