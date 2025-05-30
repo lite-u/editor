@@ -60,15 +60,16 @@ export function generateElementsClones() {
             strokeDetectArea.layer += 1;
             strokeLine.layer += 2;
             strokeLine.stroke.color = 'transparent';
-            fillDetectArea.onmouseenter = strokeDetectArea.onmouseenter = () => {
-                strokeDetectArea.stroke.color = boxColor;
+            fillDetectArea.onmouseenter = strokeDetectArea.onmouseenter = strokeLine.onmouseenter = () => {
+                // strokeDetectArea.stroke.color = boxColor
+                strokeLine.stroke.color = boxColor;
                 if (centerPoint) {
                     centerPoint.fill.color = boxColor;
                 }
                 action.dispatch('rerender-overlay');
             };
-            fillDetectArea.onmouseleave = strokeDetectArea.onmouseleave = () => {
-                strokeDetectArea.stroke.color = 'transparent';
+            fillDetectArea.onmouseleave = strokeDetectArea.onmouseleave = strokeLine.onmouseleave = () => {
+                strokeLine.stroke.color = 'transparent';
                 if (centerPoint) {
                     centerPoint.fill.color = 'transparent';
                 }
