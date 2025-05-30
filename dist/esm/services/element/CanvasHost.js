@@ -193,12 +193,9 @@ class CanvasHost {
         });
     }
     get getMaxLayerIndex() {
-        let max = 0;
-        this.elementMap.forEach((mod) => {
-            // console.log(mod.layer)
-            if (mod.layer > max) {
-                max = mod.layer;
-            }
+        let max = Number.MIN_SAFE_INTEGER;
+        this.elementMap.forEach((ele) => {
+            max = Math.max(ele.layer, max);
         });
         return max;
     }

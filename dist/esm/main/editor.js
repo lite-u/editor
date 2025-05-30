@@ -118,14 +118,13 @@ class Editor {
             this.overlayHost.setSize(viewportWidth, viewportHeight)*/
     }
     regenerateOverlayElements() {
-        let maxLayer = Number.MIN_SAFE_INTEGER;
         const selectedElements = this.mainHost.getVisibleElementsByIdSet(this.selection.values);
         const noHandles = this.interaction._rotateData || this.interaction._draggingElements.length > 0;
-        this.mainHost.getMaxLayerIndex;
         generateElementsDetectArea.call(this);
         if (noHandles)
             return;
         if (selectedElements.length > 0) {
+            let maxLayer = this.mainHost.getMaxLayerIndex;
             const ele = getSelectedBoundingElement.call(this);
             generateTransformHandles.call(this, ele);
         }

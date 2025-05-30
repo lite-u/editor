@@ -73,8 +73,8 @@ class Editor {
     this.history = new History(this)
     this.selection = new SelectionManager(this)
     this.assetsManager = new AssetsManager(this, assets)
-    this.mainHost = new CanvasHost(this,'main')
-    this.overlayHost = new CanvasHost(this,'overlay')
+    this.mainHost = new CanvasHost(this, 'main')
+    this.overlayHost = new CanvasHost(this, 'overlay')
     this.resizeObserver = new ResizeObserver(throttle(() => { this.action.dispatch('world-resized') }, 200))
     this.toolManager = new ToolManager(this)
 
@@ -154,16 +154,16 @@ class Editor {
   }
 
   regenerateOverlayElements() {
-    let maxLayer = Number.MIN_SAFE_INTEGER
     const selectedElements = this.mainHost.getVisibleElementsByIdSet(this.selection.values)
     const noHandles = this.interaction._rotateData || this.interaction._draggingElements.length > 0
 
-    this.mainHost.getMaxLayerIndex
     generateElementsDetectArea.call(this)
 
     if (noHandles) return
 
     if (selectedElements.length > 0) {
+      let maxLayer = this.mainHost.getMaxLayerIndex
+
       const ele = getSelectedBoundingElement.call(this)
       generateTransformHandles.call(this, ele)
     }

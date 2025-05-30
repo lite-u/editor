@@ -21,7 +21,7 @@ export function generateElementsDetectArea(this: Editor) {
   const idSet = selection.values
   const visibleElements = mainHost.visibleElements.sort((a, b) => a.layer - b.layer)
   const strokeWidth = 1 * ratio
-  let maxLayer = Number.MIN_SAFE_INTEGER
+  let maxLayer = mainHost.getMaxLayerIndex
   const handleTranslateMouseDown = (event: CanvasHostEvent, id: UID) => {
     const _shift = event.originalEvent.shiftKey
 
@@ -32,10 +32,6 @@ export function generateElementsDetectArea(this: Editor) {
     // toolManager.subTool = dragging
     this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values)
   }
-
-  visibleElements.forEach(ele => {
-    maxLayer = Math.max(ele.layer, maxLayer)
-  })
 
   visibleElements.forEach((ele) => {
     const id = ele.id
@@ -136,13 +132,12 @@ export function getSelectedBoundingElement(this: Editor): ElementRectangle {
   const ratio = dpr / scale
   const idSet = selection.values
   const selectedElements = mainHost.getVisibleElementsByIdSet(idSet).sort((a, b) => a.layer - b.layer)
-  let maxLayer = Number.MIN_SAFE_INTEGER
+  let maxLayer = mainHost.getMaxLayerIndex
 
   selectedElements.forEach((ele: ElementInstance) => {
     rotations.push(ele.rotation)
     rectsWithRotation.push(ele.getBoundingRect())
     rectsWithoutRotation.push(ele.getBoundingRect(true))
-    maxLayer = Math.max(maxLayer, ele.layer)
   })
 
   const sameRotation = rotations.every(val => val === rotations[0])
