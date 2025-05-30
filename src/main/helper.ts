@@ -48,11 +48,10 @@ export function generateElementsClones(this: Editor) {
     fillDetectArea.id = 'invisible-clone-' + id
     fillDetectArea.fill.enabled = true
     fillDetectArea.fill.color = 'transparent'
-    fillDetectArea.stroke.color = 'transparent'
+    fillDetectArea.stroke.enabled = false
 
     strokeDetectArea.id = 'stroke-line-clone-' + id
     strokeDetectArea.fill.enabled = false
-    strokeDetectArea.fill.color = 'transparent'
     strokeDetectArea.stroke.enabled = true
     strokeDetectArea.stroke.weight = 10 * ratio
     strokeDetectArea.stroke.color = 'transparent'

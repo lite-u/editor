@@ -1,13 +1,13 @@
-import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
-import ElementRectangle from '~/elements/rectangle/rectangle';
-import Rectangle from '~/elements/rectangle/rectangle';
-import { getSameRotationRectsBoundingRect } from '~/core/utils';
-import { DEFAULT_STROKE } from '~/elements/defaultProps';
-import { rotatePointAroundPoint } from '~/core/geometry';
-import Ellipse from '~/elements/ellipse/ellipse';
-import ElementEllipse from '~/elements/ellipse/ellipse';
-import { nid } from '~/index';
-import { getRotateAngle } from '~/services/tool/selector/helper';
+import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
+import ElementRectangle from '../elements/rectangle/rectangle.js';
+import Rectangle from '../elements/rectangle/rectangle.js';
+import { getSameRotationRectsBoundingRect } from '../core/utils.js';
+import { DEFAULT_STROKE } from '../elements/defaultProps.js';
+import { rotatePointAroundPoint } from '../core/geometry.js';
+import Ellipse from '../elements/ellipse/ellipse.js';
+import ElementEllipse from '../elements/ellipse/ellipse.js';
+import { nid } from '../index.js';
+import { getRotateAngle } from '../services/tool/selector/helper.js';
 export function generateElementsClones() {
     const boxColor = '#4f80ff';
     const { world, action, selection, mainHost, overlayHost } = this;
@@ -38,10 +38,9 @@ export function generateElementsClones() {
         fillDetectArea.id = 'invisible-clone-' + id;
         fillDetectArea.fill.enabled = true;
         fillDetectArea.fill.color = 'transparent';
-        fillDetectArea.stroke.color = 'transparent';
+        fillDetectArea.stroke.enabled = false;
         strokeDetectArea.id = 'stroke-line-clone-' + id;
         strokeDetectArea.fill.enabled = false;
-        strokeDetectArea.fill.color = 'transparent';
         strokeDetectArea.stroke.enabled = true;
         strokeDetectArea.stroke.weight = 10 * ratio;
         strokeDetectArea.stroke.color = 'transparent';
