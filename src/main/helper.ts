@@ -58,7 +58,7 @@ export function generateElementsClones(this: Editor) {
     strokeDetectArea.stroke.color = 'transparent'
 
     strokeLine = strokeDetectArea.clone()
-    strokeDetectArea.stroke.weight = strokeWidth
+    strokeLine.stroke.weight = strokeWidth
 
     fillDetectArea.onmousedown = (e) => handleTranslateMouseDown(e, id)
     strokeDetectArea.onmousedown = (e) => handleTranslateMouseDown(e, id)
@@ -66,15 +66,13 @@ export function generateElementsClones(this: Editor) {
     overlayHost.append(fillDetectArea, strokeDetectArea, strokeLine)
 
     if (isSelected) {
-      strokeDetectArea.layer = maxLayer + 2
-      strokeDetectArea.stroke.color = boxColor
-      strokeLine.layer = maxLayer + 1
-      strokeLine.stroke.color = 'transparent'
+      strokeDetectArea.layer = maxLayer + 1
+      strokeLine.layer = maxLayer + 2
+      strokeLine.stroke.color = boxColor
     } else {
-      strokeDetectArea.layer += 2
-      strokeLine.layer += 1
-
-      strokeDetectArea.stroke.color = 'transparent'
+      strokeDetectArea.layer += 1
+      strokeLine.layer += 2
+      strokeLine.stroke.color = 'transparent'
 
       fillDetectArea.onmouseenter = strokeDetectArea.onmouseenter = () => {
         strokeDetectArea.stroke.color = boxColor

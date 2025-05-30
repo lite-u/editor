@@ -1,13 +1,13 @@
-import { getBoundingRectFromBoundingRects } from '../services/tool/resize/helper.js';
-import ElementRectangle from '../elements/rectangle/rectangle.js';
-import Rectangle from '../elements/rectangle/rectangle.js';
-import { getSameRotationRectsBoundingRect } from '../core/utils.js';
-import { DEFAULT_STROKE } from '../elements/defaultProps.js';
-import { rotatePointAroundPoint } from '../core/geometry.js';
-import Ellipse from '../elements/ellipse/ellipse.js';
-import ElementEllipse from '../elements/ellipse/ellipse.js';
-import { nid } from '../index.js';
-import { getRotateAngle } from '../services/tool/selector/helper.js';
+import { getBoundingRectFromBoundingRects } from '~/services/tool/resize/helper';
+import ElementRectangle from '~/elements/rectangle/rectangle';
+import Rectangle from '~/elements/rectangle/rectangle';
+import { getSameRotationRectsBoundingRect } from '~/core/utils';
+import { DEFAULT_STROKE } from '~/elements/defaultProps';
+import { rotatePointAroundPoint } from '~/core/geometry';
+import Ellipse from '~/elements/ellipse/ellipse';
+import ElementEllipse from '~/elements/ellipse/ellipse';
+import { nid } from '~/index';
+import { getRotateAngle } from '~/services/tool/selector/helper';
 export function generateElementsClones() {
     const boxColor = '#4f80ff';
     const { world, action, selection, mainHost, overlayHost } = this;
@@ -46,21 +46,20 @@ export function generateElementsClones() {
         strokeDetectArea.stroke.weight = 10 * ratio;
         strokeDetectArea.stroke.color = 'transparent';
         strokeLine = strokeDetectArea.clone();
-        strokeDetectArea.stroke.weight = strokeWidth;
+        strokeLine.stroke.weight = strokeWidth;
         fillDetectArea.onmousedown = (e) => handleTranslateMouseDown(e, id);
         strokeDetectArea.onmousedown = (e) => handleTranslateMouseDown(e, id);
         strokeLine.onmousedown = (e) => handleTranslateMouseDown(e, id);
         overlayHost.append(fillDetectArea, strokeDetectArea, strokeLine);
         if (isSelected) {
-            strokeDetectArea.layer = maxLayer + 2;
-            strokeDetectArea.stroke.color = boxColor;
-            strokeLine.layer = maxLayer + 1;
-            strokeLine.stroke.color = 'transparent';
+            strokeDetectArea.layer = maxLayer + 1;
+            strokeLine.layer = maxLayer + 2;
+            strokeLine.stroke.color = boxColor;
         }
         else {
-            strokeDetectArea.layer += 2;
-            strokeLine.layer += 1;
-            strokeDetectArea.stroke.color = 'transparent';
+            strokeDetectArea.layer += 1;
+            strokeLine.layer += 2;
+            strokeLine.stroke.color = 'transparent';
             fillDetectArea.onmouseenter = strokeDetectArea.onmouseenter = () => {
                 strokeDetectArea.stroke.color = boxColor;
                 if (centerPoint) {
