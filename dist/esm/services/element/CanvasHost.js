@@ -30,7 +30,7 @@ class CanvasHost {
     onmouseup;
     onmousemove;
     oncontextmenu;
-    constructor(editor) {
+    constructor(editor, identifier) {
         this.editor = editor;
         const { signal } = this.eventsController;
         const { container } = editor;
@@ -38,6 +38,9 @@ class CanvasHost {
         this.canvas = createWith('canvas', { ...STYLE });
         this._ctx = this.canvas.getContext('2d');
         this._locked = false;
+        if (identifier) {
+            this.canvas.setAttribute('role', identifier);
+        }
         // this.canvas.style.imageRendering = 'pixelate'
         container.appendChild(this.canvas);
         container.addEventListener('pointerdown', e => {

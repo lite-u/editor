@@ -51,8 +51,8 @@ class Editor {
         this.history = new History(this);
         this.selection = new SelectionManager(this);
         this.assetsManager = new AssetsManager(this, assets);
-        this.mainHost = new CanvasHost(this);
-        this.overlayHost = new CanvasHost(this);
+        this.mainHost = new CanvasHost(this, 'main');
+        this.overlayHost = new CanvasHost(this, 'overlay');
         this.resizeObserver = new ResizeObserver(throttle(() => { this.action.dispatch('world-resized'); }, 200));
         this.toolManager = new ToolManager(this);
         initEvents.call(this);

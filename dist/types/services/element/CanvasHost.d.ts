@@ -20,7 +20,7 @@ declare class CanvasHost {
     onmouseup?: CanvasHostEventHandler;
     onmousemove?: CanvasHostEventHandler;
     oncontextmenu?: CanvasHostEventHandler;
-    constructor(editor: Editor);
+    constructor(editor: Editor, identifier?: string);
     lock(): void;
     unlock(): void;
     dispatchEvent(domEvent: PointerEvent, type: PointerEvent['type'], options?: {

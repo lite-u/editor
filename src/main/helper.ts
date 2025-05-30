@@ -21,7 +21,7 @@ export function generateElementsClones(this: Editor) {
   const idSet = selection.values
   const visibleElements = mainHost.visibleElements.sort((a, b) => a.layer - b.layer)
   const strokeWidth = 1 * ratio
-
+  let maxLayer = Number.MIN_SAFE_INTEGER
   const handleTranslateMouseDown = (event: CanvasHostEvent, id: UID) => {
     const _shift = event.originalEvent.shiftKey
 
@@ -32,6 +32,10 @@ export function generateElementsClones(this: Editor) {
     // toolManager.subTool = dragging
     this.interaction._draggingElements = mainHost.getElementsByIdSet(selection.values)
   }
+
+  visibleElements.forEach(ele => {
+    maxLayer = Math.max(ele.layer, maxLayer)
+  })
 
   visibleElements.forEach((ele) => {
     const id = ele.id
@@ -51,7 +55,7 @@ export function generateElementsClones(this: Editor) {
     console.log(invisibleClone.layer)
 
     cloneStrokeLine.id = 'stroke-line-clone-' + id
-    cloneStrokeLine.layer += 1
+    cloneStrokeLine.layer = maxLayer + 1
     cloneStrokeLine.fill.enabled = false
     cloneStrokeLine.fill.color = 'transparent'
     cloneStrokeLine.stroke.enabled = true
@@ -92,7 +96,7 @@ export function generateElementsClones(this: Editor) {
         ? ElementEllipse.create(nid(), ele.cx, ele.cy, pointLen)
         : ElementRectangle.create(nid(), ele.cx, ele.cy, pointLen)
 
-      centerPoint.layer = 1
+      centerPoint.layer = maxLayer + 1
       centerPoint.stroke.enabled = false
       centerPoint.fill.enabled = true
       centerPoint.fill.color = isSelected ? boxColor : 'transparent'
@@ -125,13 +129,14 @@ export function getSelectedBoundingElement(this: Editor): ElementRectangle {
   const {scale, dpr} = world
   const ratio = dpr / scale
   const idSet = selection.values
-
   const selectedElements = mainHost.getVisibleElementsByIdSet(idSet).sort((a, b) => a.layer - b.layer)
+  let maxLayer = Number.MIN_SAFE_INTEGER
 
   selectedElements.forEach((ele: ElementInstance) => {
     rotations.push(ele.rotation)
     rectsWithRotation.push(ele.getBoundingRect())
     rectsWithoutRotation.push(ele.getBoundingRect(true))
+    maxLayer = Math.max(maxLayer, ele.layer)
   })
 
   const sameRotation = rotations.every(val => val === rotations[0])
@@ -152,7 +157,7 @@ export function getSelectedBoundingElement(this: Editor): ElementRectangle {
 
   const selectedOutlineElement = new ElementRectangle({
     id: 'selected-elements-outline',
-    layer: 0,
+    layer: maxLayer,
     show: !specialLineSeg,
     type: 'rectangle',
     ...rect,
@@ -175,7 +180,7 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
   const {scale, dpr} = world
   const ratio = dpr / scale
   const result: ElementInstance[] = []
-  const {cx, cy, width, height, rotation} = ele
+  const {cx, cy, width, height, rotation, layer} = ele
   const resizeLen = 8 * ratio
   const resizeStrokeWidth = 1 * ratio
   const rotateRadius = 16 * ratio
@@ -234,7 +239,7 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
     const rotateEle = Ellipse.create('handle-rotate-' + name, x, y, rotateRadius)
 
     resizeEle.rotation = rotation
-    resizeEle.layer = 3
+    resizeEle.layer = layer + 2
     resizeEle.fill.enabled = true
     resizeEle.fill.color = '#ffffff'
     resizeEle.stroke.weight = resizeStrokeWidth
@@ -242,7 +247,7 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
     resizeEle.updatePath2D()
     resizeEle.updateBoundingRect()
 
-    rotateEle.layer = 2
+    rotateEle.layer = layer + 1
     rotateEle.rotation = rotation
     rotateEle.stroke.enabled = false
     rotateEle.stroke.weight = 0
@@ -276,7 +281,7 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
     rotateEle.onmouseleave = handleRotateMouseLeave
     rotateEle.onmousedown = handleRotateMouseDown
 
-    this.overlayHost.append(resizeEle, rotateEle)
+    this.overlayHost.append(rotateEle, resizeEle)
   })
 
   return result
