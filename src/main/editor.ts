@@ -18,7 +18,7 @@ import InteractionState from '~/services/interaction/InteractionState'
 import {VisionEditorAssetType} from '~/services/assets/asssetsManager'
 import {BoundingRect} from '~/type'
 import {EditorConfig, EventHandlers} from './type'
-import {generateElementsClones, generateTransformHandles, getSelectedBoundingElement} from '~/main/helper'
+import {generateElementsDetectArea, generateTransformHandles, getSelectedBoundingElement} from '~/main/helper'
 
 class Editor {
   id = nid()
@@ -154,9 +154,12 @@ class Editor {
   }
 
   regenerateOverlayElements() {
-    generateElementsClones.call(this)
+    let maxLayer = Number.MIN_SAFE_INTEGER
     const selectedElements = this.mainHost.getVisibleElementsByIdSet(this.selection.values)
     const noHandles = this.interaction._rotateData || this.interaction._draggingElements.length > 0
+
+    this.mainHost.getMaxLayerIndex
+    generateElementsDetectArea.call(this)
 
     if (noHandles) return
 

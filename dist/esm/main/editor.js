@@ -11,7 +11,7 @@ import Cursor from '../services/cursor/cursor.js';
 import World from '../services/world/World.js';
 import ClipboardManager from '../services/clipboard/Clipboard.js';
 import InteractionState from '../services/interaction/InteractionState.js';
-import { generateElementsClones, generateTransformHandles, getSelectedBoundingElement } from './helper.js';
+import { generateElementsDetectArea, generateTransformHandles, getSelectedBoundingElement } from './helper.js';
 class Editor {
     id = nid();
     container;
@@ -118,9 +118,11 @@ class Editor {
             this.overlayHost.setSize(viewportWidth, viewportHeight)*/
     }
     regenerateOverlayElements() {
-        generateElementsClones.call(this);
+        let maxLayer = Number.MIN_SAFE_INTEGER;
         const selectedElements = this.mainHost.getVisibleElementsByIdSet(this.selection.values);
         const noHandles = this.interaction._rotateData || this.interaction._draggingElements.length > 0;
+        this.mainHost.getMaxLayerIndex;
+        generateElementsDetectArea.call(this);
         if (noHandles)
             return;
         if (selectedElements.length > 0) {

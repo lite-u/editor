@@ -13,7 +13,7 @@ import {getRotateAngle} from '~/services/tool/selector/helper'
 import {ResizeDirectionName} from '~/services/selection/type'
 import {CanvasHostEvent} from '~/services/element/CanvasHost'
 
-export function generateElementsClones(this: Editor) {
+export function generateElementsDetectArea(this: Editor) {
   const boxColor = '#4f80ff'
   const {world, action, selection, mainHost, overlayHost} = this
   const {scale, dpr} = world
@@ -68,7 +68,7 @@ export function generateElementsClones(this: Editor) {
     if (isSelected) {
       strokeDetectArea.layer = maxLayer + 1
       strokeLine.layer = maxLayer + 2
-      strokeLine.stroke.color = boxColor
+      // strokeLine.stroke.color = boxColor
     } else {
       // strokeDetectArea.layer += 1
       // strokeLine.layer += 2
@@ -245,7 +245,7 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
     const rotateEle = Ellipse.create('handle-rotate-' + name, x, y, rotateRadius)
 
     resizeEle.rotation = rotation
-    resizeEle.layer = layer + 3
+    resizeEle.layer = layer + 4
     resizeEle.fill.enabled = true
     resizeEle.fill.color = '#ffffff'
     resizeEle.stroke.weight = resizeStrokeWidth
@@ -253,7 +253,7 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
     resizeEle.updatePath2D()
     resizeEle.updateBoundingRect()
 
-    rotateEle.layer = layer + 2
+    rotateEle.layer = layer + 3
     rotateEle.rotation = rotation
     rotateEle.stroke.enabled = false
     rotateEle.stroke.weight = 0

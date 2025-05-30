@@ -38,7 +38,7 @@ class CanvasHost {
   onmousemove?: CanvasHostEventHandler
   oncontextmenu?: CanvasHostEventHandler
 
-  constructor(editor: Editor,identifier?:string) {
+  constructor(editor: Editor, identifier?: string) {
     this.editor = editor
     const {signal} = this.eventsController
     const {container} = editor
@@ -47,7 +47,7 @@ class CanvasHost {
     this._ctx = this.canvas.getContext('2d')!
     this._locked = false
 
-    if(identifier){
+    if (identifier) {
       this.canvas.setAttribute('role', identifier)
     }
     // this.canvas.style.imageRendering = 'pixelate'
@@ -234,12 +234,10 @@ class CanvasHost {
   }
 
   public get getMaxLayerIndex(): number {
-    let max = 0
-    this.elementMap.forEach((mod) => {
-      // console.log(mod.layer)
-      if (mod.layer > max) {
-        max = mod.layer
-      }
+    let max = Number.MIN_SAFE_INTEGER
+
+    this.elementMap.forEach((ele) => {
+      max = Math.max(ele.layer, max)
     })
 
     return max

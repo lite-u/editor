@@ -8,7 +8,7 @@ import Ellipse from '../elements/ellipse/ellipse.js';
 import ElementEllipse from '../elements/ellipse/ellipse.js';
 import { nid } from '../index.js';
 import { getRotateAngle } from '../services/tool/selector/helper.js';
-export function generateElementsClones() {
+export function generateElementsDetectArea() {
     const boxColor = '#4f80ff';
     const { world, action, selection, mainHost, overlayHost } = this;
     const { scale, dpr } = world;
@@ -54,7 +54,7 @@ export function generateElementsClones() {
         if (isSelected) {
             strokeDetectArea.layer = maxLayer + 1;
             strokeLine.layer = maxLayer + 2;
-            strokeLine.stroke.color = boxColor;
+            // strokeLine.stroke.color = boxColor
         }
         else {
             // strokeDetectArea.layer += 1
@@ -212,14 +212,14 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
         const resizeEle = Rectangle.create('handle-resize-' + name, x, y, resizeLen);
         const rotateEle = Ellipse.create('handle-rotate-' + name, x, y, rotateRadius);
         resizeEle.rotation = rotation;
-        resizeEle.layer = layer + 3;
+        resizeEle.layer = layer + 4;
         resizeEle.fill.enabled = true;
         resizeEle.fill.color = '#ffffff';
         resizeEle.stroke.weight = resizeStrokeWidth;
         resizeEle.stroke.color = boxColor;
         resizeEle.updatePath2D();
         resizeEle.updateBoundingRect();
-        rotateEle.layer = layer + 2;
+        rotateEle.layer = layer + 3;
         rotateEle.rotation = rotation;
         rotateEle.stroke.enabled = false;
         rotateEle.stroke.weight = 0;
