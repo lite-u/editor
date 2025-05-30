@@ -42,7 +42,7 @@ export function generateElementsDetectArea(this: Editor) {
     let centerPoint: ElementEllipse | ElementRectangle | null = null
 
     fillDetectArea.id = 'invisible-clone-' + id
-    fillDetectArea.fill.enabled = true
+    // fillDetectArea.fill.enabled = true
     fillDetectArea.fill.color = 'transparent'
     fillDetectArea.stroke.enabled = false
 
@@ -51,6 +51,7 @@ export function generateElementsDetectArea(this: Editor) {
     strokeDetectArea.stroke.enabled = true
     strokeDetectArea.stroke.color = 'transparent'
     strokeDetectArea.stroke.weight = 10 * ratio
+    // strokeDetectArea.stroke.weight = 1
 
     strokeLine = strokeDetectArea.clone()
     strokeLine.id = 'stroke-line-clone-' + id
@@ -64,7 +65,7 @@ export function generateElementsDetectArea(this: Editor) {
     if (isSelected) {
       strokeDetectArea.layer = maxLayer + 1
       strokeLine.layer = maxLayer + 2
-      // strokeLine.stroke.color = boxColor
+      strokeLine.stroke.color = boxColor
     } else {
       // strokeDetectArea.layer += 1
       // strokeLine.layer += 2

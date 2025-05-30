@@ -9,7 +9,7 @@ const pencilTool = {
         const point = { ...interaction.mouseWorldCurrent };
         cursor.lock();
         overlayHost.lock();
-        console.log(interaction.mouseWorldCurrent);
+        // console.log(interaction.mouseWorldCurrent)
         _drawingPoints.push(point);
         _lastPoint = { ...point };
         drawLine(overlayHost.ctx, _lastPoint, point, 1 * dpr / scale);
@@ -36,6 +36,11 @@ const pencilTool = {
             cy: center.y,
             points,
             closed,
+            //
+            /*      fill:{
+                    enabled:true,
+                    color:'blue'
+                  }*/
         };
         cursor.unlock();
         overlayHost.unlock();

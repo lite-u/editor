@@ -62,7 +62,7 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
   }
 
   if (altKey) {
-   /* startVec = {
+/*    startVec = {
       x: mouseWorldStart.x - centerX,
       y: mouseWorldStart.y - centerY,
     }*/

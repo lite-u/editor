@@ -1,5 +1,6 @@
 import resizeFunc from './resize/resizeFunc.js';
 import ElementLineSegment from '../../elements/lines/lineSegment.js';
+import { nid } from '../../index.js';
 const lineSegmentTool = {
     cursor: 'crosshair',
     mouseDown() {
@@ -24,6 +25,7 @@ const lineSegmentTool = {
     mouseUp() {
         const { action, interaction, cursor } = this.editor;
         const eleProps = interaction._ele.toMinimalJSON();
+        eleProps.id = nid();
         cursor.unlock();
         action.dispatch('element-add', [eleProps]);
         interaction._ele = null;

@@ -33,7 +33,7 @@ export function generateElementsDetectArea() {
         const isSelected = idSet.has(id);
         let centerPoint = null;
         fillDetectArea.id = 'invisible-clone-' + id;
-        fillDetectArea.fill.enabled = true;
+        // fillDetectArea.fill.enabled = true
         fillDetectArea.fill.color = 'transparent';
         fillDetectArea.stroke.enabled = false;
         strokeDetectArea.id = 'stroke-detect-area-' + id;
@@ -41,6 +41,7 @@ export function generateElementsDetectArea() {
         strokeDetectArea.stroke.enabled = true;
         strokeDetectArea.stroke.color = 'transparent';
         strokeDetectArea.stroke.weight = 10 * ratio;
+        // strokeDetectArea.stroke.weight = 1
         strokeLine = strokeDetectArea.clone();
         strokeLine.id = 'stroke-line-clone-' + id;
         strokeLine.stroke.weight = strokeWidth;
@@ -51,7 +52,7 @@ export function generateElementsDetectArea() {
         if (isSelected) {
             strokeDetectArea.layer = maxLayer + 1;
             strokeLine.layer = maxLayer + 2;
-            // strokeLine.stroke.color = boxColor
+            strokeLine.stroke.color = boxColor;
         }
         else {
             // strokeDetectArea.layer += 1

@@ -51,10 +51,10 @@ function resizeFunc(elements, placement = 'br') {
         };
     }
     if (altKey) {
-        /* startVec = {
-           x: mouseWorldStart.x - centerX,
-           y: mouseWorldStart.y - centerY,
-         }*/
+        /*    startVec = {
+              x: mouseWorldStart.x - centerX,
+              y: mouseWorldStart.y - centerY,
+            }*/
         currentVec = {
             x: mouseWorldCurrent.x - centerX,
             y: mouseWorldCurrent.y - centerY,

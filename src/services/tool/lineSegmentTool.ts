@@ -1,6 +1,7 @@
 import ToolManager, {ToolType} from '~/services/tool/toolManager'
 import resizeFunc from '~/services/tool/resize/resizeFunc'
 import ElementLineSegment from '~/elements/lines/lineSegment'
+import {nid} from '~/index'
 
 const lineSegmentTool: ToolType = {
   cursor: 'crosshair',
@@ -32,6 +33,7 @@ const lineSegmentTool: ToolType = {
 
     const eleProps = interaction._ele.toMinimalJSON()
 
+    eleProps.id = nid()
     cursor.unlock()
     action.dispatch('element-add', [eleProps])
     interaction._ele = null!
