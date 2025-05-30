@@ -53,8 +53,8 @@ export function generateElementsClones(this: Editor) {
     strokeDetectArea.id = 'stroke-line-clone-' + id
     strokeDetectArea.fill.enabled = false
     strokeDetectArea.stroke.enabled = true
-    strokeDetectArea.stroke.weight = 10 * ratio
     strokeDetectArea.stroke.color = 'transparent'
+    strokeDetectArea.stroke.weight = 10 * ratio
 
     strokeLine = strokeDetectArea.clone()
     strokeLine.stroke.weight = strokeWidth
