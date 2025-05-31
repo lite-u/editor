@@ -112,12 +112,12 @@ export function generateElementsDetectArea(this: Editor) {
       if (!isSelected) {
         centerPoint.onmouseenter = () => {
           if (centerPoint) {centerPoint.fill.color = 'blue'}
-          strokeDetectArea.stroke.color = boxColor
+          strokeLine.stroke.color = boxColor
           this.action.dispatch('rerender-overlay')
         }
         centerPoint.onmouseleave = () => {
           if (centerPoint) {centerPoint.fill.color = 'transparent'}
-          strokeDetectArea.stroke.color = 'transparent'
+          strokeLine.stroke.color = 'transparent'
           this.action.dispatch('rerender-overlay')
         }
       }
