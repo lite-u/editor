@@ -168,21 +168,29 @@ class ElementPath extends ElementBase {
             .translate(anchor.x, anchor.y)
             .scale(scaleX, scaleY)
             .translate(-anchor.x, -anchor.y);
-        this.points = this.points.map(({ anchor, cp1, cp2, type, symmetric }) => {
+        this.points = this.original.points.map(({ anchor, cp1, cp2, type, symmetric }) => {
             const newAnchor = new DOMPoint(anchor.x, anchor.y).matrixTransform(matrix);
-            const newCP1 = cp1 ?? new DOMPoint(cp1.x, cp1.y).matrixTransform(matrix);
-            const newCP2 = cp2 ?? new DOMPoint(cp2.x, cp2.y).matrixTransform(matrix);
+            const newCP1 = cp1 ? new DOMPoint(cp1.x, cp1.y).matrixTransform(matrix) : null;
+            const newCP2 = cp2 ? new DOMPoint(cp2.x, cp2.y).matrixTransform(matrix) : null;
+            const _cp1 = newCP1 ? {
+                x: newCP1.x,
+                y: newCP1.y,
+            } : null;
+            const _cp2 = newCP2 ? {
+                x: newCP2.x,
+                y: newCP2.y,
+            } : null;
             return {
                 type,
                 symmetric,
-                anchor: newAnchor,
-                cp1: newCP1,
-                cp2: newCP2,
+                anchor: { x: newAnchor.x, y: newAnchor.y },
+                cp1: _cp1,
+                cp2: _cp2,
             };
         });
-        const newAnchor = new DOMPoint(this.cx, this.cy).matrixTransform(matrix);
-        this.cx = newAnchor.x;
-        this.cy = newAnchor.y;
+        const newCenter = new DOMPoint(this.original.cx, this.original.cy).matrixTransform(matrix);
+        this.cx = newCenter.x;
+        this.cy = newCenter.y;
         this.updatePath2D();
         this.updateBoundingRect();
         return {
