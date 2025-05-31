@@ -100,7 +100,7 @@ class RectangleLike extends ElementBase {
     scaleFrom(scaleX, scaleY, anchor /*center: Point, scaleRotation: number*/) {
         // anchor = {x: 50, y: 21}
         // console.log(anchor, scaleRotation)
-        console.log(scaleX, scaleY, anchor.x, anchor.y);
+        // console.log(scaleX, scaleY, anchor.x, anchor.y)
         const { cx, cy, width, height, rotation } = this.original;
         // const unRotatedAnchor = rotatePointAroundPoint(anchor.x, anchor.y, cx, cy, -rotation)
         const { top, right, bottom, left } = this.getBoundingRectFromOriginal(true);
