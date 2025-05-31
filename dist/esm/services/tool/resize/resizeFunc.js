@@ -11,6 +11,8 @@ function resizeFunc(elements, placement = 'br') {
     let applyRotation = elements[0].rotation;
     let rect;
     let sameRotation = true;
+    let anchorNearMouse;
+    let anchorOppositeMouse;
     elements.forEach(element => {
         if (sameRotation && element.rotation !== elements[0].rotation) {
             sameRotation = false;
@@ -29,27 +31,35 @@ function resizeFunc(elements, placement = 'br') {
     const { anchor, opposite } = getAnchorsByResizeDirection(rect, placement);
     const centerX = rect.cx;
     const centerY = rect.cy;
+    if (applyRotation > 0) {
+        anchorNearMouse = rotatePointAroundPoint(anchor.x, anchor.y, centerX, centerY, applyRotation);
+        anchorOppositeMouse = rotatePointAroundPoint(opposite.x, opposite.y, centerX, centerY, applyRotation);
+    }
+    else {
+        anchorNearMouse = anchor;
+        anchorOppositeMouse = opposite;
+    }
     let startVec = {
-        x: anchor.x - opposite.x,
-        y: anchor.y - opposite.y,
+        x: anchorNearMouse.x - anchorOppositeMouse.x,
+        y: anchorNearMouse.y - anchorOppositeMouse.y,
     };
     let currentVec;
-    let _currentAnchor = mouseWorldCurrent;
-    if (applyRotation > 0) {
-        _currentAnchor = rotatePointAroundPoint(mouseWorldCurrent.x, mouseWorldCurrent.y, centerX, centerY, -applyRotation);
-    }
+    // let _currentAnchor: Point = mouseWorldCurrent
+    /*  if (applyRotation > 0) {
+        _currentAnchor = rotatePointAroundPoint(mouseWorldCurrent.x, mouseWorldCurrent.y, centerX, centerY, -applyRotation)
+      }*/
     currentVec = {
-        x: _currentAnchor.x - opposite.x,
-        y: _currentAnchor.y - opposite.y,
+        x: mouseWorldCurrent.x - anchorOppositeMouse.x,
+        y: mouseWorldCurrent.y - anchorOppositeMouse.y,
     };
     if (altKey) {
         startVec = {
-            x: anchor.x - centerX,
-            y: anchor.y - centerY,
+            x: anchorNearMouse.x - centerX,
+            y: anchorNearMouse.y - centerY,
         };
         currentVec = {
-            x: _currentAnchor.x - centerX,
-            y: _currentAnchor.y - centerY,
+            x: mouseWorldCurrent.x - centerX,
+            y: mouseWorldCurrent.y - centerY,
         };
     }
     let scaleX = startVec.x !== 0 ? currentVec.x / startVec.x : 1;
@@ -59,7 +69,7 @@ function resizeFunc(elements, placement = 'br') {
         scaleX = Math.sign(scaleX) * uniformScale;
         scaleY = Math.sign(scaleY) * uniformScale;
     }
-    const scalingAnchor = altKey ? { x: centerX, y: centerY } : opposite;
+    const scalingAnchor = altKey ? { x: centerX, y: centerY } : anchorOppositeMouse;
     elements.forEach((el) => {
         const change = el.scaleFrom(scaleX, scaleY, scalingAnchor, { x: centerX, y: centerY }, applyRotation);
         changes.push(change);

@@ -127,17 +127,20 @@ class RectangleLike extends ElementBase {
     ]
   }
 
-  scaleFrom(scaleX: number, scaleY: number, anchor: Point, center: Point, applyRotation): HistoryChangeItem | undefined {
+  scaleFrom(scaleX: number, scaleY: number, anchor: Point, center: Point, scaleRotation: number): HistoryChangeItem | undefined {
     // anchor = {x: 50, y: 21}
-    console.log(anchor, applyRotation)
-    const {rotation} = this.original
+    console.log(anchor, scaleRotation)
+    const {cx,cy,rotation} = this.original
+    const unRotatedAnchor = rotatePointAroundPoint(anchor.x, anchor.y, cx, cy, -rotation)
+
     // console.log('scaleX', scaleX, scaleY, anchor)
     const {top, right, bottom, left} = this.getBoundingRectFromOriginal(true)
-    const matrix = new DOMMatrix().scale(scaleX, scaleY, 1, anchor.x, anchor.y)
+    const matrix = new DOMMatrix().scale(scaleX, scaleY, 1, unRotatedAnchor.x, unRotatedAnchor.y)/*.rotate(rotation)*/
 
     const topLeft = {x: left, y: top}
     const bottomRight = {x: right, y: bottom}
 
+    matrix.rotateSelf(-rotation)
     const pTL = matrix.transformPoint(topLeft)
     const pBR = matrix.transformPoint(bottomRight)
 
@@ -151,7 +154,7 @@ class RectangleLike extends ElementBase {
 
     this.cx = newCX
     this.cy = newCY
-    const _p = rotatePointAroundPoint(newCX, newCY, center.x, center.y, rotation)
+    const _p = rotatePointAroundPoint(newCX, newCY, cx, cy, -scaleRotation)
     this.cx = _p.x
     this.cy = _p.y
     this.width = Math.abs(newWidth)

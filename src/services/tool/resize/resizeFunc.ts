@@ -17,6 +17,8 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
   let applyRotation = elements[0].rotation
   let rect: BoundingRect
   let sameRotation = true
+  let anchorNearMouse: Point
+  let anchorOppositeMouse: Point
 
   elements.forEach(element => {
     if (sameRotation && element.rotation !== elements[0].rotation) {
@@ -38,30 +40,39 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
   const {anchor, opposite} = getAnchorsByResizeDirection(rect, placement)
   const centerX = rect.cx
   const centerY = rect.cy
-  let startVec: Point = {
-    x: anchor.x - opposite.x,
-    y: anchor.y - opposite.y,
-  }
-  let currentVec: Point
-  let _currentAnchor: Point = mouseWorldCurrent
 
   if (applyRotation > 0) {
-    _currentAnchor = rotatePointAroundPoint(mouseWorldCurrent.x, mouseWorldCurrent.y, centerX, centerY, -applyRotation)
+    anchorNearMouse = rotatePointAroundPoint(anchor.x, anchor.y, centerX, centerY, applyRotation)
+    anchorOppositeMouse = rotatePointAroundPoint(opposite.x, opposite.y, centerX, centerY, applyRotation)
+  }else{
+    anchorNearMouse = anchor
+    anchorOppositeMouse = opposite
   }
 
+  let startVec: Point = {
+    x: anchorNearMouse.x - anchorOppositeMouse.x,
+    y: anchorNearMouse.y - anchorOppositeMouse.y,
+  }
+  let currentVec: Point
+  // let _currentAnchor: Point = mouseWorldCurrent
+
+/*  if (applyRotation > 0) {
+    _currentAnchor = rotatePointAroundPoint(mouseWorldCurrent.x, mouseWorldCurrent.y, centerX, centerY, -applyRotation)
+  }*/
+
   currentVec = {
-    x: _currentAnchor.x - opposite.x,
-    y: _currentAnchor.y - opposite.y,
+    x: mouseWorldCurrent.x - anchorOppositeMouse.x,
+    y: mouseWorldCurrent.y - anchorOppositeMouse.y,
   }
 
   if (altKey) {
     startVec = {
-      x: anchor.x - centerX,
-      y: anchor.y - centerY,
+      x: anchorNearMouse.x - centerX,
+      y: anchorNearMouse.y - centerY,
     }
     currentVec = {
-      x: _currentAnchor.x - centerX,
-      y: _currentAnchor.y - centerY,
+      x: mouseWorldCurrent.x - centerX,
+      y: mouseWorldCurrent.y - centerY,
     }
   }
 
@@ -74,7 +85,7 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
     scaleY = Math.sign(scaleY) * uniformScale
   }
 
-  const scalingAnchor = altKey ? {x: centerX, y: centerY} : opposite
+  const scalingAnchor = altKey ? {x: centerX, y: centerY} : anchorOppositeMouse
 
   elements.forEach((el: ElementInstance) => {
     const change = el.scaleFrom(scaleX, scaleY, scalingAnchor, {x: centerX, y: centerY}, applyRotation)
