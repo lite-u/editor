@@ -2,6 +2,7 @@ import { Point } from '~/type';
 import { BorderRadius } from '~/elements/props';
 import { HistoryChangeItem } from '~/services/actions/type';
 import ElementBase, { ElementBaseProps } from '~/elements/base/elementBase';
+import ElementPath from '~/elements/path/path';
 export interface RectangleLikeProps extends ElementBaseProps {
     id: string;
     layer: number;
@@ -24,5 +25,6 @@ declare class RectangleLike extends ElementBase {
     toMinimalJSON(): RectangleLikeProps;
     getBoundingRect(withoutRotation?: boolean): import("~/type").BoundingRect;
     getBoundingRectFromOriginal(withoutRotation?: boolean): import("~/type").BoundingRect;
+    toPath(): ElementPath;
 }
 export default RectangleLike;

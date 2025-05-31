@@ -1,5 +1,6 @@
 import {CenterBasedRect, UID} from '~/type'
 import RectangleLike, {RectangleLikeProps} from '~/elements/rectangle/rectangleLike'
+import ElementPath from '~/elements/path/path'
 
 export interface RectangleProps extends RectangleLikeProps {
   type?: 'rectangle'
@@ -44,20 +45,6 @@ class ElementRectangle extends RectangleLike {
       type: this.type,
     }
   }
-
-  public getRect(): CenterBasedRect {
-    const {cx, cy, width, height} = this
-
-    return {
-      cx,
-      cy,
-      width,
-      height,
-    }
-  }
 }
 
 export default ElementRectangle
-
-
-

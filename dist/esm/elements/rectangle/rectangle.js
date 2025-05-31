@@ -30,14 +30,5 @@ class ElementRectangle extends RectangleLike {
             type: this.type,
         };
     }
-    getRect() {
-        const { cx, cy, width, height } = this;
-        return {
-            cx,
-            cy,
-            width,
-            height,
-        };
-    }
 }
 export default ElementRectangle;

@@ -1,4 +1,4 @@
-import { CenterBasedRect, UID } from '~/type';
+import { UID } from '~/type';
 import RectangleLike, { RectangleLikeProps } from '~/elements/rectangle/rectangleLike';
 export interface RectangleProps extends RectangleLikeProps {
     type?: 'rectangle';
@@ -10,6 +10,5 @@ declare class ElementRectangle extends RectangleLike {
     static create(id: UID, cx: number, cy: number, width?: number, height?: number): ElementRectangle;
     toJSON(): RequiredRectangleProps;
     toMinimalJSON(): RectangleProps;
-    getRect(): CenterBasedRect;
 }
 export default ElementRectangle;

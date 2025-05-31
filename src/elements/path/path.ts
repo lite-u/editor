@@ -211,24 +211,51 @@ class ElementPath extends ElementBase {
     }
   }
 
-  scaleFrom(scaleX: number, scaleY: number, anchor: Point) {
-    /*// console.log(scaleX, scaleY, anchor)
+  scaleFrom(scaleX: number, scaleY: number, anchor: Point): HistoryChangeItem | undefined {
+    // const {rotation} = this.original
+
+    // const {top, right, bottom, left} = this.getBoundingRectFromOriginal(true)
     const matrix = new DOMMatrix()
       .translate(anchor.x, anchor.y)
       .scale(scaleX, scaleY)
       .translate(-anchor.x, -anchor.y)
 
-    const {cx, cy, width, height} = this.original
-    const topLeft = ElementBase.transformPoint(cx - width / 2, cy - height / 2, matrix)
-    const bottomRight = ElementBase.transformPoint(cx + width / 2, cy + height / 2, matrix)
+    this.points = this.points.map(({anchor, cp1, cp2, type, symmetric}): BezierPoint => {
+      const newAnchor = new DOMPoint(anchor.x, anchor.y).matrixTransform(matrix)
+      const newCP1 = cp1 ?? new DOMPoint(cp1.x, cp1.y).matrixTransform(matrix)
+      const newCP2 = cp2 ?? new DOMPoint(cp2.x, cp2.y).matrixTransform(matrix)
 
-    this.cx = (topLeft.x + bottomRight.x) / 2
-    this.cy = (topLeft.y + bottomRight.y) / 2
-    this.width = Math.abs(bottomRight.x - topLeft.x)
-    this.height = Math.abs(bottomRight.y - topLeft.y)
+      return {
+        type,
+        symmetric,
+        anchor: newAnchor,
+        cp1: newCP1,
+        cp2: newCP2,
+      }
+    })
 
-    this.updatePath2D()*/
-    // console.log(this.cx, this.cy, this.width, this.height)
+    const newAnchor = new DOMPoint(this.cx, this.cy).matrixTransform(matrix)
+
+    this.cx = newAnchor.x
+    this.cy = newAnchor.y
+    this.updatePath2D()
+    this.updateBoundingRect()
+
+    return {
+      id: this.id,
+      from: {
+        cx: this.original.cx,
+        cy: this.original.cy,
+        width: this.original.width,
+        height: this.original.height,
+      },
+      to: {
+        cx: this.cx,
+        cy: this.cy,
+        width: this.width,
+        height: this.height,
+      },
+    }
   }
 
   public getBoundingRect(withoutRotation: boolean = false): BoundingRect {

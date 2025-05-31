@@ -1,7 +1,7 @@
 export type AnchorPoint = {
   x: number;
   y: number;
-  type: 'corner' | 'smooth';
+  type: BezierPointType;
   leftDirection: Point | null;
   rightDirection: Point | null;
 };
@@ -122,6 +122,6 @@ export type BezierPoint = {
   cp1: Point | null
   // Control point 2
   cp2: Point | null
-  type?: BezierPointType
+  type: BezierPointType
   symmetric?: boolean
 };

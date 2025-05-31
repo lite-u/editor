@@ -5,6 +5,7 @@ import {DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH} from '~/elements/d
 import {isEqual} from '~/lib/lib'
 import {HistoryChangeItem} from '~/services/actions/type'
 import ElementBase, {ElementBaseProps} from '~/elements/base/elementBase'
+import ElementPath from '~/elements/path/path'
 
 export interface RectangleLikeProps extends ElementBaseProps {
   id: string
@@ -127,13 +128,9 @@ class RectangleLike extends ElementBase {
   }
 
   scaleFrom(scaleX: number, scaleY: number, anchor: Point /*center: Point, scaleRotation: number*/): HistoryChangeItem | undefined {
-    // anchor = {x: 50, y: 21}
-    // console.log(anchor, scaleRotation)
-    const {cx, cy, width, height, rotation} = this.original
-    // const unRotatedAnchor = rotatePointAroundPoint(anchor.x, anchor.y, cx, cy, -rotation)
+    const {rotation} = this.original
 
     const {top, right, bottom, left} = this.getBoundingRectFromOriginal(true)
-    // const matrix = new DOMMatrix().scale(scaleX, scaleY, 1, unRotatedAnchor.x, unRotatedAnchor.y)/*.rotate(rotation)*/
     const matrix = new DOMMatrix()
       .translate(anchor.x, anchor.y)
       .rotate(-rotation)
@@ -248,7 +245,52 @@ class RectangleLike extends ElementBase {
 
     return generateBoundingRectFromRotatedRect({x, y, width: width!, height: height!}, rotation)
   }
+
+  public toPath(): ElementPath {
+    const { id, cx, cy, width, height, rotation = 0, borderRadius = [0, 0, 0, 0] } = this
+    const [tl, tr, br, bl] = borderRadius
+    const halfW = width / 2
+    const halfH = height / 2
+    const topLeft = { x: cx - halfW, y: cy - halfH }
+    const topRight = { x: cx + halfW, y: cy - halfH }
+    const bottomRight = { x: cx + halfW, y: cy + halfH }
+    const bottomLeft = { x: cx - halfW, y: cy + halfH }
+
+    const matrix = new DOMMatrix()
+      .translate(cx, cy)
+      .rotate(rotation)
+      .translate(-cx, -cy)
+
+    const transform = (p: { x: number, y: number }) => {
+      const pt = new DOMPoint(p.x, p.y).matrixTransform(matrix)
+      return { x: pt.x, y: pt.y }
+    }
+
+    const points = []
+
+    if ([tl, tr, br, bl].some(r => r > 0)) {
+      const p1 = transform({ x: topLeft.x + tl, y: topLeft.y })
+      const p2 = transform({ x: topRight.x - tr, y: topRight.y })
+      const p3 = transform({ x: topRight.x, y: topRight.y + tr })
+      const p4 = transform({ x: bottomRight.x, y: bottomRight.y - br })
+      const p5 = transform({ x: bottomRight.x - br, y: bottomRight.y })
+      const p6 = transform({ x: bottomLeft.x + bl, y: bottomLeft.y })
+      const p7 = transform({ x: bottomLeft.x, y: bottomLeft.y - bl })
+      const p8 = transform({ x: topLeft.x, y: topLeft.y + tl })
+      points.push(p1, p2, p3, p4, p5, p6, p7, p8, p1)
+    } else {
+      points.push(
+        transform(topLeft),
+        transform(topRight),
+        transform(bottomRight),
+        transform(bottomLeft),
+        transform(topLeft)
+      )
+    }
+
+    console.log(points)
+    return new ElementPath({ id, points })
+  }
 }
 
 export default RectangleLike
-
