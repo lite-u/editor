@@ -12,7 +12,7 @@ import {rotatePointAroundPoint} from '~/core/geometry'
 function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: ResizeDirectionName = 'br'): HistoryChangeItem[] {
   // console.log(placement)
   const changes: HistoryChangeItem[] = []
-  const {interaction /*action*/} = this.editor
+  const {interaction} = this.editor
   const {mouseWorldCurrent, _modifier} = interaction
   const {altKey, shiftKey} = _modifier
   const rectsWithRotation: BoundingRect[] = []
