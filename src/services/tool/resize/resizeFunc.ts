@@ -13,7 +13,7 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
   // console.log(placement)
   const changes: HistoryChangeItem[] = []
   const {interaction /*action*/} = this.editor
-  const {mouseWorldCurrent, mouseWorldStart, _modifier} = interaction
+  const {mouseWorldCurrent, _modifier} = interaction
   const {altKey, shiftKey} = _modifier
   const rectsWithRotation: BoundingRect[] = []
   const rectsWithoutRotation: BoundingRect[] = []
