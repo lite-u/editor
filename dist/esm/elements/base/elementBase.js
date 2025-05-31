@@ -15,7 +15,6 @@ class ElementBase {
     rotation;
     transform;
     show;
-    // protected matrix = new DOMMatrix()
     path2D = new Path2D();
     boundingRect;
     original;
@@ -47,7 +46,6 @@ class ElementBase {
         this.boundingRect = generateBoundingRectFromTwoPoints({ x: 0, y: 0 }, { x: 0, y: 0 });
     }
     static transformPoint(x, y, matrix) {
-        // if(!matrix) debugger
         const p = matrix.transformPoint({ x, y });
         return { x: p.x, y: p.y };
     }

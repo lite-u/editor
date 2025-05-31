@@ -5,7 +5,6 @@ import {DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH} from '~/elements/d
 import {isEqual} from '~/lib/lib'
 import {HistoryChangeItem} from '~/services/actions/type'
 import ElementBase, {ElementBaseProps} from '~/elements/base/elementBase'
-import {rotatePointAroundPoint} from '~/core/geometry'
 
 export interface RectangleLikeProps extends ElementBaseProps {
   id: string
@@ -146,18 +145,24 @@ class RectangleLike extends ElementBase {
       .translate(-anchor.x, -anchor.y)
 
     const corners = [
-      new DOMPoint(top, left),
+      new DOMPoint(left, top),
       new DOMPoint(right, top),
       new DOMPoint(right, bottom),
       new DOMPoint(left, bottom),
     ]
     const scaledCorners = corners.map(corner => corner.matrixTransform(matrix))
-    const newWidth = scaledCorners[1].x - scaledCorners[0].x
-    const newHeight = scaledCorners[2].y - scaledCorners[0].y
-    const newCX = scaledCorners[0].x + newWidth / 2
-    const newCY = scaledCorners[0].y + newHeight / 2
+    const xs = scaledCorners.map(p => p.x);
+    const ys = scaledCorners.map(p => p.y);
 
-    console.log(newWidth, newHeight, newCX, newCY)
+    const minX = Math.min(...xs);
+    const maxX = Math.max(...xs);
+    const minY = Math.min(...ys);
+    const maxY = Math.max(...ys);
+
+    const newCX = (minX + maxX) / 2;
+    const newCY = (minY + maxY) / 2;
+    const newWidth = maxX - minX;
+    const newHeight = maxY - minY;
     this.cx = newCX
     this.cy = newCY
     this.width = newWidth

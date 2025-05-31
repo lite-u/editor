@@ -112,17 +112,22 @@ class RectangleLike extends ElementBase {
             .rotate(-rotation)
             .translate(-anchor.x, -anchor.y);
         const corners = [
-            new DOMPoint(top, left),
+            new DOMPoint(left, top),
             new DOMPoint(right, top),
             new DOMPoint(right, bottom),
             new DOMPoint(left, bottom),
         ];
         const scaledCorners = corners.map(corner => corner.matrixTransform(matrix));
-        const newWidth = scaledCorners[1].x - scaledCorners[0].x;
-        const newHeight = scaledCorners[2].y - scaledCorners[0].y;
-        const newCX = scaledCorners[0].x + newWidth / 2;
-        const newCY = scaledCorners[0].y + newHeight / 2;
-        console.log(newWidth, newHeight, newCX, newCY);
+        const xs = scaledCorners.map(p => p.x);
+        const ys = scaledCorners.map(p => p.y);
+        const minX = Math.min(...xs);
+        const maxX = Math.max(...xs);
+        const minY = Math.min(...ys);
+        const maxY = Math.max(...ys);
+        const newCX = (minX + maxX) / 2;
+        const newCY = (minY + maxY) / 2;
+        const newWidth = maxX - minX;
+        const newHeight = maxY - minY;
         this.cx = newCX;
         this.cy = newCY;
         this.width = newWidth;

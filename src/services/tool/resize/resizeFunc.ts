@@ -96,13 +96,11 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
     }
   }
 
-  console.log('scalesss ', scaleY, startVec.y, currentVec.y)
-  if (shiftKey) {
-    // if()
+/*  if (shiftKey) {
     const uniformScale = Math.max(Math.abs(scaleX), Math.abs(scaleY))
-    scaleX = Math.sign(scaleX) * uniformScale
-    scaleY = Math.sign(scaleY) * uniformScale
-  }
+    scaleX = uniformScale
+    scaleY = uniformScale
+  }*/
 
   const scalingAnchor = altKey ? {x: centerX, y: centerY} : anchorOppositeMouse
 

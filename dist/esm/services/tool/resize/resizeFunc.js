@@ -79,13 +79,11 @@ function resizeFunc(elements, placement = 'br') {
             scaleY = scaleX;
         }
     }
-    console.log('scalesss ', scaleY, startVec.y, currentVec.y);
-    if (shiftKey) {
-        // if()
-        const uniformScale = Math.max(Math.abs(scaleX), Math.abs(scaleY));
-        scaleX = Math.sign(scaleX) * uniformScale;
-        scaleY = Math.sign(scaleY) * uniformScale;
-    }
+    /*  if (shiftKey) {
+        const uniformScale = Math.max(Math.abs(scaleX), Math.abs(scaleY))
+        scaleX = uniformScale
+        scaleY = uniformScale
+      }*/
     const scalingAnchor = altKey ? { x: centerX, y: centerY } : anchorOppositeMouse;
     elements.forEach((el) => {
         const change = el.scaleFrom(scaleX, scaleY, scalingAnchor /*, {x: centerX, y: centerY}*/);
