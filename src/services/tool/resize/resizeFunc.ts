@@ -67,8 +67,6 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
 
   let scaleX = startVec.x !== 0 ? currentVec.x / startVec.x : 1
   let scaleY = startVec.y !== 0 ? currentVec.y / startVec.y : 1
-  // let scaleX = currentVec.x / startVec.x
-  // let scaleY = currentVec.y / startVec.y
 
   if (shiftKey) {
     const uniformScale = Math.max(Math.abs(scaleX), Math.abs(scaleY))
