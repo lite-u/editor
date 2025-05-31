@@ -71,7 +71,6 @@ class ElementBase {
   rotation: number
   transform: Transform
   show: boolean
-  // protected matrix = new DOMMatrix()
   path2D = new Path2D()
   boundingRect: BoundingRect
   protected original: {

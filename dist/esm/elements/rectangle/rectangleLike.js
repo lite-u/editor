@@ -125,10 +125,8 @@ class RectangleLike extends ElementBase {
         console.log(newWidth, newHeight, newCX, newCY);
         this.cx = newCX;
         this.cy = newCY;
-        this.width = Math.abs(newWidth);
-        this.height = Math.abs(newHeight);
-        this.updatePath2D();
-        this.updateBoundingRect();
+        this.width = newWidth;
+        this.height = newHeight;
         this.updatePath2D();
         this.updateBoundingRect();
         return {

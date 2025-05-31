@@ -84,10 +84,16 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
 
   if (startVec.x === 0) {
     scaleX = 1
+    if (shiftKey) {
+      scaleX = scaleY
+    }
   }
 
   if (startVec.y === 0) {
     scaleY = 1
+    if (shiftKey) {
+      scaleY = scaleX
+    }
   }
 
   console.log('scalesss ', scaleY, startVec.y, currentVec.y)
