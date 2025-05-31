@@ -7,8 +7,6 @@ import {getSameRotationRectsBoundingRect} from '~/core/utils'
 import {BoundingRect, Point} from '~/type'
 import {rotatePointAroundPoint} from '~/core/geometry'
 
-// import Editor from '~/main/editor'
-
 function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: ResizeDirectionName = 'br'): HistoryChangeItem[] {
   const changes: HistoryChangeItem[] = []
   const {interaction} = this.editor
