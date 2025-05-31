@@ -1,8 +1,8 @@
-import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '~/core/utils';
-import { DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '~/elements/defaultProps';
-import { isEqual } from '~/lib/lib';
-import ElementBase from '~/elements/base/elementBase';
-import { rotatePointAroundPoint } from '~/core/geometry';
+import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '../../core/utils.js';
+import { DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../defaultProps.js';
+import { isEqual } from '../../lib/lib.js';
+import ElementBase from '../base/elementBase.js';
+import { rotatePointAroundPoint } from '../../core/geometry.js';
 class RectangleLike extends ElementBase {
     // id: string
     // layer: number
@@ -102,30 +102,18 @@ class RectangleLike extends ElementBase {
         console.log(anchor, applyRotation);
         const { rotation } = this.original;
         // console.log('scaleX', scaleX, scaleY, anchor)
-        const { cx, cy, width, height, top, right, bottom, left } = this.getBoundingRectFromOriginal(true);
+        const { top, right, bottom, left } = this.getBoundingRectFromOriginal(true);
         const matrix = new DOMMatrix().scale(scaleX, scaleY, 1, anchor.x, anchor.y);
         const topLeft = { x: left, y: top };
         const bottomRight = { x: right, y: bottom };
-        // matrix.rotateSelf(rotation)
-        // Transform all four corners
         const pTL = matrix.transformPoint(topLeft);
-        // const pTR = matrix.transformPoint(topRight)
         const pBR = matrix.transformPoint(bottomRight);
-        // const pBL = matrix.transformPoint(bottomLeft)
-        // debugger
-        /*    console.log('pTL',
-              pTL,
-              pTR,
-              pBR,
-              pBL,
-            )*/
         // New center is average of opposite corners (or all four)
         const newCX = (pTL.x + pBR.x) / 2;
         const newCY = (pTL.y + pBR.y) / 2;
         const newWidth = pBR.x - pTL.x;
         const newHeight = pBR.y - pTL.y;
         // const newHeight = Math.hypot(pBL.x - pTL.x, pBL.y - pTL.y)
-        // console.log('new', newCX, newCY, newWidth, newHeight)
         this.cx = newCX;
         this.cy = newCY;
         const _p = rotatePointAroundPoint(newCX, newCY, center.x, center.y, rotation);

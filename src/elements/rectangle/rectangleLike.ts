@@ -149,7 +149,6 @@ class RectangleLike extends ElementBase {
     const newHeight = pBR.y - pTL.y
     // const newHeight = Math.hypot(pBL.x - pTL.x, pBL.y - pTL.y)
 
-    // console.log('new', newCX, newCY, newWidth, newHeight)
     this.cx = newCX
     this.cy = newCY
     const _p = rotatePointAroundPoint(newCX, newCY, center.x, center.y, rotation)
