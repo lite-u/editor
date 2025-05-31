@@ -1,12 +1,10 @@
 import { getAnchorsByResizeDirection, getBoundingRectFromBoundingRects } from './helper.js';
 import { getSameRotationRectsBoundingRect } from '../../../core/utils.js';
 import { rotatePointAroundPoint } from '../../../core/geometry.js';
-// import Editor from '../../../main/editor.js'
 function resizeFunc(elements, placement = 'br') {
-    // console.log(placement)
     const changes = [];
-    const { interaction /*action*/ } = this.editor;
-    const { mouseWorldCurrent, mouseWorldStart, _modifier } = interaction;
+    const { interaction } = this.editor;
+    const { mouseWorldCurrent, _modifier } = interaction;
     const { altKey, shiftKey } = _modifier;
     const rectsWithRotation = [];
     const rectsWithoutRotation = [];
@@ -56,21 +54,14 @@ function resizeFunc(elements, placement = 'br') {
     }
     let scaleX = startVec.x !== 0 ? currentVec.x / startVec.x : 1;
     let scaleY = startVec.y !== 0 ? currentVec.y / startVec.y : 1;
-    // let scaleX = currentVec.x / startVec.x
-    // let scaleY = currentVec.y / startVec.y
     if (shiftKey) {
         const uniformScale = Math.max(Math.abs(scaleX), Math.abs(scaleY));
         scaleX = Math.sign(scaleX) * uniformScale;
         scaleY = Math.sign(scaleY) * uniformScale;
     }
     const scalingAnchor = altKey ? { x: centerX, y: centerY } : opposite;
-    /*  if(altKey){
-        scaleX/=2
-        scaleY/=2
-      }*/
-    console.log(scaleX, scaleY, scalingAnchor);
     elements.forEach((el) => {
-        const change = el.scaleFrom(scaleX, scaleY, scalingAnchor, { x: centerX, y: centerY });
+        const change = el.scaleFrom(scaleX, scaleY, scalingAnchor, { x: centerX, y: centerY }, applyRotation);
         changes.push(change);
     });
     return changes;

@@ -19,7 +19,7 @@ declare class RectangleLike extends ElementBase {
     updateOriginal(): void;
     protected get getPoints(): Point[];
     protected get corners(): Point[];
-    scaleFrom(scaleX: number, scaleY: number, anchor: Point, center: Point): HistoryChangeItem | undefined;
+    scaleFrom(scaleX: number, scaleY: number, anchor: Point, center: Point, applyRotation: any): HistoryChangeItem | undefined;
     toJSON(): RequiredRectangleLikeProps;
     toMinimalJSON(): RectangleLikeProps;
     getBoundingRect(withoutRotation?: boolean): import("~/type").BoundingRect;

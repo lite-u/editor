@@ -77,7 +77,7 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
   const scalingAnchor = altKey ? {x: centerX, y: centerY} : opposite
 
   elements.forEach((el: ElementInstance) => {
-    const change = el.scaleFrom(scaleX, scaleY, scalingAnchor, {x: centerX, y: centerY})
+    const change = el.scaleFrom(scaleX, scaleY, scalingAnchor, {x: centerX, y: centerY}, applyRotation)
     changes.push(change!)
   })
 
