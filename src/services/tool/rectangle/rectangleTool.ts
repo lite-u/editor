@@ -1,6 +1,7 @@
 import {ToolType} from '~/services/tool/toolManager'
 import ElementRectangle from '~/elements/rectangle/rectangle'
 import resizeFunc from '~/services/tool/resize/resizeFunc'
+import {nid} from '~/index'
 
 const rectangleTool: ToolType = {
   cursor: 'crosshair',
@@ -31,7 +32,7 @@ const rectangleTool: ToolType = {
     const {cursor, action, interaction} = this.editor
 
     const eleProps = interaction._ele.toMinimalJSON()
-
+    eleProps.id = nid()
     cursor.unlock()
     action.dispatch('element-add', [eleProps])
     interaction._ele = null!

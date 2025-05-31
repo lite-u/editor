@@ -164,9 +164,12 @@ class ElementPath extends ElementBase {
         }
     }
     scaleFrom(scaleX, scaleY, anchor) {
+        console.log(anchor.x, anchor.y);
         const matrix = new DOMMatrix()
             .translate(anchor.x, anchor.y)
+            // .rotate(-this.original.rotation)
             .scale(scaleX, scaleY)
+            // .rotate(this.original.rotation)
             .translate(-anchor.x, -anchor.y);
         this.points = this.original.points.map(({ anchor, cp1, cp2, type, symmetric }) => {
             const newAnchor = new DOMPoint(anchor.x, anchor.y).matrixTransform(matrix);

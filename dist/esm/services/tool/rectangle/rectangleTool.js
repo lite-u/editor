@@ -1,5 +1,6 @@
 import ElementRectangle from '../../../elements/rectangle/rectangle.js';
 import resizeFunc from '../resize/resizeFunc.js';
+import { nid } from '../../../index.js';
 const rectangleTool = {
     cursor: 'crosshair',
     mouseDown() {
@@ -26,6 +27,7 @@ const rectangleTool = {
     mouseUp() {
         const { cursor, action, interaction } = this.editor;
         const eleProps = interaction._ele.toMinimalJSON();
+        eleProps.id = nid();
         cursor.unlock();
         action.dispatch('element-add', [eleProps]);
         interaction._ele = null;

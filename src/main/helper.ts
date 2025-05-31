@@ -89,8 +89,10 @@ export function generateElementsDetectArea(this: Editor) {
       }
     }
 
+    // const renderCenterPoint =  ele.type !== 'path1'
+    const renderCenterPoint =  true
     // centerPoint
-    if (ele.type !== 'path') {
+    if (renderCenterPoint) {
       const pointLen = idSet.size === 1 ? 3 * ratio : 6 * ratio
 
       centerPoint = idSet.size === 1

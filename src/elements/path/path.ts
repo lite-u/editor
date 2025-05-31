@@ -72,7 +72,7 @@ class ElementPath extends ElementBase {
     return transformedPoints
   }
 
-  getBezierPoints(): BezierPoint[] {
+  public getBezierPoints(): BezierPoint[] {
     const {cx, cy} = this
     const transform = new DOMMatrix()
       .translate(cx, cy)
@@ -211,10 +211,14 @@ class ElementPath extends ElementBase {
     }
   }
 
-  scaleFrom(scaleX: number, scaleY: number, anchor: Point): HistoryChangeItem | undefined {
+  public scaleFrom(scaleX: number, scaleY: number, anchor: Point): HistoryChangeItem | undefined {
+
+    console.log(anchor.x, anchor.y )
     const matrix = new DOMMatrix()
       .translate(anchor.x, anchor.y)
+      // .rotate(-this.original.rotation)
       .scale(scaleX, scaleY)
+      // .rotate(this.original.rotation)
       .translate(-anchor.x, -anchor.y)
 
     this.points = this.original.points!.map(({anchor, cp1, cp2, type, symmetric}): BezierPoint => {
@@ -269,7 +273,7 @@ class ElementPath extends ElementBase {
     return getBoundingRectFromBezierPoints(transformedPoints)
   }
 
-  getBoundingRectFromOriginal(withoutRotation: boolean = false) {
+  public getBoundingRectFromOriginal(withoutRotation: boolean = false) {
     const {cx, cy, rotation, points} = this.original
     const r = withoutRotation ? -rotation : 0
 
