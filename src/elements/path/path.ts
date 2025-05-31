@@ -212,9 +212,6 @@ class ElementPath extends ElementBase {
   }
 
   scaleFrom(scaleX: number, scaleY: number, anchor: Point): HistoryChangeItem | undefined {
-    // const {rotation} = this.original
-
-    // const {top, right, bottom, left} = this.getBoundingRectFromOriginal(true)
     const matrix = new DOMMatrix()
       .translate(anchor.x, anchor.y)
       .scale(scaleX, scaleY)
@@ -246,14 +243,12 @@ class ElementPath extends ElementBase {
       from: {
         cx: this.original.cx,
         cy: this.original.cy,
-        width: this.original.width,
-        height: this.original.height,
+        points: deepClone(this.original.points),
       },
       to: {
         cx: this.cx,
         cy: this.cy,
-        width: this.width,
-        height: this.height,
+        points: deepClone(this.points),
       },
     }
   }
