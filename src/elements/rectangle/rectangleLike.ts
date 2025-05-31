@@ -132,25 +132,14 @@ class RectangleLike extends ElementBase {
     console.log(anchor, applyRotation)
     const {rotation} = this.original
     // console.log('scaleX', scaleX, scaleY, anchor)
-    const {cx, cy, width, height, top, right, bottom, left} = this.getBoundingRectFromOriginal(true)
+    const {top, right, bottom, left} = this.getBoundingRectFromOriginal(true)
     const matrix = new DOMMatrix().scale(scaleX, scaleY, 1, anchor.x, anchor.y)
 
     const topLeft = {x: left, y: top}
     const bottomRight = {x: right, y: bottom}
 
-    // matrix.rotateSelf(rotation)
-    // Transform all four corners
     const pTL = matrix.transformPoint(topLeft)
-    // const pTR = matrix.transformPoint(topRight)
     const pBR = matrix.transformPoint(bottomRight)
-    // const pBL = matrix.transformPoint(bottomLeft)
-    // debugger
-    /*    console.log('pTL',
-          pTL,
-          pTR,
-          pBR,
-          pBL,
-        )*/
 
     // New center is average of opposite corners (or all four)
     const newCX = (pTL.x + pBR.x) / 2
