@@ -5,7 +5,6 @@ import {DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH} from '~/elements/d
 import {isEqual} from '~/lib/lib'
 import {HistoryChangeItem} from '~/services/actions/type'
 import ElementBase, {ElementBaseProps} from '~/elements/base/elementBase'
-import {rotatePointAroundPoint} from '~/core/geometry'
 
 export interface RectangleLikeProps extends ElementBaseProps {
   id: string
@@ -127,38 +126,45 @@ class RectangleLike extends ElementBase {
     ]
   }
 
-  scaleFrom(scaleX: number, scaleY: number, anchor: Point, center: Point, scaleRotation: number): HistoryChangeItem | undefined {
+  scaleFrom(scaleX: number, scaleY: number, anchor: Point /*center: Point, scaleRotation: number*/): HistoryChangeItem | undefined {
     // anchor = {x: 50, y: 21}
-    console.log(anchor, scaleRotation)
-    const {cx,cy,rotation} = this.original
-    const unRotatedAnchor = rotatePointAroundPoint(anchor.x, anchor.y, cx, cy, -rotation)
+    // console.log(anchor, scaleRotation)
+    const {cx, cy, width, height, rotation} = this.original
+    // const unRotatedAnchor = rotatePointAroundPoint(anchor.x, anchor.y, cx, cy, -rotation)
 
-    // console.log('scaleX', scaleX, scaleY, anchor)
     const {top, right, bottom, left} = this.getBoundingRectFromOriginal(true)
-    const matrix = new DOMMatrix().scale(scaleX, scaleY, 1, unRotatedAnchor.x, unRotatedAnchor.y)/*.rotate(rotation)*/
+    // const matrix = new DOMMatrix().scale(scaleX, scaleY, 1, unRotatedAnchor.x, unRotatedAnchor.y)/*.rotate(rotation)*/
+    const matrix = new DOMMatrix()
+      .translate(anchor.x, anchor.y)
+      .rotate(-rotation)
+      .scale(scaleX, scaleY)
+      .rotate(rotation)
+      .translate(-anchor.x, -anchor.y)
 
-    const topLeft = {x: left, y: top}
-    const bottomRight = {x: right, y: bottom}
+    const corners = [
+      new DOMPoint(top, left),
+      new DOMPoint(right, top),
+      new DOMPoint(right, bottom),
+      new DOMPoint(left, bottom),
+    ]
+    const scaledCorners = corners.map(corner => corner.matrixTransform(matrix))
+    const xs = scaledCorners.map(p => p.x)
+    const ys = scaledCorners.map(p => p.y)
 
-    matrix.rotateSelf(-rotation)
-    const pTL = matrix.transformPoint(topLeft)
-    const pBR = matrix.transformPoint(bottomRight)
+    const minX = Math.min(...xs)
+    const maxX = Math.max(...xs)
+    const minY = Math.min(...ys)
+    const maxY = Math.max(...ys)
 
-    // New center is average of opposite corners (or all four)
-    const newCX = (pTL.x + pBR.x) / 2
-    const newCY = (pTL.y + pBR.y) / 2
-
-    const newWidth = pBR.x - pTL.x
-    const newHeight = pBR.y - pTL.y
-    // const newHeight = Math.hypot(pBL.x - pTL.x, pBL.y - pTL.y)
+    const newCX = (minX + maxX) / 2
+    const newCY = (minY + maxY) / 2
+    const newWidth = maxX - minX
+    const newHeight = maxY - minY
 
     this.cx = newCX
     this.cy = newCY
-    const _p = rotatePointAroundPoint(newCX, newCY, cx, cy, -scaleRotation)
-    this.cx = _p.x
-    this.cy = _p.y
-    this.width = Math.abs(newWidth)
-    this.height = Math.abs(newHeight)
+    this.width = newWidth
+    this.height = newHeight
     this.updatePath2D()
     this.updateBoundingRect()
 
