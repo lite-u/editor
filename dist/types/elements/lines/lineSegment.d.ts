@@ -19,7 +19,7 @@ declare class ElementLineSegment extends ElementBase {
     getBoundingRect(withoutRotation?: boolean): BoundingRect;
     getBoundingRectFromOriginal(withoutRotation?: boolean): BoundingRect;
     translate(dx: number, dy: number, f?: boolean): HistoryChangeItem | undefined;
-    scaleFrom(scaleX: number, scaleY: number, anchor: Point, center: Point): void;
+    scaleFrom(scaleX: number, scaleY: number, anchor: Point): void;
     toJSON(): RequiredLineSegmentProps;
     toMinimalJSON(): LineSegmentProps;
 }

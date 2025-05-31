@@ -76,10 +76,23 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
     }
   }
 
-  let scaleX = startVec.x !== 0 ? currentVec.x / startVec.x : 1
-  let scaleY = startVec.y !== 0 ? currentVec.y / startVec.y : 1
+  // console.log('startVecs !!!',startVec.x,startVec.y)
+  // let scaleX = startVec.x !== 0 ? currentVec.x / startVec.x : 1
+  // let scaleY = startVec.y !== 0 ? currentVec.y / startVec.y : 1
+  let scaleX = currentVec.x / startVec.x
+  let scaleY = currentVec.y / startVec.y
 
+  if (startVec.x === 0) {
+    scaleX = 1
+  }
+
+  if (startVec.y === 0) {
+    scaleY = 1
+  }
+
+  console.log('scalesss ', scaleY, startVec.y, currentVec.y)
   if (shiftKey) {
+    // if()
     const uniformScale = Math.max(Math.abs(scaleX), Math.abs(scaleY))
     scaleX = Math.sign(scaleX) * uniformScale
     scaleY = Math.sign(scaleY) * uniformScale
@@ -88,7 +101,7 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
   const scalingAnchor = altKey ? {x: centerX, y: centerY} : anchorOppositeMouse
 
   elements.forEach((el: ElementInstance) => {
-    const change = el.scaleFrom(scaleX, scaleY, scalingAnchor, {x: centerX, y: centerY})
+    const change = el.scaleFrom(scaleX, scaleY, scalingAnchor/*, {x: centerX, y: centerY}*/)
     changes.push(change!)
   })
 

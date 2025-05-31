@@ -141,7 +141,7 @@ class ElementLineSegment extends ElementBase {
     }
   }
 
-  public scaleFrom(scaleX: number, scaleY: number, anchor: Point,center:Point) {
+  public scaleFrom(scaleX: number, scaleY: number, anchor: Point/*,center:Point*/) {
     const matrix = new DOMMatrix()
       .translate(anchor.x, anchor.y)
       .scale(scaleX, scaleY)

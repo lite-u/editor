@@ -132,17 +132,18 @@ class RectangleLike extends ElementBase {
   scaleFrom(scaleX: number, scaleY: number, anchor: Point /*center: Point, scaleRotation: number*/): HistoryChangeItem | undefined {
     // anchor = {x: 50, y: 21}
     // console.log(anchor, scaleRotation)
+    console.log(scaleX, scaleY, anchor.x, anchor.y)
     const {cx, cy, width, height, rotation} = this.original
-    const unRotatedAnchor = rotatePointAroundPoint(anchor.x, anchor.y, cx, cy, -rotation)
+    // const unRotatedAnchor = rotatePointAroundPoint(anchor.x, anchor.y, cx, cy, -rotation)
 
     const {top, right, bottom, left} = this.getBoundingRectFromOriginal(true)
     // const matrix = new DOMMatrix().scale(scaleX, scaleY, 1, unRotatedAnchor.x, unRotatedAnchor.y)/*.rotate(rotation)*/
     const matrix = new DOMMatrix()
-      .translate(unRotatedAnchor.x, unRotatedAnchor.y)
-      // .rotate(rotation)
+      .translate(anchor.x, anchor.y)
+      .rotate(rotation)
       .scale(scaleX, scaleY)
-      // .rotate(-rotation)
-      .translate(-unRotatedAnchor.x, -unRotatedAnchor.y)
+      .rotate(-rotation)
+      .translate(-anchor.x, -anchor.y)
 
     const corners = [
       new DOMPoint(top, left),
@@ -159,8 +160,8 @@ class RectangleLike extends ElementBase {
     console.log(newWidth, newHeight, newCX, newCY)
     this.cx = newCX
     this.cy = newCY
-    this.width = newWidth
-    this.height = newHeight
+    this.width = Math.abs(newWidth)
+    this.height = Math.abs(newHeight)
     this.updatePath2D()
     this.updateBoundingRect()
     this.updatePath2D()
