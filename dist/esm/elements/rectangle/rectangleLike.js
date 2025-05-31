@@ -98,48 +98,70 @@ class RectangleLike extends ElementBase {
         ];
     }
     scaleFrom(scaleX, scaleY, anchor, center) {
-        const { rotation, cx: originalCX, cy: originalCY } = this.original;
-        const { width, height } = this.original;
-        // Get the original rectangle corners
-        const { top, right, bottom, left } = this.getBoundingRectFromOriginal(false);
-        // Calculate the corners of the original rectangle
-        const corners = [
-            { x: left, y: top },
-            { x: right, y: top },
-            { x: right, y: bottom },
-            { x: left, y: bottom },
-        ];
-        // Apply reverse rotation to un-rotate the rectangle
-        const unrotated = corners.map((pt) => rotatePointAroundPoint(pt.x, pt.y, originalCX, originalCY, -rotation));
-        // Apply scaling
+        const { rotation } = this.original;
+        // console.log('scaleX', scaleX, scaleY, anchor)
+        const { cx, cy, width, height, top, right, bottom, left } = this.getBoundingRectFromOriginal(true);
         const matrix = new DOMMatrix().scale(scaleX, scaleY, 1, anchor.x, anchor.y);
-        const scaled = unrotated.map((pt) => matrix.transformPoint(pt));
-        // Re-apply the rotation
-        const rotatedBack = scaled.map((pt) => rotatePointAroundPoint(pt.x, pt.y, originalCX, originalCY, rotation));
-        // Compute new bounding box from transformed points
-        const xs = rotatedBack.map((p) => p.x);
-        const ys = rotatedBack.map((p) => p.y);
-        const minX = Math.min(...xs);
-        const maxX = Math.max(...xs);
-        const minY = Math.min(...ys);
-        const maxY = Math.max(...ys);
-        const newCX = (minX + maxX) / 2;
-        const newCY = (minY + maxY) / 2;
-        const newWidth = maxX - minX;
-        const newHeight = maxY - minY;
+        /*.rotate(-rotation)*/
+        // const unRotatedAnchor1 = matrix.transformPoint(anchor)
+        // const unRotatedAnchor = rotatePointAroundPoint(anchor.x, anchor.y, cx, cy, -rotation)
+        // console.log(unRotatedAnchor1,unRotatedAnchor)
+        // console.log(anchor, unRotatedAnchor)
+        // matrix.scaleSelf(scaleX, scaleY, 1, anchor.x, anchor.y)
+        // matrix.rotate(rotation)
+        // .scale(scaleX, scaleY, 1, 50, 50)
+        // .scale(scaleX, scaleY)
+        // .rotate(rotation)
+        // const halfW = width! / 2
+        // const halfH = height! / 2
+        const topLeft = { x: left, y: top };
+        // const topRight = {x: right, y: top}
+        const bottomRight = { x: right, y: bottom };
+        // const bottomLeft = {x: left, y: bottom}
+        /*
+            console.log('topLeft',
+              topLeft,
+              topRight,
+              bottomRight,
+              bottomLeft,
+            )
+        */
+        // matrix.rotateSelf(rotation)
+        // Transform all four corners
+        const pTL = matrix.transformPoint(topLeft);
+        // const pTR = matrix.transformPoint(topRight)
+        const pBR = matrix.transformPoint(bottomRight);
+        // const pBL = matrix.transformPoint(bottomLeft)
+        // debugger
+        /*    console.log('pTL',
+              pTL,
+              pTR,
+              pBR,
+              pBL,
+            )*/
+        // New center is average of opposite corners (or all four)
+        const newCX = (pTL.x + pBR.x) / 2;
+        const newCY = (pTL.y + pBR.y) / 2;
+        const newWidth = pBR.x - pTL.x;
+        const newHeight = pBR.y - pTL.y;
+        // const newHeight = Math.hypot(pBL.x - pTL.x, pBL.y - pTL.y)
+        // console.log('new', newCX, newCY, newWidth, newHeight)
         this.cx = newCX;
         this.cy = newCY;
-        this.width = newWidth;
-        this.height = newHeight;
+        const _p = rotatePointAroundPoint(newCX, newCY, center.x, center.y, rotation);
+        this.cx = _p.x;
+        this.cy = _p.y;
+        this.width = Math.abs(newWidth);
+        this.height = Math.abs(newHeight);
         this.updatePath2D();
         this.updateBoundingRect();
         return {
             id: this.id,
             from: {
-                cx: originalCX,
-                cy: originalCY,
-                width,
-                height,
+                cx: this.original.cx,
+                cy: this.original.cy,
+                width: this.original.width,
+                height: this.original.height,
             },
             to: {
                 cx: this.cx,
