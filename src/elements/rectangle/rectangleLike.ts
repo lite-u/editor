@@ -139,9 +139,9 @@ class RectangleLike extends ElementBase {
     // const matrix = new DOMMatrix().scale(scaleX, scaleY, 1, unRotatedAnchor.x, unRotatedAnchor.y)/*.rotate(rotation)*/
     const matrix = new DOMMatrix()
       .translate(anchor.x, anchor.y)
-      .rotate(rotation)
+      // .rotate(rotation)
       .scale(scaleX, scaleY)
-      .rotate(-rotation)
+      // .rotate(-rotation)
       .translate(-anchor.x, -anchor.y)
 
     const corners = [
