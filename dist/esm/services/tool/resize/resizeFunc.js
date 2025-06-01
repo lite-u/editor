@@ -34,6 +34,7 @@ function resizeFunc(elements, placement = 'br') {
     if (applyRotation > 0) {
         anchorNearMouse = rotatePointAroundPoint(anchor.x, anchor.y, centerX, centerY, applyRotation);
         anchorOppositeMouse = rotatePointAroundPoint(opposite.x, opposite.y, centerX, centerY, applyRotation);
+        console.log('anchorNearMouse', anchorNearMouse, anchorOppositeMouse);
     }
     else {
         anchorNearMouse = anchor;
@@ -52,6 +53,12 @@ function resizeFunc(elements, placement = 'br') {
         x: mouseWorldCurrent.x - anchorOppositeMouse.x,
         y: mouseWorldCurrent.y - anchorOppositeMouse.y,
     };
+    /*console.log(
+      anchorNearMouse, anchorOppositeMouse,
+      '---',
+      mouseWorldCurrent
+    )
+    console.log(anchorNearMouse, anchorOppositeMouse)*/
     if (altKey) {
         startVec = {
             x: anchorNearMouse.x - centerX,
@@ -62,7 +69,7 @@ function resizeFunc(elements, placement = 'br') {
             y: mouseWorldCurrent.y - centerY,
         };
     }
-    // console.log('startVecs !!!',startVec.x,startVec.y)
+    // console.log('startVecs !!!',startVec.x, startVec.y)
     let scaleX = startVec.x !== 0 ? currentVec.x / startVec.x : 1;
     let scaleY = startVec.y !== 0 ? currentVec.y / startVec.y : 1;
     // let scaleX = currentVec.x / startVec.x
@@ -84,6 +91,7 @@ function resizeFunc(elements, placement = 'br') {
       }
     */
     if (shiftKey) {
+        // console.log(scaleX,scaleY)
         if (scaleX === 1) {
             scaleX = scaleY;
         }
@@ -99,6 +107,7 @@ function resizeFunc(elements, placement = 'br') {
         }
     }
     const scalingAnchor = altKey ? { x: centerX, y: centerY } : anchorOppositeMouse;
+    console.log('scales---- ', scaleX, scaleY, scalingAnchor);
     elements.forEach((el) => {
         const change = el.scaleFrom(scaleX, scaleY, scalingAnchor /*, {x: centerX, y: centerY}*/);
         changes.push(change);
