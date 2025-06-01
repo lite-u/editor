@@ -161,10 +161,13 @@ class RectangleLike extends ElementBase {
     ].map(({x, y}) => {
       const rotatedPoint = rotatePointAroundPoint(x, y, cx, cy, rotation)
       const d = new DOMPoint(rotatedPoint.x, rotatedPoint.y)
-      return d.matrixTransform(matrix)
+      const scaledPoint = d.matrixTransform(matrix)
+      const rotateBack = rotatePointAroundPoint(scaledPoint.x, scaledPoint.y, cx, cy, -rotation)
+
+      return rotateBack
     })
 
-    // console.log('scaledCorners',scaledCorners)
+    console.log('scaledCorners',scaledCorners)
     const xs = scaledCorners.map(p => p.x)
     const ys = scaledCorners.map(p => p.y)
 
