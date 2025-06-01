@@ -154,7 +154,7 @@ class RectangleLike extends ElementBase {
       new DOMPoint(left, bottom),
     ].map(corner => {
       const _d = corner.matrixTransform(selfMatrix)
-      console.log(_d)
+
       return _d.matrixTransform(matrix)
     })
 
