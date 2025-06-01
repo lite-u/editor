@@ -129,17 +129,17 @@ class RectangleLike extends ElementBase {
     ]
   }
 
-  scaleFrom(scaleX: number, scaleY: number, anchor: Point /*center: Point, scaleRotation: number*/): HistoryChangeItem | undefined {
+  scaleFrom(scaleX: number, scaleY: number, anchor: Point, center: Point, appliedRotation: number): HistoryChangeItem | undefined {
     const {cx, cy, rotation} = this.original
     const {top, right, bottom, left} = this.getBoundingRectFromOriginal(true)
-    const unRotatedAnchor = rotatePointAroundPoint(anchor.x, anchor.y, cx, cy, rotation)
+    // const unRotatedAnchor = rotatePointAroundPoint(anchor.x, anchor.y, cx, cy, rotation)
 
-    console.log('unRotatedAnchor', unRotatedAnchor)
+    // console.log('unRotatedAnchor', unRotatedAnchor)
     const matrix = new DOMMatrix()
       .translate(anchor.x, anchor.y)
-      .rotate(rotation)
+      .rotate(appliedRotation)
       .scale(scaleX, scaleY)
-      .rotate(-rotation)
+      .rotate(-appliedRotation)
       .translate(-anchor.x, -anchor.y)
     /*  const rotateBackMatrix = new DOMMatrix()
         .translate(-cx, -cy)

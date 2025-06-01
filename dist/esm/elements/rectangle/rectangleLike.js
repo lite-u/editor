@@ -98,16 +98,16 @@ class RectangleLike extends ElementBase {
             { x: this.cx - w, y: this.cy + h }, // bottom-left
         ];
     }
-    scaleFrom(scaleX, scaleY, anchor /*center: Point, scaleRotation: number*/) {
+    scaleFrom(scaleX, scaleY, anchor, center, appliedRotation) {
         const { cx, cy, rotation } = this.original;
         const { top, right, bottom, left } = this.getBoundingRectFromOriginal(true);
-        const unRotatedAnchor = rotatePointAroundPoint(anchor.x, anchor.y, cx, cy, rotation);
-        console.log('unRotatedAnchor', unRotatedAnchor);
+        // const unRotatedAnchor = rotatePointAroundPoint(anchor.x, anchor.y, cx, cy, rotation)
+        // console.log('unRotatedAnchor', unRotatedAnchor)
         const matrix = new DOMMatrix()
             .translate(anchor.x, anchor.y)
-            .rotate(rotation)
+            .rotate(appliedRotation)
             .scale(scaleX, scaleY)
-            .rotate(-rotation)
+            .rotate(-appliedRotation)
             .translate(-anchor.x, -anchor.y);
         /*  const rotateBackMatrix = new DOMMatrix()
             .translate(-cx, -cy)

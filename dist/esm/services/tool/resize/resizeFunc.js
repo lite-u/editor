@@ -93,7 +93,7 @@ function resizeFunc(elements, placement = 'br') {
     const scalingAnchor = altKey ? { x: centerX, y: centerY } : anchorOppositeMouse;
     console.log('scales---- ', scaleX, scaleY, scalingAnchor);
     elements.forEach((el) => {
-        const change = el.scaleFrom(scaleX, scaleY, scalingAnchor /*, {x: centerX, y: centerY}*/);
+        const change = el.scaleFrom(scaleX, scaleY, scalingAnchor, { x: centerX, y: centerY }, applyRotation);
         changes.push(change);
     });
     return changes;

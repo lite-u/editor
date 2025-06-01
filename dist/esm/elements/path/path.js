@@ -163,16 +163,20 @@ class ElementPath extends ElementBase {
             };
         }
     }
-    scaleFrom(scaleX, scaleY, anchor) {
+    scaleFrom(scaleX, scaleY, anchor, center, appliedRotation) {
+        // console.log(appliedRotation, center)
         // Use rotation-aware scaling: rotate to 0, scale, rotate back
         const { rotation, cx, cy, points } = this.original;
+        /*if (appliedRotation !== rotation) {
+          anchor = rotatePointAroundPoint(anchor.x, anchor.y, center.x, center.y, rotation)
+        }*/
         // The transform: anchor -> rotate -> scale -> unrotate -> unanchor
         const matrix = new DOMMatrix()
-            // .translate(anchor.x, anchor.y)
-            // .rotate(rotation)
-            .scale(scaleX, scaleY, 1, anchor.x, anchor.y);
-        // .rotate(-rotation)
-        // .translate(-anchor.x, -anchor.y);
+            .translate(anchor.x, anchor.y)
+            .rotate(appliedRotation)
+            .scale(scaleX, scaleY)
+            .rotate(-appliedRotation)
+            .translate(-anchor.x, -anchor.y);
         this.points = points.map(({ anchor: ptAnchor, cp1, cp2, type, symmetric }) => {
             const newAnchor = new DOMPoint(ptAnchor.x, ptAnchor.y).matrixTransform(matrix);
             const newCP1 = cp1 ? new DOMPoint(cp1.x, cp1.y).matrixTransform(matrix) : undefined;

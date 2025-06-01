@@ -211,35 +211,39 @@ class ElementPath extends ElementBase {
     }
   }
 
-  public scaleFrom(scaleX: number, scaleY: number, anchor: Point): HistoryChangeItem | undefined {
+  public scaleFrom(scaleX: number, scaleY: number, anchor: Point, center: Point, appliedRotation: number): HistoryChangeItem | undefined {
+    // console.log(appliedRotation, center)
     // Use rotation-aware scaling: rotate to 0, scale, rotate back
-    const { rotation, cx, cy, points } = this.original;
+    const {rotation, cx, cy, points} = this.original
+    /*if (appliedRotation !== rotation) {
+      anchor = rotatePointAroundPoint(anchor.x, anchor.y, center.x, center.y, rotation)
+    }*/
     // The transform: anchor -> rotate -> scale -> unrotate -> unanchor
     const matrix = new DOMMatrix()
-      // .translate(anchor.x, anchor.y)
-      // .rotate(rotation)
-      .scale(scaleX, scaleY,1,anchor.x, anchor.y)
-      // .rotate(-rotation)
-      // .translate(-anchor.x, -anchor.y);
+      .translate(anchor.x, anchor.y)
+      .rotate(appliedRotation)
+      .scale(scaleX, scaleY)
+      .rotate(-appliedRotation)
+      .translate(-anchor.x, -anchor.y)
 
-    this.points = points!.map(({ anchor: ptAnchor, cp1, cp2, type, symmetric }): BezierPoint => {
-      const newAnchor = new DOMPoint(ptAnchor.x, ptAnchor.y).matrixTransform(matrix);
-      const newCP1 = cp1 ? new DOMPoint(cp1.x, cp1.y).matrixTransform(matrix) : undefined;
-      const newCP2 = cp2 ? new DOMPoint(cp2.x, cp2.y).matrixTransform(matrix) : undefined;
+    this.points = points!.map(({anchor: ptAnchor, cp1, cp2, type, symmetric}): BezierPoint => {
+      const newAnchor = new DOMPoint(ptAnchor.x, ptAnchor.y).matrixTransform(matrix)
+      const newCP1 = cp1 ? new DOMPoint(cp1.x, cp1.y).matrixTransform(matrix) : undefined
+      const newCP2 = cp2 ? new DOMPoint(cp2.x, cp2.y).matrixTransform(matrix) : undefined
       return {
         type,
         symmetric,
-        anchor: { x: newAnchor.x, y: newAnchor.y },
-        cp1: newCP1 ? { x: newCP1.x, y: newCP1.y } : undefined,
-        cp2: newCP2 ? { x: newCP2.x, y: newCP2.y } : undefined,
-      };
-    });
+        anchor: {x: newAnchor.x, y: newAnchor.y},
+        cp1: newCP1 ? {x: newCP1.x, y: newCP1.y} : undefined,
+        cp2: newCP2 ? {x: newCP2.x, y: newCP2.y} : undefined,
+      }
+    })
 
-    const newCenter = new DOMPoint(cx, cy).matrixTransform(matrix);
-    this.cx = newCenter.x;
-    this.cy = newCenter.y;
-    this.updatePath2D();
-    this.updateBoundingRect();
+    const newCenter = new DOMPoint(cx, cy).matrixTransform(matrix)
+    this.cx = newCenter.x
+    this.cy = newCenter.y
+    this.updatePath2D()
+    this.updateBoundingRect()
 
     return {
       id: this.id,
@@ -253,7 +257,7 @@ class ElementPath extends ElementBase {
         cy: this.cy,
         points: deepClone(this.points),
       },
-    };
+    }
   }
 
   public getBoundingRect(withoutRotation: boolean = false): BoundingRect {
