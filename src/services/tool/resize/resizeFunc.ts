@@ -42,29 +42,31 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
   const centerY = rect.cy
 
   if (applyRotation > 0) {
+    // debugger
     anchorNearMouse = rotatePointAroundPoint(anchor.x, anchor.y, centerX, centerY, applyRotation)
     anchorOppositeMouse = rotatePointAroundPoint(opposite.x, opposite.y, centerX, centerY, applyRotation)
-    console.log('anchorNearMouse',anchorNearMouse,anchorOppositeMouse)
+    console.log('anchorNearMouse', anchorNearMouse, anchorOppositeMouse)
   } else {
     anchorNearMouse = anchor
     anchorOppositeMouse = opposite
   }
 
   let startVec: Point = {
-    x: anchorNearMouse.x - anchorOppositeMouse.x,
-    y: anchorNearMouse.y - anchorOppositeMouse.y,
+    x: anchor.x - opposite.x,
+    y: anchor.y - opposite.y,
   }
   let currentVec: Point
-  // let _currentAnchor: Point = mouseWorldCurrent
+  let unRotatedMouse: Point = mouseWorldCurrent
 
-  /*  if (applyRotation > 0) {
-      _currentAnchor = rotatePointAroundPoint(mouseWorldCurrent.x, mouseWorldCurrent.y, centerX, centerY, -applyRotation)
-    }*/
+  if (applyRotation > 0) {
+    unRotatedMouse = rotatePointAroundPoint(mouseWorldCurrent.x, mouseWorldCurrent.y, centerX, centerY, -applyRotation)
+  }
 
   currentVec = {
-    x: mouseWorldCurrent.x - anchorOppositeMouse.x,
-    y: mouseWorldCurrent.y - anchorOppositeMouse.y,
+    x: unRotatedMouse.x - opposite.x,
+    y: unRotatedMouse.y - opposite.y,
   }
+  console.log('_currentAnchor', unRotatedMouse, anchor, opposite)
   /*console.log(
     anchorNearMouse, anchorOppositeMouse,
     '---',
@@ -74,36 +76,18 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
 
   if (altKey) {
     startVec = {
-      x: anchorNearMouse.x - centerX,
-      y: anchorNearMouse.y - centerY,
+      x: anchor.x - centerX,
+      y: anchor.y - centerY,
     }
     currentVec = {
-      x: mouseWorldCurrent.x - centerX,
-      y: mouseWorldCurrent.y - centerY,
+      x: unRotatedMouse.x - centerX,
+      y: unRotatedMouse.y - centerY,
     }
   }
 
   // console.log('startVecs !!!',startVec.x, startVec.y)
   let scaleX = startVec.x !== 0 ? currentVec.x / startVec.x : 1
   let scaleY = startVec.y !== 0 ? currentVec.y / startVec.y : 1
-  // let scaleX = currentVec.x / startVec.x
-  // let scaleY = currentVec.y / startVec.y
-  /*
-
-    if (startVec.x === 0) {
-      scaleX = 1
-      if (shiftKey) {
-        scaleX = scaleY
-      }
-    }
-
-    if (startVec.y === 0) {
-      scaleY = 1
-      if (shiftKey) {
-        scaleY = scaleX
-      }
-    }
-  */
 
   if (shiftKey) {
     // console.log(scaleX,scaleY)
@@ -121,7 +105,7 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
   }
 
   const scalingAnchor = altKey ? {x: centerX, y: centerY} : anchorOppositeMouse
-  console.log('scales---- ',scaleX,scaleY,scalingAnchor)
+  // console.log('scales---- ', scaleX, scaleY, scalingAnchor)
   elements.forEach((el: ElementInstance) => {
     const change = el.scaleFrom(scaleX, scaleY, scalingAnchor/*, {x: centerX, y: centerY}*/)
     changes.push(change!)
