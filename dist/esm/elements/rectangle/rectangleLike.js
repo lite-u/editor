@@ -103,20 +103,27 @@ class RectangleLike extends ElementBase {
         const { top, right, bottom, left } = this.getBoundingRectFromOriginal(true);
         const unRotatedAnchor = rotatePointAroundPoint(anchor.x, anchor.y, cx, cy, rotation);
         console.log('unRotatedAnchor', unRotatedAnchor);
+        const selfMatrix = new DOMMatrix()
+            .translate(cx, cy)
+            .rotate(rotation)
+            .rotate(-rotation)
+            .translate(-cx, -cy);
         const matrix = new DOMMatrix()
-            // .translate(cx, cy)
-            // .scale(scaleX, scaleY, 1, cx, bottom, 1)
-            // .scale(scaleX, scaleY, 1, unRotatedAnchor.x, unRotatedAnchor.y)
-            .scale(scaleX, scaleY, 1, unRotatedAnchor.x, unRotatedAnchor.y);
-        // .translate(-cx, -cy)
-        console.log(cx, bottom);
-        const corners = [
+            .translate(unRotatedAnchor.x, unRotatedAnchor.y)
+            // .rotate(rotation)
+            .scale(scaleX, scaleY)
+            // .rotate(-rotation)
+            .translate(-unRotatedAnchor.x, -unRotatedAnchor.y);
+        const scaledCorners = [
             new DOMPoint(left, top),
             new DOMPoint(right, top),
             new DOMPoint(right, bottom),
             new DOMPoint(left, bottom),
-        ];
-        const scaledCorners = corners.map(corner => corner.matrixTransform(matrix));
+        ].map(corner => {
+            const _d = corner.matrixTransform(selfMatrix);
+            console.log(_d);
+            return _d.matrixTransform(matrix);
+        });
         console.log(scaledCorners);
         const xs = scaledCorners.map(p => p.x);
         const ys = scaledCorners.map(p => p.y);
@@ -124,16 +131,22 @@ class RectangleLike extends ElementBase {
         const maxX = Math.max(...xs);
         const minY = Math.min(...ys);
         const maxY = Math.max(...ys);
-        const newCX = (minX + maxX) / 2;
-        const newCY = (minY + maxY) / 2;
+        // const newCX = (minX + maxX) / 2
+        // const newCY = (minY + maxY) / 2
         const newWidth = maxX - minX;
         const newHeight = maxY - minY;
         // const newCenter = new DOMPoint(cx, cy).matrixTransform(matrix)
-        const newCenter = rotatePointAroundPoint(newCX, newCY, cx, cy, rotation);
-        this.cx = newCenter.x;
-        this.cy = newCenter.y;
+        // const newCenter = rotatePointAroundPoint(newCX, newCY, cx, cy, rotation)
+        // this.cx = newCX
+        // this.cy = newCY
+        // this.cx = newCenter.x
+        // this.cy = newCenter.y
         this.width = newWidth;
         this.height = newHeight;
+        const newCenter = new DOMPoint(cx, cy).matrixTransform(matrix);
+        const _newCenter = rotatePointAroundPoint(newCenter.x, newCenter.y, cx, cy, -rotation);
+        this.cx = _newCenter.x;
+        this.cy = _newCenter.y;
         this.updatePath2D();
         this.updateBoundingRect();
         return {
