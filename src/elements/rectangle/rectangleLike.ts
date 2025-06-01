@@ -130,7 +130,7 @@ class RectangleLike extends ElementBase {
   }
 
   scaleFrom(scaleX: number, scaleY: number, anchor: Point /*center: Point, scaleRotation: number*/): HistoryChangeItem | undefined {
-    const {cx, cy, width, height, rotation} = this.original
+    const {cx, cy, rotation} = this.original
     const {top, right, bottom, left} = this.getBoundingRectFromOriginal(true)
     const unRotatedAnchor = rotatePointAroundPoint(anchor.x, anchor.y, cx, cy, rotation)
 

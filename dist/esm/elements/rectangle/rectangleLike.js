@@ -1,8 +1,8 @@
-import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '../../core/utils.js';
-import { DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../defaultProps.js';
-import { isEqual } from '../../lib/lib.js';
-import ElementBase from '../base/elementBase.js';
-import { rotatePointAroundPoint } from '../../core/geometry.js';
+import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '~/core/utils';
+import { DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '~/elements/defaultProps';
+import { isEqual } from '~/lib/lib';
+import ElementBase from '~/elements/base/elementBase';
+import { rotatePointAroundPoint } from '~/core/geometry';
 class RectangleLike extends ElementBase {
     // id: string
     // layer: number
@@ -99,7 +99,7 @@ class RectangleLike extends ElementBase {
         ];
     }
     scaleFrom(scaleX, scaleY, anchor /*center: Point, scaleRotation: number*/) {
-        const { cx, cy, width, height, rotation } = this.original;
+        const { cx, cy, rotation } = this.original;
         const { top, right, bottom, left } = this.getBoundingRectFromOriginal(true);
         const unRotatedAnchor = rotatePointAroundPoint(anchor.x, anchor.y, cx, cy, rotation);
         console.log('unRotatedAnchor', unRotatedAnchor);
