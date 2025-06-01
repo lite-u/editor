@@ -1,8 +1,8 @@
-import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '~/core/utils';
-import { DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '~/elements/defaultProps';
-import { isEqual } from '~/lib/lib';
-import ElementBase from '~/elements/base/elementBase';
-import { rotatePointAroundPoint } from '~/core/geometry';
+import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '../../core/utils.js';
+import { DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../defaultProps.js';
+import { isEqual } from '../../lib/lib.js';
+import ElementBase from '../base/elementBase.js';
+import { rotatePointAroundPoint } from '../../core/geometry.js';
 class RectangleLike extends ElementBase {
     // id: string
     // layer: number
@@ -104,10 +104,11 @@ class RectangleLike extends ElementBase {
         const unRotatedAnchor = rotatePointAroundPoint(anchor.x, anchor.y, cx, cy, rotation);
         console.log('unRotatedAnchor', unRotatedAnchor);
         const matrix = new DOMMatrix()
-            // .translate(unRotatedAnchor.x, unRotatedAnchor.y)
+            // .translate(cx, cy)
             // .scale(scaleX, scaleY, 1, cx, bottom, 1)
+            // .scale(scaleX, scaleY, 1, unRotatedAnchor.x, unRotatedAnchor.y)
             .scale(scaleX, scaleY, 1, unRotatedAnchor.x, unRotatedAnchor.y);
-        // .translate(-unRotatedAnchor.x, -unRotatedAnchor.y)
+        // .translate(-cx, -cy)
         console.log(cx, bottom);
         const corners = [
             new DOMPoint(left, top),
