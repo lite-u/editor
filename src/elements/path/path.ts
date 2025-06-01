@@ -216,11 +216,11 @@ class ElementPath extends ElementBase {
     const { rotation, cx, cy, points } = this.original;
     // The transform: anchor -> rotate -> scale -> unrotate -> unanchor
     const matrix = new DOMMatrix()
-      .translate(anchor.x, anchor.y)
-      .rotate(rotation)
-      .scale(scaleX, scaleY)
-      .rotate(-rotation)
-      .translate(-anchor.x, -anchor.y);
+      // .translate(anchor.x, anchor.y)
+      // .rotate(rotation)
+      .scale(scaleX, scaleY,1,anchor.x, anchor.y)
+      // .rotate(-rotation)
+      // .translate(-anchor.x, -anchor.y);
 
     this.points = points!.map(({ anchor: ptAnchor, cp1, cp2, type, symmetric }): BezierPoint => {
       const newAnchor = new DOMPoint(ptAnchor.x, ptAnchor.y).matrixTransform(matrix);
