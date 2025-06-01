@@ -103,27 +103,34 @@ class RectangleLike extends ElementBase {
         const { top, right, bottom, left } = this.getBoundingRectFromOriginal(true);
         const unRotatedAnchor = rotatePointAroundPoint(anchor.x, anchor.y, cx, cy, rotation);
         console.log('unRotatedAnchor', unRotatedAnchor);
-        const selfMatrix = new DOMMatrix()
-            .translate(cx, cy)
-            .rotate(rotation)
-            .rotate(-rotation)
-            .translate(-cx, -cy);
         const matrix = new DOMMatrix()
-            .translate(unRotatedAnchor.x, unRotatedAnchor.y)
-            // .rotate(rotation)
+            .translate(anchor.x, anchor.y)
+            .rotate(rotation)
             .scale(scaleX, scaleY)
-            // .rotate(-rotation)
-            .translate(-unRotatedAnchor.x, -unRotatedAnchor.y);
+            .rotate(-rotation)
+            .translate(-anchor.x, -anchor.y);
+        /*  const rotateBackMatrix = new DOMMatrix()
+            .translate(-cx, -cy)
+            .rotate(-rotation)
+            .rotate(rotation)
+            .translate(cx, cy)*/
+        // const matrix = new DOMMatrix()
+        // .translate(unRotatedAnchor.x, unRotatedAnchor.y)
+        // .rotate(rotation)
+        // .scale(scaleX, scaleY, 1, unRotatedAnchor.x, unRotatedAnchor.y)
+        // .rotate(-rotation)
+        // .translate(-unRotatedAnchor.x, -unRotatedAnchor.y)
         const scaledCorners = [
-            new DOMPoint(left, top),
-            new DOMPoint(right, top),
-            new DOMPoint(right, bottom),
-            new DOMPoint(left, bottom),
-        ].map(corner => {
-            const _d = corner.matrixTransform(selfMatrix);
-            return _d.matrixTransform(matrix);
+            { x: left, y: top },
+            { x: right, y: top },
+            { x: right, y: bottom },
+            { x: left, y: bottom },
+        ].map(({ x, y }) => {
+            const rotatedPoint = rotatePointAroundPoint(x, y, cx, cy, rotation);
+            const d = new DOMPoint(rotatedPoint.x, rotatedPoint.y);
+            return d.matrixTransform(matrix);
         });
-        console.log(scaledCorners);
+        // console.log('scaledCorners',scaledCorners)
         const xs = scaledCorners.map(p => p.x);
         const ys = scaledCorners.map(p => p.y);
         const minX = Math.min(...xs);
@@ -136,16 +143,13 @@ class RectangleLike extends ElementBase {
         const newHeight = maxY - minY;
         // const newCenter = new DOMPoint(cx, cy).matrixTransform(matrix)
         // const newCenter = rotatePointAroundPoint(newCX, newCY, cx, cy, rotation)
-        // this.cx = newCX
-        // this.cy = newCY
-        // this.cx = newCenter.x
-        // this.cy = newCenter.y
+        // this.width = scaledCorners[1].x - scaledCorners[0].x
+        // this.height = scaledCorners[2].y - scaledCorners[0].y
         this.width = newWidth;
         this.height = newHeight;
         const newCenter = new DOMPoint(cx, cy).matrixTransform(matrix);
-        const _newCenter = rotatePointAroundPoint(newCenter.x, newCenter.y, cx, cy, -rotation);
-        this.cx = _newCenter.x;
-        this.cy = _newCenter.y;
+        this.cx = newCenter.x;
+        this.cy = newCenter.y;
         this.updatePath2D();
         this.updateBoundingRect();
         return {
