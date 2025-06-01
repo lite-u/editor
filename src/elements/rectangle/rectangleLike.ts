@@ -138,7 +138,7 @@ class RectangleLike extends ElementBase {
     const matrix = new DOMMatrix()
       // .translate(cx, cy)
       // .scale(scaleX, scaleY, 1, cx, bottom, 1)
-      // .scale(scaleX, scaleY, 1, unRotatedAnchor.x, unRotatedAnchor.y)
+
       .scale(scaleX, scaleY, 1, unRotatedAnchor.x, unRotatedAnchor.y)
     // .translate(-cx, -cy)
     console.log(cx, bottom)
