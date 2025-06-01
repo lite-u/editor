@@ -45,7 +45,7 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
     // debugger
     anchorNearMouse = rotatePointAroundPoint(anchor.x, anchor.y, centerX, centerY, applyRotation)
     anchorOppositeMouse = rotatePointAroundPoint(opposite.x, opposite.y, centerX, centerY, applyRotation)
-    console.log('anchorNearMouse', anchorNearMouse, anchorOppositeMouse)
+    // console.log('anchorNearMouse', anchorNearMouse, anchorOppositeMouse)
   } else {
     anchorNearMouse = anchor
     anchorOppositeMouse = opposite
@@ -66,7 +66,7 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
     x: unRotatedMouse.x - opposite.x,
     y: unRotatedMouse.y - opposite.y,
   }
-  console.log('_currentAnchor', unRotatedMouse, anchor, opposite)
+  // console.log('_currentAnchor', unRotatedMouse, anchor, opposite)
   /*console.log(
     anchorNearMouse, anchorOppositeMouse,
     '---',
@@ -105,7 +105,7 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
   }
 
   const scalingAnchor = altKey ? {x: centerX, y: centerY} : anchorOppositeMouse
-  // console.log('scales---- ', scaleX, scaleY, scalingAnchor)
+  console.log('scales---- ', scaleX, scaleY, scalingAnchor)
   elements.forEach((el: ElementInstance) => {
     const change = el.scaleFrom(scaleX, scaleY, scalingAnchor/*, {x: centerX, y: centerY}*/)
     changes.push(change!)
