@@ -254,17 +254,22 @@ class RectangleLike extends ElementBase {
 
   public toPath(): ElementPath {
     const corners = this.corners
-    const {cx, cy, rotation} = this
+    const {id, layer, cx, cy, rotation} = this
 
-    const points = corners.map(p => {
-      rotatePointAroundPoint(p.x, p.y, cx, cy, rotation)
+    const rectPoints = corners.map(p => {
+      return rotatePointAroundPoint(p.x, p.y, cx, cy, rotation)
     })
 
-    const BPs = convertPointsToBezierPoints(points)
+    const {points, closed} = convertPointsToBezierPoints(rectPoints)
 
-    return new ElementPath({})
-
-
+    return new ElementPath({
+      id,
+      layer,
+      type: 'path',
+      points,
+      rotation,
+      closed,
+    })
   }
 
   public getBoundingRect(withoutRotation: boolean = false) {
