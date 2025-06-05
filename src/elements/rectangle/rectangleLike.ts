@@ -6,6 +6,8 @@ import {isEqual} from '~/lib/lib'
 import {HistoryChangeItem} from '~/services/actions/type'
 import ElementBase, {ElementBaseProps} from '~/elements/base/elementBase'
 import {rotatePointAroundPoint} from '~/core/geometry'
+import ElementPath from '~/elements/path/path'
+import {convertPointsToBezierPoints} from '~/services/tool/pencil/helper'
 
 export interface RectangleLikeProps extends ElementBaseProps {
   id: string
@@ -167,7 +169,7 @@ class RectangleLike extends ElementBase {
       return rotateBack
     })
 
-    console.log('scaledCorners',scaledCorners)
+    console.log('scaledCorners', scaledCorners)
     const xs = scaledCorners.map(p => p.x)
     const ys = scaledCorners.map(p => p.y)
 
@@ -248,6 +250,21 @@ class RectangleLike extends ElementBase {
     }
 
     return result
+  }
+
+  public toPath(): ElementPath {
+    const corners = this.corners
+    const {cx, cy, rotation} = this
+
+    const points = corners.map(p => {
+      rotatePointAroundPoint(p.x, p.y, cx, cy, rotation)
+    })
+
+    const BPs = convertPointsToBezierPoints(points)
+
+    return new ElementPath({})
+
+
   }
 
   public getBoundingRect(withoutRotation: boolean = false) {

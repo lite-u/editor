@@ -3,6 +3,8 @@ import { DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../default
 import { isEqual } from '../../lib/lib.js';
 import ElementBase from '../base/elementBase.js';
 import { rotatePointAroundPoint } from '../../core/geometry.js';
+import ElementPath from '../path/path.js';
+import { convertPointsToBezierPoints } from '../../services/tool/pencil/helper.js';
 class RectangleLike extends ElementBase {
     // id: string
     // layer: number
@@ -196,6 +198,15 @@ class RectangleLike extends ElementBase {
             result.height = this.height;
         }
         return result;
+    }
+    toPath() {
+        const corners = this.corners;
+        const { cx, cy, rotation } = this;
+        const points = corners.map(p => {
+            rotatePointAroundPoint(p.x, p.y, cx, cy, rotation);
+        });
+        const BPs = convertPointsToBezierPoints(points);
+        return new ElementPath({});
     }
     getBoundingRect(withoutRotation = false) {
         const { cx, cy, width, height, rotation } = this;
