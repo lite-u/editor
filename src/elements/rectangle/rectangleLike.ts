@@ -275,8 +275,6 @@ class RectangleLike extends ElementBase {
       type: 'corner',
     }))
 
-    // const { points, closed } = convertDrawPointsToBezierPoints(rotatedPoints)
-
     return new ElementPath({
       id,
       layer,
