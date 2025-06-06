@@ -52,6 +52,8 @@ declare class ElementBase {
     show: boolean;
     path2D: Path2D;
     boundingRect: BoundingRect;
+    originalBoundingRect: BoundingRect;
+    originalBoundingRectWithRotation: BoundingRect;
     _shadowPath?: ElementPath;
     protected original: {
         cx: number;
@@ -90,6 +92,7 @@ declare class ElementBase {
     toJSON(): RequiredBaseProps;
     protected toMinimalJSON(): ElementBaseProps;
     protected getBoundingRect(): BoundingRect;
+    protected getBoundingRectFromOriginal(withoutRotation?: boolean): BoundingRect;
     updateTransform(): void;
     updatePath2D(): void;
     restore(props: Partial<ElementProps>): void;

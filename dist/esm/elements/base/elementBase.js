@@ -17,6 +17,8 @@ class ElementBase {
     show;
     path2D = new Path2D();
     boundingRect;
+    originalBoundingRect;
+    originalBoundingRectWithRotation;
     _shadowPath;
     original;
     // public _relatedId: string
@@ -44,7 +46,10 @@ class ElementBase {
             cy: this.cy,
             rotation: this.rotation,
         };
-        this.boundingRect = generateBoundingRectFromTwoPoints({ x: 0, y: 0 }, { x: 0, y: 0 });
+        const rect = generateBoundingRectFromTwoPoints({ x: 0, y: 0 }, { x: 0, y: 0 });
+        this.boundingRect = rect;
+        this.originalBoundingRect = rect;
+        this.originalBoundingRectWithRotation = rect;
     }
     static transformPoint(x, y, matrix) {
         const p = matrix.transformPoint({ x, y });
@@ -192,6 +197,10 @@ class ElementBase {
         return result;
     }
     getBoundingRect() {
+        return generateBoundingRectFromTwoPoints({ x: 0, y: 0 }, { x: 0, y: 0 });
+    }
+    // @ts-ignore
+    getBoundingRectFromOriginal(withoutRotation = false) {
         return generateBoundingRectFromTwoPoints({ x: 0, y: 0 }, { x: 0, y: 0 });
     }
     updateTransform() {

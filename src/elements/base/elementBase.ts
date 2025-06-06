@@ -16,7 +16,6 @@ import {isEqual} from '~/lib/lib'
 import {BezierPoint, Fill, Gradient, Shadow, Stroke, Transform} from '~/elements/props'
 import {HistoryChangeItem} from '~/services/actions/type'
 import {CanvasHostEvent} from '~/services/element/CanvasHost'
-import Path from '~/elements/path/path'
 import ElementPath from '~/elements/path/path'
 
 type ElementEventHandler<T = any> = (payload: T) => void;
@@ -75,6 +74,8 @@ class ElementBase {
   show: boolean
   path2D = new Path2D()
   boundingRect: BoundingRect
+  originalBoundingRect: BoundingRect
+  originalBoundingRectWithRotation: BoundingRect
   _shadowPath?: ElementPath
   protected original: {
     cx: number;
@@ -132,7 +133,11 @@ class ElementBase {
       cy: this.cy,
       rotation: this.rotation,
     }
-    this.boundingRect = generateBoundingRectFromTwoPoints({x: 0, y: 0}, {x: 0, y: 0})
+    const rect = generateBoundingRectFromTwoPoints({x: 0, y: 0}, {x: 0, y: 0})
+
+    this.boundingRect = rect
+    this.originalBoundingRect = rect
+    this.originalBoundingRectWithRotation = rect
   }
 
   static transformPoint(x: number, y: number, matrix: DOMMatrix): Point {
@@ -323,6 +328,11 @@ class ElementBase {
   }
 
   protected getBoundingRect(): BoundingRect {
+    return generateBoundingRectFromTwoPoints({x: 0, y: 0}, {x: 0, y: 0})
+  }
+
+  // @ts-ignore
+  protected getBoundingRectFromOriginal(withoutRotation: boolean = false): BoundingRect {
     return generateBoundingRectFromTwoPoints({x: 0, y: 0}, {x: 0, y: 0})
   }
 

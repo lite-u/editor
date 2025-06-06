@@ -115,8 +115,9 @@ class RectangleLike extends ElementBase {
     this.original.height = this.height
     this.original.rotation = this.rotation
 
-    this.updatePath2D()
-    this.updateBoundingRect()
+    this.originalBoundingRect = this.getBoundingRectFromOriginal(true)
+    // this.updatePath2D()
+    // this.updateBoundingRect()
   }
 
   protected get getPoints(): Point[] {
