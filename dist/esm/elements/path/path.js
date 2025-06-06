@@ -26,8 +26,8 @@ class ElementPath extends ElementBase {
         this.original.points = deepClone(this.points);
         this.original.closed = this.closed;
         this.original.rotation = this.rotation;
-        this.updatePath2D();
-        this.updateBoundingRect();
+        // this.updatePath2D()
+        this.updateOriginalBoundingRect();
     }
     static _rotateBezierPointsFrom(cx, cy, rotation, points) {
         const matrix = new DOMMatrix()

@@ -94,7 +94,8 @@ class ElementLineSegment extends ElementBase {
     this.original.start = {...this.start}
     this.original.end = {...this.end}
     this.original.rotation = this.rotation
-    this.updatePath2D()
+    // this.updatePath2D()
+    this.updateOriginalBoundingRect()
   }
 
   public getBoundingRect(withoutRotation: boolean = false): BoundingRect {

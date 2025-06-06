@@ -44,8 +44,8 @@ class ElementPath extends ElementBase {
     this.original.closed = this.closed
     this.original.rotation = this.rotation
 
-    this.updatePath2D()
-    this.updateBoundingRect()
+    // this.updatePath2D()
+    this.updateOriginalBoundingRect()
   }
 
   static _rotateBezierPointsFrom(cx: number, cy: number, rotation: number, points: BezierPoint[]): BezierPoint[] {
