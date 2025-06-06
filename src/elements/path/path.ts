@@ -278,6 +278,10 @@ class ElementPath extends ElementBase {
     return getBoundingRectFromBezierPoints(transformedPoints)
   }
 
+  public toPath(): ElementPath {
+    return this.clone()
+  }
+
   public toJSON(): RequiredShapeProps {
     return {
       type: this.type,

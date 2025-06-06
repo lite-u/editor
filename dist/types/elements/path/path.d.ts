@@ -22,6 +22,7 @@ declare class ElementPath extends ElementBase {
     scaleFrom(scaleX: number, scaleY: number, anchor: Point, appliedRotation: number): HistoryChangeItem | undefined;
     getBoundingRect(withoutRotation?: boolean): BoundingRect;
     getBoundingRectFromOriginal(withoutRotation?: boolean): BoundingRect;
+    toPath(): ElementPath;
     toJSON(): RequiredShapeProps;
     toMinimalJSON(): PathProps;
 }

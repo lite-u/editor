@@ -94,6 +94,7 @@ declare class ElementBase {
     protected toMinimalJSON(): ElementBaseProps;
     protected getBoundingRect(): BoundingRect;
     protected getBoundingRectFromOriginal(withoutRotation?: boolean): BoundingRect;
+    toPath(): ElementPath;
     updateTransform(): void;
     updatePath2D(): void;
     restore(props: Partial<ElementProps>): void;

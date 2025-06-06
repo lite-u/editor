@@ -342,7 +342,7 @@ class ElementBase {
   }
 
   // @ts-ignore
-  protected toPath() { }
+  public toPath():ElementPath { }
 
   public updateTransform() {
     const {cx, cy, width, height} = this.getBoundingRect()

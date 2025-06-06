@@ -221,6 +221,9 @@ class ElementPath extends ElementBase {
         const transformedPoints = ElementPath._rotateBezierPointsFrom(cx, cy, r, points);
         return getBoundingRectFromBezierPoints(transformedPoints);
     }
+    toPath() {
+        return this.clone();
+    }
     toJSON() {
         return {
             type: this.type,
