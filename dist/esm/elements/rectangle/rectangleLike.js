@@ -4,7 +4,6 @@ import { isEqual } from '../../lib/lib.js';
 import ElementBase from '../base/elementBase.js';
 import { rotatePointAroundPoint } from '../../core/geometry.js';
 import ElementPath from '../path/path.js';
-import { convertPointsToBezierPoints } from '../../services/tool/pencil/helper.js';
 class RectangleLike extends ElementBase {
     // id: string
     // layer: number
@@ -178,6 +177,7 @@ class RectangleLike extends ElementBase {
         }
         this._shadowPath.scaleFrom(scaleX, scaleY, anchor, appliedRotation);
         this.path2D = this._shadowPath.path2D;
+        this.boundingRect = this._shadowPath.boundingRect;
     }
     toJSON() {
         const { borderRadius, width, height, } = this;
@@ -209,11 +209,27 @@ class RectangleLike extends ElementBase {
     toPath() {
         const { id, layer, borderRadius, ...rest } = this.toJSON();
         const { cx, cy, width, height, rotation } = this.original;
-        const corners = RectangleLike.corners({ cx, cy, width, height });
-        const rectPoints = corners.map(p => {
-            return rotatePointAroundPoint(p.x, p.y, cx, cy, rotation);
-        });
-        const { points, closed } = convertPointsToBezierPoints(rectPoints);
+        const [tl, tr, br, bl] = borderRadius;
+        const halfW = width / 2;
+        const halfH = height / 2;
+        const corners = [
+            { x: cx - halfW + tl, y: cy - halfH }, // top-left start
+            { x: cx + halfW - tr, y: cy - halfH }, // top-right start
+            { x: cx + halfW, y: cy - halfH + tr }, // top-right arc
+            { x: cx + halfW, y: cy + halfH - br }, // bottom-right start
+            { x: cx + halfW - br, y: cy + halfH }, // bottom-right arc
+            { x: cx - halfW + bl, y: cy + halfH }, // bottom-left start
+            { x: cx - halfW, y: cy + halfH - bl }, // bottom-left arc
+            { x: cx - halfW, y: cy - halfH + tl }, // top-left arc
+        ];
+        const rotatedPoints = corners.map(p => rotatePointAroundPoint(p.x, p.y, cx, cy, rotation));
+        const points = rotatedPoints.map(p => ({
+            anchor: p,
+            cp1: null,
+            cp2: null,
+            type: 'corner',
+        }));
+        // const { points, closed } = convertDrawPointsToBezierPoints(rotatedPoints)
         return new ElementPath({
             id,
             layer,

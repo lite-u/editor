@@ -1,4 +1,4 @@
-import { convertPointsToBezierPoints, drawLine } from './helper.js';
+import { convertDrawPointsToBezierPoints, drawLine } from './helper.js';
 const _drawingPoints = [];
 let _lastPoint = null;
 const pencilTool = {
@@ -29,7 +29,7 @@ const pencilTool = {
     },
     mouseUp: function () {
         const { interaction, cursor, action, overlayHost } = this.editor;
-        const { center, points, closed } = convertPointsToBezierPoints(_drawingPoints);
+        const { center, points, closed } = convertDrawPointsToBezierPoints(_drawingPoints);
         const eleProps = {
             type: 'path',
             cx: center.x,

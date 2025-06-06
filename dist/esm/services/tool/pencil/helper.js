@@ -1,5 +1,5 @@
 import { getBoundingRectFromBezierPoints } from '../../../core/geometry.js';
-export function convertPointsToBezierPoints(points, tension = 0.3) {
+export function convertDrawPointsToBezierPoints(points, tension = 0.3) {
     const filtered = [];
     const offsetThreshold = 2;
     const closeThreshold = 20;
@@ -56,20 +56,6 @@ export function convertPointsToBezierPoints(points, tension = 0.3) {
     }
     const rect = getBoundingRectFromBezierPoints(bezierPoints);
     const center = { x: rect.cx, y: rect.cy };
-    // translate to relative points
-    /*for (const point of bezierPoints) {
-      point.anchor.x -= center.x
-      point.anchor.y -= center.y
-      if (point.cp1) {
-        point.cp1.x -= center.x
-        point.cp1.y -= center.y
-      }
-      if (point.cp2) {
-        point.cp2.x -= center.x
-        point.cp2.y -= center.y
-      }
-    }*/
-    // console.log(rect)
     return {
         center,
         points: bezierPoints,

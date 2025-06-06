@@ -17,7 +17,6 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
   let applyRotation = elements[0].rotation
   let rect: BoundingRect
   let sameRotation = true
-  // let anchorNearMouse: Point
   let anchorOppositeMouse: Point
 
   elements.forEach(element => {
@@ -42,12 +41,8 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
   const centerY = rect.cy
 
   if (applyRotation > 0) {
-    // debugger
-    // anchorNearMouse = rotatePointAroundPoint(anchor.x, anchor.y, centerX, centerY, applyRotation)
     anchorOppositeMouse = rotatePointAroundPoint(opposite.x, opposite.y, centerX, centerY, applyRotation)
-    // console.log('anchorNearMouse', anchorNearMouse, anchorOppositeMouse)
   } else {
-    // anchorNearMouse = anchor
     anchorOppositeMouse = opposite
   }
 
@@ -66,13 +61,6 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
     x: unRotatedMouse.x - opposite.x,
     y: unRotatedMouse.y - opposite.y,
   }
-  // console.log('_currentAnchor', unRotatedMouse, anchor, opposite)
-  /*console.log(
-    anchorNearMouse, anchorOppositeMouse,
-    '---',
-    mouseWorldCurrent
-  )
-  console.log(anchorNearMouse, anchorOppositeMouse)*/
 
   if (altKey) {
     startVec = {
@@ -105,13 +93,12 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
   }
 
   const scalingAnchor = altKey ? {x: centerX, y: centerY} : anchorOppositeMouse
-  // console.log('scales---- ', scaleX, scaleY, scalingAnchor)
 
   const convertNeeded = !sameRotation && !shiftKey && elements.length > 1
 
   elements.forEach((el: ElementInstance) => {
     if (convertNeeded && el.rotation > 0 && (el.type === 'rectangle' || el.type === 'ellipse' || el.type === 'text')) {
-      el.scaleOnPath(scaleX, scaleY, scalingAnchor, applyRotation)
+      el.scaleOnPath?.(scaleX, scaleY, scalingAnchor, applyRotation)
     } else {
       const change = el.scaleFrom(scaleX, scaleY, scalingAnchor, applyRotation)
       changes.push(change!)

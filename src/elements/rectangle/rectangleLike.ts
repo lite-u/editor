@@ -1,6 +1,6 @@
 import {CenterBasedRect, Point} from '~/type'
 import {generateBoundingRectFromRect, generateBoundingRectFromRotatedRect} from '~/core/utils'
-import {BorderRadius} from '~/elements/props'
+import {BezierPoint, BorderRadius} from '~/elements/props'
 import {DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH} from '~/elements/defaultProps'
 import {isEqual} from '~/lib/lib'
 import {HistoryChangeItem} from '~/services/actions/type'
@@ -221,6 +221,7 @@ class RectangleLike extends ElementBase {
 
     this._shadowPath.scaleFrom(scaleX, scaleY, anchor, appliedRotation)
     this.path2D = this._shadowPath.path2D
+    this.boundingRect = this._shadowPath.boundingRect
   }
 
   toJSON(): RequiredRectangleLikeProps {
@@ -262,15 +263,34 @@ class RectangleLike extends ElementBase {
   }
 
   public toPath(): ElementPath {
-    const {id, layer, borderRadius, ...rest} = this.toJSON()
-    const {cx, cy, width, height, rotation} = this.original
-    const corners = RectangleLike.corners({cx, cy, width, height})
+    const { id, layer, borderRadius, ...rest } = this.toJSON()
+    const { cx, cy, width, height, rotation } = this.original
+    const [tl, tr, br, bl] = borderRadius
 
-    const rectPoints = corners.map(p => {
-      return rotatePointAroundPoint(p.x, p.y, cx, cy, rotation)
-    })
+    const halfW = width / 2
+    const halfH = height / 2
 
-    const {points, closed} = convertDrawPointsToBezierPoints(rectPoints)
+    const corners = [
+      { x: cx - halfW + tl, y: cy - halfH },                   // top-left start
+      { x: cx + halfW - tr, y: cy - halfH },                   // top-right start
+      { x: cx + halfW, y: cy - halfH + tr },                   // top-right arc
+      { x: cx + halfW, y: cy + halfH - br },                   // bottom-right start
+      { x: cx + halfW - br, y: cy + halfH },                   // bottom-right arc
+      { x: cx - halfW + bl, y: cy + halfH },                   // bottom-left start
+      { x: cx - halfW, y: cy + halfH - bl },                   // bottom-left arc
+      { x: cx - halfW, y: cy - halfH + tl },                   // top-left arc
+    ]
+
+    const rotatedPoints = corners.map(p => rotatePointAroundPoint(p.x, p.y, cx, cy, rotation))
+
+    const points:BezierPoint[] = rotatedPoints.map(p => ({
+      anchor: p,
+      cp1: null,
+      cp2: null,
+      type: 'corner',
+    }))
+
+    // const { points, closed } = convertDrawPointsToBezierPoints(rotatedPoints)
 
     return new ElementPath({
       id,
@@ -310,4 +330,3 @@ class RectangleLike extends ElementBase {
 }
 
 export default RectangleLike
-

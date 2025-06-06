@@ -1,6 +1,6 @@
 import { Point } from '~/type';
 import { BezierPoint } from '~/elements/props';
-export declare function convertPointsToBezierPoints(points: Point[], tension?: number): {
+export declare function convertDrawPointsToBezierPoints(points: Point[], tension?: number): {
     center: Point;
     points: BezierPoint[];
     closed: boolean;
