@@ -11,7 +11,6 @@ function resizeFunc(elements, placement = 'br') {
     let applyRotation = elements[0].rotation;
     let rect;
     let sameRotation = true;
-    // let anchorNearMouse: Point
     let anchorOppositeMouse;
     elements.forEach(element => {
         if (sameRotation && element.rotation !== elements[0].rotation) {
@@ -32,13 +31,9 @@ function resizeFunc(elements, placement = 'br') {
     const centerX = rect.cx;
     const centerY = rect.cy;
     if (applyRotation > 0) {
-        // debugger
-        // anchorNearMouse = rotatePointAroundPoint(anchor.x, anchor.y, centerX, centerY, applyRotation)
         anchorOppositeMouse = rotatePointAroundPoint(opposite.x, opposite.y, centerX, centerY, applyRotation);
-        // console.log('anchorNearMouse', anchorNearMouse, anchorOppositeMouse)
     }
     else {
-        // anchorNearMouse = anchor
         anchorOppositeMouse = opposite;
     }
     let startVec = {
@@ -54,13 +49,6 @@ function resizeFunc(elements, placement = 'br') {
         x: unRotatedMouse.x - opposite.x,
         y: unRotatedMouse.y - opposite.y,
     };
-    // console.log('_currentAnchor', unRotatedMouse, anchor, opposite)
-    /*console.log(
-      anchorNearMouse, anchorOppositeMouse,
-      '---',
-      mouseWorldCurrent
-    )
-    console.log(anchorNearMouse, anchorOppositeMouse)*/
     if (altKey) {
         startVec = {
             x: anchor.x - centerX,
@@ -91,11 +79,10 @@ function resizeFunc(elements, placement = 'br') {
         }
     }
     const scalingAnchor = altKey ? { x: centerX, y: centerY } : anchorOppositeMouse;
-    // console.log('scales---- ', scaleX, scaleY, scalingAnchor)
     const convertNeeded = !sameRotation && !shiftKey && elements.length > 1;
     elements.forEach((el) => {
         if (convertNeeded && el.rotation > 0 && (el.type === 'rectangle' || el.type === 'ellipse' || el.type === 'text')) {
-            el.scaleOnPath(scaleX, scaleY, scalingAnchor, applyRotation);
+            el.scaleOnPath?.(scaleX, scaleY, scalingAnchor, applyRotation);
         }
         else {
             const change = el.scaleFrom(scaleX, scaleY, scalingAnchor, applyRotation);
