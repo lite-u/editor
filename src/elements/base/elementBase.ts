@@ -341,6 +341,9 @@ class ElementBase {
     return generateBoundingRectFromTwoPoints({x: 0, y: 0}, {x: 0, y: 0})
   }
 
+  // @ts-ignore
+  protected toPath() { }
+
   public updateTransform() {
     const {cx, cy, width, height} = this.getBoundingRect()
     this.transform = {

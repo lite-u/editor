@@ -7,7 +7,6 @@ import {HistoryChangeItem} from '~/services/actions/type'
 import ElementBase, {ElementBaseProps} from '~/elements/base/elementBase'
 import {rotatePointAroundPoint} from '~/core/geometry'
 import ElementPath from '~/elements/path/path'
-import {convertDrawPointsToBezierPoints} from '~/services/tool/pencil/helper'
 
 export interface RectangleLikeProps extends ElementBaseProps {
   id: string
@@ -134,26 +133,12 @@ class RectangleLike extends ElementBase {
   scaleFrom(scaleX: number, scaleY: number, anchor: Point, appliedRotation: number): HistoryChangeItem | undefined {
     const {cx, cy, rotation} = this.original
     const {top, right, bottom, left} = this.originalBoundingRectWithRotation
-    // const unRotatedAnchor = rotatePointAroundPoint(anchor.x, anchor.y, cx, cy, rotation)
-
-    // console.log('unRotatedAnchor', unRotatedAnchor)
     const matrix = new DOMMatrix()
       .translate(anchor.x, anchor.y)
       .rotate(appliedRotation)
       .scale(scaleX, scaleY)
       .rotate(-appliedRotation)
       .translate(-anchor.x, -anchor.y)
-    /*  const rotateBackMatrix = new DOMMatrix()
-        .translate(-cx, -cy)
-        .rotate(-rotation)
-        .rotate(rotation)
-        .translate(cx, cy)*/
-    // const matrix = new DOMMatrix()
-    // .translate(unRotatedAnchor.x, unRotatedAnchor.y)
-    // .rotate(rotation)
-    // .scale(scaleX, scaleY, 1, unRotatedAnchor.x, unRotatedAnchor.y)
-    // .rotate(-rotation)
-    // .translate(-unRotatedAnchor.x, -unRotatedAnchor.y)
 
     const scaledCorners = [
       {x: left, y: top},
@@ -216,6 +201,8 @@ class RectangleLike extends ElementBase {
     }
 
     this._shadowPath.scaleFrom(scaleX, scaleY, anchor, appliedRotation)
+    this._shadowPath.updateOriginalBoundingRect()
+
     this.path2D = this._shadowPath.path2D
     this.boundingRect = this._shadowPath.boundingRect
     this.originalBoundingRect = this._shadowPath.originalBoundingRect
@@ -261,27 +248,27 @@ class RectangleLike extends ElementBase {
   }
 
   public toPath(): ElementPath {
-    const { id, layer, borderRadius, ...rest } = this.toJSON()
-    const { cx, cy, width, height, rotation } = this.original
+    const {id, layer, borderRadius, ...rest} = this.toJSON()
+    const {cx, cy, width, height, rotation} = this.original
     const [tl, tr, br, bl] = borderRadius
 
     const halfW = width / 2
     const halfH = height / 2
 
     const corners = [
-      { x: cx - halfW + tl, y: cy - halfH },                   // top-left start
-      { x: cx + halfW - tr, y: cy - halfH },                   // top-right start
-      { x: cx + halfW, y: cy - halfH + tr },                   // top-right arc
-      { x: cx + halfW, y: cy + halfH - br },                   // bottom-right start
-      { x: cx + halfW - br, y: cy + halfH },                   // bottom-right arc
-      { x: cx - halfW + bl, y: cy + halfH },                   // bottom-left start
-      { x: cx - halfW, y: cy + halfH - bl },                   // bottom-left arc
-      { x: cx - halfW, y: cy - halfH + tl },                   // top-left arc
+      {x: cx - halfW + tl, y: cy - halfH},                   // top-left start
+      {x: cx + halfW - tr, y: cy - halfH},                   // top-right start
+      {x: cx + halfW, y: cy - halfH + tr},                   // top-right arc
+      {x: cx + halfW, y: cy + halfH - br},                   // bottom-right start
+      {x: cx + halfW - br, y: cy + halfH},                   // bottom-right arc
+      {x: cx - halfW + bl, y: cy + halfH},                   // bottom-left start
+      {x: cx - halfW, y: cy + halfH - bl},                   // bottom-left arc
+      {x: cx - halfW, y: cy - halfH + tl},                   // top-left arc
     ]
 
     const rotatedPoints = corners.map(p => rotatePointAroundPoint(p.x, p.y, cx, cy, rotation))
 
-    const points:BezierPoint[] = rotatedPoints.map(p => ({
+    const points: BezierPoint[] = rotatedPoints.map(p => ({
       anchor: p,
       cp1: null,
       cp2: null,
