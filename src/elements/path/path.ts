@@ -34,6 +34,7 @@ class ElementPath extends ElementBase {
     }
     this.updatePath2D()
     this.updateBoundingRect()
+    this.updateOriginalBoundingRect()
   }
 
   public updateOriginal() {

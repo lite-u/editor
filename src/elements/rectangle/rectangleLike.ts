@@ -178,15 +178,8 @@ class RectangleLike extends ElementBase {
     const minY = Math.min(...ys)
     const maxY = Math.max(...ys)
 
-    // const newCX = (minX + maxX) / 2
-    // const newCY = (minY + maxY) / 2
     const newWidth = maxX - minX
     const newHeight = maxY - minY
-    // const newCenter = new DOMPoint(cx, cy).matrixTransform(matrix)
-    // const newCenter = rotatePointAroundPoint(newCX, newCY, cx, cy, rotation)
-
-    // this.width = scaledCorners[1].x - scaledCorners[0].x
-    // this.height = scaledCorners[2].y - scaledCorners[0].y
 
     this.width = newWidth
     this.height = newHeight
@@ -196,6 +189,7 @@ class RectangleLike extends ElementBase {
     this.cy = newCenter.y
     this.updatePath2D()
     this.updateBoundingRect()
+    this.updateOriginalBoundingRect()
 
     return {
       id: this.id,
@@ -217,13 +211,15 @@ class RectangleLike extends ElementBase {
   scaleOnPath(scaleX: number, scaleY: number, anchor: Point, appliedRotation: number) {
     if (!this._shadowPath) {
       this._shadowPath = this.toPath()
-      this.originalBoundingRect = this._shadowPath.originalBoundingRect
-      this.originalBoundingRectWithRotation = this._shadowPath.originalBoundingRectWithRotation
+      // this.originalBoundingRect = this._shadowPath.originalBoundingRect
+      // this.originalBoundingRectWithRotation = this._shadowPath.originalBoundingRectWithRotation
     }
 
     this._shadowPath.scaleFrom(scaleX, scaleY, anchor, appliedRotation)
     this.path2D = this._shadowPath.path2D
     this.boundingRect = this._shadowPath.boundingRect
+    this.originalBoundingRect = this._shadowPath.originalBoundingRect
+    this.originalBoundingRectWithRotation = this._shadowPath.originalBoundingRectWithRotation
   }
 
   toJSON(): RequiredRectangleLikeProps {

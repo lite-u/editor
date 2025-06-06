@@ -18,6 +18,7 @@ class ElementPath extends ElementBase {
         };
         this.updatePath2D();
         this.updateBoundingRect();
+        this.updateOriginalBoundingRect();
     }
     updateOriginal() {
         this.original.cx = this.cx;

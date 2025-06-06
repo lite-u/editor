@@ -101,7 +101,11 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
       el.scaleOnPath?.(scaleX, scaleY, scalingAnchor, applyRotation)
     } else {
       const change = el.scaleFrom(scaleX, scaleY, scalingAnchor, applyRotation)
+
+      el.updateBoundingRect()
+      el.updateOriginalBoundingRect()
       changes.push(change!)
+
     }
   })
 

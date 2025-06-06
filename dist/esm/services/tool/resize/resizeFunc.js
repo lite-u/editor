@@ -86,6 +86,8 @@ function resizeFunc(elements, placement = 'br') {
         }
         else {
             const change = el.scaleFrom(scaleX, scaleY, scalingAnchor, applyRotation);
+            el.updateBoundingRect();
+            el.updateOriginalBoundingRect();
             changes.push(change);
         }
     });
