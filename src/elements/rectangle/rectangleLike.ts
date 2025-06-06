@@ -7,7 +7,7 @@ import {HistoryChangeItem} from '~/services/actions/type'
 import ElementBase, {ElementBaseProps} from '~/elements/base/elementBase'
 import {rotatePointAroundPoint} from '~/core/geometry'
 import ElementPath from '~/elements/path/path'
-import {convertPointsToBezierPoints} from '~/services/tool/pencil/helper'
+import {convertDrawPointsToBezierPoints} from '~/services/tool/pencil/helper'
 
 export interface RectangleLikeProps extends ElementBaseProps {
   id: string
@@ -270,7 +270,7 @@ class RectangleLike extends ElementBase {
       return rotatePointAroundPoint(p.x, p.y, cx, cy, rotation)
     })
 
-    const {points, closed} = convertPointsToBezierPoints(rectPoints)
+    const {points, closed} = convertDrawPointsToBezierPoints(rectPoints)
 
     return new ElementPath({
       id,

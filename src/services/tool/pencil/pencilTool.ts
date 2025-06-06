@@ -1,5 +1,5 @@
 import {ToolType} from '~/services/tool/toolManager'
-import {convertPointsToBezierPoints, drawLine} from '~/services/tool/pencil/helper'
+import {convertDrawPointsToBezierPoints, drawLine} from '~/services/tool/pencil/helper'
 import {Point} from '~/type'
 import {PropsWithoutIdentifiers} from '~/elements/type'
 
@@ -37,7 +37,7 @@ const pencilTool: ToolType = {
   },
   mouseUp: function () {
     const {interaction, cursor, action, overlayHost} = this.editor
-    const {center, points, closed} = convertPointsToBezierPoints(_drawingPoints)
+    const {center, points, closed} = convertDrawPointsToBezierPoints(_drawingPoints)
 
     const eleProps: PropsWithoutIdentifiers<'path'> = {
       type: 'path',

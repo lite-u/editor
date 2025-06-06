@@ -2,7 +2,7 @@ import {Point} from '~/type'
 import {BezierPoint} from '~/elements/props'
 import {getBoundingRectFromBezierPoints} from '~/core/geometry'
 
-export function convertPointsToBezierPoints(points: Point[], tension = 0.3): {
+export function convertDrawPointsToBezierPoints(points: Point[], tension = 0.3): {
   center: Point,
   points: BezierPoint[],
   closed: boolean
@@ -72,22 +72,6 @@ export function convertPointsToBezierPoints(points: Point[], tension = 0.3): {
 
   const rect = getBoundingRectFromBezierPoints(bezierPoints)
   const center = {x: rect.cx, y: rect.cy}
-
-  // translate to relative points
-  /*for (const point of bezierPoints) {
-    point.anchor.x -= center.x
-    point.anchor.y -= center.y
-    if (point.cp1) {
-      point.cp1.x -= center.x
-      point.cp1.y -= center.y
-    }
-    if (point.cp2) {
-      point.cp2.x -= center.x
-      point.cp2.y -= center.y
-    }
-  }*/
-
-  // console.log(rect)
 
   return {
     center,
