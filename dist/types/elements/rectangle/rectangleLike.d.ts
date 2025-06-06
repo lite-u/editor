@@ -1,4 +1,4 @@
-import { Point } from '~/type';
+import { CenterBasedRect, Point } from '~/type';
 import { BorderRadius } from '~/elements/props';
 import { HistoryChangeItem } from '~/services/actions/type';
 import ElementBase, { ElementBaseProps } from '~/elements/base/elementBase';
@@ -16,11 +16,12 @@ declare class RectangleLike extends ElementBase {
     height: number;
     borderRadius: BorderRadius;
     constructor({ width, height, borderRadius, ...rest }: RectangleLikeProps);
+    static corners(prop: CenterBasedRect): Point[];
     updatePath2D(): void;
     updateOriginal(): void;
     protected get getPoints(): Point[];
-    protected get corners(): Point[];
-    scaleFrom(scaleX: number, scaleY: number, anchor: Point, center: Point, appliedRotation: number): HistoryChangeItem | undefined;
+    scaleFrom(scaleX: number, scaleY: number, anchor: Point, appliedRotation: number): HistoryChangeItem | undefined;
+    scaleOnPath(scaleX: number, scaleY: number, anchor: Point, appliedRotation: number): void;
     toJSON(): RequiredRectangleLikeProps;
     toMinimalJSON(): RectangleLikeProps;
     toPath(): ElementPath;

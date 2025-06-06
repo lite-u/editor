@@ -48,7 +48,7 @@ class Cursor {
     }
     set(name) {
         if (this.locked) {
-            console.info(`Cursor has been locked.`);
+            // console.info(`Cursor has been locked.`)
             return;
         }
         this.domRef.setAttribute('date-current-cursor', name);
@@ -85,7 +85,7 @@ class Cursor {
     }
     rotate(rotation) {
         if (this.locked) {
-            console.info(`Cursor has been locked.`);
+            // console.info(`Cursor has been locked.`)
             return;
         }
         // const size = 24

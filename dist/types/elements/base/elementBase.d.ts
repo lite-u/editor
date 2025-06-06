@@ -2,6 +2,7 @@ import { BoundingRect, ElementProps, Point, UID } from '~/type';
 import { BezierPoint, Fill, Gradient, Shadow, Stroke, Transform } from '~/elements/props';
 import { HistoryChangeItem } from '~/services/actions/type';
 import { CanvasHostEvent } from '~/services/element/CanvasHost';
+import ElementPath from '~/elements/path/path';
 type ElementEventHandler<T = any> = (payload: T) => void;
 interface ElementEventMap {
     onmouseenter: {
@@ -51,6 +52,7 @@ declare class ElementBase {
     show: boolean;
     path2D: Path2D;
     boundingRect: BoundingRect;
+    _shadowPath?: ElementPath;
     protected original: {
         cx: number;
         cy: number;

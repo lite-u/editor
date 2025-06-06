@@ -17,6 +17,7 @@ class ElementBase {
     show;
     path2D = new Path2D();
     boundingRect;
+    _shadowPath;
     original;
     // public _relatedId: string
     eventListeners = {};

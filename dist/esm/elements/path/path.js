@@ -163,7 +163,7 @@ class ElementPath extends ElementBase {
             };
         }
     }
-    scaleFrom(scaleX, scaleY, anchor, center, appliedRotation) {
+    scaleFrom(scaleX, scaleY, anchor, appliedRotation) {
         // console.log(appliedRotation, center)
         // Use rotation-aware scaling: rotate to 0, scale, rotate back
         const { rotation, cx, cy, points } = this.original;

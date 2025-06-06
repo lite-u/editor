@@ -31,6 +31,16 @@ class RectangleLike extends ElementBase {
         this.updatePath2D();
         this.updateBoundingRect();
     }
+    static corners(prop) {
+        const w = prop.width / 2;
+        const h = prop.height / 2;
+        return [
+            { x: prop.cx - w, y: prop.cy - h }, // top-left
+            { x: prop.cx + w, y: prop.cy - h }, // top-right
+            { x: prop.cx + w, y: prop.cy + h }, // bottom-right
+            { x: prop.cx - w, y: prop.cy + h }, // bottom-left
+        ];
+    }
     updatePath2D() {
         const { cx, cy, borderRadius, rotation } = this;
         const [tl, tr, br, bl] = borderRadius;
@@ -90,17 +100,7 @@ class RectangleLike extends ElementBase {
             { x: this.cx - w, y: this.cy + h }, // bottom-left
         ];
     }
-    get corners() {
-        const w = this.width / 2;
-        const h = this.height / 2;
-        return [
-            { x: this.cx - w, y: this.cy - h }, // top-left
-            { x: this.cx + w, y: this.cy - h }, // top-right
-            { x: this.cx + w, y: this.cy + h }, // bottom-right
-            { x: this.cx - w, y: this.cy + h }, // bottom-left
-        ];
-    }
-    scaleFrom(scaleX, scaleY, anchor, center, appliedRotation) {
+    scaleFrom(scaleX, scaleY, anchor, appliedRotation) {
         const { cx, cy, rotation } = this.original;
         const { top, right, bottom, left } = this.getBoundingRectFromOriginal(true);
         // const unRotatedAnchor = rotatePointAroundPoint(anchor.x, anchor.y, cx, cy, rotation)
@@ -134,7 +134,7 @@ class RectangleLike extends ElementBase {
             const rotateBack = rotatePointAroundPoint(scaledPoint.x, scaledPoint.y, cx, cy, -rotation);
             return rotateBack;
         });
-        console.log('scaledCorners', scaledCorners);
+        // console.log('scaledCorners', scaledCorners)
         const xs = scaledCorners.map(p => p.x);
         const ys = scaledCorners.map(p => p.y);
         const minX = Math.min(...xs);
@@ -172,6 +172,13 @@ class RectangleLike extends ElementBase {
             },
         };
     }
+    scaleOnPath(scaleX, scaleY, anchor, appliedRotation) {
+        if (!this._shadowPath) {
+            this._shadowPath = this.toPath();
+        }
+        this._shadowPath.scaleFrom(scaleX, scaleY, anchor, appliedRotation);
+        this.path2D = this._shadowPath.path2D;
+    }
     toJSON() {
         const { borderRadius, width, height, } = this;
         if (!borderRadius) {
@@ -200,8 +207,9 @@ class RectangleLike extends ElementBase {
         return result;
     }
     toPath() {
-        const corners = this.corners;
-        const { id, layer, cx, cy, rotation } = this;
+        const { id, layer, borderRadius, ...rest } = this.toJSON();
+        const { cx, cy, width, height, rotation } = this.original;
+        const corners = RectangleLike.corners({ cx, cy, width, height });
         const rectPoints = corners.map(p => {
             return rotatePointAroundPoint(p.x, p.y, cx, cy, rotation);
         });
@@ -211,8 +219,8 @@ class RectangleLike extends ElementBase {
             layer,
             type: 'path',
             points,
-            rotation,
             closed,
+            ...rest,
         });
     }
     getBoundingRect(withoutRotation = false) {

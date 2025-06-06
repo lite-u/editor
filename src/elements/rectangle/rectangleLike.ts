@@ -1,4 +1,4 @@
-import {Point} from '~/type'
+import {CenterBasedRect, Point} from '~/type'
 import {generateBoundingRectFromRect, generateBoundingRectFromRotatedRect} from '~/core/utils'
 import {BorderRadius} from '~/elements/props'
 import {DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH} from '~/elements/defaultProps'
@@ -50,6 +50,18 @@ class RectangleLike extends ElementBase {
     }
     this.updatePath2D()
     this.updateBoundingRect()
+  }
+
+  static corners(prop: CenterBasedRect): Point[] {
+    const w = prop.width / 2
+    const h = prop.height / 2
+
+    return [
+      {x: prop.cx - w, y: prop.cy - h}, // top-left
+      {x: prop.cx + w, y: prop.cy - h}, // top-right
+      {x: prop.cx + w, y: prop.cy + h}, // bottom-right
+      {x: prop.cx - w, y: prop.cy + h},  // bottom-left
+    ]
   }
 
   public updatePath2D() {
@@ -119,19 +131,7 @@ class RectangleLike extends ElementBase {
     ]
   }
 
-  protected get corners(): Point[] {
-    const w = this.width / 2
-    const h = this.height / 2
-
-    return [
-      {x: this.cx - w, y: this.cy - h}, // top-left
-      {x: this.cx + w, y: this.cy - h}, // top-right
-      {x: this.cx + w, y: this.cy + h}, // bottom-right
-      {x: this.cx - w, y: this.cy + h},  // bottom-left
-    ]
-  }
-
-  scaleFrom(scaleX: number, scaleY: number, anchor: Point, center: Point, appliedRotation: number): HistoryChangeItem | undefined {
+  scaleFrom(scaleX: number, scaleY: number, anchor: Point, appliedRotation: number): HistoryChangeItem | undefined {
     const {cx, cy, rotation} = this.original
     const {top, right, bottom, left} = this.getBoundingRectFromOriginal(true)
     // const unRotatedAnchor = rotatePointAroundPoint(anchor.x, anchor.y, cx, cy, rotation)
@@ -169,7 +169,7 @@ class RectangleLike extends ElementBase {
       return rotateBack
     })
 
-    console.log('scaledCorners', scaledCorners)
+    // console.log('scaledCorners', scaledCorners)
     const xs = scaledCorners.map(p => p.x)
     const ys = scaledCorners.map(p => p.y)
 
@@ -214,6 +214,15 @@ class RectangleLike extends ElementBase {
     }
   }
 
+  scaleOnPath(scaleX: number, scaleY: number, anchor: Point, appliedRotation: number) {
+    if (!this._shadowPath) {
+      this._shadowPath = this.toPath()
+    }
+
+    this._shadowPath.scaleFrom(scaleX, scaleY, anchor, appliedRotation)
+    this.path2D = this._shadowPath.path2D
+  }
+
   toJSON(): RequiredRectangleLikeProps {
     const {
       borderRadius,
@@ -253,8 +262,9 @@ class RectangleLike extends ElementBase {
   }
 
   public toPath(): ElementPath {
-    const corners = this.corners
-    const {id, layer, cx, cy, rotation} = this
+    const {id, layer, borderRadius, ...rest} = this.toJSON()
+    const {cx, cy, width, height, rotation} = this.original
+    const corners = RectangleLike.corners({cx, cy, width, height})
 
     const rectPoints = corners.map(p => {
       return rotatePointAroundPoint(p.x, p.y, cx, cy, rotation)
@@ -267,8 +277,8 @@ class RectangleLike extends ElementBase {
       layer,
       type: 'path',
       points,
-      rotation,
       closed,
+      ...rest,
     })
   }
 

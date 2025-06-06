@@ -211,7 +211,7 @@ class ElementPath extends ElementBase {
     }
   }
 
-  public scaleFrom(scaleX: number, scaleY: number, anchor: Point, center: Point, appliedRotation: number): HistoryChangeItem | undefined {
+  public scaleFrom(scaleX: number, scaleY: number, anchor: Point, appliedRotation: number): HistoryChangeItem | undefined {
     // console.log(appliedRotation, center)
     // Use rotation-aware scaling: rotate to 0, scale, rotate back
     const {rotation, cx, cy, points} = this.original

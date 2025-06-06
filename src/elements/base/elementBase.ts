@@ -16,6 +16,8 @@ import {isEqual} from '~/lib/lib'
 import {BezierPoint, Fill, Gradient, Shadow, Stroke, Transform} from '~/elements/props'
 import {HistoryChangeItem} from '~/services/actions/type'
 import {CanvasHostEvent} from '~/services/element/CanvasHost'
+import Path from '~/elements/path/path'
+import ElementPath from '~/elements/path/path'
 
 type ElementEventHandler<T = any> = (payload: T) => void;
 
@@ -73,6 +75,7 @@ class ElementBase {
   show: boolean
   path2D = new Path2D()
   boundingRect: BoundingRect
+  _shadowPath?: ElementPath
   protected original: {
     cx: number;
     cy: number;

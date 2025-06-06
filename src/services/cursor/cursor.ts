@@ -60,7 +60,7 @@ class Cursor {
 
   set(name: CursorName) {
     if (this.locked) {
-      console.info(`Cursor has been locked.`)
+      // console.info(`Cursor has been locked.`)
       return
     }
 
@@ -102,7 +102,7 @@ class Cursor {
 
   rotate(rotation: number) {
     if (this.locked) {
-      console.info(`Cursor has been locked.`)
+      // console.info(`Cursor has been locked.`)
       return
     }
     // const size = 24
