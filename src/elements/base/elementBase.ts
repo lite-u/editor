@@ -202,6 +202,11 @@ class ElementBase {
     this.boundingRect = this.getBoundingRect()
   }
 
+  public updateOriginalBoundingRect() {
+    this.originalBoundingRect = this.getBoundingRectFromOriginal()
+    this.originalBoundingRectWithRotation = this.getBoundingRectFromOriginal(true)
+  }
+
   /*  protected rotate(angle: number) {
       this.rotation = angle
       this.updatePath2D()

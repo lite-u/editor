@@ -5,8 +5,6 @@ import ElementBase from '../base/elementBase.js';
 import { rotatePointAroundPoint } from '../../core/geometry.js';
 import ElementPath from '../path/path.js';
 class RectangleLike extends ElementBase {
-    // id: string
-    // layer: number
     width;
     height;
     borderRadius;
@@ -29,6 +27,7 @@ class RectangleLike extends ElementBase {
         };
         this.updatePath2D();
         this.updateBoundingRect();
+        this.updateOriginalBoundingRect();
     }
     static corners(prop) {
         const w = prop.width / 2;
@@ -86,7 +85,7 @@ class RectangleLike extends ElementBase {
         this.original.width = this.width;
         this.original.height = this.height;
         this.original.rotation = this.rotation;
-        this.originalBoundingRect = this.getBoundingRectFromOriginal(true);
+        this.updateOriginalBoundingRect();
         // this.updatePath2D()
         // this.updateBoundingRect()
     }
@@ -102,7 +101,7 @@ class RectangleLike extends ElementBase {
     }
     scaleFrom(scaleX, scaleY, anchor, appliedRotation) {
         const { cx, cy, rotation } = this.original;
-        const { top, right, bottom, left } = this.getBoundingRectFromOriginal(true);
+        const { top, right, bottom, left } = this.originalBoundingRectWithRotation;
         // const unRotatedAnchor = rotatePointAroundPoint(anchor.x, anchor.y, cx, cy, rotation)
         // console.log('unRotatedAnchor', unRotatedAnchor)
         const matrix = new DOMMatrix()
@@ -175,6 +174,8 @@ class RectangleLike extends ElementBase {
     scaleOnPath(scaleX, scaleY, anchor, appliedRotation) {
         if (!this._shadowPath) {
             this._shadowPath = this.toPath();
+            this.originalBoundingRect = this._shadowPath.originalBoundingRect;
+            this.originalBoundingRectWithRotation = this._shadowPath.originalBoundingRectWithRotation;
         }
         this._shadowPath.scaleFrom(scaleX, scaleY, anchor, appliedRotation);
         this.path2D = this._shadowPath.path2D;

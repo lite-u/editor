@@ -24,8 +24,8 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
       sameRotation = false
     }
 
-    rectsWithRotation.push(element.getBoundingRectFromOriginal())
-    rectsWithoutRotation.push(element.getBoundingRectFromOriginal(true))
+    rectsWithRotation.push(element.originalBoundingRect)
+    rectsWithoutRotation.push(element.originalBoundingRectWithRotation)
   })
 
   applyRotation = sameRotation ? applyRotation : 0

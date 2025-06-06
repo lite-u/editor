@@ -16,8 +16,8 @@ function resizeFunc(elements, placement = 'br') {
         if (sameRotation && element.rotation !== elements[0].rotation) {
             sameRotation = false;
         }
-        rectsWithRotation.push(element.getBoundingRectFromOriginal());
-        rectsWithoutRotation.push(element.getBoundingRectFromOriginal(true));
+        rectsWithRotation.push(element.originalBoundingRect);
+        rectsWithoutRotation.push(element.originalBoundingRectWithRotation);
     });
     applyRotation = sameRotation ? applyRotation : 0;
     if (sameRotation) {
