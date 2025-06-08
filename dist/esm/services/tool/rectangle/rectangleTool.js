@@ -1,5 +1,5 @@
 import ElementRectangle from '../../../elements/rectangle/rectangle.js';
-import resizeFunc from '../resize/resizeFunc.js';
+import resizeElements from '../resize/resizeElements.js';
 import { nid } from '../../../index.js';
 const rectangleTool = {
     cursor: 'crosshair',
@@ -20,7 +20,7 @@ const rectangleTool = {
         const { action, interaction, overlayHost } = this.editor;
         if (!interaction._ele)
             return;
-        resizeFunc.call(this, [interaction._ele], 'br');
+        resizeElements.call(this, [interaction._ele], 'br');
         action.dispatch('rerender-overlay');
         interaction._ele.render(overlayHost.ctx);
     },

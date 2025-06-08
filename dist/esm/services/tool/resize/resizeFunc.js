@@ -79,17 +79,13 @@ function resizeFunc(elements, placement = 'br') {
         }
     }
     const scalingAnchor = altKey ? { x: centerX, y: centerY } : anchorOppositeMouse;
-    const convertNeeded = !sameRotation && !shiftKey && elements.length > 1;
+    const transformFlag = !sameRotation && !shiftKey && elements.length > 1;
     elements.forEach((el) => {
-        if (convertNeeded && el.rotation > 0 && (el.type === 'rectangle' || el.type === 'ellipse' || el.type === 'text')) {
-            el.scaleOnPath?.(scaleX, scaleY, scalingAnchor, applyRotation);
-        }
-        else {
-            const change = el.scaleFrom(scaleX, scaleY, scalingAnchor, applyRotation);
-            el.updateBoundingRect();
-            el.updateOriginalBoundingRect();
-            changes.push(change);
-        }
+        el.transforming = transformFlag && el.rotation > 0 && (el.type === 'rectangle' || el.type === 'ellipse' || el.type === 'text');
+        const change = el.scaleFrom(scaleX, scaleY, scalingAnchor, applyRotation);
+        // el.updateBoundingRect()
+        // el.updateOriginalBoundingRect()
+        changes.push(change);
     });
     return changes;
 }

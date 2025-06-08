@@ -27,8 +27,8 @@ export function generateElementsDetectArea() {
     };
     visibleElements.forEach((ele) => {
         const id = ele.id;
-        const fillDetectArea = ele.toPath();
-        const strokeDetectArea = ele.toPath();
+        const fillDetectArea = ele.clone();
+        const strokeDetectArea = ele.clone();
         let strokeLine;
         const isSelected = idSet.has(id);
         let centerPoint = null;

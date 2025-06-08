@@ -1,4 +1,4 @@
-import resizeFunc from './resize/resizeFunc.js';
+import resizeElements from './resize/resizeElements.js';
 import ElementLineSegment from '../../elements/lines/lineSegment.js';
 import { nid } from '../../index.js';
 const lineSegmentTool = {
@@ -18,7 +18,7 @@ const lineSegmentTool = {
         if (!interaction._ele)
             return;
         // action.dispatch('clear-creation')
-        resizeFunc.call(this, [interaction._ele], 'br');
+        resizeElements.call(this, [interaction._ele], 'br');
         action.dispatch('rerender-overlay');
         interaction._ele.render(overlayHost.ctx);
     },

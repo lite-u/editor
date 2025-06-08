@@ -1,5 +1,5 @@
 import {ToolType} from '~/services/tool/toolManager'
-import resizeFunc from '~/services/tool/resize/resizeFunc'
+import resizeElements from '~/services/tool/resize/resizeElements'
 import {DEFAULT_FONT, DEFAULT_STROKE, DEFAULT_TEXT_FILL} from '~/elements/defaultProps'
 import {PropsWithoutIdentifiers} from '~/elements/type'
 
@@ -36,7 +36,7 @@ const textTool: ToolType = {
     if (!interaction._ele) return
     action.dispatch('clear-creation')
 
-    resizeFunc.call(this, [interaction._ele], 'br')
+    resizeElements.call(this, [interaction._ele], 'br')
     interaction._ele.render(world.creationCanvasContext)
   },
   mouseUp: function () {

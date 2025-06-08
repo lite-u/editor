@@ -343,6 +343,12 @@ class CanvasHost {
     return false
   }
 
+  replace(args: { from: ElementInstance, to: ElementInstance }[]) {
+    args.forEach((arg) => {
+      this.elementMap.set(arg.from.id, arg.to)
+    })
+  }
+
   batchCreate(elementDataList: ElementProps[]): ElementMap {
     const clonedData = deepClone(elementDataList) as ElementProps[]
     const newMap: ElementMap = new Map()

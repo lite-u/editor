@@ -43,6 +43,7 @@ export const generateBoundingRectFromTwoPoints = (p1, p2) => {
     });
 };
 export function rectsOverlap(r1, r2) {
+    // if(!r1)debugger
     return !(r1.right < r2.left ||
         r1.left > r2.right ||
         r1.bottom < r2.top ||

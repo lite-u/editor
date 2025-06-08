@@ -35,8 +35,8 @@ export function generateElementsDetectArea(this: Editor) {
 
   visibleElements.forEach((ele) => {
     const id = ele.id
-    const fillDetectArea = ele.toPath()
-    const strokeDetectArea = ele.toPath()
+    const fillDetectArea = ele.clone()
+    const strokeDetectArea = ele.clone()
     let strokeLine: ElementInstance
     const isSelected = idSet.has(id)
     let centerPoint: ElementEllipse | ElementRectangle | null = null

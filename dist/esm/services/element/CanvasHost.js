@@ -273,6 +273,11 @@ class CanvasHost {
         }
         return false;
     }
+    replace(args) {
+        args.forEach((arg) => {
+            this.elementMap.set(arg.from.id, arg.to);
+        });
+    }
     batchCreate(elementDataList) {
         const clonedData = deepClone(elementDataList);
         const newMap = new Map();

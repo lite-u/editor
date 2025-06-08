@@ -1,4 +1,4 @@
-import resizeFunc from './resize/resizeFunc.js';
+import resizeElements from './resize/resizeElements.js';
 const ellipseTool = {
     cursor: 'crosshair',
     mouseDown: function () {
@@ -22,7 +22,7 @@ const ellipseTool = {
         if (!interaction._ele)
             return;
         action.dispatch('clear-creation');
-        resizeFunc.call(this, [interaction._ele], 'br');
+        resizeElements.call(this, [interaction._ele], 'br');
         interaction._ele.render(world.creationCanvasContext);
     },
     mouseUp: function () {

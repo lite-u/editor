@@ -21,7 +21,6 @@ declare class RectangleLike extends ElementBase {
     updateOriginal(): void;
     protected get getPoints(): Point[];
     scaleFrom(scaleX: number, scaleY: number, anchor: Point, appliedRotation: number): HistoryChangeItem | undefined;
-    scaleOnPath(scaleX: number, scaleY: number, anchor: Point, appliedRotation: number): void;
     toJSON(): RequiredRectangleLikeProps;
     toMinimalJSON(): RectangleLikeProps;
     toPath(): ElementPath;

@@ -174,6 +174,18 @@ class ElementBase {
     }
   }
 
+  set transforming(v: boolean) {
+    if (v) {
+      if (!this._shadowPath) {
+        this._shadowPath = this.toPath()
+      }
+    } else {
+      this._shadowPath = null!
+    }
+
+    this._transforming = v
+  }
+
   public translate(dx: number, dy: number, f: boolean = false): HistoryChangeItem | undefined {
     this.cx = this.cx + dx
     this.cy = this.cy + dy
@@ -344,7 +356,7 @@ class ElementBase {
   }
 
   // @ts-ignore
-  public toPath():ElementPath { }
+  public toPath(): ElementPath { }
 
   public updateTransform() {
     const {cx, cy, width, height} = this.getBoundingRect()

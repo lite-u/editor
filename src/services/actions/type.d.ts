@@ -2,7 +2,7 @@ import {SelectionActionMode} from '../selection/type'
 import {HistoryNode} from '~/services/history/DoublyLinkedList'
 // import {ElementMoveDirection} from '../type'
 import {HistoryOperation} from '~/services/history/type'
-import {ElementProps, ElementPropsWithoutIdentifiers} from '~/elements/type'
+import {ElementInstance, ElementProps, ElementPropsWithoutIdentifiers} from '~/elements/type'
 import {VisionEditorAssetType} from '~/services/assets/AssetsManager'
 import {Point} from '~/type'
 import {ToolName} from '~/services/tool/toolManager'
@@ -73,6 +73,7 @@ export type VisionEventMap = {
   'element-move': ElementMoveData;
   'element-moving': ElementMoveData;
   'element-modified': HistoryChangeItem[]
+  'element-replace': {from:ElementInstance, to:ElementInstance }[]
   'element-modify': {id:UID,props:Partial<ElementProps>}[]
   'element-modifying': {
     type: 'move' | 'resize' | 'rotate',
@@ -116,7 +117,7 @@ const forwardEventDependencyMap: Record<VisionEventType, VisionEventType[]> = {
   'element-paste': ['element-updated'],
   'element-duplicate': ['element-updated'],
   'element-modifying': ['element-updated'],
-  'element-modified': ['element-updated'],
+  'element-replace': ['element-updated'],
   'element-updated': ['visible-element-updated', 'selection-updated'],
   'visible-element-updated': ['rerender-main-host', 'visible-selection-updated'],
   'rerender-main-host': [],

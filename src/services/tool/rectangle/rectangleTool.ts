@@ -1,6 +1,6 @@
 import {ToolType} from '~/services/tool/toolManager'
 import ElementRectangle from '~/elements/rectangle/rectangle'
-import resizeFunc from '~/services/tool/resize/resizeFunc'
+import resizeElements from '~/services/tool/resize/resizeElements'
 import {nid} from '~/index'
 
 const rectangleTool: ToolType = {
@@ -24,7 +24,7 @@ const rectangleTool: ToolType = {
 
     if (!interaction._ele) return
 
-    resizeFunc.call(this, [interaction._ele], 'br')
+    resizeElements.call(this, [interaction._ele], 'br')
     action.dispatch('rerender-overlay')
     interaction._ele.render(overlayHost.ctx)
   },

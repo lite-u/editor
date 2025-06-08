@@ -80,6 +80,17 @@ class ElementBase {
                 break;
         }
     }
+    set transforming(v) {
+        if (v) {
+            if (!this._shadowPath) {
+                this._shadowPath = this.toPath();
+            }
+        }
+        else {
+            this._shadowPath = null;
+        }
+        this._transforming = v;
+    }
     translate(dx, dy, f = false) {
         this.cx = this.cx + dx;
         this.cy = this.cy + dy;

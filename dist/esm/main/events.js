@@ -106,6 +106,7 @@ export function initEvents() {
         dispatch('selection-updated');
     });
     on('element-updated', (historyData) => {
+        // console.log(this.mainHost.all)
         // this.overlayHost.reset()
         this.mainHost.updateVisible();
         // this.overlayHost.updateVisible()
@@ -409,6 +410,23 @@ export function initEvents() {
         // console.log(changes)
         this.events.onHistoryUpdated?.(this.history);
         this.events.onElementsUpdated?.(this.mainHost.all);
+        dispatch('element-updated');
+    });
+    on('element-replace', (changes) => {
+        if (changes.length === 0)
+            return;
+        this.mainHost.replace(changes);
+        console.log(this.mainHost.all);
+        /*this.history.add({
+          type: 'history-replace',
+          payload: {
+            selectedElements: this.selection.values,
+            changes,
+          },
+        })
+        // console.log(changes)
+        this.events.onHistoryUpdated?.(this.history)
+        this.events.onElementsUpdated?.(this.mainHost.all)*/
         dispatch('element-updated');
     });
     on('rerender-main-host', () => {

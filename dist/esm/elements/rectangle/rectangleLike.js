@@ -100,6 +100,15 @@ class RectangleLike extends ElementBase {
         ];
     }
     scaleFrom(scaleX, scaleY, anchor, appliedRotation) {
+        if (this._transforming && this._shadowPath) {
+            const r = this._shadowPath.scaleFrom(scaleX, scaleY, anchor, appliedRotation);
+            this._shadowPath.updateOriginalBoundingRect();
+            this.path2D = this._shadowPath.path2D;
+            this.boundingRect = this._shadowPath.boundingRect;
+            this.originalBoundingRect = this._shadowPath.originalBoundingRect;
+            this.originalBoundingRectWithRotation = this._shadowPath.originalBoundingRectWithRotation;
+            return r;
+        }
         const { cx, cy, rotation } = this.original;
         const { top, right, bottom, left } = this.originalBoundingRectWithRotation;
         const matrix = new DOMMatrix()
@@ -153,19 +162,21 @@ class RectangleLike extends ElementBase {
             },
         };
     }
-    scaleOnPath(scaleX, scaleY, anchor, appliedRotation) {
-        if (!this._shadowPath) {
-            this._shadowPath = this.toPath();
-            // this.originalBoundingRect = this._shadowPath.originalBoundingRect
-            // this.originalBoundingRectWithRotation = this._shadowPath.originalBoundingRectWithRotation
-        }
-        this._shadowPath.scaleFrom(scaleX, scaleY, anchor, appliedRotation);
-        this._shadowPath.updateOriginalBoundingRect();
-        this.path2D = this._shadowPath.path2D;
-        this.boundingRect = this._shadowPath.boundingRect;
-        this.originalBoundingRect = this._shadowPath.originalBoundingRect;
-        this.originalBoundingRectWithRotation = this._shadowPath.originalBoundingRectWithRotation;
-    }
+    /*scaleOnPath(scaleX: number, scaleY: number, anchor: Point, appliedRotation: number) {
+      if (!this._shadowPath) {
+        this._shadowPath = this.toPath()
+        // this.originalBoundingRect = this._shadowPath.originalBoundingRect
+        // this.originalBoundingRectWithRotation = this._shadowPath.originalBoundingRectWithRotation
+      }
+  
+      this._shadowPath.scaleFrom(scaleX, scaleY, anchor, appliedRotation)
+      this._shadowPath.updateOriginalBoundingRect()
+  
+      this.path2D = this._shadowPath.path2D
+      this.boundingRect = this._shadowPath.boundingRect
+      this.originalBoundingRect = this._shadowPath.originalBoundingRect
+      this.originalBoundingRectWithRotation = this._shadowPath.originalBoundingRectWithRotation
+    }*/
     toJSON() {
         const { borderRadius, width, height, } = this;
         if (!borderRadius) {
@@ -194,6 +205,9 @@ class RectangleLike extends ElementBase {
         return result;
     }
     toPath() {
+        if (this._transforming && this._shadowPath) {
+            return this._shadowPath.toPath();
+        }
         const { id, layer, borderRadius, ...rest } = this.toJSON();
         const { cx, cy, width, height, rotation } = this.original;
         const [tl, tr, br, bl] = borderRadius;
@@ -226,6 +240,9 @@ class RectangleLike extends ElementBase {
         });
     }
     getBoundingRect(withoutRotation = false) {
+        if (this._transforming && this._shadowPath) {
+            return this._shadowPath.getBoundingRect(withoutRotation);
+        }
         const { cx, cy, width, height, rotation } = this;
         const x = cx - width / 2;
         const y = cy - height / 2;
@@ -235,6 +252,9 @@ class RectangleLike extends ElementBase {
         return generateBoundingRectFromRotatedRect({ x, y, width, height }, rotation);
     }
     getBoundingRectFromOriginal(withoutRotation = false) {
+        if (this._transforming && this._shadowPath) {
+            return this._shadowPath.getBoundingRect(withoutRotation);
+        }
         const { cx, cy, width, height, rotation } = this.original;
         const x = cx - width / 2;
         const y = cy - height / 2;

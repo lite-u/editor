@@ -85,6 +85,7 @@ declare class ElementBase {
         type: string;
         [key: string]: any;
     }): void;
+    set transforming(v: boolean);
     translate(dx: number, dy: number, f?: boolean): HistoryChangeItem | undefined;
     updateOriginal(): void;
     updateBoundingRect(): void;

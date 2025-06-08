@@ -52,6 +52,7 @@ export const generateBoundingRectFromTwoPoints = (p1: Point, p2: Point): Boundin
 }
 
 export function rectsOverlap(r1: BoundingRect, r2: BoundingRect): boolean {
+  // if(!r1)debugger
   return !(
     r1.right < r2.left ||
     r1.left > r2.right ||
@@ -256,7 +257,7 @@ export function getSameRotationRectsBoundingRect(rects: BoundingRect[], rotation
   const height = maxY - minY
   const halfW = width / 2
   const halfH = height / 2
-  
+
   return {
     cx: centerX,
     cy: centerY,

@@ -1,5 +1,5 @@
 import ToolManager, {ToolType} from '~/services/tool/toolManager'
-import resizeFunc from '~/services/tool/resize/resizeFunc'
+import resizeElements from '~/services/tool/resize/resizeElements'
 import ElementLineSegment from '~/elements/lines/lineSegment'
 import {nid} from '~/index'
 
@@ -24,7 +24,7 @@ const lineSegmentTool: ToolType = {
 
     // action.dispatch('clear-creation')
 
-    resizeFunc.call(this, [interaction._ele], 'br')
+    resizeElements.call(this, [interaction._ele], 'br')
     action.dispatch('rerender-overlay')
     interaction._ele.render(overlayHost.ctx)
   },

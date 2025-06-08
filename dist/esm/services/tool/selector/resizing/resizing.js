@@ -1,4 +1,4 @@
-import resizeFunc from '../../resize/resizeFunc.js';
+import resizeElements from '../../resize/resizeElements.js';
 const resizing = {
     // cursor: 'default',
     mouseMove() {
@@ -6,22 +6,29 @@ const resizing = {
         if (!interaction._resizingData)
             return;
         cursor.lock();
-        resizeFunc.call(this, mainHost.getElementsByIdSet(selection.values), interaction._resizingData.placement);
+        resizeElements.call(this, mainHost.getElementsByIdSet(selection.values), interaction._resizingData.placement);
         action.dispatch('element-updated');
     },
     mouseUp() {
         const { interaction, mainHost, action, selection, cursor } = this.editor;
         if (!interaction._resizingData)
             return;
-        const changes = resizeFunc.call(this, mainHost.getElementsByIdSet(selection.values), interaction._resizingData.placement);
+        const changes = resizeElements.call(this, mainHost.getElementsByIdSet(selection.values), interaction._resizingData.placement);
         const elements = mainHost.getElementsByIdSet(selection.values);
+        const replaceChanges = [];
         cursor.unlock();
         elements.forEach(ele => {
-            ele.updateOriginal();
+            if (ele._transforming) {
+                console.log(ele._shadowPath);
+                replaceChanges.push({ from: ele, to: ele._shadowPath });
+            }
+            else {
+                ele.updateOriginal();
+            }
         });
-        // cursor.set(selector.cursor)
         interaction._resizingData = null;
         action.dispatch('element-modified', changes);
+        action.dispatch('element-replace', replaceChanges);
         this.subTool = null;
     },
 };

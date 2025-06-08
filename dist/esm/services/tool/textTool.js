@@ -1,4 +1,4 @@
-import resizeFunc from './resize/resizeFunc.js';
+import resizeElements from './resize/resizeElements.js';
 import { DEFAULT_FONT, DEFAULT_STROKE, DEFAULT_TEXT_FILL } from '../../elements/defaultProps.js';
 const textTool = {
     cursor: 'text',
@@ -31,7 +31,7 @@ const textTool = {
         if (!interaction._ele)
             return;
         action.dispatch('clear-creation');
-        resizeFunc.call(this, [interaction._ele], 'br');
+        resizeElements.call(this, [interaction._ele], 'br');
         interaction._ele.render(world.creationCanvasContext);
     },
     mouseUp: function () {
