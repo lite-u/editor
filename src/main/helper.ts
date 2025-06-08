@@ -134,7 +134,7 @@ export function getSelectedBoundingElement(this: Editor): ElementRectangle {
   const {scale, dpr} = world
   const ratio = dpr / scale
   const idSet = selection.values
-  const selectedElements = mainHost.getVisibleElementsByIdSet(idSet).sort((a, b) => a.layer - b.layer)
+  const selectedElements = mainHost.getElementsByIdSet(idSet).sort((a, b) => a.layer - b.layer)
   let maxLayer = mainHost.getMaxLayerIndex
 
   selectedElements.forEach((ele: ElementInstance) => {

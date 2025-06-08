@@ -119,7 +119,7 @@ class Editor {
     }
     regenerateOverlayElements() {
         const selectedElements = this.mainHost.getVisibleElementsByIdSet(this.selection.values);
-        const noHandles = this.interaction._rotateData || this.interaction._draggingElements.length > 0;
+        const noHandles = this.interaction._rotateData || this.interaction._resizingData || this.interaction._draggingElements.length > 0;
         // const noBounding = !!this.interaction._rotateData
         generateElementsDetectArea.call(this);
         if (selectedElements.length > 0) {

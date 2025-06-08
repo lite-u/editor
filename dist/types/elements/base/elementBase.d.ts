@@ -55,6 +55,7 @@ declare class ElementBase {
     originalBoundingRect: BoundingRect;
     originalBoundingRectWithRotation: BoundingRect;
     _shadowPath?: ElementPath;
+    _transforming: boolean;
     protected original: {
         cx: number;
         cy: number;

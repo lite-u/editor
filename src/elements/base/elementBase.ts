@@ -37,7 +37,7 @@ interface ElementEventMap {
   onmousedown: { scaleX: number; scaleY: number };
   onmousemove: { angle: number };
 
-  [key: string]: any; // For extensibility
+  [key: string]: any;
 }
 
 export interface ElementBaseProps {
@@ -77,6 +77,8 @@ class ElementBase {
   originalBoundingRect: BoundingRect
   originalBoundingRectWithRotation: BoundingRect
   _shadowPath?: ElementPath
+  _transforming: boolean = false
+
   protected original: {
     cx: number;
     cy: number;

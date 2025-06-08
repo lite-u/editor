@@ -20,6 +20,7 @@ class ElementBase {
     originalBoundingRect;
     originalBoundingRectWithRotation;
     _shadowPath;
+    _transforming = false;
     original;
     // public _relatedId: string
     eventListeners = {};

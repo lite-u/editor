@@ -97,16 +97,13 @@ function resizeFunc(this: ToolManager, elements: ElementInstance[], placement: R
   const convertNeeded = !sameRotation && !shiftKey && elements.length > 1
 
   elements.forEach((el: ElementInstance) => {
-    if (convertNeeded && el.rotation > 0 && (el.type === 'rectangle' || el.type === 'ellipse' || el.type === 'text')) {
-      el.scaleOnPath?.(scaleX, scaleY, scalingAnchor, applyRotation)
-    } else {
-      const change = el.scaleFrom(scaleX, scaleY, scalingAnchor, applyRotation)
+    el._transforming = convertNeeded && el.rotation > 0 && (el.type === 'rectangle' || el.type === 'ellipse' || el.type === 'text')
 
-      el.updateBoundingRect()
-      el.updateOriginalBoundingRect()
-      changes.push(change!)
+    const change = el.scaleFrom(scaleX, scaleY, scalingAnchor, applyRotation)
 
-    }
+    el.updateBoundingRect()
+    el.updateOriginalBoundingRect()
+    changes.push(change!)
   })
 
   return changes
