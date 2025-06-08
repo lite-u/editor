@@ -15,9 +15,18 @@ export function undo(quiet = false) {
             this.mainHost.batchDelete(extractIdSetFromArray(payload.elements));
             break;
         case 'history-modify':
-            payload.changes.map(({ id, from }) => {
+            payload.changes.map(({ id, from, type }) => {
                 const ele = this.mainHost.getElementById(id);
-                ele?.restore(from);
+                if (type === 'expand') {
+                    const targetEle = this.mainHost.getElementById(id);
+                    const replaceEle = this.mainHost.create(from);
+                    if (targetEle && replaceEle) {
+                        this.mainHost.replace([{ from: targetEle, to: replaceEle }]);
+                    }
+                }
+                else {
+                    ele?.restore(from);
+                }
             });
             break;
         case 'history-reorder':

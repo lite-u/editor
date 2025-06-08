@@ -300,7 +300,7 @@ class CanvasHost {
     }
 
     if (!data.id) {
-      let id = data.type + '-' + nid()
+      let id = nid()
 
       // ensure short id no repeat
       if (this.elementMap.has(id)) {

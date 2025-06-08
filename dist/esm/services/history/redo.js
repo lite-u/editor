@@ -15,9 +15,18 @@ export function redo(quiet = false) {
             this.mainHost.batchAdd(this.mainHost.batchCreate(payload.elements));
             break;
         case 'history-modify':
-            payload.changes.map(({ id, to }) => {
+            payload.changes.map(({ id, to, type }) => {
                 const ele = this.mainHost.getElementById(id);
-                ele?.restore(to);
+                if (type === 'expand') {
+                    const targetEle = this.mainHost.getElementById(id);
+                    const replaceEle = this.mainHost.create(to);
+                    if (targetEle && replaceEle) {
+                        this.mainHost.replace([{ from: targetEle, to: replaceEle }]);
+                    }
+                }
+                else {
+                    ele?.restore(to);
+                }
             });
             break;
         case 'history-move':

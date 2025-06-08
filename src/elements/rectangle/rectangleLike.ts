@@ -132,7 +132,7 @@ class RectangleLike extends ElementBase {
 
   scaleFrom(scaleX: number, scaleY: number, anchor: Point, appliedRotation: number): HistoryChangeItem | undefined {
     if (this._transforming && this._shadowPath) {
-      const r = this._shadowPath.scaleFrom(scaleX, scaleY, anchor, appliedRotation)
+      this._shadowPath.scaleFrom(scaleX, scaleY, anchor, appliedRotation)
 
       this._shadowPath.updateOriginalBoundingRect()
 
@@ -141,7 +141,12 @@ class RectangleLike extends ElementBase {
       this.originalBoundingRect = this._shadowPath.originalBoundingRect
       this.originalBoundingRectWithRotation = this._shadowPath.originalBoundingRectWithRotation
 
-      return r
+      return {
+        id: this.id,
+        type: 'expand',
+        from: this.toJSON(),
+        to: this._shadowPath.toJSON(),
+      }
     }
 
     const {cx, cy, rotation} = this.original

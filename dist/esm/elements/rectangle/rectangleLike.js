@@ -101,13 +101,18 @@ class RectangleLike extends ElementBase {
     }
     scaleFrom(scaleX, scaleY, anchor, appliedRotation) {
         if (this._transforming && this._shadowPath) {
-            const r = this._shadowPath.scaleFrom(scaleX, scaleY, anchor, appliedRotation);
+            this._shadowPath.scaleFrom(scaleX, scaleY, anchor, appliedRotation);
             this._shadowPath.updateOriginalBoundingRect();
             this.path2D = this._shadowPath.path2D;
             this.boundingRect = this._shadowPath.boundingRect;
             this.originalBoundingRect = this._shadowPath.originalBoundingRect;
             this.originalBoundingRectWithRotation = this._shadowPath.originalBoundingRectWithRotation;
-            return r;
+            return {
+                id: this.id,
+                type: 'expand',
+                from: this.toJSON(),
+                to: this._shadowPath.toJSON(),
+            };
         }
         const { cx, cy, rotation } = this.original;
         const { top, right, bottom, left } = this.originalBoundingRectWithRotation;

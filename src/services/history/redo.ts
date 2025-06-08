@@ -23,11 +23,20 @@ export function redo(this: Editor, quiet: boolean = false): HistoryNode | false 
       break
 
     case 'history-modify':
-      payload.changes.map(({id, to}) => {
+      payload.changes.map(({id, to, type}) => {
         const ele = this.mainHost.getElementById(id)
+        if (type === 'expand') {
+          const targetEle = this.mainHost.getElementById(id)
+          const replaceEle = this.mainHost.create(to)
 
-        ele?.restore(to)
+          if (targetEle && replaceEle) {
+            this.mainHost.replace([{from: targetEle, to: replaceEle}])
+          }
+        } else {
+          ele?.restore(to)
+        }
       })
+
       break
 
     case 'history-move':

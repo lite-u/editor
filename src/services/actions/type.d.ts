@@ -26,6 +26,7 @@ export type ElementMoveData = {
 }*/
 export type HistoryChangeItem = {
   id: UID
+  type?: 'expand' | 'props'
   from: Partial<ElementProps>
   to: Partial<ElementProps>
 }
