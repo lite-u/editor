@@ -491,7 +491,7 @@ export function initEvents(this: Editor) {
   on('element-replace', (changes) => {
     if (changes.length === 0) return
     this.mainHost.replace(changes)
-    console.log(this.mainHost.all)
+    // console.log(this.mainHost.all)
     /*this.history.add({
       type: 'history-replace',
       payload: {
@@ -502,7 +502,9 @@ export function initEvents(this: Editor) {
     // console.log(changes)
     this.events.onHistoryUpdated?.(this.history)
     this.events.onElementsUpdated?.(this.mainHost.all)*/
-
+    changes.forEach((change) => {
+      change.to.updateOriginal()
+    })
     dispatch('element-updated')
   })
 

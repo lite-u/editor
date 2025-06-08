@@ -47,6 +47,7 @@ class VisibleManager {
       this.visibleElementMap.set(element.id, element)
     })
   }*/
+/*
 
   updateVisibleSelected() {
     this.visibleSelected.clear()
@@ -67,7 +68,7 @@ class VisibleManager {
 
       return
       // const operators = generateHandles(element, ratio)
-      /* const operators = element.getOperators(
+      /!* const operators = element.getOperators(
          element!.id,
          {
            size: resizeSize,
@@ -79,12 +80,13 @@ class VisibleManager {
            lineColor: 'transparent',
            lineWidth: 0,
            fillColor: 'transparent',
-         })*/
+         })*!/
 
       // console.log(...operators)
       // this.editor.interaction.operationHandlers.push(...operators)
     }
   }
+*/
 
   destroy() {
     this.visibleElementMap.clear()

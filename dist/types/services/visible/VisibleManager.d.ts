@@ -10,7 +10,6 @@ declare class VisibleManager {
     get getVisibleElementMap(): ElementMap;
     get getVisibleSelected(): Set<string>;
     get getVisibleSelectedElements(): import("~/type").ElementInstance[];
-    updateVisibleSelected(): void;
     destroy(): void;
 }
 export default VisibleManager;

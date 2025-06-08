@@ -1,7 +1,7 @@
 import snapTool from '../snap/snap.js';
 function handleMouseDown(e) {
     console.log(this);
-    const { element, originalEvent } = e;
+    const { originalEvent } = e;
     const { button, shiftKey, metaKey, ctrlKey, altKey, clientX, clientY, movementX, movementY } = originalEvent;
     const modifiers = { shiftKey, metaKey, ctrlKey, altKey, button, movementX, movementY };
     const x = clientX - this.editor.rect.x;

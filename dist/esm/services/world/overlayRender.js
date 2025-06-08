@@ -60,13 +60,14 @@ function overlayRender() {
         // console.log(_outlineElement)
         selectedOutlineElement.render(ctx);
     }
-    this.editor.interaction.transformHandles.forEach((ele) => {
+    /*
+      this.editor.interaction.transformHandles.forEach((ele) => {
         // console.log(ele)
-        ele.render(ctx);
-    });
-    this.editor.interaction._controlPoints.forEach((ele) => {
-        ele.render(ctx);
-    });
+        ele.render(ctx)
+      })*/
+    /*  this.editor.interaction._controlPoints.forEach((ele) => {
+        ele.render(ctx)
+      })*/
     /*if (this.viewport.enableCrossLine && this.viewport.drawCrossLine) {
       drawCrossLine({
         ctx,

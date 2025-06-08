@@ -1,10 +1,7 @@
-import nid from '../../core/nid.js';
-import ElementRectangle from '../../elements/rectangle/rectangle.js';
 import { generateBoundingRectFromTwoPoints } from '../../core/utils.js';
 import { createWith, screenToWorld, worldToScreen } from '../../lib/lib.js';
 import { zoomAtPoint } from './helper.js';
 import overlayRender from './overlayRender.js';
-import { DEFAULT_STROKE } from '../../elements/defaultProps.js';
 const STYLE = {
     position: 'absolute',
     left: '0',
@@ -65,59 +62,68 @@ class World {
         const { offset, scale, dpr } = this;
         return worldToScreen({ x, y }, offset, scale, dpr);
     }
-    renderElements() {
+    /* renderElements() {
+       const animate = () => {
+         const {scale, dpr, baseCanvasContext: ctx} = this
+         const {width, height} = this.editor.config.page
+         const frameBorder: RectangleProps = {
+           id: nid() + '-frame',
+           cx: width / 2,
+           cy: height / 2,
+           width,
+           height,
+           // borderRadius: [0, 10, 0, 10],
+           stroke: {
+             ...DEFAULT_STROKE,
+             weight: 1 / scale * dpr,
+           },
+           layer: -1,
+           opacity: 100,
+         }
+   
+         const frameFill = {
+           ...frameBorder, fill: {
+             enabled: true,
+             color: '#fff',
+           },
+         }
+         // deduplicateObjectsByKeyValue()
+         // console.log(this.visibleelementMap.size)
+         // deduplicateObjectsByKeyValue
+   
+         new ElementRectangle(frameFill).render(ctx)
+   
+         this.editor.visible.values.forEach((element) => {
+           element.render(ctx)
+   
+           /!*   if (element.type === 'image') {
+                const {asset} = element as ElementImage
+   
+                const obj = this.editor.assetsManager.getAssetsObj(asset)
+                // console.log(this.assetsManager, src)
+                if (obj) {
+                  (element as ElementImage).renderImage(ctx, obj.imageRef!)
+                }
+              }*!/
+         })
+   
+   /!*      this.editor.interaction.transformHandles.forEach(handle => {
+           handle.render(ctx)
+         })*!/
+   
+         new ElementRectangle(frameBorder).render(ctx)
+   
+       }
+   
+       requestAnimationFrame(animate)
+     }*/
+    /*  renderTransformHandles() {
         const animate = () => {
-            const { scale, dpr, baseCanvasContext: ctx } = this;
-            const { width, height } = this.editor.config.page;
-            const frameBorder = {
-                id: nid() + '-frame',
-                cx: width / 2,
-                cy: height / 2,
-                width,
-                height,
-                // borderRadius: [0, 10, 0, 10],
-                stroke: {
-                    ...DEFAULT_STROKE,
-                    weight: 1 / scale * dpr,
-                },
-                layer: -1,
-                opacity: 100,
-            };
-            const frameFill = {
-                ...frameBorder, fill: {
-                    enabled: true,
-                    color: '#fff',
-                },
-            };
-            // deduplicateObjectsByKeyValue()
-            // console.log(this.visibleelementMap.size)
-            // deduplicateObjectsByKeyValue
-            new ElementRectangle(frameFill).render(ctx);
-            this.editor.visible.values.forEach((element) => {
-                element.render(ctx);
-                /*   if (element.type === 'image') {
-                     const {asset} = element as ElementImage
-        
-                     const obj = this.editor.assetsManager.getAssetsObj(asset)
-                     // console.log(this.assetsManager, src)
-                     if (obj) {
-                       (element as ElementImage).renderImage(ctx, obj.imageRef!)
-                     }
-                   }*/
-            });
-            this.editor.interaction.transformHandles.forEach(handle => {
-                handle.render(ctx);
-            });
-            new ElementRectangle(frameBorder).render(ctx);
-        };
-        requestAnimationFrame(animate);
-    }
-    renderTransformHandles() {
-        const animate = () => {
-            console.log(this.editor.interaction.transformHandles);
-        };
-        requestAnimationFrame(animate);
-    }
+          console.log(this.editor.interaction.transformHandles)
+        }
+    
+        requestAnimationFrame(animate)
+      }*/
     renderOverlay() {
         // console.log('renderOverlay')
         const animate = () => {

@@ -29,8 +29,6 @@ declare class InteractionState {
     mouseWorldDelta: Point;
     mouseWorldMovement: Point;
     _hoveredElement: ElementInstance | null;
-    _hoveredResizeManipulator: ElementInstance | null;
-    _hoveredRotateManipulator: ElementInstance | null;
     _draggingElements: ElementInstance[];
     _resizingElements: ElementInstance[];
     _resizingData: {
@@ -48,11 +46,6 @@ declare class InteractionState {
             y: number;
         };
     } | null;
-    transformHandles: ElementInstance[];
-    _controlPoints: ElementInstance[];
-    _hoveredHandle: ElementInstance | null;
-    _movingHandle: ElementInstance | null;
-    readonly operationHandlers: OperationHandler[];
     _pointDown: boolean;
     _snapped: boolean;
     _snappedPoint: PointHit | null;

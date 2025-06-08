@@ -13,7 +13,9 @@ const dragging = {
         cursor.unlock();
         // this.action.dispatch('rerender-main-host')
         interaction._draggingElements = [];
-        action.dispatch('element-move', { delta: { x: 0, y: 0 } });
+        if (interaction.mouseDelta.x > 0 || interaction.mouseDelta.y > 0) {
+            action.dispatch('element-move', { delta: { x: 0, y: 0 } });
+        }
         // this.action.dispatch('refresh-overlay')
     },
 };

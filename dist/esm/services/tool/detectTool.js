@@ -8,8 +8,8 @@ function detectTool() {
         y: y * dpr,
     };
     const elements = visible.values;
-    const mElements = interaction.transformHandles.sort((a, b) => b.layer - a.layer);
-    const cElements = interaction._controlPoints.sort((a, b) => b.layer - a.layer);
+    // const mElements = interaction.transformHandles.sort((a, b) => b.layer - a.layer)
+    // const cElements = interaction._controlPoints.sort((a, b) => b.layer - a.layer)
     interaction._hoveredElement = null;
     interaction._hoveredResizeManipulator = null;
     interaction._hoveredRotateManipulator = null;

@@ -94,7 +94,7 @@ class World {
     )
   }
 
-  renderElements() {
+ /* renderElements() {
     const animate = () => {
       const {scale, dpr, baseCanvasContext: ctx} = this
       const {width, height} = this.editor.config.page
@@ -128,7 +128,7 @@ class World {
       this.editor.visible.values.forEach((element) => {
         element.render(ctx)
 
-        /*   if (element.type === 'image') {
+        /!*   if (element.type === 'image') {
              const {asset} = element as ElementImage
 
              const obj = this.editor.assetsManager.getAssetsObj(asset)
@@ -136,27 +136,27 @@ class World {
              if (obj) {
                (element as ElementImage).renderImage(ctx, obj.imageRef!)
              }
-           }*/
+           }*!/
       })
 
-      this.editor.interaction.transformHandles.forEach(handle => {
+/!*      this.editor.interaction.transformHandles.forEach(handle => {
         handle.render(ctx)
-      })
+      })*!/
 
       new ElementRectangle(frameBorder).render(ctx)
 
     }
 
     requestAnimationFrame(animate)
-  }
+  }*/
 
-  renderTransformHandles() {
+/*  renderTransformHandles() {
     const animate = () => {
       console.log(this.editor.interaction.transformHandles)
     }
 
     requestAnimationFrame(animate)
-  }
+  }*/
 
   renderOverlay() {
     // console.log('renderOverlay')

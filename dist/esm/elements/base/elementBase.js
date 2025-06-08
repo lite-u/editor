@@ -234,6 +234,7 @@ class ElementBase {
         Object.assign(this.original, props);
         this.updatePath2D();
         this.updateBoundingRect();
+        this.updateOriginalBoundingRect();
     }
     getTransformedPoints() {
         return [];
@@ -242,6 +243,9 @@ class ElementBase {
         return { x: 0, y: 0 };
     }
     clone() {
+        if (this._transforming && this._shadowPath) {
+            return this._shadowPath.clone();
+        }
         const data = this.toJSON();
         const ctor = this.constructor;
         return new ctor(data);

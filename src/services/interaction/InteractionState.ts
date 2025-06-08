@@ -54,21 +54,21 @@ class InteractionState {
   mouseWorldMovement: Point = {x: 0, y: 0}
 
   _hoveredElement: ElementInstance | null = null
-  _hoveredResizeManipulator: ElementInstance | null = null
-  _hoveredRotateManipulator: ElementInstance | null = null
+  // _hoveredResizeManipulator: ElementInstance | null = null
+  // _hoveredRotateManipulator: ElementInstance | null = null
 
   _draggingElements: ElementInstance[] = []
   _resizingElements: ElementInstance[] = []
   _resizingData: { targetPoint?: { x: number, y: number }, placement: string } | null = null
   _rotateData: { startRotation: number, snappedRotation?: number, targetPoint: { x: number, y: number } } | null = null
 
-  transformHandles: ElementInstance[] = []
-  _controlPoints: ElementInstance[] = []
+  // transformHandles: ElementInstance[] = []
+  // _controlPoints: ElementInstance[] = []
 
-  _hoveredHandle: ElementInstance | null = null
-  _movingHandle: ElementInstance | null = null
+  // _hoveredHandle: ElementInstance | null = null
+  // _movingHandle: ElementInstance | null = null
 
-  readonly operationHandlers: OperationHandler[] = []
+  // readonly operationHandlers: OperationHandler[] = []
   _pointDown = false
   _snapped = false
   _snappedPoint: PointHit | null = null

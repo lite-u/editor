@@ -7,13 +7,14 @@ export default function handlePointerMove(e) {
     const y = clientY - rect.y;
     const stopSnap = this.currentToolName === 'zoomIn' || this.currentToolName === 'zoomOut' || this.currentToolName === 'panning';
     interaction.mouseCurrent = { x, y };
-    interaction.mouseDelta.x = x - interaction.mouseStart.x;
-    interaction.mouseDelta.y = y - interaction.mouseStart.y;
     interaction.mouseWorldCurrent = world.getWorldPointByViewportPoint(x, y);
-    interaction.mouseWorldDelta = world.getWorldPointByViewportPoint(x, y);
     interaction.mouseWorldMovement = { x: movementX * dpr / scale, y: movementY * dpr / scale };
     interaction._modifier = { button, shiftKey, metaKey, ctrlKey, altKey, movementX, movementY };
-    // console.log(movementX,movementY)
+    if (interaction._pointDown) {
+        interaction.mouseDelta.x = x - interaction.mouseStart.x;
+        interaction.mouseDelta.y = y - interaction.mouseStart.y;
+        interaction.mouseWorldDelta = world.getWorldPointByViewportPoint(x, y);
+    }
     cursor.move({ x: clientX, y: clientY });
     if (stopSnap) {
         interaction._snappedPoint = null;

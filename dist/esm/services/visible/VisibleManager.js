@@ -36,38 +36,46 @@ class VisibleManager {
           this.visibleElementMap.set(element.id, element)
         })
       }*/
-    updateVisibleSelected() {
-        this.visibleSelected.clear();
-        this.editor.interaction.operationHandlers.length = 0;
+    /*
+    
+      updateVisibleSelected() {
+        this.visibleSelected.clear()
+        this.editor.interaction.operationHandlers.length = 0
+    
         this.getVisibleElementMap.forEach((element) => {
-            if (this.editor.selection.has(element.id)) {
-                this.visibleSelected.add(element.id);
-            }
-        });
-        const elementProps = this.editor.selection.pickIfUnique;
+          if (this.editor.selection.has(element.id)) {
+            this.visibleSelected.add(element.id)
+          }
+        })
+    
+        const elementProps = this.editor.selection.pickIfUnique
+    
         if (elementProps) {
-            // const element = this.editor.elementManager.getElementById(elementProps.id)
-            // const {scale, dpr} = this.editor.world
-            // const ratio = scale * dpr
-            return;
-            // const operators = generateHandles(element, ratio)
-            /* const operators = element.getOperators(
-               element!.id,
-               {
-                 size: resizeSize,
-                 lineColor,
-                 lineWidth,
-                 fillColor: '#fff',
-               }, {
-                 size: rotateSize,
-                 lineColor: 'transparent',
-                 lineWidth: 0,
-                 fillColor: 'transparent',
-               })*/
-            // console.log(...operators)
-            // this.editor.interaction.operationHandlers.push(...operators)
+          // const element = this.editor.elementManager.getElementById(elementProps.id)
+          // const {scale, dpr} = this.editor.world
+          // const ratio = scale * dpr
+    
+          return
+          // const operators = generateHandles(element, ratio)
+          /!* const operators = element.getOperators(
+             element!.id,
+             {
+               size: resizeSize,
+               lineColor,
+               lineWidth,
+               fillColor: '#fff',
+             }, {
+               size: rotateSize,
+               lineColor: 'transparent',
+               lineWidth: 0,
+               fillColor: 'transparent',
+             })*!/
+    
+          // console.log(...operators)
+          // this.editor.interaction.operationHandlers.push(...operators)
         }
-    }
+      }
+    */
     destroy() {
         this.visibleElementMap.clear();
         this.visibleSelected.clear();

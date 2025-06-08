@@ -374,6 +374,7 @@ class ElementBase {
 
     this.updatePath2D()
     this.updateBoundingRect()
+    this.updateOriginalBoundingRect()
   }
 
   protected getTransformedPoints(): Point[] {
@@ -385,6 +386,10 @@ class ElementBase {
   }
 
   public clone() {
+    if (this._transforming && this._shadowPath) {
+      return this._shadowPath.clone()
+    }
+
     const data = this.toJSON()
     const ctor = this.constructor as new (data: any) => this
     return new ctor(data)
