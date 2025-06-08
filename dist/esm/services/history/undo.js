@@ -22,6 +22,9 @@ export function undo(quiet = false) {
                     const replaceEle = this.mainHost.create(from);
                     if (targetEle && replaceEle) {
                         this.mainHost.replace([{ from: targetEle, to: replaceEle }]);
+                        replaceEle.updatePath2D();
+                        replaceEle.updateBoundingRect();
+                        replaceEle.updateOriginalBoundingRect();
                     }
                 }
                 else {

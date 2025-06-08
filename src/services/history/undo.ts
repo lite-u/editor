@@ -32,6 +32,9 @@ export function undo(this: Editor, quiet: boolean = false): HistoryNode | false 
 
           if (targetEle && replaceEle) {
             this.mainHost.replace([{from: targetEle, to: replaceEle}])
+            replaceEle.updatePath2D()
+            replaceEle.updateBoundingRect()
+            replaceEle.updateOriginalBoundingRect()
           }
         } else {
           ele?.restore(from)
