@@ -220,22 +220,21 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
 
   const handleResizeMouseEnter = (e) => {
     const cursors: CSSStyleDeclaration['cursor'][] = [
-
-      'ew-resize',    // 2: right
-      'nwse-resize',  // 3: bottom-right
-      'ns-resize',    // 4: bottom
-      'nesw-resize',  // 5: bottom-left
-      'ew-resize',    // 6: left
-      'nwse-resize',  // 7: top-left
-      'ns-resize',    // 0: top
-      'nesw-resize',  // 1: top-right
+      'ew-resize',
+      'nwse-resize',
+      'ns-resize',
+      'nesw-resize',
+      'ew-resize',
+      'nwse-resize',
+      'ns-resize',
+      'nesw-resize',
     ]
     this.cursor.set('nw-resize')
     this.action.dispatch('rerender-overlay')
 
-    const mouseCurrentRotation = getRotateAngle({ x: cx, y: cy }, this.interaction.mouseWorldCurrent);
-    const index = Math.round(mouseCurrentRotation / 45) % 8;
-    this.cursor.set(cursors[index]);
+    const mouseCurrentRotation = getRotateAngle({x: cx, y: cy}, this.interaction.mouseWorldCurrent)
+    const index = Math.round(mouseCurrentRotation / 45) % 8
+    this.cursor.set(cursors[index])
   }
 
   const handleResizeMouseLeave = () => {
