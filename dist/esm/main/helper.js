@@ -8,6 +8,7 @@ import Ellipse from '../elements/ellipse/ellipse.js';
 import ElementEllipse from '../elements/ellipse/ellipse.js';
 import { nid } from '../index.js';
 import { getRotateAngle } from '../services/tool/selector/helper.js';
+import LineSegment from '../elements/lines/lineSegment.js';
 export function generateElementsDetectArea() {
     const boxColor = '#4f80ff';
     const { world, action, selection, mainHost, overlayHost } = this;
@@ -261,4 +262,107 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
     return result;
 }
 export function generateAnchorAndPath() {
+    const { scale, dpr } = this.world;
+    const ratio = scale * dpr;
+    const idSet = this.selection.values;
+    const pointLen = 20 / ratio;
+    // const eles = this.visible.values
+    const pointElements = [];
+    const elements = this.mainHost.getElementsByIdSet(idSet);
+    const resizeStrokeWidth = 2 / ratio;
+    elements.forEach(ele => {
+        if (!ele.getBezierPoints)
+            return;
+        const points = ele.getBezierPoints();
+        console.log(points);
+        points.forEach((point, index) => {
+            const aPX = point.anchor.x;
+            const aPY = point.anchor.y;
+            const id = ele.id + '-anchor-' + index;
+            const anchorPoint = ElementRectangle.create(id, aPX, aPY, pointLen);
+            let cp1;
+            let cp2;
+            let line1;
+            let line2;
+            anchorPoint.fill.enabled = true;
+            anchorPoint.fill.color = '#00ff00';
+            anchorPoint.layer = 1;
+            anchorPoint.stroke.weight = resizeStrokeWidth;
+            anchorPoint.on('move', ({ dx, dy }) => {
+                ele.points[index].anchor.x += dx;
+                ele.points[index].anchor.y += dy;
+                line1 && line1.translate(dx, dy, false);
+                line2 && line2.translate(dx, dy, false);
+                cp1 && cp1.translate(dx, dy, false);
+                cp2 && cp2.translate(dx, dy, false);
+                // ele.updateOriginal()
+                this.action.dispatch('element-updated');
+            });
+            pointElements.push(anchorPoint);
+            if (point.cp1) {
+                const { x: cPX, y: cPY } = point.cp1;
+                cp1 = ElementEllipse.create(ele.id + '-cp1-' + index, cPX, cPY, pointLen);
+                cp1.layer = 1;
+                cp1.fill.enabled = true;
+                cp1.fill.color = this.boxColor;
+                cp1.stroke.enabled = false;
+                line1 = LineSegment.create(ele.id + '-cp1-' + index, cPX, cPY, aPX, aPY);
+                line1.layer = 1;
+                line1.stroke.color = this.boxColor;
+                line1.stroke.weight = 2 / ratio;
+                cp1.on('move', ({ dx, dy }) => {
+                    ele.points[index].cp1.x += dx;
+                    ele.points[index].cp1.y += dy;
+                    if (cp2) {
+                        cp2.cx = ele.points[index].cp2.x = ele.points[index].anchor.x * 2 - ele.points[index].cp1.x;
+                        cp2.cy = ele.points[index].cp2.y = ele.points[index].anchor.y * 2 - ele.points[index].cp1.y;
+                        cp2.updatePath2D();
+                    }
+                    if (line1) {
+                        line1.start.x += dx;
+                        line1.start.y += dy;
+                        line1.updatePath2D();
+                    }
+                    ele.updatePath2D();
+                    this.interaction.generateTransformHandles();
+                    this.action.dispatch('element-updated');
+                    this.action.dispatch('rerender-overlay');
+                });
+                pointElements.push(line1, cp1);
+            }
+            if (point.cp2) {
+                const { x: cPX, y: cPY } = point.cp2;
+                cp2 = ElementEllipse.create(ele.id + '-cp2-' + index, cPX, cPY, pointLen);
+                line2 = LineSegment.create(ele.id + '-cp2-' + index, cPX, cPY, aPX, aPY);
+                cp2.layer = 2;
+                cp2.fill.enabled = true;
+                cp2.fill.color = this.boxColor;
+                cp2.stroke.enabled = false;
+                line2.layer = 1;
+                line2.stroke.color = this.boxColor;
+                line2.stroke.weight = 2 / ratio;
+                cp2.on('move', ({ dx, dy }) => {
+                    ele.points[index].cp2.x += dx;
+                    ele.points[index].cp2.y += dy;
+                    if (cp1) {
+                        cp1.cx = ele.points[index].cp1.x = ele.points[index].anchor.x * 2 - ele.points[index].cp1.x;
+                        cp1.cy = ele.points[index].cp1.y = ele.points[index].anchor.y * 2 - ele.points[index].cp1.y;
+                        cp1.updatePath2D();
+                    }
+                    if (line2) {
+                        line2.start.x += dx;
+                        line2.start.y += dy;
+                        line2.updatePath2D();
+                    }
+                    ele.updatePath2D();
+                    this.interaction.generateTransformHandles();
+                    this.action.dispatch('element-updated');
+                    this.action.dispatch('rerender-overlay');
+                });
+                pointElements.push(line2, cp2);
+            }
+        });
+    });
+    // this.editor.interaction._controlPoints = pointElements
+    this.interaction._controlPoints = [];
 }

@@ -1,10 +1,12 @@
 import ElementBase, { ElementBaseProps } from '~/elements/base/elementBase';
-import { BoundingRect, Point } from '~/type';
+import { BoundingRect, Point, UID } from '~/type';
 import { BezierPoint } from '~/elements/props';
 import { HistoryChangeItem } from '~/services/actions/type';
 export interface PathProps extends ElementBaseProps {
     type: 'path';
-    points: BezierPoint[];
+    points: ({
+        id: UID;
+    } & BezierPoint)[];
     closed: boolean;
 }
 export type RequiredShapeProps = Required<PathProps>;
@@ -16,7 +18,6 @@ declare class ElementPath extends ElementBase {
     updateOriginal(): void;
     static _rotateBezierPointsFrom(cx: number, cy: number, rotation: number, points: BezierPoint[]): BezierPoint[];
     getBezierPoints(): BezierPoint[];
-    getLines(): void;
     updatePath2D(): void;
     translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined;
     rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined;

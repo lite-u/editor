@@ -1,15 +1,16 @@
 import ElementBase, {ElementBaseProps} from '~/elements/base/elementBase'
-import {BoundingRect, Point} from '~/type'
+import {BoundingRect, Point, UID} from '~/type'
 import {BezierPoint} from '~/elements/props'
 import deepClone from '~/core/deepClone'
 import {HistoryChangeItem} from '~/services/actions/type'
 import {getBoundingRectFromBezierPoints, rotatePointAroundPoint} from '~/core/geometry'
+import {nid} from '~/index'
 
 export interface PathProps extends ElementBaseProps {
   // id: UID,
   // layer: number
   type: 'path'
-  points: BezierPoint[];
+  points: ({ id: UID } & BezierPoint)[];
   closed: boolean;
   // group: string | null;
 }
@@ -18,23 +19,33 @@ export type RequiredShapeProps = Required<PathProps>
 
 class ElementPath extends ElementBase {
   readonly type = 'path'
-  private points: BezierPoint[] = []
+  private points: ({ id: UID } & BezierPoint)[] = []
   closed: boolean
 
   constructor({points = [], closed = false, ...rest}: PathProps) {
     super(rest)
-    this.points = deepClone(points)
+    // this.points = deepClone(points)
     this.closed = closed
+    const _points = deepClone(points)
+
+    _points.map((point, index) => {
+      if (!point.id) {
+        point.id = nid()
+      }
+    })
+    this.points = deepClone(_points)
     // debugger
     this.original = {
       ...this.original,
       closed,
-      points: deepClone(points),
+      points: _points,
       rotation: this.rotation,
     }
     this.updatePath2D()
     this.updateBoundingRect()
     this.updateOriginalBoundingRect()
+
+    console.log(this)
   }
 
   public updateOriginal() {
@@ -74,29 +85,36 @@ class ElementPath extends ElementBase {
   }
 
   public getBezierPoints(): BezierPoint[] {
-    const {cx, cy} = this
-    const transform = new DOMMatrix()
-      .translate(cx, cy)
-      // .rotate(this.rotation)
-      .translate(-cx, -cy)
-
     return this.points.map(({anchor, cp1, cp2, type}) => {
-      const t_cp1 = cp1 ? ElementBase.transformPoint(cp1.x, cp1.y, transform) : null
-      const t_cp2 = cp2 ? ElementBase.transformPoint(cp2.x, cp2.y, transform) : null
-      const t_anchor = ElementBase.transformPoint(anchor.x, anchor.y, transform)
-
       return {
         type,
-        anchor: t_anchor,
-        cp1: t_cp1,
-        cp2: t_cp2,
+        anchor: {x: anchor.x, y: anchor.y},
+        cp1: cp1 ? {x: cp1.x, y: cp1.y} : null,
+        cp2: cp2 ? {x: cp2.x, y: cp2.y} : null,
       }
     })
   }
 
-  public getLines(){
+  /*  public getBezierPoints(): BezierPoint[] {
+      const {cx, cy} = this
+      const transform = new DOMMatrix()
+        .translate(cx, cy)
+        // .rotate(this.rotation)
+        .translate(-cx, -cy)
 
-  }
+      return this.points.map(({anchor, cp1, cp2, type}) => {
+        const t_cp1 = cp1 ? ElementBase.transformPoint(cp1.x, cp1.y, transform) : null
+        const t_cp2 = cp2 ? ElementBase.transformPoint(cp2.x, cp2.y, transform) : null
+        const t_anchor = ElementBase.transformPoint(anchor.x, anchor.y, transform)
+
+        return {
+          type,
+          anchor: t_anchor,
+          cp1: t_cp1,
+          cp2: t_cp2,
+        }
+      })
+    }*/
 
   public updatePath2D() {
     if (this.points.length === 0) return
