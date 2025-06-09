@@ -125,7 +125,7 @@ export function generateElementsDetectArea(this: Editor) {
   })
 }
 
-export function getSelectedBoundingElement(this: Editor): ElementRectangle {
+export function generateSelectedBoundingElement(this: Editor): ElementRectangle {
   const rectsWithRotation: BoundingRect[] = []
   const rectsWithoutRotation: BoundingRect[] = []
   let rotations: number[] = []
@@ -299,4 +299,8 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
   })
 
   return result
+}
+
+export function generateAnchorAndPath(this: Editor){
+
 }

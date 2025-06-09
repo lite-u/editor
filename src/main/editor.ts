@@ -18,7 +18,12 @@ import InteractionState from '~/services/interaction/InteractionState'
 import {VisionEditorAssetType} from '~/services/assets/asssetsManager'
 import {BoundingRect} from '~/type'
 import {EditorConfig, EventHandlers} from './type'
-import {generateElementsDetectArea, generateTransformHandles, getSelectedBoundingElement} from '~/main/helper'
+import {
+  generateElementsDetectArea,
+  generateTransformHandles,
+  generateSelectedBoundingElement,
+  generateAnchorAndPath,
+} from '~/main/helper'
 
 class Editor {
   id = nid()
@@ -161,14 +166,16 @@ class Editor {
 
     if (noDetectElements) return
     generateElementsDetectArea.call(this)
+    generateAnchorAndPath.call(this)
 
     if (selectedElements.length > 0) {
       // if (noBounding) return
-      const ele = getSelectedBoundingElement.call(this)
+      const ele = generateSelectedBoundingElement.call(this)
 
       if (noHandles) return
 
       generateTransformHandles.call(this, ele)
+
     }
   }
 

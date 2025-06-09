@@ -109,7 +109,7 @@ export function generateElementsDetectArea() {
         }
     });
 }
-export function getSelectedBoundingElement() {
+export function generateSelectedBoundingElement() {
     const rectsWithRotation = [];
     const rectsWithoutRotation = [];
     let rotations = [];
@@ -259,4 +259,6 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
         this.overlayHost.append(rotateEle, resizeEle);
     });
     return result;
+}
+export function generateAnchorAndPath() {
 }

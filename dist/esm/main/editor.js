@@ -11,7 +11,7 @@ import Cursor from '../services/cursor/cursor.js';
 import World from '../services/world/World.js';
 import ClipboardManager from '../services/clipboard/Clipboard.js';
 import InteractionState from '../services/interaction/InteractionState.js';
-import { generateElementsDetectArea, generateTransformHandles, getSelectedBoundingElement } from './helper.js';
+import { generateElementsDetectArea, generateTransformHandles, generateSelectedBoundingElement, generateAnchorAndPath, } from './helper.js';
 class Editor {
     id = nid();
     container;
@@ -125,9 +125,10 @@ class Editor {
         if (noDetectElements)
             return;
         generateElementsDetectArea.call(this);
+        generateAnchorAndPath.call(this);
         if (selectedElements.length > 0) {
             // if (noBounding) return
-            const ele = getSelectedBoundingElement.call(this);
+            const ele = generateSelectedBoundingElement.call(this);
             if (noHandles)
                 return;
             generateTransformHandles.call(this, ele);
