@@ -208,7 +208,7 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
 
   const handleRotateMouseLeave = () => {
     this.cursor.set(this.toolManager.tool.cursor)
-    this.action.dispatch('rerender-overlay')
+    // this.action.dispatch('rerender-overlay')
   }
 
   const handleRotateMouseDown = () => {
@@ -229,8 +229,6 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
       'ns-resize',
       'nesw-resize',
     ]
-    this.cursor.set('nw-resize')
-    this.action.dispatch('rerender-overlay')
 
     const mouseCurrentRotation = getRotateAngle({x: cx, y: cy}, this.interaction.mouseWorldCurrent)
     const index = Math.round(mouseCurrentRotation / 45) % 8
@@ -239,15 +237,12 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
 
   const handleResizeMouseLeave = () => {
     this.cursor.set('default')
-    this.action.dispatch('rerender-overlay')
   }
 
   const handleResizeMouseDown = (placement: ResizeDirectionName) => {
     this.cursor.set('resize')
-    // this.subTool = resizing
 
     this.interaction._resizingData = {placement}
-    // this.interaction._resizingData = {}
   }
 
   arr.map(({dx, dy, name}) => {

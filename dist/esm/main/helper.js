@@ -183,39 +183,34 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
     };
     const handleRotateMouseLeave = () => {
         this.cursor.set(this.toolManager.tool.cursor);
-        this.action.dispatch('rerender-overlay');
+        // this.action.dispatch('rerender-overlay')
     };
     const handleRotateMouseDown = () => {
         this.interaction._rotateData = { startRotation: rotation, targetPoint: { x: cx, y: cy } };
         const mouseCurrentRotation = getRotateAngle({ x: cx, y: cy }, this.interaction.mouseWorldCurrent);
         this.cursor.rotate(mouseCurrentRotation);
     };
-    const handleResizeMouseEnter = (e) => {
+    const handleResizeMouseEnter = () => {
         const cursors = [
-            'ew-resize', // 2: right
-            'nwse-resize', // 3: bottom-right
-            'ns-resize', // 4: bottom
-            'nesw-resize', // 5: bottom-left
-            'ew-resize', // 6: left
-            'nwse-resize', // 7: top-left
-            'ns-resize', // 0: top
-            'nesw-resize', // 1: top-right
+            'ew-resize',
+            'nwse-resize',
+            'ns-resize',
+            'nesw-resize',
+            'ew-resize',
+            'nwse-resize',
+            'ns-resize',
+            'nesw-resize',
         ];
-        this.cursor.set('nw-resize');
-        this.action.dispatch('rerender-overlay');
         const mouseCurrentRotation = getRotateAngle({ x: cx, y: cy }, this.interaction.mouseWorldCurrent);
         const index = Math.round(mouseCurrentRotation / 45) % 8;
         this.cursor.set(cursors[index]);
     };
     const handleResizeMouseLeave = () => {
         this.cursor.set('default');
-        this.action.dispatch('rerender-overlay');
     };
     const handleResizeMouseDown = (placement) => {
         this.cursor.set('resize');
-        // this.subTool = resizing
         this.interaction._resizingData = { placement };
-        // this.interaction._resizingData = {}
     };
     arr.map(({ dx, dy, name }) => {
         if (specialLineSeg && name !== 't' && name !== 'b')
