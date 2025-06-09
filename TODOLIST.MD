@@ -5,9 +5,12 @@
   - To Path
 - Anchor CURD
 - Snapping
+  - shift moving
   - point on path
     - on seg line
     - on bezier curve
   - point to point
 - Color Picker
 - Gradient
+- Zoom
+  - Trackpad zoom distance

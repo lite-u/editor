@@ -16,7 +16,7 @@ const dragging = {
         if (interaction.mouseDelta.x > 0 || interaction.mouseDelta.y > 0) {
             action.dispatch('element-move', { delta: { x: 0, y: 0 } });
         }
-        // this.action.dispatch('refresh-overlay')
+        this.editor.action.dispatch('rerender-overlay');
     },
 };
 export default dragging;
