@@ -3,7 +3,7 @@ import snapTool from '~/services/tool/snap/snap'
 import {CanvasHostEvent} from '~/services/element/CanvasHost'
 
 function handleMouseDown(this: ToolManager, e: CanvasHostEvent) {
-  console.log(this)
+  // console.log(this)
   const { originalEvent} = e
   const {button, shiftKey, metaKey, ctrlKey, altKey, clientX, clientY, movementX, movementY} = originalEvent
 

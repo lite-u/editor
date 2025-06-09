@@ -13,10 +13,12 @@ const dragging = {
         cursor.unlock();
         // this.action.dispatch('rerender-main-host')
         interaction._draggingElements = [];
-        if (interaction.mouseDelta.x > 0 || interaction.mouseDelta.y > 0) {
+        console.log({ ...interaction.mouseDelta });
+        if (interaction.mouseDelta.x !== 0 || interaction.mouseDelta.y !== 0) {
+            console.log('moved');
             action.dispatch('element-move', { delta: { x: 0, y: 0 } });
         }
-        this.editor.action.dispatch('rerender-overlay');
+        // this.action.dispatch('refresh-overlay')
     },
 };
 export default dragging;
