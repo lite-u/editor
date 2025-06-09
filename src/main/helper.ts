@@ -90,7 +90,7 @@ export function generateElementsDetectArea(this: Editor) {
     }
 
     // const renderCenterPoint =  ele.type !== 'path1'
-    const renderCenterPoint =  true
+    const renderCenterPoint = true
     // centerPoint
     if (renderCenterPoint) {
       const pointLen = idSet.size === 1 ? 3 * ratio : 6 * ratio
@@ -218,10 +218,26 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
     this.cursor.rotate(mouseCurrentRotation)
   }
 
-  const handleResizeMouseEnter = () => {
+  const handleResizeMouseEnter = (e) => {
+    const cursors: CSSStyleDeclaration['cursor'][] = [
+
+      'ew-resize',    // 2: right
+      'nwse-resize',  // 3: bottom-right
+      'ns-resize',    // 4: bottom
+      'nesw-resize',  // 5: bottom-left
+      'ew-resize',    // 6: left
+      'nwse-resize',  // 7: top-left
+      'ns-resize',    // 0: top
+      'nesw-resize',  // 1: top-right
+    ]
     this.cursor.set('nw-resize')
     this.action.dispatch('rerender-overlay')
+
+    const mouseCurrentRotation = getRotateAngle({ x: cx, y: cy }, this.interaction.mouseWorldCurrent);
+    const index = Math.round(mouseCurrentRotation / 45) % 8;
+    this.cursor.set(cursors[index]);
   }
+
   const handleResizeMouseLeave = () => {
     this.cursor.set('default')
     this.action.dispatch('rerender-overlay')
@@ -290,4 +306,3 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
 
   return result
 }
-

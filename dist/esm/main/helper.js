@@ -190,9 +190,22 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
         const mouseCurrentRotation = getRotateAngle({ x: cx, y: cy }, this.interaction.mouseWorldCurrent);
         this.cursor.rotate(mouseCurrentRotation);
     };
-    const handleResizeMouseEnter = () => {
+    const handleResizeMouseEnter = (e) => {
+        const cursors = [
+            'ew-resize', // 2: right
+            'nwse-resize', // 3: bottom-right
+            'ns-resize', // 4: bottom
+            'nesw-resize', // 5: bottom-left
+            'ew-resize', // 6: left
+            'nwse-resize', // 7: top-left
+            'ns-resize', // 0: top
+            'nesw-resize', // 1: top-right
+        ];
         this.cursor.set('nw-resize');
         this.action.dispatch('rerender-overlay');
+        const mouseCurrentRotation = getRotateAngle({ x: cx, y: cy }, this.interaction.mouseWorldCurrent);
+        const index = Math.round(mouseCurrentRotation / 45) % 8;
+        this.cursor.set(cursors[index]);
     };
     const handleResizeMouseLeave = () => {
         this.cursor.set('default');
