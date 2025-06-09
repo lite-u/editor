@@ -16,6 +16,7 @@ declare class ElementPath extends ElementBase {
     updateOriginal(): void;
     static _rotateBezierPointsFrom(cx: number, cy: number, rotation: number, points: BezierPoint[]): BezierPoint[];
     getBezierPoints(): BezierPoint[];
+    getLines(): void;
     updatePath2D(): void;
     translate(dx: number, dy: number, f: boolean): HistoryChangeItem | undefined;
     rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined;

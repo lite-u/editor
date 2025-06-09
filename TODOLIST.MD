@@ -3,14 +3,28 @@
   - Fonts Detect
   - 
   - To Path
+  - 
+- Rectangle
+  - border radius adjust
+
+- Path
+  - border radius adjust
 - Anchor CURD
+
+- Dragging
+  - with shift key
+  - with alt key
+
 - Snapping
-  - shift moving
   - point on path
     - on seg line
     - on bezier curve
   - point to point
+  - Snapping Infos
+  - Snapping Lines
+
 - Color Picker
 - Gradient
+- 
 - Zoom
   - Trackpad zoom distance

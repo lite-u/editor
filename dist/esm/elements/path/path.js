@@ -69,6 +69,8 @@ class ElementPath extends ElementBase {
             };
         });
     }
+    getLines() {
+    }
     updatePath2D() {
         if (this.points.length === 0)
             return;

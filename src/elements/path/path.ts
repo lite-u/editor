@@ -94,6 +94,10 @@ class ElementPath extends ElementBase {
     })
   }
 
+  public getLines(){
+
+  }
+
   public updatePath2D() {
     if (this.points.length === 0) return
 
