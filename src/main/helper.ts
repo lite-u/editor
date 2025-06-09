@@ -307,15 +307,13 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
 export function generateAnchorAndPath(this: Editor) {
   const {mainHost, overlayHost} = this
   const {scale, dpr} = this.world
-  const ratio = scale * dpr
+  const ratio = dpr / scale
   const idSet = this.selection.values
-  const pointLen = 20 / ratio
+  const pointLen = 5 * ratio
   // const eles = this.visible.values
   const boxColor = '#4f80ff'
-
-  const pointElements: ElementInstance[] = []
-  const elements = this.mainHost.getElementsByIdSet(idSet)
-  const resizeStrokeWidth = 2 / ratio
+   const elements = this.mainHost.getElementsByIdSet(idSet)
+  const anchorStrokeWidth = 1 * ratio
   let maxLayer = mainHost.getMaxLayerIndex
 
   elements.forEach(ele => {
@@ -327,6 +325,7 @@ export function generateAnchorAndPath(this: Editor) {
       const aPY = point.anchor.y
 
       const anchorPoint = ElementRectangle.create(point.id, aPX, aPY, pointLen)
+      const anchorPointDetect = anchorPoint.clone()
       let cp1: ElementEllipse | null
       let cp2: ElementEllipse | null
       let line1: ElementLineSegment | null
@@ -334,8 +333,26 @@ export function generateAnchorAndPath(this: Editor) {
 
       anchorPoint.fill.enabled = true
       anchorPoint.fill.color = '#00ff00'
-      anchorPoint.layer = maxLayer + 1
-      anchorPoint.stroke.weight = resizeStrokeWidth
+      anchorPoint.layer = maxLayer + 5
+      anchorPoint.stroke.weight = anchorStrokeWidth
+
+      anchorPointDetect.id = point.id + 'detect'
+      anchorPointDetect.layer = maxLayer + 6
+      anchorPointDetect.fill.enabled = true
+      anchorPointDetect.fill.color = '#ff0000'
+      anchorPointDetect.stroke.weight = anchorStrokeWidth
+      anchorPointDetect.width = pointLen *10
+      anchorPointDetect.height = pointLen *10
+
+      anchorPoint.onmouseenter = () => {
+        console.log(990)
+      }
+      anchorPoint.onmouseleave = () => {
+        console.log(991)
+      }
+      anchorPoint.onmousedown = () => {
+        console.log(998)
+      }
       /*
             anchorPoint.on('move', ({dx, dy}) => {
               ele.points[index].anchor.x += dx
@@ -350,7 +367,7 @@ export function generateAnchorAndPath(this: Editor) {
               this.action.dispatch('element-updated')
             })*/
 
-      overlayHost.append(anchorPoint)
+      overlayHost.append(anchorPoint,anchorPointDetect)
       // pointElements.push(anchorPoint)
 
       if (point.cp1) {
@@ -365,32 +382,32 @@ export function generateAnchorAndPath(this: Editor) {
         line1 = LineSegment.create(point.id + '-cp1-line', cPX, cPY, aPX, aPY)
         line1.layer = maxLayer + 2
         line1.stroke.color = boxColor
-        line1.stroke.weight = 2 / ratio
+        line1.stroke.weight = 1 * ratio
 
-     /*   cp1.on('move', ({dx, dy}) => {
-          ele.points[index].cp1.x += dx
-          ele.points[index].cp1.y += dy
+        /*   cp1.on('move', ({dx, dy}) => {
+             ele.points[index].cp1.x += dx
+             ele.points[index].cp1.y += dy
 
-          if (cp2) {
-            cp2.cx = ele.points[index].cp2.x = ele.points[index].anchor.x * 2 - ele.points[index].cp1.x
-            cp2.cy = ele.points[index].cp2.y = ele.points[index].anchor.y * 2 - ele.points[index].cp1.y
-            cp2.updatePath2D()
-          }
+             if (cp2) {
+               cp2.cx = ele.points[index].cp2.x = ele.points[index].anchor.x * 2 - ele.points[index].cp1.x
+               cp2.cy = ele.points[index].cp2.y = ele.points[index].anchor.y * 2 - ele.points[index].cp1.y
+               cp2.updatePath2D()
+             }
 
-          if (line1) {
-            line1.start.x += dx
-            line1.start.y += dy
-            line1.updatePath2D()
-          }
+             if (line1) {
+               line1.start.x += dx
+               line1.start.y += dy
+               line1.updatePath2D()
+             }
 
-          ele.updatePath2D()
-          this.interaction.generateTransformHandles()
+             ele.updatePath2D()
+             this.interaction.generateTransformHandles()
 
-          this.action.dispatch('element-updated')
-          this.action.dispatch('rerender-overlay')
+             this.action.dispatch('element-updated')
+             this.action.dispatch('rerender-overlay')
 
-        })
-*/
+           })
+   */
         overlayHost.append(line1, cp1)
 
         // pointElements.push(line1, cp1)
@@ -407,7 +424,7 @@ export function generateAnchorAndPath(this: Editor) {
         cp2.stroke.enabled = false
         line2.layer = 1
         line2.stroke.color = boxColor
-        line2.stroke.weight = 2 / ratio
+        line2.stroke.weight = 1 * ratio
 
         cp2.on('move', ({dx, dy}) => {
           ele.points[index].cp2.x += dx
@@ -434,6 +451,8 @@ export function generateAnchorAndPath(this: Editor) {
 
         overlayHost.append(line2, cp2)
       }
+
+
     })
   })
 
