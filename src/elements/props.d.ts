@@ -1,3 +1,5 @@
+import {UID} from '~/type'
+
 export type AnchorPoint = {
   x: number;
   y: number;
@@ -49,10 +51,10 @@ export type Transform = {
   rotation: number
   width: number
   height: number
-/*  shear: {
-    angle: number;
-    axis: 'horizontal' | 'vertical';
-  };*/
+  /*  shear: {
+      angle: number;
+      axis: 'horizontal' | 'vertical';
+    };*/
 };
 
 // [topLeft,topRight,bottomRight,bottomLeft]
@@ -117,6 +119,7 @@ export type HorizontalAlign = 'left' | 'center' | 'right'
 
 export type BezierPointType = 'corner' | 'smooth' | 'directional'
 export type BezierPoint = {
+  id: UID;
   anchor: Point;
   // Control point 1
   cp1: Point | null

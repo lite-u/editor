@@ -27,7 +27,7 @@ class ElementPath extends ElementBase {
         this.updatePath2D();
         this.updateBoundingRect();
         this.updateOriginalBoundingRect();
-        console.log(this);
+        // console.trace(this)
     }
     updateOriginal() {
         this.original.cx = this.cx;
@@ -44,6 +44,7 @@ class ElementPath extends ElementBase {
             .rotate(rotation)
             .translate(-cx, -cy);
         const transformedPoints = points.map(p => ({
+            id: p.id,
             anchor: rotation
                 ? ElementBase.transformPoint(p.anchor.x, p.anchor.y, matrix)
                 : { x: p.anchor.x, y: p.anchor.y },
@@ -61,8 +62,9 @@ class ElementPath extends ElementBase {
         return transformedPoints;
     }
     getBezierPoints() {
-        return this.points.map(({ anchor, cp1, cp2, type }) => {
+        return this.points.map(({ id, anchor, cp1, cp2, type }) => {
             return {
+                id,
                 type,
                 anchor: { x: anchor.x, y: anchor.y },
                 cp1: cp1 ? { x: cp1.x, y: cp1.y } : null,
@@ -154,6 +156,9 @@ class ElementPath extends ElementBase {
             };
         }
     }
+    /*  public translatePoint() {
+    
+      }*/
     rotateFrom(rotation, anchor, f) {
         const { cx, cy, points } = this.original;
         const newPoints = ElementPath._rotateBezierPointsFrom(anchor.x, anchor.y, rotation, points);

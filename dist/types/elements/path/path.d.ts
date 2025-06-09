@@ -1,12 +1,10 @@
 import ElementBase, { ElementBaseProps } from '~/elements/base/elementBase';
-import { BoundingRect, Point, UID } from '~/type';
+import { BoundingRect, Point } from '~/type';
 import { BezierPoint } from '~/elements/props';
 import { HistoryChangeItem } from '~/services/actions/type';
 export interface PathProps extends ElementBaseProps {
     type: 'path';
-    points: ({
-        id: UID;
-    } & BezierPoint)[];
+    points: BezierPoint[];
     closed: boolean;
 }
 export type RequiredShapeProps = Required<PathProps>;

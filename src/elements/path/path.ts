@@ -1,5 +1,5 @@
 import ElementBase, {ElementBaseProps} from '~/elements/base/elementBase'
-import {BoundingRect, Point, UID} from '~/type'
+import {BoundingRect, Point} from '~/type'
 import {BezierPoint} from '~/elements/props'
 import deepClone from '~/core/deepClone'
 import {HistoryChangeItem} from '~/services/actions/type'
@@ -10,7 +10,7 @@ export interface PathProps extends ElementBaseProps {
   // id: UID,
   // layer: number
   type: 'path'
-  points: ({ id: UID } & BezierPoint)[];
+  points: BezierPoint[];
   closed: boolean;
   // group: string | null;
 }
@@ -19,7 +19,7 @@ export type RequiredShapeProps = Required<PathProps>
 
 class ElementPath extends ElementBase {
   readonly type = 'path'
-  private points: ({ id: UID } & BezierPoint)[] = []
+  private points: BezierPoint[] = []
   closed: boolean
 
   constructor({points = [], closed = false, ...rest}: PathProps) {
@@ -45,7 +45,7 @@ class ElementPath extends ElementBase {
     this.updateBoundingRect()
     this.updateOriginalBoundingRect()
 
-    console.log(this)
+    // console.trace(this)
   }
 
   public updateOriginal() {
@@ -66,6 +66,7 @@ class ElementPath extends ElementBase {
       .translate(-cx, -cy)
 
     const transformedPoints: BezierPoint[] = points.map(p => ({
+      id: p.id,
       anchor: rotation
         ? ElementBase.transformPoint(p.anchor.x, p.anchor.y, matrix)
         : {x: p.anchor.x, y: p.anchor.y},
@@ -85,8 +86,9 @@ class ElementPath extends ElementBase {
   }
 
   public getBezierPoints(): BezierPoint[] {
-    return this.points.map(({anchor, cp1, cp2, type}) => {
+    return this.points.map(({id, anchor, cp1, cp2, type}) => {
       return {
+        id,
         type,
         anchor: {x: anchor.x, y: anchor.y},
         cp1: cp1 ? {x: cp1.x, y: cp1.y} : null,
@@ -196,6 +198,10 @@ class ElementPath extends ElementBase {
       }
     }
   }
+
+/*  public translatePoint() {
+
+  }*/
 
   public rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined {
     const {cx, cy, points} = this.original
