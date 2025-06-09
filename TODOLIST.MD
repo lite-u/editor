@@ -1,8 +1,13 @@
-- Cursor on resize handles
+[//]: # (- Cursor on resize handles)
+- Text
+  - Fonts Detect
+  - 
+  - To Path
 - Anchor CURD
-- Snap
+- Snapping
   - point on path
     - on seg line
     - on bezier curve
   - point to point
-  - 
+- Color Picker
+- Gradient
