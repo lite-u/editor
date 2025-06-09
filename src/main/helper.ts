@@ -218,7 +218,7 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
     this.cursor.rotate(mouseCurrentRotation)
   }
 
-  const handleResizeMouseEnter = (e) => {
+  const handleResizeMouseEnter = () => {
     const cursors: CSSStyleDeclaration['cursor'][] = [
       'ew-resize',
       'nwse-resize',
