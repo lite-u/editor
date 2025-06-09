@@ -1,0 +1,8 @@
+- Cursor on resize handles
+- Anchor CURD
+- Snap
+  - point on path
+    - on seg line
+    - on bezier curve
+  - point to point
+  - 
