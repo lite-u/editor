@@ -8,8 +8,8 @@
   - border radius adjust
 
 - Path
+  - pencil point svg cursor svg offset to mouse point
   - border radius adjust
-
 - Anchor CURD
 
 - Dragging

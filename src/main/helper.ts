@@ -341,8 +341,8 @@ export function generateAnchorAndPath(this: Editor) {
       anchorPointDetect.fill.enabled = true
       anchorPointDetect.fill.color = '#ff0000'
       anchorPointDetect.stroke.weight = anchorStrokeWidth
-      anchorPointDetect.width = pointLen *10
-      anchorPointDetect.height = pointLen *10
+      anchorPointDetect.width = pointLen * 10
+      anchorPointDetect.height = pointLen * 10
 
       anchorPoint.onmouseenter = () => {
         console.log(990)
