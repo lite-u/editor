@@ -1,5 +1,5 @@
 import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '../../core/utils.js';
-import { rotatePointAroundPoint } from '../../core/geometry.js';
+import { getBoundingRectFromBezierPoints, rotatePointAroundPoint } from '../../core/geometry.js';
 import ElementBase from '../base/elementBase.js';
 import ElementPath from '../path/path.js';
 import { nid } from '../../index.js';
@@ -155,26 +155,38 @@ class ElementEllipse extends ElementBase {
         }
         const points = [];
         const numSegments = 4;
-        const angleStep = (2 * Math.PI) / numSegments;
+        const angleStep = ((this.endAngle - this.startAngle) * Math.PI) / 180 / numSegments;
+        const startAngleRad = (this.startAngle * Math.PI) / 180;
+        const kappa = 0.5522847498;
         for (let i = 0; i < numSegments; i++) {
-            const angle = i * angleStep;
+            const angle = startAngleRad + i * angleStep;
+            const nextAngle = angle + angleStep;
             const x = this.cx + this.r1 * Math.cos(angle);
             const y = this.cy + this.r2 * Math.sin(angle);
+            // Tangent vector components for control points
+            const dx = -this.r1 * Math.sin(angle) * kappa;
+            const dy = this.r2 * Math.cos(angle) * kappa;
+            // Next point for cp2 calculation
+            const nextX = this.cx + this.r1 * Math.cos(nextAngle);
+            const nextY = this.cy + this.r2 * Math.sin(nextAngle);
+            const nextDx = -this.r1 * Math.sin(nextAngle) * kappa;
+            const nextDy = this.r2 * Math.cos(nextAngle) * kappa;
             points.push({
                 id: nid(),
-                x,
-                y,
-                type: 'mirror',
-                cp1: { x, y },
-                cp2: { x, y },
+                anchor: { x, y },
+                cp1: { x: x + dx, y: y + dy },
+                cp2: { x: nextX - nextDx, y: nextY - nextDy },
+                type: 'smooth',
             });
         }
-        console.log(points);
+        const rect = getBoundingRectFromBezierPoints(points);
         return new ElementPath({
             id: this.id,
             type: 'path',
             layer: this.layer,
             closed: true,
+            cx: rect.cx,
+            cy: rect.cy,
             points,
         });
     }
