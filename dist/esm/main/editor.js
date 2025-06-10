@@ -125,12 +125,12 @@ class Editor {
         if (noDetectElements)
             return;
         generateElementsDetectArea.call(this);
-        generateAnchorAndPath.call(this);
         if (selectedElements.length > 0) {
             // if (noBounding) return
             const ele = generateSelectedBoundingElement.call(this);
             if (noHandles)
                 return;
+            generateAnchorAndPath.call(this);
             generateTransformHandles.call(this, ele);
         }
     }

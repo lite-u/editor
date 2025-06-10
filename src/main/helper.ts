@@ -305,7 +305,7 @@ export function generateTransformHandles(this: Editor, ele: ElementRectangle, sp
 }
 
 export function generateAnchorAndPath(this: Editor) {
-  const {mainHost, overlayHost} = this
+  const {mainHost, overlayHost,interaction} = this
   const {scale, dpr} = this.world
   const ratio = dpr / scale
   const idSet = this.selection.values
@@ -318,7 +318,9 @@ export function generateAnchorAndPath(this: Editor) {
 
   elements.forEach(ele => {
     if (!ele.getBezierPoints) return
+
     const points: BezierPoint[] = ele.getBezierPoints()
+    console.log(points)
 
     points.forEach((point, index) => {
       const aPX = point.anchor.x
@@ -352,6 +354,7 @@ export function generateAnchorAndPath(this: Editor) {
       }
       anchorPoint.onmousedown = () => {
         console.log(998)
+        interaction._movingHandle
       }
       /*
             anchorPoint.on('move', ({dx, dy}) => {

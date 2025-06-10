@@ -262,7 +262,7 @@ export function generateTransformHandles(ele, specialLineSeg = false) {
     return result;
 }
 export function generateAnchorAndPath() {
-    const { mainHost, overlayHost } = this;
+    const { mainHost, overlayHost, interaction } = this;
     const { scale, dpr } = this.world;
     const ratio = dpr / scale;
     const idSet = this.selection.values;
@@ -276,6 +276,7 @@ export function generateAnchorAndPath() {
         if (!ele.getBezierPoints)
             return;
         const points = ele.getBezierPoints();
+        console.log(points);
         points.forEach((point, index) => {
             const aPX = point.anchor.x;
             const aPY = point.anchor.y;
@@ -304,6 +305,7 @@ export function generateAnchorAndPath() {
             };
             anchorPoint.onmousedown = () => {
                 console.log(998);
+                interaction._movingHandle;
             };
             /*
                   anchorPoint.on('move', ({dx, dy}) => {

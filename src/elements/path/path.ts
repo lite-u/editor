@@ -199,9 +199,9 @@ class ElementPath extends ElementBase {
     }
   }
 
-/*  public translatePoint() {
+  /*  public translatePoint() {
 
-  }*/
+    }*/
 
   public rotateFrom(rotation: number, anchor: Point, f: boolean): HistoryChangeItem | undefined {
     const {cx, cy, points} = this.original
@@ -255,11 +255,12 @@ class ElementPath extends ElementBase {
       .rotate(-appliedRotation)
       .translate(-anchor.x, -anchor.y)
 
-    this.points = points!.map(({anchor: ptAnchor, cp1, cp2, type, symmetric}): BezierPoint => {
+    this.points = points!.map(({id, anchor: ptAnchor, cp1, cp2, type, symmetric}): BezierPoint => {
       const newAnchor = new DOMPoint(ptAnchor.x, ptAnchor.y).matrixTransform(matrix)
       const newCP1 = cp1 ? new DOMPoint(cp1.x, cp1.y).matrixTransform(matrix) : undefined
       const newCP2 = cp2 ? new DOMPoint(cp2.x, cp2.y).matrixTransform(matrix) : undefined
       return {
+        id,
         type,
         symmetric,
         anchor: {x: newAnchor.x, y: newAnchor.y},
