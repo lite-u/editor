@@ -4,6 +4,7 @@ import { isEqual } from '../../lib/lib.js';
 import ElementBase from '../base/elementBase.js';
 import { rotatePointAroundPoint } from '../../core/geometry.js';
 import ElementPath from '../path/path.js';
+import { nid } from '../../index.js';
 class RectangleLike extends ElementBase {
     width;
     height;
@@ -29,16 +30,20 @@ class RectangleLike extends ElementBase {
         this.updateBoundingRect();
         this.updateOriginalBoundingRect();
     }
-    static corners(prop) {
-        const w = prop.width / 2;
-        const h = prop.height / 2;
+    /*
+  
+      static corners(prop: CenterBasedRect): Point[] {
+        const w = prop.width / 2
+        const h = prop.height / 2
+  
         return [
-            { x: prop.cx - w, y: prop.cy - h }, // top-left
-            { x: prop.cx + w, y: prop.cy - h }, // top-right
-            { x: prop.cx + w, y: prop.cy + h }, // bottom-right
-            { x: prop.cx - w, y: prop.cy + h }, // bottom-left
-        ];
-    }
+          {x: prop.cx - w, y: prop.cy - h}, // top-left
+          {x: prop.cx + w, y: prop.cy - h}, // top-right
+          {x: prop.cx + w, y: prop.cy + h}, // bottom-right
+          {x: prop.cx - w, y: prop.cy + h},  // bottom-left
+        ]
+      }
+    */
     updatePath2D() {
         const { cx, cy, borderRadius, rotation } = this;
         const [tl, tr, br, bl] = borderRadius;
@@ -230,6 +235,7 @@ class RectangleLike extends ElementBase {
         ];
         const rotatedPoints = corners.map(p => rotatePointAroundPoint(p.x, p.y, cx, cy, rotation));
         const points = rotatedPoints.map(p => ({
+            id: nid(),
             anchor: p,
             cp1: null,
             cp2: null,

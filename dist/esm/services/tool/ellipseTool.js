@@ -1,33 +1,34 @@
 import resizeElements from './resize/resizeElements.js';
+import ElementEllipse from '../../elements/ellipse/ellipse.js';
+import { nid } from '../../index.js';
 const ellipseTool = {
     cursor: 'crosshair',
     mouseDown: function () {
-        const { mainHost, interaction, world } = this.editor;
+        const { cursor, action, overlayHost, interaction } = this.editor;
         const { x, y } = interaction.mouseWorldCurrent;
         const r1 = 1;
         const r2 = 1;
-        const rectProps = {
-            type: 'ellipse',
-            cx: x - r1 / 2,
-            cy: y - r2 / 2,
-            r1,
-            r2,
-        };
-        const ele = mainHost.create(rectProps);
-        ele.render(world.creationCanvasContext);
+        const cx = x - r1 / 2;
+        const cy = y - r2 / 2;
+        const ele = ElementEllipse.create('rectangle-creating', cx, cy, r1, r2);
+        cursor.lock();
+        action.dispatch('rerender-overlay');
+        ele.render(overlayHost.ctx);
         interaction._ele = ele;
     },
     mouseMove: function () {
-        const { mainHost, action, interaction, world } = this.editor;
+        const { action, interaction, overlayHost } = this.editor;
         if (!interaction._ele)
             return;
-        action.dispatch('clear-creation');
         resizeElements.call(this, [interaction._ele], 'br');
-        interaction._ele.render(world.creationCanvasContext);
+        action.dispatch('rerender-overlay');
+        interaction._ele.render(overlayHost.ctx);
     },
     mouseUp: function () {
-        const { mainHost, action, interaction, world } = this.editor;
+        const { cursor, action, interaction } = this.editor;
         const eleProps = interaction._ele.toMinimalJSON();
+        eleProps.id = nid();
+        cursor.unlock();
         action.dispatch('element-add', [eleProps]);
         interaction._ele = null;
     },

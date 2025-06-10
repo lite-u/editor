@@ -1,6 +1,8 @@
 import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } from '../../core/utils.js';
 import { rotatePointAroundPoint } from '../../core/geometry.js';
 import ElementBase from '../base/elementBase.js';
+import ElementPath from '../path/path.js';
+import { nid } from '../../index.js';
 class ElementEllipse extends ElementBase {
     type = 'ellipse';
     // horizontal
@@ -24,6 +26,7 @@ class ElementEllipse extends ElementBase {
         };
         this.updatePath2D();
         this.updateBoundingRect();
+        this.updateOriginalBoundingRect();
     }
     static create(id, cx, cy, r1 = 1, r2) {
         return new ElementEllipse({ id, cx, cy, r1, r2: r2 || r1, layer: 0 });
@@ -56,23 +59,75 @@ class ElementEllipse extends ElementBase {
         this.original.rotation = this.rotation;
         this.original.startAngle = this.startAngle;
         this.original.endAngle = this.endAngle;
-        this.updatePath2D();
+        this.updateOriginalBoundingRect();
     }
-    scaleFrom(scaleX, scaleY, anchor) {
+    scaleFrom(scaleX, scaleY, anchor, appliedRotation) {
+        if (this._transforming && this._shadowPath) {
+            this._shadowPath.scaleFrom(scaleX, scaleY, anchor, appliedRotation);
+            this._shadowPath.updateOriginalBoundingRect();
+            this.path2D = this._shadowPath.path2D;
+            this.boundingRect = this._shadowPath.boundingRect;
+            this.originalBoundingRect = this._shadowPath.originalBoundingRect;
+            this.originalBoundingRectWithRotation = this._shadowPath.originalBoundingRectWithRotation;
+            return {
+                id: this.id,
+                type: 'expand',
+                from: this.toJSON(),
+                to: this._shadowPath.toJSON(),
+            };
+        }
+        const { cx, cy, rotation } = this.original;
+        const { top, right, bottom, left } = this.originalBoundingRectWithRotation;
         const matrix = new DOMMatrix()
             .translate(anchor.x, anchor.y)
+            .rotate(appliedRotation)
             .scale(scaleX, scaleY)
+            .rotate(-appliedRotation)
             .translate(-anchor.x, -anchor.y);
-        const { cx, cy, r1, r2 } = this.original;
-        const center = ElementBase.transformPoint(cx, cy, matrix);
-        const rx = ElementBase.transformPoint(cx + r1, cy, matrix);
-        const ry = ElementBase.transformPoint(cx, cy + r2, matrix);
-        this.cx = center.x;
-        this.cy = center.y;
-        this.r1 = Math.abs(rx.x - center.x);
-        this.r2 = Math.abs(ry.y - center.y);
+        const scaledCorners = [
+            { x: left, y: top },
+            { x: right, y: top },
+            { x: right, y: bottom },
+            { x: left, y: bottom },
+        ].map(({ x, y }) => {
+            const rotatedPoint = rotatePointAroundPoint(x, y, cx, cy, rotation);
+            const d = new DOMPoint(rotatedPoint.x, rotatedPoint.y);
+            const scaledPoint = d.matrixTransform(matrix);
+            const rotateBack = rotatePointAroundPoint(scaledPoint.x, scaledPoint.y, cx, cy, -rotation);
+            return rotateBack;
+        });
+        // console.log('scaledCorners', scaledCorners)
+        const xs = scaledCorners.map(p => p.x);
+        const ys = scaledCorners.map(p => p.y);
+        const minX = Math.min(...xs);
+        const maxX = Math.max(...xs);
+        const minY = Math.min(...ys);
+        const maxY = Math.max(...ys);
+        const newWidth = maxX - minX;
+        const newHeight = maxY - minY;
+        this.r1 = newWidth / 2;
+        this.r2 = newHeight / 2;
+        const newCenter = new DOMPoint(cx, cy).matrixTransform(matrix);
+        this.cx = newCenter.x;
+        this.cy = newCenter.y;
         this.updatePath2D();
         this.updateBoundingRect();
+        this.updateOriginalBoundingRect();
+        return {
+            id: this.id,
+            from: {
+                cx: this.original.cx,
+                cy: this.original.cy,
+                r1: this.original.r1,
+                r2: this.original.r2,
+            },
+            to: {
+                cx: this.cx,
+                cy: this.cy,
+                r1: this.r1,
+                r2: this.r2,
+            },
+        };
     }
     toMinimalJSON() {
         return {
@@ -94,6 +149,35 @@ class ElementEllipse extends ElementBase {
             r2: this.r2,
         };
     }
+    toPath() {
+        if (this._transforming && this._shadowPath) {
+            return this._shadowPath.toPath();
+        }
+        const points = [];
+        const numSegments = 4;
+        const angleStep = (2 * Math.PI) / numSegments;
+        for (let i = 0; i < numSegments; i++) {
+            const angle = i * angleStep;
+            const x = this.cx + this.r1 * Math.cos(angle);
+            const y = this.cy + this.r2 * Math.sin(angle);
+            points.push({
+                id: nid(),
+                x,
+                y,
+                type: 'mirror',
+                cp1: { x, y },
+                cp2: { x, y },
+            });
+        }
+        console.log(points);
+        return new ElementPath({
+            id: this.id,
+            type: 'path',
+            layer: this.layer,
+            closed: true,
+            points,
+        });
+    }
     getBoundingRect(withoutRotation = false) {
         const { cx, cy, r1, r2, rotation } = this;
         const rect = {
@@ -108,14 +192,18 @@ class ElementEllipse extends ElementBase {
         return generateBoundingRectFromRotatedRect(rect, rotation);
     }
     getBoundingRectFromOriginal(withoutRotation = false) {
-        const { cx: cx, cy: cy, r1, r2, rotation } = this.original;
-        const r = withoutRotation ? -rotation : 0;
-        return generateBoundingRectFromRotatedRect({
-            x: cx - r1,
-            y: cy - r2,
-            width: r1 * 2,
-            height: r2 * 2,
-        }, r);
+        if (this._transforming && this._shadowPath) {
+            return this._shadowPath.getBoundingRect(withoutRotation);
+        }
+        const { cx, cy, r1, r2, rotation } = this.original;
+        const width = r1 * 2;
+        const height = r2 * 2;
+        const x = cx - width / 2;
+        const y = cy - height / 2;
+        if (rotation === 0 || withoutRotation) {
+            return generateBoundingRectFromRect({ x, y, width: width, height: height });
+        }
+        return generateBoundingRectFromRotatedRect({ x, y, width: width, height: height }, rotation);
     }
 }
 export default ElementEllipse;

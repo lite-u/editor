@@ -2,42 +2,43 @@ import {ToolType} from '~/services/tool/toolManager'
 import resizeElements from '~/services/tool/resize/resizeElements'
 import {PropsWithoutIdentifiers} from '~/elements/type'
 import ElementRectangle from '~/elements/rectangle/rectangle'
+import ElementEllipse from '~/elements/ellipse/ellipse'
+import {nid} from '~/index'
 
 const ellipseTool: ToolType = {
   cursor: 'crosshair',
   mouseDown: function () {
-    const {mainHost, interaction, world} = this.editor
+    const {cursor,action,overlayHost, interaction} = this.editor
     const {x, y} = interaction.mouseWorldCurrent
     const r1 = 1
     const r2 = 1
-    const rectProps: PropsWithoutIdentifiers<'ellipse'> = {
-      type: 'ellipse',
-      cx: x - r1 / 2,
-      cy: y - r2 / 2,
-      r1,
-      r2,
-    }
-    const ele: ElementRectangle = mainHost.create(rectProps)
+    const cx = x - r1 / 2
+    const cy = y - r2 / 2
+    const ele: ElementEllipse = ElementEllipse.create('rectangle-creating', cx, cy, r1, r2)
 
-    ele.render(world.creationCanvasContext)
+
+    cursor.lock()
+    action.dispatch('rerender-overlay')
+    ele.render(overlayHost.ctx)
     interaction._ele = ele
   },
   mouseMove: function () {
-    const {mainHost, action,interaction, world} = this.editor
+    const {action, interaction, overlayHost} = this.editor
 
     if (!interaction._ele) return
-    action.dispatch('clear-creation')
 
     resizeElements.call(this, [interaction._ele], 'br')
-    interaction._ele.render(world.creationCanvasContext)
+    action.dispatch('rerender-overlay')
+    interaction._ele.render(overlayHost.ctx)
   },
   mouseUp: function () {
-    const {mainHost, action,interaction, world} = this.editor
+    const {cursor, action, interaction} = this.editor
 
     const eleProps = interaction._ele.toMinimalJSON()
-
+    eleProps.id = nid()
+    cursor.unlock()
     action.dispatch('element-add', [eleProps])
-    interaction._ele = null
+    interaction._ele = null!
   },
 }
 

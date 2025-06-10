@@ -1,4 +1,4 @@
-import {CenterBasedRect, Point} from '~/type'
+import {Point} from '~/type'
 import {generateBoundingRectFromRect, generateBoundingRectFromRotatedRect} from '~/core/utils'
 import {BezierPoint, BorderRadius} from '~/elements/props'
 import {DEFAULT_BORDER_RADIUS, DEFAULT_HEIGHT, DEFAULT_WIDTH} from '~/elements/defaultProps'
@@ -7,6 +7,7 @@ import {HistoryChangeItem} from '~/services/actions/type'
 import ElementBase, {ElementBaseProps} from '~/elements/base/elementBase'
 import {rotatePointAroundPoint} from '~/core/geometry'
 import ElementPath from '~/elements/path/path'
+import {nid} from '~/index'
 
 export interface RectangleLikeProps extends ElementBaseProps {
   id: string
@@ -50,17 +51,20 @@ class RectangleLike extends ElementBase {
     this.updateOriginalBoundingRect()
   }
 
-  static corners(prop: CenterBasedRect): Point[] {
-    const w = prop.width / 2
-    const h = prop.height / 2
+  /*
 
-    return [
-      {x: prop.cx - w, y: prop.cy - h}, // top-left
-      {x: prop.cx + w, y: prop.cy - h}, // top-right
-      {x: prop.cx + w, y: prop.cy + h}, // bottom-right
-      {x: prop.cx - w, y: prop.cy + h},  // bottom-left
-    ]
-  }
+    static corners(prop: CenterBasedRect): Point[] {
+      const w = prop.width / 2
+      const h = prop.height / 2
+
+      return [
+        {x: prop.cx - w, y: prop.cy - h}, // top-left
+        {x: prop.cx + w, y: prop.cy - h}, // top-right
+        {x: prop.cx + w, y: prop.cy + h}, // bottom-right
+        {x: prop.cx - w, y: prop.cy + h},  // bottom-left
+      ]
+    }
+  */
 
   public updatePath2D() {
     const {cx, cy, borderRadius, rotation} = this
@@ -290,6 +294,7 @@ class RectangleLike extends ElementBase {
     const rotatedPoints = corners.map(p => rotatePointAroundPoint(p.x, p.y, cx, cy, rotation))
 
     const points: BezierPoint[] = rotatedPoints.map(p => ({
+      id: nid(),
       anchor: p,
       cp1: null,
       cp2: null,
