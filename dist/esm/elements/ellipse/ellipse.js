@@ -2,7 +2,7 @@ import { generateBoundingRectFromRect, generateBoundingRectFromRotatedRect } fro
 import { getBoundingRectFromBezierPoints, rotatePointAroundPoint } from '../../core/geometry.js';
 import ElementBase from '../base/elementBase.js';
 import ElementPath from '../path/path.js';
-import { nid } from '../../index.js';
+import ellipseToBezierPoints from './generator.js';
 class ElementEllipse extends ElementBase {
     type = 'ellipse';
     // horizontal
@@ -153,32 +153,40 @@ class ElementEllipse extends ElementBase {
         if (this._transforming && this._shadowPath) {
             return this._shadowPath.toPath();
         }
-        const points = [];
-        const numSegments = 4;
-        const angleStep = ((this.endAngle - this.startAngle) * Math.PI) / 180 / numSegments;
-        const startAngleRad = (this.startAngle * Math.PI) / 180;
-        const kappa = 0.5522847498;
-        for (let i = 0; i < numSegments; i++) {
-            const angle = startAngleRad + i * angleStep;
-            const nextAngle = angle + angleStep;
-            const x = this.cx + this.r1 * Math.cos(angle);
-            const y = this.cy + this.r2 * Math.sin(angle);
-            // Tangent vector components for control points
-            const dx = -this.r1 * Math.sin(angle) * kappa;
-            const dy = this.r2 * Math.cos(angle) * kappa;
-            // Next point for cp2 calculation
-            const nextX = this.cx + this.r1 * Math.cos(nextAngle);
-            const nextY = this.cy + this.r2 * Math.sin(nextAngle);
-            const nextDx = -this.r1 * Math.sin(nextAngle) * kappa;
-            const nextDy = this.r2 * Math.cos(nextAngle) * kappa;
-            points.push({
+        /*
+            const points: BezierPoint[] = []
+            const numSegments = 4
+            const angleStep = ((this.endAngle - this.startAngle) * Math.PI) / 180 / numSegments
+            const startAngleRad = (this.startAngle * Math.PI) / 180
+            const kappa = 0.5522847498
+        
+            for (let i = 0; i < numSegments; i++) {
+              const angle = startAngleRad + i * angleStep
+              const nextAngle = angle + angleStep
+        
+              const x = this.cx + this.r1 * Math.cos(angle)
+              const y = this.cy + this.r2 * Math.sin(angle)
+        
+              // Tangent vector components for control points
+              const dx = -this.r1 * Math.sin(angle) * kappa
+              const dy = this.r2 * Math.cos(angle) * kappa
+        
+              // Next point for cp2 calculation
+              const nextX = this.cx + this.r1 * Math.cos(nextAngle)
+              const nextY = this.cy + this.r2 * Math.sin(nextAngle)
+        
+              const nextDx = -this.r1 * Math.sin(nextAngle) * kappa
+              const nextDy = this.r2 * Math.cos(nextAngle) * kappa
+        
+              points.push({
                 id: nid(),
                 anchor: { x, y },
                 cp1: { x: x + dx, y: y + dy },
                 cp2: { x: nextX - nextDx, y: nextY - nextDy },
                 type: 'smooth',
-            });
-        }
+              })
+            }*/
+        const points = ellipseToBezierPoints(this);
         const rect = getBoundingRectFromBezierPoints(points);
         return new ElementPath({
             id: this.id,

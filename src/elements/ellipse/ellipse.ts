@@ -5,6 +5,7 @@ import ElementBase, {ElementBaseProps} from '~/elements/base/elementBase'
 import ElementPath from '~/elements/path/path'
 import {BezierPoint} from '~/elements/props'
 import {nid} from '~/index'
+import ellipseToBezierPoints from '~/elements/ellipse/generator'
 
 export interface EllipseProps extends ElementBaseProps {
   type?: 'ellipse'
@@ -198,7 +199,7 @@ class ElementEllipse extends ElementBase {
     if (this._transforming && this._shadowPath) {
       return this._shadowPath.toPath()
     }
-
+/*
     const points: BezierPoint[] = []
     const numSegments = 4
     const angleStep = ((this.endAngle - this.startAngle) * Math.PI) / 180 / numSegments
@@ -230,8 +231,8 @@ class ElementEllipse extends ElementBase {
         cp2: { x: nextX - nextDx, y: nextY - nextDy },
         type: 'smooth',
       })
-    }
-
+    }*/
+    const points = ellipseToBezierPoints(this)
     const rect = getBoundingRectFromBezierPoints(points)
 
     return new ElementPath({
