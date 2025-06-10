@@ -1,3 +1,4 @@
+import { nid } from '../../index.js';
 export default function ellipseToBezierPoints(ellipse) {
     if (!ellipse) {
         throw new Error('Ellipse is null or undefined');
@@ -70,31 +71,34 @@ export default function ellipseToBezierPoints(ellipse) {
         if (i === 0) {
             // First anchor point, no cp1
             points.push({
-                id: `anchor-${angle1}`,
+                id: nid(),
                 anchor: anchor1,
                 cp1: null,
                 cp2: rcp1,
                 type: 'smooth',
+                symmetric: true,
             });
         }
         else {
             // The previous segment's cp2 was added already as cp1 of next segment
             points.push({
-                id: `anchor-${angle1}`,
+                id: nid(),
                 anchor: anchor1,
                 cp1: points[points.length - 1].cp2, // previous segment's cp2
                 cp2: rcp1,
                 type: 'smooth',
+                symmetric: true,
             });
         }
         if (i === segments - 1) {
             // Last anchor
             points.push({
-                id: `anchor-${angle2}`,
+                id: nid(),
                 anchor: anchor2,
                 cp1: rcp2,
                 cp2: null,
                 type: 'smooth',
+                symmetric: true,
             });
         }
     }

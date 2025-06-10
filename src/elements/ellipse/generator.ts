@@ -1,6 +1,7 @@
 import ElementEllipse from '~/elements/ellipse/ellipse'
 import {BezierPoint} from '~/elements/props'
 import {Point} from '~/type'
+import {nid} from '~/index'
 
 export default function ellipseToBezierPoints(ellipse: ElementEllipse): BezierPoint[] {
   if (!ellipse) {
@@ -95,31 +96,35 @@ export default function ellipseToBezierPoints(ellipse: ElementEllipse): BezierPo
     if (i === 0) {
       // First anchor point, no cp1
       points.push({
-        id: `anchor-${angle1}`,
+        id: nid(),
         anchor: anchor1,
         cp1: null,
         cp2: rcp1,
         type: 'smooth',
+        symmetric:true,
       });
     } else {
       // The previous segment's cp2 was added already as cp1 of next segment
       points.push({
-        id: `anchor-${angle1}`,
+        id: nid(),
         anchor: anchor1,
         cp1: points[points.length - 1].cp2, // previous segment's cp2
         cp2: rcp1,
         type: 'smooth',
+        symmetric:true,
       });
     }
 
     if (i === segments - 1) {
       // Last anchor
       points.push({
-        id: `anchor-${angle2}`,
+        id: nid(),
         anchor: anchor2,
         cp1: rcp2,
         cp2: null,
         type: 'smooth',
+        symmetric:true,
+
       });
     }
   }
