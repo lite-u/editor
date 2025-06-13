@@ -3,8 +3,6 @@ import {Point, Rect, UID} from '~/type'
 import {getBoundingRectFromBezierPoints, rotatePointAroundPoint} from '~/core/geometry'
 import ElementBase, {ElementBaseProps} from '~/elements/base/elementBase'
 import ElementPath from '~/elements/path/path'
-import {BezierPoint} from '~/elements/props'
-import {nid} from '~/index'
 import ellipseToBezierPoints from '~/elements/ellipse/generator'
 
 export interface EllipseProps extends ElementBaseProps {
@@ -199,39 +197,7 @@ class ElementEllipse extends ElementBase {
     if (this._transforming && this._shadowPath) {
       return this._shadowPath.toPath()
     }
-/*
-    const points: BezierPoint[] = []
-    const numSegments = 4
-    const angleStep = ((this.endAngle - this.startAngle) * Math.PI) / 180 / numSegments
-    const startAngleRad = (this.startAngle * Math.PI) / 180
-    const kappa = 0.5522847498
 
-    for (let i = 0; i < numSegments; i++) {
-      const angle = startAngleRad + i * angleStep
-      const nextAngle = angle + angleStep
-
-      const x = this.cx + this.r1 * Math.cos(angle)
-      const y = this.cy + this.r2 * Math.sin(angle)
-
-      // Tangent vector components for control points
-      const dx = -this.r1 * Math.sin(angle) * kappa
-      const dy = this.r2 * Math.cos(angle) * kappa
-
-      // Next point for cp2 calculation
-      const nextX = this.cx + this.r1 * Math.cos(nextAngle)
-      const nextY = this.cy + this.r2 * Math.sin(nextAngle)
-
-      const nextDx = -this.r1 * Math.sin(nextAngle) * kappa
-      const nextDy = this.r2 * Math.cos(nextAngle) * kappa
-
-      points.push({
-        id: nid(),
-        anchor: { x, y },
-        cp1: { x: x + dx, y: y + dy },
-        cp2: { x: nextX - nextDx, y: nextY - nextDy },
-        type: 'smooth',
-      })
-    }*/
     const points = ellipseToBezierPoints(this)
     const rect = getBoundingRectFromBezierPoints(points)
 
@@ -245,7 +211,12 @@ class ElementEllipse extends ElementBase {
       points,
     })
   }
+
   public getBoundingRect(withoutRotation: boolean = false) {
+    if (this._transforming && this._shadowPath) {
+      return this._shadowPath.getBoundingRect(withoutRotation)
+    }
+
     const {cx, cy, r1, r2, rotation} = this
     const rect: Rect = {
       x: cx - r1,
@@ -278,37 +249,6 @@ class ElementEllipse extends ElementBase {
 
     return generateBoundingRectFromRotatedRect({x, y, width: width!, height: height!}, rotation)
   }
-
-  /*
-    public getOperators(
-      id: string,
-      resizeConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
-      rotateConfig: { lineWidth: number, lineColor: string, size: number, fillColor: string },
-    ) {
-      return super.getOperators(id, resizeConfig, rotateConfig, this.getBoundingRect(), this.toMinimalJSON(),
-      )
-    }
-  */
-
-  /*
-    public getSnapPoints(): SnapPointData[] {
-      const {cx: cx, cy: cy, r1, r2} = this
-
-      // Define snap points: center, cardinal edge points (top, right, bottom, left)
-      const points: SnapPointData[] = [
-        {id, x: cx, y: cy, type: 'center'},
-        {id, x: cx, y: cy - r2, type: 'edge-top'},
-        {id, x: cx + r1, y: cy, type: 'edge-right'},
-        {id, x: cx, y: cy + r2, type: 'edge-bottom'},
-        {id, x: cx - r1, y: cy, type: 'edge-left'},
-      ]
-
-      return points
-    }*/
-
-  /*  render(ctx: CanvasRenderingContext2D) {
-      render.call(this, ctx)
-    }*/
 }
 
 export default ElementEllipse

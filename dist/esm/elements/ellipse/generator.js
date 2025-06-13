@@ -11,68 +11,55 @@ export default function ellipseToBezierPoints(ellipse) {
     const rotationRad = toRad(rotation);
     let startRad = toRad(startAngle);
     let endRad = toRad(endAngle);
-    // Normalize angles so end > start
-    if (endRad <= startRad) {
+    if (endRad <= startRad)
         endRad += 2 * Math.PI;
-    }
-    const segmentAngle = Math.min(Math.PI / 2, endRad - startRad); // max 90 deg per segment
-    // Number of segments
-    const segments = Math.ceil((endRad - startRad) / segmentAngle);
-    // Approximation constant for control points (approx 0.5522847 for circle)
-    // Adjusted by radii for ellipse
-    const K = 0.5522847498307936;
-    // Rotate a point around center
-    function rotatePoint(point, angle, center) {
-        const cosA = Math.cos(angle);
-        const sinA = Math.sin(angle);
-        const dx = point.x - center.x;
-        const dy = point.y - center.y;
+    const maxSeg = Math.PI / 2;
+    const totalAngle = endRad - startRad;
+    const segCount = Math.ceil(totalAngle / maxSeg);
+    const segAngle = totalAngle / segCount;
+    function rotate(p, angle, center) {
+        const cos = Math.cos(angle), sin = Math.sin(angle);
+        const dx = p.x - center.x, dy = p.y - center.y;
         return {
-            x: center.x + dx * cosA - dy * sinA,
-            y: center.y + dx * sinA + dy * cosA,
+            x: center.x + dx * cos - dy * sin,
+            y: center.y + dx * sin + dy * cos,
         };
     }
-    // Calculate a point on ellipse at angle
-    function ellipsePoint(angle) {
-        return { x: cx + r1 * Math.cos(angle), y: cy + r2 * Math.sin(angle) };
+    function ellipseAt(angle) {
+        return {
+            x: cx + r1 * Math.cos(angle),
+            y: cy + r2 * Math.sin(angle),
+        };
     }
-    // Calculate control points for segment from angle1 to angle2
-    function controlPoints(angle1, angle2) {
-        const delta = angle2 - angle1;
-        const tanDeltaOver2 = Math.tan(delta / 2);
-        // handle length for control points along tangent vector
-        const alpha = (Math.sin(delta) * (Math.sqrt(4 + 3 * tanDeltaOver2 * tanDeltaOver2) - 1)) / 3;
-        const p1 = ellipsePoint(angle1);
-        const p2 = ellipsePoint(angle2);
-        // Tangents at p1 and p2
-        const t1 = { x: -r1 * Math.sin(angle1), y: r2 * Math.cos(angle1) };
-        const t2 = { x: -r1 * Math.sin(angle2), y: r2 * Math.cos(angle2) };
-        // Control points before rotation
-        const cp1 = {
-            x: p1.x + alpha * t1.x,
-            y: p1.y + alpha * t1.y,
+    function getHandles(a1, a2) {
+        const delta = a2 - a1;
+        const alpha = (4 / 3) * Math.tan(delta / 4);
+        const p1 = ellipseAt(a1);
+        const p2 = ellipseAt(a2);
+        const dx1 = -r1 * Math.sin(a1), dy1 = r2 * Math.cos(a1);
+        const dx2 = -r1 * Math.sin(a2), dy2 = r2 * Math.cos(a2);
+        return {
+            cp1: { x: p1.x + alpha * dx1, y: p1.y + alpha * dy1 },
+            cp2: { x: p2.x - alpha * dx2, y: p2.y - alpha * dy2 },
         };
-        const cp2 = {
-            x: p2.x - alpha * t2.x,
-            y: p2.y - alpha * t2.y,
-        };
-        return { cp1, cp2 };
     }
     const points = [];
-    for (let i = 0; i < segments; i++) {
-        const angle1 = startRad + i * segmentAngle;
-        const angle2 = Math.min(startRad + (i + 1) * segmentAngle, endRad);
-        const anchor1 = rotatePoint(ellipsePoint(angle1), rotationRad, { x: cx, y: cy });
-        const anchor2 = rotatePoint(ellipsePoint(angle2), rotationRad, { x: cx, y: cy });
-        const { cp1, cp2 } = controlPoints(angle1, angle2);
-        // Rotate control points
-        const rcp1 = rotatePoint(cp1, rotationRad, { x: cx, y: cy });
-        const rcp2 = rotatePoint(cp2, rotationRad, { x: cx, y: cy });
-        if (i === 0) {
-            // First anchor point, no cp1
+    // All intermediate points between startAngle and endAngle are symmetric and smooth,
+    // with handles properly joined between segments. Avoid duplicating the last anchor.
+    for (let i = 0; i < segCount; i++) {
+        const a1 = startRad + i * segAngle;
+        const a2 = Math.min(startRad + (i + 1) * segAngle, endRad);
+        const p1 = rotate(ellipseAt(a1), rotationRad, { x: cx, y: cy });
+        const p2 = rotate(ellipseAt(a2), rotationRad, { x: cx, y: cy });
+        const { cp1, cp2 } = getHandles(a1, a2);
+        const rcp1 = rotate(cp1, rotationRad, { x: cx, y: cy });
+        const rcp2 = rotate(cp2, rotationRad, { x: cx, y: cy });
+        const isFirst = i === 0;
+        const isLast = i === segCount - 1;
+        if (isFirst) {
             points.push({
                 id: nid(),
-                anchor: anchor1,
+                anchor: p1,
                 cp1: null,
                 cp2: rcp1,
                 type: 'smooth',
@@ -80,21 +67,20 @@ export default function ellipseToBezierPoints(ellipse) {
             });
         }
         else {
-            // The previous segment's cp2 was added already as cp1 of next segment
             points.push({
                 id: nid(),
-                anchor: anchor1,
-                cp1: points[points.length - 1].cp2, // previous segment's cp2
+                anchor: p1,
+                cp1: points[points.length - 1].cp2,
                 cp2: rcp1,
                 type: 'smooth',
                 symmetric: true,
             });
         }
-        if (i === segments - 1) {
-            // Last anchor
+        // Only add the last anchor if it's not already present (avoid duplication)
+        if (isLast) {
             points.push({
                 id: nid(),
-                anchor: anchor2,
+                anchor: p2,
                 cp1: rcp2,
                 cp2: null,
                 type: 'smooth',

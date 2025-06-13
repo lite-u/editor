@@ -140,6 +140,7 @@ export function generateSelectedBoundingElement() {
     else {
         rect = getBoundingRectFromBoundingRects(rectsWithRotation);
         applyRotation = 0;
+        console.log('rect', rect);
     }
     const selectedOutlineElement = new ElementRectangle({
         id: 'selected-elements-outline',
