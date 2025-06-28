@@ -1,0 +1,59 @@
+import Editor from '~/main/editor';
+import { ElementInstance, ElementMap, ElementProps, OptionalIdentifiersProps } from '~/elements/type';
+import { Point, UID } from '~/type';
+export type CanvasHostEvent = {
+    element: ElementInstance | null;
+    originalEvent: MouseEvent;
+};
+export type CanvasHostEventHandler = (event: CanvasHostEvent) => void;
+declare class CanvasHost {
+    protected elementMap: ElementMap;
+    protected visible: ElementMap;
+    protected editor: Editor;
+    protected eventsController: AbortController;
+    protected canvas: HTMLCanvasElement;
+    protected _ctx: CanvasRenderingContext2D;
+    protected dpr: number;
+    protected _hoveredElement: ElementInstance | null;
+    readonly _locked = false;
+    onmousedown?: CanvasHostEventHandler;
+    onmouseup?: CanvasHostEventHandler;
+    onmousemove?: CanvasHostEventHandler;
+    oncontextmenu?: CanvasHostEventHandler;
+    constructor(editor: Editor, identifier?: string);
+    lock(): void;
+    unlock(): void;
+    dispatchEvent(domEvent: PointerEvent, type: PointerEvent['type'], options?: {
+        tolerance?: number;
+    }): void;
+    has(id: string): boolean;
+    get ctx(): CanvasRenderingContext2D;
+    get size(): number;
+    get allIds(): Set<UID>;
+    get elements(): ElementInstance[];
+    get all(): ElementMap;
+    get visibleElements(): ElementInstance[];
+    updateVisible(): void;
+    get getMaxLayerIndex(): number;
+    setSize(width: number, height: number): void;
+    getElementById(id: string): ElementInstance | undefined;
+    getElementsByIdSet(idSet: Set<UID>): ElementInstance[];
+    getVisibleElementsByIdSet(idSet: Set<UID>): ElementInstance[];
+    getElementMapByIdSet(idSet: Set<UID>): ElementMap;
+    create(data: OptionalIdentifiersProps): ElementInstance | false;
+    replace(args: {
+        from: ElementInstance;
+        to: ElementInstance;
+    }[]): void;
+    batchCreate(elementDataList: ElementProps[]): ElementMap;
+    append(...args: ElementInstance[]): void;
+    batchAdd(elements: ElementMap, callback?: VoidFunction): ElementMap;
+    batchCopy(idSet: Set<UID>, includeIdentifiers?: boolean): ElementProps[] | OptionalIdentifiersProps[];
+    batchDelete(idSet: Set<UID>): ElementProps[];
+    batchMove(from: Set<UID>, delta: Point): void;
+    batchModify(idSet: Set<UID>, data: Partial<ElementProps>): void;
+    render(): void;
+    reset(): void;
+    destroy(): void;
+}
+export default CanvasHost;

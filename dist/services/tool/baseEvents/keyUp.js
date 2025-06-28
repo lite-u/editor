@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+// import {updateSelectionBox} from "../domManipulations.ts"
+function handleKeyUp(e) {
+    const { interaction } = this.editor;
+    const { shiftKey, metaKey, ctrlKey, altKey } = e;
+    if (e.code !== 'Space') {
+        interaction._modifier = Object.assign(Object.assign({}, interaction._modifier), { shiftKey, metaKey, ctrlKey, altKey });
+        this.tool.mouseMove.call(this);
+    }
+    interaction._lastTool = null;
+}
+exports.default = handleKeyUp;

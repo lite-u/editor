@@ -13,7 +13,7 @@ import { VisionEditorAssetType } from '~/services/assets/asssetsManager';
 import { BoundingRect } from '~/type';
 import { EditorConfig, EventHandlers } from './type';
 declare class Editor {
-    id: string;
+    id: any;
     readonly container: HTMLDivElement;
     config: EditorConfig;
     events: EventHandlers;
